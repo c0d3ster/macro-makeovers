@@ -1,0 +1,38 @@
+name: Setup Node.js and dependencies
+description: Setup Node.js environment with pnpm dependencies
+
+inputs:
+  node-version:
+    description: Node.js version
+    required: true
+  restore-nextjs-cache:
+    description: Whether to restore Next.js build cache
+    required: false
+    default: 'false'
+
+runs:
+  using: composite
+  steps:
+    # Reads the version from "packageManager" in package.json
+    - name: Set up pnpm
+      uses: pnpm/action-setup@v4
+
+    - name: Use Node.js ${{ inputs.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ inputs.node-version }}
+        cache: pnpm
+
+    - name: Install dependencies
+      shell: bash
+      run: pnpm install --frozen-lockfile
+
+    - name: Restore Next.js build output
+      if: inputs.restore-nextjs-cache == 'true'
+      uses: actions/cache/restore@v4
+      with:
+        path: |
+          .next
+        key: nextjs-build-${{ inputs.node-version }}-${{ hashFiles('pnpm-lock.yaml') }}
+        restore-keys: |
+          nextjs-build-${{ inputs.node-version }}-

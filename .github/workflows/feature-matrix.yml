@@ -1,0 +1,96 @@
+name: Feature matrix
+
+# Proves every supported feature combination still produces a healthy project:
+# install, run the init script, reinstall from the pruned lockfile, then type check,
+# lint, test, check for unused files/dependencies, and build.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+# Nothing here writes to the repository
+permissions:
+  contents: read
+
+jobs:
+  matrix:
+    name: ${{ matrix.preset.name }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        preset:
+          - {name: full, features: 'database,auth,email,file_uploads', variant: clerk-neon}
+          - {name: webapp, features: 'database,auth', variant: clerk-neon}
+          - {name: website, features: email, variant: clerk-neon}
+          - {name: email-with-database, features: 'database,email', variant: clerk-neon}
+          - {name: database-only, features: database, variant: clerk-neon}
+          - {name: bare, features: '', variant: clerk-neon}
+          - {name: file-uploads-only, features: file_uploads, variant: clerk-neon}
+          - {name: supabase-full, features: 'database,auth,email,file_uploads,realtime', variant: supabase}
+          - {name: supabase-webapp, features: 'database,auth', variant: supabase}
+          - {name: supabase-email-with-database, features: 'database,email', variant: supabase}
+          - {name: supabase-bare, features: '', variant: supabase}
+          - {name: supabase-database-only, features: database, variant: supabase}
+
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      # Not the shared setup-project action: it caches node_modules under a key every other
+      # job restores, and this job prunes node_modules, which would poison that cache.
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+          cache: pnpm
+
+      - name: Install the full template
+        run: pnpm install --frozen-lockfile
+
+      - name: Apply features
+        run: pnpm bootstrap --strict --features="${{ matrix.preset.features }}" --variant="${{ matrix.preset.variant }}"
+
+      # Fails if the pruned package.json and pnpm-lock.yaml disagree
+      - name: Reinstall from the pruned lockfile
+        run: pnpm install --frozen-lockfile
+
+      - name: Type checking
+        run: pnpm run check:types
+
+      - name: Linter
+        run: pnpm run lint
+
+      - name: Unit tests
+        run: pnpm run test --run --project=unit
+
+      - name: Check dependencies
+        run: pnpm run check:deps
+
+      - name: Build
+        run: pnpm run build:ci
+        env:
+          NODE_ENV: production
+
+  # One stable name for the branch ruleset to require, whatever the presets are called
+  matrix-result:
+    name: Feature matrix result
+    runs-on: ubuntu-latest
+    needs: [matrix]
+    if: always()
+
+    steps:
+      - name: Fail unless every preset passed
+        run: |
+          if [ "${{ needs.matrix.result }}" != "success" ]; then
+            echo "Feature matrix result: ${{ needs.matrix.result }}"
+            exit 1
+          fi

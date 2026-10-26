@@ -1,0 +1,35 @@
+@layer theme, base, clerk, components, utilities; /* Ensure Clerk is compatible with Tailwind CSS v4 */ /* @module:auth+clerk */
+
+@import 'tailwindcss';
+
+@theme {
+  /* Register colors with Tailwind - must be at root level */
+  --color-primary: rgb(37 99 235); /* blue-600 - darker blue */
+  --color-accent: rgb(16 185 129);
+  --color-background: rgb(17 24 39);
+  --color-surface: rgb(31 41 55);
+  --color-text: rgb(255 255 255);
+  --color-text-muted: rgb(156 163 175);
+}
+
+@layer theme {
+  :root {
+    /* Typography */
+    --font-size-2xs: 12px;
+    --line-height-2xs: 16px;
+  }
+}
+
+@layer base {
+  /* Smooth scrolling for hash navigation (respects user motion preferences) */
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+}
