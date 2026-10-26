@@ -1,3 +1,3 @@
-export { ContactResolver } from './ContactResolver' // @module:email
+export { ContactResolver } from './ContactResolver'
 export { HealthResolver } from './HealthResolver'
-export { UserResolver } from './UserResolver' // @module:auth
+export { UserResolver } from './UserResolver'

@@ -47,10 +47,8 @@ export default defineConfig({
       ...pickEnv(
         [
           'NODE_ENV',
-          'DATABASE_URL', // @module:database
-          'CLERK_SECRET_KEY', // @module:auth+clerk
-          'NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY', // @module:auth+clerk
-          'SUPABASE_SECRET_KEY', // @module:auth+supabase
+          'DATABASE_URL',
+          'SUPABASE_SECRET_KEY',
           'PORT',
           'VERCEL_URL',
         ],
@@ -72,7 +70,6 @@ export default defineConfig({
 
     // Record videos when retrying the failed test.
     video: process.env.CI ? 'retain-on-failure' : undefined,
-
   },
 
   projects: [

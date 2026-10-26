@@ -1,25 +1,26 @@
-import { auth } from '@clerk/nextjs/server'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { db } from '@/libs/DB'
+import { getAuthId } from '@/libs/supabase/server'
 
 import { UserService } from './UserService'
 
-vi.mock('@clerk/nextjs/server', () => ({ auth: vi.fn() }))
-vi.mock('@/models', () => ({ schemas: { users: { id: 'id', clerkId: 'clerkId' } } }))
+vi.mock('@/libs/supabase/server', () => ({ getAuthId: vi.fn() }))
+vi.mock('@/models', () => ({ schemas: { users: { id: 'id', authId: 'authId' } } }))
 
-const me = { id: 'user-1', clerkId: 'clerk-1', email: 'me@example.com' }
+const me = { id: 'user-1', authId: 'auth-1', email: 'me@example.com' }
 
+// Drizzle connects as postgres and bypasses RLS, so these checks are the access control
 describe('UserService.getUserById', () => {
   const service = new UserService()
 
   beforeEach(() => {
-    vi.mocked(auth).mockResolvedValue({ userId: 'clerk-1' } as Awaited<ReturnType<typeof auth>>)
+    vi.mocked(getAuthId).mockResolvedValue('auth-1')
     vi.mocked(db.query.users.findFirst).mockResolvedValue(me as never)
   })
 
   it('rejects a signed-out caller', async () => {
-    vi.mocked(auth).mockResolvedValue({ userId: null } as Awaited<ReturnType<typeof auth>>)
+    vi.mocked(getAuthId).mockResolvedValue(undefined)
 
     await expect(service.getUserById('user-1')).rejects.toThrow('Unauthorized')
   })

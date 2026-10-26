@@ -20,7 +20,7 @@ export const GET_ME = gql`
   query GetMe {
     me {
       id
-      clerkId
+      authId
       email
       firstName
       lastName
@@ -36,7 +36,7 @@ export const GET_USER = gql`
   query GetUser($id: ID!) {
     user(id: $id) {
       id
-      clerkId
+      authId
       email
       firstName
       lastName

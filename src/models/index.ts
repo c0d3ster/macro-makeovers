@@ -1,4 +1,3 @@
-// #region @module:auth
 // Re-export for convenience
 import { users } from './users'
 
@@ -6,8 +5,7 @@ import { users } from './users'
 export * from './enums'
 // Export all tables
 export * from './users'
-// #endregion @module:auth
 
 export const schemas = {
-  users, // @module:auth
+  users,
 }

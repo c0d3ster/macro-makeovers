@@ -4,10 +4,12 @@ import { UserRole } from '@/graphql/schema/user'
 
 import { userRoleEnum } from './enums'
 
-// Users table that integrates with Clerk authentication
+// App-level profile for a Supabase Auth user.
+// The SQL migration in supabase/migrations is the source of truth: change it there, then run
+// `pnpm run db:pull` and port the result into this file.
 export const users = pgTable('users', {
   id: uuid('id').primaryKey().defaultRandom(),
-  clerkId: text('clerk_id').notNull().unique(), // Clerk user ID
+  authId: uuid('auth_id').notNull().unique(), // auth.users.id, FK enforced in SQL
   email: varchar('email', { length: 255 }).notNull().unique(),
   firstName: varchar('first_name', { length: 100 }),
   lastName: varchar('last_name', { length: 100 }),
@@ -20,5 +22,3 @@ export const users = pgTable('users', {
     .notNull(),
 })
 
-// Type exports for use in services and resolvers
-export type UserRecord = typeof users.$inferSelect

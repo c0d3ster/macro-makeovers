@@ -1,2 +1,2 @@
-export * from './CleanPageTemplate' // @module:auth
+export * from './CleanPageTemplate'
 export * from './LandingPageTemplate'
