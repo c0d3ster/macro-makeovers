@@ -8,22 +8,11 @@ vi.mock('next/font/google', () => ({
   Inter: () => ({ className: 'inter-font' }),
 }))
 
-// #region @module:auth
-// Mock Clerk
-vi.mock('@clerk/nextjs', () => ({
-  ClerkProvider: ({ children }: { children: React.ReactNode }) => (
-    <div>{children}</div>
-  ),
-}))
-// #endregion @module:auth
-
 // Mock providers
 vi.mock('@/providers', () => ({
-  // #region @module:auth
-  ClerkProvider: ({ children }: { children: React.ReactNode }) => (
+  AuthProvider: ({ children }: { children: React.ReactNode }) => (
     <div>{children}</div>
   ),
-  // #endregion @module:auth
   QueryProvider: ({ children }: { children: React.ReactNode }) => (
     <div>{children}</div>
   ),

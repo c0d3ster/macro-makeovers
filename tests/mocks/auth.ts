@@ -5,27 +5,17 @@ import { vi } from 'vitest'
  * Used in 3+ component test files
  */
 
-export const createMockClerkUser = (overrides = {}) => ({
+export const createMockAuth = (overrides = {}) => ({
   user: null,
   isLoaded: true,
-  isSignedIn: false,
+  signOut: vi.fn(),
   ...overrides,
 })
 
-export const createMockClerkAuth = (overrides = {}) => ({
-  userId: null,
-  isLoaded: true,
-  isSignedIn: false,
-  ...overrides,
-})
-
-export const createMockClerkServer = () => ({
-  auth: vi.fn().mockResolvedValue({ userId: null }),
-  currentUser: vi.fn().mockResolvedValue(null),
-  clerkClient: {
-    users: {
-      getUser: vi.fn().mockResolvedValue(null),
-    },
+export const createMockSupabaseServer = () => ({
+  auth: {
+    getClaims: vi.fn().mockResolvedValue({ data: null, error: null }),
+    getUser: vi.fn().mockResolvedValue({ data: { user: null }, error: null }),
   },
 })
 

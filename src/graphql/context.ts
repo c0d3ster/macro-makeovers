@@ -1,48 +1,46 @@
 import type { NextRequest } from 'next/server'
 
-// #region @module:auth
-import { auth } from '@clerk/nextjs/server'
 import { eq } from 'drizzle-orm'
-// #endregion @module:auth
 
-import { db } from '@/libs/DB' // @module:database
-import { logger } from '@/libs/Logger' // @module:auth
-import { schemas } from '@/models' // @module:database
+import { db } from '@/libs/DB'
+import { logger } from '@/libs/Logger'
+import { isSupabaseConfigured } from '@/libs/supabase/client'
+import { getAuthId } from '@/libs/supabase/server'
+import { schemas } from '@/models'
 
 export type GraphQLContext = {
-  userId?: string // @module:auth
-  user?: typeof schemas.users.$inferSelect | null // @module:auth
-  db: typeof db // @module:database
-  schemas: typeof schemas // @module:database
+  authId?: string
+  user?: typeof schemas.users.$inferSelect | null
+  db: typeof db
+  schemas: typeof schemas
   req: NextRequest
 }
 
-// #region @module:auth
-type AuthContext = Pick<GraphQLContext, 'user' | 'userId'>
+type AuthContext = Pick<GraphQLContext, 'authId' | 'user'>
 
 // Resolves the signed-in user, degrading to a partial or empty result on failure
 const getAuthContext = async (): Promise<AuthContext> => {
-  if (!process.env.CLERK_SECRET_KEY) return {}
+  if (!isSupabaseConfigured()) return {}
 
   try {
-    const { userId } = await auth()
+    const authId = await getAuthId()
 
-    if (!userId) return {}
+    if (!authId) return {}
 
     // Get user from database
     try {
       const user = await db.query.users.findFirst({
-        where: eq(schemas.users.clerkId, userId),
+        where: eq(schemas.users.authId, authId),
       })
 
-      return user ? { userId, user } : { userId }
+      return user ? { authId, user } : { authId }
     } catch (error) {
-      // Preserve userId even if DB query fails
+      // Preserve authId even if DB query fails
       logger.error('Database query failed in GraphQL context', {
         error: String(error),
-        userId,
+        authId,
       })
-      return { userId }
+      return { authId }
     }
   } catch (error) {
     // Auth failed, return empty context
@@ -52,13 +50,12 @@ const getAuthContext = async (): Promise<AuthContext> => {
     return {}
   }
 }
-// #endregion @module:auth
 
 export const createContext = async (
   req: NextRequest
 ): Promise<GraphQLContext> => ({
-  db, // @module:database
-  schemas, // @module:database
+  db,
+  schemas,
   req,
-  ...(await getAuthContext()), // @module:auth
+  ...(await getAuthContext()),
 })

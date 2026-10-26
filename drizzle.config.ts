@@ -1,31 +1,20 @@
-import 'reflect-metadata' // @module:graphql
+import 'reflect-metadata'
 import { config } from 'dotenv'
 import { defineConfig } from 'drizzle-kit'
 
-// Load environment files for local builds only
-if (process.env.NODE_ENV === 'production' && !process.env.VERCEL_ENV) {
-  // Local production build - load production env files
-  config({ path: '.env.production.local' })
-  config({ path: '.env.production' })
-  config({ path: '.env' }) // Fallback for any missing vars
-} else if (!process.env.VERCEL_ENV && process.env.NODE_ENV !== 'test') {
-  // Local development build - load development env files
-  config({ path: '.env.local' })
-  config({ path: '.env' }) // Fallback for any missing vars
-}
-// Remote environments (CI: NODE_ENV=test, Vercel: VERCEL_ENV set) use environment variables only
-
-const getDatabaseUrl = () => {
-  return process.env.DATABASE_URL ?? ''
-}
+// Used only by `pnpm run db:pull` to introspect the database into Drizzle schema files.
+// Migrations are owned by the Supabase CLI (see supabase/migrations).
+config({ path: '.env.local' })
+config({ path: '.env' }) // Fallback for any missing vars
 
 export default defineConfig({
-  out: './migrations',
-  schema: './src/models/index.ts',
+  // Pulled output lands here, then gets reviewed and copied into src/models
+  out: './.drizzle',
   dialect: 'postgresql',
+  schemaFilter: ['public'],
   dbCredentials: {
-    url: getDatabaseUrl(),
+    // Use the direct connection (port 5432), not the transaction pooler
+    url: process.env.DATABASE_URL ?? '',
   },
   verbose: true,
-  strict: true,
 })

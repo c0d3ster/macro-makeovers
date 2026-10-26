@@ -1,8 +1,7 @@
 import type { Metadata } from 'next'
 
-import { UserButton } from '@clerk/nextjs'
-
 import { Button } from '@/components/atoms'
+import { SignOutButton } from '@/components/molecules'
 import { CleanPageTemplate } from '@/components/templates'
 import { Env } from '@/libs/Env'
 
@@ -12,7 +11,7 @@ export const metadata: Metadata = {
 }
 
 export default function ProfilePage() {
-  const header = <UserButton />
+  const header = <SignOutButton />
 
   const content = (
     <>
@@ -59,13 +58,13 @@ export default function ProfilePage() {
         </h2>
         <div className='space-y-2 text-text-muted'>
           <p>
-            This page demonstrates successful authentication with Clerk. You can
-            see:
+            This page demonstrates successful authentication with Supabase Auth.
+            You can see:
           </p>
           <ul className='ml-4 list-disc space-y-1'>
             <li>Protected route access (this page requires authentication)</li>
             <li>User session management</li>
-            <li>Sign out functionality via the UserButton</li>
+            <li>Sign out functionality</li>
             <li>Navigation between authenticated and public pages</li>
           </ul>
           <p className='mt-4'>

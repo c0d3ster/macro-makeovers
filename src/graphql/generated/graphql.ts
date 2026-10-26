@@ -75,7 +75,7 @@ export type UpdateUserInput = {
 export type User = {
   readonly __typename?: 'User';
   readonly avatarUrl?: Maybe<Scalars['String']['output']>;
-  readonly clerkId?: Maybe<Scalars['String']['output']>;
+  readonly authId?: Maybe<Scalars['String']['output']>;
   readonly createdAt?: Maybe<Scalars['String']['output']>;
   readonly email: Scalars['String']['output'];
   readonly firstName?: Maybe<Scalars['String']['output']>;
@@ -105,14 +105,14 @@ export type UserDisplayFragment = { readonly __typename?: 'User', readonly id: s
 export type GetMeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetMeQuery = { readonly __typename?: 'Query', readonly me?: { readonly __typename?: 'User', readonly id: string, readonly clerkId?: string | null, readonly email: string, readonly firstName?: string | null, readonly lastName?: string | null, readonly role?: UserRole | null, readonly avatarUrl?: string | null, readonly createdAt?: string | null, readonly updatedAt?: string | null } | null };
+export type GetMeQuery = { readonly __typename?: 'Query', readonly me?: { readonly __typename?: 'User', readonly id: string, readonly authId?: string | null, readonly email: string, readonly firstName?: string | null, readonly lastName?: string | null, readonly role?: UserRole | null, readonly avatarUrl?: string | null, readonly createdAt?: string | null, readonly updatedAt?: string | null } | null };
 
 export type GetUserQueryVariables = Exact<{
   id: Scalars['ID']['input'];
 }>;
 
 
-export type GetUserQuery = { readonly __typename?: 'Query', readonly user?: { readonly __typename?: 'User', readonly id: string, readonly clerkId?: string | null, readonly email: string, readonly firstName?: string | null, readonly lastName?: string | null, readonly role?: UserRole | null, readonly avatarUrl?: string | null, readonly createdAt?: string | null, readonly updatedAt?: string | null } | null };
+export type GetUserQuery = { readonly __typename?: 'Query', readonly user?: { readonly __typename?: 'User', readonly id: string, readonly authId?: string | null, readonly email: string, readonly firstName?: string | null, readonly lastName?: string | null, readonly role?: UserRole | null, readonly avatarUrl?: string | null, readonly createdAt?: string | null, readonly updatedAt?: string | null } | null };
 
 export type UpdateUserMutationVariables = Exact<{
   id: Scalars['ID']['input'];
@@ -169,7 +169,7 @@ export const GetMeDocument = gql`
     query GetMe {
   me {
     id
-    clerkId
+    authId
     email
     firstName
     lastName
@@ -210,7 +210,7 @@ export const GetUserDocument = gql`
     query GetUser($id: ID!) {
   user(id: $id) {
     id
-    clerkId
+    authId
     email
     firstName
     lastName

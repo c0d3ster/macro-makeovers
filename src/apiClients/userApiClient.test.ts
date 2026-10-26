@@ -63,7 +63,7 @@ describe('User API Client', () => {
       it('should successfully get current user', async () => {
         const mockUser = {
           id: '1',
-          clerkId: 'clerk-123',
+          authId: 'auth-123',
           email: 'user@example.com',
           firstName: 'John',
           lastName: 'Doe',
@@ -110,7 +110,7 @@ describe('User API Client', () => {
         const mockUserId = 'user-1'
         const mockUser = {
           id: 'user-1',
-          clerkId: 'clerk-123',
+          authId: 'auth-123',
           email: 'user@example.com',
           firstName: 'John',
           lastName: 'Doe',

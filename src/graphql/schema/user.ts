@@ -24,7 +24,7 @@ export class User {
   id!: string
 
   @Field(() => String, { nullable: true })
-  clerkId?: string
+  authId?: string
 
   @Field(() => String)
   email!: string

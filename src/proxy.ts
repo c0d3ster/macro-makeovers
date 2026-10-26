@@ -1,34 +1,47 @@
-import type { NextFetchEvent, NextRequest } from 'next/server'
+import type { NextRequest } from 'next/server'
 
-import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
 import { NextResponse } from 'next/server'
 
-const isProtectedRoute = createRouteMatcher(['/profile(.*)'])
+import { isSupabaseConfigured } from '@/libs/supabase/client'
+import { updateSession } from '@/libs/supabase/proxy'
+
+const PROTECTED_PATHS = ['/profile']
+
+const isProtectedPath = (pathname: string): boolean =>
+  PROTECTED_PATHS.some(
+    (path) => pathname === path || pathname.startsWith(`${path}/`)
+  )
 
 export default async function proxy(
-  request: NextRequest,
-  event: NextFetchEvent
-) {
-  // Skip Clerk middleware when secret key is not configured
-  if (!process.env.CLERK_SECRET_KEY) {
+  request: NextRequest
+): Promise<NextResponse> {
+  // Skip auth when Supabase is not configured
+  if (!isSupabaseConfigured()) {
     return NextResponse.next()
   }
 
-  // Run Clerk middleware for ALL routes to enable auth() in API routes
-  return clerkMiddleware(async (auth, req) => {
-    // Only protect profile routes
-    if (isProtectedRoute(req)) {
-      await auth.protect()
-    }
+  // Run for ALL matched routes so the session cookie stays fresh for API routes too
+  const { response, authId } = await updateSession(request)
 
-    return NextResponse.next()
-  })(request, event)
+  if (!authId && isProtectedPath(request.nextUrl.pathname)) {
+    const redirectUrl = request.nextUrl.clone()
+    const next = `${request.nextUrl.pathname}${request.nextUrl.search}`
+    redirectUrl.pathname = '/login'
+    redirectUrl.search = ''
+    redirectUrl.searchParams.set('next', next)
+
+    const redirect = NextResponse.redirect(redirectUrl)
+    // Carry over any refreshed session cookies
+    response.cookies.getAll().forEach((cookie) => redirect.cookies.set(cookie))
+    return redirect
+  }
+
+  return response
 }
 
 export const config = {
   // Match all pathnames except for
-  // - webhook endpoints (they handle their own auth)
   // - … if they start with `/_next` or `/_vercel`
   // - … the ones containing a dot (e.g. `favicon.ico`)
-  matcher: '/((?!api/webhook|_next|_vercel|monitoring|.*\\..*).*)',
+  matcher: '/((?!_next|_vercel|monitoring|.*\\..*).*)',
 }

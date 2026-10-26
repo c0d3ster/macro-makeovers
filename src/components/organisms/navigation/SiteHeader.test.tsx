@@ -15,17 +15,14 @@ vi.mock('next/image', () => ({
   default: vi.fn(),
 }))
 
-// #region @module:auth
-// Mock Clerk
-vi.mock('@clerk/nextjs', () => ({
-  useUser: vi.fn(() => ({
+// Mock auth
+vi.mock('@/providers', () => ({
+  useAuth: vi.fn(() => ({
     user: null,
     isLoaded: true,
+    signOut: vi.fn(),
   })),
-  SignInButton: vi.fn(({ children }: any) => children),
-  SignOutButton: vi.fn(({ children }: any) => children),
 }))
-// #endregion @module:auth
 
 // Mock window properties to prevent hanging
 Object.defineProperty(window, 'scrollY', { value: 0, writable: true })
@@ -69,16 +66,15 @@ describe('SiteHeader', () => {
     expect(screen.getByText('Contact')).toBeInTheDocument()
   })
 
-  // #region @module:auth
   it('renders Sign In button when user is not logged in', () => {
-    vi.stubEnv('NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY', 'pk_test_stub')
+    vi.stubEnv('NEXT_PUBLIC_SUPABASE_URL', 'http://localhost:54321')
+    vi.stubEnv('NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY', 'sb_publishable_stub')
     render(<SiteHeader menuItems={sampleMenuItems} />)
 
     expect(screen.getByText('Sign In')).toBeInTheDocument()
 
     vi.unstubAllEnvs()
   })
-  // #endregion @module:auth
 
   it('renders correct href attributes for menu items', () => {
     render(<SiteHeader menuItems={sampleMenuItems} />)
