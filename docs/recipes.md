@@ -4,7 +4,7 @@ High-protein, lower-fat versions of foods people love. Comfort-food staples rebu
 
 **The guiding principle:** spend your fat budget deliberately on things that earn it (olive oil, salmon, eggs), not on cream sauce and fatty ground beef where you won't miss it. Lean proteins keep the budget open.
 
-All twelve below are batch/leftover friendly and built around a protein-heavy lean diet — roughly your bodyweight in grams of protein, fat around 25-30% of calories. Each nutrition table includes a typical traditional version per serving for comparison, to show what the makeover saves. More on the numbers behind this in [Nutritional Foundation](#nutritional-foundation) at the end.
+All twelve below are batch/leftover friendly and built around a protein-heavy lean diet — roughly your bodyweight in grams of protein, fat around 25-30% of calories. Each nutrition table includes a typical traditional version per serving for comparison, to show what the makeover saves. More on the numbers behind this in [the nutrition guide](./nutrition-guide.md).
 
 ## Quick reference
 
@@ -1059,31 +1059,8 @@ The chop is ~330 cal and 40g protein, the sides ~260 cal, and the sauce ~80 cal.
 
 ---
 
-## Second Helpings
+## More
 
-### Shopping tips
-
-Lean proteins: chicken breast, 93/7 ground turkey/chicken, shrimp, white fish (cod/tilapia/mahi), salmon (the good omega-3 fat — worth spending on), eggs + egg whites, canned tuna.
-
-High-protein sauce/topping bases: **2% cottage cheese** (creamy sauces) and **nonfat Greek yogurt** (cold applications, sour-cream swap). These two are the sleeper weapons — creamy texture, high protein, low fat.
-
-Bulk/fiber: beans, lentils, rice. Snacks: jerky, Greek yogurt.
-
-**Cottage cheese vs Greek yogurt, when to use which:** cottage cheese for _hot_ creamy sauces (blends silky, holds up to gentle heat, mild flavor). Greek yogurt for _cold_ uses — sour-cream swap, dip bases, tuna salad — since it curdles when heated and its tang fights savory hot sauces.
-
-**Cooking oils:** avocado oil for high heat (blackening, searing) — it has a high smoke point, is mostly monounsaturated fat, and is less refined than vegetable oil, which runs high in omega-6 (already overrepresented in most Western diets). The tradeoff is cost: avocado oil is pricier, so vegetable oil is a fine substitute if you're watching the budget. Olive oil for low-heat jobs and finishing (brushing bread, dressings) where its flavor is a plus, but not for true high-heat blackening — it smokes and turns bitter.
-
-<a id="nutritional-foundation"></a>
-
-### Nutritional Foundation
-
-**The targets:** protein around your bodyweight in grams — a lb-for-lb baseline that scales with the person, not a fixed number everyone converges on. Fat sits at 25-30% of calories, enough to keep hormones and satiety in check without eating into the protein or carb budget. Carbs fill whatever's left, and that's where the two profiles below diverge:
-
-- **Recomp (fat loss, retain/build muscle): 45 / 25 / 30 C/F/P.** Carbs stay high enough to fuel training, protein stays high enough to protect muscle in a deficit, fat gets trimmed to the floor that still works hormonally.
-- **Clean bulk: 40 / 30 / 30 C/F/P.** A bit more fat headroom since the goal isn't a deficit, protein holds steady, carbs give a little ground to make room.
-
-Same skeleton, different dial. Protein is the one number that doesn't move between them — it's the floor everything else gets built around.
-
-**Why this book exists:** most comfort food blows the fat budget without buying you much protein for it — a real Alfredo can run 50g+ fat for barely more protein than plain pasta. The other direction has the opposite problem: a lot of "diet" or "healthy" recipes hit the macros by stripping the dish down until it stops tasting like the thing it's named after. Neither one is actually livable long-term — one wrecks the numbers, the other wrecks the food.
-
-The bet here is that you don't have to choose. Every recipe in this book starts from a dish worth eating and gets rebuilt ingredient by ingredient — swap the fat-heavy component for a leaner base, then spend real effort putting the flavor back with aromatics, spice, and technique, instead of just serving a smaller, sadder portion of the original. The "traditional" row in every nutrition table is the receipt: same dish, real numbers, before and after.
+- [About Macro Makeovers](./about.md)
+- [Nutrition guide](./nutrition-guide.md)
+- [Shopping guide](./shopping-guide.md)
