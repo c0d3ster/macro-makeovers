@@ -33,6 +33,7 @@
     "db:new": "supabase migration new",
     "db:push": "supabase db push",
     "db:reset": "supabase db reset",
+    "db:types": "supabase gen types typescript --local > src/libs/supabase/database.types.ts && prettier --write src/libs/supabase/database.types.ts",
     "db:pull": "drizzle-kit pull"
   },
   "dependencies": {
