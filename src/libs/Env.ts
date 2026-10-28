@@ -46,6 +46,12 @@ export const requireEnv = {
     }
     return Env.NEXT_PUBLIC_SUPABASE_URL
   },
+  SUPABASE_SECRET_KEY: (): string => {
+    if (!Env.SUPABASE_SECRET_KEY) {
+      throw new Error('SUPABASE_SECRET_KEY is required but not set')
+    }
+    return Env.SUPABASE_SECRET_KEY
+  },
   NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: (): string => {
     if (!Env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY) {
       throw new Error(
