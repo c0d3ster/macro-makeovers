@@ -57,6 +57,16 @@ describe('proxy', () => {
     expect(response.headers.get('location')).toBe('http://localhost:3000/login?next=%2Fprofile%3Ftab%3D1')
   })
 
+  it('sends a signed-out visitor from the admin area to /login', async () => {
+    configure()
+    updateSession.mockResolvedValue({ response: NextResponse.next(), authId: undefined })
+
+    const response = await proxy(new NextRequest('http://localhost:3000/admin/import'))
+
+    expect(response.status).toBe(307)
+    expect(response.headers.get('location')).toBe('http://localhost:3000/login?next=%2Fadmin%2Fimport')
+  })
+
   it('lets a signed-in user reach /profile', async () => {
     configure()
     updateSession.mockResolvedValue({ response: NextResponse.next(), authId: 'user-1' })
