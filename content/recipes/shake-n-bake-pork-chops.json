@@ -1,0 +1,225 @@
+{
+  "slug": "shake-n-bake-pork-chops",
+  "title": "Shake 'n Bake Pork Chops",
+  "summary": "Thin, crispy panko pork chops with a scallion cottage cheese pan sauce, over a tray of garlic-oil potatoes and crispy broccoli. Makes 4 servings.",
+  "servings": 4,
+  "prepMinutes": 20,
+  "cookMinutes": 40,
+  "costTier": 2,
+  "difficulty": 3,
+  "nutrition": [
+    {
+      "kind": "makeover",
+      "label": "Per plate",
+      "calories": 675,
+      "carbsG": 58,
+      "fatG": 25,
+      "proteinG": 55,
+      "isDefault": true
+    },
+    {
+      "kind": "traditional",
+      "label": "Traditional per plate",
+      "calories": 1015,
+      "carbsG": 56,
+      "fatG": 67,
+      "proteinG": 51,
+      "isDefault": false
+    }
+  ],
+  "ingredients": [
+    {
+      "group": "Pork chops",
+      "raw": "4 boneless center-cut pork chops, ~6 oz each, fat cap trimmed"
+    },
+    {
+      "group": "Pork chops",
+      "raw": "1/3 cup flour + 3 tbsp cornstarch"
+    },
+    {
+      "group": "Pork chops",
+      "raw": "2 eggs, beaten"
+    },
+    {
+      "group": "Pork chops",
+      "raw": "1 cup panko"
+    },
+    {
+      "group": "Pork chops",
+      "raw": "Avocado oil spray, or ~2 tsp oil total"
+    },
+    {
+      "group": "Potatoes & broccoli",
+      "raw": "1.5 lb baby potatoes, quartered into small pieces (~3/4 inch)"
+    },
+    {
+      "group": "Potatoes & broccoli",
+      "raw": "4 cups broccoli, cut into small florets"
+    },
+    {
+      "group": "Potatoes & broccoli",
+      "raw": "1.5 tbsp avocado oil, infused with 3 to 4 smashed garlic cloves"
+    },
+    {
+      "group": "Potatoes & broccoli",
+      "raw": "Salt, pepper, and 1 tsp garlic powder (optional, for extra punch)"
+    },
+    {
+      "group": "Potatoes & broccoli",
+      "raw": "2 oz (1/2 cup) grated parmesan, off the block"
+    },
+    {
+      "group": "Scallion pan sauce",
+      "raw": "2 tsp olive oil"
+    },
+    {
+      "group": "Scallion pan sauce",
+      "raw": "4 scallions, whites chopped, greens sliced for garnish"
+    },
+    {
+      "group": "Scallion pan sauce",
+      "raw": "2 cloves garlic, minced"
+    },
+    {
+      "group": "Scallion pan sauce",
+      "raw": "1/2 cup low-sodium chicken stock"
+    },
+    {
+      "group": "Scallion pan sauce",
+      "raw": "Squeeze of lemon juice, zest of 1/2 lemon"
+    },
+    {
+      "group": "Scallion pan sauce",
+      "raw": "1/2 cup 2% cottage cheese blended smooth with 2 tbsp milk"
+    },
+    {
+      "group": "Scallion pan sauce",
+      "raw": "1 tbsp butter"
+    },
+    {
+      "group": "Scallion pan sauce",
+      "raw": "Black pepper"
+    },
+    {
+      "group": "Spice mix (split between the flour and the panko)",
+      "raw": "Sweet paprika 1 tbsp, garlic powder 2 tsp, onion powder 2 tsp, brown sugar 1 tsp, salt 1 tsp, black pepper 1/2 tsp, cayenne 1/4 tsp (optional)"
+    }
+  ],
+  "steps": [
+    {
+      "phase": "prep",
+      "body": "Preheat the oven to 425°F with two sheet pans inside."
+    },
+    {
+      "phase": "prep",
+      "body": "Quarter the potatoes, cut the broccoli into small florets, and pat both dry. Smash 3 to 4 garlic cloves for the oil, mince 2 for the sauce, chop the scallion whites, and slice the greens."
+    },
+    {
+      "phase": "prep",
+      "body": "Toast the panko in a dry pan over medium heat, 2 to 3 min, until light golden. Cool."
+    },
+    {
+      "phase": "prep",
+      "body": "Blend the cottage cheese and milk until silky. Refrigerate."
+    },
+    {
+      "phase": "prep",
+      "body": "Trim the fat cap, then pound the chops between plastic wrap to an even 1/2 inch or a bit under, working from the center out."
+    },
+    {
+      "phase": "prep",
+      "body": "Set up three bowls: flour and cornstarch with half the spice mix, beaten egg, and panko with the other half. Dredge each chop in that order, pressing firmly at each layer. Rest on a rack 5 to 10 min."
+    },
+    {
+      "phase": "cook",
+      "body": "**Garlic oil first.** Warm the avocado oil and smashed cloves in a small pan over low heat, 5 to 8 min, until fragrant and pale gold with gentle bubbles. Don't let the garlic brown. Pull the cloves out and set them aside."
+    },
+    {
+      "phase": "cook",
+      "body": "**Oil the vegetables.** In separate bowls, toss the potatoes with about two thirds of the garlic oil and the broccoli with the rest, adding the oil a little at a time. Add salt, pepper, and garlic powder if using. Toss about 30 seconds, until glossy with nothing pooled at the bottom. A quick mist of avocado oil spray covers any dry spots."
+    },
+    {
+      "phase": "cook",
+      "body": "**Tray.** Spread the potatoes on one preheated pan and the broccoli on the other, each in a single layer. Roast 25 to 30 min, tossing once halfway. Start checking the broccoli at 20 min."
+    },
+    {
+      "phase": "cook",
+      "body": "**Chops about 15 min into the roast.** Spray both sides with oil. Air fry all four in a single layer at 400°F, 8 to 10 min, flipping halfway, until 145°F, then rest on a rack. If the basket is too small for one layer: wire rack over a sheet pan in the same 425°F oven, 12 to 15 min, flipping halfway."
+    },
+    {
+      "phase": "cook",
+      "body": "**Sauce while the chops cook.** Sweat the scallion whites and garlic in the olive oil over medium heat, 1 to 2 min. Add the stock and lemon juice and simmer down to about 1/3 cup, 3 to 4 min."
+    },
+    {
+      "phase": "cook",
+      "body": "**Finish the sauce off heat.** Whisk in the cottage cheese and zest, then the butter. Season with pepper. If it's too thick, loosen with a splash of stock."
+    },
+    {
+      "phase": "cook",
+      "body": "**Last 5 min of the tray.** Chop or lightly mash the reserved soft garlic cloves and scatter them over the potatoes. Sprinkle the parmesan over both pans so it crisps onto the vegetables."
+    },
+    {
+      "phase": "cook",
+      "body": "Plate the chop with the sauce spooned over it and the tray alongside. Top with the scallion greens."
+    }
+  ],
+  "notes": [
+    {
+      "kind": "make_or_break",
+      "body": "**Even, thin chops.** They cook through before the breading burns. Trim the fat cap before breading to stay on the lean numbers"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Don't skip the egg layer or the oil spray.** The panko needs both to stick and brown"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Cottage cheese goes in off heat.** It turns grainy if it simmers"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Infuse the garlic oil gently.** Pale gold is the goal, since browned garlic turns bitter"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Toss the vegetables in a bowl, not on the pan.** Dry vegetables take the oil evenly, while surface water makes it bead up, and florets soak up more than potatoes"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Cooked garlic and parmesan go on late.** Over the full roast, the cheese melts into the pan instead of crisping"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Don't crowd the broccoli.** Its own preheated pan lets it crisp instead of steam"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Pull the chops at 145°F.** Lean thin chops dry out fast past that"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Use the garlic oil the same day.** Garlic sitting in oil at room temperature is a botulism risk, so refrigerate any extra and use it within a few days"
+    },
+    {
+      "kind": "fixes",
+      "body": "**Breading falling off:** press harder at each layer and rest longer before cooking"
+    },
+    {
+      "kind": "fixes",
+      "body": "**Sauce too thick:** splash of stock or water"
+    },
+    {
+      "kind": "fixes",
+      "body": "**Sauce too thin:** reduce the stock a minute longer before adding the cottage cheese"
+    },
+    {
+      "kind": "fixes",
+      "body": "**Not crispy enough:** more oil spray, or toast the panko longer"
+    },
+    {
+      "kind": "fixes",
+      "body": "**Vegetables steaming instead of crisping:** the pans were crowded or the pieces were wet. Spread them out and pat dry"
+    }
+  ],
+  "tags": ["pork", "air fryer", "sheet pan", "high protein", "comfort food"]
+}

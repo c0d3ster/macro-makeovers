@@ -1,0 +1,111 @@
+{
+  "slug": "ham-and-prosciutto-sliders",
+  "title": "Ham & Prosciutto Sliders",
+  "summary": "Baked sweet-roll sliders, portioned and rebalanced. The rolls and cheese set a floor on the fat here, so this is the treat item of the group rather than a macro workhorse — but at 41g protein per serving it earns its place. Makes 12 sliders, ~4 servings of 3.",
+  "servings": 4,
+  "prepMinutes": 5,
+  "cookMinutes": 10,
+  "costTier": 4,
+  "difficulty": 1,
+  "nutrition": [
+    {
+      "kind": "makeover",
+      "label": "Per serving (3)",
+      "calories": 620,
+      "carbsG": 56,
+      "fatG": 26,
+      "proteinG": 41,
+      "isDefault": true
+    },
+    {
+      "kind": "makeover",
+      "label": "Leaner variation, per serving",
+      "calories": 590,
+      "carbsG": 57,
+      "fatG": 21,
+      "proteinG": 44,
+      "isDefault": false
+    },
+    {
+      "kind": "traditional",
+      "label": "Traditional per serving (3)",
+      "calories": 690,
+      "carbsG": 52,
+      "fatG": 40,
+      "proteinG": 30,
+      "isDefault": false
+    }
+  ],
+  "ingredients": [
+    {
+      "raw": "12 Hawaiian rolls (1 pack)"
+    },
+    {
+      "raw": "18 oz (2 packs) lower sodium honey ham — 1.5 oz per slider"
+    },
+    {
+      "raw": "~6 slices prosciutto (1 pack covers it) — half a slice per slider"
+    },
+    {
+      "raw": "12 slices sharp aged white cheddar (~4 oz total) — one thin slice per slider, ~1/3 oz"
+    },
+    {
+      "raw": "1 avocado"
+    },
+    {
+      "raw": "1/2 onion, sliced"
+    },
+    {
+      "raw": "1 jalapeño, sliced"
+    }
+  ],
+  "steps": [
+    {
+      "phase": "prep",
+      "body": "Preheat the oven to 375°F."
+    },
+    {
+      "phase": "prep",
+      "body": "Slice the onion and jalapeño."
+    },
+    {
+      "phase": "prep",
+      "body": "Halve the prosciutto slices (half a slice per slider)."
+    },
+    {
+      "phase": "prep",
+      "body": "Slice the avocado — don't add it yet, heat turns it bitter and brown."
+    },
+    {
+      "phase": "cook",
+      "body": "Layer the ham, prosciutto, cheddar, onion, and jalapeño in the rolls."
+    },
+    {
+      "phase": "cook",
+      "body": "Bake **8–10 minutes**, until the cheese melts and the rolls are warmed through."
+    },
+    {
+      "phase": "cook",
+      "body": "**Add the avocado after baking** — sliced or mashed.\n\n> **Leaner variation (~590 cal, saves ~5g fat, adds ~3g protein, ~15% less sodium per serving):** three swaps stacked — halve the avocado and blend the other half into 1/2 cup 2% cottage cheese (garlic powder, salt, lime) so it reads as a creamy sauce; split the meat 9 oz ham / 9 oz deli chicken breast; and drop the prosciutto from 6 slices to 3."
+    }
+  ],
+  "notes": [
+    {
+      "kind": "make_or_break",
+      "body": "**Ham is the base, prosciutto is the accent.** Prosciutto runs ~2x the fat of ham per ounce and drives the sodium, so a half slice per slider gives the cured punch without the cost"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**One slice of cheese, not two.** Aged sharp cheddar reads plenty at 1/3 oz. Double-layering cheese is the easiest place to accidentally add 5g fat per slider"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Avocado over mayo** — same creamy role, but monounsaturated fat and fiber instead of 10g fat per tbsp with nothing else"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Load the onion and jalapeño** for flavor and volume at no calorie cost"
+    }
+  ],
+  "tags": ["sandwich", "pork", "oven", "quick", "high protein"]
+}

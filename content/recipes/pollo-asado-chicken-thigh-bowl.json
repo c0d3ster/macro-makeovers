@@ -1,0 +1,241 @@
+{
+  "slug": "pollo-asado-chicken-thigh-bowl",
+  "title": "Pollo Asado Chicken Thigh Bowl",
+  "summary": "Citrus-achiote thighs seared hard for char, over brown rice with black beans, mango habanero salsa, cotija, and blended cottage cheese. Two builds: skinless and skin-on. Makes 4 servings.",
+  "servings": 4,
+  "prepMinutes": 15,
+  "cookMinutes": 45,
+  "costTier": 2,
+  "difficulty": 2,
+  "nutrition": [
+    {
+      "kind": "makeover",
+      "label": "Skinless",
+      "calories": 670,
+      "carbsG": 67,
+      "fatG": 20,
+      "proteinG": 56,
+      "isDefault": true
+    },
+    {
+      "kind": "makeover",
+      "label": "Skin-on",
+      "calories": 740,
+      "carbsG": 67,
+      "fatG": 27,
+      "proteinG": 57,
+      "isDefault": false
+    },
+    {
+      "kind": "traditional",
+      "label": "Traditional",
+      "calories": 865,
+      "carbsG": 74,
+      "fatG": 42,
+      "proteinG": 49,
+      "isDefault": false
+    }
+  ],
+  "ingredients": [
+    {
+      "group": "Chicken (pick one)",
+      "raw": "Skinless: 1.5 lb boneless skinless thighs (or 1.5 lb precooked Costco pollo asado, 3/4 of a bag, for an easy option that skips the marinade and oil and runs within ~5 cal of skinless)"
+    },
+    {
+      "group": "Chicken (pick one)",
+      "raw": "Skin-on: 1.5 lb boneless skin-on thighs"
+    },
+    {
+      "group": "Marinade (homemade builds only)",
+      "raw": "3 tbsp orange juice"
+    },
+    {
+      "group": "Marinade (homemade builds only)",
+      "raw": "2 tbsp lime juice"
+    },
+    {
+      "group": "Marinade (homemade builds only)",
+      "raw": "6 garlic cloves, minced"
+    },
+    {
+      "group": "Marinade (homemade builds only)",
+      "raw": "1 tbsp achiote paste (or 1 tbsp sweet paprika + 1/4 tsp turmeric)"
+    },
+    {
+      "group": "Marinade (homemade builds only)",
+      "raw": "1 tbsp adobo sauce from a can of chipotles (optional, adds smoky heat)"
+    },
+    {
+      "group": "Marinade (homemade builds only)",
+      "raw": "2 tsp cumin"
+    },
+    {
+      "group": "Marinade (homemade builds only)",
+      "raw": "2 tsp oregano"
+    },
+    {
+      "group": "Marinade (homemade builds only)",
+      "raw": "1 tsp chili powder"
+    },
+    {
+      "group": "Marinade (homemade builds only)",
+      "raw": "1/2 tsp salt"
+    },
+    {
+      "group": "Marinade (homemade builds only)",
+      "raw": "1/2 tsp black pepper"
+    },
+    {
+      "group": "Marinade (homemade builds only)",
+      "raw": "1 tsp avocado oil (skinless only)"
+    },
+    {
+      "group": "Bowl",
+      "raw": "1 cup dry brown rice (~3 cups cooked, 3/4 cup per bowl), tossed with lime zest and chopped cilantro"
+    },
+    {
+      "group": "Bowl",
+      "raw": "1 can (15oz) black beans, drained, plus cumin and garlic powder"
+    },
+    {
+      "group": "Bowl",
+      "raw": "4 oz cotija, crumbled (1 oz, about 1/4 cup, per bowl)"
+    },
+    {
+      "group": "Bowl",
+      "raw": "3/4 cup 2% cottage cheese, blended smooth (3 tbsp per bowl). Add 1 tbsp milk only if the blender won't catch"
+    },
+    {
+      "group": "Bowl",
+      "raw": "Lime wedges"
+    },
+    {
+      "group": "Mango habanero salsa (~2.5 cups, 1/2 cup per bowl)",
+      "raw": "1.5 cups firm ripe mango, small dice"
+    },
+    {
+      "group": "Mango habanero salsa (~2.5 cups, 1/2 cup per bowl)",
+      "raw": "1/2 red onion, finely diced"
+    },
+    {
+      "group": "Mango habanero salsa (~2.5 cups, 1/2 cup per bowl)",
+      "raw": "1/2 to 1 habanero, seeds and ribs removed, minced very fine"
+    },
+    {
+      "group": "Mango habanero salsa (~2.5 cups, 1/2 cup per bowl)",
+      "raw": "1/2 cup seeded cucumber, diced"
+    },
+    {
+      "group": "Mango habanero salsa (~2.5 cups, 1/2 cup per bowl)",
+      "raw": "Juice of 1.5 limes"
+    },
+    {
+      "group": "Mango habanero salsa (~2.5 cups, 1/2 cup per bowl)",
+      "raw": "Handful cilantro"
+    },
+    {
+      "group": "Mango habanero salsa (~2.5 cups, 1/2 cup per bowl)",
+      "raw": "Salt to taste, only after the cotija is on"
+    }
+  ],
+  "steps": [
+    {
+      "phase": "prep",
+      "body": "Whisk the marinade and coat the thighs. Refrigerate 2 to 4 hr, never past 6. The citrus turns the texture mushy."
+    },
+    {
+      "phase": "prep",
+      "body": "Toss the salsa together, starting with half the habanero. Let it sit at least 15 min, then taste. Wear gloves."
+    },
+    {
+      "phase": "prep",
+      "body": "Blend the cottage cheese until silky. Refrigerate."
+    },
+    {
+      "phase": "prep",
+      "body": "Crumble the cotija fine so it spreads across the whole bowl."
+    },
+    {
+      "phase": "cook",
+      "body": "Start the brown rice first."
+    },
+    {
+      "phase": "cook",
+      "body": "Cook the chicken for your build:\n\n**Skinless** (~20 min)\n\n- Pull the thighs from the marinade and let the excess drip off. Sear in a ripping hot cast iron pan, 5 to 6 min per side, in batches, until charred and 175°F.\n- Rest 5 min, then chop.\n- _Costco option (~8 min):_ sear the precooked chicken in a very hot dry cast iron pan, 2 to 3 min per side, until the edges char. Finish with a squeeze of lime.\n\n**Skin-on** (~30 min)\n\n- Pat the skin completely dry after marinating. Place skin-side down in a cold-to-medium dry pan and render 6 to 8 min until deep golden.\n- Pour off all but about 1 tsp of fat. Flip and cook 6 to 8 min more until 175°F, or finish in a 400°F oven.\n- Rest 5 min, then slice and plate skin-side up."
+    },
+    {
+      "phase": "cook",
+      "body": "Warm the black beans with the cumin and garlic powder."
+    },
+    {
+      "phase": "cook",
+      "body": "Build each bowl: 3/4 cup rice, a quarter of the beans, 6 oz chicken, 1/2 cup salsa, 1 oz cotija, and 3 tbsp blended cottage cheese."
+    }
+  ],
+  "notes": [
+    {
+      "kind": "make_or_break",
+      "body": "**Get the pan ripping hot.** Char is what makes it asado, and a crowded pan steams the thighs instead"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Marinate 2 to 4 hours, not overnight.** Past 6 hr the acid breaks the meat down"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Let the excess marinade drip off before searing.** Wet chicken steams and won't char"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Skin-on: dry the skin, render it first, pour off the fat.** The skin-on numbers assume you do. Leave it all in and add about 3g fat per bowl"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Cotija goes on cold, last, and crumbled fine.** It doesn't melt, so fine crumbles spread the salt and cut the habanero heat"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Blend the cottage cheese fully.** Any grain shows when it's served cold"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Hold the salt until the end.** Cotija, beans, and the chicken seasoning already carry plenty"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Let the salsa sit.** The onion mellows and the habanero heat spreads evenly"
+    },
+    {
+      "kind": "fixes",
+      "body": "**No char:** the pan wasn't hot enough or the chicken was wet. Heat longer and pat off more marinade"
+    },
+    {
+      "kind": "fixes",
+      "body": "**Too salty:** squeeze more lime and add extra salsa. Next time drop the cotija to 3/4 oz or use rinsed beans, which saves about 100mg"
+    },
+    {
+      "kind": "fixes",
+      "body": "**Chicken mushy:** it marinated too long. Stay inside 2 to 4 hr"
+    },
+    {
+      "kind": "fixes",
+      "body": "**Flat flavor:** the marinade is lighter on acid, so finish with a squeeze of lime from the wedges"
+    },
+    {
+      "kind": "fixes",
+      "body": "**Salsa too hot:** add more mango and lime, and spoon extra cottage cheese over the bowl"
+    },
+    {
+      "kind": "fixes",
+      "body": "**Chicken dry:** pull at 175°F and rest before cutting"
+    }
+  ],
+  "tags": [
+    "bowl",
+    "chicken",
+    "rice",
+    "stovetop",
+    "high protein",
+    "batch friendly"
+  ]
+}
