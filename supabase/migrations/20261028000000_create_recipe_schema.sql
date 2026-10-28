@@ -278,3 +278,43 @@ create policy "Owners can write revisions"
   for insert
   to authenticated
   with check ((select public.is_owner()));
+
+-- Table privileges. RLS decides which rows, but Postgres needs the grant first. These are
+-- explicit so the schema works when the project does not auto-expose new tables to the Data API.
+-- Start from nothing so the result is the same whether or not new tables are auto-exposed.
+revoke all on
+  public.recipes,
+  public.recipe_nutrition,
+  public.ingredients,
+  public.steps,
+  public.recipe_notes,
+  public.tags,
+  public.recipe_tags,
+  public.recipe_revisions
+from anon, authenticated;
+
+grant select on
+  public.recipes,
+  public.recipe_nutrition,
+  public.ingredients,
+  public.steps,
+  public.recipe_notes,
+  public.tags,
+  public.recipe_tags
+to anon;
+
+grant select, insert, update, delete on
+  public.recipes,
+  public.recipe_nutrition,
+  public.ingredients,
+  public.steps,
+  public.recipe_notes,
+  public.tags,
+  public.recipe_tags
+to authenticated;
+
+grant select, insert on public.recipe_revisions to authenticated;
+
+-- The users policy from the first migration needs a grant to take effect
+grant select on public.users to authenticated;
+
