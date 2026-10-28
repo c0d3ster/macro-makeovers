@@ -28,7 +28,12 @@ set local role anon;
 select is((select count(*)::int from public.recipes), 1, 'anon sees only published recipes');
 select is((select count(*)::int from public.ingredients), 1, 'anon sees ingredients of published recipes only');
 select is((select count(*)::int from public.tags), 22, 'anon can read seeded tags');
-select is((select count(*)::int from public.recipe_revisions), 0, 'anon cannot read revisions');
+select throws_ok(
+  $$select 1 from public.recipe_revisions$$,
+  '42501',
+  null,
+  'anon cannot read revisions'
+);
 
 select throws_ok(
   $$insert into public.recipes (slug, title, summary, servings, prep_minutes, cook_minutes, cost_tier, difficulty)
@@ -38,9 +43,10 @@ select throws_ok(
   'anon cannot insert recipes'
 );
 
--- RLS filters rows out of an update instead of raising, so check that nothing changed
-select is_empty(
-  $$update public.recipes set title = 'Changed' where id = '00000000-0000-0000-0000-0000000000a1' returning id$$,
+select throws_ok(
+  $$update public.recipes set title = 'Changed' where id = '00000000-0000-0000-0000-0000000000a1'$$,
+  '42501',
+  null,
   'anon cannot update recipes'
 );
 
