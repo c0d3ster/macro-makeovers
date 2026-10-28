@@ -16,18 +16,19 @@ values ('00000000-0000-0000-0000-0000000000a1', '{}'::jsonb);
 
 insert into auth.users (id, instance_id, aud, role, email)
 values
-  ('00000000-0000-0000-0000-0000000000b1', '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated', 'owner@example.com'),
-  ('00000000-0000-0000-0000-0000000000b2', '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated', 'member@example.com');
+  ('00000000-0000-0000-0000-0000000000b1', '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated', 'pgtap-owner@test.invalid'),
+  ('00000000-0000-0000-0000-0000000000b2', '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated', 'pgtap-member@test.invalid');
 
 -- handle_new_user created both profile rows; promote one to owner
-update public.users set role = 'super_admin' where email = 'owner@example.com';
+update public.users set role = 'super_admin' where email = 'pgtap-owner@test.invalid';
 
 -- Anonymous visitor
 set local role anon;
 
-select is((select count(*)::int from public.recipes), 1, 'anon sees only published recipes');
-select is((select count(*)::int from public.ingredients), 1, 'anon sees ingredients of published recipes only');
-select is((select count(*)::int from public.tags), 22, 'anon can read seeded tags');
+-- Counts look only at this file's fixtures, so recipes already in the database do not matter
+select is((select count(*)::int from public.recipes where slug in ('published-one', 'draft-one')), 1, 'anon sees only published recipes');
+select is((select count(*)::int from public.ingredients where recipe_id in ('00000000-0000-0000-0000-0000000000a1', '00000000-0000-0000-0000-0000000000a2')), 1, 'anon sees ingredients of published recipes only');
+select is((select count(*)::int from public.tags where name in ('pasta', 'chili', 'air fryer')), 3, 'anon can read seeded tags');
 select throws_ok(
   $$select 1 from public.recipe_revisions$$,
   '42501',
@@ -55,7 +56,7 @@ reset role;
 set local role authenticated;
 select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000b2","role":"authenticated"}', true);
 
-select is((select count(*)::int from public.recipes), 1, 'member sees only published recipes');
+select is((select count(*)::int from public.recipes where slug in ('published-one', 'draft-one')), 1, 'member sees only published recipes');
 select is((select public.is_owner()), false, 'member is not an owner');
 select throws_ok(
   $$insert into public.recipes (slug, title, summary, servings, prep_minutes, cook_minutes, cost_tier, difficulty)
@@ -69,8 +70,8 @@ select throws_ok(
 select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000b1","role":"authenticated"}', true);
 
 select is((select public.is_owner()), true, 'owner is recognised');
-select is((select count(*)::int from public.recipes), 2, 'owner sees drafts too');
-select is((select count(*)::int from public.recipe_revisions), 1, 'owner can read revisions');
+select is((select count(*)::int from public.recipes where slug in ('published-one', 'draft-one')), 2, 'owner sees drafts too');
+select is((select count(*)::int from public.recipe_revisions where recipe_id = '00000000-0000-0000-0000-0000000000a1'), 1, 'owner can read revisions');
 
 select lives_ok(
   $$insert into public.recipes (slug, title, summary, servings, prep_minutes, cook_minutes, cost_tier, difficulty)
