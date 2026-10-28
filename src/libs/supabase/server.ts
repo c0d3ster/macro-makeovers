@@ -5,11 +5,13 @@ import { cookies } from 'next/headers'
 
 import { requireEnv } from '@/libs/Env'
 
+import type { Database } from './database.types'
+
 // Server client for Server Components, Route Handlers and Server Actions
-export const createClient = async (): Promise<SupabaseClient> => {
+export const createClient = async (): Promise<SupabaseClient<Database>> => {
   const cookieStore = await cookies()
 
-  return createServerClient(
+  return createServerClient<Database>(
     requireEnv.NEXT_PUBLIC_SUPABASE_URL(),
     requireEnv.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY(),
     {

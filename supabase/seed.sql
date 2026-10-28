@@ -1,0 +1,25 @@
+-- Starter tags. Safe to re-run.
+insert into public.tags (name, kind) values
+  ('pasta', 'category'),
+  ('chili', 'category'),
+  ('sandwich', 'category'),
+  ('bake', 'category'),
+  ('bowl', 'category'),
+  ('rice', 'category'),
+  ('chicken', 'category'),
+  ('beef', 'category'),
+  ('pork', 'category'),
+  ('turkey', 'category'),
+  ('seafood', 'category'),
+  ('air fryer', 'method'),
+  ('sheet pan', 'method'),
+  ('oven', 'method'),
+  ('stovetop', 'method'),
+  ('blender', 'method'),
+  ('broiler', 'method'),
+  ('high protein', 'attribute'),
+  ('freezer friendly', 'attribute'),
+  ('batch friendly', 'attribute'),
+  ('quick', 'attribute'),
+  ('comfort food', 'attribute')
+on conflict (name) do nothing;
