@@ -1,0 +1,262 @@
+{
+  "slug": "kickin-fried-chicken",
+  "title": "Kickin' Fried Chicken",
+  "summary": "Same triple-coat breading (flour and cornstarch, egg, seasoned panko) and heavy cayenne/paprika hit as the original skillet version, air fried instead of pan-fried in oil. Compared here against a full home-style fried chicken dinner: deep-fried breast, mashed potatoes and gravy, and corn, since that's the real plate this replaces, not just the chicken on its own. Makes 5 servings.",
+  "servings": 5,
+  "prepMinutes": 15,
+  "cookMinutes": 25,
+  "costTier": 2,
+  "difficulty": 5,
+  "nutrition": [
+    {
+      "kind": "makeover",
+      "label": "Plate (chicken + sides + ranch)",
+      "calories": 605,
+      "carbsG": 73,
+      "fatG": 15,
+      "proteinG": 45,
+      "isDefault": true
+    },
+    {
+      "kind": "makeover",
+      "label": "Chicken only",
+      "calories": 255,
+      "carbsG": 16,
+      "fatG": 6,
+      "proteinG": 33,
+      "isDefault": false
+    },
+    {
+      "kind": "traditional",
+      "label": "Traditional per serving, plate",
+      "calories": 895,
+      "carbsG": 62,
+      "fatG": 58,
+      "proteinG": 35,
+      "isDefault": false
+    }
+  ],
+  "ingredients": [
+    {
+      "group": "Chicken",
+      "raw": "1.5 lb chicken breast or tenders, pounded to even thickness"
+    },
+    {
+      "group": "Chicken",
+      "raw": "1/2 cup flour + 1/4 cup cornstarch"
+    },
+    {
+      "group": "Chicken",
+      "raw": "2 eggs, beaten"
+    },
+    {
+      "group": "Chicken",
+      "raw": "1.5 cups panko"
+    },
+    {
+      "group": "Chicken",
+      "raw": "Cooking spray or ~2 tsp neutral oil total (avocado or vegetable — not butter, it burns at air fryer temps). In spray terms: roughly 4-5 seconds per side for the whole batch, not per piece"
+    },
+    {
+      "group": "Mashed potatoes & gravy",
+      "raw": "2 lb Yukon gold potatoes (5–6 medium), scrubbed, skin on, diced"
+    },
+    {
+      "group": "Mashed potatoes & gravy",
+      "raw": "4 cloves garlic, minced"
+    },
+    {
+      "group": "Mashed potatoes & gravy",
+      "raw": "1/2 onion, diced"
+    },
+    {
+      "group": "Mashed potatoes & gravy",
+      "raw": "1/2 cup warm milk (skim is fine — the richness comes from the butter and yogurt, not the milk; 2% works too for a touch more)"
+    },
+    {
+      "group": "Mashed potatoes & gravy",
+      "raw": "1/3 cup nonfat Greek yogurt"
+    },
+    {
+      "group": "Mashed potatoes & gravy",
+      "raw": "4 tbsp butter (2 tsp for the corn, 1 tsp for the garlic, 1 tsp for the onion, the rest for the mash)"
+    },
+    {
+      "group": "Mashed potatoes & gravy",
+      "raw": "2 tbsp cornstarch (for the gravy slurry)"
+    },
+    {
+      "group": "Mashed potatoes & gravy",
+      "raw": "1.5 cups low-sodium chicken broth"
+    },
+    {
+      "group": "Mashed potatoes & gravy",
+      "raw": "Salt, pepper"
+    },
+    {
+      "group": "Corn",
+      "raw": "1 can (15oz) corn, drained"
+    },
+    {
+      "group": "Corn",
+      "raw": "Salt"
+    },
+    {
+      "group": "Kickin' ranch",
+      "raw": "1/3 cup nonfat Greek yogurt"
+    },
+    {
+      "group": "Kickin' ranch",
+      "raw": "3-4 tbsp buttermilk (or milk + tiny splash of vinegar), to consistency"
+    },
+    {
+      "group": "Kickin' ranch",
+      "raw": "1/3 of the cooked garlic (set aside from the potatoes prep), mashed"
+    },
+    {
+      "group": "Kickin' ranch",
+      "raw": "Dill, parsley, chives (chives and dill finely diced), onion powder, black pepper — go light on the dill, it's easy to overdo"
+    },
+    {
+      "group": "Kickin' ranch",
+      "raw": "Pinch of sugar"
+    },
+    {
+      "group": "Kickin' ranch",
+      "raw": "Small squeeze of lemon juice"
+    },
+    {
+      "group": "Spice mix (for the chicken, gravy, and ranch)",
+      "raw": "Sweet (Hungarian) paprika 3 tbsp, cayenne 1-2 tbsp (to taste), cumin 1 tsp, garlic powder 1 tsp, onion powder 1 tsp, salt 1 tsp, black pepper 1/2 tsp"
+    }
+  ],
+  "steps": [
+    {
+      "phase": "prep",
+      "body": "Dice the potatoes, skin on."
+    },
+    {
+      "phase": "prep",
+      "body": "Mince the garlic, dice the onion."
+    },
+    {
+      "phase": "prep",
+      "body": "Grab two bowls. Mix the full spice blend (paprika, cayenne, cumin, garlic powder, onion powder, salt, pepper) in one of them. Set aside 1/2 tsp for the gravy and 1/2 tsp for the ranch, then split what's left between the two bowls."
+    },
+    {
+      "phase": "prep",
+      "body": "Toast the panko dry in a pan over medium heat, 2-3 min, until light golden. Let cool, then mix in one bowl of the spice blend."
+    },
+    {
+      "phase": "prep",
+      "body": "Set up three bowls total: flour and cornstarch mixed with the other bowl of spice blend, beaten egg, and the seasoned panko."
+    },
+    {
+      "phase": "prep",
+      "body": "Dredge the chicken in order: flour/cornstarch, then egg, then panko, pressing firmly at each layer. Let it rest on a rack or plate until you're ready to cook."
+    },
+    {
+      "phase": "prep",
+      "body": "Drain the corn."
+    },
+    {
+      "phase": "prep",
+      "body": "Measure the yogurt and buttermilk for the ranch. Finely dice the chives and dill."
+    },
+    {
+      "phase": "cook",
+      "body": "Potatoes on first. Boil the diced potatoes, 18-20 min until fork-tender. This is the longest step, so start it before anything else."
+    },
+    {
+      "phase": "cook",
+      "body": "While the potatoes boil, cook the garlic and onion. Garlic in 1 tsp butter, 1-2 min until fragrant, then remove all the garlic from the pan so it doesn't sit and burn. Set aside 1/3 of the garlic for the ranch. Add the onion and another 1 tsp butter to the pan, cook 3-4 min until softened."
+    },
+    {
+      "phase": "cook",
+      "body": "Make the ranch now. Whisk everything together, including the garlic set aside above. It tastes better chilled, so refrigerate until the meal is complete."
+    },
+    {
+      "phase": "cook",
+      "body": "Chicken into the air fryer. Single layer, don't crowd it, both sides sprayed with oil. Air fry at 400°F, 10-12 min, flipping halfway, until golden and 165°F internal. No air fryer: wire rack over a sheet pan, 425°F oven, 15-18 min, flip halfway."
+    },
+    {
+      "phase": "cook",
+      "body": "While the chicken cooks, finish the potatoes and gravy. Drain the potatoes, mash with warm milk, Greek yogurt, the remaining butter, and the cooked onion and garlic. Separately, whisk the cornstarch into a splash of cold broth for the gravy slurry, then stir into the rest of the simmering broth until thickened. Season with salt, pepper, and the reserved spice blend."
+    },
+    {
+      "phase": "cook",
+      "body": "Corn goes on last. Heat the drained corn with the reserved 2 tsp butter (or a spray of oil) and a pinch of salt, 3-5 min."
+    },
+    {
+      "phase": "cook",
+      "body": "Everything should land together: chicken out, potatoes mashed, gravy thickened, corn hot. Plate and serve."
+    }
+  ],
+  "notes": [
+    {
+      "kind": "make_or_break",
+      "body": "**Garlic goes in first, onion after.** Cooking the garlic briefly on its own before setting a portion aside is what keeps the ranch's garlic bright and punchy, while the portion that keeps cooking with the onion mellows out for the potatoes"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Finely dice the chives and dill, and go light on the dill especially** — it's potent and easy to overdo; start with less than feels right and add more to taste"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Don't skip the egg layer.** It's the glue between the flour and the panko — panko pressed straight onto flour will mostly flake off"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Don't skip the oil spray on the chicken entirely**, and use a heavier hand than a flour-only coat needs. The panko's dry surface area needs more fat to brown and crisp — zero or too-light oil backfires"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Toast the panko first** for color and deeper crunch, since the air fryer alone won't fully brown it in the time the chicken needs to cook through"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Season both the flour and the panko**, not just one layer, so the heat carries through the whole crust, not just the base"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Rest the breaded chicken 5–10 min before cooking** so the triple coat sets and doesn't shed in the basket"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Paprika is the color engine, cayenne is the heat dial** — paprika is what gets the crust visibly red, cayenne barely shifts the color, so adjust heat without worrying about losing the look"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Sweet paprika, not smoked, for a true red crust** — smoked paprika (used elsewhere in the book) leans brownish-red from the smoking process; sweet/Hungarian paprika is the brighter, redder pigment"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Don't crowd the air fryer basket** — steam kills crisping as fast as no oil does"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Yukon golds over russets** for the potatoes — creamier, needs less butter to feel rich. Skin on adds fiber and texture, and dicing cuts the boil time down since more surface area hits the water"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Cornstarch slurry, not a flour roux**, for the gravy — thickens the same without the fat"
+    },
+    {
+      "kind": "fixes",
+      "body": "**Chicken breading falling off:** press harder after each layer, don't skip the egg, rest longer before cooking"
+    },
+    {
+      "kind": "fixes",
+      "body": "**Chicken not crispy enough:** more oil spray, toast the panko longer before breading, bump the temp, or add a few extra minutes"
+    },
+    {
+      "kind": "fixes",
+      "body": "**Gravy too thin:** simmer longer or add a touch more cornstarch slurry"
+    },
+    {
+      "kind": "fixes",
+      "body": "**Gravy too thick:** thin with more broth"
+    }
+  ],
+  "tags": ["chicken", "air fryer", "high protein", "comfort food"]
+}

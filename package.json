@@ -34,6 +34,8 @@
     "db:push": "supabase db push",
     "db:reset": "supabase db reset",
     "db:types": "supabase gen types typescript --local > src/libs/supabase/database.types.ts && prettier --write src/libs/supabase/database.types.ts",
+    "recipe:parse": "tsx scripts/recipesToJson.ts",
+    "recipe:import": "tsx --env-file=.env --env-file-if-exists=.env.local scripts/importRecipes.ts",
     "db:pull": "drizzle-kit pull"
   },
   "dependencies": {
@@ -111,6 +113,7 @@
     "semantic-release": "^24.2.7",
     "supabase": "^2.122.0",
     "tailwindcss": "^4.1.11",
+    "tsx": "^4.23.15",
     "typescript": "^5.9.2",
     "vite": "^7.3.7",
     "vite-tsconfig-paths": "^5.1.4",

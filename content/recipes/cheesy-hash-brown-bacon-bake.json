@@ -1,0 +1,213 @@
+{
+  "slug": "cheesy-hash-brown-bacon-bake",
+  "title": "Cheesy Hash Brown Bacon Bake",
+  "summary": "Hash brown breakfast bake rebuilt around a cottage cheese and egg white custard. The original ran about 53% of calories from fat (6 tbsp oil for the potatoes, a 3-inch cube of cheddar, 4 slices of bacon) for 22g protein. Here the custard and Canadian bacon carry the protein, the bacon is cut to two candied slices for flavor, and the fat budget goes to what earns it: whole eggs on top with the yolk left runny, and cheddar crisped around them. Makes 4 servings.",
+  "servings": 4,
+  "prepMinutes": 15,
+  "cookMinutes": 50,
+  "costTier": 2,
+  "difficulty": 3,
+  "nutrition": [
+    {
+      "kind": "makeover",
+      "label": "Per serving",
+      "calories": 550,
+      "carbsG": 47,
+      "fatG": 18,
+      "proteinG": 45,
+      "isDefault": true
+    },
+    {
+      "kind": "traditional",
+      "label": "Traditional per serving",
+      "calories": 520,
+      "carbsG": 38,
+      "fatG": 30,
+      "proteinG": 22,
+      "isDefault": false
+    }
+  ],
+  "ingredients": [
+    {
+      "group": "Base",
+      "raw": "1 bag Ore-Ida diced hash browns (7.4 cups)"
+    },
+    {
+      "group": "Base",
+      "raw": "1 tbsp avocado oil total: about 2 tsp as spray on the hash browns, 1 tsp in the skillet"
+    },
+    {
+      "group": "Base",
+      "raw": "6 oz Canadian bacon, diced"
+    },
+    {
+      "group": "Custard",
+      "raw": "2 cups liquid egg whites"
+    },
+    {
+      "group": "Custard",
+      "raw": "1 cup 2% cottage cheese"
+    },
+    {
+      "group": "Veg",
+      "raw": "1/2 onion, diced"
+    },
+    {
+      "group": "Veg",
+      "raw": "1 red bell pepper, diced small"
+    },
+    {
+      "group": "Veg",
+      "raw": "2.5 oz jalapeño, diced (leave some seeds in, it carries all the heat)"
+    },
+    {
+      "group": "Veg",
+      "raw": "2 cloves garlic, minced"
+    },
+    {
+      "group": "Toppings",
+      "raw": "4 extra large whole eggs"
+    },
+    {
+      "group": "Toppings",
+      "raw": "2 oz sharp cheddar, shredded (real, off the block)"
+    },
+    {
+      "group": "Toppings",
+      "raw": "2 slices thick cut bacon"
+    },
+    {
+      "group": "Toppings",
+      "raw": "1 tbsp brown sugar"
+    },
+    {
+      "group": "Spice mix",
+      "raw": "Garlic powder, smoked paprika, and black pepper for the custard, plus blackening seasoning for the bacon (no added salt, the bacon, Canadian bacon, and cheese cover it)"
+    }
+  ],
+  "steps": [
+    {
+      "phase": "prep",
+      "body": "Preheat the oven to 430°F."
+    },
+    {
+      "phase": "prep",
+      "body": "Dice the onion, bell pepper, and jalapeño. Mince the garlic. Dice the Canadian bacon. Shred the cheddar."
+    },
+    {
+      "phase": "prep",
+      "body": "Blend the egg whites, cottage cheese, garlic powder, smoked paprika, and pepper until fully smooth. Refrigerate until needed."
+    },
+    {
+      "phase": "prep",
+      "body": "Set the bacon on a rack over a foil-lined pan. Coat with the brown sugar and blackening seasoning."
+    },
+    {
+      "phase": "cook",
+      "body": "**Roast the hash browns and bacon together.** Spread the hash browns in a single layer on one large sheet pan, spray heavily with avocado oil, and toss to coat. Bake at 430°F with the bacon rack on a second pan, tossing the hash browns at about 8 min and again at 16 min and rotating the pans. Pull the bacon at 16 min. Then broil the hash browns alone for the final 2-4 min for extra crisp, watching closely (20 min total)."
+    },
+    {
+      "phase": "cook",
+      "body": "**Saute the veg while those bake.** Heat 1 tsp avocado oil in a skillet over medium. Cook the onion, pepper, and jalapeño together for about 6 min, then add the garlic for the last minute. Cook it fairly dry, then let it cool a couple of minutes so it doesn't thin the custard."
+    },
+    {
+      "phase": "cook",
+      "body": "**Assemble.** Switch the oven from broil back to bake at 400°F. Move the hot hash browns into an 8x11 dish with the sauteed veg and Canadian bacon. Pour the custard over."
+    },
+    {
+      "phase": "cook",
+      "body": "**Set the base.** Bake about 14-16 min, until mostly set but still soft in the center."
+    },
+    {
+      "phase": "cook",
+      "body": "**Add the eggs and cheese.** Pull the dish and press four very shallow wells into the surface, just deep enough for a yolk to settle in. Crack an egg into each and scatter the cheddar around the yolks, leaving them exposed. Bake 6-8 min, then broil 1-2 min to crisp the cheese. Pull it when the whites are set and the yolks still jiggle."
+    },
+    {
+      "phase": "cook",
+      "body": "**Finish.** Rest 5 min. Dice the candied bacon and scatter it on top. Cut into 4 portions, one egg each."
+    }
+  ],
+  "notes": [
+    {
+      "kind": "tip",
+      "body": "Oil note: use avocado oil, not butter or extra virgin olive oil. The hash browns roast at 430°F and both would scorch or turn bitter at that heat. A heavy spray gets full crisp on 7.4 cups from about 2 tsp of oil, so don't skip it."
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Keep the wells very shallow.** Only the yolk should sit down in it. A whole egg sunk into the base won't set in 6-8 min plus the broil, and the whites spread over the top where they cook through"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Set the base before the eggs go on.** Raw eggs on an uncooked custard overcook while the base finishes"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Hot hash browns into the dish.** They jump-start the set, so the base needs only 14-16 min"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Heavy oil spray on the hash browns, and keep them in a single layer.** 7.4 cups on one sheet is a lot of surface to cover, so spread it edge to edge. Packed or piled, they steam, and too little oil leaves them pale"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Blend the custard fully smooth.** With only 1 cup of cottage cheese the base sets firmer and eggier, so any grain shows"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Cool the saute and cook it dry.** Wet veg leaks into the custard and softens the base"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Bacon comes out before the broil.** Pull it at 16 min so the sugar isn't under the broiler, only the hash browns"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Candied bacon goes on after the bake.** In the custard the sugar glaze goes soft and sticky"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Keep the sugared bacon on its own pan.** Sugar drips and burns onto the hash browns"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Garlic last in the skillet.** It scorches fast and a bitter note shows in a mild custard"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Dish size sets the bake time.** An 8x11 holds a deep layer, so the base needs the longer end of its range. Make sure it isn't filled to the rim before the eggs go on"
+    },
+    {
+      "kind": "fixes",
+      "body": "**Watery base:** veg went in wet or the hash browns were still steaming from a crowded pan. Cook the veg drier and spread the hash browns thinner"
+    },
+    {
+      "kind": "fixes",
+      "body": "**Hash browns not crisp:** more oil spray, a thinner layer, or an extra few minutes at 430°F before assembling. If one sheet stays pale, split onto two pans"
+    },
+    {
+      "kind": "fixes",
+      "body": "**Yolks overcooked:** pull the dish earlier, the whites keep setting during the rest"
+    },
+    {
+      "kind": "fixes",
+      "body": "**Cheese not crisping:** finish under the broiler, watching the whole time, since it goes from crisp to burnt fast"
+    },
+    {
+      "kind": "fixes",
+      "body": "**Bacon scorching:** pull it at 16 min and check from 13, sugar turns quickly"
+    },
+    {
+      "kind": "levers",
+      "body": "**More protein:** each extra oz of Canadian bacon adds about 5.5g protein to the batch for about 1g fat and 30 cal"
+    },
+    {
+      "kind": "levers",
+      "body": "**Less fat:** cheddar to 1.5 oz saves about 4.5g fat per batch (about 1g per serving), and dropping an egg saves about 5g fat per batch"
+    },
+    {
+      "kind": "levers",
+      "body": "**Candy the Canadian bacon too:** toss the diced pieces with 1/2 tbsp brown sugar and blackening seasoning, roast at 430°F for 8-10 min (check at 6), and add with the bacon at the end. Adds about 1.6g carbs per serving"
+    }
+  ],
+  "tags": ["bake", "pork", "oven", "sheet pan", "high protein", "comfort food"]
+}

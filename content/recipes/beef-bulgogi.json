@@ -1,0 +1,165 @@
+{
+  "slug": "beef-bulgogi",
+  "title": "Beef Bulgogi",
+  "summary": "Thin-sliced ribeye strips in a soy-pear marinade, seared hard in cast iron and served over black rice. Traditional bulgogi is already fairly lean, so there is no dairy swap here. The fat comes down through a lean pre-cut strip (about 3.5g fat per 4 oz) and 1 tbsp of sesame oil across the whole batch, where traditional versions run 1.5 to 2 tbsp. Black rice brings more fiber and protein than white. Built with Heritage brand ribeye strips for convenience, with trimmed flank as the from-scratch option. Makes 4 servings.",
+  "servings": 4,
+  "prepMinutes": 10,
+  "cookMinutes": 40,
+  "costTier": 3,
+  "difficulty": 2,
+  "nutrition": [
+    {
+      "kind": "makeover",
+      "label": "Per serving",
+      "calories": 520,
+      "carbsG": 51,
+      "fatG": 14,
+      "proteinG": 46,
+      "isDefault": true
+    },
+    {
+      "kind": "traditional",
+      "label": "Traditional per serving (sirloin, standard marinade, white rice)",
+      "calories": 525,
+      "carbsG": 39,
+      "fatG": 23,
+      "proteinG": 41,
+      "isDefault": false
+    }
+  ],
+  "ingredients": [
+    {
+      "group": "Beef",
+      "raw": "1.5 lb ribeye steak strips, pre-cut (Heritage brand), or flank steak with visible fat trimmed, hand-sliced thin against the grain"
+    },
+    {
+      "group": "Marinade",
+      "raw": "1/3 cup low-sodium soy sauce"
+    },
+    {
+      "group": "Marinade",
+      "raw": "2 tbsp brown sugar"
+    },
+    {
+      "group": "Marinade",
+      "raw": "1 tbsp toasted sesame oil"
+    },
+    {
+      "group": "Marinade",
+      "raw": "1 Asian pear (or Bosc pear, or apple)"
+    },
+    {
+      "group": "Marinade",
+      "raw": "4 garlic cloves, minced"
+    },
+    {
+      "group": "Marinade",
+      "raw": "1 tsp fresh ginger, grated"
+    },
+    {
+      "group": "Marinade",
+      "raw": "1/4 tsp black pepper"
+    },
+    {
+      "group": "Marinade",
+      "raw": "1/2 onion, thinly sliced (red or white)"
+    },
+    {
+      "group": "Cook and serve",
+      "raw": "1 tsp avocado oil, for searing"
+    },
+    {
+      "group": "Cook and serve",
+      "raw": "3 cups cooked black rice"
+    },
+    {
+      "group": "Cook and serve",
+      "raw": "4 scallions, chopped"
+    },
+    {
+      "group": "Cook and serve",
+      "raw": "1 tsp sesame seeds"
+    }
+  ],
+  "steps": [
+    {
+      "phase": "prep",
+      "body": "Using flank: trim the visible fat, freeze 20-30 min until firm, then slice thin against the grain. Pre-cut ribeye strips skip this step."
+    },
+    {
+      "phase": "prep",
+      "body": "Peel and grate the pear. Mince the garlic, grate the ginger, slice the onion, and chop the scallions."
+    },
+    {
+      "phase": "prep",
+      "body": "Whisk the pear, soy sauce, brown sugar, sesame oil, garlic, ginger, and pepper together. Toss with the beef and onion. Marinate 30 min to 1 hr for ribeye, up to 2 hr for flank, and never past 4 hr."
+    },
+    {
+      "phase": "cook",
+      "body": "**Rice first.** Cook the black rice per the package directions, about 35-40 min. It is the longest step, so start it while the beef marinates."
+    },
+    {
+      "phase": "cook",
+      "body": "**Sear the beef.** When the rice has about 10 min left, heat the avocado oil in a cast iron pan until ripping hot. Sear the beef in batches without crowding the pan, until charred at the edges."
+    },
+    {
+      "phase": "cook",
+      "body": "**Finish.** Toss in the scallions for the last 30 seconds. Serve over the rice and top with the sesame seeds."
+    }
+  ],
+  "notes": [
+    {
+      "kind": "make_or_break",
+      "body": "**Cast iron, ripping hot.** It holds heat when the beef lands, so the strips char instead of steam. A thinner nonstick pan can't hold the same heat"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Sear in batches.** Crowding drops the pan temperature and the beef steams"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Peel the pear before grating.** The skin turns bitter and stringy in the marinade"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Mind the marinate time.** The pear is an active tenderizer, so past 4 hr the texture turns mushy. Ribeye needs only 30 min to 1 hr, since it isn't fighting toughness the way flank is"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Keep the sesame oil at 1 tbsp.** It is a bigger fat lever than the cut, and it clings to the seared meat instead of staying in the bowl"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Scallions in the last 30 seconds.** They keep their bite and color"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Slice flank thin and against the grain.** It is the step that makes bulgogi taste like bulgogi, and flank has a clear grain to follow"
+    },
+    {
+      "kind": "fixes",
+      "body": "**Beef steaming instead of charring:** the pan wasn't hot enough or too much went in at once. Heat it longer and cook smaller batches"
+    },
+    {
+      "kind": "fixes",
+      "body": "**Beef mushy:** it marinated too long. Stay inside the time ranges above"
+    },
+    {
+      "kind": "fixes",
+      "body": "**Flank chewy:** slice thinner and make sure the cuts run against the grain"
+    },
+    {
+      "kind": "levers",
+      "body": "**Lower carb:** the rice is nearly all the carbs. Dropping from 3/4 cup to 1/2 cup of cooked rice per serving cuts about 15g carbs and 75 cal, and lettuce wraps with no rice land near 5g carbs, which is also a traditional way to serve it"
+    },
+    {
+      "kind": "levers",
+      "body": "**Rice swap:** per cup cooked, wild rice runs about 166 cal and 35g carbs, white about 205 cal and 44g carbs, and black about 265 cal and 52g carbs. Wild rice or a white and wild blend lowers calories and carbs, and the numbers above are for black rice"
+    },
+    {
+      "kind": "levers",
+      "body": "**Pear:** Bosc pear or apple works in place of Asian pear"
+    }
+  ],
+  "tags": ["beef", "rice", "stovetop", "high protein", "batch friendly"]
+}

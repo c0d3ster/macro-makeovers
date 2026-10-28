@@ -1,0 +1,177 @@
+{
+  "slug": "blackened-chicken-alfredo",
+  "title": "Blackened Chicken Alfredo",
+  "summary": "No heavy cream, a quarter of the butter, and half the cheese of a traditional Alfredo. Cottage cheese carries the creamy body and adds protein instead of just fat. Makes ~6 servings.",
+  "servings": 6,
+  "prepMinutes": 10,
+  "cookMinutes": 25,
+  "costTier": 1,
+  "difficulty": 4,
+  "nutrition": [
+    {
+      "kind": "makeover",
+      "label": "Per serving",
+      "calories": 625,
+      "carbsG": 63,
+      "fatG": 18,
+      "proteinG": 52,
+      "isDefault": true
+    },
+    {
+      "kind": "traditional",
+      "label": "Traditional per serving",
+      "calories": 805,
+      "carbsG": 48,
+      "fatG": 55,
+      "proteinG": 30,
+      "isDefault": false
+    }
+  ],
+  "ingredients": [
+    {
+      "group": "Sauce",
+      "raw": "16oz (2 cups) 2% cottage cheese — cold"
+    },
+    {
+      "group": "Sauce",
+      "raw": "1.25 cups (~5oz) grated parmesan (real, off the block)"
+    },
+    {
+      "group": "Sauce",
+      "raw": "2 tbsp butter"
+    },
+    {
+      "group": "Sauce",
+      "raw": "2 tbsp milk"
+    },
+    {
+      "group": "Sauce",
+      "raw": "4 cloves garlic, minced"
+    },
+    {
+      "group": "Sauce",
+      "raw": "1/2 onion, diced (optional)"
+    },
+    {
+      "group": "Sauce",
+      "raw": "1 tbsp Italian seasoning"
+    },
+    {
+      "group": "Sauce",
+      "raw": "~4 tbsp reserved pasta water, to thin (eyeball to consistency)"
+    },
+    {
+      "group": "Sauce",
+      "raw": "Salt, pepper"
+    },
+    {
+      "group": "Rest of dish",
+      "raw": "1 box (16oz dry) pasta — still needs a big pot of hard-boiling water"
+    },
+    {
+      "group": "Rest of dish",
+      "raw": "1.5 lb chicken, blackened (3 tbsp blackening seasoning)"
+    },
+    {
+      "group": "Rest of dish",
+      "raw": "1 tbsp avocado oil (for the chicken — see note)"
+    }
+  ],
+  "steps": [
+    {
+      "phase": "prep",
+      "body": "Mince the garlic, dice the onion if using."
+    },
+    {
+      "phase": "prep",
+      "body": "Measure the cottage cheese and milk — keep the cottage cheese cold."
+    },
+    {
+      "phase": "prep",
+      "body": "Grate the parmesan if it isn't already."
+    },
+    {
+      "phase": "prep",
+      "body": "Coat the chicken all over with the blackening seasoning."
+    },
+    {
+      "phase": "cook",
+      "body": "Get a big pot of salted water going for the pasta first — it takes the longest to come up to a boil."
+    },
+    {
+      "phase": "cook",
+      "body": "While it heats, melt the butter in a pan on low. Add the garlic and onion, sweat until soft and translucent — raw onion added late stays sharp, so cook it now."
+    },
+    {
+      "phase": "cook",
+      "body": "Pour the warm (not hot) butter/garlic/onion into a countertop blender with the **cold** cottage cheese and the milk. Blend 30–60 sec until silky, scraping down."
+    },
+    {
+      "phase": "cook",
+      "body": "Heat the avocado oil in a separate pan over medium-high. Sear the blackened chicken, about 6–7 min per side, until 165°F internal. Rest before slicing."
+    },
+    {
+      "phase": "cook",
+      "body": "Once the water's at a hard boil, cook the pasta, pulling it 1–2 min under box time so it's **al dente** — it keeps cooking in the hot sauce, so slightly firm off the boil lands right. Reserve pasta water."
+    },
+    {
+      "phase": "cook",
+      "body": "While the pasta cooks, warm the blended base in a pan on low. Melt in the parmesan, stir in the Italian seasoning, loosen with **pasta water** (starch adds body). Keep it under a simmer. Season."
+    },
+    {
+      "phase": "cook",
+      "body": "Combine the pasta and sauce off-heat or on the lowest heat, then plate with the sliced chicken."
+    }
+  ],
+  "notes": [
+    {
+      "kind": "tip",
+      "body": "Chicken fat note: use avocado oil, not butter, for the blackened chicken — blackening runs hot and butter's milk solids scorch and smoke at that heat. Avoid extra virgin olive oil too (it turns bitter when it smokes). Total fat added across the dish is 3 tbsp: 2 tbsp butter in the sauce, 1 tbsp oil on the chicken."
+    },
+    {
+      "kind": "make_or_break",
+      "body": "Blend cottage cheese **cold, with the warm butter as the liquid** — countertop blenders can't move it without liquid; water thins with no body back. At 2 tbsp the butter alone often isn't enough to catch, the 2 tbsp milk in the ingredients is there for exactly this and works well"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "Sweat onions first"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "Gentle heat only — cottage cheese goes grainy when too hot"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "Pasta water, not plain water, to thin"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "Big pot, hard boil, pull pasta **al dente** (1–2 min under box time)"
+    },
+    {
+      "kind": "fixes",
+      "body": "**Grainy:** off heat, re-blend with pasta water or milk"
+    },
+    {
+      "kind": "fixes",
+      "body": "**Butter pooling:** blend hard with pasta water; starch pulls the fat in"
+    },
+    {
+      "kind": "fixes",
+      "body": "**Too thin:** reduce gently, add parmesan, or blend in more cottage cheese"
+    },
+    {
+      "kind": "fixes",
+      "body": "**Too oniony:** simmer to cook out the bite; balance with parmesan, salt, splash of milk"
+    }
+  ],
+  "tags": [
+    "pasta",
+    "chicken",
+    "stovetop",
+    "blender",
+    "high protein",
+    "comfort food",
+    "batch friendly"
+  ]
+}

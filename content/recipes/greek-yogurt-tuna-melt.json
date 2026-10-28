@@ -1,0 +1,160 @@
+{
+  "slug": "greek-yogurt-tuna-melt",
+  "title": "Greek Yogurt Tuna Melt",
+  "summary": "Mayo swapped for nonfat Greek yogurt: roughly 10g less fat per tablespoon replaced, plus protein instead of none. Cold application, so yogurt is right here (cottage cheese is for hot sauces). The salad batches ahead for leftover lunches and doubles as an omega-3 source. Salad makes ~4 servings, one per melt.",
+  "servings": 4,
+  "prepMinutes": 10,
+  "cookMinutes": 10,
+  "costTier": 4,
+  "difficulty": 2,
+  "nutrition": [
+    {
+      "kind": "makeover",
+      "label": "Melt on hoagie roll (default)",
+      "calories": 485,
+      "carbsG": 51,
+      "fatG": 13,
+      "proteinG": 41,
+      "isDefault": true
+    },
+    {
+      "kind": "makeover",
+      "label": "Melt on sourdough",
+      "calories": 415,
+      "carbsG": 42,
+      "fatG": 10,
+      "proteinG": 40,
+      "isDefault": false
+    },
+    {
+      "kind": "makeover",
+      "label": "Cold sandwich, whole wheat",
+      "calories": 345,
+      "carbsG": 39,
+      "fatG": 5,
+      "proteinG": 36,
+      "isDefault": false
+    },
+    {
+      "kind": "makeover",
+      "label": "Salad only (1 serving)",
+      "calories": 185,
+      "carbsG": 11,
+      "fatG": 3,
+      "proteinG": 28,
+      "isDefault": false
+    },
+    {
+      "kind": "traditional",
+      "label": "Traditional melt (mayo, hoagie)",
+      "calories": 655,
+      "carbsG": 48,
+      "fatG": 38,
+      "proteinG": 30,
+      "isDefault": false
+    }
+  ],
+  "ingredients": [
+    {
+      "group": "Salad (makes 4)",
+      "raw": "6 tuna, mixed: 3 Thai sweet & spicy pouches + 2 hickory smoked pouches + 1 can albacore, drained"
+    },
+    {
+      "group": "Salad (makes 4)",
+      "raw": "2/3 cup nonfat Greek yogurt"
+    },
+    {
+      "group": "Salad (makes 4)",
+      "raw": "3 stalks celery, diced"
+    },
+    {
+      "group": "Salad (makes 4)",
+      "raw": "1/2 onion, diced"
+    },
+    {
+      "group": "Salad (makes 4)",
+      "raw": "3 pickle spears, diced (or 2 tbsp relish)"
+    },
+    {
+      "group": "Salad (makes 4)",
+      "raw": "Juice of 1/2 lemon"
+    },
+    {
+      "group": "Per sandwich — pick a build",
+      "raw": "Hoagie melt (default): 1 hoagie roll + 1 slice provolone (~0.75 oz), cut in half and overlapped + ~1/2 tsp olive oil to brush the top (2 tsp covers the batch of 4)"
+    },
+    {
+      "group": "Per sandwich — pick a build",
+      "raw": "Sourdough melt: 2 slices sourdough + 1 slice provolone (~0.75 oz), half on each slice"
+    },
+    {
+      "group": "Per sandwich — pick a build",
+      "raw": "Cold: 2 slices whole wheat, no cheese"
+    },
+    {
+      "group": "Per sandwich — pick a build",
+      "raw": "Plus 1 serving tuna salad"
+    },
+    {
+      "group": "Spice mix (for the salad)",
+      "raw": "Dill, garlic powder, salt, pepper"
+    }
+  ],
+  "steps": [
+    {
+      "phase": "prep",
+      "body": "**If using cans, drain hard** — press the tuna. Excess water makes the salad soupy and you'll be tempted to add more yogurt to fix it. Pouches go straight in."
+    },
+    {
+      "phase": "prep",
+      "body": "Dice the celery, onion, and pickles (or measure the relish). Juice the lemon."
+    },
+    {
+      "phase": "prep",
+      "body": "Cut the provolone in half if building the hoagie melt."
+    },
+    {
+      "phase": "cook",
+      "body": "Mix the tuna, Greek yogurt, celery, onion, pickles, lemon, and seasoning. Chill if you have time; it tastes better after 30 min."
+    },
+    {
+      "phase": "cook",
+      "body": "**Build it in the roll.** Split the hoagie along one side but keep it hinged, not flattened open. Lightly brush just the top of the roll with olive oil — that's the surface facing the element, and lean bread scorches there before the cheese crisps; the oil browns it evenly instead. Fill with tuna salad. Lay the two halved provolone pieces over the top with an overlap down the middle, where the filling is deepest."
+    },
+    {
+      "phase": "cook",
+      "body": "**Broil** a few inches from the element until the cheese bubbles, then browns and crisps. Watch it the whole time; it goes from melted to burnt fast.\n\n_Sourdough version:_ broil it open-faced across both slices — tuna salad plus half the cheese on one slice, the other half of the cheese on the second slice — then close them together after they come out. No oil brush needed; sourdough browns more forgivingly than a lean hoagie roll."
+    }
+  ],
+  "notes": [
+    {
+      "kind": "make_or_break",
+      "body": "**Broiler heat is what crisps the cheese.** Direct top heat browns and crisps the surface; melting it any other way just leaves it soft. Keeping the hoagie hinged instead of flattened means less surface to cover, so a single slice halved and overlapped runs the length of the roll with a double layer through the middle"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**A light oil brush keeps the roll from burning.** Lean hoagie bread scorches under the broiler before the cheese crisps; ~1/2 tsp olive oil brushed on just the top browns it evenly and conducts heat so the two finish together. Sourdough browns more forgivingly and doesn't need it"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Lemon carries the salad.** Greek yogurt is tangier and less rich than mayo, so the lemon, dill, and pepper make it taste intentional rather than like a substitution. Flavored pouches handle this for you"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Don't over-yogurt it.** Start with 2/3 cup — it should coat, not drown. Well-drained tuna needs less than you'd think"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Chunk light over albacore** if you eat tuna weekly; it runs lower in mercury"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "Provolone is the pick for melt quality; cheddar or swiss swap in with near-identical macros. Celery, onion, and pickle are free volume — load them up"
+    },
+    {
+      "kind": "levers",
+      "body": "**Tuna options**\n\n| Per unit                      | Calories | Carbs | Fat  | Protein |\n| ----------------------------- | -------- | ----- | ---- | ------- |\n| Thai sweet & spicy pouch      | 90       | 7g    | 1g   | 14g     |\n| Hickory smoked pouch          | 110      | 0g    | 4.5g | 17g     |\n| Albacore (canned, drained)    | 110      | 0g    | 1g   | 26g     |\n| Chunk light (canned, drained) | 90       | 0g    | 0.5g | 20g     |\n\nPouches are 2.6 oz ready-to-use; a 5 oz can drains to ~3.4 oz. Leaner and higher-protein: lean on albacore or chunk light. More flavor, less prep: lean on the pouches."
+    }
+  ],
+  "tags": ["sandwich", "seafood", "broiler", "quick", "high protein"]
+}
