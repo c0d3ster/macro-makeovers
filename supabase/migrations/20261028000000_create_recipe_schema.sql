@@ -107,8 +107,9 @@ create table public.steps (
   phase public.step_phase not null,
   position integer not null,
   body_md text not null,
-  -- Optional, so a later cook mode can run per-step timers without a migration
-  duration_minutes smallint check (duration_minutes > 0)
+  -- Optional, so a later cook mode can run per-step timers without a migration.
+  -- Fractions of a minute are allowed (0.25 is 15 seconds)
+  duration_minutes numeric(5, 2) check (duration_minutes > 0)
 );
 
 create index steps_recipe_idx on public.steps (recipe_id, position);

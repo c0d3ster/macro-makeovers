@@ -1,5 +1,5 @@
 begin;
-select plan(14);
+select plan(15);
 
 -- Fixtures (inserted as the postgres superuser, which bypasses RLS)
 insert into public.recipes (id, slug, title, summary, servings, prep_minutes, cook_minutes, cost_tier, difficulty, status)
@@ -70,6 +70,12 @@ select lives_ok(
   $$insert into public.recipes (slug, title, summary, servings, prep_minutes, cook_minutes, cost_tier, difficulty)
     values ('owner-write', 'Owner Write', 'ok', 2, 5, 5, 2, 2)$$,
   'owner can insert recipes'
+);
+
+select lives_ok(
+  $$insert into public.steps (recipe_id, phase, position, body_md, duration_minutes)
+    values ('00000000-0000-0000-0000-0000000000a1', 'cook', 1, 'Stir', 0.25)$$,
+  'step durations can be a fraction of a minute'
 );
 
 select throws_ok(
