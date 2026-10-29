@@ -4,11 +4,13 @@ High-protein, lower-fat versions of foods people love. Comfort-food staples rebu
 
 **The guiding principle:** spend your fat budget deliberately on things that earn it (olive oil, salmon, eggs), not on cream sauce and fatty ground beef where you won't miss it. Lean proteins keep the budget open.
 
-All twelve below are batch/leftover friendly and built around a protein-heavy lean diet — roughly your bodyweight in grams of protein, fat around 25-30% of calories. Each nutrition table includes a typical traditional version per serving for comparison, to show what the makeover saves. More on the numbers behind this in [the nutrition guide](./nutrition-guide.md).
+All thirteen below are batch/leftover friendly and built around a protein-heavy lean diet: roughly your bodyweight in grams of protein, with fat around 25-30% of calories. Each nutrition table includes a typical traditional version per serving for comparison, to show what the makeover saves. More on the numbers behind this in [Nutritional Foundation](#nutritional-foundation) at the end.
 
 ## Quick reference
 
 Per serving, default/featured build for each. Full nutrition, other build options, and traditional comparisons are in each entry below.
+
+::: {.quickref}
 
 | Recipe                                                                            | Calories | Protein | Ratio C/F/P  | Servings |
 | --------------------------------------------------------------------------------- | -------- | ------- | ------------ | -------- |
@@ -18,12 +20,15 @@ Per serving, default/featured build for each. Full nutrition, other build option
 | [Ham & Prosciutto Sliders](#4-ham--prosciutto-sliders) _(3 sliders)_              | ~620     | 41g     | 36 / 38 / 26 | 4        |
 | [Greek Yogurt Tuna Melt](#5-greek-yogurt-tuna-melt) _(hoagie)_                    | ~485     | 41g     | 42 / 24 / 34 | 4        |
 | [Cheesy Chicken and Broccoli Rice Bake](#6-cheesy-chicken-and-broccoli-rice-bake) | ~610     | 51g     | 38 / 28 / 34 | 5        |
-| [Lemon Pepper Chicken Pesto Linguine](#7-lemon-pepper-chicken-pesto-linguine)     | ~530     | 44g     | 38 / 28 / 34 | 5        |
+| [Lemon Pepper Shrimp Pesto Linguine](#7-lemon-pepper-shrimp-pesto-linguine)       | ~505     | 43g     | 42 / 25 / 34 | 5        |
 | [Kickin' Fried Chicken](#8-kickin-fried-chicken) _(full plate)_                   | ~605     | 45g     | 48 / 22 / 30 | 5        |
 | [Beef Bulgogi](#9-beef-bulgogi) _(over black rice)_                               | ~520     | 46g     | 40 / 24 / 36 | 4        |
 | [Cheesy Hash Brown Bacon Bake](#10-cheesy-hash-brown-bacon-bake)                  | ~550     | 45g     | 36 / 30 / 34 | 4        |
 | [Pollo Asado Chicken Thigh Bowl](#11-pollo-asado-chicken-thigh-bowl) _(skinless)_ | ~670     | 56g     | 40 / 27 / 33 | 4        |
 | [Shake 'n Bake Pork Chops](#12-shake-n-bake-pork-chops) _(full plate)_            | ~675     | 55g     | 34 / 33 / 33 | 4        |
+| [Red Enchilada Casserole](#13-red-enchilada-casserole)                            | ~525     | 46g     | 42 / 24 / 34 | 6        |
+
+:::
 
 ---
 
@@ -47,7 +52,7 @@ Strong protein with carbs up from the full box of pasta. A traditional Alfredo r
 
 **Sauce**
 
-- 16oz (2 cups) 2% cottage cheese — cold
+- 16oz (2 cups) 2% cottage cheese, cold
 - 1.25 cups (~5oz) grated parmesan (real, off the block)
 - 2 tbsp butter
 - 2 tbsp milk
@@ -59,36 +64,36 @@ Strong protein with carbs up from the full box of pasta. A traditional Alfredo r
 
 **Rest of dish**
 
-- 1 box (16oz dry) pasta — still needs a big pot of hard-boiling water
+- 1 box (16oz dry) pasta, still needs a big pot of hard-boiling water
 - 1.5 lb chicken, blackened (3 tbsp blackening seasoning)
-- 1 tbsp avocado oil (for the chicken — see note)
+- 1 tbsp avocado oil (for the chicken, see note)
 
-> **Chicken fat note:** use avocado oil, not butter, for the blackened chicken — blackening runs hot and butter's milk solids scorch and smoke at that heat. Avoid extra virgin olive oil too (it turns bitter when it smokes). Total fat added across the dish is 3 tbsp: 2 tbsp butter in the sauce, 1 tbsp oil on the chicken.
+> **Chicken fat note:** use avocado oil, not butter, for the blackened chicken. Blackening runs hot and butter's milk solids scorch and smoke at that heat. Avoid extra virgin olive oil too (it turns bitter when it smokes). Total fat added across the dish is 3 tbsp: 2 tbsp butter in the sauce, 1 tbsp oil on the chicken.
 
 ### Method
 
 **Prep** (~10 min)
 
 - Mince the garlic, dice the onion if using.
-- Measure the cottage cheese and milk — keep the cottage cheese cold.
+- Measure the cottage cheese and milk, and keep the cottage cheese cold.
 - Grate the parmesan if it isn't already.
 - Coat the chicken all over with the blackening seasoning.
 
 **Cook** (~25 min)
 
-1. Get a big pot of salted water going for the pasta first — it takes the longest to come up to a boil.
-2. While it heats, melt the butter in a pan on low. Add the garlic and onion, sweat until soft and translucent — raw onion added late stays sharp, so cook it now.
+1. Get a big pot of salted water going for the pasta first, since it takes the longest to come up to a boil.
+2. While it heats, melt the butter in a pan on low. Add the garlic and onion, sweat until soft and translucent. Raw onion added late stays sharp, so cook it now.
 3. Pour the warm (not hot) butter/garlic/onion into a countertop blender with the **cold** cottage cheese and the milk. Blend 30–60 sec until silky, scraping down.
 4. Heat the avocado oil in a separate pan over medium-high. Sear the blackened chicken, about 6–7 min per side, until 165°F internal. Rest before slicing.
-5. Once the water's at a hard boil, cook the pasta, pulling it 1–2 min under box time so it's **al dente** — it keeps cooking in the hot sauce, so slightly firm off the boil lands right. Reserve pasta water.
+5. Once the water's at a hard boil, cook the pasta, pulling it 1–2 min under box time so it's **al dente**. It keeps cooking in the hot sauce, so slightly firm off the boil lands right. Reserve pasta water.
 6. While the pasta cooks, warm the blended base in a pan on low. Melt in the parmesan, stir in the Italian seasoning, loosen with **pasta water** (starch adds body). Keep it under a simmer. Season.
 7. Combine the pasta and sauce off-heat or on the lowest heat, then plate with the sliced chicken.
 
 ### Make-or-break
 
-- Blend cottage cheese **cold, with the warm butter as the liquid** — countertop blenders can't move it without liquid; water thins with no body back. At 2 tbsp the butter alone often isn't enough to catch, the 2 tbsp milk in the ingredients is there for exactly this and works well
+- Blend cottage cheese **cold, with the warm butter as the liquid**. Countertop blenders can't move it without liquid, and water thins with no body back. At 2 tbsp the butter alone often isn't enough to catch, the 2 tbsp milk in the ingredients is there for exactly this and works well
 - Sweat onions first
-- Gentle heat only — cottage cheese goes grainy when too hot
+- Gentle heat only. Cottage cheese goes grainy when too hot
 - Pasta water, not plain water, to thin
 - Big pot, hard boil, pull pasta **al dente** (1–2 min under box time)
 
@@ -103,7 +108,7 @@ Strong protein with carbs up from the full box of pasta. A traditional Alfredo r
 
 <a id="2-spicy-turkey-chili"></a>
 
-## 2. Spicy Turkey Chili | $$ · ~50–70 min · ●●○○○
+## 2. Spicy Turkey Chili | $ · ~50–70 min · ●●○○○
 
 Lean turkey lacks the fat and richness beef brings, so you build it back with aromatics, spice, and umami. Big batch, freezes and reheats great. **Makes ~5 servings.**
 
@@ -122,27 +127,27 @@ Carb-forward from the beans, but low fat and strong protein. Using the cottage c
 
 ### Ingredients
 
-- 1 lb 93/7 ground turkey (not 99/1 — it dries out)
+- 1 lb 93/7 ground turkey (not 99/1, it dries out)
 - 1 onion, diced
 - 4 cloves garlic
 - 1 bell pepper
 - 1 jalapeño, diced
 - 1 can diced tomatoes
 - 3 tbsp tomato paste
-- 1–2 cups broth (chicken or beef) — sets the consistency, so go by preference: closer to 1 cup for a thick chili, 2 for looser. ~1.5 is a good middle
-- 2 cans beans, drained — **1 kidney + 1 black**
+- 1–2 cups broth (chicken or beef), which sets the consistency, so go by preference: closer to 1 cup for a thick chili, 2 for looser. ~1.5 is a good middle
+- 2 cans beans, drained: **1 kidney + 1 black**
 
 **Umami boosters**
 
-- **Worcestershire (preferred): ~2 tsp** — or soy sauce. This is the only either/or: pick one, not both
-- Small amount of brown sugar — balances the acidity from the tomatoes and paste
-- _Optional:_ 1 tsp cocoa powder or a small square of dark chocolate — adds faint bitterness and depth, not chocolate flavor
+- **Worcestershire (preferred): ~2 tsp**, or soy sauce. This is the only either/or: pick one, not both
+- Small amount of brown sugar to balance the acidity from the tomatoes and paste
+- _Optional:_ 1 tsp cocoa powder or a small square of dark chocolate, which adds faint bitterness and depth, not chocolate flavor
 
-**Spice base** (for 1 lb turkey — scale up proportionally for more)
+**Spice base** (for 1 lb turkey, scale up proportionally for more)
 
 - Spice mix: chili powder 1 tbsp, cumin 2 tsp, smoked paprika 1 tsp, garlic powder 1 tsp, onion powder 1 tsp, oregano 1 tsp, salt ~1 tsp (to taste), black pepper 1/2 tsp, cayenne 1/2 tsp
 
-> **For extra spicy:** use spicy beef broth, 1.5 jalapeños, and 1 tsp cayenne. These three stack, so add ~3/4 tsp cayenne up front, simmer, then taste before adding the rest — you can't pull heat back out. Dairy toppings (cottage cheese, Greek yogurt) cut the heat if it overshoots.
+> **For extra spicy:** use spicy beef broth, 1.5 jalapeños, and 1 tsp cayenne. These three stack, so add ~3/4 tsp cayenne up front, simmer, then taste before adding the rest. You can't pull heat back out. Dairy toppings (cottage cheese, Greek yogurt) cut the heat if it overshoots.
 
 > **For more volume:** a third can of beans (pinto) stretches the batch and adds carbs and protein. It does shift the ratio carb-forward, so bump to 1.5–2 lb turkey if you want to keep protein-per-serving high.
 
@@ -151,13 +156,13 @@ Carb-forward from the beans, but low fat and strong protein. Using the cottage c
 **Prep** (~10 min)
 
 - Dice the onion, bell pepper, and jalapeño. Mince the garlic.
-- Mix the spice base in a bowl, then split it roughly in half — one half for browning the turkey, one half for the pot.
+- Mix the spice base in a bowl, then split it roughly in half: one half for browning the turkey, one half for the pot.
 - Drain the beans.
 - Measure out the tomato paste, broth, and umami boosters (Worcestershire or soy sauce, brown sugar, optional cocoa) so they're ready to add in sequence.
 
 **Cook** (~40–60 min)
 
-1. **Brown the turkey hard.** Season it as it cooks with about **half** the spice base — this is where flavor develops with lean meat.
+1. **Brown the turkey hard.** Season it as it cooks with about **half** the spice base. This is where flavor develops with lean meat.
 2. Cook down the onion, garlic, bell pepper, and jalapeño until soft.
 3. Stir in the tomato paste and let it cook a minute (concentrates umami).
 4. Add the tomatoes, broth, beans, the **remaining half** of the spices, and the umami boosters.
@@ -176,29 +181,29 @@ Cheddar (measured, 1/8 cup), a creamy topping, scallions, cilantro, jalapeño, s
 | **Cottage cheese blend** (recipe below) | ~28      | 1.5g | 2.5g    |
 | Sour cream                              | ~60      | 6g   | 1g      |
 
-Sour cream is the outlier: it costs 4–6x the fat of any other option and gives back almost no protein. Greek yogurt is the leanest but its tang is sharper. **Blended 2% cottage cheese is the best all-around swap** — creamy and pourable like sour cream, mild enough not to fight the spice, and it adds real protein.
+Sour cream is the outlier: it costs 4–6x the fat of any other option and gives back almost no protein. Greek yogurt is the leanest but its tang is sharper. **Blended 2% cottage cheese is the best all-around swap**. It's creamy and pourable like sour cream, mild enough not to fight the spice, and adds real protein.
 
 > **The blend (recommended):** 1/2 cup cottage cheese : 2 tbsp sour cream : 2 tbsp milk. The sour cream is ~1/4 the cottage cheese by volume; the milk loosens it enough to blend smooth. Yields ~3/4 cup, enough for 5 bowls. Whole blend: ~170 cal, 9g fat, 14g protein.
 >
-> Stir it **into** the hot bowl rather than dolloping cold on top — the heat carries it through the whole bowl.
+> Stir it **into** the hot bowl rather than dolloping cold on top. The heat carries it through the whole bowl.
 
-**Cheddar note:** 1/8 cup (~0.5 oz) runs ~55 cal and 4.5g fat. This is where to spend fat if anywhere — it carries the flavor. Measure it rather than free-pouring; a heavy hand doubles it fast. 4 saltines add ~50 cal and 9g carbs.
+**Cheddar note:** 1/8 cup (~0.5 oz) runs ~55 cal and 4.5g fat. This is where to spend fat if anywhere. It carries the flavor. Measure it rather than free-pouring; a heavy hand doubles it fast. 4 saltines add ~50 cal and 9g carbs.
 
 The base is lean enough that toppings become the dominant fat source, which is why the creamy-topping choice matters more here than it looks.
 
 ### Make-or-break
 
-- **Split the spices** — half on the meat while browning, half into the pot. Layering beats dumping it all in at once
+- **Split the spices.** Half on the meat while browning, half into the pot. Layering beats dumping it all in at once
 - **Smoked paprika** replaces the smokiness fatty beef would give
-- **Tomato paste** does heavy umami lifting — don't skip
-- **Simmer long enough** — the single biggest factor for lean-meat chili
-- **Go easy on cayenne up front** — heat builds as it simmers and compounds with jalapeño and spicy broth
+- **Tomato paste** does heavy umami lifting. Don't skip it
+- **Simmer long enough.** The single biggest factor for lean-meat chili
+- **Go easy on cayenne up front.** Heat builds as it simmers and compounds with jalapeño and spicy broth
 
 ---
 
 <a id="3-lean-taco-grillers-lean-beef-or-turkey"></a>
 
-## 3. Turkey Taco Grillers (or lean beef) | $$$ · ~40 min · ●●●○○
+## 3. Turkey Taco Grillers (or lean beef) | $$ · ~40 min · ●●●○○
 
 The single swap of 80/20 beef for lean turkey (or 90/10 beef) roughly halves the fat. The spices carry tacos, not the fat, so season aggressively. **Makes ~4 servings of filling.**
 
@@ -214,17 +219,17 @@ Per serving. Shared toppings = 1/8 cup cottage cheese blend across every build. 
 | **Whole batch, filling (×4)** | ~1,175   | 77g   | 34g   | 140g    | —              |
 | _Traditional griller_         | _~800_   | _49g_ | _46g_ | _46g_   | _25 / 52 / 23_ |
 
-The griller is the go-to build — two crispy cheese-griddled tortillas loaded up. Griller numbers reflect turkey with cheese split inside and out (see below); beef will run close but hasn't been independently verified. The rice bowl skips the tortilla but the pico topping carries similar carbs. The filling alone is lean and protein-forward, a full can of black beans pushes it to 35g protein per serving. Build details below.
+The griller is the go-to build: two crispy cheese-griddled tortillas loaded up. Griller numbers reflect turkey with cheese split inside and out (see below); beef will run close but hasn't been independently verified. The rice bowl skips the tortilla but the pico topping carries similar carbs. The filling alone is lean and protein-forward, a full can of black beans pushes it to 35g protein per serving. Build details below.
 
 ### Ingredients
 
 - 1 lb lean ground turkey (93/7), or 90/10 ground beef
 - 2 cloves garlic, minced
-- 1 can black beans, drained — extra protein + fiber
+- 1 can black beans, drained, for extra protein and fiber
 - Splash of broth or water to simmer the seasoning in
 - 8-inch tortillas (2 per serving, 8 total for the batch), or bowl base (rice)
 
-> **Turkey or beef?** 93/7 turkey is the default here — cheaper and easier to find than 93/7 beef, with nearly identical macros. 90/10 beef is the easy-to-find fallback if you'd rather use beef; it adds ~30 cal and ~3g fat per serving. Meat comparison is at the bottom.
+> **Turkey or beef?** 93/7 turkey is the default here: cheaper and easier to find than 93/7 beef, with nearly identical macros. 90/10 beef is the easy-to-find fallback if you'd rather use beef; it adds ~30 cal and ~3g fat per serving. Meat comparison is at the bottom.
 
 **Seasoning** (or a low-sodium taco packet)
 
@@ -236,7 +241,7 @@ The griller is the go-to build — two crispy cheese-griddled tortillas loaded u
 
 - Dice the red onion and mince the jalapeño for the pico; mince the garlic for the filling.
 - Quarter the cherry tomatoes, juice the lime, chop the cilantro.
-- Char the corn in a dry hot pan (or grill it) — do this now since the pico needs time to sit.
+- Char the corn in a dry hot pan (or grill it). Do this now since the pico needs time to sit.
 - Measure out the filling spice mix.
 - Drain the black beans.
 
@@ -246,11 +251,11 @@ The griller is the go-to build — two crispy cheese-griddled tortillas loaded u
 2. Brown the meat hard in a pan, breaking it up, seasoning as it cooks with about **half** the spices.
 3. Add the **remaining** spices, the garlic, and a splash of broth/water, simmer a few minutes so the seasoning soaks in and the garlic mellows (dry lean meat needs this).
 4. Stir in the beans to heat through.
-5. Build the grillers: fill the tortillas, pull a small handful of cheese for the outside and sprinkle it on just before you flip, then griddle in a hot dry pan until crisp and golden on both sides. (Or build rice bowls instead — no griddling needed.)
+5. Build the grillers: fill the tortillas, pull a small handful of cheese for the outside and sprinkle it on just before you flip, then griddle in a hot dry pan until crisp and golden on both sides. (Or build rice bowls instead, no griddling needed.)
 
 ### Spicy Charred Corn Pico
 
-The default topping, dressing everything below. Charred corn salsa — crunch, freshness, and heat for almost no fat.
+The default topping, dressing everything below. Charred corn salsa with crunch, freshness, and heat for almost no fat.
 
 - 1.5 cups corn (charred in a dry hot pan or grilled, off the cob or thawed frozen)
 - 1/2 red onion, finely diced
@@ -260,15 +265,15 @@ The default topping, dressing everything below. Charred corn salsa — crunch, f
 - Handful cilantro, chopped
 - Salt to taste
 
-Char the corn first — it's what gives the pico its depth. Toss everything together and let it sit 10 min. Makes ~3.5 cups; whole batch ~330 cal, 58g carbs, 3g fat, 9g protein. A griller serving uses 1/2 cup (1/4 cup per tortilla), a rice bowl uses 3/4 cup — either way, expect to have some left over.
+Char the corn first. It's what gives the pico its depth. Toss everything together and let it sit 10 min. Makes ~3.5 cups; whole batch ~330 cal, 58g carbs, 3g fat, 9g protein. A griller serving uses 1/2 cup (1/4 cup per tortilla), a rice bowl uses 3/4 cup. Either way, expect to have some left over.
 
 ### Toppings & build options
 
 **The default toppings:** 1/8 cup cottage cheese blend (the sour-cream swap) across every build. The griller uses 1/4 cup cheddar total and 1/2 cup pico split across both tortillas; the rice bowl uses 1/8 cup cheddar and 3/4 cup pico on top.
 
-**Griller:** two 8-inch tortillas, filled, with 1/4 cup cheddar total split between them — pull a small handful out for the outside and sprinkle it on just before you flip so it griddles onto the pan and crisps into a golden crust, the rest goes inside when you build it. A hot dry nonstick or cast iron crisps the tortilla in its own starch (the exterior cheese greases the pan for you), or use a little butter for a richer, more traditional finish. Top with 1/4 cup corn pico per tortilla (1/2 cup total) — a full batch of pico makes more than this, expect to have about a third of it left over for something else.
+**Griller:** two 8-inch tortillas, filled, with 1/4 cup cheddar total split between them. Pull a small handful out for the outside and sprinkle it on just before you flip so it griddles onto the pan and crisps into a golden crust, the rest goes inside when you build it. A hot dry nonstick or cast iron crisps the tortilla in its own starch (the exterior cheese greases the pan for you), or use a little butter for a richer, more traditional finish. Top with 1/4 cup corn pico per tortilla (1/2 cup total). A full batch of pico makes more than this, so expect to have about a third of it left over for something else.
 
-**Rice bowl:** skip the tortilla entirely — filling over 3/4 cup rice with toppings, the leanest build since the tortilla is the hidden fat. All rice measures are **cooked** (1 cup cooked ≈ 1/3 cup dry).
+**Rice bowl:** skip the tortilla entirely: filling over 3/4 cup rice with toppings, the leanest build since the tortilla is the hidden fat. All rice measures are **cooked** (1 cup cooked ≈ 1/3 cup dry).
 
 **Brown vs white rice:** macros are nearly identical (brown adds ~5 cal, 0.5g protein, 1g fat per 3/4 cup), but brown carries ~5x the fiber and digests slower for a flatter blood sugar curve. Brown is the better default; white is preferable right after training, when faster digestion helps refill glycogen. Brown takes about twice as long to cook.
 
@@ -278,7 +283,7 @@ Char the corn first — it's what gives the pico its depth. Toss everything toge
 - **Simmer with a little liquid** so lean meat doesn't go dry
 - **Smoked paprika** again covers the smoky depth beef fat provided
 - Beans stretch the batch and boost protein/fiber
-- **Take the outside cheese from the same 1/4 cup, not extra.** Pull a small handful for the exterior crust and use what's left inside — total cheese stays at 1/4 cup either way
+- **Take the outside cheese from the same 1/4 cup, not extra.** Pull a small handful for the exterior crust and use what's left inside. Total cheese stays at 1/4 cup either way
 
 ### Meat options (filling only, per serving)
 
@@ -294,9 +299,9 @@ Char the corn first — it's what gives the pico its depth. Toss everything toge
 
 <a id="4-ham--prosciutto-sliders"></a>
 
-## 4. Ham & Prosciutto Sliders | $$$$ · ~15 min · ●○○○○
+## 4. Ham & Prosciutto Sliders | $$$ · ~15 min · ●○○○○
 
-Baked sweet-roll sliders, portioned and rebalanced. The rolls and cheese set a floor on the fat here, so this is the treat item of the group rather than a macro workhorse — but at 41g protein per serving it earns its place. **Makes 12 sliders, ~4 servings of 3.**
+Baked sweet-roll sliders, portioned and rebalanced. The rolls and cheese set a floor on the fat here, so this is the treat item of the group rather than a macro workhorse, but at 41g protein per serving it earns its place. **Makes 12 sliders, ~4 servings of 3.**
 
 ### Nutrition
 
@@ -313,9 +318,9 @@ Strong protein, but 26g fat is a third of a 75g day in one meal. Plan a leaner d
 ### Ingredients
 
 - 12 Hawaiian rolls (1 pack)
-- 18 oz (2 packs) lower sodium honey ham — 1.5 oz per slider
-- ~6 slices prosciutto (1 pack covers it) — **half a slice per slider**
-- 12 slices sharp aged white cheddar (~4 oz total) — **one thin slice per slider, ~1/3 oz**
+- 18 oz (2 packs) lower sodium honey ham, 1.5 oz per slider
+- ~6 slices prosciutto (1 pack covers it), **half a slice per slider**
+- 12 slices sharp aged white cheddar (~4 oz total), **one thin slice per slider, ~1/3 oz**
 - 1 avocado
 - 1/2 onion, sliced
 - 1 jalapeño, sliced
@@ -327,28 +332,28 @@ Strong protein, but 26g fat is a third of a 75g day in one meal. Plan a leaner d
 - Preheat the oven to 375°F.
 - Slice the onion and jalapeño.
 - Halve the prosciutto slices (half a slice per slider).
-- Slice the avocado — don't add it yet, heat turns it bitter and brown.
+- Slice the avocado, but don't add it yet, since heat turns it bitter and brown.
 
 **Cook** (~10 min)
 
 1. Layer the ham, prosciutto, cheddar, onion, and jalapeño in the rolls.
 2. Bake **8–10 minutes**, until the cheese melts and the rolls are warmed through.
-3. **Add the avocado after baking** — sliced or mashed.
+3. **Add the avocado after baking**, sliced or mashed.
 
-> **Leaner variation (~590 cal, saves ~5g fat, adds ~3g protein, ~15% less sodium per serving):** three swaps stacked — halve the avocado and blend the other half into 1/2 cup 2% cottage cheese (garlic powder, salt, lime) so it reads as a creamy sauce; split the meat 9 oz ham / 9 oz deli chicken breast; and drop the prosciutto from 6 slices to 3.
+> **Leaner variation (~590 cal, saves ~5g fat, adds ~3g protein, ~15% less sodium per serving):** three swaps stacked: halve the avocado and blend the other half into 1/2 cup 2% cottage cheese (garlic powder, salt, lime) so it reads as a creamy sauce; split the meat 9 oz ham / 9 oz deli chicken breast; and drop the prosciutto from 6 slices to 3.
 
 ### Make-or-break
 
 - **Ham is the base, prosciutto is the accent.** Prosciutto runs ~2x the fat of ham per ounce and drives the sodium, so a half slice per slider gives the cured punch without the cost
 - **One slice of cheese, not two.** Aged sharp cheddar reads plenty at 1/3 oz. Double-layering cheese is the easiest place to accidentally add 5g fat per slider
-- **Avocado over mayo** — same creamy role, but monounsaturated fat and fiber instead of 10g fat per tbsp with nothing else
+- **Avocado over mayo.** Same creamy role, but monounsaturated fat and fiber instead of 10g fat per tbsp with nothing else
 - **Load the onion and jalapeño** for flavor and volume at no calorie cost
 
 ---
 
 <a id="5-greek-yogurt-tuna-melt"></a>
 
-## 5. Greek Yogurt Tuna Melt | $$$$ · ~20 min · ●●○○○
+## 5. Greek Yogurt Tuna Melt | $$ · ~20 min · ●●○○○
 
 Mayo swapped for nonfat Greek yogurt: roughly 10g less fat per tablespoon replaced, plus protein instead of none. Cold application, so yogurt is right here (cottage cheese is for hot sauces). The salad batches ahead for leftover lunches and doubles as an omega-3 source. **Salad makes ~4 servings, one per melt.**
 
@@ -363,7 +368,7 @@ Mayo swapped for nonfat Greek yogurt: roughly 10g less fat per tablespoon replac
 | **Whole batch, salad (×4)**       | ~730     | 42g   | 13g   | 111g    | —              |
 | _Traditional melt (mayo, hoagie)_ | _~655_   | _48g_ | _38g_ | _30g_   | _30 / 52 / 18_ |
 
-The hoagie is the classic — kept hinged, top brushed with a little oil so it browns instead of burning, cheese broiled on top until it crisps. The **sourdough version is ~70 cal leaner** (no oil needed) and the **cold whole wheat sandwich is the leanest** with the highest protein share since it skips cheese entirely. The salad alone is the most protein-dense thing in this book, but at ~185 cal it's a component rather than a meal.
+The hoagie is the classic: kept hinged, top brushed with a little oil so it browns instead of burning, cheese broiled on top until it crisps. The **sourdough version is ~70 cal leaner** (no oil needed) and the **cold whole wheat sandwich is the leanest** with the highest protein share since it skips cheese entirely. The salad alone is the most protein-dense thing in this book, but at ~185 cal it's a component rather than a meal.
 
 Numbers assume the **default mix: 3 Thai sweet & spicy + 2 hickory smoked pouches + 1 can albacore**. Thai brings spice and a little extra carb, hickory brings smokiness, while the albacore is more concentrated protein. More on tuna options below.
 
@@ -378,7 +383,7 @@ Numbers assume the **default mix: 3 Thai sweet & spicy + 2 hickory smoked pouche
 - 3 pickle spears, diced (or 2 tbsp relish)
 - Juice of 1/2 lemon
 
-**Per sandwich** — pick a build
+**Per sandwich** (pick a build)
 
 - **Hoagie melt (default):** 1 hoagie roll + 1 slice provolone (~0.75 oz), cut in half and overlapped + ~1/2 tsp olive oil to brush the top (2 tsp covers the batch of 4)
 - **Sourdough melt:** 2 slices sourdough + 1 slice provolone (~0.75 oz), half on each slice
@@ -393,14 +398,14 @@ Numbers assume the **default mix: 3 Thai sweet & spicy + 2 hickory smoked pouche
 
 **Prep** (~10 min)
 
-- **If using cans, drain hard** — press the tuna. Excess water makes the salad soupy and you'll be tempted to add more yogurt to fix it. Pouches go straight in.
+- **If using cans, drain hard.** Press the tuna. Excess water makes the salad soupy and you'll be tempted to add more yogurt to fix it. Pouches go straight in.
 - Dice the celery, onion, and pickles (or measure the relish). Juice the lemon.
 - Cut the provolone in half if building the hoagie melt.
 
 **Cook** (~10 min, plus a chill if you have time)
 
 1. Mix the tuna, Greek yogurt, celery, onion, pickles, lemon, and seasoning. Chill if you have time; it tastes better after 30 min.
-2. **Build it in the roll.** Split the hoagie along one side but keep it hinged, not flattened open. Lightly brush just the top of the roll with olive oil — that's the surface facing the element, and lean bread scorches there before the cheese crisps; the oil browns it evenly instead. Fill with tuna salad. Lay the two halved provolone pieces over the top with an overlap down the middle, where the filling is deepest.
+2. **Build it in the roll.** Split the hoagie along one side but keep it hinged, not flattened open. Lightly brush just the top of the roll with olive oil. That's the surface facing the element, and lean bread scorches there before the cheese crisps; the oil browns it evenly instead. Fill with tuna salad. Lay the two halved provolone pieces over the top with an overlap down the middle, where the filling is deepest.
 3. **Broil** a few inches from the element until the cheese bubbles, then browns and crisps. Watch it the whole time; it goes from melted to burnt fast.
 
 _Sourdough version:_ broil it open-faced across both slices — tuna salad plus half the cheese on one slice, the other half of the cheese on the second slice — then close them together after they come out. No oil brush needed; sourdough browns more forgivingly than a lean hoagie roll.
@@ -410,9 +415,9 @@ _Sourdough version:_ broil it open-faced across both slices — tuna salad plus 
 - **Broiler heat is what crisps the cheese.** Direct top heat browns and crisps the surface; melting it any other way just leaves it soft. Keeping the hoagie hinged instead of flattened means less surface to cover, so a single slice halved and overlapped runs the length of the roll with a double layer through the middle
 - **A light oil brush keeps the roll from burning.** Lean hoagie bread scorches under the broiler before the cheese crisps; ~1/2 tsp olive oil brushed on just the top browns it evenly and conducts heat so the two finish together. Sourdough browns more forgivingly and doesn't need it
 - **Lemon carries the salad.** Greek yogurt is tangier and less rich than mayo, so the lemon, dill, and pepper make it taste intentional rather than like a substitution. Flavored pouches handle this for you
-- **Don't over-yogurt it.** Start with 2/3 cup — it should coat, not drown. Well-drained tuna needs less than you'd think
+- **Don't over-yogurt it.** Start with 2/3 cup. It should coat, not drown. Well-drained tuna needs less than you'd think
 - **Chunk light over albacore** if you eat tuna weekly; it runs lower in mercury
-- Provolone is the pick for melt quality; cheddar or swiss swap in with near-identical macros. Celery, onion, and pickle are free volume — load them up
+- Provolone is the pick for melt quality; cheddar or swiss swap in with near-identical macros. Celery, onion, and pickle are free volume, so load them up
 
 ### Tuna options
 
@@ -429,9 +434,9 @@ Pouches are 2.6 oz ready-to-use; a 5 oz can drains to ~3.4 oz. Leaner and higher
 
 <a id="6-cheesy-chicken-and-broccoli-rice-bake"></a>
 
-## 6. Cheesy Chicken and Broccoli Rice Bake | $$$ · ~70 min · ●●●●○
+## 6. Cheesy Chicken and Broccoli Rice Bake | $ · ~70 min · ●●●●○
 
-Classic casserole, rebuilt. No cream of chicken soup — cottage cheese blended with warm broth carries the creamy body instead, and real cheddar gets used deliberately (half in the sauce, half on top) rather than buried. **Makes ~5 servings.**
+Classic casserole, rebuilt. No cream of chicken soup: cottage cheese blended with warm broth carries the creamy body instead, and real cheddar gets used deliberately (half in the sauce, half on top) rather than buried. **Makes ~5 servings.**
 
 ### Nutrition
 
@@ -441,7 +446,7 @@ Classic casserole, rebuilt. No cream of chicken soup — cottage cheese blended 
 | **Whole batch**           | ~3,050   | 285g  | 95g   | 255g    | —              |
 | _Traditional per serving_ | _~495_   | _27g_ | _30g_ | _28g_   | _22 / 55 / 23_ |
 
-Cuts about a third of the fat (19g vs 30g) while nearly doubling the protein (51g vs 28g) — butter for the chicken, canned cream of chicken soup, and a heavier hand with cheese are what drive a traditional version's fat up, and this recipe swaps out all three. Roasted broccoli, bell pepper, and spinach add volume, color, and micronutrients for almost no calories.
+Cuts about a third of the fat (19g vs 30g) while nearly doubling the protein (51g vs 28g). Butter for the chicken, canned cream of chicken soup, and a heavier hand with cheese are what drive a traditional version's fat up, and this recipe swaps out all three. Roasted broccoli, bell pepper, and spinach add volume, color, and micronutrients for almost no calories.
 
 ### Ingredients
 
@@ -449,9 +454,9 @@ Cuts about a third of the fat (19g vs 30g) while nearly doubling the protein (51
 - 3 cups broccoli florets, fresh, cut small
 - 1 red bell pepper
 - 1 tsp olive oil, for the broccoli and pepper
-- 1 1/3 cups rice, uncooked (white or brown) — yields ~4 cups cooked
+- 1 1/3 cups rice, uncooked (white or brown), yields ~4 cups cooked
 - 1 cup 2% cottage cheese
-- 1.5 cups (6oz) sharp cheddar, shredded (real, off the block) — split half in the sauce, half on top
+- 1.5 cups (6oz) sharp cheddar, shredded (real, off the block), split half in the sauce, half on top
 - 3 cloves garlic, minced
 - 1/2 onion, diced
 - 1 jalapeño, diced (seeds and ribs in for real heat, out for background warmth)
@@ -470,112 +475,132 @@ Cuts about a third of the fat (19g vs 30g) while nearly doubling the protein (51
 - Cut the broccoli into small florets, slice the bell pepper.
 - Dice the onion and jalapeño, mince the garlic.
 - Dice the chicken breast.
-- Split the cheddar into two portions — half for the sauce, half for the top.
+- Split the cheddar into two portions: half for the sauce, half for the top.
 
 **Cook** (~50 min)
 
-1. Broccoli and pepper go in first. Toss with 1 tsp olive oil, a pinch of salt and pepper on a sheet pan. Roast 25–30 min, tossing halfway, until edges are browned and crisp — start checking around 20 min, but don't be surprised if it needs the full 30. This is the longest step, so start it before anything else; it goes in at the end, not into the bake.
+1. Broccoli and pepper go in first. Toss with 1 tsp olive oil, a pinch of salt and pepper on a sheet pan. Roast 25–30 min, tossing halfway, until edges are browned and crisp. Start checking around 20 min, but don't be surprised if it needs the full 30. This is the longest step, so start it before anything else; it goes in at the end, not into the bake.
 2. While it roasts, cook the rice per package instructions.
 3. Sauté the onion, garlic, and jalapeño in olive oil until soft.
 4. Season the diced chicken with garlic powder, black pepper, and half the salt. Cook until browned through.
 5. Blend the cottage cheese, warm broth, and half the cheddar until silky.
-6. Combine the rice, chicken, and sauce in a baking dish. Stir in the spinach — it wilts down into the hot mixture. Hold the roasted broccoli and pepper back. Season with smoked paprika and remaining salt.
-7. Bake at 400°F for 12–15 min until bubbly — it goes faster at a steady 400°F than a bake that drops temperature, so start checking early.
+6. Combine the rice, chicken, and sauce in a baking dish. Stir in the spinach. It wilts down into the hot mixture. Hold the roasted broccoli and pepper back. Season with smoked paprika and remaining salt.
+7. Bake at 400°F for 12–15 min until bubbly. It goes faster at a steady 400°F than a bake that drops temperature, so start checking early.
 8. Stir in the roasted broccoli and pepper. Top with the remaining cheddar and panko.
 9. Increase the oven to 425°F (safer for Pyrex than the broiler) and bake a few minutes more, watching closely, until the top browns. Finish with a pinch of crushed red pepper flakes to taste.
 
 ### Make-or-break
 
-- **Roast broccoli separately, add it late** — folding it into the casserole before the main bake steams it soft no matter how it was cooked going in. Roasting it first and stirring it in right before the final browning is what keeps the crisp edges
-- **Don't crowd the sheet pan** — broccoli needs space to roast, not steam. Spread it in a single layer
-- **Jalapeño seeds and ribs control the heat** — leave them in for real spice, remove them for background warmth. Red pepper flakes at the end let you dial it up further without recooking
-- **Salt where it matters most** — season the chicken and broccoli directly rather than spreading it thin across the whole mix; the cheese and broth already carry flavor in the base
-- Spinach doesn't need chopping — it wilts down small regardless of leaf size; just pull any thick stems
+- **Roast broccoli separately, add it late.** Folding it into the casserole before the main bake steams it soft no matter how it was cooked going in. Roasting it first and stirring it in right before the final browning is what keeps the crisp edges
+- **Don't crowd the sheet pan.** Broccoli needs space to roast, not steam. Spread it in a single layer
+- **Jalapeño seeds and ribs control the heat.** Leave them in for real spice, remove them for background warmth. Red pepper flakes at the end let you dial it up further without recooking
+- **Salt where it matters most.** Season the chicken and broccoli directly rather than spreading it thin across the whole mix; the cheese and broth already carry flavor in the base
+- Spinach doesn't need chopping. It wilts down small regardless of leaf size, so just pull any thick stems
 
 ### Fixes
 
-- **Watery casserole:** usually the broth wasn't fully absorbed by the sauce, or the rice was still a little wet from cooking — let both cool/rest a couple minutes before combining
-- **Broccoli went soft:** it was added too early or buried under too much sauce — stir it in only at the very end, right before the final browning step
+- **Watery casserole:** usually the broth wasn't fully absorbed by the sauce, or the rice was still a little wet from cooking. Let both cool/rest a couple minutes before combining
+- **Broccoli went soft:** it was added too early or buried under too much sauce. Stir it in only at the very end, right before the final browning step
 
 ---
 
-<a id="7-lemon-pepper-chicken-pesto-linguine"></a>
+<a id="7-lemon-pepper-shrimp-pesto-linguine"></a>
 
-## 7. Lemon Pepper Chicken Pesto Linguine | $ · ~40 min · ●●●○○
+## 7. Lemon Pepper Shrimp Pesto Linguine | $$$ · ~50 min · ●●●○○
 
-A lightened basil pesto (ice water and Greek yogurt standing in for most of the oil) tossed with linguine and seared lemon pepper chicken. The lemon in both the pesto and the seasoning ties the dish together. **Makes ~5 servings.**
+A lightened basil pesto (ice water and Greek yogurt standing in for most of the oil) tossed with linguine, roasted red pepper strips, and lemon pepper shrimp charred in cast iron. The lemon in both the pesto and the seasoning ties the dish together. Written for 21/25 or 26/30 shrimp. **Makes ~5 servings.**
 
 ### Nutrition
 
-|                                                         | Calories | Carbs | Fat   | Protein | Ratio C/F/P    |
-| ------------------------------------------------------- | -------- | ----- | ----- | ------- | -------------- |
-| **Per serving (÷5)**                                    | ~530     | 50g   | 16g   | 44g     | 38 / 28 / 34   |
-| **Whole batch**                                         | ~2,650   | 248g  | 79g   | 220g    | —              |
-| _Traditional (regular pesto, chicken seared in butter)_ | _~640_   | _50g_ | _27g_ | _44g_   | _32 / 40 / 28_ |
+|                                                        | Calories | Carbs | Fat   | Protein | Ratio C/F/P    |
+| ------------------------------------------------------ | -------- | ----- | ----- | ------- | -------------- |
+| **Per serving (÷5)**                                   | ~505     | 53g   | 14g   | 43g     | 42 / 25 / 34   |
+| **Whole batch**                                        | ~2,525   | 265g  | 70g   | 215g    | —              |
+| _Traditional (regular pesto, shrimp seared in butter)_ | _~580_   | _50g_ | _24g_ | _41g_   | _34 / 37 / 28_ |
 
-Protein-forward and meaningfully lower fat than a standard pesto made with full oil and pine nuts, thanks to the ice-water and yogurt swap in the sauce and lean chicken breast.
+Protein-forward and meaningfully lower fat than a standard pesto made with full oil, thanks to the ice-water and yogurt swap in the sauce and lean shrimp. The roasted red pepper adds sweetness and color for about 15 cal per bowl. Weigh the shrimp raw, peeled and deveined. Pine nuts and walnuts land about the same, so the table holds for either.
 
 ### Ingredients
 
 **Pesto**
 
 - 60g fresh basil leaves, packed and completely dry (thawed from freezer, if using frozen)
-- 30g walnuts
-- 25g parmesan cheese, grated
+- 30g pine nuts (or walnuts)
+- 35g parmesan cheese, grated (about 1/3 cup)
 - 2 garlic cloves
-- 2 tbsp extra virgin olive oil — adjust down based on oil retained from freezing (see note)
+- 2 tbsp extra virgin olive oil, adjust down based on oil retained from freezing (see note)
 - Juice of 1/2 lemon
-- 1/4 tsp salt
 - Pinch black pepper, cracked
-- 3 tbsp plain Greek yogurt, full-fat preferred
+- 3 tbsp plain Greek yogurt, full-fat (5%) preferred
 - 2 tbsp ice-cold water
 
 **Rest of dish**
 
-- 1.5 lb chicken breast
-- 1–2 tbsp lemon pepper seasoning
-- 1 tbsp olive oil (for searing the chicken)
+- 2 large red bell peppers
+- 1.5 lb raw shrimp, 21/25 or 26/30, peeled and deveined (about 32 to 38 of the 21/25, or 39 to 45 of the 26/30)
+- 1–1.5 tbsp lemon pepper seasoning (or blackening seasoning for more char)
+- 1/2 tsp garlic powder
+- 1 tbsp avocado oil (for the shrimp)
 - 1 box (12oz dry) linguine
 - Reserved pasta water, to loosen
 - Lemon wedges, to finish
 
-> **Freezing basil for this recipe:** coat trimmed basil lightly in oil before freezing for best color and quality — a blanch-and-shock (2–3 sec in boiling water, then straight into ice water, patted fully dry) helps it stay bright. Keep a running tally of oil used across all your freezing batches. When it's time to make the pesto, take half that total and subtract it from the 2 tbsp fresh oil above — skip the fresh oil entirely if the retained amount already covers it.
+> **Pine nuts or walnuts:** pine nuts are the traditional choice. Walnuts have more omega-3s and slightly more protein at a lower cost, so they're the budget swap. Macros land about the same either way. Toast pine nuts 1 to 2 min and walnuts 2 to 3 min.
+
+> **Salt:** the pesto has no added salt. The parmesan and the lemon pepper on the shrimp carry it. Taste the finished pesto and add a pinch only if it needs it.
+
+> **Freezing basil for this recipe:** coat trimmed basil lightly in oil before freezing for best color and quality. A blanch-and-shock (2–3 sec in boiling water, then straight into ice water, patted fully dry) helps it stay bright. Keep a running tally of oil used across all your freezing batches. When it's time to make the pesto, take half that total and subtract it from the 2 tbsp fresh oil above, skip the fresh oil entirely if the retained amount already covers it.
 
 ### Method
 
 **Prep** (~10 min)
 
-- Coat the chicken with lemon pepper seasoning and a pinch of salt. Let it sit at room temp while you start the pesto.
+- Thaw the shrimp fully, then pat them very dry with paper towels. Keep them in the fridge until the pan is hot.
 - Measure out the parmesan, garlic, lemon juice, Greek yogurt, and ice water for the pesto.
 
-**Cook** (~30 min)
+**Cook** (~40 min)
 
-1. Get a big pot of salted water going for the linguine first — it takes the longest to come up to a boil.
-2. **Toast the walnuts.** Dry pan, medium heat, 2–3 min, shaking often, until fragrant. Let cool slightly.
-3. **Combine the pesto solids first.** Cooled walnuts, garlic, parmesan, salt, and pepper into the food processor before the basil — this abrasive base helps everything break down evenly.
-4. **Pulse in the basil.** Add basil on top. Pulse 8–10 times in short, sharp bursts — do not run continuously, since friction heats the basil and dulls its color. If the bowl feels warm, stop and let it rest 60 seconds.
-5. **Stream in oil and lemon.** With the processor running, drizzle in the olive oil, then add lemon juice, scraping down the sides.
-6. **Drip in the ice water.** Processor still running, add the ice water about a tablespoon at a time until the sauce visibly thins and brightens — stop while it still has a little bite from the nuts.
-7. **Fold in the yogurt** by hand, off the processor, until creamy. Set the pesto aside.
-8. **Sear the chicken.** Olive oil in a hot pan, chicken in for 6–7 min per side depending on thickness, until it hits 165°F internal. Rest 5 min, then slice.
-9. Once the water's at a hard boil, cook the linguine, pulling it 1–2 min under box time so it's al dente. Reserve pasta water.
-10. **Combine off-heat.** Toss the hot pasta with the pesto, loosening with a splash of pasta water until it coats evenly. Top with sliced chicken and a squeeze of fresh lemon.
+1. **Roast the peppers first.** Broil whole peppers about 5 inches from the element, or roast at 450°F, 20–30 min, turning every 5–8 min until blackened on most sides. No oil needed.
+2. Move them to a bowl, cover, and steam 10 min. Peel, seed, slice into strips, and pat dry.
+3. Get a big pot of salted water going for the linguine.
+4. **Toast the nuts.** Dry pan, medium heat, shaking constantly, until fragrant. Pine nuts take 1–2 min and walnuts 2–3 min. Let cool slightly.
+5. **Combine the pesto solids first.** Cooled nuts, garlic, and parmesan into the food processor before the basil. This abrasive base helps everything break down evenly.
+6. **Pulse in the basil.** Add basil on top. Pulse 8–10 times in short, sharp bursts. Do not run continuously, since friction heats the basil and dulls its color. If the bowl feels warm, stop and let it rest 60 seconds.
+7. **Stream in oil and lemon.** With the processor running, drizzle in the olive oil, then add lemon juice, scraping down the sides.
+8. **Drip in the ice water.** Processor still running, add the ice water about a tablespoon at a time until the sauce visibly thins and brightens. Stop while it still has a little bite from the nuts.
+9. **Fold in the yogurt** by hand, off the processor, until creamy. Set the pesto aside.
+10. **Heat the cast iron** over high for the full 5 min while the pasta cooks.
+11. Once the water's at a hard boil, cook the linguine, pulling it 1–2 min under box time so it's al dente. Reserve pasta water.
+12. **Combine off-heat.** Toss the hot pasta with the pesto and pepper strips, loosening with a splash of pasta water until it coats evenly.
+13. **Season and sear the shrimp last.** Toss them in a bowl with the lemon pepper, garlic powder, and avocado oil right before they hit the pan. Cook in 3 batches, one layer with space between, and give the pan a minute to recover between batches.
+    - **21/25:** 60–75 seconds untouched, then 30–40 seconds on the second side
+    - **26/30:** 45–60 seconds untouched, then 20–30 seconds on the second side
+    - Pull them at a loose "C" with charred edges. They keep cooking on the plate, so go slightly early.
+14. Top the bowls with the shrimp straight from the pan and finish with a squeeze of lemon.
 
 ### Make-or-break
 
-- **Solids before basil, basil in short pulses** — continuous blending heats and browns the basil
-- **Full-fat Greek yogurt blends smoothest.** Low-fat works but is more watery — add gradually
-- **Fold yogurt in by hand, off the processor** — never blend it in
-- **Don't overcook the chicken** — pull it right at 165°F and rest before slicing; lemon pepper chicken dries out fast since there's no fat cushion like a marinade would give
-- **Toss the pasta off-heat** — direct heat on the yogurt-based pesto can cause it to split
-- Reserve pasta water before draining — you'll need it to loosen the sauce
+- **Dry shrimp and a fully preheated pan.** Smaller shrimp release more surface water for their size, and wet shrimp steam instead of char
+- **Don't crowd the pan.** Smaller shrimp mean more pieces, so a third batch is worth it
+- **Season right before cooking.** Salt sitting on shrimp pulls out water
+- **Pull at a loose "C".** A tight "O" is overcooked and rubbery
+- **Sear the shrimp last.** They cook in about 90 seconds a batch at this size, so they should go from pan to bowl
+- **Keep the peppers as strips.** Blending them into the pesto turns it dull orange-brown
+- **Solids before basil, basil in short pulses.** Continuous blending heats and browns the basil
+- **Full-fat Greek yogurt blends smoothest.** Low-fat works but is more watery. Add gradually
+- **Fold yogurt in by hand, off the processor.** Never blend it in
+- **Toast pine nuts watching closely.** They go from golden to burnt fast
+- **Toss the pasta off-heat.** Direct heat on the yogurt-based pesto can cause it to split
+- Reserve pasta water before draining. You'll need it to loosen the sauce
 
 ### Fixes
 
+- **No char on the shrimp:** the pan wasn't hot enough or the shrimp were wet. Preheat longer and pat drier
+- **Rubbery shrimp:** cut 15–20 seconds off each side, or pull them earlier
 - **Sauce too thick:** more pasta water or ice water, a teaspoon at a time
-- **Chicken dry:** slice thinner next time and rest longer before cutting; a squeeze of lemon at the end helps mask it
-- **Grainy sauce:** yogurt was overblended — fold more gently next time
-- **Dull pesto color:** processor ran too hot — pulse in shorter bursts, let the bowl rest between batches
+- **Grainy sauce:** yogurt was overblended. Fold more gently next time
+- **Dull pesto color:** processor ran too hot. Pulse in shorter bursts, let the bowl rest between batches
+- **Watery bowl:** the peppers weren't patted dry enough
 
 ---
 
@@ -604,14 +629,14 @@ Nearly 4x the fat on the traditional plate for less protein. The gap is driven a
 - 1/2 cup flour + 1/4 cup cornstarch
 - 2 eggs, beaten
 - 1.5 cups panko
-- Cooking spray or ~2 tsp neutral oil total (avocado or vegetable — not butter, it burns at air fryer temps). In spray terms: roughly 4-5 seconds per side for the whole batch, not per piece
+- Cooking spray or ~2 tsp neutral oil total (avocado or vegetable, not butter since it burns at air fryer temps). In spray terms: roughly 4-5 seconds per side for the whole batch, not per piece
 
 **Mashed potatoes & gravy**
 
 - 2 lb Yukon gold potatoes (5–6 medium), scrubbed, skin on, diced
 - 4 cloves garlic, minced
 - 1/2 onion, diced
-- 1/2 cup warm milk (skim is fine — the richness comes from the butter and yogurt, not the milk; 2% works too for a touch more)
+- 1/2 cup warm milk (skim is fine since the richness comes from the butter and yogurt, not the milk; 2% works too for a touch more)
 - 1/3 cup nonfat Greek yogurt
 - 4 tbsp butter (2 tsp for the corn, 1 tsp for the garlic, 1 tsp for the onion, the rest for the mash)
 - 2 tbsp cornstarch (for the gravy slurry)
@@ -628,7 +653,7 @@ Nearly 4x the fat on the traditional plate for less protein. The gap is driven a
 - 1/3 cup nonfat Greek yogurt
 - 3-4 tbsp buttermilk (or milk + tiny splash of vinegar), to consistency
 - 1/3 of the cooked garlic (set aside from the potatoes prep), mashed
-- Dill, parsley, chives (chives and dill finely diced), onion powder, black pepper — go light on the dill, it's easy to overdo
+- Dill, parsley, chives (chives and dill finely diced), onion powder, black pepper (go light on the dill, it's easy to overdo)
 - Pinch of sugar
 - Small squeeze of lemon juice
 
@@ -662,17 +687,17 @@ Nearly 4x the fat on the traditional plate for less protein. The gap is driven a
 ### Make-or-break
 
 - **Garlic goes in first, onion after.** Cooking the garlic briefly on its own before setting a portion aside is what keeps the ranch's garlic bright and punchy, while the portion that keeps cooking with the onion mellows out for the potatoes
-- **Finely dice the chives and dill, and go light on the dill especially** — it's potent and easy to overdo; start with less than feels right and add more to taste
-- **Don't skip the egg layer.** It's the glue between the flour and the panko — panko pressed straight onto flour will mostly flake off
-- **Don't skip the oil spray on the chicken entirely**, and use a heavier hand than a flour-only coat needs. The panko's dry surface area needs more fat to brown and crisp — zero or too-light oil backfires
+- **Finely dice the chives and dill, and go light on the dill especially.** It's potent and easy to overdo; start with less than feels right and add more to taste
+- **Don't skip the egg layer.** It's the glue between the flour and the panko. Panko pressed straight onto flour will mostly flake off
+- **Don't skip the oil spray on the chicken entirely**, and use a heavier hand than a flour-only coat needs. The panko's dry surface area needs more fat to brown and crisp, and zero or too-light oil backfires
 - **Toast the panko first** for color and deeper crunch, since the air fryer alone won't fully brown it in the time the chicken needs to cook through
 - **Season both the flour and the panko**, not just one layer, so the heat carries through the whole crust, not just the base
 - **Rest the breaded chicken 5–10 min before cooking** so the triple coat sets and doesn't shed in the basket
-- **Paprika is the color engine, cayenne is the heat dial** — paprika is what gets the crust visibly red, cayenne barely shifts the color, so adjust heat without worrying about losing the look
-- **Sweet paprika, not smoked, for a true red crust** — smoked paprika (used elsewhere in the book) leans brownish-red from the smoking process; sweet/Hungarian paprika is the brighter, redder pigment
-- **Don't crowd the air fryer basket** — steam kills crisping as fast as no oil does
-- **Yukon golds over russets** for the potatoes — creamier, needs less butter to feel rich. Skin on adds fiber and texture, and dicing cuts the boil time down since more surface area hits the water
-- **Cornstarch slurry, not a flour roux**, for the gravy — thickens the same without the fat
+- **Paprika is the color engine, cayenne is the heat dial.** Paprika is what gets the crust visibly red, cayenne barely shifts the color, so adjust heat without worrying about losing the look
+- **Sweet paprika, not smoked, for a true red crust.** Smoked paprika (used elsewhere in the book) leans brownish-red from the smoking process; sweet/Hungarian paprika is the brighter, redder pigment
+- **Don't crowd the air fryer basket.** Steam kills crisping as fast as no oil does
+- **Yukon golds over russets for the potatoes.** They're creamier and need less butter to feel rich. Skin on adds fiber and texture, and dicing cuts the boil time down since more surface area hits the water
+- **Cornstarch slurry, not a flour roux, for the gravy.** It thickens the same without the fat
 
 ### Fixes
 
@@ -685,7 +710,7 @@ Nearly 4x the fat on the traditional plate for less protein. The gap is driven a
 
 <a id="9-beef-bulgogi"></a>
 
-## 9. Beef Bulgogi | $$$ · ~50 min · ●●○○○
+## 9. Beef Bulgogi | $$$$ · ~50 min · ●●○○○
 
 Thin-sliced ribeye strips in a soy-pear marinade, seared hard in cast iron and served over black rice. Traditional bulgogi is already fairly lean, so there is no dairy swap here. The fat comes down through a lean pre-cut strip (about 3.5g fat per 4 oz) and 1 tbsp of sesame oil across the whole batch, where traditional versions run 1.5 to 2 tbsp. Black rice brings more fiber and protein than white. Built with Heritage brand ribeye strips for convenience, with trimmed flank as the from-scratch option. **Makes 4 servings.**
 
@@ -1059,8 +1084,188 @@ The chop is ~330 cal and 40g protein, the sides ~260 cal, and the sauce ~80 cal.
 
 ---
 
-## More
+<a id="13-red-enchilada-casserole"></a>
 
-- [About Macro Makeovers](./about.md)
-- [Nutrition guide](./nutrition-guide.md)
-- [Shopping guide](./shopping-guide.md)
+## 13. Red Enchilada Casserole | $$ · ~110 min · ●●●●○
+
+Shredded chicken breast poached right in a homemade red sauce, layered with black beans, charred corn, blended cottage cheese, and crisped melting cheese. The traditional version gets its fat from 80/20 beef, tortillas fried in oil, and a heavy hand with cheese and sour cream. Here the sauce doubles as the poaching liquid, the tortillas are warmed instead of fried, and the cheese is measured and mostly sits on top where it crisps. **Makes 6 servings (9x13 dish).**
+
+### Nutrition
+
+|                           | Calories | Carbs | Fat   | Protein | Ratio C/F/P    |
+| ------------------------- | -------- | ----- | ----- | ------- | -------------- |
+| **Per serving (÷6)**      | ~525     | 57g   | 15g   | 46g     | 42 / 24 / 34   |
+| **Whole batch**           | ~3,140   | 340g  | 89g   | 278g    | n/a            |
+| _Traditional per serving_ | _~665_   | _30g_ | _47g_ | _31g_   | _18 / 63 / 19_ |
+
+The traditional row assumes 1.5 lb of 80/20 beef, 12 tortillas fried in about 3 tbsp of oil, canned sauce, 8 oz of cheese, and 1/2 cup of sour cream. The fat savings come from the lean chicken, the dry-warmed tortillas, half the cheese, and cottage cheese in place of sour cream. They go toward protein and the beans and corn, so carbs run higher than the traditional version. Fat lands just under 25%, so there is room to add cheese (see Levers).
+
+### Ingredients
+
+**Chicken and filling**
+
+- 1.5 lb boneless skinless chicken breast
+- 1 can (15oz) low-sodium black beans, drained
+- 1 can (15oz) yellow sweet kernel corn, no salt added, drained
+
+**Red sauce**
+
+- 2 tsp avocado oil
+- 1 medium onion, diced
+- 1 red bell pepper, diced small
+- 1 jalapeño, diced (seeds in for heat, out for background warmth)
+- 4 cloves garlic, minced
+- 3 tbsp tomato paste
+- 1 can (8oz) tomato sauce, no salt added
+- 2 cups low-sodium chicken broth
+- 1 tsp brown sugar
+- Juice of 1 lime
+- 1 tbsp cornstarch + 2 tbsp cold water, for the slurry
+- 1 tbsp adobo sauce from a can of chipotles (optional, adds smoky heat)
+
+**Spice mix**
+
+- Chili powder 3 tbsp, cumin 2 tsp, smoked paprika 1 tsp, oregano 1 tsp, garlic powder 1 tsp, onion powder 1 tsp, cayenne 1/2 tsp, black pepper 1/2 tsp
+- Salt, starting with 1 tsp and adjusting at the end (the cheese and beans already carry some)
+
+**Layers**
+
+- 12 corn tortillas, 6-inch
+- 1.5 cups 2% cottage cheese, blended with 2 tbsp milk
+- 4 oz (about 1 cup) shredded melting cheese: quesadilla cheese, Oaxaca, or asadero (macros land within a few calories of each other)
+
+**To finish**
+
+- 4 scallions, sliced thin
+- Lime wedges
+- About 1/2 cup of the finished sauce, held back and kept warm to spoon over the cheese
+
+**Quick pickled jalapeños (optional)**
+
+- 2 jalapeños, sliced into thin rounds
+- 1/2 cup white or rice vinegar
+- 1/2 cup water
+- 1 tsp sugar
+- 1/2 tsp salt
+
+The toppings and pickled jalapeños are not counted in the macros. The whole jar of pickles is about 25 cal.
+
+### Method
+
+**Prep** (~25 min)
+
+- Preheat the oven to 400°F.
+- Dice the onion, bell pepper, and jalapeño. Mince the garlic.
+- Mix the spice mix in a bowl.
+- Drain the beans and corn, patting the corn dry so it chars instead of steams. Char the corn in a dry hot pan, 4 to 6 min, leaving it alone between stirs until it has browned spots.
+- Cut any thick chicken breast in half horizontally so the pieces are an even 1 inch or a bit under. Season with salt and pepper.
+- Blend the cottage cheese and milk 30 to 60 sec until silky. Refrigerate.
+- Mix the cornstarch slurry.
+- Slice the scallions and cut the lime wedges.
+- Pickled jalapeños, if making them: stir the vinegar, water, sugar, and salt until dissolved (30 sec in the microwave helps) and pour over the sliced jalapeños in a jar. They need at least 30 min, so they're ready by the time the casserole comes out.
+
+**Cook** (~85 min)
+
+1. **Sweat the vegetables.** Heat the oil over medium. Cook the onion, bell pepper, and jalapeño 5 to 6 min until soft, adding the garlic for the last 30 sec.
+2. **Bloom the spices.** Stir in the spice mix and tomato paste and cook 1 min, until it darkens and smells toasted. This takes the raw edge off the chili powder.
+3. **Build the sauce.** Add the tomato sauce, broth, brown sugar, and adobo if using. Bring to a bare simmer.
+4. **Poach the chicken.** Nestle the pieces in a single layer in the sauce, mostly submerged. Cover and hold at the lowest heat that keeps a few lazy bubbles breaking, 15 to 20 min, flipping once, until the thickest piece reads **165°F**.
+5. **Rest the chicken, finish the sauce.** Move the chicken to a bowl and rest it 5 min. Meanwhile simmer the sauce uncovered, stir in the slurry, and cook 1 to 2 min until it coats a spoon. Add the lime juice, then taste and adjust the salt. You should have about 3 cups. Set aside 1/2 cup in a small pot to keep warm for the finish.
+6. **Shred and make the filling.** Shred the chicken while still warm, using two forks pulling with the grain, or a hand mixer or stand mixer paddle on low for 20 to 30 sec. Stop when no big chunks remain. Toss with the beans, corn, and 1/2 cup of the sauce. This is the filling. It stays in the bowl and does not go back into the pot.
+7. **Warm the tortillas.** Wrap the stack in a damp towel and microwave 45 to 60 sec. Keep them wrapped until you build.
+8. **Layer.** Spread 1/2 cup of sauce over the bottom of the dish. Dunk each tortilla in the sauce quickly just before laying it down, then build two identical layers and a top layer.
+   - Layers 1 and 2 (identical): 4 tortillas, torn to fill the gaps. Then 1/3 of the filling, half the cottage cheese, 1/2 oz cheese, and about 1/3 cup of sauce spooned over.
+   - Top layer: 4 tortillas, the last 1/3 of the filling, and about 1/3 cup of sauce. No cottage cheese or cheese inside. Hold the last 3 oz of cheese back.
+   - Sauce budget, about 3 cups total: 1/2 cup in the filling, 1/2 cup on the bottom of the dish, about 1/2 cup picked up by the dunking, 1 cup over the three layers, and 1/2 cup held back for the finish. If you run short, thin the sauce with a splash of broth.
+9. **Bake covered.** Tent with foil, keeping it off the surface, and bake at 400°F for 20 min.
+10. **Top and crisp.** Uncover, scatter the remaining 3 oz of cheese, and bake 8 to 10 min until bubbling at the edges. Broil 1 to 2 min, watching the whole time, until the cheese browns in spots. In a Pyrex dish, skip the broiler and run the oven at 425°F for the last few minutes instead.
+11. **Rest 10 min** so the layers set, then cut into 6. Spoon the warm reserved sauce over the cheese on each portion and top with scallions and pickled jalapeños, with lime wedges on the side.
+
+### Shredded chicken
+
+- **Cut thick breasts in half horizontally.** Even pieces finish together. Thick ends overcook while thin ends dry out otherwise
+- **Bare simmer, never a boil.** A hard boil tightens the fibers and the chicken goes stringy and dry instead of tender
+- **Pull at 165°F and rest 5 min.** Past that point the breast loses moisture it won't get back. The rest lets the juices settle so they stay in the meat
+- **Shred while warm.** Cold breast crumbles into dry shards instead of pulling into strands
+- **Pull with the grain.** Two forks work, but a hand mixer on low in a bowl does 1.5 lb in under a minute
+- **Dress it with sauce right away.** The shreds soak up moisture while warm, and that is what keeps them juicy through the 30 min bake
+
+### Make-or-break
+
+- **Poach in the sauce.** The chicken seasons the sauce and the sauce seasons the chicken, with no separate cooking step or extra fat
+- **Bloom the spices and tomato paste.** Raw chili powder tastes gritty. A minute in the hot oil turns it deep and smoky
+- **Smoked paprika and the optional adobo** cover the depth that fatty beef gives a traditional enchilada
+- **Warm the tortillas, then dunk them in the sauce.** Cold corn tortillas crack, and the sauce dip is what replaces the fry oil
+- **Cottage cheese goes in cold and stays between the layers.** It bakes under the sauce and cheese, so it never sees direct heat and stays smooth
+- **Hold the top cheese until after the covered bake.** It sticks to the foil and steams instead of crisping
+- **Sauce goes over the cheese after the bake, not before.** In the oven it steams the cheese instead of letting it crisp
+- **Drain the beans and corn well.** Wet filling thins the sauce and makes the middle layer soggy
+- **Rest before cutting.** Straight out of the oven the layers slide apart
+
+### Fixes
+
+- **Chicken dry:** the sauce boiled or it went past 165°F. Toss the shreds with more sauce or a splash of broth
+- **Chicken stringy and tough:** it was boiled. Keep the heat at a bare simmer next time
+- **Soggy casserole:** the sauce was too thin or the filling was wet. Thicken the sauce until it coats a spoon and drain the beans and corn harder
+- **Tortillas cracking:** they weren't warmed enough or skipped the sauce dunk
+- **Sauce too sharp:** a pinch more brown sugar, or simmer another minute
+- **Too salty:** squeeze more lime. Next time rinse the beans and use low-sodium broth
+- **Cottage cheese grainy:** it wasn't blended long enough. Any grain shows in the layers
+- **Top not crisping:** the cheese was crowded or the oven was low. Finish under the broiler or at 425°F, watching closely
+
+### Levers
+
+Per serving, from the same base.
+
+| Change                                                      | Calories | Carbs | Fat | Protein | Ratio C/F/P  |
+| ----------------------------------------------------------- | -------- | ----- | --- | ------- | ------------ |
+| **Default (4 oz cheese, 1.5 lb chicken)**                   | ~525     | 57g   | 15g | 46g     | 42 / 24 / 34 |
+| **5 oz cheese**                                             | ~540     | 57g   | 16g | 47g     | 40 / 26 / 34 |
+| **6 oz cheese (1 oz inside each of 2 layers, 4 oz on top)** | ~560     | 57g   | 18g | 49g     | 39 / 28 / 33 |
+| **2 lb chicken**                                            | ~570     | 57g   | 16g | 55g     | 39 / 24 / 37 |
+| **8 tortillas (two layers of 4)**                           | ~490     | 49g   | 14g | 45g     | 39 / 25 / 36 |
+
+- **More cheese:** each extra ounce adds about 1.5g fat per serving. Fat starts just under 25%, so there is room to spend it here, and 6 oz lands at about 28%. For 5 oz, put the extra ounce on top, where it crisps. For 6 oz, use 1 oz inside each of the two layers (instead of 1/2 oz) and 4 oz on top (instead of 3 oz)
+- **Lower carb:** the tortillas, beans, and corn are all carb sources. Dropping to two layers of 4 tortillas cuts about 8g carbs per serving
+- **More protein:** an extra half pound of chicken adds about 9g protein per serving for about 1g fat
+
+### Meat options
+
+| Meat (1.5 lb raw)            | Calories | Carbs | Fat | Protein | Ratio C/F/P  |
+| ---------------------------- | -------- | ----- | --- | ------- | ------------ |
+| **Chicken breast (default)** | ~525     | 57g   | 15g | 46g     | 42 / 24 / 34 |
+| **Beef eye of round**        | ~540     | 57g   | 17g | 47g     | 40 / 27 / 33 |
+| **Beef chuck, trimmed**      | ~580     | 57g   | 23g | 43g     | 37 / 34 / 28 |
+
+Beef braises in the same sauce, covered, at the lowest simmer or in a 300°F oven, 2.5 to 3 hr until it shreds with a fork. Chuck is richer and more traditional but lands above the fat target. Eye of round stays in range and shreds a bit drier, so toss it with extra sauce.
+
+---
+
+## Second Helpings
+
+### Shopping tips
+
+Lean proteins: chicken breast, 93/7 ground turkey/chicken, shrimp, white fish (cod/tilapia/mahi), salmon (the good omega-3 fat, worth spending on), eggs + egg whites, canned tuna.
+
+High-protein sauce/topping bases: **2% cottage cheese** (creamy sauces) and **nonfat Greek yogurt** (cold applications, sour-cream swap). These two are the sleeper weapons: creamy texture, high protein, low fat.
+
+Bulk/fiber: beans, lentils, rice. Snacks: jerky, Greek yogurt.
+
+**Cottage cheese vs Greek yogurt, when to use which:** cottage cheese for _hot_ creamy sauces (blends silky, holds up to gentle heat, mild flavor). Greek yogurt for _cold_ uses (sour-cream swap, dip bases, tuna salad) since it curdles when heated and its tang fights savory hot sauces.
+
+**Cooking oils:** avocado oil for high heat (blackening, searing). It has a high smoke point, is mostly monounsaturated fat, and is less refined than vegetable oil, which runs high in omega-6 (already overrepresented in most Western diets). The tradeoff is cost: avocado oil is pricier, so vegetable oil is a fine substitute if you're watching the budget. Olive oil for low-heat jobs and finishing (brushing bread, dressings) where its flavor is a plus, but not for true high-heat blackening, since it smokes and turns bitter.
+
+<a id="nutritional-foundation"></a>
+
+### Nutritional Foundation
+
+**The targets:** protein around your bodyweight in grams, a lb-for-lb baseline that scales with the person, not a fixed number everyone converges on. Fat sits at 25-30% of calories, enough to keep hormones and satiety in check without eating into the protein or carb budget. Carbs fill whatever's left, and that's where the two profiles below diverge:
+
+- **Recomp (fat loss, retain/build muscle): 45 / 25 / 30 C/F/P.** Carbs stay high enough to fuel training, protein stays high enough to protect muscle in a deficit, fat gets trimmed to the floor that still works hormonally.
+- **Clean bulk: 40 / 30 / 30 C/F/P.** A bit more fat headroom since the goal isn't a deficit, protein holds steady, carbs give a little ground to make room.
+
+Same skeleton, different dial. Protein is the one number that doesn't move between them. It's the floor everything else gets built around.
+
+**Why this book exists:** most comfort food blows the fat budget without buying you much protein for it. A real Alfredo can run 50g+ fat for barely more protein than plain pasta. The other direction has the opposite problem: a lot of "diet" or "healthy" recipes hit the macros by stripping the dish down until it stops tasting like the thing it's named after. Neither one is actually livable long-term: one wrecks the numbers, the other wrecks the food.
+
+The bet here is that you don't have to choose. Every recipe in this book starts from a dish worth eating and gets rebuilt ingredient by ingredient: swap the fat-heavy component for a leaner base, then spend real effort putting the flavor back with aromatics, spice, and technique, instead of just serving a smaller, sadder portion of the original. The "traditional" row in every nutrition table is the receipt: same dish, real numbers, before and after.

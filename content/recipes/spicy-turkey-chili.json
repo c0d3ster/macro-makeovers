@@ -5,7 +5,7 @@
   "servings": 5,
   "prepMinutes": 10,
   "cookMinutes": 40,
-  "costTier": 2,
+  "costTier": 1,
   "difficulty": 2,
   "nutrition": [
     {
@@ -38,7 +38,7 @@
   ],
   "ingredients": [
     {
-      "raw": "1 lb 93/7 ground turkey (not 99/1 — it dries out)"
+      "raw": "1 lb 93/7 ground turkey (not 99/1, it dries out)"
     },
     {
       "raw": "1 onion, diced"
@@ -59,25 +59,25 @@
       "raw": "3 tbsp tomato paste"
     },
     {
-      "raw": "1–2 cups broth (chicken or beef) — sets the consistency, so go by preference: closer to 1 cup for a thick chili, 2 for looser. ~1.5 is a good middle"
+      "raw": "1–2 cups broth (chicken or beef), which sets the consistency, so go by preference: closer to 1 cup for a thick chili, 2 for looser. ~1.5 is a good middle"
     },
     {
-      "raw": "2 cans beans, drained — 1 kidney + 1 black"
-    },
-    {
-      "group": "Umami boosters",
-      "raw": "Worcestershire (preferred): ~2 tsp — or soy sauce. This is the only either/or: pick one, not both"
+      "raw": "2 cans beans, drained: 1 kidney + 1 black"
     },
     {
       "group": "Umami boosters",
-      "raw": "Small amount of brown sugar — balances the acidity from the tomatoes and paste"
+      "raw": "Worcestershire (preferred): ~2 tsp, or soy sauce. This is the only either/or: pick one, not both"
     },
     {
       "group": "Umami boosters",
-      "raw": "_Optional:_ 1 tsp cocoa powder or a small square of dark chocolate — adds faint bitterness and depth, not chocolate flavor"
+      "raw": "Small amount of brown sugar to balance the acidity from the tomatoes and paste"
     },
     {
-      "group": "Spice base (for 1 lb turkey — scale up proportionally for more)",
+      "group": "Umami boosters",
+      "raw": "_Optional:_ 1 tsp cocoa powder or a small square of dark chocolate, which adds faint bitterness and depth, not chocolate flavor"
+    },
+    {
+      "group": "Spice base (for 1 lb turkey, scale up proportionally for more)",
       "raw": "Spice mix: chili powder 1 tbsp, cumin 2 tsp, smoked paprika 1 tsp, garlic powder 1 tsp, onion powder 1 tsp, oregano 1 tsp, salt ~1 tsp (to taste), black pepper 1/2 tsp, cayenne 1/2 tsp"
     }
   ],
@@ -88,7 +88,7 @@
     },
     {
       "phase": "prep",
-      "body": "Mix the spice base in a bowl, then split it roughly in half — one half for browning the turkey, one half for the pot."
+      "body": "Mix the spice base in a bowl, then split it roughly in half: one half for browning the turkey, one half for the pot."
     },
     {
       "phase": "prep",
@@ -100,7 +100,7 @@
     },
     {
       "phase": "cook",
-      "body": "**Brown the turkey hard.** Season it as it cooks with about **half** the spice base — this is where flavor develops with lean meat."
+      "body": "**Brown the turkey hard.** Season it as it cooks with about **half** the spice base. This is where flavor develops with lean meat."
     },
     {
       "phase": "cook",
@@ -122,7 +122,7 @@
   "notes": [
     {
       "kind": "tip",
-      "body": "For extra spicy: use spicy beef broth, 1.5 jalapeños, and 1 tsp cayenne. These three stack, so add ~3/4 tsp cayenne up front, simmer, then taste before adding the rest — you can't pull heat back out. Dairy toppings (cottage cheese, Greek yogurt) cut the heat if it overshoots."
+      "body": "For extra spicy: use spicy beef broth, 1.5 jalapeños, and 1 tsp cayenne. These three stack, so add ~3/4 tsp cayenne up front, simmer, then taste before adding the rest. You can't pull heat back out. Dairy toppings (cottage cheese, Greek yogurt) cut the heat if it overshoots."
     },
     {
       "kind": "tip",
@@ -130,11 +130,11 @@
     },
     {
       "kind": "levers",
-      "body": "**Toppings**\n\nCheddar (measured, 1/8 cup), a creamy topping, scallions, cilantro, jalapeño, squeeze of lime, saltines.\n\n**Creamy topping options, per 1/8 cup (2 tbsp):**\n\n| Option                                  | Calories | Fat  | Protein |\n| --------------------------------------- | -------- | ---- | ------- |\n| Nonfat Greek yogurt                     | ~17      | 0g   | 3g      |\n| Blended 2% cottage cheese               | ~25      | 0.5g | 3.5g    |\n| **Cottage cheese blend** (recipe below) | ~28      | 1.5g | 2.5g    |\n| Sour cream                              | ~60      | 6g   | 1g      |\n\nSour cream is the outlier: it costs 4–6x the fat of any other option and gives back almost no protein. Greek yogurt is the leanest but its tang is sharper. **Blended 2% cottage cheese is the best all-around swap** — creamy and pourable like sour cream, mild enough not to fight the spice, and it adds real protein.\n\n> **The blend (recommended):** 1/2 cup cottage cheese : 2 tbsp sour cream : 2 tbsp milk. The sour cream is ~1/4 the cottage cheese by volume; the milk loosens it enough to blend smooth. Yields ~3/4 cup, enough for 5 bowls. Whole blend: ~170 cal, 9g fat, 14g protein.\n>\n> Stir it **into** the hot bowl rather than dolloping cold on top — the heat carries it through the whole bowl.\n\n**Cheddar note:** 1/8 cup (~0.5 oz) runs ~55 cal and 4.5g fat. This is where to spend fat if anywhere — it carries the flavor. Measure it rather than free-pouring; a heavy hand doubles it fast. 4 saltines add ~50 cal and 9g carbs.\n\nThe base is lean enough that toppings become the dominant fat source, which is why the creamy-topping choice matters more here than it looks."
+      "body": "**Toppings**\n\nCheddar (measured, 1/8 cup), a creamy topping, scallions, cilantro, jalapeño, squeeze of lime, saltines.\n\n**Creamy topping options, per 1/8 cup (2 tbsp):**\n\n| Option                                  | Calories | Fat  | Protein |\n| --------------------------------------- | -------- | ---- | ------- |\n| Nonfat Greek yogurt                     | ~17      | 0g   | 3g      |\n| Blended 2% cottage cheese               | ~25      | 0.5g | 3.5g    |\n| **Cottage cheese blend** (recipe below) | ~28      | 1.5g | 2.5g    |\n| Sour cream                              | ~60      | 6g   | 1g      |\n\nSour cream is the outlier: it costs 4–6x the fat of any other option and gives back almost no protein. Greek yogurt is the leanest but its tang is sharper. **Blended 2% cottage cheese is the best all-around swap**. It's creamy and pourable like sour cream, mild enough not to fight the spice, and adds real protein.\n\n> **The blend (recommended):** 1/2 cup cottage cheese : 2 tbsp sour cream : 2 tbsp milk. The sour cream is ~1/4 the cottage cheese by volume; the milk loosens it enough to blend smooth. Yields ~3/4 cup, enough for 5 bowls. Whole blend: ~170 cal, 9g fat, 14g protein.\n>\n> Stir it **into** the hot bowl rather than dolloping cold on top. The heat carries it through the whole bowl.\n\n**Cheddar note:** 1/8 cup (~0.5 oz) runs ~55 cal and 4.5g fat. This is where to spend fat if anywhere. It carries the flavor. Measure it rather than free-pouring; a heavy hand doubles it fast. 4 saltines add ~50 cal and 9g carbs.\n\nThe base is lean enough that toppings become the dominant fat source, which is why the creamy-topping choice matters more here than it looks."
     },
     {
       "kind": "make_or_break",
-      "body": "**Split the spices** — half on the meat while browning, half into the pot. Layering beats dumping it all in at once"
+      "body": "**Split the spices.** Half on the meat while browning, half into the pot. Layering beats dumping it all in at once"
     },
     {
       "kind": "make_or_break",
@@ -142,15 +142,15 @@
     },
     {
       "kind": "make_or_break",
-      "body": "**Tomato paste** does heavy umami lifting — don't skip"
+      "body": "**Tomato paste** does heavy umami lifting. Don't skip it"
     },
     {
       "kind": "make_or_break",
-      "body": "**Simmer long enough** — the single biggest factor for lean-meat chili"
+      "body": "**Simmer long enough.** The single biggest factor for lean-meat chili"
     },
     {
       "kind": "make_or_break",
-      "body": "**Go easy on cayenne up front** — heat builds as it simmers and compounds with jalapeño and spicy broth"
+      "body": "**Go easy on cayenne up front.** Heat builds as it simmers and compounds with jalapeño and spicy broth"
     }
   ],
   "tags": [

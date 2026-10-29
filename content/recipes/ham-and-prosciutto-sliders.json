@@ -1,11 +1,11 @@
 {
   "slug": "ham-and-prosciutto-sliders",
   "title": "Ham & Prosciutto Sliders",
-  "summary": "Baked sweet-roll sliders, portioned and rebalanced. The rolls and cheese set a floor on the fat here, so this is the treat item of the group rather than a macro workhorse — but at 41g protein per serving it earns its place. Makes 12 sliders, ~4 servings of 3.",
+  "summary": "Baked sweet-roll sliders, portioned and rebalanced. The rolls and cheese set a floor on the fat here, so this is the treat item of the group rather than a macro workhorse, but at 41g protein per serving it earns its place. Makes 12 sliders, ~4 servings of 3.",
   "servings": 4,
   "prepMinutes": 5,
   "cookMinutes": 10,
-  "costTier": 4,
+  "costTier": 3,
   "difficulty": 1,
   "nutrition": [
     {
@@ -41,13 +41,13 @@
       "raw": "12 Hawaiian rolls (1 pack)"
     },
     {
-      "raw": "18 oz (2 packs) lower sodium honey ham — 1.5 oz per slider"
+      "raw": "18 oz (2 packs) lower sodium honey ham, 1.5 oz per slider"
     },
     {
-      "raw": "~6 slices prosciutto (1 pack covers it) — half a slice per slider"
+      "raw": "~6 slices prosciutto (1 pack covers it), half a slice per slider"
     },
     {
-      "raw": "12 slices sharp aged white cheddar (~4 oz total) — one thin slice per slider, ~1/3 oz"
+      "raw": "12 slices sharp aged white cheddar (~4 oz total), one thin slice per slider, ~1/3 oz"
     },
     {
       "raw": "1 avocado"
@@ -74,7 +74,7 @@
     },
     {
       "phase": "prep",
-      "body": "Slice the avocado — don't add it yet, heat turns it bitter and brown."
+      "body": "Slice the avocado, but don't add it yet, since heat turns it bitter and brown."
     },
     {
       "phase": "cook",
@@ -86,7 +86,7 @@
     },
     {
       "phase": "cook",
-      "body": "**Add the avocado after baking** — sliced or mashed.\n\n> **Leaner variation (~590 cal, saves ~5g fat, adds ~3g protein, ~15% less sodium per serving):** three swaps stacked — halve the avocado and blend the other half into 1/2 cup 2% cottage cheese (garlic powder, salt, lime) so it reads as a creamy sauce; split the meat 9 oz ham / 9 oz deli chicken breast; and drop the prosciutto from 6 slices to 3."
+      "body": "**Add the avocado after baking**, sliced or mashed.\n\n> **Leaner variation (~590 cal, saves ~5g fat, adds ~3g protein, ~15% less sodium per serving):** three swaps stacked: halve the avocado and blend the other half into 1/2 cup 2% cottage cheese (garlic powder, salt, lime) so it reads as a creamy sauce; split the meat 9 oz ham / 9 oz deli chicken breast; and drop the prosciutto from 6 slices to 3."
     }
   ],
   "notes": [
@@ -100,7 +100,7 @@
     },
     {
       "kind": "make_or_break",
-      "body": "**Avocado over mayo** — same creamy role, but monounsaturated fat and fiber instead of 10g fat per tbsp with nothing else"
+      "body": "**Avocado over mayo.** Same creamy role, but monounsaturated fat and fiber instead of 10g fat per tbsp with nothing else"
     },
     {
       "kind": "make_or_break",

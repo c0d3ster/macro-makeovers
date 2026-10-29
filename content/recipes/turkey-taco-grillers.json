@@ -5,7 +5,7 @@
   "servings": 4,
   "prepMinutes": 15,
   "cookMinutes": 25,
-  "costTier": 3,
+  "costTier": 2,
   "difficulty": 3,
   "nutrition": [
     {
@@ -53,7 +53,7 @@
       "raw": "2 cloves garlic, minced"
     },
     {
-      "raw": "1 can black beans, drained — extra protein + fiber"
+      "raw": "1 can black beans, drained, for extra protein and fiber"
     },
     {
       "raw": "Splash of broth or water to simmer the seasoning in"
@@ -77,7 +77,7 @@
     },
     {
       "phase": "prep",
-      "body": "Char the corn in a dry hot pan (or grill it) — do this now since the pico needs time to sit."
+      "body": "Char the corn in a dry hot pan (or grill it). Do this now since the pico needs time to sit."
     },
     {
       "phase": "prep",
@@ -105,21 +105,21 @@
     },
     {
       "phase": "cook",
-      "body": "Build the grillers: fill the tortillas, pull a small handful of cheese for the outside and sprinkle it on just before you flip, then griddle in a hot dry pan until crisp and golden on both sides. (Or build rice bowls instead — no griddling needed.)"
+      "body": "Build the grillers: fill the tortillas, pull a small handful of cheese for the outside and sprinkle it on just before you flip, then griddle in a hot dry pan until crisp and golden on both sides. (Or build rice bowls instead, no griddling needed.)"
     }
   ],
   "notes": [
     {
       "kind": "tip",
-      "body": "Turkey or beef? 93/7 turkey is the default here — cheaper and easier to find than 93/7 beef, with nearly identical macros. 90/10 beef is the easy-to-find fallback if you'd rather use beef; it adds ~30 cal and ~3g fat per serving. Meat comparison is at the bottom."
+      "body": "Turkey or beef? 93/7 turkey is the default here: cheaper and easier to find than 93/7 beef, with nearly identical macros. 90/10 beef is the easy-to-find fallback if you'd rather use beef; it adds ~30 cal and ~3g fat per serving. Meat comparison is at the bottom."
     },
     {
       "kind": "levers",
-      "body": "**Spicy Charred Corn Pico**\n\nThe default topping, dressing everything below. Charred corn salsa — crunch, freshness, and heat for almost no fat.\n\n- 1.5 cups corn (charred in a dry hot pan or grilled, off the cob or thawed frozen)\n- 1/2 red onion, finely diced\n- 1 jalapeño (or serrano for more heat), minced\n- 1 cup cherry tomatoes, quartered\n- Juice of 1 lime\n- Handful cilantro, chopped\n- Salt to taste\n\nChar the corn first — it's what gives the pico its depth. Toss everything together and let it sit 10 min. Makes ~3.5 cups; whole batch ~330 cal, 58g carbs, 3g fat, 9g protein. A griller serving uses 1/2 cup (1/4 cup per tortilla), a rice bowl uses 3/4 cup — either way, expect to have some left over."
+      "body": "**Spicy Charred Corn Pico**\n\nThe default topping, dressing everything below. Charred corn salsa with crunch, freshness, and heat for almost no fat.\n\n- 1.5 cups corn (charred in a dry hot pan or grilled, off the cob or thawed frozen)\n- 1/2 red onion, finely diced\n- 1 jalapeño (or serrano for more heat), minced\n- 1 cup cherry tomatoes, quartered\n- Juice of 1 lime\n- Handful cilantro, chopped\n- Salt to taste\n\nChar the corn first. It's what gives the pico its depth. Toss everything together and let it sit 10 min. Makes ~3.5 cups; whole batch ~330 cal, 58g carbs, 3g fat, 9g protein. A griller serving uses 1/2 cup (1/4 cup per tortilla), a rice bowl uses 3/4 cup. Either way, expect to have some left over."
     },
     {
       "kind": "levers",
-      "body": "**Toppings & build options**\n\n**The default toppings:** 1/8 cup cottage cheese blend (the sour-cream swap) across every build. The griller uses 1/4 cup cheddar total and 1/2 cup pico split across both tortillas; the rice bowl uses 1/8 cup cheddar and 3/4 cup pico on top.\n\n**Griller:** two 8-inch tortillas, filled, with 1/4 cup cheddar total split between them — pull a small handful out for the outside and sprinkle it on just before you flip so it griddles onto the pan and crisps into a golden crust, the rest goes inside when you build it. A hot dry nonstick or cast iron crisps the tortilla in its own starch (the exterior cheese greases the pan for you), or use a little butter for a richer, more traditional finish. Top with 1/4 cup corn pico per tortilla (1/2 cup total) — a full batch of pico makes more than this, expect to have about a third of it left over for something else.\n\n**Rice bowl:** skip the tortilla entirely — filling over 3/4 cup rice with toppings, the leanest build since the tortilla is the hidden fat. All rice measures are **cooked** (1 cup cooked ≈ 1/3 cup dry).\n\n**Brown vs white rice:** macros are nearly identical (brown adds ~5 cal, 0.5g protein, 1g fat per 3/4 cup), but brown carries ~5x the fiber and digests slower for a flatter blood sugar curve. Brown is the better default; white is preferable right after training, when faster digestion helps refill glycogen. Brown takes about twice as long to cook."
+      "body": "**Toppings & build options**\n\n**The default toppings:** 1/8 cup cottage cheese blend (the sour-cream swap) across every build. The griller uses 1/4 cup cheddar total and 1/2 cup pico split across both tortillas; the rice bowl uses 1/8 cup cheddar and 3/4 cup pico on top.\n\n**Griller:** two 8-inch tortillas, filled, with 1/4 cup cheddar total split between them. Pull a small handful out for the outside and sprinkle it on just before you flip so it griddles onto the pan and crisps into a golden crust, the rest goes inside when you build it. A hot dry nonstick or cast iron crisps the tortilla in its own starch (the exterior cheese greases the pan for you), or use a little butter for a richer, more traditional finish. Top with 1/4 cup corn pico per tortilla (1/2 cup total). A full batch of pico makes more than this, so expect to have about a third of it left over for something else.\n\n**Rice bowl:** skip the tortilla entirely: filling over 3/4 cup rice with toppings, the leanest build since the tortilla is the hidden fat. All rice measures are **cooked** (1 cup cooked ≈ 1/3 cup dry).\n\n**Brown vs white rice:** macros are nearly identical (brown adds ~5 cal, 0.5g protein, 1g fat per 3/4 cup), but brown carries ~5x the fiber and digests slower for a flatter blood sugar curve. Brown is the better default; white is preferable right after training, when faster digestion helps refill glycogen. Brown takes about twice as long to cook."
     },
     {
       "kind": "make_or_break",
@@ -139,7 +139,7 @@
     },
     {
       "kind": "make_or_break",
-      "body": "**Take the outside cheese from the same 1/4 cup, not extra.** Pull a small handful for the exterior crust and use what's left inside — total cheese stays at 1/4 cup either way"
+      "body": "**Take the outside cheese from the same 1/4 cup, not extra.** Pull a small handful for the exterior crust and use what's left inside. Total cheese stays at 1/4 cup either way"
     },
     {
       "kind": "levers",

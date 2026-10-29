@@ -20,12 +20,12 @@ transaction through the `import_recipe` database function.
 | Where                      | Use it for                                    |
 | -------------------------- | --------------------------------------------- |
 | `/admin/import`            | Paste the JSON an agent produced (owner only) |
-| `pnpm recipe:import`       | Files on disk, including the 12 seed recipes  |
+| `pnpm recipe:import`       | Files on disk, including the 13 seed recipes  |
 | `POST /api/admin/import`   | Later: send JSON straight from an agent       |
 
 ## The recipe book to the database
 
-`docs/recipes.md` is the editable source for the 12 seed recipes.
+`docs/recipes.md` is the editable source for the 13 seed recipes.
 
 ```bash
 pnpm recipe:parse                       # docs/recipes.md -> content/recipes/*.json
