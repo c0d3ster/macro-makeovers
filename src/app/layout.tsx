@@ -1,11 +1,15 @@
 import type { Metadata } from 'next'
 
+import { Env } from '@/libs/Env'
 import { ProvidersWrapper } from '@/providers'
 import '@/styles/global.css'
 
 export const metadata: Metadata = {
-  title: 'Next.js GraphQL Template',
-  description: 'A modern full-stack template with Next.js, GraphQL, and TypeScript',
+  title: {
+    default: Env.NEXT_PUBLIC_BRAND_NAME,
+    template: `%s | ${Env.NEXT_PUBLIC_BRAND_NAME}`,
+  },
+  description: 'High-protein, lower-fat versions of foods people love.',
 }
 
 export default function RootLayout({

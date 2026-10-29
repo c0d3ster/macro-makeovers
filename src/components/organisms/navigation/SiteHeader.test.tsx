@@ -1,6 +1,8 @@
 import { cleanup, render, screen } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
+import { Env } from '@/libs/Env'
+
 import type { NavItem } from './SiteHeader'
 
 import { SiteHeader } from './SiteHeader'
@@ -51,10 +53,10 @@ describe('SiteHeader', () => {
     expect(header).toBeInTheDocument()
   })
 
-  it('renders logo text', () => {
+  it('shows the brand name when there is no logo', () => {
     render(<SiteHeader menuItems={sampleMenuItems} />)
 
-    const logo = screen.getByText('LOGO')
+    const logo = screen.getByText(Env.NEXT_PUBLIC_BRAND_NAME)
 
     expect(logo).toBeInTheDocument()
   })

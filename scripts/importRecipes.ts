@@ -4,6 +4,7 @@
 //   pnpm recipe:import path/to/recipe.json        # one file
 //   pnpm recipe:import content/recipes --dry-run  # validate and diff, write nothing
 //   pnpm recipe:import content/recipes --overwrite
+//   pnpm recipe:import content/recipes --publish  # also publish what was imported or unchanged
 //
 // Writes with the service role key from .env.local, against the URL in .env (the local
 // Docker stack). To import into the hosted project use `pnpm recipe:import:prod`, which
@@ -17,7 +18,7 @@ import type { ImportResult } from '@/libs/recipes'
 import { createSupabaseRecipeStore, importRecipe } from '@/libs/recipes'
 import { createAdminClient } from '@/libs/supabase/admin'
 
-const FLAGS = ['--overwrite', '--dry-run']
+const FLAGS = ['--overwrite', '--dry-run', '--publish']
 
 const collectFiles = (target: string): string[] => {
   const path = resolve(target)
@@ -75,7 +76,7 @@ const main = async (): Promise<void> => {
   )
   if (targets.length === 0 || unknownFlags.length > 0) {
     console.error(
-      'Usage: pnpm recipe:import <file-or-folder>... [--overwrite] [--dry-run]'
+      'Usage: pnpm recipe:import <file-or-folder>... [--overwrite] [--dry-run] [--publish]'
     )
     process.exit(1)
   }
@@ -84,7 +85,9 @@ const main = async (): Promise<void> => {
     overwrite: args.includes('--overwrite'),
     dryRun: args.includes('--dry-run'),
   }
-  const store = createSupabaseRecipeStore(createAdminClient())
+  const publish = args.includes('--publish')
+  const client = createAdminClient()
+  const store = createSupabaseRecipeStore(client)
   const files = targets.flatMap(collectFiles)
   if (files.length === 0) {
     console.error('No .json files found')
@@ -100,12 +103,23 @@ const main = async (): Promise<void> => {
     .sort((a, b) => Number(isVariant(a.input)) - Number(isVariant(b.input)))
 
   let failed = 0
+  const publishable: string[] = []
   for (const { file, input } of inputs) {
     const result = await importRecipe(store, input, options)
 
     describe(file, result).forEach((line) => console.log(line))
 
     if (result.status === 'invalid' || result.status === 'conflict') failed += 1
+    else publishable.push(result.slug)
+  }
+
+  if (publish && !options.dryRun && publishable.length > 0) {
+    const { error } = await client
+      .from('recipes')
+      .update({ status: 'published' })
+      .in('slug', publishable)
+    if (error) throw new Error(`Could not publish: ${error.message}`)
+    console.log(`\nPublished ${publishable.length} recipes`)
   }
 
   if (options.dryRun) console.log('\nDry run: nothing was written')
