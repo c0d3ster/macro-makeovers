@@ -27,6 +27,12 @@ const collectFiles = (target: string): string[] => {
     .map((name) => join(path, name))
 }
 
+const readJson = (file: string): unknown =>
+  JSON.parse(readFileSync(file, 'utf8'))
+
+const isVariant = (input: unknown): boolean =>
+  typeof input === 'object' && input !== null && 'variantOf' in input
+
 const formatValue = (value: unknown): string =>
   value === undefined ? '(none)' : JSON.stringify(value)
 
@@ -84,9 +90,16 @@ const main = async (): Promise<void> => {
     process.exit(1)
   }
 
+  // A variant needs its base to exist first, so bases go in ahead of variants
+  const inputs = files
+    .map((file) => ({
+      file,
+      input: readJson(file),
+    }))
+    .sort((a, b) => Number(isVariant(a.input)) - Number(isVariant(b.input)))
+
   let failed = 0
-  for (const file of files) {
-    const input: unknown = JSON.parse(readFileSync(file, 'utf8'))
+  for (const { file, input } of inputs) {
     const result = await importRecipe(store, input, options)
 
     describe(file, result).forEach((line) => console.log(line))
@@ -96,7 +109,7 @@ const main = async (): Promise<void> => {
 
   if (options.dryRun) console.log('\nDry run: nothing was written')
   if (failed > 0) {
-    console.error(`\n${failed} of ${files.length} recipes were not imported`)
+    console.error(`\n${failed} of ${inputs.length} recipes were not imported`)
     process.exit(1)
   }
 }

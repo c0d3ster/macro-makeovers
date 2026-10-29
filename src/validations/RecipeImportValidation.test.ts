@@ -55,14 +55,14 @@ describe('recipeImportSchema', () => {
     expect(result.steps[1]?.durationMinutes).toBe(0.25)
   })
 
-  it('accepts a cost range and rejects one that does not widen the tier', () => {
+  it('accepts a variant of another recipe but not of itself', () => {
     expect(
-      recipeImportSchema.parse({ ...sampleRecipe, costTier: 2, costTierMax: 3 })
-        .costTierMax
-    ).toBe(3)
+      recipeImportSchema.parse({ ...sampleRecipe, variantOf: 'other-recipe' })
+        .variantOf
+    ).toBe('other-recipe')
     expect(
-      issuePaths({ ...sampleRecipe, costTier: 2, costTierMax: 2 })
-    ).toEqual(['costTierMax'])
+      issuePaths({ ...sampleRecipe, variantOf: sampleRecipe.slug })
+    ).toEqual(['variantOf'])
   })
 
   it('names the field when a value is out of range', () => {

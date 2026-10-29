@@ -1467,11 +1467,10 @@
     },
     {
       "id": "9a",
-      "slug": "beef-bulgogi",
+      "slug": "beef-bulgogi-flank-steak",
       "title": "Beef Bulgogi (over black rice), flank steak build",
       "servings": 4,
       "perServingCost": 5.24,
-      "alternateOf": "9",
       "lines": {
         "flank": 1.5,
         "soy": 2.67,
@@ -1486,15 +1485,15 @@
         "black_rice": 6.7,
         "scallions": 4,
         "sesame_seeds": 0.1
-      }
+      },
+      "variantOf": "beef-bulgogi"
     },
     {
       "id": "11a",
-      "slug": "pollo-asado-chicken-thigh-bowl",
+      "slug": "pollo-asado-costco-precooked-chicken",
       "title": "Pollo Asado Chicken Bowl, Costco precooked build",
       "servings": 4,
       "perServingCost": 5.67,
-      "alternateOf": "11",
       "lines": {
         "costco": 1.5,
         "brown_rice": 6.5,
@@ -1508,7 +1507,8 @@
         "red_onion": 0.4,
         "habanero": 0.6,
         "cucumber": 0.2
-      }
+      },
+      "variantOf": "pollo-asado-chicken-thigh-bowl"
     }
   ]
 }

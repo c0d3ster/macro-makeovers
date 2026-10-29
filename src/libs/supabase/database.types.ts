@@ -235,7 +235,6 @@ export type Database = {
           access: Database['public']['Enums']['recipe_access']
           cook_minutes: number
           cost_tier: number
-          cost_tier_max: number | null
           created_at: string
           difficulty: number
           id: string
@@ -248,13 +247,13 @@ export type Database = {
           summary: string
           title: string
           updated_at: string
+          variant_of: string | null
         }
         ComputedFields: never
         Insert: {
           access?: Database['public']['Enums']['recipe_access']
           cook_minutes: number
           cost_tier: number
-          cost_tier_max?: number | null
           created_at?: string
           difficulty: number
           id?: string
@@ -267,12 +266,12 @@ export type Database = {
           summary: string
           title: string
           updated_at?: string
+          variant_of?: string | null
         }
         Update: {
           access?: Database['public']['Enums']['recipe_access']
           cook_minutes?: number
           cost_tier?: number
-          cost_tier_max?: number | null
           created_at?: string
           difficulty?: number
           id?: string
@@ -285,8 +284,17 @@ export type Database = {
           summary?: string
           title?: string
           updated_at?: string
+          variant_of?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: 'recipes_variant_of_fkey'
+            columns: ['variant_of']
+            isOneToOne: false
+            referencedRelation: 'recipes'
+            referencedColumns: ['id']
+          },
+        ]
       }
       steps: {
         Row: {

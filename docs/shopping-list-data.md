@@ -19,10 +19,11 @@ the pricing:
 | `items`   | One per priced product: `pack` label, `packQuantity` in `unit`, `price` for one pack, `store` it was lowest at, `pantry` (staple most kitchens hold), `perishable` |
 | `recipes` | `id` and `slug` (matches `content/recipes`), `servings`, `perServingCost`, and `lines`: item `key` to quantity in that item's `unit`                               |
 
-Alternate builds are their own entry with `alternateOf` set. `9a` is bulgogi
-with flank instead of ribeye, and `11a` is pollo asado with Costco precooked
-chicken. They share a `slug` with the main build, so a recipe's cost range is
-the lowest and highest tier across its entries.
+Alternate builds are their own entry with `variantOf` set to the base recipe's
+slug, matching the `variant_of` link in the database. `9a` is bulgogi with flank
+instead of ribeye, and `11a` is pollo asado with Costco precooked chicken. Their
+slugs are the ones those variants will get once they are written up in
+`docs/recipes.md`, so they do not match a recipe yet.
 
 ## How the basket prices a trip
 

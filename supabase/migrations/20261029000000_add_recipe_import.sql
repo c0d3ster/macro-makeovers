@@ -6,11 +6,13 @@
 alter table public.recipe_nutrition
   add column position integer not null default 0;
 
--- Top of the price range for recipes whose builds cost differently (ribeye vs flank bulgogi).
--- Null means the recipe has a single tier.
+-- A variant is a full recipe with its own directions, linked to the recipe it riffs on
+-- (flank steak bulgogi, the sausage hash brown bake). Variants are one level deep.
 alter table public.recipes
-  add column cost_tier_max smallint check (cost_tier_max between 1 and 4),
-  add constraint recipes_cost_tier_max_above_tier check (cost_tier_max is null or cost_tier_max > cost_tier);
+  add column variant_of uuid references public.recipes (id),
+  add constraint recipes_variant_not_self check (variant_of is null or variant_of <> id);
+
+create index recipes_variant_of_idx on public.recipes (variant_of);
 
 create function public.recipe_snapshot(p_recipe_id uuid)
 returns jsonb
@@ -26,7 +28,7 @@ as $$
     'prepMinutes', r.prep_minutes,
     'cookMinutes', r.cook_minutes,
     'costTier', r.cost_tier,
-    'costTierMax', r.cost_tier_max,
+    'variantOf', (select b.slug from public.recipes b where b.id = r.variant_of),
     'difficulty', r.difficulty,
     'tags', coalesce((
       select jsonb_agg(t.name order by t.name)
@@ -92,9 +94,27 @@ set search_path = ''
 as $$
 declare
   v_id uuid;
+  v_base_id uuid;
 begin
+  if p_recipe ->> 'variantOf' is not null then
+    select id into v_base_id from public.recipes where slug = p_recipe ->> 'variantOf';
+    if v_base_id is null then
+      raise exception 'Base recipe "%" does not exist. Import it first.', p_recipe ->> 'variantOf';
+    end if;
+    if exists (select 1 from public.recipes where id = v_base_id and variant_of is not null) then
+      raise exception '"%" is itself a variant, and variants are one level deep.', p_recipe ->> 'variantOf';
+    end if;
+    if exists (
+      select 1 from public.recipes v
+      join public.recipes self on self.id = v.variant_of
+      where self.slug = p_recipe ->> 'slug'
+    ) then
+      raise exception '"%" has variants, so it cannot become a variant itself.', p_recipe ->> 'slug';
+    end if;
+  end if;
+
   insert into public.recipes (
-    slug, title, summary, servings, prep_minutes, cook_minutes, cost_tier, cost_tier_max, difficulty
+    slug, title, summary, servings, prep_minutes, cook_minutes, cost_tier, difficulty, variant_of
   )
   values (
     p_recipe ->> 'slug',
@@ -104,8 +124,8 @@ begin
     (p_recipe ->> 'prepMinutes')::integer,
     (p_recipe ->> 'cookMinutes')::integer,
     (p_recipe ->> 'costTier')::smallint,
-    (p_recipe ->> 'costTierMax')::smallint,
-    (p_recipe ->> 'difficulty')::smallint
+    (p_recipe ->> 'difficulty')::smallint,
+    v_base_id
   )
   on conflict (slug) do update set
     title = excluded.title,
@@ -114,8 +134,8 @@ begin
     prep_minutes = excluded.prep_minutes,
     cook_minutes = excluded.cook_minutes,
     cost_tier = excluded.cost_tier,
-    cost_tier_max = excluded.cost_tier_max,
-    difficulty = excluded.difficulty
+    difficulty = excluded.difficulty,
+    variant_of = excluded.variant_of
   returning id into v_id;
 
   delete from public.recipe_nutrition where recipe_id = v_id;

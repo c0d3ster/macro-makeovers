@@ -91,6 +91,14 @@ const tagsBySlug: Record<string, string[]> = {
     'high protein',
     'comfort food',
   ],
+  'southwest-sausage-hash-brown-bake': [
+    'bake',
+    'pork',
+    'oven',
+    'sheet pan',
+    'high protein',
+    'comfort food',
+  ],
   'red-enchilada-casserole': [
     'bake',
     'chicken',
