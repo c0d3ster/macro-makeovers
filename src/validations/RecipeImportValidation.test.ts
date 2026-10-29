@@ -55,6 +55,16 @@ describe('recipeImportSchema', () => {
     expect(result.steps[1]?.durationMinutes).toBe(0.25)
   })
 
+  it('accepts a cost range and rejects one that does not widen the tier', () => {
+    expect(
+      recipeImportSchema.parse({ ...sampleRecipe, costTier: 2, costTierMax: 3 })
+        .costTierMax
+    ).toBe(3)
+    expect(
+      issuePaths({ ...sampleRecipe, costTier: 2, costTierMax: 2 })
+    ).toEqual(['costTierMax'])
+  })
+
   it('names the field when a value is out of range', () => {
     expect(issuePaths({ ...sampleRecipe, costTier: 9 })).toEqual(['costTier'])
     expect(issuePaths({ ...sampleRecipe, difficulty: 0 })).toEqual([

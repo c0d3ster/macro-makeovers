@@ -17,11 +17,11 @@ transaction through the `import_recipe` database function.
 
 ## Ways in
 
-| Where                      | Use it for                                    |
-| -------------------------- | --------------------------------------------- |
-| `/admin/import`            | Paste the JSON an agent produced (owner only) |
-| `pnpm recipe:import`       | Files on disk, including the 13 seed recipes  |
-| `POST /api/admin/import`   | Later: send JSON straight from an agent       |
+| Where                    | Use it for                                    |
+| ------------------------ | --------------------------------------------- |
+| `/admin/import`          | Paste the JSON an agent produced (owner only) |
+| `pnpm recipe:import`     | Files on disk, including the 13 seed recipes  |
+| `POST /api/admin/import` | Later: send JSON straight from an agent       |
 
 ## The recipe book to the database
 
@@ -63,3 +63,12 @@ checks `public.is_owner()` before using it.
 See the schema in `src/validations/RecipeImportValidation.ts`. Only `raw` is
 required on an ingredient. `durationMinutes` on a step is optional and may be a
 fraction (`0.25` is 15 seconds).
+
+## Cost tiers
+
+`costTier` (1 to 4) is the price band for the featured build, from the `$` in
+the recipe heading. A recipe whose builds are priced differently carries a
+range: `## 9. Beef Bulgogi | $$$–$$$$` parses to `costTier: 3` and
+`costTierMax: 4`. `costTierMax` is optional and must be above `costTier`.
+The bands and per-serving costs behind the tiers are in
+[`cost-estimates.md`](./cost-estimates.md), and a test checks they agree.

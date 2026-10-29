@@ -50,6 +50,8 @@ export const recipeImportSchema = z
     prepMinutes: z.number().int().min(0),
     cookMinutes: z.number().int().min(0),
     costTier: z.number().int().min(1).max(4),
+    // Top of the range when builds are priced differently, e.g. ribeye vs flank
+    costTierMax: z.number().int().min(1).max(4).optional(),
     difficulty: z.number().int().min(1).max(5),
     tags: z.array(z.string().trim().toLowerCase().min(1)),
     nutrition: z.array(nutritionSchema).min(1),
@@ -58,6 +60,17 @@ export const recipeImportSchema = z
     notes: z.array(noteSchema),
   })
   .superRefine((recipe, ctx) => {
+    if (
+      recipe.costTierMax !== undefined &&
+      recipe.costTierMax <= recipe.costTier
+    ) {
+      ctx.addIssue({
+        code: 'custom',
+        path: ['costTierMax'],
+        message: 'Max cost tier must be above the cost tier, or left out',
+      })
+    }
+
     if (!recipe.nutrition.some(({ kind }) => kind === 'makeover')) {
       ctx.addIssue({
         code: 'custom',

@@ -710,7 +710,7 @@ Nearly 4x the fat on the traditional plate for less protein. The gap is driven a
 
 <a id="9-beef-bulgogi"></a>
 
-## 9. Beef Bulgogi | $$$$ · ~50 min · ●●○○○
+## 9. Beef Bulgogi | $$$–$$$$ · ~50 min · ●●○○○
 
 Thin-sliced ribeye strips in a soy-pear marinade, seared hard in cast iron and served over black rice. Traditional bulgogi is already fairly lean, so there is no dairy swap here. The fat comes down through a lean pre-cut strip (about 3.5g fat per 4 oz) and 1 tbsp of sesame oil across the whole batch, where traditional versions run 1.5 to 2 tbsp. Black rice brings more fiber and protein than white. Built with Heritage brand ribeye strips for convenience, with trimmed flank as the from-scratch option. **Makes 4 servings.**
 
@@ -885,7 +885,7 @@ The traditional row assumes about 4 of the original recipe's 6 tbsp of oil end u
 
 <a id="11-pollo-asado-chicken-thigh-bowl"></a>
 
-## 11. Pollo Asado Chicken Thigh Bowl | $$ · ~60 min + 2 hr marinade · ●●○○○
+## 11. Pollo Asado Chicken Thigh Bowl | $$–$$$ · ~60 min + 2 hr marinade · ●●○○○
 
 Citrus-achiote thighs seared hard for char, over brown rice with black beans, mango habanero salsa, cotija, and blended cottage cheese. Two builds: skinless and skin-on. **Makes 4 servings.**
 

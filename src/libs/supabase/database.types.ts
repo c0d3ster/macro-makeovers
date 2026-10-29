@@ -235,6 +235,7 @@ export type Database = {
           access: Database['public']['Enums']['recipe_access']
           cook_minutes: number
           cost_tier: number
+          cost_tier_max: number | null
           created_at: string
           difficulty: number
           id: string
@@ -253,6 +254,7 @@ export type Database = {
           access?: Database['public']['Enums']['recipe_access']
           cook_minutes: number
           cost_tier: number
+          cost_tier_max?: number | null
           created_at?: string
           difficulty: number
           id?: string
@@ -270,6 +272,7 @@ export type Database = {
           access?: Database['public']['Enums']['recipe_access']
           cook_minutes?: number
           cost_tier?: number
+          cost_tier_max?: number | null
           created_at?: string
           difficulty?: number
           id?: string

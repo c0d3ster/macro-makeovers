@@ -1,5 +1,5 @@
 begin;
-select plan(14);
+select plan(16);
 
 -- A minimal payload in the shape the app sends
 create temp table payload (body jsonb) on commit drop;
@@ -14,6 +14,7 @@ insert into payload values ($json$
   "prepMinutes": 10,
   "cookMinutes": 40,
   "costTier": 2,
+  "costTierMax": 3,
   "difficulty": 2,
   "tags": ["brand new tag", "chili"],
   "nutrition": [
@@ -99,6 +100,19 @@ select is(
   (select count(*)::int from public.recipe_revisions rv join public.recipes r on r.id = rv.recipe_id where r.slug = 'test-chili'),
   1,
   'an import writes a revision'
+);
+
+select is(
+  (select cost_tier_max::int from public.recipes where slug = 'test-chili'),
+  3,
+  'the top of the cost range is stored'
+);
+
+select throws_ok(
+  $$update public.recipes set cost_tier_max = 2 where slug = 'test-chili'$$,
+  '23514',
+  null,
+  'the cost range must top out above the tier'
 );
 
 -- The snapshot has the same shape as the payload

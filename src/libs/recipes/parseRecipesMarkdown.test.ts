@@ -43,6 +43,18 @@ describe('parseRecipesMarkdown (docs/recipes.md)', () => {
     })
     expect(bySlug('kickin-fried-chicken').difficulty).toBe(5)
     expect(bySlug('ham-and-prosciutto-sliders').costTier).toBe(3)
+    expect(bySlug('ham-and-prosciutto-sliders').costTierMax).toBeUndefined()
+  })
+
+  it('reads a cost range when the builds are priced differently', () => {
+    expect(bySlug('beef-bulgogi')).toMatchObject({
+      costTier: 3,
+      costTierMax: 4,
+    })
+    expect(bySlug('pollo-asado-chicken-thigh-bowl')).toMatchObject({
+      costTier: 2,
+      costTierMax: 3,
+    })
   })
 
   it('uses the quick reference title and slug for renamed headings', () => {
