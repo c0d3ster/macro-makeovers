@@ -6,8 +6,9 @@
 //   pnpm recipe:import content/recipes --overwrite
 //
 // Writes with the service role key from .env.local, against the URL in .env (the local
-// Docker stack). To import into the hosted project, set both for one command:
-//   NEXT_PUBLIC_SUPABASE_URL=https://<ref>.supabase.co SUPABASE_SECRET_KEY=... pnpm recipe:import ...
+// Docker stack). To import into the hosted project use `pnpm recipe:import:prod`, which
+// reads the URL from .env.production and the secret key from .env.production.local
+// (gitignored). Same arguments as above.
 import { readdirSync, readFileSync, statSync } from 'node:fs'
 import { extname, join, resolve } from 'node:path'
 
