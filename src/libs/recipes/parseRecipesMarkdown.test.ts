@@ -16,9 +16,9 @@ const bySlug = (slug: string): (typeof recipes)[number] => {
 }
 
 describe('parseRecipesMarkdown (docs/recipes.md)', () => {
-  it('finds all twelve recipes with unique slugs', () => {
-    expect(recipes).toHaveLength(12)
-    expect(new Set(recipes.map(({ slug }) => slug)).size).toBe(12)
+  it('finds all thirteen recipes with unique slugs', () => {
+    expect(recipes).toHaveLength(13)
+    expect(new Set(recipes.map(({ slug }) => slug)).size).toBe(13)
   })
 
   it('produces recipes that pass the import schema', () => {
@@ -42,7 +42,7 @@ describe('parseRecipesMarkdown (docs/recipes.md)', () => {
       cookMinutes: 25,
     })
     expect(bySlug('kickin-fried-chicken').difficulty).toBe(5)
-    expect(bySlug('ham-and-prosciutto-sliders').costTier).toBe(4)
+    expect(bySlug('ham-and-prosciutto-sliders').costTier).toBe(3)
   })
 
   it('uses the quick reference title and slug for renamed headings', () => {
@@ -102,7 +102,7 @@ describe('parseRecipesMarkdown (docs/recipes.md)', () => {
 
     expect(alfredo[0]).toEqual({
       group: 'Sauce',
-      raw: '16oz (2 cups) 2% cottage cheese — cold',
+      raw: '16oz (2 cups) 2% cottage cheese, cold',
     })
     expect(alfredo.at(-1)?.group).toBe('Rest of dish')
   })
@@ -112,7 +112,7 @@ describe('parseRecipesMarkdown (docs/recipes.md)', () => {
       bySlug('greek-yogurt-tuna-melt').ingredients.map(({ group }) => group)
     )
 
-    expect(groups).toContain('Per sandwich — pick a build')
+    expect(groups).toContain('Per sandwich (pick a build)')
     expect(groups).toContain('Salad (makes 4)')
   })
 

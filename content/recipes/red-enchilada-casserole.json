@@ -1,0 +1,328 @@
+{
+  "slug": "red-enchilada-casserole",
+  "title": "Red Enchilada Casserole",
+  "summary": "Shredded chicken breast poached right in a homemade red sauce, layered with black beans, charred corn, blended cottage cheese, and crisped melting cheese. The traditional version gets its fat from 80/20 beef, tortillas fried in oil, and a heavy hand with cheese and sour cream. Here the sauce doubles as the poaching liquid, the tortillas are warmed instead of fried, and the cheese is measured and mostly sits on top where it crisps. Makes 6 servings (9x13 dish).",
+  "servings": 6,
+  "prepMinutes": 25,
+  "cookMinutes": 85,
+  "costTier": 2,
+  "difficulty": 4,
+  "nutrition": [
+    {
+      "kind": "makeover",
+      "label": "Per serving",
+      "calories": 525,
+      "carbsG": 57,
+      "fatG": 15,
+      "proteinG": 46,
+      "isDefault": true
+    },
+    {
+      "kind": "traditional",
+      "label": "Traditional per serving",
+      "calories": 665,
+      "carbsG": 30,
+      "fatG": 47,
+      "proteinG": 31,
+      "isDefault": false
+    }
+  ],
+  "ingredients": [
+    {
+      "group": "Chicken and filling",
+      "raw": "1.5 lb boneless skinless chicken breast"
+    },
+    {
+      "group": "Chicken and filling",
+      "raw": "1 can (15oz) low-sodium black beans, drained"
+    },
+    {
+      "group": "Chicken and filling",
+      "raw": "1 can (15oz) yellow sweet kernel corn, no salt added, drained"
+    },
+    {
+      "group": "Red sauce",
+      "raw": "2 tsp avocado oil"
+    },
+    {
+      "group": "Red sauce",
+      "raw": "1 medium onion, diced"
+    },
+    {
+      "group": "Red sauce",
+      "raw": "1 red bell pepper, diced small"
+    },
+    {
+      "group": "Red sauce",
+      "raw": "1 jalapeño, diced (seeds in for heat, out for background warmth)"
+    },
+    {
+      "group": "Red sauce",
+      "raw": "4 cloves garlic, minced"
+    },
+    {
+      "group": "Red sauce",
+      "raw": "3 tbsp tomato paste"
+    },
+    {
+      "group": "Red sauce",
+      "raw": "1 can (8oz) tomato sauce, no salt added"
+    },
+    {
+      "group": "Red sauce",
+      "raw": "2 cups low-sodium chicken broth"
+    },
+    {
+      "group": "Red sauce",
+      "raw": "1 tsp brown sugar"
+    },
+    {
+      "group": "Red sauce",
+      "raw": "Juice of 1 lime"
+    },
+    {
+      "group": "Red sauce",
+      "raw": "1 tbsp cornstarch + 2 tbsp cold water, for the slurry"
+    },
+    {
+      "group": "Red sauce",
+      "raw": "1 tbsp adobo sauce from a can of chipotles (optional, adds smoky heat)"
+    },
+    {
+      "group": "Spice mix",
+      "raw": "Chili powder 3 tbsp, cumin 2 tsp, smoked paprika 1 tsp, oregano 1 tsp, garlic powder 1 tsp, onion powder 1 tsp, cayenne 1/2 tsp, black pepper 1/2 tsp"
+    },
+    {
+      "group": "Spice mix",
+      "raw": "Salt, starting with 1 tsp and adjusting at the end (the cheese and beans already carry some)"
+    },
+    {
+      "group": "Layers",
+      "raw": "12 corn tortillas, 6-inch"
+    },
+    {
+      "group": "Layers",
+      "raw": "1.5 cups 2% cottage cheese, blended with 2 tbsp milk"
+    },
+    {
+      "group": "Layers",
+      "raw": "4 oz (about 1 cup) shredded melting cheese: quesadilla cheese, Oaxaca, or asadero (macros land within a few calories of each other)"
+    },
+    {
+      "group": "To finish",
+      "raw": "4 scallions, sliced thin"
+    },
+    {
+      "group": "To finish",
+      "raw": "Lime wedges"
+    },
+    {
+      "group": "To finish",
+      "raw": "About 1/2 cup of the finished sauce, held back and kept warm to spoon over the cheese"
+    },
+    {
+      "group": "Quick pickled jalapeños (optional)",
+      "raw": "2 jalapeños, sliced into thin rounds"
+    },
+    {
+      "group": "Quick pickled jalapeños (optional)",
+      "raw": "1/2 cup white or rice vinegar"
+    },
+    {
+      "group": "Quick pickled jalapeños (optional)",
+      "raw": "1/2 cup water"
+    },
+    {
+      "group": "Quick pickled jalapeños (optional)",
+      "raw": "1 tsp sugar"
+    },
+    {
+      "group": "Quick pickled jalapeños (optional)",
+      "raw": "1/2 tsp salt"
+    }
+  ],
+  "steps": [
+    {
+      "phase": "prep",
+      "body": "Preheat the oven to 400°F."
+    },
+    {
+      "phase": "prep",
+      "body": "Dice the onion, bell pepper, and jalapeño. Mince the garlic."
+    },
+    {
+      "phase": "prep",
+      "body": "Mix the spice mix in a bowl."
+    },
+    {
+      "phase": "prep",
+      "body": "Drain the beans and corn, patting the corn dry so it chars instead of steams. Char the corn in a dry hot pan, 4 to 6 min, leaving it alone between stirs until it has browned spots."
+    },
+    {
+      "phase": "prep",
+      "body": "Cut any thick chicken breast in half horizontally so the pieces are an even 1 inch or a bit under. Season with salt and pepper."
+    },
+    {
+      "phase": "prep",
+      "body": "Blend the cottage cheese and milk 30 to 60 sec until silky. Refrigerate."
+    },
+    {
+      "phase": "prep",
+      "body": "Mix the cornstarch slurry."
+    },
+    {
+      "phase": "prep",
+      "body": "Slice the scallions and cut the lime wedges."
+    },
+    {
+      "phase": "prep",
+      "body": "Pickled jalapeños, if making them: stir the vinegar, water, sugar, and salt until dissolved (30 sec in the microwave helps) and pour over the sliced jalapeños in a jar. They need at least 30 min, so they're ready by the time the casserole comes out."
+    },
+    {
+      "phase": "cook",
+      "body": "**Sweat the vegetables.** Heat the oil over medium. Cook the onion, bell pepper, and jalapeño 5 to 6 min until soft, adding the garlic for the last 30 sec."
+    },
+    {
+      "phase": "cook",
+      "body": "**Bloom the spices.** Stir in the spice mix and tomato paste and cook 1 min, until it darkens and smells toasted. This takes the raw edge off the chili powder."
+    },
+    {
+      "phase": "cook",
+      "body": "**Build the sauce.** Add the tomato sauce, broth, brown sugar, and adobo if using. Bring to a bare simmer."
+    },
+    {
+      "phase": "cook",
+      "body": "**Poach the chicken.** Nestle the pieces in a single layer in the sauce, mostly submerged. Cover and hold at the lowest heat that keeps a few lazy bubbles breaking, 15 to 20 min, flipping once, until the thickest piece reads **165°F**."
+    },
+    {
+      "phase": "cook",
+      "body": "**Rest the chicken, finish the sauce.** Move the chicken to a bowl and rest it 5 min. Meanwhile simmer the sauce uncovered, stir in the slurry, and cook 1 to 2 min until it coats a spoon. Add the lime juice, then taste and adjust the salt. You should have about 3 cups. Set aside 1/2 cup in a small pot to keep warm for the finish."
+    },
+    {
+      "phase": "cook",
+      "body": "**Shred and make the filling.** Shred the chicken while still warm, using two forks pulling with the grain, or a hand mixer or stand mixer paddle on low for 20 to 30 sec. Stop when no big chunks remain. Toss with the beans, corn, and 1/2 cup of the sauce. This is the filling. It stays in the bowl and does not go back into the pot."
+    },
+    {
+      "phase": "cook",
+      "body": "**Warm the tortillas.** Wrap the stack in a damp towel and microwave 45 to 60 sec. Keep them wrapped until you build."
+    },
+    {
+      "phase": "cook",
+      "body": "**Layer.** Spread 1/2 cup of sauce over the bottom of the dish. Dunk each tortilla in the sauce quickly just before laying it down, then build two identical layers and a top layer.\n   - Layers 1 and 2 (identical): 4 tortillas, torn to fill the gaps. Then 1/3 of the filling, half the cottage cheese, 1/2 oz cheese, and about 1/3 cup of sauce spooned over.\n   - Top layer: 4 tortillas, the last 1/3 of the filling, and about 1/3 cup of sauce. No cottage cheese or cheese inside. Hold the last 3 oz of cheese back.\n   - Sauce budget, about 3 cups total: 1/2 cup in the filling, 1/2 cup on the bottom of the dish, about 1/2 cup picked up by the dunking, 1 cup over the three layers, and 1/2 cup held back for the finish. If you run short, thin the sauce with a splash of broth."
+    },
+    {
+      "phase": "cook",
+      "body": "**Bake covered.** Tent with foil, keeping it off the surface, and bake at 400°F for 20 min."
+    },
+    {
+      "phase": "cook",
+      "body": "**Top and crisp.** Uncover, scatter the remaining 3 oz of cheese, and bake 8 to 10 min until bubbling at the edges. Broil 1 to 2 min, watching the whole time, until the cheese browns in spots. In a Pyrex dish, skip the broiler and run the oven at 425°F for the last few minutes instead."
+    },
+    {
+      "phase": "cook",
+      "body": "**Rest 10 min** so the layers set, then cut into 6. Spoon the warm reserved sauce over the cheese on each portion and top with scallions and pickled jalapeños, with lime wedges on the side."
+    }
+  ],
+  "notes": [
+    {
+      "kind": "tip",
+      "body": "The toppings and pickled jalapeños are not counted in the macros. The whole jar of pickles is about 25 cal."
+    },
+    {
+      "kind": "levers",
+      "body": "**Shredded chicken**\n\n- **Cut thick breasts in half horizontally.** Even pieces finish together. Thick ends overcook while thin ends dry out otherwise\n- **Bare simmer, never a boil.** A hard boil tightens the fibers and the chicken goes stringy and dry instead of tender\n- **Pull at 165°F and rest 5 min.** Past that point the breast loses moisture it won't get back. The rest lets the juices settle so they stay in the meat\n- **Shred while warm.** Cold breast crumbles into dry shards instead of pulling into strands\n- **Pull with the grain.** Two forks work, but a hand mixer on low in a bowl does 1.5 lb in under a minute\n- **Dress it with sauce right away.** The shreds soak up moisture while warm, and that is what keeps them juicy through the 30 min bake"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Poach in the sauce.** The chicken seasons the sauce and the sauce seasons the chicken, with no separate cooking step or extra fat"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Bloom the spices and tomato paste.** Raw chili powder tastes gritty. A minute in the hot oil turns it deep and smoky"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Smoked paprika and the optional adobo** cover the depth that fatty beef gives a traditional enchilada"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Warm the tortillas, then dunk them in the sauce.** Cold corn tortillas crack, and the sauce dip is what replaces the fry oil"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Cottage cheese goes in cold and stays between the layers.** It bakes under the sauce and cheese, so it never sees direct heat and stays smooth"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Hold the top cheese until after the covered bake.** It sticks to the foil and steams instead of crisping"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Sauce goes over the cheese after the bake, not before.** In the oven it steams the cheese instead of letting it crisp"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Drain the beans and corn well.** Wet filling thins the sauce and makes the middle layer soggy"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Rest before cutting.** Straight out of the oven the layers slide apart"
+    },
+    {
+      "kind": "fixes",
+      "body": "**Chicken dry:** the sauce boiled or it went past 165°F. Toss the shreds with more sauce or a splash of broth"
+    },
+    {
+      "kind": "fixes",
+      "body": "**Chicken stringy and tough:** it was boiled. Keep the heat at a bare simmer next time"
+    },
+    {
+      "kind": "fixes",
+      "body": "**Soggy casserole:** the sauce was too thin or the filling was wet. Thicken the sauce until it coats a spoon and drain the beans and corn harder"
+    },
+    {
+      "kind": "fixes",
+      "body": "**Tortillas cracking:** they weren't warmed enough or skipped the sauce dunk"
+    },
+    {
+      "kind": "fixes",
+      "body": "**Sauce too sharp:** a pinch more brown sugar, or simmer another minute"
+    },
+    {
+      "kind": "fixes",
+      "body": "**Too salty:** squeeze more lime. Next time rinse the beans and use low-sodium broth"
+    },
+    {
+      "kind": "fixes",
+      "body": "**Cottage cheese grainy:** it wasn't blended long enough. Any grain shows in the layers"
+    },
+    {
+      "kind": "fixes",
+      "body": "**Top not crisping:** the cheese was crowded or the oven was low. Finish under the broiler or at 425°F, watching closely"
+    },
+    {
+      "kind": "levers",
+      "body": "**More cheese:** each extra ounce adds about 1.5g fat per serving. Fat starts just under 25%, so there is room to spend it here, and 6 oz lands at about 28%. For 5 oz, put the extra ounce on top, where it crisps. For 6 oz, use 1 oz inside each of the two layers (instead of 1/2 oz) and 4 oz on top (instead of 3 oz)"
+    },
+    {
+      "kind": "levers",
+      "body": "**Lower carb:** the tortillas, beans, and corn are all carb sources. Dropping to two layers of 4 tortillas cuts about 8g carbs per serving"
+    },
+    {
+      "kind": "levers",
+      "body": "**More protein:** an extra half pound of chicken adds about 9g protein per serving for about 1g fat"
+    },
+    {
+      "kind": "levers",
+      "body": "**Meat options**\n\n| Meat (1.5 lb raw)            | Calories | Carbs | Fat | Protein | Ratio C/F/P  |\n| ---------------------------- | -------- | ----- | --- | ------- | ------------ |\n| **Chicken breast (default)** | ~525     | 57g   | 15g | 46g     | 42 / 24 / 34 |\n| **Beef eye of round**        | ~540     | 57g   | 17g | 47g     | 40 / 27 / 33 |\n| **Beef chuck, trimmed**      | ~580     | 57g   | 23g | 43g     | 37 / 34 / 28 |\n\nBeef braises in the same sauce, covered, at the lowest simmer or in a 300°F oven, 2.5 to 3 hr until it shreds with a fork. Chuck is richer and more traditional but lands above the fat target. Eye of round stays in range and shreds a bit drier, so toss it with extra sauce."
+    }
+  ],
+  "tags": [
+    "bake",
+    "chicken",
+    "oven",
+    "high protein",
+    "batch friendly",
+    "freezer friendly"
+  ]
+}

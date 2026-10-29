@@ -63,9 +63,9 @@ const tagsBySlug: Record<string, string[]> = {
     'batch friendly',
     'comfort food',
   ],
-  'lemon-pepper-chicken-pesto-linguine': [
+  'lemon-pepper-shrimp-pesto-linguine': [
     'pasta',
-    'chicken',
+    'seafood',
     'stovetop',
     'high protein',
     'batch friendly',
@@ -90,6 +90,14 @@ const tagsBySlug: Record<string, string[]> = {
     'sheet pan',
     'high protein',
     'comfort food',
+  ],
+  'red-enchilada-casserole': [
+    'bake',
+    'chicken',
+    'oven',
+    'high protein',
+    'batch friendly',
+    'freezer friendly',
   ],
   'pollo-asado-chicken-thigh-bowl': [
     'bowl',

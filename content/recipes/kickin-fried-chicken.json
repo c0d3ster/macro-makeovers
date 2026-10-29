@@ -55,7 +55,7 @@
     },
     {
       "group": "Chicken",
-      "raw": "Cooking spray or ~2 tsp neutral oil total (avocado or vegetable — not butter, it burns at air fryer temps). In spray terms: roughly 4-5 seconds per side for the whole batch, not per piece"
+      "raw": "Cooking spray or ~2 tsp neutral oil total (avocado or vegetable, not butter since it burns at air fryer temps). In spray terms: roughly 4-5 seconds per side for the whole batch, not per piece"
     },
     {
       "group": "Mashed potatoes & gravy",
@@ -71,7 +71,7 @@
     },
     {
       "group": "Mashed potatoes & gravy",
-      "raw": "1/2 cup warm milk (skim is fine — the richness comes from the butter and yogurt, not the milk; 2% works too for a touch more)"
+      "raw": "1/2 cup warm milk (skim is fine since the richness comes from the butter and yogurt, not the milk; 2% works too for a touch more)"
     },
     {
       "group": "Mashed potatoes & gravy",
@@ -115,7 +115,7 @@
     },
     {
       "group": "Kickin' ranch",
-      "raw": "Dill, parsley, chives (chives and dill finely diced), onion powder, black pepper — go light on the dill, it's easy to overdo"
+      "raw": "Dill, parsley, chives (chives and dill finely diced), onion powder, black pepper (go light on the dill, it's easy to overdo)"
     },
     {
       "group": "Kickin' ranch",
@@ -199,15 +199,15 @@
     },
     {
       "kind": "make_or_break",
-      "body": "**Finely dice the chives and dill, and go light on the dill especially** — it's potent and easy to overdo; start with less than feels right and add more to taste"
+      "body": "**Finely dice the chives and dill, and go light on the dill especially.** It's potent and easy to overdo; start with less than feels right and add more to taste"
     },
     {
       "kind": "make_or_break",
-      "body": "**Don't skip the egg layer.** It's the glue between the flour and the panko — panko pressed straight onto flour will mostly flake off"
+      "body": "**Don't skip the egg layer.** It's the glue between the flour and the panko. Panko pressed straight onto flour will mostly flake off"
     },
     {
       "kind": "make_or_break",
-      "body": "**Don't skip the oil spray on the chicken entirely**, and use a heavier hand than a flour-only coat needs. The panko's dry surface area needs more fat to brown and crisp — zero or too-light oil backfires"
+      "body": "**Don't skip the oil spray on the chicken entirely**, and use a heavier hand than a flour-only coat needs. The panko's dry surface area needs more fat to brown and crisp, and zero or too-light oil backfires"
     },
     {
       "kind": "make_or_break",
@@ -223,23 +223,23 @@
     },
     {
       "kind": "make_or_break",
-      "body": "**Paprika is the color engine, cayenne is the heat dial** — paprika is what gets the crust visibly red, cayenne barely shifts the color, so adjust heat without worrying about losing the look"
+      "body": "**Paprika is the color engine, cayenne is the heat dial.** Paprika is what gets the crust visibly red, cayenne barely shifts the color, so adjust heat without worrying about losing the look"
     },
     {
       "kind": "make_or_break",
-      "body": "**Sweet paprika, not smoked, for a true red crust** — smoked paprika (used elsewhere in the book) leans brownish-red from the smoking process; sweet/Hungarian paprika is the brighter, redder pigment"
+      "body": "**Sweet paprika, not smoked, for a true red crust.** Smoked paprika (used elsewhere in the book) leans brownish-red from the smoking process; sweet/Hungarian paprika is the brighter, redder pigment"
     },
     {
       "kind": "make_or_break",
-      "body": "**Don't crowd the air fryer basket** — steam kills crisping as fast as no oil does"
+      "body": "**Don't crowd the air fryer basket.** Steam kills crisping as fast as no oil does"
     },
     {
       "kind": "make_or_break",
-      "body": "**Yukon golds over russets** for the potatoes — creamier, needs less butter to feel rich. Skin on adds fiber and texture, and dicing cuts the boil time down since more surface area hits the water"
+      "body": "**Yukon golds over russets for the potatoes.** They're creamier and need less butter to feel rich. Skin on adds fiber and texture, and dicing cuts the boil time down since more surface area hits the water"
     },
     {
       "kind": "make_or_break",
-      "body": "**Cornstarch slurry, not a flour roux**, for the gravy — thickens the same without the fat"
+      "body": "**Cornstarch slurry, not a flour roux, for the gravy.** It thickens the same without the fat"
     },
     {
       "kind": "fixes",

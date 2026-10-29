@@ -30,7 +30,7 @@
   "ingredients": [
     {
       "group": "Sauce",
-      "raw": "16oz (2 cups) 2% cottage cheese — cold"
+      "raw": "16oz (2 cups) 2% cottage cheese, cold"
     },
     {
       "group": "Sauce",
@@ -66,7 +66,7 @@
     },
     {
       "group": "Rest of dish",
-      "raw": "1 box (16oz dry) pasta — still needs a big pot of hard-boiling water"
+      "raw": "1 box (16oz dry) pasta, still needs a big pot of hard-boiling water"
     },
     {
       "group": "Rest of dish",
@@ -74,7 +74,7 @@
     },
     {
       "group": "Rest of dish",
-      "raw": "1 tbsp avocado oil (for the chicken — see note)"
+      "raw": "1 tbsp avocado oil (for the chicken, see note)"
     }
   ],
   "steps": [
@@ -84,7 +84,7 @@
     },
     {
       "phase": "prep",
-      "body": "Measure the cottage cheese and milk — keep the cottage cheese cold."
+      "body": "Measure the cottage cheese and milk, and keep the cottage cheese cold."
     },
     {
       "phase": "prep",
@@ -96,11 +96,11 @@
     },
     {
       "phase": "cook",
-      "body": "Get a big pot of salted water going for the pasta first — it takes the longest to come up to a boil."
+      "body": "Get a big pot of salted water going for the pasta first, since it takes the longest to come up to a boil."
     },
     {
       "phase": "cook",
-      "body": "While it heats, melt the butter in a pan on low. Add the garlic and onion, sweat until soft and translucent — raw onion added late stays sharp, so cook it now."
+      "body": "While it heats, melt the butter in a pan on low. Add the garlic and onion, sweat until soft and translucent. Raw onion added late stays sharp, so cook it now."
     },
     {
       "phase": "cook",
@@ -112,7 +112,7 @@
     },
     {
       "phase": "cook",
-      "body": "Once the water's at a hard boil, cook the pasta, pulling it 1–2 min under box time so it's **al dente** — it keeps cooking in the hot sauce, so slightly firm off the boil lands right. Reserve pasta water."
+      "body": "Once the water's at a hard boil, cook the pasta, pulling it 1–2 min under box time so it's **al dente**. It keeps cooking in the hot sauce, so slightly firm off the boil lands right. Reserve pasta water."
     },
     {
       "phase": "cook",
@@ -126,11 +126,11 @@
   "notes": [
     {
       "kind": "tip",
-      "body": "Chicken fat note: use avocado oil, not butter, for the blackened chicken — blackening runs hot and butter's milk solids scorch and smoke at that heat. Avoid extra virgin olive oil too (it turns bitter when it smokes). Total fat added across the dish is 3 tbsp: 2 tbsp butter in the sauce, 1 tbsp oil on the chicken."
+      "body": "Chicken fat note: use avocado oil, not butter, for the blackened chicken. Blackening runs hot and butter's milk solids scorch and smoke at that heat. Avoid extra virgin olive oil too (it turns bitter when it smokes). Total fat added across the dish is 3 tbsp: 2 tbsp butter in the sauce, 1 tbsp oil on the chicken."
     },
     {
       "kind": "make_or_break",
-      "body": "Blend cottage cheese **cold, with the warm butter as the liquid** — countertop blenders can't move it without liquid; water thins with no body back. At 2 tbsp the butter alone often isn't enough to catch, the 2 tbsp milk in the ingredients is there for exactly this and works well"
+      "body": "Blend cottage cheese **cold, with the warm butter as the liquid**. Countertop blenders can't move it without liquid, and water thins with no body back. At 2 tbsp the butter alone often isn't enough to catch, the 2 tbsp milk in the ingredients is there for exactly this and works well"
     },
     {
       "kind": "make_or_break",
@@ -138,7 +138,7 @@
     },
     {
       "kind": "make_or_break",
-      "body": "Gentle heat only — cottage cheese goes grainy when too hot"
+      "body": "Gentle heat only. Cottage cheese goes grainy when too hot"
     },
     {
       "kind": "make_or_break",

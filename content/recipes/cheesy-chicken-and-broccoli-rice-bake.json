@@ -1,11 +1,11 @@
 {
   "slug": "cheesy-chicken-and-broccoli-rice-bake",
   "title": "Cheesy Chicken and Broccoli Rice Bake",
-  "summary": "Classic casserole, rebuilt. No cream of chicken soup — cottage cheese blended with warm broth carries the creamy body instead, and real cheddar gets used deliberately (half in the sauce, half on top) rather than buried. Makes ~5 servings.",
+  "summary": "Classic casserole, rebuilt. No cream of chicken soup: cottage cheese blended with warm broth carries the creamy body instead, and real cheddar gets used deliberately (half in the sauce, half on top) rather than buried. Makes ~5 servings.",
   "servings": 5,
   "prepMinutes": 20,
   "cookMinutes": 50,
-  "costTier": 3,
+  "costTier": 1,
   "difficulty": 4,
   "nutrition": [
     {
@@ -41,13 +41,13 @@
       "raw": "1 tsp olive oil, for the broccoli and pepper"
     },
     {
-      "raw": "1 1/3 cups rice, uncooked (white or brown) — yields ~4 cups cooked"
+      "raw": "1 1/3 cups rice, uncooked (white or brown), yields ~4 cups cooked"
     },
     {
       "raw": "1 cup 2% cottage cheese"
     },
     {
-      "raw": "1.5 cups (6oz) sharp cheddar, shredded (real, off the block) — split half in the sauce, half on top"
+      "raw": "1.5 cups (6oz) sharp cheddar, shredded (real, off the block), split half in the sauce, half on top"
     },
     {
       "raw": "3 cloves garlic, minced"
@@ -96,11 +96,11 @@
     },
     {
       "phase": "prep",
-      "body": "Split the cheddar into two portions — half for the sauce, half for the top."
+      "body": "Split the cheddar into two portions: half for the sauce, half for the top."
     },
     {
       "phase": "cook",
-      "body": "Broccoli and pepper go in first. Toss with 1 tsp olive oil, a pinch of salt and pepper on a sheet pan. Roast 25–30 min, tossing halfway, until edges are browned and crisp — start checking around 20 min, but don't be surprised if it needs the full 30. This is the longest step, so start it before anything else; it goes in at the end, not into the bake."
+      "body": "Broccoli and pepper go in first. Toss with 1 tsp olive oil, a pinch of salt and pepper on a sheet pan. Roast 25–30 min, tossing halfway, until edges are browned and crisp. Start checking around 20 min, but don't be surprised if it needs the full 30. This is the longest step, so start it before anything else; it goes in at the end, not into the bake."
     },
     {
       "phase": "cook",
@@ -120,11 +120,11 @@
     },
     {
       "phase": "cook",
-      "body": "Combine the rice, chicken, and sauce in a baking dish. Stir in the spinach — it wilts down into the hot mixture. Hold the roasted broccoli and pepper back. Season with smoked paprika and remaining salt."
+      "body": "Combine the rice, chicken, and sauce in a baking dish. Stir in the spinach. It wilts down into the hot mixture. Hold the roasted broccoli and pepper back. Season with smoked paprika and remaining salt."
     },
     {
       "phase": "cook",
-      "body": "Bake at 400°F for 12–15 min until bubbly — it goes faster at a steady 400°F than a bake that drops temperature, so start checking early."
+      "body": "Bake at 400°F for 12–15 min until bubbly. It goes faster at a steady 400°F than a bake that drops temperature, so start checking early."
     },
     {
       "phase": "cook",
@@ -138,31 +138,31 @@
   "notes": [
     {
       "kind": "make_or_break",
-      "body": "**Roast broccoli separately, add it late** — folding it into the casserole before the main bake steams it soft no matter how it was cooked going in. Roasting it first and stirring it in right before the final browning is what keeps the crisp edges"
+      "body": "**Roast broccoli separately, add it late.** Folding it into the casserole before the main bake steams it soft no matter how it was cooked going in. Roasting it first and stirring it in right before the final browning is what keeps the crisp edges"
     },
     {
       "kind": "make_or_break",
-      "body": "**Don't crowd the sheet pan** — broccoli needs space to roast, not steam. Spread it in a single layer"
+      "body": "**Don't crowd the sheet pan.** Broccoli needs space to roast, not steam. Spread it in a single layer"
     },
     {
       "kind": "make_or_break",
-      "body": "**Jalapeño seeds and ribs control the heat** — leave them in for real spice, remove them for background warmth. Red pepper flakes at the end let you dial it up further without recooking"
+      "body": "**Jalapeño seeds and ribs control the heat.** Leave them in for real spice, remove them for background warmth. Red pepper flakes at the end let you dial it up further without recooking"
     },
     {
       "kind": "make_or_break",
-      "body": "**Salt where it matters most** — season the chicken and broccoli directly rather than spreading it thin across the whole mix; the cheese and broth already carry flavor in the base"
+      "body": "**Salt where it matters most.** Season the chicken and broccoli directly rather than spreading it thin across the whole mix; the cheese and broth already carry flavor in the base"
     },
     {
       "kind": "make_or_break",
-      "body": "Spinach doesn't need chopping — it wilts down small regardless of leaf size; just pull any thick stems"
+      "body": "Spinach doesn't need chopping. It wilts down small regardless of leaf size, so just pull any thick stems"
     },
     {
       "kind": "fixes",
-      "body": "**Watery casserole:** usually the broth wasn't fully absorbed by the sauce, or the rice was still a little wet from cooking — let both cool/rest a couple minutes before combining"
+      "body": "**Watery casserole:** usually the broth wasn't fully absorbed by the sauce, or the rice was still a little wet from cooking. Let both cool/rest a couple minutes before combining"
     },
     {
       "kind": "fixes",
-      "body": "**Broccoli went soft:** it was added too early or buried under too much sauce — stir it in only at the very end, right before the final browning step"
+      "body": "**Broccoli went soft:** it was added too early or buried under too much sauce. Stir it in only at the very end, right before the final browning step"
     }
   ],
   "tags": [

@@ -1,0 +1,253 @@
+{
+  "slug": "lemon-pepper-shrimp-pesto-linguine",
+  "title": "Lemon Pepper Shrimp Pesto Linguine",
+  "summary": "A lightened basil pesto (ice water and Greek yogurt standing in for most of the oil) tossed with linguine, roasted red pepper strips, and lemon pepper shrimp charred in cast iron. The lemon in both the pesto and the seasoning ties the dish together. Written for 21/25 or 26/30 shrimp. Makes ~5 servings.",
+  "servings": 5,
+  "prepMinutes": 10,
+  "cookMinutes": 40,
+  "costTier": 3,
+  "difficulty": 3,
+  "nutrition": [
+    {
+      "kind": "makeover",
+      "label": "Per serving",
+      "calories": 505,
+      "carbsG": 53,
+      "fatG": 14,
+      "proteinG": 43,
+      "isDefault": true
+    },
+    {
+      "kind": "traditional",
+      "label": "Traditional (regular pesto, shrimp seared in butter)",
+      "calories": 580,
+      "carbsG": 50,
+      "fatG": 24,
+      "proteinG": 41,
+      "isDefault": false
+    }
+  ],
+  "ingredients": [
+    {
+      "group": "Pesto",
+      "raw": "60g fresh basil leaves, packed and completely dry (thawed from freezer, if using frozen)"
+    },
+    {
+      "group": "Pesto",
+      "raw": "30g pine nuts (or walnuts)"
+    },
+    {
+      "group": "Pesto",
+      "raw": "35g parmesan cheese, grated (about 1/3 cup)"
+    },
+    {
+      "group": "Pesto",
+      "raw": "2 garlic cloves"
+    },
+    {
+      "group": "Pesto",
+      "raw": "2 tbsp extra virgin olive oil, adjust down based on oil retained from freezing (see note)"
+    },
+    {
+      "group": "Pesto",
+      "raw": "Juice of 1/2 lemon"
+    },
+    {
+      "group": "Pesto",
+      "raw": "Pinch black pepper, cracked"
+    },
+    {
+      "group": "Pesto",
+      "raw": "3 tbsp plain Greek yogurt, full-fat (5%) preferred"
+    },
+    {
+      "group": "Pesto",
+      "raw": "2 tbsp ice-cold water"
+    },
+    {
+      "group": "Rest of dish",
+      "raw": "2 large red bell peppers"
+    },
+    {
+      "group": "Rest of dish",
+      "raw": "1.5 lb raw shrimp, 21/25 or 26/30, peeled and deveined (about 32 to 38 of the 21/25, or 39 to 45 of the 26/30)"
+    },
+    {
+      "group": "Rest of dish",
+      "raw": "1–1.5 tbsp lemon pepper seasoning (or blackening seasoning for more char)"
+    },
+    {
+      "group": "Rest of dish",
+      "raw": "1/2 tsp garlic powder"
+    },
+    {
+      "group": "Rest of dish",
+      "raw": "1 tbsp avocado oil (for the shrimp)"
+    },
+    {
+      "group": "Rest of dish",
+      "raw": "1 box (12oz dry) linguine"
+    },
+    {
+      "group": "Rest of dish",
+      "raw": "Reserved pasta water, to loosen"
+    },
+    {
+      "group": "Rest of dish",
+      "raw": "Lemon wedges, to finish"
+    }
+  ],
+  "steps": [
+    {
+      "phase": "prep",
+      "body": "Thaw the shrimp fully, then pat them very dry with paper towels. Keep them in the fridge until the pan is hot."
+    },
+    {
+      "phase": "prep",
+      "body": "Measure out the parmesan, garlic, lemon juice, Greek yogurt, and ice water for the pesto."
+    },
+    {
+      "phase": "cook",
+      "body": "**Roast the peppers first.** Broil whole peppers about 5 inches from the element, or roast at 450°F, 20–30 min, turning every 5–8 min until blackened on most sides. No oil needed."
+    },
+    {
+      "phase": "cook",
+      "body": "Move them to a bowl, cover, and steam 10 min. Peel, seed, slice into strips, and pat dry."
+    },
+    {
+      "phase": "cook",
+      "body": "Get a big pot of salted water going for the linguine."
+    },
+    {
+      "phase": "cook",
+      "body": "**Toast the nuts.** Dry pan, medium heat, shaking constantly, until fragrant. Pine nuts take 1–2 min and walnuts 2–3 min. Let cool slightly."
+    },
+    {
+      "phase": "cook",
+      "body": "**Combine the pesto solids first.** Cooled nuts, garlic, and parmesan into the food processor before the basil. This abrasive base helps everything break down evenly."
+    },
+    {
+      "phase": "cook",
+      "body": "**Pulse in the basil.** Add basil on top. Pulse 8–10 times in short, sharp bursts. Do not run continuously, since friction heats the basil and dulls its color. If the bowl feels warm, stop and let it rest 60 seconds."
+    },
+    {
+      "phase": "cook",
+      "body": "**Stream in oil and lemon.** With the processor running, drizzle in the olive oil, then add lemon juice, scraping down the sides."
+    },
+    {
+      "phase": "cook",
+      "body": "**Drip in the ice water.** Processor still running, add the ice water about a tablespoon at a time until the sauce visibly thins and brightens. Stop while it still has a little bite from the nuts."
+    },
+    {
+      "phase": "cook",
+      "body": "**Fold in the yogurt** by hand, off the processor, until creamy. Set the pesto aside."
+    },
+    {
+      "phase": "cook",
+      "body": "**Heat the cast iron** over high for the full 5 min while the pasta cooks."
+    },
+    {
+      "phase": "cook",
+      "body": "Once the water's at a hard boil, cook the linguine, pulling it 1–2 min under box time so it's al dente. Reserve pasta water."
+    },
+    {
+      "phase": "cook",
+      "body": "**Combine off-heat.** Toss the hot pasta with the pesto and pepper strips, loosening with a splash of pasta water until it coats evenly."
+    },
+    {
+      "phase": "cook",
+      "body": "**Season and sear the shrimp last.** Toss them in a bowl with the lemon pepper, garlic powder, and avocado oil right before they hit the pan. Cook in 3 batches, one layer with space between, and give the pan a minute to recover between batches.\n    - **21/25:** 60–75 seconds untouched, then 30–40 seconds on the second side\n    - **26/30:** 45–60 seconds untouched, then 20–30 seconds on the second side\n    - Pull them at a loose \"C\" with charred edges. They keep cooking on the plate, so go slightly early."
+    },
+    {
+      "phase": "cook",
+      "body": "Top the bowls with the shrimp straight from the pan and finish with a squeeze of lemon."
+    }
+  ],
+  "notes": [
+    {
+      "kind": "tip",
+      "body": "Pine nuts or walnuts: pine nuts are the traditional choice. Walnuts have more omega-3s and slightly more protein at a lower cost, so they're the budget swap. Macros land about the same either way. Toast pine nuts 1 to 2 min and walnuts 2 to 3 min."
+    },
+    {
+      "kind": "tip",
+      "body": "Salt: the pesto has no added salt. The parmesan and the lemon pepper on the shrimp carry it. Taste the finished pesto and add a pinch only if it needs it."
+    },
+    {
+      "kind": "tip",
+      "body": "Freezing basil for this recipe: coat trimmed basil lightly in oil before freezing for best color and quality. A blanch-and-shock (2–3 sec in boiling water, then straight into ice water, patted fully dry) helps it stay bright. Keep a running tally of oil used across all your freezing batches. When it's time to make the pesto, take half that total and subtract it from the 2 tbsp fresh oil above, skip the fresh oil entirely if the retained amount already covers it."
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Dry shrimp and a fully preheated pan.** Smaller shrimp release more surface water for their size, and wet shrimp steam instead of char"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Don't crowd the pan.** Smaller shrimp mean more pieces, so a third batch is worth it"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Season right before cooking.** Salt sitting on shrimp pulls out water"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Pull at a loose \"C\".** A tight \"O\" is overcooked and rubbery"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Sear the shrimp last.** They cook in about 90 seconds a batch at this size, so they should go from pan to bowl"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Keep the peppers as strips.** Blending them into the pesto turns it dull orange-brown"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Solids before basil, basil in short pulses.** Continuous blending heats and browns the basil"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Full-fat Greek yogurt blends smoothest.** Low-fat works but is more watery. Add gradually"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Fold yogurt in by hand, off the processor.** Never blend it in"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Toast pine nuts watching closely.** They go from golden to burnt fast"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Toss the pasta off-heat.** Direct heat on the yogurt-based pesto can cause it to split"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "Reserve pasta water before draining. You'll need it to loosen the sauce"
+    },
+    {
+      "kind": "fixes",
+      "body": "**No char on the shrimp:** the pan wasn't hot enough or the shrimp were wet. Preheat longer and pat drier"
+    },
+    {
+      "kind": "fixes",
+      "body": "**Rubbery shrimp:** cut 15–20 seconds off each side, or pull them earlier"
+    },
+    {
+      "kind": "fixes",
+      "body": "**Sauce too thick:** more pasta water or ice water, a teaspoon at a time"
+    },
+    {
+      "kind": "fixes",
+      "body": "**Grainy sauce:** yogurt was overblended. Fold more gently next time"
+    },
+    {
+      "kind": "fixes",
+      "body": "**Dull pesto color:** processor ran too hot. Pulse in shorter bursts, let the bowl rest between batches"
+    },
+    {
+      "kind": "fixes",
+      "body": "**Watery bowl:** the peppers weren't patted dry enough"
+    }
+  ],
+  "tags": ["pasta", "seafood", "stovetop", "high protein", "batch friendly"]
+}

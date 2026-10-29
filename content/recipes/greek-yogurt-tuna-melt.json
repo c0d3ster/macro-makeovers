@@ -5,7 +5,7 @@
   "servings": 4,
   "prepMinutes": 10,
   "cookMinutes": 10,
-  "costTier": 4,
+  "costTier": 2,
   "difficulty": 2,
   "nutrition": [
     {
@@ -80,19 +80,19 @@
       "raw": "Juice of 1/2 lemon"
     },
     {
-      "group": "Per sandwich — pick a build",
+      "group": "Per sandwich (pick a build)",
       "raw": "Hoagie melt (default): 1 hoagie roll + 1 slice provolone (~0.75 oz), cut in half and overlapped + ~1/2 tsp olive oil to brush the top (2 tsp covers the batch of 4)"
     },
     {
-      "group": "Per sandwich — pick a build",
+      "group": "Per sandwich (pick a build)",
       "raw": "Sourdough melt: 2 slices sourdough + 1 slice provolone (~0.75 oz), half on each slice"
     },
     {
-      "group": "Per sandwich — pick a build",
+      "group": "Per sandwich (pick a build)",
       "raw": "Cold: 2 slices whole wheat, no cheese"
     },
     {
-      "group": "Per sandwich — pick a build",
+      "group": "Per sandwich (pick a build)",
       "raw": "Plus 1 serving tuna salad"
     },
     {
@@ -103,7 +103,7 @@
   "steps": [
     {
       "phase": "prep",
-      "body": "**If using cans, drain hard** — press the tuna. Excess water makes the salad soupy and you'll be tempted to add more yogurt to fix it. Pouches go straight in."
+      "body": "**If using cans, drain hard.** Press the tuna. Excess water makes the salad soupy and you'll be tempted to add more yogurt to fix it. Pouches go straight in."
     },
     {
       "phase": "prep",
@@ -119,7 +119,7 @@
     },
     {
       "phase": "cook",
-      "body": "**Build it in the roll.** Split the hoagie along one side but keep it hinged, not flattened open. Lightly brush just the top of the roll with olive oil — that's the surface facing the element, and lean bread scorches there before the cheese crisps; the oil browns it evenly instead. Fill with tuna salad. Lay the two halved provolone pieces over the top with an overlap down the middle, where the filling is deepest."
+      "body": "**Build it in the roll.** Split the hoagie along one side but keep it hinged, not flattened open. Lightly brush just the top of the roll with olive oil. That's the surface facing the element, and lean bread scorches there before the cheese crisps; the oil browns it evenly instead. Fill with tuna salad. Lay the two halved provolone pieces over the top with an overlap down the middle, where the filling is deepest."
     },
     {
       "phase": "cook",
@@ -141,7 +141,7 @@
     },
     {
       "kind": "make_or_break",
-      "body": "**Don't over-yogurt it.** Start with 2/3 cup — it should coat, not drown. Well-drained tuna needs less than you'd think"
+      "body": "**Don't over-yogurt it.** Start with 2/3 cup. It should coat, not drown. Well-drained tuna needs less than you'd think"
     },
     {
       "kind": "make_or_break",
@@ -149,7 +149,7 @@
     },
     {
       "kind": "make_or_break",
-      "body": "Provolone is the pick for melt quality; cheddar or swiss swap in with near-identical macros. Celery, onion, and pickle are free volume — load them up"
+      "body": "Provolone is the pick for melt quality; cheddar or swiss swap in with near-identical macros. Celery, onion, and pickle are free volume, so load them up"
     },
     {
       "kind": "levers",
