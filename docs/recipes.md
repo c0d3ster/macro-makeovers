@@ -4,7 +4,7 @@ High-protein, lower-fat versions of foods people love. Comfort-food staples rebu
 
 **The guiding principle:** spend your fat budget deliberately on things that earn it (olive oil, salmon, eggs), not on cream sauce and fatty ground beef where you won't miss it. Lean proteins keep the budget open.
 
-All thirteen below are batch/leftover friendly and built around a protein-heavy lean diet: roughly your bodyweight in grams of protein, with fat around 25-30% of calories. Each nutrition table includes a typical traditional version per serving for comparison, to show what the makeover saves. More on the numbers behind this in [Nutritional Foundation](#nutritional-foundation) at the end.
+All thirteen numbered recipes below are batch/leftover friendly and built around a protein-heavy lean diet: roughly your bodyweight in grams of protein, with fat around 25-30% of calories. Each nutrition table includes a typical traditional version per serving for comparison, to show what the makeover saves. More on the numbers behind this in [Nutritional Foundation](#nutritional-foundation) at the end.
 
 ## Quick reference
 
@@ -24,6 +24,7 @@ Per serving, default/featured build for each. Full nutrition, other build option
 | [Kickin' Fried Chicken](#8-kickin-fried-chicken) _(full plate)_                   | ~605     | 45g     | 48 / 22 / 30 | 5        |
 | [Beef Bulgogi](#9-beef-bulgogi) _(over black rice)_                               | ~520     | 46g     | 40 / 24 / 36 | 4        |
 | [Cheesy Hash Brown Bacon Bake](#10-cheesy-hash-brown-bacon-bake)                  | ~550     | 45g     | 36 / 30 / 34 | 4        |
+| [Southwest Sausage Hash Brown Bake](#10a-southwest-sausage-hash-brown-bake)       | ~600     | 47g     | 40 / 29 / 31 | 4        |
 | [Pollo Asado Chicken Thigh Bowl](#11-pollo-asado-chicken-thigh-bowl) _(skinless)_ | ~670     | 56g     | 40 / 27 / 33 | 4        |
 | [Shake 'n Bake Pork Chops](#12-shake-n-bake-pork-chops) _(full plate)_            | ~675     | 55g     | 34 / 33 / 33 | 4        |
 | [Red Enchilada Casserole](#13-red-enchilada-casserole)                            | ~525     | 46g     | 42 / 24 / 34 | 6        |
@@ -710,7 +711,7 @@ Nearly 4x the fat on the traditional plate for less protein. The gap is driven a
 
 <a id="9-beef-bulgogi"></a>
 
-## 9. Beef Bulgogi | $$$–$$$$ · ~50 min · ●●○○○
+## 9. Beef Bulgogi | $$$$ · ~50 min · ●●○○○
 
 Thin-sliced ribeye strips in a soy-pear marinade, seared hard in cast iron and served over black rice. Traditional bulgogi is already fairly lean, so there is no dairy swap here. The fat comes down through a lean pre-cut strip (about 3.5g fat per 4 oz) and 1 tbsp of sesame oil across the whole batch, where traditional versions run 1.5 to 2 tbsp. Black rice brings more fiber and protein than white. Built with Heritage brand ribeye strips for convenience, with trimmed flank as the from-scratch option. **Makes 4 servings.**
 
@@ -883,9 +884,107 @@ The traditional row assumes about 4 of the original recipe's 6 tbsp of oil end u
 
 ---
 
+<a id="10a-southwest-sausage-hash-brown-bake"></a>
+
+## 10a. Southwest Sausage Hash Brown Bake | $$ · ~70 min · ●●●○○
+
+Shredded southwest hash browns roasted crisp, baked breakfast sausage, black beans, and charred corn set in a cottage cheese and egg white custard, topped with Kerrygold Reserve cheddar crisped under the broiler. The sausage carries the flavor, the whites and cottage cheese carry the protein, and the beans and corn bring carbs and fiber. A variant of the Cheesy Hash Brown Bacon Bake with its own method. **Makes 4 servings.**
+
+### Nutrition
+
+|                           | Calories | Carbs | Fat   | Protein | Ratio C/F/P    |
+| ------------------------- | -------- | ----- | ----- | ------- | -------------- |
+| **Per serving (÷4)**      | ~600     | 61g   | 19g   | 47g     | 40 / 29 / 31   |
+| **Whole batch**           | ~2,410   | 244g  | 77g   | 186g    | —              |
+| _Traditional per serving_ | _~560_   | _30g_ | _37g_ | _28g_   | _21 / 59 / 20_ |
+
+The traditional row assumes the same patties and potatoes with the potatoes fried in 3 tbsp of oil, 6 whole eggs with 1/2 cup of milk, and 4 oz of regular cheddar. The fat savings come from the oil spray, the egg white and cottage cheese custard, and a measured amount of cheddar. They go toward protein, the beans, and the corn, so carbs run higher.
+
+### Ingredients
+
+**Base**
+
+- 1 bag (20 oz) Simply Potatoes Southwest Style shredded hash browns (7 servings, ~4 2/3 cups)
+- 4 Bob Evans original pork sausage patties
+- 1 can (15oz) black beans, drained and rinsed
+- 1 can (15oz) no salt added corn, drained
+- 1 red bell pepper, diced small
+- 1/2 onion, diced
+- 2 jalapeños, diced (leave some seeds in, it carries all the heat)
+- 2 cloves garlic, minced
+- 2 1/2 tsp avocado oil total: about 1 1/2 tsp as spray on the potatoes, 1 tsp in the skillet
+
+**Custard**
+
+- 3 cups liquid egg whites
+- 1 cup 2% cottage cheese
+
+**Topping**
+
+- 2 oz Kerrygold Reserve cheddar, shredded (real, off the block)
+- Scallions and cilantro, to finish
+
+**Spice mix**
+
+- Garlic powder 1/2 tsp, smoked paprika 1/2 tsp, cumin 1/2 tsp, black pepper 1/4 tsp (all in the custard)
+
+> **Oil note:** use avocado oil, not butter or extra virgin olive oil. The potatoes roast at 430°F and both would scorch or turn bitter at that heat. A heavy spray covers 4 2/3 cups of potatoes from about 1.5 tsp of oil.
+
+### Method
+
+**Prep** (~15 min)
+
+- Preheat the oven to 430°F.
+- Dice the onion, bell pepper, and jalapeños. Mince the garlic. Shred the cheddar.
+- Drain the corn. Drain and rinse the beans. Pat both dry.
+- Blend the egg whites, cottage cheese, and spice mix until fully smooth. Refrigerate until needed.
+
+**Cook** (~55 min)
+
+1. **Roast the potatoes and sausage together.** Spread the potatoes in a single layer on one sheet pan, spray heavily with avocado oil, and toss to coat. Set the patties on a rack over a second pan. Bake at 430°F, tossing the potatoes at about 8 min and again at 16 min, flipping the patties at 7 min, and rotating the pans each time. Pull the patties at 12-14 min, when they read 160°F. Then broil the potatoes alone for the final 2-4 min for extra crisp, watching closely (20 min total).
+2. **Char the corn and saute the veg while those bake.** Char the corn in a dry hot cast iron pan for 4-6 min, leaving it alone between stirs until it has browned spots, then move it to a bowl. Heat 1 tsp avocado oil in the same pan over medium. Cook the onion, pepper, and jalapeños together for about 6 min, then add the garlic for the last minute. Cook it fairly dry, then let it cool a couple of minutes so it doesn't thin the custard.
+3. **Assemble.** Switch the oven from broil back to bake at 400°F and dice the patties. Move the hot potatoes into an 8x11 dish with the veg, corn, sausage, and beans. Pour the custard over, stopping about 1/2" below the rim, and bake any extra in a ramekin. Set the dish on a sheet pan.
+4. **Set the base.** Bake 18-20 min, until mostly set but still soft in the center. Start checking the center at 16 min.
+5. **Add the cheddar.** Scatter it over the top and bake 6-8 min, then broil 1-2 min to crisp it, watching the whole time.
+6. **Finish.** Rest 5 min, top with scallions and cilantro, and cut into 4.
+
+### Make-or-break
+
+- **Single layer, spread thin.** Shredded potatoes steam when piled. If one pan stays pale, split them across two pans
+- **Toss at 8 and 16 min and rotate the pans.** Both pans brown evenly instead of one side scorching
+- **Patties on a rack.** The fat drips away instead of pooling, and the potatoes stay on their own pan so the sausage doesn't grease them
+- **Char the corn dry, before the oil goes in.** Dry kernels brown instead of steaming, and the same pan then cooks the veg
+- **Saute the veg fairly dry, then cool it.** Wet veg leaks into the custard and softens the base
+- **Garlic goes in last.** It scorches fast, and a bitter note shows in a mild custard
+- **Hot potatoes into the dish.** They jump-start the set, so the base needs only 18-20 min
+- **Blend the custard fully smooth.** Any grain from the cottage cheese shows in a firm base
+- **Pat the beans and corn dry.** Wet beans and corn leak into the custard and soften the base
+- **Cheddar goes on after the base sets.** On raw custard it sinks and turns greasy instead of crisping. Reserve is aged 2 years, so 2 oz carries the flavor
+- **Set the dish on a sheet pan.** It fills nearly all of the 8x11, and the pan catches any bubbling over
+- **Taste before adding salt.** The potatoes, sausage, and cottage cheese all carry it, roughly 1,300mg per serving
+
+### Fixes
+
+- **Watery base:** the beans, corn, or veg went in wet, or the potatoes steamed on a crowded pan. Pat the beans and corn dry, cook the veg drier, and spread the potatoes thinner
+- **Potatoes not crisp:** more oil spray, a thinner layer, or an extra minute under the broiler. Use two pans if one stays pale
+- **Custard rubbery:** it baked past set. Pull it while the center still jiggles, since it keeps setting during the rest
+- **Custard grainy:** the cottage cheese wasn't blended long enough. Blend until silky
+- **Cheese not crisping:** finish under the broiler, watching the whole time, since it goes from crisp to burnt fast
+- **Sausage dry:** it went past 160°F. Pull it as soon as it reads 160°F, since it bakes again in the dish
+- **Too salty:** squeeze lime over each portion and add extra cilantro
+
+### Levers
+
+- **Whole eggs on top:** press four shallow wells in the set base, crack an extra large egg into each, and scatter the cheddar around the yolks. Use a 9x13 dish and check the base a few minutes early. Lands at ~680 cal, 62g carbs, 25g fat, 54g protein (36 / 33 / 31)
+- **Less fat:** cheddar to 1.5 oz saves about 1g fat. Three patties instead of four saves about 2g fat and 26 cal, and costs about 2g protein
+- **Lower carb:** leaving out the beans cuts about 15g carbs, 80 cal, and 5g protein, and leaving out the corn cuts about 10g carbs and 50 cal
+- **More heat:** leave all the jalapeño seeds in, or finish with hot sauce and pickled jalapeños. The macros barely move
+
+---
+
 <a id="11-pollo-asado-chicken-thigh-bowl"></a>
 
-## 11. Pollo Asado Chicken Thigh Bowl | $$–$$$ · ~60 min + 2 hr marinade · ●●○○○
+## 11. Pollo Asado Chicken Thigh Bowl | $$ · ~60 min + 2 hr marinade · ●●○○○
 
 Citrus-achiote thighs seared hard for char, over brown rice with black beans, mango habanero salsa, cotija, and blended cottage cheese. Two builds: skinless and skin-on. **Makes 4 servings.**
 

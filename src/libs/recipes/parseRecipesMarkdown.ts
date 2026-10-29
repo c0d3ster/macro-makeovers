@@ -253,17 +253,6 @@ const parseBullets = (lines: string[], kind: Note['kind']): Note[] =>
     return notes
   }, [])
 
-// "$$" is one tier, "$$–$$$" is a range for a recipe whose builds are priced differently
-const parseCostTiers = (
-  meta: string
-): { costTier: number; costTierMax?: number } => {
-  const [, low = '', high = ''] = meta.match(/(\$+)(?:\s*[–-]\s*(\$+))?/) ?? []
-
-  return high.length > low.length
-    ? { costTier: low.length, costTierMax: high.length }
-    : { costTier: low.length }
-}
-
 const parseRecipe = (
   heading: string,
   body: string[],
@@ -309,7 +298,7 @@ const parseRecipe = (
     servings: quick.servings,
     prepMinutes: method.prepMinutes,
     cookMinutes: method.cookMinutes,
-    ...parseCostTiers(meta),
+    costTier: (meta.match(/\$/g) ?? []).length,
     difficulty: (meta.match(/●/g) ?? []).length,
     nutrition: parseNutrition(
       sectionByPrefix(sections, 'nutrition'),
@@ -324,13 +313,14 @@ const parseRecipe = (
 
 // Reads the recipe book (docs/recipes.md) into the import shape. The quick reference table
 // supplies servings and picks each recipe's default nutrition row, which doubles as a check
-// that the table and the per-recipe tables agree.
+// that the table and the per-recipe tables agree. A heading numbered with a letter (`10a.`)
+// is a variant of the recipe with that number (`10.`).
 export const parseRecipesMarkdown = (markdown: string): ParsedRecipe[] => {
   const lines = markdown.split('\n')
   const quickRefs = parseQuickReference(lines)
 
   const starts = lines.flatMap((line, index) =>
-    /^## \d+\. /.test(line) ? [index] : []
+    /^## \d+[a-z]?\. /.test(line) ? [index] : []
   )
   if (starts.length === 0) throw new Error('No numbered recipes found')
   if (starts.length !== quickRefs.length) {
@@ -339,15 +329,30 @@ export const parseRecipesMarkdown = (markdown: string): ParsedRecipe[] => {
     )
   }
 
-  return starts.map((start, index) => {
+  const recipes = starts.map((start, index) => {
     const nextStart = starts[index + 1] ?? lines.length
     const end = lines.findIndex(
       (line, lineIndex) => lineIndex > start && /^(?:## |---$)/.test(line)
     )
     const stop = end === -1 ? nextStart : Math.min(end, nextStart)
-    const heading = (lines[start] ?? '').replace(/^## \d+\.\s+/, '')
+    const [, number = '', letter] =
+      /^## (\d+)([a-z])?\. /.exec(lines[start] ?? '') ?? []
+    const heading = (lines[start] ?? '').replace(/^## \d+[a-z]?\.\s+/, '')
     const quick = quickRefs[index]
     if (!quick) throw new Error(`No quick reference row for "${heading}"`)
-    return parseRecipe(heading, lines.slice(start + 1, stop), quick)
+    return {
+      number,
+      isVariant: letter !== undefined,
+      recipe: parseRecipe(heading, lines.slice(start + 1, stop), quick),
+    }
+  })
+
+  return recipes.map(({ number, isVariant, recipe }) => {
+    if (!isVariant) return recipe
+    const base = recipes.find(
+      (other) => other.number === number && !other.isVariant
+    )
+    if (!base) throw new Error(`"${recipe.title}" has no base recipe ${number}`)
+    return { ...recipe, variantOf: base.recipe.slug }
   })
 }

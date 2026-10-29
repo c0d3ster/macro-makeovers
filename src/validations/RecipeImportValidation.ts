@@ -2,6 +2,12 @@ import z from 'zod'
 
 const nonNegative = z.number().min(0)
 const text = z.string().trim().min(1)
+const slug = z
+  .string()
+  .regex(
+    /^[a-z0-9]+(?:-[a-z0-9]+)*$/,
+    'Use lowercase words separated by hyphens'
+  )
 
 const nutritionSchema = z.object({
   kind: z.enum(['makeover', 'traditional']),
@@ -38,21 +44,16 @@ const noteSchema = z.object({
 // ingredient, so a parsing pass can fill quantity, unit, and name in later.
 export const recipeImportSchema = z
   .object({
-    slug: z
-      .string()
-      .regex(
-        /^[a-z0-9]+(?:-[a-z0-9]+)*$/,
-        'Use lowercase words separated by hyphens'
-      ),
+    slug,
     title: text,
     summary: text,
     servings: z.number().int().positive(),
     prepMinutes: z.number().int().min(0),
     cookMinutes: z.number().int().min(0),
     costTier: z.number().int().min(1).max(4),
-    // Top of the range when builds are priced differently, e.g. ribeye vs flank
-    costTierMax: z.number().int().min(1).max(4).optional(),
     difficulty: z.number().int().min(1).max(5),
+    // Slug of the recipe this one is a variant of. The base must already exist.
+    variantOf: slug.optional(),
     tags: z.array(z.string().trim().toLowerCase().min(1)),
     nutrition: z.array(nutritionSchema).min(1),
     ingredients: z.array(ingredientSchema).min(1),
@@ -60,14 +61,11 @@ export const recipeImportSchema = z
     notes: z.array(noteSchema),
   })
   .superRefine((recipe, ctx) => {
-    if (
-      recipe.costTierMax !== undefined &&
-      recipe.costTierMax <= recipe.costTier
-    ) {
+    if (recipe.variantOf === recipe.slug) {
       ctx.addIssue({
         code: 'custom',
-        path: ['costTierMax'],
-        message: 'Max cost tier must be above the cost tier, or left out',
+        path: ['variantOf'],
+        message: 'A recipe cannot be a variant of itself',
       })
     }
 

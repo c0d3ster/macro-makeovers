@@ -1,0 +1,230 @@
+{
+  "slug": "southwest-sausage-hash-brown-bake",
+  "title": "Southwest Sausage Hash Brown Bake",
+  "summary": "Shredded southwest hash browns roasted crisp, baked breakfast sausage, black beans, and charred corn set in a cottage cheese and egg white custard, topped with Kerrygold Reserve cheddar crisped under the broiler. The sausage carries the flavor, the whites and cottage cheese carry the protein, and the beans and corn bring carbs and fiber. A variant of the Cheesy Hash Brown Bacon Bake with its own method. Makes 4 servings.",
+  "servings": 4,
+  "prepMinutes": 15,
+  "cookMinutes": 55,
+  "costTier": 2,
+  "difficulty": 3,
+  "nutrition": [
+    {
+      "kind": "makeover",
+      "label": "Per serving",
+      "calories": 600,
+      "carbsG": 61,
+      "fatG": 19,
+      "proteinG": 47,
+      "isDefault": true
+    },
+    {
+      "kind": "traditional",
+      "label": "Traditional per serving",
+      "calories": 560,
+      "carbsG": 30,
+      "fatG": 37,
+      "proteinG": 28,
+      "isDefault": false
+    }
+  ],
+  "ingredients": [
+    {
+      "group": "Base",
+      "raw": "1 bag (20 oz) Simply Potatoes Southwest Style shredded hash browns (7 servings, ~4 2/3 cups)"
+    },
+    {
+      "group": "Base",
+      "raw": "4 Bob Evans original pork sausage patties"
+    },
+    {
+      "group": "Base",
+      "raw": "1 can (15oz) black beans, drained and rinsed"
+    },
+    {
+      "group": "Base",
+      "raw": "1 can (15oz) no salt added corn, drained"
+    },
+    {
+      "group": "Base",
+      "raw": "1 red bell pepper, diced small"
+    },
+    {
+      "group": "Base",
+      "raw": "1/2 onion, diced"
+    },
+    {
+      "group": "Base",
+      "raw": "2 jalapeños, diced (leave some seeds in, it carries all the heat)"
+    },
+    {
+      "group": "Base",
+      "raw": "2 cloves garlic, minced"
+    },
+    {
+      "group": "Base",
+      "raw": "2 1/2 tsp avocado oil total: about 1 1/2 tsp as spray on the potatoes, 1 tsp in the skillet"
+    },
+    {
+      "group": "Custard",
+      "raw": "3 cups liquid egg whites"
+    },
+    {
+      "group": "Custard",
+      "raw": "1 cup 2% cottage cheese"
+    },
+    {
+      "group": "Topping",
+      "raw": "2 oz Kerrygold Reserve cheddar, shredded (real, off the block)"
+    },
+    {
+      "group": "Topping",
+      "raw": "Scallions and cilantro, to finish"
+    },
+    {
+      "group": "Spice mix",
+      "raw": "Garlic powder 1/2 tsp, smoked paprika 1/2 tsp, cumin 1/2 tsp, black pepper 1/4 tsp (all in the custard)"
+    }
+  ],
+  "steps": [
+    {
+      "phase": "prep",
+      "body": "Preheat the oven to 430°F."
+    },
+    {
+      "phase": "prep",
+      "body": "Dice the onion, bell pepper, and jalapeños. Mince the garlic. Shred the cheddar."
+    },
+    {
+      "phase": "prep",
+      "body": "Drain the corn. Drain and rinse the beans. Pat both dry."
+    },
+    {
+      "phase": "prep",
+      "body": "Blend the egg whites, cottage cheese, and spice mix until fully smooth. Refrigerate until needed."
+    },
+    {
+      "phase": "cook",
+      "body": "**Roast the potatoes and sausage together.** Spread the potatoes in a single layer on one sheet pan, spray heavily with avocado oil, and toss to coat. Set the patties on a rack over a second pan. Bake at 430°F, tossing the potatoes at about 8 min and again at 16 min, flipping the patties at 7 min, and rotating the pans each time. Pull the patties at 12-14 min, when they read 160°F. Then broil the potatoes alone for the final 2-4 min for extra crisp, watching closely (20 min total)."
+    },
+    {
+      "phase": "cook",
+      "body": "**Char the corn and saute the veg while those bake.** Char the corn in a dry hot cast iron pan for 4-6 min, leaving it alone between stirs until it has browned spots, then move it to a bowl. Heat 1 tsp avocado oil in the same pan over medium. Cook the onion, pepper, and jalapeños together for about 6 min, then add the garlic for the last minute. Cook it fairly dry, then let it cool a couple of minutes so it doesn't thin the custard."
+    },
+    {
+      "phase": "cook",
+      "body": "**Assemble.** Switch the oven from broil back to bake at 400°F and dice the patties. Move the hot potatoes into an 8x11 dish with the veg, corn, sausage, and beans. Pour the custard over, stopping about 1/2\" below the rim, and bake any extra in a ramekin. Set the dish on a sheet pan."
+    },
+    {
+      "phase": "cook",
+      "body": "**Set the base.** Bake 18-20 min, until mostly set but still soft in the center. Start checking the center at 16 min."
+    },
+    {
+      "phase": "cook",
+      "body": "**Add the cheddar.** Scatter it over the top and bake 6-8 min, then broil 1-2 min to crisp it, watching the whole time."
+    },
+    {
+      "phase": "cook",
+      "body": "**Finish.** Rest 5 min, top with scallions and cilantro, and cut into 4."
+    }
+  ],
+  "notes": [
+    {
+      "kind": "tip",
+      "body": "Oil note: use avocado oil, not butter or extra virgin olive oil. The potatoes roast at 430°F and both would scorch or turn bitter at that heat. A heavy spray covers 4 2/3 cups of potatoes from about 1.5 tsp of oil."
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Single layer, spread thin.** Shredded potatoes steam when piled. If one pan stays pale, split them across two pans"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Toss at 8 and 16 min and rotate the pans.** Both pans brown evenly instead of one side scorching"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Patties on a rack.** The fat drips away instead of pooling, and the potatoes stay on their own pan so the sausage doesn't grease them"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Char the corn dry, before the oil goes in.** Dry kernels brown instead of steaming, and the same pan then cooks the veg"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Saute the veg fairly dry, then cool it.** Wet veg leaks into the custard and softens the base"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Garlic goes in last.** It scorches fast, and a bitter note shows in a mild custard"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Hot potatoes into the dish.** They jump-start the set, so the base needs only 18-20 min"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Blend the custard fully smooth.** Any grain from the cottage cheese shows in a firm base"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Pat the beans and corn dry.** Wet beans and corn leak into the custard and soften the base"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Cheddar goes on after the base sets.** On raw custard it sinks and turns greasy instead of crisping. Reserve is aged 2 years, so 2 oz carries the flavor"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Set the dish on a sheet pan.** It fills nearly all of the 8x11, and the pan catches any bubbling over"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Taste before adding salt.** The potatoes, sausage, and cottage cheese all carry it, roughly 1,300mg per serving"
+    },
+    {
+      "kind": "fixes",
+      "body": "**Watery base:** the beans, corn, or veg went in wet, or the potatoes steamed on a crowded pan. Pat the beans and corn dry, cook the veg drier, and spread the potatoes thinner"
+    },
+    {
+      "kind": "fixes",
+      "body": "**Potatoes not crisp:** more oil spray, a thinner layer, or an extra minute under the broiler. Use two pans if one stays pale"
+    },
+    {
+      "kind": "fixes",
+      "body": "**Custard rubbery:** it baked past set. Pull it while the center still jiggles, since it keeps setting during the rest"
+    },
+    {
+      "kind": "fixes",
+      "body": "**Custard grainy:** the cottage cheese wasn't blended long enough. Blend until silky"
+    },
+    {
+      "kind": "fixes",
+      "body": "**Cheese not crisping:** finish under the broiler, watching the whole time, since it goes from crisp to burnt fast"
+    },
+    {
+      "kind": "fixes",
+      "body": "**Sausage dry:** it went past 160°F. Pull it as soon as it reads 160°F, since it bakes again in the dish"
+    },
+    {
+      "kind": "fixes",
+      "body": "**Too salty:** squeeze lime over each portion and add extra cilantro"
+    },
+    {
+      "kind": "levers",
+      "body": "**Whole eggs on top:** press four shallow wells in the set base, crack an extra large egg into each, and scatter the cheddar around the yolks. Use a 9x13 dish and check the base a few minutes early. Lands at ~680 cal, 62g carbs, 25g fat, 54g protein (36 / 33 / 31)"
+    },
+    {
+      "kind": "levers",
+      "body": "**Less fat:** cheddar to 1.5 oz saves about 1g fat. Three patties instead of four saves about 2g fat and 26 cal, and costs about 2g protein"
+    },
+    {
+      "kind": "levers",
+      "body": "**Lower carb:** leaving out the beans cuts about 15g carbs, 80 cal, and 5g protein, and leaving out the corn cuts about 10g carbs and 50 cal"
+    },
+    {
+      "kind": "levers",
+      "body": "**More heat:** leave all the jalapeño seeds in, or finish with hot sauce and pickled jalapeños. The macros barely move"
+    }
+  ],
+  "variantOf": "cheesy-hash-brown-bacon-bake",
+  "tags": ["bake", "pork", "oven", "sheet pan", "high protein", "comfort food"]
+}

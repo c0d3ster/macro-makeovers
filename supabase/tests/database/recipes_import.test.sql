@@ -1,5 +1,5 @@
 begin;
-select plan(16);
+select plan(21);
 
 -- A minimal payload in the shape the app sends
 create temp table payload (body jsonb) on commit drop;
@@ -14,7 +14,6 @@ insert into payload values ($json$
   "prepMinutes": 10,
   "cookMinutes": 40,
   "costTier": 2,
-  "costTierMax": 3,
   "difficulty": 2,
   "tags": ["brand new tag", "chili"],
   "nutrition": [
@@ -102,24 +101,61 @@ select is(
   'an import writes a revision'
 );
 
-select is(
-  (select cost_tier_max::int from public.recipes where slug = 'test-chili'),
-  3,
-  'the top of the cost range is stored'
-);
-
-select throws_ok(
-  $$update public.recipes set cost_tier_max = 2 where slug = 'test-chili'$$,
-  '23514',
-  null,
-  'the cost range must top out above the tier'
-);
-
 -- The snapshot has the same shape as the payload
 select is(
   public.recipe_snapshot((select id from public.recipes where slug = 'test-chili')),
   (select body from payload),
   'the snapshot round-trips the import payload'
+);
+
+-- A variant is a full recipe linked to its base
+create temp table variant_payload (body jsonb) on commit drop;
+grant all on variant_payload to service_role;
+insert into variant_payload
+  select body || '{"slug": "test-chili-white", "title": "White Test Chili", "variantOf": "test-chili"}'::jsonb
+  from payload;
+
+select lives_ok(
+  $$select public.import_recipe((select body from variant_payload))$$,
+  'a variant imports when its base exists'
+);
+
+select is(
+  (select b.slug from public.recipes v join public.recipes b on b.id = v.variant_of where v.slug = 'test-chili-white'),
+  'test-chili',
+  'a variant points at its base'
+);
+
+select is(
+  public.recipe_snapshot((select id from public.recipes where slug = 'test-chili-white')) ->> 'variantOf',
+  'test-chili',
+  'the snapshot names the base by slug'
+);
+
+select throws_ok(
+  $$select public.import_recipe((select body || '{"slug": "orphan", "variantOf": "no-such-recipe"}'::jsonb from payload))$$,
+  'P0001',
+  null,
+  'a variant needs an existing base'
+);
+
+select throws_ok(
+  $$select public.import_recipe((select body || '{"slug": "grandchild", "variantOf": "test-chili-white"}'::jsonb from payload))$$,
+  'P0001',
+  null,
+  'a variant cannot be the base of another variant'
+);
+
+select lives_ok(
+  $$select public.import_recipe((select body || '{"slug": "plain-base", "title": "Plain Base"}'::jsonb from payload))$$,
+  'a second plain recipe imports'
+);
+
+select throws_ok(
+  $$select public.import_recipe((select body || '{"variantOf": "plain-base"}'::jsonb from payload))$$,
+  'P0001',
+  null,
+  'a recipe with variants cannot become a variant'
 );
 
 -- Re-importing replaces children and keeps the published status

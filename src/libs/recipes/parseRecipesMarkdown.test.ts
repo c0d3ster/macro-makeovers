@@ -16,9 +16,9 @@ const bySlug = (slug: string): (typeof recipes)[number] => {
 }
 
 describe('parseRecipesMarkdown (docs/recipes.md)', () => {
-  it('finds all thirteen recipes with unique slugs', () => {
-    expect(recipes).toHaveLength(13)
-    expect(new Set(recipes.map(({ slug }) => slug)).size).toBe(13)
+  it('finds all fourteen recipes with unique slugs', () => {
+    expect(recipes).toHaveLength(14)
+    expect(new Set(recipes.map(({ slug }) => slug)).size).toBe(14)
   })
 
   it('produces recipes that pass the import schema', () => {
@@ -43,18 +43,16 @@ describe('parseRecipesMarkdown (docs/recipes.md)', () => {
     })
     expect(bySlug('kickin-fried-chicken').difficulty).toBe(5)
     expect(bySlug('ham-and-prosciutto-sliders').costTier).toBe(3)
-    expect(bySlug('ham-and-prosciutto-sliders').costTierMax).toBeUndefined()
   })
 
-  it('reads a cost range when the builds are priced differently', () => {
-    expect(bySlug('beef-bulgogi')).toMatchObject({
-      costTier: 3,
-      costTierMax: 4,
-    })
-    expect(bySlug('pollo-asado-chicken-thigh-bowl')).toMatchObject({
+  it('links a lettered recipe to the numbered one it varies', () => {
+    expect(bySlug('southwest-sausage-hash-brown-bake')).toMatchObject({
+      variantOf: 'cheesy-hash-brown-bacon-bake',
+      servings: 4,
       costTier: 2,
-      costTierMax: 3,
     })
+    expect(bySlug('cheesy-hash-brown-bacon-bake').variantOf).toBeUndefined()
+    expect(recipes.filter(({ variantOf }) => variantOf)).toHaveLength(1)
   })
 
   it('uses the quick reference title and slug for renamed headings', () => {

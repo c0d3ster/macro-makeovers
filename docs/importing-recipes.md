@@ -64,11 +64,20 @@ See the schema in `src/validations/RecipeImportValidation.ts`. Only `raw` is
 required on an ingredient. `durationMinutes` on a step is optional and may be a
 fraction (`0.25` is 15 seconds).
 
-## Cost tiers
+## Variants
 
-`costTier` (1 to 4) is the price band for the featured build, from the `$` in
-the recipe heading. A recipe whose builds are priced differently carries a
-range: `## 9. Beef Bulgogi | $$$–$$$$` parses to `costTier: 3` and
-`costTierMax: 4`. `costTierMax` is optional and must be above `costTier`.
-The bands and per-serving costs behind the tiers are in
-[`cost-estimates.md`](./cost-estimates.md), and a test checks they agree.
+A variant is a full recipe with its own directions, ingredients, nutrition, and
+`costTier`, linked to the recipe it riffs on with `variantOf` (the base recipe's
+slug). Flank steak bulgogi and the sausage hash brown bake are variants.
+
+- In `docs/recipes.md` a heading numbered with a letter is a variant of the
+  numbered recipe above it: `## 10a. Southwest Sausage Hash Brown Bake` varies
+  `## 10. Cheesy Hash Brown Bacon Bake`. Give it its own row in the quick
+  reference table.
+- The base has to exist before its variant. `pnpm recipe:import` imports bases
+  first, and a variant whose base is missing fails with a clear message.
+- Variants are one level deep: a variant cannot be a base, and a recipe that
+  has variants cannot become one.
+- A family's price range is computed from the base and its variants when it is
+  shown, so it cannot go stale. The tiers behind it are in
+  [`cost-estimates.md`](./cost-estimates.md), and a test checks they agree.
