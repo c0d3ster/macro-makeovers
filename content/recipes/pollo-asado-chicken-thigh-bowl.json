@@ -6,6 +6,7 @@
   "prepMinutes": 15,
   "cookMinutes": 45,
   "costTier": 2,
+  "costTierMax": 3,
   "difficulty": 2,
   "nutrition": [
     {

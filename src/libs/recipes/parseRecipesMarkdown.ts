@@ -253,6 +253,17 @@ const parseBullets = (lines: string[], kind: Note['kind']): Note[] =>
     return notes
   }, [])
 
+// "$$" is one tier, "$$–$$$" is a range for a recipe whose builds are priced differently
+const parseCostTiers = (
+  meta: string
+): { costTier: number; costTierMax?: number } => {
+  const [, low = '', high = ''] = meta.match(/(\$+)(?:\s*[–-]\s*(\$+))?/) ?? []
+
+  return high.length > low.length
+    ? { costTier: low.length, costTierMax: high.length }
+    : { costTier: low.length }
+}
+
 const parseRecipe = (
   heading: string,
   body: string[],
@@ -298,7 +309,7 @@ const parseRecipe = (
     servings: quick.servings,
     prepMinutes: method.prepMinutes,
     cookMinutes: method.cookMinutes,
-    costTier: (meta.match(/\$/g) ?? []).length,
+    ...parseCostTiers(meta),
     difficulty: (meta.match(/●/g) ?? []).length,
     nutrition: parseNutrition(
       sectionByPrefix(sections, 'nutrition'),

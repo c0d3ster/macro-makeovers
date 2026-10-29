@@ -6,6 +6,12 @@
 alter table public.recipe_nutrition
   add column position integer not null default 0;
 
+-- Top of the price range for recipes whose builds cost differently (ribeye vs flank bulgogi).
+-- Null means the recipe has a single tier.
+alter table public.recipes
+  add column cost_tier_max smallint check (cost_tier_max between 1 and 4),
+  add constraint recipes_cost_tier_max_above_tier check (cost_tier_max is null or cost_tier_max > cost_tier);
+
 create function public.recipe_snapshot(p_recipe_id uuid)
 returns jsonb
 language sql
@@ -20,6 +26,7 @@ as $$
     'prepMinutes', r.prep_minutes,
     'cookMinutes', r.cook_minutes,
     'costTier', r.cost_tier,
+    'costTierMax', r.cost_tier_max,
     'difficulty', r.difficulty,
     'tags', coalesce((
       select jsonb_agg(t.name order by t.name)
@@ -87,7 +94,7 @@ declare
   v_id uuid;
 begin
   insert into public.recipes (
-    slug, title, summary, servings, prep_minutes, cook_minutes, cost_tier, difficulty
+    slug, title, summary, servings, prep_minutes, cook_minutes, cost_tier, cost_tier_max, difficulty
   )
   values (
     p_recipe ->> 'slug',
@@ -97,6 +104,7 @@ begin
     (p_recipe ->> 'prepMinutes')::integer,
     (p_recipe ->> 'cookMinutes')::integer,
     (p_recipe ->> 'costTier')::smallint,
+    (p_recipe ->> 'costTierMax')::smallint,
     (p_recipe ->> 'difficulty')::smallint
   )
   on conflict (slug) do update set
@@ -106,6 +114,7 @@ begin
     prep_minutes = excluded.prep_minutes,
     cook_minutes = excluded.cook_minutes,
     cost_tier = excluded.cost_tier,
+    cost_tier_max = excluded.cost_tier_max,
     difficulty = excluded.difficulty
   returning id into v_id;
 
