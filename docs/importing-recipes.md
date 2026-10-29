@@ -81,3 +81,17 @@ slug). Flank steak bulgogi and the sausage hash brown bake are variants.
 - A family's price range is computed from the base and its variants when it is
   shown, so it cannot go stale. The tiers behind it are in
   [`cost-estimates.md`](./cost-estimates.md), and a test checks they agree.
+
+## Importing into the hosted project
+
+`pnpm recipe:import:prod` takes the same arguments as `pnpm recipe:import` but
+loads `.env.production` and `.env.production.local` instead of `.env` and
+`.env.local`.
+
+- `.env.production` (committed) sets `NEXT_PUBLIC_SUPABASE_URL` to the hosted
+  project URL.
+- `.env.production.local` (gitignored) sets `SUPABASE_SECRET_KEY` to the hosted
+  secret key from the Supabase dashboard (Project Settings, API Keys).
+
+Run `supabase db push --linked` first so the hosted database has the latest
+migrations, and start with `--dry-run`.
