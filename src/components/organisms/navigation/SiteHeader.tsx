@@ -3,6 +3,7 @@
 import Link from 'next/link'
 
 import { SignOutButton } from '@/components/molecules'
+import { Env } from '@/libs/Env'
 import { isSupabaseConfigured } from '@/libs/supabase/client'
 import { useAuth } from '@/providers'
 
@@ -50,13 +51,15 @@ export const SiteHeader = ({
               {logoUrl ? (
                 <img src={logoUrl} alt='Logo' className='h-12 w-auto' />
               ) : (
-                <span className='text-lg font-semibold text-text'>LOGO</span>
+                <span className='text-base font-semibold whitespace-nowrap text-text sm:text-lg'>
+                  {Env.NEXT_PUBLIC_BRAND_NAME}
+                </span>
               )}
             </Link>
           </div>
 
           {/* Navigation */}
-          <nav className='flex space-x-8'>
+          <nav className='flex space-x-4 sm:space-x-8'>
             {menuItems.map((item) => {
               const isActive = activeItem === item.id
               return (

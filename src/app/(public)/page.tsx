@@ -1,72 +1,64 @@
 import type { Metadata } from 'next'
-
-import Link from 'next/link'
+import type { ReactElement } from 'react'
 
 import { ContactForm } from '@/components/molecules'
+import { RecipeGrid } from '@/components/organisms'
 import { LandingPageTemplate } from '@/components/templates'
 import { Env } from '@/libs/Env'
-import { getLogoUrl } from '@/utils/logo'
+import { logger } from '@/libs/Logger'
+import { listRecipeCards } from '@/libs/recipes'
+import { createPublicClient } from '@/libs/supabase/public'
 
-export const dynamic = 'force-dynamic'
+const TAGLINE = 'High-protein, lower-fat versions of foods people love'
+
+// Public data, so the page is cached and refreshed at most once a minute
+export const revalidate = 60
 
 export const metadata: Metadata = {
-  title: `${Env.NEXT_PUBLIC_BRAND_NAME} - Modern Web Application`,
-  description:
-    'A modern web application built with Next.js, GraphQL, and TypeScript',
+  title: { absolute: `${Env.NEXT_PUBLIC_BRAND_NAME}: ${TAGLINE}` },
+  description: `${TAGLINE}. Comfort-food staples rebuilt to keep the flavor while cutting the fat and adding protein.`,
 }
 
-export default async function Index() {
-  const logoUrl = await getLogoUrl()
+const loadRecipes = async () => {
+  try {
+    return await listRecipeCards(createPublicClient())
+  } catch (error) {
+    // Keep the page up with an empty state instead of failing the whole site
+    logger.error('Could not load recipes for the home page', { error })
+    return undefined
+  }
+}
+
+const HomePage = async (): Promise<ReactElement> => {
+  const recipes = await loadRecipes()
 
   return (
-    <LandingPageTemplate logoUrl={logoUrl}>
-      {/* Main Content */}
-      <div className='flex min-h-screen items-center justify-center'>
-        <div className='text-center'>
-          {logoUrl && (
-            <div className='mb-16 flex justify-center'>
-              <img src={logoUrl} alt='Logo' className='h-32 w-auto' />
-            </div>
-          )}
-          <h2 className='mb-4 text-4xl font-bold text-text'>
-            Welcome to {Env.NEXT_PUBLIC_BRAND_NAME}
-          </h2>
-          <p className='mb-8 text-lg text-text-muted'>
-            A modern web application template
-            {' with authentication'}
+    <LandingPageTemplate>
+      <main className='mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8'>
+        <header className='mb-10 max-w-2xl'>
+          <h1 className='mb-3 text-4xl font-bold text-text'>
+            {Env.NEXT_PUBLIC_BRAND_NAME}
+          </h1>
+          <p className='text-lg text-text-muted'>
+            {TAGLINE}. Comfort-food staples rebuilt to keep the flavor while
+            cutting the fat and adding protein.
           </p>
+        </header>
 
-          {/* Auth Demo Section */}
-          <div className='mb-8 rounded-lg bg-surface p-6'>
-            <h3 className='mb-4 text-xl font-semibold text-text'>
-              Authentication Demo
-            </h3>
-            <div className='space-y-2 text-text-muted'>
-              <p>This template includes:</p>
-              <ul className='ml-4 list-disc space-y-1 text-left'>
-                <li>Public pages (this page)</li>
-                <li>
-                  Protected pages (try accessing{' '}
-                  <Link
-                    href='/profile'
-                    className='text-primary transition-opacity hover:opacity-80'
-                  >
-                    /profile
-                  </Link>{' '}
-                  after signing in)
-                </li>
-                <li>Sign in/up modals</li>
-                <li>User session management</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
+        {recipes ? (
+          <RecipeGrid recipes={recipes} />
+        ) : (
+          <p className='rounded-xl bg-surface p-8 text-center text-text-muted'>
+            Recipes are unavailable right now. Please try again in a minute.
+          </p>
+        )}
+      </main>
 
-      {/* Contact Form Section */}
       <div id='contact' className='bg-surface py-16'>
         <ContactForm />
       </div>
     </LandingPageTemplate>
   )
 }
+
+export default HomePage

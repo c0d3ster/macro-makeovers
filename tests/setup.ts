@@ -92,6 +92,7 @@ vi.mock('next/link', () => ({
 vi.mock('@/libs/Env', () => ({
   Env: {
     DATABASE_URL: 'test-database-url',
+    NEXT_PUBLIC_BRAND_NAME: 'Macro Makeovers',
   },
 }))
 
