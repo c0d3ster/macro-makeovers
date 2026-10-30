@@ -278,7 +278,8 @@ describe('RecipeHero', () => {
     // 30g carbs, 28g fat, 27g protein -> 25 / 53 / 23 by calories
     expect(
       Array.from(pills, (pill) =>
-        (pill as HTMLElement).style.getPropertyValue('--macro-from'))
+        (pill as HTMLElement).style.getPropertyValue('--macro-from')
+      )
     ).toEqual(['25', '53', '23'])
   })
 
