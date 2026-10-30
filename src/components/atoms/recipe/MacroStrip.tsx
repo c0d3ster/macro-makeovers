@@ -6,6 +6,8 @@ type MacroStripProps = {
   // Share of calories in carbs, fat, protein order
   segments: { tone: MacroTone; percent: number }[]
   label: string
+  // 4px on a card, 6px on the recipe page
+  large?: boolean
 }
 
 // Written out in full so Tailwind can see every class
@@ -19,11 +21,12 @@ const TONES: Record<MacroTone, string> = {
 export const MacroStrip = ({
   segments,
   label,
+  large = false,
 }: MacroStripProps): ReactElement => (
   <div
     role='img'
     aria-label={label}
-    className='flex h-1 w-full gap-0.5 opacity-25'
+    className={`flex w-full gap-0.5 opacity-25 ${large ? 'h-1.5' : 'h-1'}`}
   >
     {segments.map(({ tone, percent }) => (
       <div
