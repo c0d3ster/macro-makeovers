@@ -24,6 +24,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 ### Checks and commits
 
 - Before committing, run `pnpm check:types`, `pnpm lint`, `pnpm check:deps`, and `pnpm test`. Skip them for tiny visual tweaks while iterating.
-- Commits use Conventional Commits, and commitlint rejects body lines longer than 100 characters. Wrap bullets.
+- Commits use Conventional Commits. Keep body lines under 100 characters (commitlint rejects longer ones) and
+  keep messages succinct.
 - Commit and push at reasonable checkpoints, not after every change.
 - Never commit `supabase/.env` or any secret.
