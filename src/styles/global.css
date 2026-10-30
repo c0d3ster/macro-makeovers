@@ -12,9 +12,9 @@
   --color-text-muted: rgb(166 155 141);
 
   /* Macro colors: carbs, fat, protein */
-  --color-carbs: rgb(138 122 168);
-  --color-fat: rgb(196 160 96);
-  --color-protein: rgb(122 156 130);
+  --color-carbs: rgb(104 140 196);
+  --color-fat: rgb(214 168 82);
+  --color-protein: rgb(112 164 124);
 }
 
 @layer theme {
