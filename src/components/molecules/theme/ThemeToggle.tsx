@@ -49,7 +49,7 @@ export const ThemeToggle = (): ReactElement => {
           type='button'
           aria-pressed={theme === value}
           onClick={() => choose(value)}
-          className={`rounded-full px-2.5 py-0.5 text-xs font-semibold transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none ${theme === value ? 'bg-primary text-on-primary' : 'text-header-muted hover:text-header-text'}`}
+          className={`rounded-full px-2 py-0.5 text-xs font-semibold transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none sm:px-2.5 ${theme === value ? 'bg-primary text-on-primary' : 'text-header-muted hover:text-header-text'}`}
         >
           {label}
         </button>

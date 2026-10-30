@@ -33,7 +33,7 @@ const NavAuthSection = () => {
   ) : (
     <Link
       href='/login'
-      className='text-sm text-header-muted hover:text-header-text'
+      className='text-sm whitespace-nowrap text-header-muted hover:text-header-text'
     >
       Sign In
     </Link>
@@ -50,9 +50,9 @@ export const SiteHeader = ({
   return (
     <header className='fixed inset-x-0 top-0 z-50 border-b border-header-muted/20 bg-header shadow-lg'>
       <div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
-        <div className='flex h-16 items-center justify-between'>
+        <div className='flex h-16 items-center justify-between gap-3'>
           {/* Logo */}
-          <div className='flex flex-1 items-center'>
+          <div className='flex shrink-0 items-center sm:flex-1'>
             <Link
               href='/'
               aria-label={Env.NEXT_PUBLIC_BRAND_NAME}
@@ -74,7 +74,7 @@ export const SiteHeader = ({
           </div>
 
           {/* Navigation */}
-          <nav className='flex space-x-4 sm:space-x-8'>
+          <nav className='ml-auto flex space-x-3 sm:ml-0 sm:space-x-8'>
             {menuItems.map((item) => {
               const isActive = activeItem === item.id
               return (
@@ -90,7 +90,7 @@ export const SiteHeader = ({
           </nav>
 
           {/* Auth */}
-          <div className='flex flex-1 items-center justify-end gap-4'>
+          <div className='flex shrink-0 items-center justify-end gap-2 sm:flex-1 sm:gap-4'>
             <ThemeToggle />
             {authEnabled && <NavAuthSection />}
           </div>

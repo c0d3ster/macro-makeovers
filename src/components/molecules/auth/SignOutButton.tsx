@@ -9,7 +9,7 @@ export const SignOutButton = () => {
     <button
       type='button'
       onClick={signOut}
-      className='text-sm text-header-muted hover:text-header-text'
+      className='text-sm whitespace-nowrap text-header-muted hover:text-header-text'
     >
       Sign Out
     </button>
