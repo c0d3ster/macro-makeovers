@@ -8,6 +8,8 @@ type MacroStripProps = {
   label: string
   // 4px on a card, 6px on the recipe page
   large?: boolean
+  // Fades in late, after the bar above it has finished growing
+  reveal?: boolean
 }
 
 // Written out in full so Tailwind can see every class
@@ -22,11 +24,12 @@ export const MacroStrip = ({
   segments,
   label,
   large = false,
+  reveal = false,
 }: MacroStripProps): ReactElement => (
   <div
     role='img'
     aria-label={label}
-    className={`flex w-full gap-0.5 opacity-20 ${large ? 'h-1.5' : 'h-1'}`}
+    className={`flex w-full gap-0.5 opacity-20 ${large ? 'h-1.5' : 'h-1'} ${reveal ? 'macro-reveal-late' : ''}`}
   >
     {segments.map(({ tone, percent }) => (
       <div

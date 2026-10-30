@@ -267,6 +267,27 @@ describe('RecipeHero', () => {
     ).toBeInTheDocument()
   })
 
+  it('animates the pills from the original split when there is one', () => {
+    const { container } = render(
+      <RecipeHero recipe={{ ...recipe, nutrition: [makeover, traditional] }} />
+    )
+
+    const pills = container.querySelectorAll('.macro-reveal-pill')
+
+    expect(pills).toHaveLength(3)
+    // 30g carbs, 28g fat, 27g protein -> 25 / 53 / 23 by calories
+    expect(
+      Array.from(pills, (pill) =>
+        (pill as HTMLElement).style.getPropertyValue('--macro-from'))
+    ).toEqual(['25', '53', '23'])
+  })
+
+  it('does not animate without a traditional build', () => {
+    const { container } = render(<RecipeHero recipe={recipe} />)
+
+    expect(container.querySelector('.macro-reveal-pill')).toBeNull()
+  })
+
   it('leaves the strip out without a traditional build', () => {
     render(<RecipeHero recipe={recipe} />)
 

@@ -54,6 +54,32 @@
   --color-protein: rgb(112 164 124);
 }
 
+/* Recipe page macro reveal. The pills grow from the original recipe's split to the makeover's
+   (--macro-from is set per pill, the end is the inline flex-grow), then the numbers and the
+   strip fade in. Backwards fill keeps them hidden through the delay. Pure CSS so it plays on
+   load with no client JS. */
+@keyframes macro-grow {
+  from {
+    flex-grow: var(--macro-from);
+  }
+}
+
+@keyframes macro-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .macro-reveal-pill {
+    animation: macro-grow 900ms cubic-bezier(0.65, 0, 0.35, 1) 400ms backwards;
+  }
+
+  .macro-reveal-late {
+    animation: macro-fade-in 400ms ease-out 1300ms backwards;
+  }
+}
+
 @layer theme {
   :root {
     /* Typography */

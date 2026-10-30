@@ -91,23 +91,27 @@ export const RecipeHero = ({ recipe }: RecipeHeroProps): ReactElement => {
               </p>
             </div>
             <MacroBar
+              reveal={!!originalRatios}
               macros={[
                 {
                   label: 'Carbs',
                   tone: 'carbs',
                   percent: carbsPct,
+                  fromPercent: originalRatios?.carbsPct,
                   grams: featured.carbsG,
                 },
                 {
                   label: 'Fat',
                   tone: 'fat',
                   percent: fatPct,
+                  fromPercent: originalRatios?.fatPct,
                   grams: featured.fatG,
                 },
                 {
                   label: 'Protein',
                   tone: 'protein',
                   percent: proteinPct,
+                  fromPercent: originalRatios?.proteinPct,
                   grams: featured.proteinG,
                 },
               ]}
@@ -115,6 +119,7 @@ export const RecipeHero = ({ recipe }: RecipeHeroProps): ReactElement => {
             {originalRatios && (
               <MacroStrip
                 large
+                reveal
                 label={`Original recipe calories by macro: ${originalRatios.carbsPct}% carbs, ${originalRatios.fatPct}% fat, ${originalRatios.proteinPct}% protein`}
                 segments={[
                   { tone: 'carbs', percent: originalRatios.carbsPct },
