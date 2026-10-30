@@ -58,6 +58,7 @@ export const RecipeCard = ({ recipe }: RecipeCardProps): ReactElement => {
           sizes={CARD_PHOTO_SIZES}
           priority={false}
           rounded={false}
+          zoomOnHover
         />
       )}
       <div className='flex flex-1 flex-col gap-4 p-5'>
