@@ -1,9 +1,10 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
 
-import type { NutritionBuild } from '@/libs/recipes'
+import type { NutritionBuild, RecipeDetail } from '@/libs/recipes'
 
 import { NutritionTable } from './NutritionTable'
+import { RecipeHero } from './RecipeHero'
 import { RecipeNotes } from './RecipeNotes'
 import { ScalableIngredients } from './ScalableIngredients'
 import { StepList } from './StepList'
@@ -132,6 +133,8 @@ describe('StepList', () => {
           { phase: 'prep', body: 'Chop the onion' },
           { phase: 'cook', body: 'Sear the beef', durationMinutes: 10 },
         ]}
+        prepMinutes={10}
+        cookMinutes={40}
       />
     )
 
@@ -142,8 +145,34 @@ describe('StepList', () => {
     expect(screen.getByText('About 10 min')).toBeInTheDocument()
   })
 
+  it('shows how long each phase takes', () => {
+    render(
+      <StepList
+        steps={[
+          { phase: 'prep', body: 'Chop the onion' },
+          { phase: 'cook', body: 'Sear the beef' },
+        ]}
+        prepMinutes={10}
+        cookMinutes={70}
+      />
+    )
+
+    expect(screen.getByRole('heading', { name: /Prep/ })).toHaveTextContent(
+      '(~10 min)'
+    )
+    expect(screen.getByRole('heading', { name: /Cook/ })).toHaveTextContent(
+      '(~1 hr 10 min)'
+    )
+  })
+
   it('renders markdown in a step', () => {
-    render(<StepList steps={[{ phase: 'cook', body: 'Cook **hot**' }]} />)
+    render(
+      <StepList
+        steps={[{ phase: 'cook', body: 'Cook **hot**' }]}
+        prepMinutes={0}
+        cookMinutes={5}
+      />
+    )
 
     expect(screen.getByText('hot').tagName).toBe('STRONG')
   })
@@ -169,5 +198,37 @@ describe('RecipeNotes', () => {
     const { container } = render(<RecipeNotes notes={[]} />)
 
     expect(container).toBeEmptyDOMElement()
+  })
+})
+
+describe('RecipeHero', () => {
+  const recipe: RecipeDetail = {
+    slug: 'test-chili',
+    title: 'Test Chili',
+    summary: 'A test recipe.',
+    servings: 5,
+    prepMinutes: 10,
+    cookMinutes: 40,
+    totalMinutes: 50,
+    costTier: 2,
+    difficulty: 3,
+    tags: [],
+    nutrition: [makeover],
+    featured: makeover,
+    ingredients: [],
+    steps: [],
+    notes: [],
+    variants: [],
+  }
+
+  it('labels cost and difficulty beside the title', () => {
+    render(<RecipeHero recipe={recipe} />)
+
+    expect(screen.getByText('Cost')).toBeInTheDocument()
+    expect(screen.getByText('Difficulty')).toBeInTheDocument()
+    expect(screen.getByRole('img', { name: 'Cost 2 of 5' })).toBeInTheDocument()
+    expect(
+      screen.getByRole('img', { name: 'Difficulty 3 of 5' })
+    ).toBeInTheDocument()
   })
 })

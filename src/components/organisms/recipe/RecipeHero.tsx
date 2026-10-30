@@ -6,7 +6,6 @@ import type { RecipeDetail } from '@/libs/recipes'
 
 import { Badge, CostTier, DifficultyDots, MacroPill } from '@/components/atoms'
 import { toMacroRatios } from '@/libs/recipes'
-import { formatMinutes } from '@/utils/formatMinutes'
 
 type RecipeHeroProps = {
   recipe: RecipeDetail
@@ -16,10 +15,6 @@ export const RecipeHero = ({ recipe }: RecipeHeroProps): ReactElement => {
   const {
     title,
     summary,
-    servings,
-    prepMinutes,
-    cookMinutes,
-    totalMinutes,
     costTier,
     difficulty,
     tags,
@@ -38,7 +33,23 @@ export const RecipeHero = ({ recipe }: RecipeHeroProps): ReactElement => {
         &larr; All recipes
       </Link>
 
-      <h1 className='text-4xl font-bold text-text'>{title}</h1>
+      <div className='flex flex-wrap items-center justify-between gap-x-6 gap-y-3'>
+        <h1 className='text-4xl font-bold text-text'>{title}</h1>
+        <dl className='flex items-center gap-6 text-sm text-text-muted'>
+          <div className='flex items-center gap-2'>
+            <dt>Cost</dt>
+            <dd>
+              <CostTier tier={costTier} />
+            </dd>
+          </div>
+          <div className='flex items-center gap-2'>
+            <dt>Difficulty</dt>
+            <dd>
+              <DifficultyDots level={difficulty} />
+            </dd>
+          </div>
+        </dl>
+      </div>
       <p className='max-w-3xl text-text-muted'>{summary}</p>
 
       <div className='flex max-w-md flex-col gap-2'>
@@ -58,37 +69,6 @@ export const RecipeHero = ({ recipe }: RecipeHeroProps): ReactElement => {
           />
         </div>
       </div>
-
-      <dl className='flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-text-muted'>
-        <div className='flex gap-1.5'>
-          <dt>Prep</dt>
-          <dd className='text-text'>{formatMinutes(prepMinutes)}</dd>
-        </div>
-        <div className='flex gap-1.5'>
-          <dt>Cook</dt>
-          <dd className='text-text'>{formatMinutes(cookMinutes)}</dd>
-        </div>
-        <div className='flex gap-1.5'>
-          <dt>Total</dt>
-          <dd className='text-text'>{formatMinutes(totalMinutes)}</dd>
-        </div>
-        <div className='flex gap-1.5'>
-          <dt>Makes</dt>
-          <dd className='text-text'>{servings} servings</dd>
-        </div>
-        <div className='flex items-center gap-1.5'>
-          <dt>Cost</dt>
-          <dd>
-            <CostTier tier={costTier} />
-          </dd>
-        </div>
-        <div className='flex items-center gap-1.5'>
-          <dt>Difficulty</dt>
-          <dd>
-            <DifficultyDots level={difficulty} />
-          </dd>
-        </div>
-      </dl>
 
       {tags.length > 0 && (
         <ul className='flex flex-wrap gap-1.5'>
