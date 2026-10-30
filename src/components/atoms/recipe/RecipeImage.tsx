@@ -7,16 +7,36 @@ type RecipeImageProps = {
   title: string
 }
 
-const frame = 'aspect-[4/3] w-full rounded-xl'
+// The placeholder photos are 3:2
+const frame = 'aspect-[3/2] w-full rounded-xl'
 
-// The recipe photo, or a placeholder with the logo mark until one is uploaded
+// Matches the recipe page's right column: 24rem from the large breakpoint, full width below
+const PHOTO_SIZES = '(min-width: 1024px) 384px, 100vw'
+
+// The recipe photo, or a placeholder with the logo mark when there is none
 export const RecipeImage = ({
   imageUrl,
   title,
 }: RecipeImageProps): ReactElement => {
+  // Photos in public/ go through the image optimizer, so a 2.5MB PNG is not what a phone loads
+  if (imageUrl?.startsWith('/')) {
+    return (
+      <div className={`relative overflow-hidden ${frame}`}>
+        <Image
+          src={imageUrl}
+          alt={title}
+          fill
+          priority
+          sizes={PHOTO_SIZES}
+          className='object-cover'
+        />
+      </div>
+    )
+  }
+
   if (imageUrl) {
     return (
-      // Photos come from storage we don't control yet, so skip the image optimizer
+      // Uploaded photos come from storage we have not configured for the optimizer yet
       <img src={imageUrl} alt={title} className={`${frame} object-cover`} />
     )
   }
@@ -25,16 +45,16 @@ export const RecipeImage = ({
     <div
       role='img'
       aria-label={`Photo of ${title} coming soon`}
-      className={`${frame} flex flex-col items-center justify-center gap-3 border border-text-muted/30 bg-surface`}
+      className={`${frame} flex flex-col items-center justify-center gap-3 border border-header-muted/30 bg-header`}
     >
       <Image
         src='/logo.png'
         alt=''
         width={411}
         height={554}
-        className='h-20 w-auto opacity-40'
+        className='h-20 w-auto'
       />
-      <span className='text-xs text-text-muted'>Photo coming soon</span>
+      <span className='text-xs text-header-muted'>Photo coming soon</span>
     </div>
   )
 }
