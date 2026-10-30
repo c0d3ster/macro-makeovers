@@ -48,7 +48,7 @@ export const NutritionTable = ({
         </div>
       ))}
 
-      <div className='rounded-lg border border-surface'>
+      <div className='overflow-hidden rounded-lg border border-text-muted/30'>
         <table className='w-full text-left text-xs sm:text-sm'>
           <thead className='bg-surface text-text'>
             <tr>
@@ -66,7 +66,7 @@ export const NutritionTable = ({
           </thead>
           <tbody className='text-text'>
             {makeovers.map((build) => (
-              <tr key={build.label} className='border-t border-surface'>
+              <tr key={build.label} className='border-t border-text-muted/30'>
                 <th scope='row' className={`${cell} font-semibold`}>
                   {build.label}
                 </th>
@@ -77,7 +77,7 @@ export const NutritionTable = ({
                 <td className={cell}>{formatMacroRatios(build)}</td>
               </tr>
             ))}
-            <tr className='border-t border-surface'>
+            <tr className='border-t border-text-muted/30'>
               <th scope='row' className={`${cell} font-semibold`}>
                 Whole batch (&times;{servings})
               </th>
@@ -92,7 +92,7 @@ export const NutritionTable = ({
             {traditionals.map((build) => (
               <tr
                 key={build.label}
-                className='border-t border-surface text-text-muted italic'
+                className='border-t border-text-muted/30 text-text-muted italic'
               >
                 <th scope='row' className={`${cell} font-normal`}>
                   {build.label}
