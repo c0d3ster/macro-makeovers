@@ -4,7 +4,8 @@ import Link from 'next/link'
 
 import type { RecipeCard as RecipeCardData } from '@/libs/recipes'
 
-import { Badge, CostTier, DifficultyDots, MacroPill } from '@/components/atoms'
+import { Badge, CostTier, DifficultyDots } from '@/components/atoms'
+import { MacroBar } from '@/components/molecules'
 import { toMacroRatios } from '@/libs/recipes'
 import { formatMinutes } from '@/utils/formatMinutes'
 
@@ -53,11 +54,19 @@ export const RecipeCard = ({ recipe }: RecipeCardProps): ReactElement => {
           </span>
           <span className='text-sm text-text-muted'>cal per serving</span>
         </p>
-        <div className='grid grid-cols-3 gap-2'>
-          <MacroPill label='Carbs' percent={carbsPct} grams={carbsG} />
-          <MacroPill label='Fat' percent={fatPct} grams={fatG} />
-          <MacroPill label='Protein' percent={proteinPct} grams={proteinG} />
-        </div>
+        <MacroBar
+          compact
+          macros={[
+            { label: 'Carbs', tone: 'carbs', percent: carbsPct, grams: carbsG },
+            { label: 'Fat', tone: 'fat', percent: fatPct, grams: fatG },
+            {
+              label: 'Protein',
+              tone: 'protein',
+              percent: proteinPct,
+              grams: proteinG,
+            },
+          ]}
+        />
       </div>
 
       <div className='flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-text-muted'>
