@@ -18,7 +18,7 @@ export const RecipeGrid = ({ recipes }: RecipeGridProps): ReactElement => {
   }
 
   return (
-    <ul className='grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3'>
+    <ul className='grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3'>
       {recipes.map((recipe) => (
         <li key={recipe.slug}>
           <RecipeCard recipe={recipe} />
