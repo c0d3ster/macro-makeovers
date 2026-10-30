@@ -63,23 +63,33 @@ const RecipePage = async ({
     <LandingPageTemplate>
       <main className='mx-auto flex max-w-6xl flex-col gap-12 px-4 py-10 sm:px-6 lg:px-8'>
         <RecipeHero recipe={recipe} />
-        <NutritionTable
-          builds={recipe.nutrition}
-          servings={recipe.servings}
-          featured={recipe.featured}
-          intro={recipe.nutritionIntro}
-          analysis={recipe.nutritionAnalysis}
-        />
-        <div className='grid gap-10 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] lg:gap-14'>
-          <ScalableIngredients
-            ingredients={recipe.ingredients}
-            baseServings={recipe.servings}
-          />
-          <StepList
-            steps={recipe.steps}
-            prepMinutes={recipe.prepMinutes}
-            cookMinutes={recipe.cookMinutes}
-          />
+        {/* Nutrition and steps share the left column. Ingredients sit on the right, level with
+            nutrition and sticky while the steps scroll. On a phone they stack in cooking order:
+            nutrition, ingredients, steps. The right column is the home for later extras
+            (favorite, shopping list, reviews). */}
+        <div className='grid gap-x-10 gap-y-12 lg:grid-cols-[minmax(0,1fr)_24rem]'>
+          <div className='lg:col-start-1 lg:row-start-1'>
+            <NutritionTable
+              builds={recipe.nutrition}
+              servings={recipe.servings}
+              featured={recipe.featured}
+              intro={recipe.nutritionIntro}
+              analysis={recipe.nutritionAnalysis}
+            />
+          </div>
+          <div className='lg:sticky lg:top-24 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:self-start'>
+            <ScalableIngredients
+              ingredients={recipe.ingredients}
+              baseServings={recipe.servings}
+            />
+          </div>
+          <div className='lg:col-start-1 lg:row-start-2'>
+            <StepList
+              steps={recipe.steps}
+              prepMinutes={recipe.prepMinutes}
+              cookMinutes={recipe.cookMinutes}
+            />
+          </div>
         </div>
         <RecipeNotes notes={recipe.notes} />
 
