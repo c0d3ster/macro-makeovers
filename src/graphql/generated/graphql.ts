@@ -74,8 +74,8 @@ export type UpdateUserInput = {
 
 export type User = {
   readonly __typename?: 'User';
-  readonly avatarUrl?: Maybe<Scalars['String']['output']>;
   readonly authId?: Maybe<Scalars['String']['output']>;
+  readonly avatarUrl?: Maybe<Scalars['String']['output']>;
   readonly createdAt?: Maybe<Scalars['String']['output']>;
   readonly email: Scalars['String']['output'];
   readonly firstName?: Maybe<Scalars['String']['output']>;
