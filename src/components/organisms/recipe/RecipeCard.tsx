@@ -5,6 +5,7 @@ import Link from 'next/link'
 import type { RecipeCard as RecipeCardData } from '@/libs/recipes'
 
 import { Badge, CostTier, DifficultyDots, MacroPill } from '@/components/atoms'
+import { toMacroRatios } from '@/libs/recipes'
 import { formatMinutes } from '@/utils/formatMinutes'
 
 const MAX_TAGS = 3
@@ -27,6 +28,11 @@ export const RecipeCard = ({ recipe }: RecipeCardProps): ReactElement => {
     carbsG,
     fatG,
   } = recipe
+  const { proteinPct, carbsPct, fatPct } = toMacroRatios({
+    proteinG,
+    carbsG,
+    fatG,
+  })
 
   return (
     <Link
@@ -40,11 +46,23 @@ export const RecipeCard = ({ recipe }: RecipeCardProps): ReactElement => {
         <p className='line-clamp-3 text-sm text-text-muted'>{summary}</p>
       </div>
 
-      <div className='mt-auto grid grid-cols-4 gap-2'>
-        <MacroPill label='Protein' value={proteinG} unit='g' featured />
-        <MacroPill label='Cal' value={calories} />
-        <MacroPill label='Carbs' value={carbsG} unit='g' />
-        <MacroPill label='Fat' value={fatG} unit='g' />
+      <div className='mt-auto flex flex-col gap-2'>
+        <p className='flex items-baseline gap-1.5'>
+          <span className='text-2xl leading-none font-semibold text-text'>
+            {calories}
+          </span>
+          <span className='text-sm text-text-muted'>cal per serving</span>
+        </p>
+        <div className='grid grid-cols-3 gap-2'>
+          <MacroPill label='Carbs' percent={carbsPct} grams={carbsG} />
+          <MacroPill label='Fat' percent={fatPct} grams={fatG} />
+          <MacroPill
+            label='Protein'
+            percent={proteinPct}
+            grams={proteinG}
+            featured
+          />
+        </div>
       </div>
 
       <div className='flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-text-muted'>

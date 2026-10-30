@@ -1,5 +1,6 @@
 export * from './diffRecipe'
 export * from './importRecipe'
+export * from './macroRatios'
 export * from './parseRecipesMarkdown'
 export * from './recipeCards'
 export * from './recipeStore'

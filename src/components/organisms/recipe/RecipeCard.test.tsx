@@ -34,10 +34,12 @@ describe('RecipeCard', () => {
   it('shows the macros, time, cost, and difficulty', () => {
     render(<RecipeCard recipe={recipe} />)
 
-    expect(screen.getByText('39g')).toBeInTheDocument()
     expect(screen.getByText('500')).toBeInTheDocument()
+    expect(screen.getByText('cal per serving')).toBeInTheDocument()
+    expect(screen.getByText('31%')).toBeInTheDocument()
+    expect(screen.getByText('39g')).toBeInTheDocument()
     expect(screen.getByText('1 hr 10 min')).toBeInTheDocument()
-    expect(screen.getByLabelText('Cost 2 of 4')).toBeInTheDocument()
+    expect(screen.getByLabelText('Cost 2 of 5')).toBeInTheDocument()
     expect(screen.getByLabelText('Difficulty 3 of 5')).toBeInTheDocument()
   })
 

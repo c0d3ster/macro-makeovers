@@ -1,12 +1,12 @@
 import type { ReactElement } from 'react'
 
-const MAX_TIER = 4
+const MAX_TIER = 5
 
 type CostTierProps = {
   tier: number
 }
 
-// $ to $$$$ with the unused signs dimmed, so "$$" reads at a glance next to "$$$$"
+// $ to $$$$$ with the unused signs dimmed, so "$$" reads at a glance next to "$$$$"
 export const CostTier = ({ tier }: CostTierProps): ReactElement => (
   <span
     role='img'

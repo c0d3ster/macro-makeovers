@@ -42,7 +42,7 @@ One `recipes` table with child tables for everything that repeats. Nutrition is 
 
 | Table                 | Key columns                                                                                                                                                                                    | Notes                                                                                          |
 | --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| `recipes`             | `id`, `slug`, `title`, `summary`, `servings`, `prep_minutes`, `cook_minutes`, `cost_tier` (1-4), `variant_of` (optional, the base recipe), `difficulty` (1-5), `status`, `access`, `image_url` | `status` is draft or published. `access` defaults to free and is the later paywall hook.       |
+| `recipes`             | `id`, `slug`, `title`, `summary`, `servings`, `prep_minutes`, `cook_minutes`, `cost_tier` (1-5), `variant_of` (optional, the base recipe), `difficulty` (1-5), `status`, `access`, `image_url` | `status` is draft or published. `access` defaults to free and is the later paywall hook.       |
 | `recipe_nutrition`    | `recipe_id`, `kind` (makeover or traditional), `label`, `is_default`, `calories`, `carbs_g`, `fat_g`, `protein_g`                                                                              | Ratio is computed, not stored. Drives the comparison component.                                |
 | `ingredients`         | `recipe_id`, `group_name`, `position`, `raw_text`, `quantity`, `unit`, `name`, `note`, `category`                                                                                              | `raw_text` is the display source of truth. Parsed fields feed scaling and grocery lists later. |
 | `steps`               | `recipe_id`, `phase` (prep or cook), `position`, `body_md`                                                                                                                                     | Ordered per recipe.                                                                            |
@@ -83,7 +83,7 @@ export const recipeImportSchema = z.object({
   servings: z.number().int().positive(),
   prepMinutes: z.number().int(),
   cookMinutes: z.number().int(),
-  costTier: z.number().int().min(1).max(4),
+  costTier: z.number().int().min(1).max(5),
   difficulty: z.number().int().min(1).max(5),
   tags: z.array(z.string()),
   nutrition: z.array(nutritionSchema).min(1),
