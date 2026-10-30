@@ -13,6 +13,7 @@ const row: RecipeCardRow = {
   cook_minutes: 55,
   cost_tier: 1,
   difficulty: 2,
+  image_url: null,
   recipe_nutrition: [
     {
       kind: 'makeover',
@@ -84,6 +85,28 @@ describe('toRecipeCard', () => {
     }
 
     expect(toRecipeCard(onlyTraditional)).toBeUndefined()
+  })
+})
+
+describe('toRecipeCard photo', () => {
+  it('has no photo for a recipe without a stand-in or upload', () => {
+    expect(toRecipeCard(row)?.imageUrl).toBeUndefined()
+  })
+
+  it('uses the stand-in photo for a known recipe', () => {
+    expect(toRecipeCard({ ...row, slug: 'spicy-turkey-chili' })?.imageUrl).toBe(
+      '/images/02-spicy-turkey-chili.jpg'
+    )
+  })
+
+  it('prefers an uploaded photo', () => {
+    const card = toRecipeCard({
+      ...row,
+      slug: 'spicy-turkey-chili',
+      image_url: 'https://example.com/chili.jpg',
+    })
+
+    expect(card?.imageUrl).toBe('https://example.com/chili.jpg')
   })
 })
 

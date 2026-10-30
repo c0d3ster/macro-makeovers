@@ -5,20 +5,32 @@ import Image from 'next/image'
 type RecipeImageProps = {
   imageUrl?: string
   title: string
+  // Where the image is shown, so the optimizer sends the right size
+  sizes?: string
+  // Load right away. Leave off for images below the fold.
+  priority?: boolean
+  // Square the corners when the image fills the top of a rounded card
+  rounded?: boolean
 }
 
 // The placeholder photos are 3:2
-const frame = 'aspect-[3/2] w-full rounded-xl'
+const frameFor = (rounded: boolean): string =>
+  `aspect-[3/2] w-full ${rounded ? 'rounded-xl' : ''}`
 
 // Matches the recipe page's right column: 24rem from the large breakpoint, full width below
-const PHOTO_SIZES = '(min-width: 1024px) 384px, 100vw'
+const DEFAULT_SIZES = '(min-width: 1024px) 384px, 100vw'
 
 // The recipe photo, or a placeholder with the logo mark when there is none
 export const RecipeImage = ({
   imageUrl,
   title,
+  sizes = DEFAULT_SIZES,
+  priority = true,
+  rounded = true,
 }: RecipeImageProps): ReactElement => {
-  // Photos in public/ go through the image optimizer, so a 2.5MB PNG is not what a phone loads
+  const frame = frameFor(rounded)
+
+  // Photos in public/ go through the image optimizer, so a phone never loads the full-size original
   if (imageUrl?.startsWith('/')) {
     return (
       <div className={`relative overflow-hidden ${frame}`}>
@@ -26,8 +38,8 @@ export const RecipeImage = ({
           src={imageUrl}
           alt={title}
           fill
-          priority
-          sizes={PHOTO_SIZES}
+          priority={priority}
+          sizes={sizes}
           className='object-cover'
         />
       </div>
