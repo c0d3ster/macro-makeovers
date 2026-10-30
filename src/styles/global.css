@@ -14,6 +14,8 @@
   --c-header: rgb(29 27 24);
   --c-header-text: rgb(236 226 210);
   --c-header-muted: rgb(166 155 141);
+  --c-pattern: rgb(236 226 210);
+  --pattern-opacity: 0.02;
 }
 
 :root[data-theme='light'] {
@@ -28,6 +30,8 @@
   --c-header: rgb(255 250 240);
   --c-header-text: rgb(42 35 28);
   --c-header-muted: rgb(106 94 81);
+  --c-pattern: rgb(107 79 53);
+  --pattern-opacity: 0.04;
 }
 
 @theme inline {
@@ -62,6 +66,22 @@
   body {
     background-color: var(--color-background);
     color: var(--color-text);
+  }
+
+  /* Spray-paint % pattern behind the page. The tile is a mask, so the ink color and opacity
+     come from the theme tokens. Page wrappers must not paint their own background over it. */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-color: var(--c-pattern);
+    opacity: var(--pattern-opacity);
+    -webkit-mask-image: url('/patterns/percent-tile.webp');
+    mask-image: url('/patterns/percent-tile.webp');
+    -webkit-mask-size: 420px 420px;
+    mask-size: 420px 420px;
   }
 
   /* Smooth scrolling for hash navigation (respects user motion preferences) */

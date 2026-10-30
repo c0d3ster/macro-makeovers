@@ -25,7 +25,7 @@ export const LandingPageTemplate = ({
   const activeItem = useActiveNavItem()
 
   return (
-    <div className='min-h-screen scroll-smooth bg-background'>
+    <div className='min-h-screen scroll-smooth'>
       <SiteHeader
         menuItems={menuItems}
         activeItem={activeItem}

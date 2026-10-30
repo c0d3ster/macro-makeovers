@@ -123,9 +123,7 @@ describe('LandingPageTemplate', () => {
     // Should still render SiteHeader and container structure
     expect(screen.getByTestId('site-header')).toBeInTheDocument()
 
-    const container = document.querySelector(
-      '.min-h-screen.scroll-smooth.bg-background'
-    )
+    const container = document.querySelector('.min-h-screen.scroll-smooth')
 
     expect(container).toBeInTheDocument()
   })
@@ -176,9 +174,7 @@ describe('LandingPageTemplate', () => {
       </LandingPageTemplate>
     )
 
-    const container = document.querySelector(
-      '.min-h-screen.scroll-smooth.bg-background'
-    )
+    const container = document.querySelector('.min-h-screen.scroll-smooth')
 
     expect(container).toBeInTheDocument()
   })
