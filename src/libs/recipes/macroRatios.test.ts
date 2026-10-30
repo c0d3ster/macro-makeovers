@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { toMacroRatios } from './macroRatios'
+import { formatMacroRatios, toMacroRatios } from './macroRatios'
 
 describe('toMacroRatios', () => {
   it('splits calories by 4/4/9 per gram', () => {
@@ -18,5 +18,13 @@ describe('toMacroRatios', () => {
       carbsPct: 0,
       fatPct: 0,
     })
+  })
+})
+
+describe('formatMacroRatios', () => {
+  it('always reads carbs, fat, protein', () => {
+    expect(formatMacroRatios({ proteinG: 39, carbsG: 52, fatG: 15 })).toBe(
+      '42 / 27 / 31'
+    )
   })
 })

@@ -9,7 +9,7 @@ type ServingsStepperProps = {
 }
 
 const stepButton =
-  'flex size-10 items-center justify-center rounded-full bg-background text-xl text-text transition-colors hover:bg-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-background'
+  'flex size-10 items-center justify-center rounded-full bg-background text-xl text-text transition-colors hover:bg-primary hover:text-on-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-background disabled:hover:text-text'
 
 export const ServingsStepper = ({
   servings,

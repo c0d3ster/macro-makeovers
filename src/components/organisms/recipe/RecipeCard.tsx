@@ -56,12 +56,7 @@ export const RecipeCard = ({ recipe }: RecipeCardProps): ReactElement => {
         <div className='grid grid-cols-3 gap-2'>
           <MacroPill label='Carbs' percent={carbsPct} grams={carbsG} />
           <MacroPill label='Fat' percent={fatPct} grams={fatG} />
-          <MacroPill
-            label='Protein'
-            percent={proteinPct}
-            grams={proteinG}
-            featured
-          />
+          <MacroPill label='Protein' percent={proteinPct} grams={proteinG} />
         </div>
       </div>
 

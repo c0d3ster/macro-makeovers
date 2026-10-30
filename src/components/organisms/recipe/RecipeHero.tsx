@@ -55,7 +55,6 @@ export const RecipeHero = ({ recipe }: RecipeHeroProps): ReactElement => {
             label='Protein'
             percent={proteinPct}
             grams={featured.proteinG}
-            featured
           />
         </div>
       </div>

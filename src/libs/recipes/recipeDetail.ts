@@ -189,24 +189,6 @@ export const toRecipeDetail = (
   }
 }
 
-// How the makeover moves each number relative to the traditional build. Negative means less.
-export type BuildDelta = {
-  calories: number
-  proteinG: number
-  carbsG: number
-  fatG: number
-}
-
-export const compareBuilds = (
-  makeover: NutritionBuild,
-  traditional: NutritionBuild
-): BuildDelta => ({
-  calories: makeover.calories - traditional.calories,
-  proteinG: makeover.proteinG - traditional.proteinG,
-  carbsG: makeover.carbsG - traditional.carbsG,
-  fatG: makeover.fatG - traditional.fatG,
-})
-
 // The summary's first sentence, capped for a search or share preview
 export const toMetaDescription = (summary: string): string => {
   const sentence = summary.match(/^.*?[.!?](?=\s|$)/)?.[0] ?? summary

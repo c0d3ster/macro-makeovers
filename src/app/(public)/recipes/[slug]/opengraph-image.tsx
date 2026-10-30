@@ -14,11 +14,11 @@ export const contentType = 'image/png'
 
 // Same palette as the site theme (see global.css)
 const COLORS = {
-  background: '#111827',
-  surface: '#1f2937',
-  text: '#ffffff',
-  muted: '#9ca3af',
-  accent: '#10b981',
+  background: '#0c0b0a',
+  surface: '#1d1b18',
+  text: '#ece2d2',
+  muted: '#a69b8d',
+  accent: '#e6d8c4',
 }
 
 type ImageProps = {
@@ -28,7 +28,6 @@ type ImageProps = {
 type StatProps = {
   value: string
   label: string
-  highlight?: boolean
 }
 
 type CardProps = {
@@ -38,7 +37,7 @@ type CardProps = {
   children?: ReactElement
 }
 
-const Stat = ({ value, label, highlight = false }: StatProps): ReactElement => (
+const Stat = ({ value, label }: StatProps): ReactElement => (
   <div
     style={{
       display: 'flex',
@@ -46,8 +45,8 @@ const Stat = ({ value, label, highlight = false }: StatProps): ReactElement => (
       alignItems: 'center',
       padding: '20px 36px',
       borderRadius: 24,
-      background: highlight ? 'rgba(16, 185, 129, 0.2)' : COLORS.surface,
-      color: highlight ? COLORS.accent : COLORS.text,
+      background: COLORS.surface,
+      color: COLORS.text,
     }}
   >
     <span style={{ fontSize: 64, fontWeight: 700 }}>{value}</span>
@@ -62,7 +61,9 @@ const Card = ({ title, titleSize = 96, children }: CardProps): ReactElement => (
       height: '100%',
       display: 'flex',
       flexDirection: 'column',
+      alignItems: 'center',
       justifyContent: 'space-between',
+      textAlign: 'center',
       padding: 72,
       background: COLORS.background,
       color: COLORS.text,
@@ -98,14 +99,13 @@ const Image = async ({ params }: ImageProps): Promise<ImageResponse> => {
   return new ImageResponse(
     <Card title={title} titleSize={title.length > 28 ? 76 : 96}>
       <>
-        <Stat value={String(featured.calories)} label='cal' />
+        <Stat value={`~${featured.calories}`} label='cal' />
+        <Stat value={`${carbsPct}%`} label={`carbs ${featured.carbsG}g`} />
+        <Stat value={`${fatPct}%`} label={`fat ${featured.fatG}g`} />
         <Stat
           value={`${proteinPct}%`}
           label={`protein ${featured.proteinG}g`}
-          highlight
         />
-        <Stat value={`${carbsPct}%`} label={`carbs ${featured.carbsG}g`} />
-        <Stat value={`${fatPct}%`} label={`fat ${featured.fatG}g`} />
       </>
     </Card>,
     size

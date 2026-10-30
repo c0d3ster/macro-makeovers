@@ -29,7 +29,7 @@ describe('Button', () => {
       'focus:ring-2',
       'focus:ring-primary/50',
       'bg-primary',
-      'text-text',
+      'text-on-primary',
       'hover:bg-primary/90',
       'px-6',
       'py-3',

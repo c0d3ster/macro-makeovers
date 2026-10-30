@@ -5,19 +5,14 @@ type MacroPillProps = {
   // Share of calories, the number the pill leads with
   percent: number
   grams: number
-  // Highlighted macro, protein for this site
-  featured?: boolean
 }
 
 export const MacroPill = ({
   label,
   percent,
   grams,
-  featured = false,
 }: MacroPillProps): ReactElement => (
-  <div
-    className={`flex flex-col items-center rounded-lg px-2 py-1.5 ${featured ? 'bg-accent/15 text-accent' : 'bg-background text-text'}`}
-  >
+  <div className='flex flex-col items-center rounded-lg bg-background px-2 py-1.5 text-text'>
     <span className='text-base leading-tight font-semibold'>{percent}%</span>
     <span className='text-xs text-text-muted'>{label}</span>
     <span className='text-[0.65rem] leading-tight text-text-muted'>
