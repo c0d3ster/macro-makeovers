@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { SignOutButton } from '@/components/molecules'
+import { SignOutButton, ThemeToggle } from '@/components/molecules'
 import { Env } from '@/libs/Env'
 import { isSupabaseConfigured } from '@/libs/supabase/client'
 import { useAuth } from '@/providers'
@@ -31,7 +31,10 @@ const NavAuthSection = () => {
   return user ? (
     <SignOutButton />
   ) : (
-    <Link href='/login' className='text-sm text-text-muted hover:text-primary'>
+    <Link
+      href='/login'
+      className='text-sm text-header-muted hover:text-header-text'
+    >
       Sign In
     </Link>
   )
@@ -45,7 +48,7 @@ export const SiteHeader = ({
   const authEnabled = isSupabaseConfigured()
 
   return (
-    <header className='fixed inset-x-0 top-0 z-50 border-b border-text-muted/20 bg-surface shadow-lg'>
+    <header className='fixed inset-x-0 top-0 z-50 border-b border-header-muted/20 bg-header shadow-lg'>
       <div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
         <div className='flex h-16 items-center justify-between'>
           {/* Logo */}
@@ -64,7 +67,7 @@ export const SiteHeader = ({
                 priority
                 className='h-10 w-auto'
               />
-              <span className='hidden text-lg font-semibold whitespace-nowrap text-text sm:inline'>
+              <span className='hidden text-lg font-semibold whitespace-nowrap text-header-text sm:inline'>
                 {Env.NEXT_PUBLIC_BRAND_NAME}
               </span>
             </Link>
@@ -78,7 +81,7 @@ export const SiteHeader = ({
                 <Link
                   key={item.label}
                   href={item.href}
-                  className={`text-sm font-medium transition-colors ${isActive ? 'text-primary' : 'text-text-muted hover:text-primary'} ${item.hideOnMobile ? 'hidden sm:block' : ''}`}
+                  className={`text-sm font-medium transition-colors ${isActive ? 'text-header-text' : 'text-header-muted hover:text-header-text'} ${item.hideOnMobile ? 'hidden sm:block' : ''}`}
                 >
                   {item.label}
                 </Link>
@@ -87,7 +90,8 @@ export const SiteHeader = ({
           </nav>
 
           {/* Auth */}
-          <div className='flex flex-1 items-center justify-end'>
+          <div className='flex flex-1 items-center justify-end gap-4'>
+            <ThemeToggle />
             {authEnabled && <NavAuthSection />}
           </div>
         </div>

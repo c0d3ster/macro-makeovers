@@ -106,7 +106,7 @@ export const AuthForm = ({ next }: AuthFormProps) => {
       <button
         type='button'
         onClick={signInWithGoogle}
-        className='w-full rounded border border-gray-600 bg-gray-700 px-4 py-3 text-sm font-medium text-text transition-colors hover:bg-gray-600'
+        className='w-full rounded border border-gray-600 bg-surface px-4 py-3 text-sm font-medium text-text transition-colors hover:bg-background'
       >
         Continue with Google
       </button>
@@ -117,11 +117,7 @@ export const AuthForm = ({ next }: AuthFormProps) => {
         <div className='h-px flex-1 bg-gray-600' />
       </div>
 
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className='space-y-3'
-        noValidate
-      >
+      <form onSubmit={handleSubmit(onSubmit)} className='space-y-3' noValidate>
         <div>
           <label
             htmlFor='email'

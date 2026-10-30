@@ -1,16 +1,49 @@
 @import 'tailwindcss';
 
-@theme {
-  /* Register colors with Tailwind - must be at root level */
-  /* Palette sampled from the logo: warm black, cream, and taupe */
-  --color-primary: rgb(163 142 121);
-  --color-on-primary: rgb(12 11 10);
-  --color-accent: rgb(230 216 196);
-  --color-background: rgb(12 11 10);
-  --color-surface: rgb(29 27 24);
-  --color-text: rgb(236 226 210);
-  --color-text-muted: rgb(166 155 141);
+/* Two themes from the logo's palette. Dark is the default. The switch in the header sets
+   data-theme on <html>, and a script in the root layout sets it before first paint. */
+:root {
+  color-scheme: dark;
+  --c-primary: rgb(163 142 121);
+  --c-on-primary: rgb(12 11 10);
+  --c-accent: rgb(230 216 196);
+  --c-background: rgb(12 11 10);
+  --c-surface: rgb(29 27 24);
+  --c-text: rgb(236 226 210);
+  --c-text-muted: rgb(166 155 141);
+  --c-header: rgb(29 27 24);
+  --c-header-text: rgb(236 226 210);
+  --c-header-muted: rgb(166 155 141);
+}
 
+:root[data-theme='light'] {
+  color-scheme: light;
+  --c-primary: rgb(122 100 72);
+  --c-on-primary: rgb(255 250 240);
+  --c-accent: rgb(90 72 50);
+  --c-background: rgb(245 239 227);
+  --c-surface: rgb(255 250 240);
+  --c-text: rgb(42 35 28);
+  --c-text-muted: rgb(106 94 81);
+  --c-header: rgb(255 250 240);
+  --c-header-text: rgb(42 35 28);
+  --c-header-muted: rgb(106 94 81);
+}
+
+@theme inline {
+  --color-primary: var(--c-primary);
+  --color-on-primary: var(--c-on-primary);
+  --color-accent: var(--c-accent);
+  --color-background: var(--c-background);
+  --color-surface: var(--c-surface);
+  --color-text: var(--c-text);
+  --color-text-muted: var(--c-text-muted);
+  --color-header: var(--c-header);
+  --color-header-text: var(--c-header-text);
+  --color-header-muted: var(--c-header-muted);
+}
+
+@theme {
   /* Macro colors: carbs, fat, protein */
   --color-carbs: rgb(117 132 205);
   --color-fat: rgb(214 168 82);
@@ -26,6 +59,11 @@
 }
 
 @layer base {
+  body {
+    background-color: var(--color-background);
+    color: var(--color-text);
+  }
+
   /* Smooth scrolling for hash navigation (respects user motion preferences) */
   @media (prefers-reduced-motion: no-preference) {
     html {
