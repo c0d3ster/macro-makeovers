@@ -1,7 +1,7 @@
 {
   "slug": "greek-yogurt-tuna-melt",
   "title": "Greek Yogurt Tuna Melt",
-  "summary": "Mayo swapped for nonfat Greek yogurt: roughly 10g less fat per tablespoon replaced, plus protein instead of none. Cold application, so yogurt is right here (cottage cheese is for hot sauces). The salad batches ahead for leftover lunches and doubles as an omega-3 source. Salad makes ~4 servings, one per melt.",
+  "summary": "Mayo swapped for nonfat Greek yogurt: roughly 10g less fat per tablespoon replaced, plus protein instead of none. Cold application, so yogurt is right here (cottage cheese is for hot sauces). The salad batches ahead for leftover lunches and doubles as an omega-3 source. One serving of the salad goes on each melt.",
   "servings": 4,
   "prepMinutes": 10,
   "cookMinutes": 10,
@@ -127,6 +127,14 @@
     }
   ],
   "notes": [
+    {
+      "kind": "nutrition_analysis",
+      "body": "The hoagie is the classic: kept hinged, top brushed with a little oil so it browns instead of burning, cheese broiled on top until it crisps. The **sourdough version is ~70 cal leaner** (no oil needed) and the **cold whole wheat sandwich is the leanest** with the highest protein share since it skips cheese entirely. The salad alone is the most protein-dense thing in this book, but at ~185 cal it's a component rather than a meal."
+    },
+    {
+      "kind": "nutrition_analysis",
+      "body": "Numbers assume the **default mix: 3 Thai sweet & spicy + 2 hickory smoked pouches + 1 can albacore**. Thai brings spice and a little extra carb, hickory brings smokiness, while the albacore is more concentrated protein. More on tuna options below."
+    },
     {
       "kind": "make_or_break",
       "body": "**Broiler heat is what crisps the cheese.** Direct top heat browns and crisps the surface; melting it any other way just leaves it soft. Keeping the hoagie hinged instead of flattened means less surface to cover, so a single slice halved and overlapped runs the length of the roll with a double layer through the middle"

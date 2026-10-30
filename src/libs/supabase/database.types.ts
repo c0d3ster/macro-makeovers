@@ -398,7 +398,13 @@ export type Database = {
       recipe_snapshot: { Args: { p_recipe_id: string }; Returns: Json }
     }
     Enums: {
-      note_kind: 'make_or_break' | 'fixes' | 'levers' | 'tip'
+      note_kind:
+        | 'make_or_break'
+        | 'fixes'
+        | 'levers'
+        | 'tip'
+        | 'nutrition_intro'
+        | 'nutrition_analysis'
       nutrition_kind: 'makeover' | 'traditional'
       recipe_access: 'free' | 'premium'
       recipe_status: 'draft' | 'published'
@@ -532,7 +538,14 @@ export const Constants = {
   },
   public: {
     Enums: {
-      note_kind: ['make_or_break', 'fixes', 'levers', 'tip'],
+      note_kind: [
+        'make_or_break',
+        'fixes',
+        'levers',
+        'tip',
+        'nutrition_intro',
+        'nutrition_analysis',
+      ],
       nutrition_kind: ['makeover', 'traditional'],
       recipe_access: ['free', 'premium'],
       recipe_status: ['draft', 'published'],

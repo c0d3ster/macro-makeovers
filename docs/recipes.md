@@ -206,7 +206,7 @@ The base is lean enough that toppings become the dominant fat source, which is w
 
 ## 3. Turkey Taco Grillers (or lean beef) | $$ · ~40 min · ●●●○○
 
-The single swap of 80/20 beef for lean turkey (or 90/10 beef) roughly halves the fat. The spices carry tacos, not the fat, so season aggressively. **Makes ~4 servings of filling.**
+The single swap of 80/20 beef for lean turkey (or 90/10 beef) roughly halves the fat. The spices carry tacos, not the fat, so season aggressively. **Servings are for the filling only.**
 
 ### Nutrition
 
@@ -302,7 +302,7 @@ Char the corn first. It's what gives the pico its depth. Toss everything togethe
 
 ## 4. Ham & Prosciutto Sliders | $$$ · ~15 min · ●○○○○
 
-Baked sweet-roll sliders, portioned and rebalanced. The rolls and cheese set a floor on the fat here, so this is the treat item of the group rather than a macro workhorse, but at 41g protein per serving it earns its place. **Makes 12 sliders, ~4 servings of 3.**
+Baked sweet-roll sliders, portioned and rebalanced. The rolls and cheese set a floor on the fat here, so this is the treat item of the group rather than a macro workhorse, but at 41g protein per serving it earns its place. **Three sliders per serving.**
 
 ### Nutrition
 
@@ -356,7 +356,7 @@ Strong protein, but 26g fat is a third of a 75g day in one meal. Plan a leaner d
 
 ## 5. Greek Yogurt Tuna Melt | $$ · ~20 min · ●●○○○
 
-Mayo swapped for nonfat Greek yogurt: roughly 10g less fat per tablespoon replaced, plus protein instead of none. Cold application, so yogurt is right here (cottage cheese is for hot sauces). The salad batches ahead for leftover lunches and doubles as an omega-3 source. **Salad makes ~4 servings, one per melt.**
+Mayo swapped for nonfat Greek yogurt: roughly 10g less fat per tablespoon replaced, plus protein instead of none. Cold application, so yogurt is right here (cottage cheese is for hot sauces). The salad batches ahead for leftover lunches and doubles as an omega-3 source. **One serving of the salad goes on each melt.**
 
 ### Nutrition
 
@@ -1187,7 +1187,7 @@ The chop is ~330 cal and 40g protein, the sides ~260 cal, and the sauce ~80 cal.
 
 ## 13. Red Enchilada Casserole | $$ · ~110 min · ●●●●○
 
-Shredded chicken breast poached right in a homemade red sauce, layered with black beans, charred corn, blended cottage cheese, and crisped melting cheese. The traditional version gets its fat from 80/20 beef, tortillas fried in oil, and a heavy hand with cheese and sour cream. Here the sauce doubles as the poaching liquid, the tortillas are warmed instead of fried, and the cheese is measured and mostly sits on top where it crisps. **Makes 6 servings (9x13 dish).**
+Shredded chicken breast poached right in a homemade red sauce, layered with black beans, charred corn, blended cottage cheese, and crisped melting cheese. The traditional version gets its fat from 80/20 beef, tortillas fried in oil, and a heavy hand with cheese and sour cream. Here the sauce doubles as the poaching liquid, the tortillas are warmed instead of fried, and the cheese is measured and mostly sits on top where it crisps. **Fits a 9x13 dish.**
 
 ### Nutrition
 

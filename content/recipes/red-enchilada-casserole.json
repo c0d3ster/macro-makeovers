@@ -1,7 +1,7 @@
 {
   "slug": "red-enchilada-casserole",
   "title": "Red Enchilada Casserole",
-  "summary": "Shredded chicken breast poached right in a homemade red sauce, layered with black beans, charred corn, blended cottage cheese, and crisped melting cheese. The traditional version gets its fat from 80/20 beef, tortillas fried in oil, and a heavy hand with cheese and sour cream. Here the sauce doubles as the poaching liquid, the tortillas are warmed instead of fried, and the cheese is measured and mostly sits on top where it crisps. Makes 6 servings (9x13 dish).",
+  "summary": "Shredded chicken breast poached right in a homemade red sauce, layered with black beans, charred corn, blended cottage cheese, and crisped melting cheese. The traditional version gets its fat from 80/20 beef, tortillas fried in oil, and a heavy hand with cheese and sour cream. Here the sauce doubles as the poaching liquid, the tortillas are warmed instead of fried, and the cheese is measured and mostly sits on top where it crisps. Fits a 9x13 dish.",
   "servings": 6,
   "prepMinutes": 25,
   "cookMinutes": 85,
@@ -224,6 +224,10 @@
     }
   ],
   "notes": [
+    {
+      "kind": "nutrition_analysis",
+      "body": "The traditional row assumes 1.5 lb of 80/20 beef, 12 tortillas fried in about 3 tbsp of oil, canned sauce, 8 oz of cheese, and 1/2 cup of sour cream. The fat savings come from the lean chicken, the dry-warmed tortillas, half the cheese, and cottage cheese in place of sour cream. They go toward protein and the beans and corn, so carbs run higher than the traditional version. Fat lands just under 25%, so there is room to add cheese (see Levers)."
+    },
     {
       "kind": "tip",
       "body": "The toppings and pickled jalapeños are not counted in the macros. The whole jar of pickles is about 25 cal."

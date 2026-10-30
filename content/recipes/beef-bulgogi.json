@@ -1,7 +1,7 @@
 {
   "slug": "beef-bulgogi",
   "title": "Beef Bulgogi",
-  "summary": "Thin-sliced ribeye strips in a soy-pear marinade, seared hard in cast iron and served over black rice. Traditional bulgogi is already fairly lean, so there is no dairy swap here. The fat comes down through a lean pre-cut strip (about 3.5g fat per 4 oz) and 1 tbsp of sesame oil across the whole batch, where traditional versions run 1.5 to 2 tbsp. Black rice brings more fiber and protein than white. Built with Heritage brand ribeye strips for convenience, with trimmed flank as the from-scratch option. Makes 4 servings.",
+  "summary": "Thin-sliced ribeye strips in a soy-pear marinade, seared hard in cast iron and served over black rice. Traditional bulgogi is already fairly lean, so there is no dairy swap here. The fat comes down through a lean pre-cut strip (about 3.5g fat per 4 oz) and 1 tbsp of sesame oil across the whole batch, where traditional versions run 1.5 to 2 tbsp. Black rice brings more fiber and protein than white. Built with Heritage brand ribeye strips for convenience, with trimmed flank as the from-scratch option.",
   "servings": 4,
   "prepMinutes": 10,
   "cookMinutes": 40,
@@ -108,6 +108,10 @@
     }
   ],
   "notes": [
+    {
+      "kind": "nutrition_analysis",
+      "body": "The traditional row assumes sirloin, 1.5 tbsp sesame oil, 1 tbsp of cooking oil, and white rice. The fat savings come from the leaner strips and less oil (1 tbsp sesame and 1 tsp to sear). They go toward protein and black rice, so calories stay level. The numbers use the Heritage strips, and trimmed flank runs a bit higher in fat."
+    },
     {
       "kind": "make_or_break",
       "body": "**Cast iron, ripping hot.** It holds heat when the beef lands, so the strips char instead of steam. A thinner nonstick pan can't hold the same heat"

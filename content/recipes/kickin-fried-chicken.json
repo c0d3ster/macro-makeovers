@@ -1,7 +1,7 @@
 {
   "slug": "kickin-fried-chicken",
   "title": "Kickin' Fried Chicken",
-  "summary": "Same triple-coat breading (flour and cornstarch, egg, seasoned panko) and heavy cayenne/paprika hit as the original skillet version, air fried instead of pan-fried in oil. Compared here against a full home-style fried chicken dinner: deep-fried breast, mashed potatoes and gravy, and corn, since that's the real plate this replaces, not just the chicken on its own. Makes 5 servings.",
+  "summary": "Same triple-coat breading (flour and cornstarch, egg, seasoned panko) and heavy cayenne/paprika hit as the original skillet version, air fried instead of pan-fried in oil. Compared here against a full home-style fried chicken dinner: deep-fried breast, mashed potatoes and gravy, and corn, since that's the real plate this replaces, not just the chicken on its own.",
   "servings": 5,
   "prepMinutes": 15,
   "cookMinutes": 25,
@@ -193,6 +193,10 @@
     }
   ],
   "notes": [
+    {
+      "kind": "nutrition_analysis",
+      "body": "Nearly 4x the fat on the traditional plate for less protein. The gap is driven almost entirely by the deep-fried chicken and the butter/cream gravy. Skin-on potatoes add a couple extra grams of fiber and a touch more carbs and micronutrients over peeled, calories barely move."
+    },
     {
       "kind": "make_or_break",
       "body": "**Garlic goes in first, onion after.** Cooking the garlic briefly on its own before setting a portion aside is what keeps the ranch's garlic bright and punchy, while the portion that keeps cooking with the onion mellows out for the potatoes"

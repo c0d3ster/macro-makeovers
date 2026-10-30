@@ -1,7 +1,7 @@
 {
   "slug": "blackened-chicken-alfredo",
   "title": "Blackened Chicken Alfredo",
-  "summary": "No heavy cream, a quarter of the butter, and half the cheese of a traditional Alfredo. Cottage cheese carries the creamy body and adds protein instead of just fat. Makes ~6 servings.",
+  "summary": "No heavy cream, a quarter of the butter, and half the cheese of a traditional Alfredo. Cottage cheese carries the creamy body and adds protein instead of just fat.",
   "servings": 6,
   "prepMinutes": 10,
   "cookMinutes": 25,
@@ -124,6 +124,10 @@
     }
   ],
   "notes": [
+    {
+      "kind": "nutrition_analysis",
+      "body": "Strong protein with carbs up from the full box of pasta. A traditional Alfredo runs ~55g fat per serving; this lands at 18g while adding far more protein."
+    },
     {
       "kind": "tip",
       "body": "Chicken fat note: use avocado oil, not butter, for the blackened chicken. Blackening runs hot and butter's milk solids scorch and smoke at that heat. Avoid extra virgin olive oil too (it turns bitter when it smokes). Total fat added across the dish is 3 tbsp: 2 tbsp butter in the sauce, 1 tbsp oil on the chicken."

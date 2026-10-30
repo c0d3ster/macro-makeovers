@@ -90,6 +90,32 @@ const sectionByPrefix = (
   return (key && sections.get(key)) || []
 }
 
+// Splits text into paragraphs, each joined onto one line
+const paragraphs = (lines: string[]): string[] =>
+  lines
+    .filter((line) => line.trim() !== '---')
+    .join('\n')
+    .split(/\n\s*\n/)
+    .map((paragraph) => paragraph.replace(/\n/g, ' ').trim())
+    .filter(Boolean)
+
+// The text around the nutrition table: a line above it that defines the builds, and the short
+// analysis below it. One note per paragraph, in the order the book prints them.
+const parseNutritionNotes = (lines: string[]): Note[] => {
+  const first = lines.findIndex((line) => line.startsWith('|'))
+  if (first === -1) return []
+  const last = lines.findLastIndex((line) => line.startsWith('|'))
+
+  return [
+    ...paragraphs(lines.slice(0, first)).map(
+      (body) => ({ kind: 'nutrition_intro', body }) satisfies Note
+    ),
+    ...paragraphs(lines.slice(last + 1)).map(
+      (body) => ({ kind: 'nutrition_analysis', body }) satisfies Note
+    ),
+  ]
+}
+
 const parseNutrition = (
   lines: string[],
   quick: QuickRef,
@@ -253,6 +279,11 @@ const parseBullets = (lines: string[], kind: Note['kind']): Note[] =>
     return notes
   }, [])
 
+// The book ends most intros with "Makes ~5 servings." The site shows servings from its own field
+// beside the calories, so the plain sentence is dropped here instead of repeated in the summary.
+const stripServingsNote = (summary: string): string =>
+  summary.replace(/\s*Makes ~?\d+ servings\.\s*$/, '')
+
 const parseRecipe = (
   heading: string,
   body: string[],
@@ -262,14 +293,19 @@ const parseRecipe = (
   const title = quick.title || stripBold(titlePart)
   const sections = splitSections(body)
   const intro = (sections.get('_intro') ?? []).join('\n').trim()
-  const summary = stripBold(intro.split(/\n\s*\n/)[0] ?? '').replace(/\n/g, ' ')
+  const summary = stripServingsNote(
+    stripBold(intro.split(/\n\s*\n/)[0] ?? '').replace(/\n/g, ' ')
+  )
 
   const { ingredients, tips } = parseIngredients(
     sectionByPrefix(sections, 'ingredients')
   )
   const method = parseMethod(sectionByPrefix(sections, 'method'))
 
-  const notes: Note[] = [...tips]
+  const notes: Note[] = [
+    ...parseNutritionNotes(sectionByPrefix(sections, 'nutrition')),
+    ...tips,
+  ]
   sections.forEach((lines, name) => {
     const key = name.toLowerCase()
     const kind = NOTE_SECTIONS[key]

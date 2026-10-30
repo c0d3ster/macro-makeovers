@@ -51,6 +51,9 @@ export type RecipeDetail = {
   featured: NutritionBuild
   ingredients: RecipeIngredient[]
   steps: RecipeStep[]
+  // Paragraphs shown around the nutrition table: a line above it, analysis blocks below it
+  nutritionIntro: string[]
+  nutritionAnalysis: string[]
   notes: RecipeNote[]
   // Set when this recipe is a variant of another
   baseRecipe?: RelatedRecipe
@@ -118,6 +121,11 @@ const NOTE_ORDER: readonly Enums['note_kind'][] = [
   'levers',
 ]
 
+const NUTRITION_KINDS: readonly Enums['note_kind'][] = [
+  'nutrition_intro',
+  'nutrition_analysis',
+]
+
 const META_DESCRIPTION_LIMIT = 160
 
 const byPosition = (a: Positioned, b: Positioned): number =>
@@ -152,6 +160,12 @@ export const toRecipeDetail = (
   const featured = featuredBuild(nutrition)
   if (!featured) return undefined
 
+  const nutritionNotes = (kind: Enums['note_kind']): string[] =>
+    row.recipe_notes
+      .filter((note) => note.kind === kind)
+      .sort(byPosition)
+      .map(({ body_md }) => body_md)
+
   return {
     slug: row.slug,
     title: row.title,
@@ -181,7 +195,10 @@ export const toRecipeDetail = (
         body: body_md,
         durationMinutes: duration_minutes ?? undefined,
       })),
+    nutritionIntro: nutritionNotes('nutrition_intro'),
+    nutritionAnalysis: nutritionNotes('nutrition_analysis'),
     notes: [...row.recipe_notes]
+      .filter(({ kind }) => !NUTRITION_KINDS.includes(kind))
       .sort(
         (a, b) =>
           NOTE_ORDER.indexOf(a.kind) - NOTE_ORDER.indexOf(b.kind) ||
@@ -192,12 +209,6 @@ export const toRecipeDetail = (
     variants,
   }
 }
-
-// The book ends most summaries with "Makes ~5 servings." The page shows servings beside the
-// calories, so a plain trailing note is dropped. Notes with more to say ("Makes 6 servings
-// (9x13 dish).") stay.
-export const stripServingsNote = (summary: string): string =>
-  summary.replace(/\s*Makes ~?\d+ servings\.\s*$/, '')
 
 // The summary's first sentence, capped for a search or share preview
 export const toMetaDescription = (summary: string): string => {

@@ -1,7 +1,7 @@
 {
   "slug": "turkey-taco-grillers",
   "title": "Turkey Taco Grillers",
-  "summary": "The single swap of 80/20 beef for lean turkey (or 90/10 beef) roughly halves the fat. The spices carry tacos, not the fat, so season aggressively. Makes ~4 servings of filling.",
+  "summary": "The single swap of 80/20 beef for lean turkey (or 90/10 beef) roughly halves the fat. The spices carry tacos, not the fat, so season aggressively. Servings are for the filling only.",
   "servings": 4,
   "prepMinutes": 15,
   "cookMinutes": 25,
@@ -109,6 +109,14 @@
     }
   ],
   "notes": [
+    {
+      "kind": "nutrition_intro",
+      "body": "Per serving. Shared toppings = 1/8 cup cottage cheese blend across every build. The griller gets 1/4 cup cheddar total and 1/2 cup pico; the rice bowl gets 1/8 cup cheddar and 3/4 cup pico."
+    },
+    {
+      "kind": "nutrition_analysis",
+      "body": "The griller is the go-to build: two crispy cheese-griddled tortillas loaded up. Griller numbers reflect turkey with cheese split inside and out (see below); beef will run close but hasn't been independently verified. The rice bowl skips the tortilla but the pico topping carries similar carbs. The filling alone is lean and protein-forward, a full can of black beans pushes it to 35g protein per serving. Build details below."
+    },
     {
       "kind": "tip",
       "body": "Turkey or beef? 93/7 turkey is the default here: cheaper and easier to find than 93/7 beef, with nearly identical macros. 90/10 beef is the easy-to-find fallback if you'd rather use beef; it adds ~30 cal and ~3g fat per serving. Meat comparison is at the bottom."

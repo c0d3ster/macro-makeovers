@@ -1,7 +1,7 @@
 {
   "slug": "cheesy-hash-brown-bacon-bake",
   "title": "Cheesy Hash Brown Bacon Bake",
-  "summary": "Hash brown breakfast bake rebuilt around a cottage cheese and egg white custard. The original ran about 53% of calories from fat (6 tbsp oil for the potatoes, a 3-inch cube of cheddar, 4 slices of bacon) for 22g protein. Here the custard and Canadian bacon carry the protein, the bacon is cut to two candied slices for flavor, and the fat budget goes to what earns it: whole eggs on top with the yolk left runny, and cheddar crisped around them. Makes 4 servings.",
+  "summary": "Hash brown breakfast bake rebuilt around a cottage cheese and egg white custard. The original ran about 53% of calories from fat (6 tbsp oil for the potatoes, a 3-inch cube of cheddar, 4 slices of bacon) for 22g protein. Here the custard and Canadian bacon carry the protein, the bacon is cut to two candied slices for flavor, and the fat budget goes to what earns it: whole eggs on top with the yolk left runny, and cheddar crisped around them.",
   "servings": 4,
   "prepMinutes": 15,
   "cookMinutes": 50,
@@ -128,6 +128,10 @@
     }
   ],
   "notes": [
+    {
+      "kind": "nutrition_analysis",
+      "body": "The traditional row assumes about 4 of the original recipe's 6 tbsp of oil end up in the potatoes. The fat savings come from the oil spray, two candied bacon slices (traditional uses four), and the egg white and cottage cheese custard. They go toward protein, so calories stay level. Carbs run about 9g higher from the candied bacon sugar, bell pepper, and cottage cheese."
+    },
     {
       "kind": "tip",
       "body": "Oil note: use avocado oil, not butter or extra virgin olive oil. The hash browns roast at 430°F and both would scorch or turn bitter at that heat. A heavy spray gets full crisp on 7.4 cups from about 2 tsp of oil, so don't skip it."

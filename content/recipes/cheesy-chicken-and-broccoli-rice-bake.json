@@ -1,7 +1,7 @@
 {
   "slug": "cheesy-chicken-and-broccoli-rice-bake",
   "title": "Cheesy Chicken and Broccoli Rice Bake",
-  "summary": "Classic casserole, rebuilt. No cream of chicken soup: cottage cheese blended with warm broth carries the creamy body instead, and real cheddar gets used deliberately (half in the sauce, half on top) rather than buried. Makes ~5 servings.",
+  "summary": "Classic casserole, rebuilt. No cream of chicken soup: cottage cheese blended with warm broth carries the creamy body instead, and real cheddar gets used deliberately (half in the sauce, half on top) rather than buried.",
   "servings": 5,
   "prepMinutes": 20,
   "cookMinutes": 50,
@@ -136,6 +136,10 @@
     }
   ],
   "notes": [
+    {
+      "kind": "nutrition_analysis",
+      "body": "Cuts about a third of the fat (19g vs 30g) while nearly doubling the protein (51g vs 28g). Butter for the chicken, canned cream of chicken soup, and a heavier hand with cheese are what drive a traditional version's fat up, and this recipe swaps out all three. Roasted broccoli, bell pepper, and spinach add volume, color, and micronutrients for almost no calories."
+    },
     {
       "kind": "make_or_break",
       "body": "**Roast broccoli separately, add it late.** Folding it into the casserole before the main bake steams it soft no matter how it was cooked going in. Roasting it first and stirring it in right before the final browning is what keeps the crisp edges"

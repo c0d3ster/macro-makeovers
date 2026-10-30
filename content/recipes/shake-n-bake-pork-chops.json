@@ -1,7 +1,7 @@
 {
   "slug": "shake-n-bake-pork-chops",
   "title": "Shake 'n Bake Pork Chops",
-  "summary": "Thin, crispy panko pork chops with a scallion cottage cheese pan sauce, over a tray of garlic-oil potatoes and crispy broccoli. Makes 4 servings.",
+  "summary": "Thin, crispy panko pork chops with a scallion cottage cheese pan sauce, over a tray of garlic-oil potatoes and crispy broccoli.",
   "servings": 4,
   "prepMinutes": 20,
   "cookMinutes": 40,
@@ -164,6 +164,10 @@
     }
   ],
   "notes": [
+    {
+      "kind": "nutrition_analysis",
+      "body": "The chop is ~330 cal and 40g protein, the sides ~260 cal, and the sauce ~80 cal. The traditional row assumes oil-fried chops, a butter, oil, and sour cream pan sauce, and heavier oil and cheese on the tray. The savings come from air frying with spray, cottage cheese in the sauce, and a measured 1.5 tbsp of oil on the tray."
+    },
     {
       "kind": "make_or_break",
       "body": "**Even, thin chops.** They cook through before the breading burns. Trim the fat cap before breading to stay on the lean numbers"

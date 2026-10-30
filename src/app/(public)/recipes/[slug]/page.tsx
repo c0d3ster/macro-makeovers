@@ -67,6 +67,8 @@ const RecipePage = async ({
           builds={recipe.nutrition}
           servings={recipe.servings}
           featured={recipe.featured}
+          intro={recipe.nutritionIntro}
+          analysis={recipe.nutritionAnalysis}
         />
         <div className='grid gap-10 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] lg:gap-14'>
           <ScalableIngredients
