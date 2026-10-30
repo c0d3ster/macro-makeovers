@@ -2,11 +2,15 @@ import type { SupabaseClient } from '@supabase/supabase-js'
 
 import type { Database } from '@/libs/supabase/database.types'
 
+import { placeholderPhotoFor } from './recipeImages'
+
 // What the grid needs to draw one recipe: headline facts plus the featured build's macros
 export type RecipeCard = {
   slug: string
   title: string
   summary: string
+  // The recipe's own photo, else a stand-in from public/images, else none
+  imageUrl?: string
   servings: number
   totalMinutes: number
   costTier: number
@@ -36,12 +40,13 @@ export type RecipeCardRow = {
   cook_minutes: number
   cost_tier: number
   difficulty: number
+  image_url: string | null
   recipe_nutrition: NutritionRow[]
   recipe_tags: { tags: { name: string } | null }[]
 }
 
 const CARD_COLUMNS = `
-  slug, title, summary, servings, prep_minutes, cook_minutes, cost_tier, difficulty,
+  slug, title, summary, servings, prep_minutes, cook_minutes, cost_tier, difficulty, image_url,
   recipe_nutrition (kind, is_default, calories, carbs_g, fat_g, protein_g),
   recipe_tags (tags (name))
 `
@@ -65,6 +70,7 @@ export const toRecipeCard = (row: RecipeCardRow): RecipeCard | undefined => {
     slug: row.slug,
     title: row.title,
     summary: toCardSummary(row.summary),
+    imageUrl: row.image_url ?? placeholderPhotoFor(row.slug),
     servings: row.servings,
     totalMinutes: row.prep_minutes + row.cook_minutes,
     costTier: row.cost_tier,

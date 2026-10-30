@@ -51,6 +51,27 @@ describe('RecipeCard', () => {
   })
 })
 
+describe('RecipeCard photo', () => {
+  it('shows the photo above the title when there is one', () => {
+    render(
+      <RecipeCard
+        recipe={{ ...recipe, imageUrl: '/images/02-spicy-turkey-chili.jpg' }}
+      />
+    )
+
+    expect(screen.getByTestId('next-image')).toHaveAttribute(
+      'data-src',
+      '/images/02-spicy-turkey-chili.jpg'
+    )
+  })
+
+  it('leaves out the photo area when there is none', () => {
+    render(<RecipeCard recipe={recipe} />)
+
+    expect(screen.queryByTestId('next-image')).toBeNull()
+  })
+})
+
 describe('RecipeGrid', () => {
   it('renders one card per recipe', () => {
     render(
