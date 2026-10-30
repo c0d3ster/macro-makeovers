@@ -72,12 +72,13 @@
   }
 }
 
-/* The strip starts under the pills, lined up with the original split they begin at, and swings
-   down while they morph, landing as they finish. Its fade is separate and quicker, so it is
-   visible for most of the drop. */
+/* The strip starts overlapping the pills, its bottom flush with theirs (the 0.75rem gap plus its
+   own 0.375rem height), lined up with the original split they begin at. It swings down while
+   they morph, landing as they finish. Its fade is separate and quicker, so it is visible for
+   most of the drop. */
 @keyframes macro-drop-in {
   from {
-    transform: translateY(-0.75rem);
+    transform: translateY(-1.125rem);
   }
 }
 
