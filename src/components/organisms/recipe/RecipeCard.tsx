@@ -8,6 +8,7 @@ import {
   Badge,
   CostTier,
   DifficultyDots,
+  MacroStrip,
   RecipeImage,
 } from '@/components/atoms'
 import { MacroBar } from '@/components/molecules'
@@ -39,12 +40,15 @@ export const RecipeCard = ({ recipe }: RecipeCardProps): ReactElement => {
     proteinG,
     carbsG,
     fatG,
+    original,
   } = recipe
   const { proteinPct, carbsPct, fatPct } = toMacroRatios({
     proteinG,
     carbsG,
     fatG,
   })
+
+  const originalRatios = original && toMacroRatios(original)
 
   return (
     <Link
@@ -102,6 +106,16 @@ export const RecipeCard = ({ recipe }: RecipeCardProps): ReactElement => {
               },
             ]}
           />
+          {originalRatios && (
+            <MacroStrip
+              label={`Original recipe calories by macro: ${originalRatios.carbsPct}% carbs, ${originalRatios.fatPct}% fat, ${originalRatios.proteinPct}% protein`}
+              segments={[
+                { tone: 'carbs', percent: originalRatios.carbsPct },
+                { tone: 'fat', percent: originalRatios.fatPct },
+                { tone: 'protein', percent: originalRatios.proteinPct },
+              ]}
+            />
+          )}
         </div>
 
         <div className='flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-text-muted'>

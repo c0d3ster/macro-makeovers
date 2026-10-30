@@ -8,6 +8,7 @@ import {
   Badge,
   CostTier,
   DifficultyDots,
+  MacroStrip,
   RecipeImage,
 } from '@/components/atoms'
 import { MacroBar } from '@/components/molecules'
@@ -29,10 +30,13 @@ export const RecipeHero = ({ recipe }: RecipeHeroProps): ReactElement => {
     difficulty,
     tags,
     featured,
+    nutrition,
     baseRecipe,
     variants,
   } = recipe
   const { proteinPct, carbsPct, fatPct } = toMacroRatios(featured)
+  const original = nutrition.find(({ kind }) => kind === 'traditional')
+  const originalRatios = original && toMacroRatios(original)
 
   return (
     <header className='flex flex-col gap-5'>
@@ -108,6 +112,17 @@ export const RecipeHero = ({ recipe }: RecipeHeroProps): ReactElement => {
                 },
               ]}
             />
+            {originalRatios && (
+              <MacroStrip
+                large
+                label={`Original recipe calories by macro: ${originalRatios.carbsPct}% carbs, ${originalRatios.fatPct}% fat, ${originalRatios.proteinPct}% protein`}
+                segments={[
+                  { tone: 'carbs', percent: originalRatios.carbsPct },
+                  { tone: 'fat', percent: originalRatios.fatPct },
+                  { tone: 'protein', percent: originalRatios.proteinPct },
+                ]}
+              />
+            )}
           </div>
 
           {(baseRecipe || variants.length > 0) && (

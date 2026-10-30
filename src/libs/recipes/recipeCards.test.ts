@@ -57,6 +57,25 @@ describe('toRecipeCard', () => {
     })
   })
 
+  it('carries the traditional row as the original macros', () => {
+    expect(toRecipeCard(row)?.original).toEqual({
+      proteinG: 27,
+      carbsG: 30,
+      fatG: 28,
+    })
+  })
+
+  it('has no original macros without a traditional row', () => {
+    const makeoverOnly: RecipeCardRow = {
+      ...row,
+      recipe_nutrition: row.recipe_nutrition.filter(
+        ({ kind }) => kind === 'makeover'
+      ),
+    }
+
+    expect(toRecipeCard(makeoverOnly)?.original).toBeUndefined()
+  })
+
   it('adds prep and cook time and sorts the tags', () => {
     expect(toRecipeCard(row)).toMatchObject({
       totalMinutes: 70,

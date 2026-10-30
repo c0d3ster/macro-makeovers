@@ -257,6 +257,22 @@ describe('RecipeHero', () => {
     ).toEqual(['42', '27', '31'])
   })
 
+  it('shows the original recipe ratio under the macros', () => {
+    render(
+      <RecipeHero recipe={{ ...recipe, nutrition: [makeover, traditional] }} />
+    )
+
+    expect(
+      screen.getByRole('img', { name: /original recipe calories by macro/i })
+    ).toBeInTheDocument()
+  })
+
+  it('leaves the strip out without a traditional build', () => {
+    render(<RecipeHero recipe={recipe} />)
+
+    expect(screen.queryByRole('img', { name: /original/i })).toBeNull()
+  })
+
   it('holds a place for the photo until there is one', () => {
     render(<RecipeHero recipe={recipe} />)
 

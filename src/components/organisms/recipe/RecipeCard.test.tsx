@@ -51,6 +51,29 @@ describe('RecipeCard', () => {
   })
 })
 
+describe('RecipeCard original macro strip', () => {
+  it('shows the original recipe ratio when there is one', () => {
+    render(
+      <RecipeCard
+        recipe={{
+          ...recipe,
+          original: { proteinG: 27, carbsG: 30, fatG: 28 },
+        }}
+      />
+    )
+
+    expect(
+      screen.getByRole('img', { name: /original recipe calories by macro/i })
+    ).toBeInTheDocument()
+  })
+
+  it('leaves the strip out without original macros', () => {
+    render(<RecipeCard recipe={recipe} />)
+
+    expect(screen.queryByRole('img', { name: /original/i })).toBeNull()
+  })
+})
+
 describe('RecipeCard photo', () => {
   it('shows the photo above the title when there is one', () => {
     render(

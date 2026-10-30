@@ -20,6 +20,8 @@ export type RecipeCard = {
   proteinG: number
   carbsG: number
   fatG: number
+  // The traditional version's macros, when the recipe has one
+  original?: { proteinG: number; carbsG: number; fatG: number }
 }
 
 type NutritionRow = {
@@ -65,6 +67,9 @@ export const toCardSummary = (summary: string): string =>
 export const toRecipeCard = (row: RecipeCardRow): RecipeCard | undefined => {
   const nutrition = featuredNutrition(row.recipe_nutrition)
   if (!nutrition) return undefined
+  const traditional = row.recipe_nutrition.find(
+    ({ kind }) => kind === 'traditional'
+  )
 
   return {
     slug: row.slug,
@@ -82,6 +87,11 @@ export const toRecipeCard = (row: RecipeCardRow): RecipeCard | undefined => {
     proteinG: nutrition.protein_g,
     carbsG: nutrition.carbs_g,
     fatG: nutrition.fat_g,
+    original: traditional && {
+      proteinG: traditional.protein_g,
+      carbsG: traditional.carbs_g,
+      fatG: traditional.fat_g,
+    },
   }
 }
 
