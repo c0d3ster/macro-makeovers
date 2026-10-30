@@ -224,6 +224,8 @@ describe('RecipeHero', () => {
   it('labels cost and difficulty beside the title', () => {
     render(<RecipeHero recipe={recipe} />)
 
+    expect(screen.getByText('Total')).toBeInTheDocument()
+    expect(screen.getByText('50 min')).toBeInTheDocument()
     expect(screen.getByText('Cost')).toBeInTheDocument()
     expect(screen.getByText('Difficulty')).toBeInTheDocument()
     expect(screen.getByRole('img', { name: 'Cost 2 of 5' })).toBeInTheDocument()
