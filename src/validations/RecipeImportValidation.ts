@@ -50,7 +50,7 @@ export const recipeImportSchema = z
     servings: z.number().int().positive(),
     prepMinutes: z.number().int().min(0),
     cookMinutes: z.number().int().min(0),
-    costTier: z.number().int().min(1).max(4),
+    costTier: z.number().int().min(1).max(5),
     difficulty: z.number().int().min(1).max(5),
     // Slug of the recipe this one is a variant of. The base must already exist.
     variantOf: slug.optional(),
