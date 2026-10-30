@@ -2,9 +2,12 @@ import type { Metadata } from 'next'
 
 import { Env } from '@/libs/Env'
 import { ProvidersWrapper } from '@/providers'
+import { getBaseUrl } from '@/utils/Env'
 import '@/styles/global.css'
 
 export const metadata: Metadata = {
+  // Resolves relative share-image and canonical URLs against the deployed origin
+  metadataBase: new URL(getBaseUrl()),
   title: {
     default: Env.NEXT_PUBLIC_BRAND_NAME,
     template: `%s | ${Env.NEXT_PUBLIC_BRAND_NAME}`,
