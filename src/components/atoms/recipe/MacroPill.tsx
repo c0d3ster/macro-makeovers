@@ -5,17 +5,30 @@ type MacroPillProps = {
   // Share of calories, the number the pill leads with
   percent: number
   grams: number
+  // The big version used on the recipe page, the small one fits a card
+  large?: boolean
 }
 
 export const MacroPill = ({
   label,
   percent,
   grams,
+  large = false,
 }: MacroPillProps): ReactElement => (
-  <div className='flex flex-col items-center rounded-lg border border-text-muted/30 bg-background px-2 py-1.5 text-text'>
-    <span className='text-base leading-tight font-semibold'>{percent}%</span>
-    <span className='text-xs text-text-muted'>{label}</span>
-    <span className='text-[0.65rem] leading-tight text-text-muted'>
+  <div
+    className={`flex size-full flex-col items-center justify-center rounded-lg border border-text-muted/30 bg-background text-center text-text ${large ? 'px-2 py-3' : 'px-2 py-1.5'}`}
+  >
+    <span
+      className={`leading-tight font-semibold ${large ? 'text-2xl' : 'text-base'}`}
+    >
+      {percent}%
+    </span>
+    <span className={`text-text-muted ${large ? 'text-sm' : 'text-xs'}`}>
+      {label}
+    </span>
+    <span
+      className={`leading-tight text-text-muted ${large ? 'text-xs' : 'text-[0.65rem]'}`}
+    >
       {grams}g
     </span>
   </div>

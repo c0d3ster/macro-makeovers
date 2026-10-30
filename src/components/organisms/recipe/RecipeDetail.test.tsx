@@ -233,4 +233,50 @@ describe('RecipeHero', () => {
       screen.getByRole('img', { name: 'Difficulty 3 of 5' })
     ).toBeInTheDocument()
   })
+
+  it('shows the servings beside the calories, not in the summary', () => {
+    render(
+      <RecipeHero
+        recipe={{ ...recipe, summary: 'A test recipe. Makes ~5 servings.' }}
+      />
+    )
+
+    expect(screen.getByText('A test recipe.')).toBeInTheDocument()
+    expect(screen.getByText('Makes')).toBeInTheDocument()
+    expect(screen.getByText('5')).toBeInTheDocument()
+  })
+
+  it('sizes each macro segment by its share of calories', () => {
+    render(<RecipeHero recipe={recipe} />)
+
+    // 52g carbs, 15g fat, 39g protein -> 42 / 27 / 31
+    const widths = ['Carbs', 'Fat', 'Protein'].map((label) =>
+      screen.getByText(label).closest('[style]')?.getAttribute('style')
+    )
+
+    expect(
+      widths.map((style) => style?.match(/flex-grow: (\d+)/)?.[1])
+    ).toEqual(['42', '27', '31'])
+  })
+
+  it('holds a place for the photo until there is one', () => {
+    render(<RecipeHero recipe={recipe} />)
+
+    expect(
+      screen.getByRole('img', { name: 'Photo of Test Chili coming soon' })
+    ).toBeInTheDocument()
+  })
+
+  it('shows the photo once there is one', () => {
+    render(
+      <RecipeHero
+        recipe={{ ...recipe, imageUrl: 'https://example.com/chili.jpg' }}
+      />
+    )
+
+    expect(screen.getByRole('img', { name: 'Test Chili' })).toHaveAttribute(
+      'src',
+      'https://example.com/chili.jpg'
+    )
+  })
 })
