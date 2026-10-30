@@ -9,7 +9,22 @@ type ServingsStepperProps = {
 }
 
 const stepButton =
-  'flex size-10 items-center justify-center rounded-full bg-background text-xl text-text transition-colors hover:bg-primary hover:text-on-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-background disabled:hover:text-text'
+  'flex size-10 items-center justify-center rounded-full bg-background text-text transition-colors hover:bg-primary hover:text-on-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-background disabled:hover:text-text'
+
+// Drawn as a shape instead of a "+" or "-" character, so it sits dead center in the circle
+const StepIcon = ({ plus }: { plus: boolean }): ReactElement => (
+  <svg
+    aria-hidden='true'
+    viewBox='0 0 16 16'
+    className='size-4'
+    fill='none'
+    stroke='currentColor'
+    strokeWidth='2'
+    strokeLinecap='round'
+  >
+    <path d={plus ? 'M8 3v10M3 8h10' : 'M3 8h10'} />
+  </svg>
+)
 
 export const ServingsStepper = ({
   servings,
@@ -23,10 +38,13 @@ export const ServingsStepper = ({
       disabled={servings <= MIN_SERVINGS}
       onClick={() => onChange(servings - 1)}
     >
-      -
+      <StepIcon plus={false} />
     </button>
-    <output aria-live='polite' className='min-w-20 text-center text-text'>
-      <span className='text-xl font-semibold'>{servings}</span>{' '}
+    <output
+      aria-live='polite'
+      className='flex min-w-24 items-baseline justify-center gap-1.5 leading-none text-text'
+    >
+      <span className='text-xl font-semibold'>{servings}</span>
       <span className='text-sm text-text-muted'>
         {servings === 1 ? 'serving' : 'servings'}
       </span>
@@ -38,7 +56,7 @@ export const ServingsStepper = ({
       disabled={servings >= MAX_SERVINGS}
       onClick={() => onChange(servings + 1)}
     >
-      +
+      <StepIcon plus />
     </button>
   </div>
 )
