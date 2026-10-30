@@ -4,9 +4,9 @@ export type MacroTone = 'carbs' | 'fat' | 'protein'
 
 // Written out in full so Tailwind can see every class
 const TONES: Record<MacroTone, string> = {
-  carbs: 'bg-carbs/40',
-  fat: 'bg-fat/40',
-  protein: 'bg-protein/40',
+  carbs: 'bg-carbs/35',
+  fat: 'bg-fat/35',
+  protein: 'bg-protein/35',
 }
 
 const NEUTRAL = 'bg-background'

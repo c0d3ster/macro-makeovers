@@ -20,6 +20,7 @@ export const RecipeCard = ({ recipe }: RecipeCardProps): ReactElement => {
     slug,
     title,
     summary,
+    servings,
     totalMinutes,
     costTier,
     difficulty,
@@ -48,12 +49,20 @@ export const RecipeCard = ({ recipe }: RecipeCardProps): ReactElement => {
       </div>
 
       <div className='mt-auto flex flex-col gap-2'>
-        <p className='flex items-baseline gap-1.5'>
-          <span className='text-2xl leading-none font-semibold text-text'>
-            {calories}
-          </span>
-          <span className='text-sm text-text-muted'>cal per serving</span>
-        </p>
+        <div className='flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1'>
+          <p className='flex items-baseline gap-1.5'>
+            <span className='text-2xl leading-none font-semibold text-text'>
+              {calories}
+            </span>
+            <span className='text-sm text-text-muted'>cals per serving</span>
+          </p>
+          <p className='flex items-baseline gap-1.5'>
+            <span className='text-lg leading-none font-semibold text-text'>
+              {servings}
+            </span>
+            <span className='text-sm text-text-muted'>servings</span>
+          </p>
+        </div>
         <MacroBar
           compact
           macros={[

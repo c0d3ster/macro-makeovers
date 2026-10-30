@@ -35,7 +35,7 @@ describe('RecipeCard', () => {
     render(<RecipeCard recipe={recipe} />)
 
     expect(screen.getByText('500')).toBeInTheDocument()
-    expect(screen.getByText('cal per serving')).toBeInTheDocument()
+    expect(screen.getByText('cals per serving')).toBeInTheDocument()
     expect(screen.getByText('31%')).toBeInTheDocument()
     expect(screen.getByText('39g')).toBeInTheDocument()
     expect(screen.getByText('1 hr 10 min')).toBeInTheDocument()
