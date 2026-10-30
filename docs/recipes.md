@@ -115,7 +115,7 @@ Lean turkey lacks the fat and richness beef brings, so you build it back with ar
 
 ### Nutrition
 
-Per serving. "Fully loaded" = base + 1/8 cup cheddar + 1/8 cup cottage cheese blend + 4 saltines.
+"Fully loaded" = base + 1/8 cup cheddar + 1/8 cup cottage cheese blend + 4 saltines.
 
 |                            | Calories | Carbs | Fat   | Protein | Ratio C/F/P    |
 | -------------------------- | -------- | ----- | ----- | ------- | -------------- |
@@ -210,7 +210,7 @@ The single swap of 80/20 beef for lean turkey (or 90/10 beef) roughly halves the
 
 ### Nutrition
 
-Per serving. Shared toppings = 1/8 cup cottage cheese blend across every build. The griller gets 1/4 cup cheddar total and 1/2 cup pico; the rice bowl gets 1/8 cup cheddar and 3/4 cup pico.
+Shared toppings = 1/8 cup cottage cheese blend across every build. The griller gets 1/4 cup cheddar total and 1/2 cup pico; the rice bowl gets 1/8 cup cheddar and 3/4 cup pico.
 
 |                               | Calories | Carbs | Fat   | Protein | Ratio C/F/P    |
 | ----------------------------- | -------- | ----- | ----- | ------- | -------------- |
