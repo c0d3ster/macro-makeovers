@@ -75,7 +75,7 @@ describe('parseRecipesMarkdown (docs/recipes.md)', () => {
     const analysis = chili.filter(({ kind }) => kind === 'nutrition_analysis')
 
     expect(intro).toHaveLength(1)
-    expect(intro[0]?.body).toMatch(/^Per serving\. "Fully loaded" = base/)
+    expect(intro[0]?.body).toMatch(/^"Fully loaded" = base/)
     expect(analysis).toHaveLength(1)
     expect(analysis[0]?.body).toMatch(/^Carb-forward from the beans/)
     expect(analysis[0]?.body).not.toContain('|')
