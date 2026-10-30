@@ -320,10 +320,11 @@ max_frequency = "5s"
 # Use an external OAuth provider. The full list of providers are: `apple`, `azure`, `bitbucket`,
 # `discord`, `facebook`, `github`, `gitlab`, `google`, `keycloak`, `linkedin_oidc`, `notion`, `twitch`,
 # `twitter`, `x`, `slack`, `spotify`, `workos`, `zoom`.
-# Google sign-in. Off by default: the CLI refuses to start while env() references are unset.
-# To use it locally, set enabled = true and put the credentials in supabase/.env (git-ignored), see README.
+# Google sign-in. Enabled so it works as soon as credentials exist. Without them the stack still
+# starts and everything else works; only "Continue with Google" fails. Put the credentials in
+# supabase/.env (git-ignored), see README.
 [auth.external.google]
-enabled = false
+enabled = true
 client_id = "env(SUPABASE_AUTH_EXTERNAL_GOOGLE_CLIENT_ID)"
 secret = "env(SUPABASE_AUTH_EXTERNAL_GOOGLE_SECRET)"
 

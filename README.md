@@ -166,11 +166,11 @@ Set `NEXT_PUBLIC_SUPABASE_URL` (`https://<project-ref>.supabase.co`) and the key
 Settings → API Keys. For `DATABASE_URL`, use Dashboard → Connect: the transaction pooler (port 6543) at runtime,
 and the direct or session connection (port 5432) for `db:pull`.
 
-**Google sign-in (local):** it is off by default so the stack starts without credentials. Create an OAuth client in
-Google Cloud Console (Web application) with the authorized redirect URI `http://127.0.0.1:54321/auth/v1/callback`,
-set `enabled = true` under `[auth.external.google]` in `supabase/config.toml`, then create `supabase/.env`
-(git-ignored) and restart with `pnpm run db:stop && pnpm run db:start`. Email and password sign-in works locally
-with no extra setup.
+**Google sign-in (local):** it is enabled in `supabase/config.toml`, but the stack starts without credentials and
+"Continue with Google" only errors until you add them. Create an OAuth client in Google Cloud Console (Web
+application) with the authorized redirect URI `http://127.0.0.1:54321/auth/v1/callback`, then create
+`supabase/.env` (git-ignored) and restart with `pnpm run db:stop && pnpm run db:start`. Email and password sign-in
+works locally with no extra setup.
 
 ```bash
 SUPABASE_AUTH_EXTERNAL_GOOGLE_CLIENT_ID=<client id>
