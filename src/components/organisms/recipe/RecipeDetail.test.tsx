@@ -265,6 +265,19 @@ describe('RecipeHero', () => {
     ).toBeInTheDocument()
   })
 
+  it('shows a stand-in photo from public/ through the image optimizer', () => {
+    render(
+      <RecipeHero
+        recipe={{ ...recipe, imageUrl: '/images/02-spicy-turkey-chili.jpg' }}
+      />
+    )
+
+    expect(screen.getByTestId('next-image')).toHaveAttribute(
+      'data-src',
+      '/images/02-spicy-turkey-chili.jpg'
+    )
+  })
+
   it('shows the photo once there is one', () => {
     render(
       <RecipeHero

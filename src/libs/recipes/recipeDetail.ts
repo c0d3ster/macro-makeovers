@@ -4,6 +4,8 @@ import type { Database } from '@/libs/supabase/database.types'
 
 import type { RecipeIngredient } from './ingredients'
 
+import { placeholderPhotoFor } from './recipeImages'
+
 type Enums = Database['public']['Enums']
 
 export type NutritionBuild = {
@@ -36,7 +38,7 @@ export type RecipeDetail = {
   slug: string
   title: string
   summary: string
-  // Null until a photo is uploaded
+  // The recipe's own photo, else a stand-in from public/images, else none
   imageUrl?: string
   servings: number
   prepMinutes: number
@@ -170,7 +172,7 @@ export const toRecipeDetail = (
     slug: row.slug,
     title: row.title,
     summary: row.summary,
-    imageUrl: row.image_url ?? undefined,
+    imageUrl: row.image_url ?? placeholderPhotoFor(row.slug),
     servings: row.servings,
     prepMinutes: row.prep_minutes,
     cookMinutes: row.cook_minutes,
