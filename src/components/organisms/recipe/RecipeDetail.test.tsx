@@ -262,9 +262,11 @@ describe('RecipeHero', () => {
       <RecipeHero recipe={{ ...recipe, nutrition: [makeover, traditional] }} />
     )
 
-    expect(
-      screen.getByRole('img', { name: /original recipe calories by macro/i })
-    ).toBeInTheDocument()
+    const strip = screen.getByRole('img', {
+      name: /original recipe calories by macro/i,
+    })
+
+    expect(strip).toHaveClass('macro-reveal-strip')
   })
 
   it('animates the pills from the original split when there is one', () => {

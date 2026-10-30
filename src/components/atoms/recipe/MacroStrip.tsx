@@ -8,7 +8,7 @@ type MacroStripProps = {
   label: string
   // 4px on a card, 6px on the recipe page
   large?: boolean
-  // Fades in late, after the bar above it has finished growing
+  // Drops in from under the bar above it while that bar morphs
   reveal?: boolean
 }
 
@@ -29,7 +29,7 @@ export const MacroStrip = ({
   <div
     role='img'
     aria-label={label}
-    className={`flex w-full gap-0.5 opacity-20 ${large ? 'h-1.5' : 'h-1'} ${reveal ? 'macro-reveal-late' : ''}`}
+    className={`flex w-full gap-0.5 opacity-20 ${large ? 'h-1.5' : 'h-1'} ${reveal ? 'macro-reveal-strip' : ''}`}
   >
     {segments.map(({ tone, percent }) => (
       <div
