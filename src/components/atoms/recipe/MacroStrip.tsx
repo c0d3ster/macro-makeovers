@@ -26,7 +26,7 @@ export const MacroStrip = ({
   <div
     role='img'
     aria-label={label}
-    className={`flex w-full gap-0.5 opacity-25 ${large ? 'h-1.5' : 'h-1'}`}
+    className={`flex w-full gap-0.5 opacity-20 ${large ? 'h-1.5' : 'h-1'}`}
   >
     {segments.map(({ tone, percent }) => (
       <div
