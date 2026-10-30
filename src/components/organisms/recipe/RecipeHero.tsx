@@ -72,17 +72,16 @@ export const RecipeHero = ({ recipe }: RecipeHeroProps): ReactElement => {
           </p>
 
           <div className='flex max-w-xl flex-col gap-3'>
-            <div className='flex flex-wrap items-baseline gap-x-8 gap-y-1'>
+            <div className='flex flex-wrap items-baseline justify-between gap-x-8 gap-y-1'>
               <p className='flex items-baseline gap-2'>
                 <span className='text-4xl leading-none font-semibold text-text'>
                   {featured.calories}
                 </span>
                 <span className='text-base text-text-muted'>
-                  cal per serving
+                  cals per serving
                 </span>
               </p>
               <p className='flex items-baseline gap-2'>
-                <span className='text-base text-text-muted'>Makes</span>
                 <span className='text-2xl leading-none font-semibold text-text'>
                   {servings}
                 </span>

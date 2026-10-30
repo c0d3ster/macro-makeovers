@@ -242,7 +242,8 @@ describe('RecipeHero', () => {
     )
 
     expect(screen.getByText('A test recipe.')).toBeInTheDocument()
-    expect(screen.getByText('Makes')).toBeInTheDocument()
+    expect(screen.queryByText('Makes')).toBeNull()
+    expect(screen.getByText('servings')).toBeInTheDocument()
     expect(screen.getByText('5')).toBeInTheDocument()
   })
 
