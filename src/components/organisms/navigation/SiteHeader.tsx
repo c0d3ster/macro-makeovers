@@ -50,7 +50,7 @@ export const SiteHeader = ({
   return (
     <header className='fixed inset-x-0 top-0 z-50 border-b border-header-muted/20 bg-header shadow-lg'>
       <div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
-        <div className='flex h-16 items-center justify-between gap-3'>
+        <div className='flex h-16 items-center justify-between gap-4'>
           {/* Logo */}
           <div className='flex shrink-0 items-center sm:flex-1'>
             <Link
@@ -90,7 +90,7 @@ export const SiteHeader = ({
           </nav>
 
           {/* Auth */}
-          <div className='flex shrink-0 items-center justify-end gap-2 sm:flex-1 sm:gap-4'>
+          <div className='flex shrink-0 items-center justify-end gap-3 sm:flex-1 sm:gap-4'>
             <ThemeToggle />
             {authEnabled && <NavAuthSection />}
           </div>

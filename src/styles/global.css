@@ -15,7 +15,7 @@
   --c-header-text: rgb(236 226 210);
   --c-header-muted: rgb(166 155 141);
   --c-pattern: rgb(236 226 210);
-  --pattern-opacity: 0.02;
+  --pattern-opacity: 0.03;
 }
 
 :root[data-theme='light'] {
