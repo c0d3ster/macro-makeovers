@@ -1,0 +1,117 @@
+{
+  "slug": "philly-cheesesteak-skillet",
+  "title": "Philly Cheesesteak Skillet",
+  "summary": "A cheesesteak with the roll left out, built for low-carb days. Lean top round keeps the fat in check, and provolone melted over the top brings back the richness the bread used to carry. Servings are for the skillet only.",
+  "servings": 4,
+  "prepMinutes": 15,
+  "cookMinutes": 20,
+  "costTier": 2,
+  "difficulty": 2,
+  "nutrition": [
+    {
+      "kind": "makeover",
+      "label": "Skillet (1/4 of the pan)",
+      "calories": 320,
+      "carbsG": 12,
+      "fatG": 12,
+      "proteinG": 41,
+      "isDefault": true
+    },
+    {
+      "kind": "traditional",
+      "label": "Traditional cheesesteak sandwich",
+      "calories": 850,
+      "carbsG": 65,
+      "fatG": 45,
+      "proteinG": 50,
+      "isDefault": false
+    }
+  ],
+  "ingredients": [
+    {
+      "raw": "1 1/4 lb top round (or sirloin), sliced as thin as you can"
+    },
+    {
+      "raw": "2 green bell peppers, thinly sliced"
+    },
+    {
+      "raw": "1 large yellow onion, thinly sliced"
+    },
+    {
+      "raw": "8 oz cremini mushrooms, sliced"
+    },
+    {
+      "raw": "2 tsp olive oil"
+    },
+    {
+      "raw": "3 slices provolone (3 oz)"
+    },
+    {
+      "raw": "1 tbsp Worcestershire sauce"
+    },
+    {
+      "group": "Seasoning",
+      "raw": "Garlic powder 1 tsp, onion powder 1 tsp, black pepper 1/2 tsp, salt to taste"
+    }
+  ],
+  "steps": [
+    {
+      "phase": "prep",
+      "body": "Freeze the beef for 20 minutes, then slice it against the grain as thin as you can."
+    },
+    {
+      "phase": "prep",
+      "body": "Slice the peppers, onion, and mushrooms."
+    },
+    {
+      "phase": "prep",
+      "body": "Toss the beef with the Worcestershire and seasoning."
+    },
+    {
+      "phase": "cook",
+      "body": "Heat the oil in a large skillet over medium-high. Cook the onion and peppers until softened and browned at the edges, about 6 min. Add the mushrooms and cook until their liquid is gone, about 4 min. Push everything to the side."
+    },
+    {
+      "phase": "cook",
+      "body": "Add the beef in a single layer to the hot pan and sear for 1 to 2 min without moving it, then stir and cook through. Thin beef overcooks fast."
+    },
+    {
+      "phase": "cook",
+      "body": "Stir the vegetables back in, lay the provolone over the top, cover for 1 min until melted, and serve straight from the pan."
+    }
+  ],
+  "notes": [
+    {
+      "kind": "nutrition_intro",
+      "body": "Per serving is 1/4 of the pan. The fat comes mostly from the provolone, about 22g of the 48g total for the pan."
+    },
+    {
+      "kind": "nutrition_analysis",
+      "body": "Roughly 15 / 34 / 51 as C/F/P. These are estimates from typical ingredient values and have not been verified against a label or database yet. The sandwich it replaces is roughly 3 times the carbs and double the fat."
+    },
+    {
+      "kind": "tip",
+      "body": "Fat is the dial. Top round keeps the skillet lean. Swap in ribeye or add a fourth slice of provolone for a richer pan, and the fat share climbs toward 40%."
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Slice the beef paper-thin.** Partially freezing it makes this easy, and thin slices stay tender even on a lean cut"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Sear the beef in a single layer.** An overcrowded pan steams it gray instead of browning it"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Worcestershire does the work the fatty ribeye used to.** It adds savory depth for almost no calories"
+    }
+  ],
+  "tags": [
+    "beef",
+    "low carb",
+    "skillet",
+    "stovetop",
+    "carb cycling",
+    "batch friendly"
+  ]
+}
