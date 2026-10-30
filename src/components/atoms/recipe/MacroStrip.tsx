@@ -23,12 +23,12 @@ export const MacroStrip = ({
   <div
     role='img'
     aria-label={label}
-    className='flex h-1 w-full gap-px overflow-hidden rounded-full opacity-50'
+    className='flex h-1 w-full gap-0.5 opacity-35'
   >
     {segments.map(({ tone, percent }) => (
       <div
         key={tone}
-        className={TONES[tone]}
+        className={`rounded-full ${TONES[tone]}`}
         style={{ flexGrow: percent, flexBasis: 0 }}
       />
     ))}
