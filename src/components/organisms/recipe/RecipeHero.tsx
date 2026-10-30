@@ -91,10 +91,21 @@ export const RecipeHero = ({ recipe }: RecipeHeroProps): ReactElement => {
             </div>
             <MacroBar
               macros={[
-                { label: 'Carbs', percent: carbsPct, grams: featured.carbsG },
-                { label: 'Fat', percent: fatPct, grams: featured.fatG },
+                {
+                  label: 'Carbs',
+                  tone: 'carbs',
+                  percent: carbsPct,
+                  grams: featured.carbsG,
+                },
+                {
+                  label: 'Fat',
+                  tone: 'fat',
+                  percent: fatPct,
+                  grams: featured.fatG,
+                },
                 {
                   label: 'Protein',
+                  tone: 'protein',
                   percent: proteinPct,
                   grams: featured.proteinG,
                 },
