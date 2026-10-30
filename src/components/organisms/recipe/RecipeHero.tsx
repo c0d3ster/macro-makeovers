@@ -91,7 +91,7 @@ export const RecipeHero = ({ recipe }: RecipeHeroProps): ReactElement => {
               </p>
             </div>
             <MacroBar
-              reveal={!!originalRatios}
+              reveal
               macros={[
                 {
                   label: 'Carbs',

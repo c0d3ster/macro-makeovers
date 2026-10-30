@@ -10,7 +10,8 @@ type Macro = {
   // Share of calories, which sets how wide the segment is
   percent: number
   grams: number
-  // The original recipe's share. With reveal, the segment grows from this to percent.
+  // The original recipe's share. With reveal, the segment grows from this to percent,
+  // or from nothing when there is no original.
   fromPercent?: number
 }
 
@@ -33,7 +34,7 @@ export const MacroBar = ({
     {macros.map(({ label, tone, percent, grams, fromPercent }) => (
       <div
         key={label}
-        className={`${compact ? 'min-w-14' : 'min-w-22'} ${reveal && fromPercent !== undefined ? 'macro-reveal-pill' : ''}`}
+        className={`${compact ? 'min-w-14' : 'min-w-22'} ${reveal ? (fromPercent === undefined ? 'macro-reveal-pill-from-zero' : 'macro-reveal-pill') : ''}`}
         style={
           {
             flexGrow: percent,

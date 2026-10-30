@@ -283,9 +283,12 @@ describe('RecipeHero', () => {
     ).toEqual(['25', '53', '23'])
   })
 
-  it('does not animate without a traditional build', () => {
+  it('grows the pills from nothing without a traditional build', () => {
     const { container } = render(<RecipeHero recipe={recipe} />)
 
+    expect(
+      container.querySelectorAll('.macro-reveal-pill-from-zero')
+    ).toHaveLength(3)
     expect(container.querySelector('.macro-reveal-pill')).toBeNull()
   })
 
