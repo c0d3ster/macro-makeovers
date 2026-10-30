@@ -15,9 +15,11 @@ type NutritionTableProps = {
   analysis?: string[]
 }
 
-const HEADERS = ['Calories', 'Carbs', 'Fat', 'Protein', 'Ratio C/F/P']
+const RATIO_HEADER = 'Ratio C/F/P'
+const HEADERS = ['Calories', 'Carbs', 'Fat', 'Protein', RATIO_HEADER]
 
 const cell = 'px-2 py-2 sm:px-3'
+const ratioCell = `${cell} whitespace-nowrap`
 
 const formatNumber = (value: number): string => value.toLocaleString('en-US')
 
@@ -48,7 +50,7 @@ export const NutritionTable = ({
         </div>
       ))}
 
-      <div className='overflow-hidden rounded-lg border border-text-muted/30'>
+      <div className='overflow-x-auto rounded-lg border border-text-muted/30'>
         <table className='w-full text-left text-xs sm:text-sm'>
           <thead className='bg-surface text-text'>
             <tr>
@@ -57,7 +59,7 @@ export const NutritionTable = ({
                 <th
                   key={header}
                   scope='col'
-                  className={`${cell} font-semibold`}
+                  className={`${header === RATIO_HEADER ? ratioCell : cell} font-semibold`}
                 >
                   {header}
                 </th>
@@ -74,7 +76,7 @@ export const NutritionTable = ({
                 <td className={cell}>{build.carbsG}g</td>
                 <td className={cell}>{build.fatG}g</td>
                 <td className={cell}>{build.proteinG}g</td>
-                <td className={cell}>{formatMacroRatios(build)}</td>
+                <td className={ratioCell}>{formatMacroRatios(build)}</td>
               </tr>
             ))}
             <tr className='border-t border-text-muted/30'>
@@ -87,7 +89,7 @@ export const NutritionTable = ({
               <td className={cell}>{featured.carbsG * servings}g</td>
               <td className={cell}>{featured.fatG * servings}g</td>
               <td className={cell}>{featured.proteinG * servings}g</td>
-              <td className={cell}>-</td>
+              <td className={ratioCell}>-</td>
             </tr>
             {traditionals.map((build) => (
               <tr
@@ -101,7 +103,7 @@ export const NutritionTable = ({
                 <td className={cell}>{build.carbsG}g</td>
                 <td className={cell}>{build.fatG}g</td>
                 <td className={cell}>{build.proteinG}g</td>
-                <td className={cell}>{formatMacroRatios(build)}</td>
+                <td className={ratioCell}>{formatMacroRatios(build)}</td>
               </tr>
             ))}
           </tbody>
