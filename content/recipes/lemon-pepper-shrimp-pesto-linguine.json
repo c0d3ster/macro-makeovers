@@ -1,7 +1,7 @@
 {
   "slug": "lemon-pepper-shrimp-pesto-linguine",
   "title": "Lemon Pepper Shrimp Pesto Linguine",
-  "summary": "A lightened basil pesto (ice water and Greek yogurt standing in for most of the oil) tossed with linguine, roasted red pepper strips, and lemon pepper shrimp charred in cast iron. The lemon in both the pesto and the seasoning ties the dish together. Written for 21/25 or 26/30 shrimp. Makes ~5 servings.",
+  "summary": "A lightened basil pesto (ice water and Greek yogurt standing in for most of the oil) tossed with linguine, roasted red pepper strips, and lemon pepper shrimp charred in cast iron. The lemon in both the pesto and the seasoning ties the dish together. Written for 21/25 or 26/30 shrimp.",
   "servings": 5,
   "prepMinutes": 10,
   "cookMinutes": 40,
@@ -164,6 +164,10 @@
     }
   ],
   "notes": [
+    {
+      "kind": "nutrition_analysis",
+      "body": "Protein-forward and meaningfully lower fat than a standard pesto made with full oil, thanks to the ice-water and yogurt swap in the sauce and lean shrimp. The roasted red pepper adds sweetness and color for about 15 cal per bowl. Weigh the shrimp raw, peeled and deveined. Pine nuts and walnuts land about the same, so the table holds for either."
+    },
     {
       "kind": "tip",
       "body": "Pine nuts or walnuts: pine nuts are the traditional choice. Walnuts have more omega-3s and slightly more protein at a lower cost, so they're the budget swap. Macros land about the same either way. Toast pine nuts 1 to 2 min and walnuts 2 to 3 min."

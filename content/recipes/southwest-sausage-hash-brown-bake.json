@@ -1,7 +1,7 @@
 {
   "slug": "southwest-sausage-hash-brown-bake",
   "title": "Southwest Sausage Hash Brown Bake",
-  "summary": "Shredded southwest hash browns roasted crisp, baked breakfast sausage, black beans, and charred corn set in a cottage cheese and egg white custard, topped with Kerrygold Reserve cheddar crisped under the broiler. The sausage carries the flavor, the whites and cottage cheese carry the protein, and the beans and corn bring carbs and fiber. A variant of the Cheesy Hash Brown Bacon Bake with its own method. Makes 4 servings.",
+  "summary": "Shredded southwest hash browns roasted crisp, baked breakfast sausage, black beans, and charred corn set in a cottage cheese and egg white custard, topped with Kerrygold Reserve cheddar crisped under the broiler. The sausage carries the flavor, the whites and cottage cheese carry the protein, and the beans and corn bring carbs and fiber. A variant of the Cheesy Hash Brown Bacon Bake with its own method.",
   "servings": 4,
   "prepMinutes": 15,
   "cookMinutes": 55,
@@ -128,6 +128,10 @@
     }
   ],
   "notes": [
+    {
+      "kind": "nutrition_analysis",
+      "body": "The traditional row assumes the same patties and potatoes with the potatoes fried in 3 tbsp of oil, 6 whole eggs with 1/2 cup of milk, and 4 oz of regular cheddar. The fat savings come from the oil spray, the egg white and cottage cheese custard, and a measured amount of cheddar. They go toward protein, the beans, and the corn, so carbs run higher."
+    },
     {
       "kind": "tip",
       "body": "Oil note: use avocado oil, not butter or extra virgin olive oil. The potatoes roast at 430°F and both would scorch or turn bitter at that heat. A heavy spray covers 4 2/3 cups of potatoes from about 1.5 tsp of oil."

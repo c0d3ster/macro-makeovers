@@ -1,7 +1,7 @@
 {
   "slug": "spicy-turkey-chili",
   "title": "Spicy Turkey Chili",
-  "summary": "Lean turkey lacks the fat and richness beef brings, so you build it back with aromatics, spice, and umami. Big batch, freezes and reheats great. Makes ~5 servings.",
+  "summary": "Lean turkey lacks the fat and richness beef brings, so you build it back with aromatics, spice, and umami. Big batch, freezes and reheats great.",
   "servings": 5,
   "prepMinutes": 10,
   "cookMinutes": 40,
@@ -120,6 +120,14 @@
     }
   ],
   "notes": [
+    {
+      "kind": "nutrition_intro",
+      "body": "Per serving. \"Fully loaded\" = base + 1/8 cup cheddar + 1/8 cup cottage cheese blend + 4 saltines."
+    },
+    {
+      "kind": "nutrition_analysis",
+      "body": "Carb-forward from the beans, but low fat and strong protein. Using the cottage cheese blend instead of straight sour cream saves ~30 cal and **4g fat** per bowl while adding ~2g protein. Topping comparison is below."
+    },
     {
       "kind": "tip",
       "body": "For extra spicy: use spicy beef broth, 1.5 jalapeños, and 1 tsp cayenne. These three stack, so add ~3/4 tsp cayenne up front, simmer, then taste before adding the rest. You can't pull heat back out. Dairy toppings (cottage cheese, Greek yogurt) cut the heat if it overshoots."

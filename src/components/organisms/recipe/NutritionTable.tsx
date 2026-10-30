@@ -2,6 +2,7 @@ import type { ReactElement } from 'react'
 
 import type { NutritionBuild } from '@/libs/recipes'
 
+import { Markdown } from '@/components/atoms'
 import { formatMacroRatios } from '@/libs/recipes'
 
 type NutritionTableProps = {
@@ -9,6 +10,9 @@ type NutritionTableProps = {
   servings: number
   // The build the whole-batch row multiplies
   featured: NutritionBuild
+  // A line above the table defining the builds, and short analysis blocks below it
+  intro?: string[]
+  analysis?: string[]
 }
 
 const HEADERS = ['Calories', 'Carbs', 'Fat', 'Protein', 'Ratio C/F/P']
@@ -23,6 +27,8 @@ export const NutritionTable = ({
   builds,
   servings,
   featured,
+  intro = [],
+  analysis = [],
 }: NutritionTableProps): ReactElement => {
   const makeovers = builds.filter(({ kind }) => kind === 'makeover')
   const traditionals = builds.filter(({ kind }) => kind === 'traditional')
@@ -35,6 +41,12 @@ export const NutritionTable = ({
       <h2 id='nutrition-heading' className='text-2xl font-semibold text-text'>
         Nutrition
       </h2>
+
+      {intro.map((body) => (
+        <div key={body} className='text-sm text-text-muted'>
+          <Markdown>{body}</Markdown>
+        </div>
+      ))}
 
       <div className='rounded-lg border border-surface'>
         <table className='w-full text-left text-xs sm:text-sm'>
@@ -95,6 +107,15 @@ export const NutritionTable = ({
           </tbody>
         </table>
       </div>
+
+      {analysis.map((body) => (
+        <aside
+          key={body}
+          className='rounded-xl bg-surface px-4 py-3 text-sm text-text-muted'
+        >
+          <Markdown>{body}</Markdown>
+        </aside>
+      ))}
     </section>
   )
 }

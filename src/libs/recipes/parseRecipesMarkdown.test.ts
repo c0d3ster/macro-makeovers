@@ -55,6 +55,40 @@ describe('parseRecipesMarkdown (docs/recipes.md)', () => {
     expect(recipes.filter(({ variantOf }) => variantOf)).toHaveLength(1)
   })
 
+  it('keeps the servings count out of every summary', () => {
+    recipes.forEach((recipe) => {
+      expect(recipe.summary, recipe.slug).not.toMatch(/makes ~?\d/i)
+    })
+
+    expect(bySlug('spicy-turkey-chili').summary).toMatch(/reheats great\.$/)
+    expect(bySlug('ham-and-prosciutto-sliders').summary).toMatch(
+      /Three sliders per serving\.$/
+    )
+    expect(bySlug('red-enchilada-casserole').summary).toMatch(
+      /Fits a 9x13 dish\.$/
+    )
+  })
+
+  it('captures the text around the nutrition table as notes, one per paragraph', () => {
+    const chili = bySlug('spicy-turkey-chili').notes
+    const intro = chili.filter(({ kind }) => kind === 'nutrition_intro')
+    const analysis = chili.filter(({ kind }) => kind === 'nutrition_analysis')
+
+    expect(intro).toHaveLength(1)
+    expect(intro[0]?.body).toMatch(/^Per serving\. "Fully loaded" = base/)
+    expect(analysis).toHaveLength(1)
+    expect(analysis[0]?.body).toMatch(/^Carb-forward from the beans/)
+    expect(analysis[0]?.body).not.toContain('|')
+  })
+
+  it('has analysis for recipes that only write text below the table', () => {
+    const alfredo = bySlug('blackened-chicken-alfredo').notes
+    const kinds = alfredo.map(({ kind }) => kind)
+
+    expect(kinds).toContain('nutrition_analysis')
+    expect(kinds).not.toContain('nutrition_intro')
+  })
+
   it('uses the quick reference title and slug for renamed headings', () => {
     expect(bySlug('turkey-taco-grillers').title).toBe('Turkey Taco Grillers')
   })

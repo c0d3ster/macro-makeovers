@@ -4,7 +4,6 @@ import type { NutritionBuild, RecipeDetailRow } from './recipeDetail'
 
 import {
   featuredBuild,
-  stripServingsNote,
   toMetaDescription,
   toRecipeDetail,
 } from './recipeDetail'
@@ -150,25 +149,6 @@ describe('featuredBuild', () => {
     expect(
       featuredBuild([build({ kind: 'traditional' }), first, build({})])
     ).toBe(first)
-  })
-})
-
-describe('stripServingsNote', () => {
-  it.each([
-    ['Big batch. Makes ~5 servings.', 'Big batch.'],
-    ['Big batch. Makes 4 servings.', 'Big batch.'],
-  ])('drops the plain note from "%s"', (summary, expected) => {
-    expect(stripServingsNote(summary)).toBe(expected)
-  })
-
-  it('keeps notes that carry more detail', () => {
-    const summary = 'Cheesy. Makes 6 servings (9x13 dish).'
-
-    expect(stripServingsNote(summary)).toBe(summary)
-  })
-
-  it('leaves a summary without a note alone', () => {
-    expect(stripServingsNote('Just a summary.')).toBe('Just a summary.')
   })
 })
 

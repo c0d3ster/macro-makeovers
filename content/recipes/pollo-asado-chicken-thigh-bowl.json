@@ -1,7 +1,7 @@
 {
   "slug": "pollo-asado-chicken-thigh-bowl",
   "title": "Pollo Asado Chicken Thigh Bowl",
-  "summary": "Citrus-achiote thighs seared hard for char, over brown rice with black beans, mango habanero salsa, cotija, and blended cottage cheese. Two builds: skinless and skin-on. Makes 4 servings.",
+  "summary": "Citrus-achiote thighs seared hard for char, over brown rice with black beans, mango habanero salsa, cotija, and blended cottage cheese. Two builds: skinless and skin-on.",
   "servings": 4,
   "prepMinutes": 15,
   "cookMinutes": 45,
@@ -173,6 +173,14 @@
     }
   ],
   "notes": [
+    {
+      "kind": "nutrition_analysis",
+      "body": "Every build uses 6 oz of chicken and 1 oz of cotija per bowl. Homemade is 6 oz raw. The traditional row assumes skin-on thighs, white rice, an oil-heavy marinade, sour cream, and the same cotija."
+    },
+    {
+      "kind": "nutrition_analysis",
+      "body": "Skinless lands at 27% fat, inside the 25 to 30% target. Dropping the cotija to 3/4 oz brings it to about 25% (645 cal, 18g fat, 55g protein). Skin-on runs about 33% fat, above the target, so it's the build for days when your fat is running low. Sodium is roughly 1,100mg per bowl, mostly from the cotija, beans, and chicken seasoning."
+    },
     {
       "kind": "make_or_break",
       "body": "**Get the pan ripping hot.** Char is what makes it asado, and a crowded pan steams the thighs instead"

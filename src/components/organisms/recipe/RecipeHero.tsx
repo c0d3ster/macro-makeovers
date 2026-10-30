@@ -11,7 +11,7 @@ import {
   RecipeImage,
 } from '@/components/atoms'
 import { MacroBar } from '@/components/molecules'
-import { stripServingsNote, toMacroRatios } from '@/libs/recipes'
+import { toMacroRatios } from '@/libs/recipes'
 import { formatMinutes } from '@/utils/formatMinutes'
 
 type RecipeHeroProps = {
@@ -67,9 +67,7 @@ export const RecipeHero = ({ recipe }: RecipeHeroProps): ReactElement => {
         </dl>
 
         <div className='flex flex-col gap-5 md:col-start-1 md:row-start-2'>
-          <p className='max-w-3xl text-text-muted'>
-            {stripServingsNote(summary)}
-          </p>
+          <p className='max-w-3xl text-text-muted'>{summary}</p>
 
           <div className='flex max-w-xl flex-col gap-3'>
             <div className='flex flex-wrap items-baseline justify-between gap-x-8 gap-y-1'>

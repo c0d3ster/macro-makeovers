@@ -217,6 +217,8 @@ describe('RecipeHero', () => {
     featured: makeover,
     ingredients: [],
     steps: [],
+    nutritionIntro: [],
+    nutritionAnalysis: [],
     notes: [],
     variants: [],
   }
@@ -234,17 +236,12 @@ describe('RecipeHero', () => {
     ).toBeInTheDocument()
   })
 
-  it('shows the servings beside the calories, not in the summary', () => {
-    render(
-      <RecipeHero
-        recipe={{ ...recipe, summary: 'A test recipe. Makes ~5 servings.' }}
-      />
-    )
+  it('shows the servings beside the calories', () => {
+    render(<RecipeHero recipe={recipe} />)
 
-    expect(screen.getByText('A test recipe.')).toBeInTheDocument()
-    expect(screen.queryByText('Makes')).toBeNull()
-    expect(screen.getByText('servings')).toBeInTheDocument()
     expect(screen.getByText('5')).toBeInTheDocument()
+    expect(screen.getByText('servings')).toBeInTheDocument()
+    expect(screen.queryByText('Makes')).toBeNull()
   })
 
   it('sizes each macro segment by its share of calories', () => {

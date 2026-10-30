@@ -36,7 +36,14 @@ const stepSchema = z.object({
 })
 
 const noteSchema = z.object({
-  kind: z.enum(['make_or_break', 'fixes', 'levers', 'tip']),
+  kind: z.enum([
+    'make_or_break',
+    'fixes',
+    'levers',
+    'tip',
+    'nutrition_intro',
+    'nutrition_analysis',
+  ]),
   body: text,
 })
 

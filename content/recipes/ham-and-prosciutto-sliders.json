@@ -1,7 +1,7 @@
 {
   "slug": "ham-and-prosciutto-sliders",
   "title": "Ham & Prosciutto Sliders",
-  "summary": "Baked sweet-roll sliders, portioned and rebalanced. The rolls and cheese set a floor on the fat here, so this is the treat item of the group rather than a macro workhorse, but at 41g protein per serving it earns its place. Makes 12 sliders, ~4 servings of 3.",
+  "summary": "Baked sweet-roll sliders, portioned and rebalanced. The rolls and cheese set a floor on the fat here, so this is the treat item of the group rather than a macro workhorse, but at 41g protein per serving it earns its place. Three sliders per serving.",
   "servings": 4,
   "prepMinutes": 5,
   "cookMinutes": 10,
@@ -90,6 +90,10 @@
     }
   ],
   "notes": [
+    {
+      "kind": "nutrition_analysis",
+      "body": "Strong protein, but 26g fat is a third of a 75g day in one meal. Plan a leaner day around it. Leaner variation is below."
+    },
     {
       "kind": "make_or_break",
       "body": "**Ham is the base, prosciutto is the accent.** Prosciutto runs ~2x the fat of ham per ounce and drives the sodium, so a half slice per slider gives the cured punch without the cost"
