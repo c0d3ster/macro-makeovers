@@ -35,7 +35,6 @@ export const NutritionTable = ({
       <h2 id='nutrition-heading' className='text-2xl font-semibold text-text'>
         Nutrition
       </h2>
-      <p className='text-sm text-text-muted'>Per serving.</p>
 
       <div className='rounded-lg border border-surface'>
         <table className='w-full text-left text-xs sm:text-sm'>

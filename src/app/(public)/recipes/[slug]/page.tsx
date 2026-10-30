@@ -73,7 +73,11 @@ const RecipePage = async ({
             ingredients={recipe.ingredients}
             baseServings={recipe.servings}
           />
-          <StepList steps={recipe.steps} />
+          <StepList
+            steps={recipe.steps}
+            prepMinutes={recipe.prepMinutes}
+            cookMinutes={recipe.cookMinutes}
+          />
         </div>
         <RecipeNotes notes={recipe.notes} />
 

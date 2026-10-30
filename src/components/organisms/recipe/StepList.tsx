@@ -7,14 +7,24 @@ import { formatMinutes } from '@/utils/formatMinutes'
 
 type StepListProps = {
   steps: RecipeStep[]
+  prepMinutes: number
+  cookMinutes: number
 }
 
-const PHASES: { phase: RecipeStep['phase']; title: string }[] = [
-  { phase: 'prep', title: 'Prep' },
-  { phase: 'cook', title: 'Cook' },
-]
+export const StepList = ({
+  steps,
+  prepMinutes,
+  cookMinutes,
+}: StepListProps): ReactElement => {
+  const phases: {
+    phase: RecipeStep['phase']
+    title: string
+    minutes: number
+  }[] = [
+    { phase: 'prep', title: 'Prep', minutes: prepMinutes },
+    { phase: 'cook', title: 'Cook', minutes: cookMinutes },
+  ]
 
-export const StepList = ({ steps }: StepListProps): ReactElement => {
   // Numbering runs straight through prep into cook, so "step 6" is unambiguous
   let number = 0
 
@@ -24,14 +34,17 @@ export const StepList = ({ steps }: StepListProps): ReactElement => {
         Steps
       </h2>
 
-      {PHASES.map(({ phase, title }) => {
+      {phases.map(({ phase, title, minutes }) => {
         const phaseSteps = steps.filter((step) => step.phase === phase)
         if (phaseSteps.length === 0) return null
 
         return (
           <div key={phase}>
             <h3 className='mb-3 text-sm font-semibold tracking-wide text-accent uppercase'>
-              {title}
+              {title}{' '}
+              <span className='font-normal tracking-normal text-text-muted normal-case'>
+                (~{formatMinutes(minutes)})
+              </span>
             </h3>
             <ol className='flex flex-col gap-4'>
               {phaseSteps.map(({ body, durationMinutes }) => {
