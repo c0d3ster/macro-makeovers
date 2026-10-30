@@ -1,4 +1,4 @@
-export type MacroRatios = {
+type MacroRatios = {
   proteinPct: number
   carbsPct: number
   fatPct: number
