@@ -45,7 +45,7 @@ export const RecipeCard = ({ recipe }: RecipeCardProps): ReactElement => {
         <h3 className='text-lg font-semibold text-text group-hover:text-primary'>
           {title}
         </h3>
-        <p className='line-clamp-3 text-sm text-text-muted'>{summary}</p>
+        <p className='line-clamp-4 text-sm text-text-muted'>{summary}</p>
       </div>
 
       <div className='mt-auto flex flex-col gap-2'>
