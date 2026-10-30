@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import Link from 'next/link'
 
 import { SignOutButton } from '@/components/molecules'
@@ -19,6 +20,8 @@ type SiteHeaderProps = {
   activeItem?: string
   logoUrl?: string
 }
+
+const DEFAULT_LOGO = '/logo.png'
 
 const NavAuthSection = () => {
   const { user, isLoaded } = useAuth()
@@ -42,19 +45,28 @@ export const SiteHeader = ({
   const authEnabled = isSupabaseConfigured()
 
   return (
-    <header className='fixed inset-x-0 top-0 z-50 border-b border-gray-200 bg-surface shadow-lg'>
+    <header className='fixed inset-x-0 top-0 z-50 border-b border-text-muted/20 bg-surface shadow-lg'>
       <div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
         <div className='flex h-16 items-center justify-between'>
           {/* Logo */}
           <div className='flex flex-1 items-center'>
-            <Link href='/'>
-              {logoUrl ? (
-                <img src={logoUrl} alt='Logo' className='h-12 w-auto' />
-              ) : (
-                <span className='text-base font-semibold whitespace-nowrap text-text sm:text-lg'>
-                  {Env.NEXT_PUBLIC_BRAND_NAME}
-                </span>
-              )}
+            <Link
+              href='/'
+              aria-label={Env.NEXT_PUBLIC_BRAND_NAME}
+              className='flex items-center gap-3'
+            >
+              {/* The name sits beside the mark (hidden on phones), so the image is decorative */}
+              <Image
+                src={logoUrl ?? DEFAULT_LOGO}
+                alt=''
+                width={411}
+                height={554}
+                priority
+                className='h-10 w-auto'
+              />
+              <span className='hidden text-lg font-semibold whitespace-nowrap text-text sm:inline'>
+                {Env.NEXT_PUBLIC_BRAND_NAME}
+              </span>
             </Link>
           </div>
 

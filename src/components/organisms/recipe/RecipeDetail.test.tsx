@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest'
 
 import type { NutritionBuild } from '@/libs/recipes'
 
-import { ComparisonTable } from './ComparisonTable'
+import { NutritionTable } from './NutritionTable'
 import { RecipeNotes } from './RecipeNotes'
 import { ScalableIngredients } from './ScalableIngredients'
 import { StepList } from './StepList'
@@ -78,21 +78,49 @@ describe('ScalableIngredients', () => {
   })
 })
 
-describe('ComparisonTable', () => {
-  it('shows both builds and what changed', () => {
-    render(<ComparisonTable builds={[makeover, traditional]} />)
+describe('NutritionTable', () => {
+  it('lists every build with the whole batch before the traditional row', () => {
+    render(
+      <NutritionTable
+        builds={[traditional, makeover]}
+        servings={5}
+        featured={makeover}
+      />
+    )
 
-    expect(screen.getByText('Makeover')).toBeInTheDocument()
-    expect(screen.getByText('Traditional per serving')).toBeInTheDocument()
-    expect(screen.getByText('+12g protein')).toBeInTheDocument()
-    expect(screen.getByText('-13g fat')).toBeInTheDocument()
-    expect(screen.getByText('+20 cal')).toBeInTheDocument()
+    const rows = screen.getAllByRole('row')
+
+    expect(rows[1]).toHaveTextContent('Per serving')
+    expect(rows[2]).toHaveTextContent('Whole batch (×5)')
+    expect(rows[3]).toHaveTextContent('Traditional per serving')
   })
 
-  it('renders nothing without a traditional build to compare to', () => {
-    const { container } = render(<ComparisonTable builds={[makeover]} />)
+  it('orders the columns carbs, fat, protein', () => {
+    render(
+      <NutritionTable builds={[makeover]} servings={5} featured={makeover} />
+    )
 
-    expect(container).toBeEmptyDOMElement()
+    expect(
+      screen.getAllByRole('columnheader').map(({ textContent }) => textContent)
+    ).toEqual(['Calories', 'Carbs', 'Fat', 'Protein', 'Ratio C/F/P'])
+    expect(screen.getByText('42 / 27 / 31')).toBeInTheDocument()
+  })
+
+  it('multiplies the featured build for the whole batch', () => {
+    render(
+      <NutritionTable builds={[makeover]} servings={5} featured={makeover} />
+    )
+
+    expect(screen.getByText('~2,500')).toBeInTheDocument()
+    expect(screen.getByText('195g')).toBeInTheDocument()
+  })
+
+  it('does not scroll sideways', () => {
+    const { container } = render(
+      <NutritionTable builds={[makeover]} servings={5} featured={makeover} />
+    )
+
+    expect(container.querySelector('.overflow-x-auto')).toBeNull()
   })
 })
 

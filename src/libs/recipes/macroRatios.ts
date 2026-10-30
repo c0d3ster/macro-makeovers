@@ -33,3 +33,9 @@ export const toMacroRatios = ({
     fatPct: Math.round((fat / total) * 100),
   }
 }
+
+// "46 / 20 / 34". Always carbs, fat, protein, the order the book and every nutrition table use.
+export const formatMacroRatios = (grams: MacroGrams): string => {
+  const { carbsPct, fatPct, proteinPct } = toMacroRatios(grams)
+  return `${carbsPct} / ${fatPct} / ${proteinPct}`
+}

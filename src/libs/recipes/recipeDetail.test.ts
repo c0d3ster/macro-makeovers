@@ -3,7 +3,6 @@ import { describe, expect, it } from 'vitest'
 import type { NutritionBuild, RecipeDetailRow } from './recipeDetail'
 
 import {
-  compareBuilds,
   featuredBuild,
   toMetaDescription,
   toRecipeDetail,
@@ -139,21 +138,6 @@ describe('featuredBuild', () => {
     expect(
       featuredBuild([build({ kind: 'traditional' }), first, build({})])
     ).toBe(first)
-  })
-})
-
-describe('compareBuilds', () => {
-  it('reports the makeover minus the traditional build', () => {
-    const [makeover, traditional] =
-      toRecipeDetail(row, { variants: [] })?.nutrition ?? []
-    if (!makeover || !traditional) throw new Error('fixture needs two builds')
-
-    expect(compareBuilds(makeover, traditional)).toEqual({
-      calories: 20,
-      proteinG: 12,
-      carbsG: 22,
-      fatG: -13,
-    })
   })
 })
 

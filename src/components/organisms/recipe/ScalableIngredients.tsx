@@ -6,6 +6,7 @@ import { useState } from 'react'
 
 import type { RecipeIngredient } from '@/libs/recipes/ingredients'
 
+import { Markdown } from '@/components/atoms'
 import { ServingsStepper } from '@/components/molecules/recipe'
 import { groupIngredients, scaleIngredient } from '@/libs/recipes/ingredients'
 
@@ -60,7 +61,7 @@ export const ScalableIngredients = ({
           <ul className='flex flex-col divide-y divide-background rounded-xl bg-surface'>
             {lines.map(({ raw }) => (
               <li key={raw} className='px-4 py-2.5 text-text'>
-                {scaleIngredient(raw, factor)}
+                <Markdown>{scaleIngredient(raw, factor)}</Markdown>
               </li>
             ))}
           </ul>

@@ -4,7 +4,7 @@ import type { ReactElement } from 'react'
 import { notFound } from 'next/navigation'
 
 import {
-  ComparisonTable,
+  NutritionTable,
   RecipeHero,
   RecipeNotes,
   ScalableIngredients,
@@ -63,7 +63,11 @@ const RecipePage = async ({
     <LandingPageTemplate>
       <main className='mx-auto flex max-w-6xl flex-col gap-12 px-4 py-10 sm:px-6 lg:px-8'>
         <RecipeHero recipe={recipe} />
-
+        <NutritionTable
+          builds={recipe.nutrition}
+          servings={recipe.servings}
+          featured={recipe.featured}
+        />
         <div className='grid gap-10 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] lg:gap-14'>
           <ScalableIngredients
             ingredients={recipe.ingredients}
@@ -71,8 +75,6 @@ const RecipePage = async ({
           />
           <StepList steps={recipe.steps} />
         </div>
-
-        <ComparisonTable builds={recipe.nutrition} />
         <RecipeNotes notes={recipe.notes} />
 
         <p className='text-xs text-text-muted'>

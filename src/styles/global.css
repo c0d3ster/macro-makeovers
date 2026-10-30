@@ -2,12 +2,14 @@
 
 @theme {
   /* Register colors with Tailwind - must be at root level */
-  --color-primary: rgb(37 99 235); /* blue-600 - darker blue */
-  --color-accent: rgb(16 185 129);
-  --color-background: rgb(17 24 39);
-  --color-surface: rgb(31 41 55);
-  --color-text: rgb(255 255 255);
-  --color-text-muted: rgb(156 163 175);
+  /* Palette sampled from the logo: warm black, cream, and taupe */
+  --color-primary: rgb(163 142 121);
+  --color-on-primary: rgb(12 11 10);
+  --color-accent: rgb(230 216 196);
+  --color-background: rgb(12 11 10);
+  --color-surface: rgb(29 27 24);
+  --color-text: rgb(236 226 210);
+  --color-text-muted: rgb(166 155 141);
 }
 
 @layer theme {

@@ -26,26 +26,28 @@ export const RecipeNotes = ({
         Notes
       </h2>
 
-      {SECTIONS.map(({ kind, title }) => {
-        const sectionNotes = notes.filter((note) => note.kind === kind)
-        if (sectionNotes.length === 0) return null
+      <div className='md:columns-2 md:gap-10'>
+        {SECTIONS.map(({ kind, title }) => {
+          const sectionNotes = notes.filter((note) => note.kind === kind)
+          if (sectionNotes.length === 0) return null
 
-        return (
-          <div key={kind}>
-            <h3 className='mb-3 text-lg font-semibold text-text'>{title}</h3>
-            <ul className='flex flex-col gap-3'>
-              {sectionNotes.map(({ body }) => (
-                <li
-                  key={body}
-                  className='rounded-xl bg-surface px-4 py-3 text-text-muted'
-                >
-                  <Markdown>{body}</Markdown>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )
-      })}
+          return (
+            <div key={kind} className='mb-8 break-inside-avoid'>
+              <h3 className='mb-3 text-lg font-semibold text-text'>{title}</h3>
+              <ul className='flex flex-col gap-3'>
+                {sectionNotes.map(({ body }) => (
+                  <li
+                    key={body}
+                    className='rounded-xl bg-surface px-4 py-3 text-text-muted'
+                  >
+                    <Markdown>{body}</Markdown>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )
+        })}
+      </div>
     </section>
   )
 }

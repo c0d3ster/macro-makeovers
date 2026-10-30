@@ -40,7 +40,7 @@ export const StepList = ({ steps }: StepListProps): ReactElement => {
                   <li key={body} className='flex gap-4'>
                     <span
                       aria-hidden='true'
-                      className='flex size-8 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-semibold text-text'
+                      className='flex size-8 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-semibold text-on-primary'
                     >
                       {number}
                     </span>

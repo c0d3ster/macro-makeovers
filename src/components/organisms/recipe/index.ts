@@ -1,4 +1,4 @@
-export * from './ComparisonTable'
+export * from './NutritionTable'
 export * from './RecipeCard'
 export * from './RecipeGrid'
 export * from './RecipeHero'

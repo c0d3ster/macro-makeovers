@@ -12,11 +12,6 @@ vi.mock('next/navigation', () => ({
   usePathname: vi.fn(() => '/'),
 }))
 
-// Mock next/image
-vi.mock('next/image', () => ({
-  default: vi.fn(),
-}))
-
 // Mock auth
 vi.mock('@/providers', () => ({
   useAuth: vi.fn(() => ({
@@ -53,12 +48,14 @@ describe('SiteHeader', () => {
     expect(header).toBeInTheDocument()
   })
 
-  it('shows the brand name when there is no logo', () => {
+  it('shows the brand name beside the logo mark', () => {
     render(<SiteHeader menuItems={sampleMenuItems} />)
 
-    const logo = screen.getByText(Env.NEXT_PUBLIC_BRAND_NAME)
-
-    expect(logo).toBeInTheDocument()
+    expect(screen.getByText(Env.NEXT_PUBLIC_BRAND_NAME)).toBeInTheDocument()
+    expect(screen.getByTestId('next-image')).toHaveAttribute(
+      'data-src',
+      '/logo.png'
+    )
   })
 
   it('renders navigation menu items', () => {
