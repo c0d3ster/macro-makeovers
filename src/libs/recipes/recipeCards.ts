@@ -53,6 +53,10 @@ const featuredNutrition = (rows: NutritionRow[]): NutritionRow | undefined => {
   return makeovers.find(({ is_default }) => is_default) ?? makeovers[0]
 }
 
+// A card shows the summary's first sentence so it ends on a full stop instead of an ellipsis
+export const toCardSummary = (summary: string): string =>
+  summary.match(/.*?[.!?](?=\s|$)/)?.[0].trim() ?? summary
+
 export const toRecipeCard = (row: RecipeCardRow): RecipeCard | undefined => {
   const nutrition = featuredNutrition(row.recipe_nutrition)
   if (!nutrition) return undefined
@@ -60,7 +64,7 @@ export const toRecipeCard = (row: RecipeCardRow): RecipeCard | undefined => {
   return {
     slug: row.slug,
     title: row.title,
-    summary: row.summary,
+    summary: toCardSummary(row.summary),
     servings: row.servings,
     totalMinutes: row.prep_minutes + row.cook_minutes,
     costTier: row.cost_tier,

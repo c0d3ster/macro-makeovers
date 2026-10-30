@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 
 import type { RecipeCardRow } from './recipeCards'
 
-import { toRecipeCard } from './recipeCards'
+import { toCardSummary, toRecipeCard } from './recipeCards'
 
 const row: RecipeCardRow = {
   slug: 'test-chili',
@@ -84,5 +84,39 @@ describe('toRecipeCard', () => {
     }
 
     expect(toRecipeCard(onlyTraditional)).toBeUndefined()
+  })
+})
+
+describe('toCardSummary', () => {
+  it('keeps just the first sentence', () => {
+    expect(
+      toCardSummary(
+        'Lean turkey lacks the fat and richness beef brings, so you build it back. Big batch.'
+      )
+    ).toBe(
+      'Lean turkey lacks the fat and richness beef brings, so you build it back.'
+    )
+  })
+
+  it('keeps a short first sentence on its own', () => {
+    expect(
+      toCardSummary('Classic casserole, rebuilt. No cream of chicken soup.')
+    ).toBe('Classic casserole, rebuilt.')
+  })
+
+  it('does not split on a decimal point', () => {
+    expect(
+      toCardSummary(
+        'Uses 1.5 lb of beef and a long marinade for deep flavor. Second.'
+      )
+    ).toBe('Uses 1.5 lb of beef and a long marinade for deep flavor.')
+  })
+
+  it('returns text without a sentence end as is', () => {
+    expect(toCardSummary('No punctuation here')).toBe('No punctuation here')
+  })
+
+  it('returns a short single sentence as is', () => {
+    expect(toCardSummary('Short one.')).toBe('Short one.')
   })
 })
