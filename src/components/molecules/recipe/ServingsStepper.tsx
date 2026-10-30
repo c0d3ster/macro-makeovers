@@ -42,10 +42,10 @@ export const ServingsStepper = ({
     </button>
     <output
       aria-live='polite'
-      className='flex min-w-24 items-baseline justify-center gap-1.5 leading-none text-text'
+      className='flex min-w-24 items-center justify-center gap-1.5 text-text'
     >
-      <span className='text-xl font-semibold'>{servings}</span>
-      <span className='text-sm text-text-muted'>
+      <span className='text-xl leading-none font-semibold'>{servings}</span>
+      <span className='text-sm leading-none text-text-muted'>
         {servings === 1 ? 'serving' : 'servings'}
       </span>
     </output>
