@@ -1,0 +1,145 @@
+import { fireEvent, render, screen } from '@testing-library/react'
+import { describe, expect, it } from 'vitest'
+
+import type { NutritionBuild } from '@/libs/recipes'
+
+import { ComparisonTable } from './ComparisonTable'
+import { RecipeNotes } from './RecipeNotes'
+import { ScalableIngredients } from './ScalableIngredients'
+import { StepList } from './StepList'
+
+const makeover: NutritionBuild = {
+  kind: 'makeover',
+  label: 'Per serving',
+  isDefault: true,
+  calories: 500,
+  proteinG: 39,
+  carbsG: 52,
+  fatG: 15,
+}
+
+const traditional: NutritionBuild = {
+  kind: 'traditional',
+  label: 'Traditional per serving',
+  isDefault: false,
+  calories: 480,
+  proteinG: 27,
+  carbsG: 30,
+  fatG: 28,
+}
+
+describe('ScalableIngredients', () => {
+  const ingredients = [
+    { group: 'Marinade', raw: '1/2 cup soy sauce' },
+    { group: 'Marinade', raw: '2 tbsp brown sugar' },
+    { raw: 'Salt' },
+  ]
+
+  it('shows the amounts as written at the base serving size', () => {
+    render(<ScalableIngredients ingredients={ingredients} baseServings={4} />)
+
+    expect(screen.getByText('1/2 cup soy sauce')).toBeInTheDocument()
+    expect(screen.getByText('Marinade')).toBeInTheDocument()
+    expect(screen.queryByText(/Scaled from/)).not.toBeInTheDocument()
+  })
+
+  it('scales the amounts when servings go up', () => {
+    render(<ScalableIngredients ingredients={ingredients} baseServings={4} />)
+
+    // 4 -> 8 servings doubles everything
+    Array.from({ length: 4 }).forEach(() =>
+      fireEvent.click(screen.getByRole('button', { name: 'More servings' }))
+    )
+
+    expect(screen.getByText('1 cup soy sauce')).toBeInTheDocument()
+    expect(screen.getByText('4 tbsp brown sugar')).toBeInTheDocument()
+    expect(screen.getByText('Salt')).toBeInTheDocument()
+    expect(screen.getByText(/Scaled from 4 servings/)).toBeInTheDocument()
+  })
+
+  it('goes back to the original amounts on reset', () => {
+    render(<ScalableIngredients ingredients={ingredients} baseServings={4} />)
+
+    fireEvent.click(screen.getByRole('button', { name: 'Fewer servings' }))
+
+    expect(screen.getByText('3/8 cup soy sauce')).toBeInTheDocument()
+
+    fireEvent.click(screen.getByRole('button', { name: 'Reset' }))
+
+    expect(screen.getByText('1/2 cup soy sauce')).toBeInTheDocument()
+  })
+
+  it('stops at one serving', () => {
+    render(<ScalableIngredients ingredients={ingredients} baseServings={1} />)
+
+    expect(
+      screen.getByRole('button', { name: 'Fewer servings' })
+    ).toBeDisabled()
+  })
+})
+
+describe('ComparisonTable', () => {
+  it('shows both builds and what changed', () => {
+    render(<ComparisonTable builds={[makeover, traditional]} />)
+
+    expect(screen.getByText('Makeover')).toBeInTheDocument()
+    expect(screen.getByText('Traditional per serving')).toBeInTheDocument()
+    expect(screen.getByText('+12g protein')).toBeInTheDocument()
+    expect(screen.getByText('-13g fat')).toBeInTheDocument()
+    expect(screen.getByText('+20 cal')).toBeInTheDocument()
+  })
+
+  it('renders nothing without a traditional build to compare to', () => {
+    const { container } = render(<ComparisonTable builds={[makeover]} />)
+
+    expect(container).toBeEmptyDOMElement()
+  })
+})
+
+describe('StepList', () => {
+  it('numbers steps straight through prep and cook', () => {
+    render(
+      <StepList
+        steps={[
+          { phase: 'prep', body: 'Chop the onion' },
+          { phase: 'cook', body: 'Sear the beef', durationMinutes: 10 },
+        ]}
+      />
+    )
+
+    const items = screen.getAllByRole('listitem')
+
+    expect(items[0]).toHaveTextContent('1Chop the onion')
+    expect(items[1]).toHaveTextContent('2Sear the beef')
+    expect(screen.getByText('About 10 min')).toBeInTheDocument()
+  })
+
+  it('renders markdown in a step', () => {
+    render(<StepList steps={[{ phase: 'cook', body: 'Cook **hot**' }]} />)
+
+    expect(screen.getByText('hot').tagName).toBe('STRONG')
+  })
+})
+
+describe('RecipeNotes', () => {
+  it('groups notes under their section and skips empty sections', () => {
+    render(
+      <RecipeNotes
+        notes={[
+          { kind: 'make_or_break', body: 'Use cast iron' },
+          { kind: 'fixes', body: 'Too thin? Simmer longer' },
+        ]}
+      />
+    )
+
+    expect(screen.getByText('Make or break')).toBeInTheDocument()
+    expect(screen.getByText('Fixes')).toBeInTheDocument()
+    expect(screen.queryByText('Levers')).not.toBeInTheDocument()
+  })
+
+  it('renders nothing when there are no notes', () => {
+    const { container } = render(<RecipeNotes notes={[]} />)
+
+    expect(container).toBeEmptyDOMElement()
+  })
+})

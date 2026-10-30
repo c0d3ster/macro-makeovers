@@ -1,2 +1,7 @@
+export * from './ComparisonTable'
 export * from './RecipeCard'
 export * from './RecipeGrid'
+export * from './RecipeHero'
+export * from './RecipeNotes'
+export * from './ScalableIngredients'
+export * from './StepList'
