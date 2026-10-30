@@ -36,6 +36,8 @@ export type RecipeDetail = {
   slug: string
   title: string
   summary: string
+  // Null until a photo is uploaded
+  imageUrl?: string
   servings: number
   prepMinutes: number
   cookMinutes: number
@@ -68,6 +70,7 @@ export type RecipeDetailRow = {
   cost_tier: number
   difficulty: number
   variant_of: string | null
+  image_url: string | null
   recipe_nutrition: (Positioned & {
     kind: Enums['nutrition_kind']
     label: string
@@ -99,7 +102,7 @@ type RelatedRecipes = {
 }
 
 const DETAIL_COLUMNS = `
-  id, slug, title, summary, servings, prep_minutes, cook_minutes, cost_tier, difficulty, variant_of,
+  id, slug, title, summary, servings, prep_minutes, cook_minutes, cost_tier, difficulty, variant_of, image_url,
   recipe_nutrition (kind, label, is_default, position, calories, carbs_g, fat_g, protein_g),
   ingredients (group_name, position, raw_text),
   steps (phase, position, body_md, duration_minutes),
@@ -153,6 +156,7 @@ export const toRecipeDetail = (
     slug: row.slug,
     title: row.title,
     summary: row.summary,
+    imageUrl: row.image_url ?? undefined,
     servings: row.servings,
     prepMinutes: row.prep_minutes,
     cookMinutes: row.cook_minutes,
@@ -188,6 +192,12 @@ export const toRecipeDetail = (
     variants,
   }
 }
+
+// The book ends most summaries with "Makes ~5 servings." The page shows servings beside the
+// calories, so a plain trailing note is dropped. Notes with more to say ("Makes 6 servings
+// (9x13 dish).") stay.
+export const stripServingsNote = (summary: string): string =>
+  summary.replace(/\s*Makes ~?\d+ servings\.\s*$/, '')
 
 // The summary's first sentence, capped for a search or share preview
 export const toMetaDescription = (summary: string): string => {

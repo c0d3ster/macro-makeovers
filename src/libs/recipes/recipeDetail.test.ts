@@ -4,6 +4,7 @@ import type { NutritionBuild, RecipeDetailRow } from './recipeDetail'
 
 import {
   featuredBuild,
+  stripServingsNote,
   toMetaDescription,
   toRecipeDetail,
 } from './recipeDetail'
@@ -19,6 +20,7 @@ const row: RecipeDetailRow = {
   cost_tier: 2,
   difficulty: 3,
   variant_of: null,
+  image_url: null,
   recipe_nutrition: [
     {
       kind: 'traditional',
@@ -75,6 +77,16 @@ describe('toRecipeDetail', () => {
       { group: undefined, raw: 'Salt' },
     ])
     expect(detail?.steps.map(({ body }) => body)).toEqual(['Chop', 'Simmer'])
+  })
+
+  it('maps the photo when there is one', () => {
+    const withPhoto = toRecipeDetail(
+      { ...row, image_url: 'https://example.com/chili.jpg' },
+      { variants: [] }
+    )
+
+    expect(detail?.imageUrl).toBeUndefined()
+    expect(withPhoto?.imageUrl).toBe('https://example.com/chili.jpg')
   })
 
   it('maps durations and tags', () => {
@@ -138,6 +150,25 @@ describe('featuredBuild', () => {
     expect(
       featuredBuild([build({ kind: 'traditional' }), first, build({})])
     ).toBe(first)
+  })
+})
+
+describe('stripServingsNote', () => {
+  it.each([
+    ['Big batch. Makes ~5 servings.', 'Big batch.'],
+    ['Big batch. Makes 4 servings.', 'Big batch.'],
+  ])('drops the plain note from "%s"', (summary, expected) => {
+    expect(stripServingsNote(summary)).toBe(expected)
+  })
+
+  it('keeps notes that carry more detail', () => {
+    const summary = 'Cheesy. Makes 6 servings (9x13 dish).'
+
+    expect(stripServingsNote(summary)).toBe(summary)
+  })
+
+  it('leaves a summary without a note alone', () => {
+    expect(stripServingsNote('Just a summary.')).toBe('Just a summary.')
   })
 })
 
