@@ -52,7 +52,7 @@ export const NutritionTable = ({
         </div>
       ))}
 
-      <div className='overflow-hidden rounded-lg border border-text-muted/30'>
+      <div className='overflow-hidden rounded-lg border border-text-muted/30 bg-background'>
         <table className='w-full text-left text-[10px] min-[375px]:text-[11px] min-[395px]:text-xs sm:text-sm'>
           <thead className='bg-surface text-text'>
             <tr>

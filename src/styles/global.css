@@ -54,6 +54,94 @@
   --color-protein: rgb(112 164 124);
 }
 
+/* Recipe page macro reveal. The pills grow from the original recipe's split to the makeover's
+   (--macro-from is set per pill, the end is the inline flex-grow), then the numbers and the
+   strip fade in. Backwards fill keeps them hidden through the delay. Pure CSS so it plays on
+   load with no client JS. */
+@keyframes macro-grow {
+  from {
+    flex-grow: var(--macro-from);
+  }
+}
+
+/* The fallback for a recipe with no original split to grow from */
+@keyframes macro-grow-from-zero {
+  from {
+    flex-grow: 0;
+    min-width: 0;
+  }
+}
+
+/* The strip starts overlapping the pills, its bottom flush with theirs (the 0.75rem gap plus its
+   own 0.375rem height), lined up with the original split they begin at. It swings down while
+   they morph. Its fade is separate and starts at once, so it is visible for most of the drop. */
+@keyframes macro-drop-in {
+  from {
+    transform: translateY(-1.125rem);
+  }
+}
+
+/* Count-up for the hero's calories and servings. The real number stays in the DOM, transparent,
+   so it holds the width and stays readable and copyable. A counter overlay draws the number
+   that rolls up. inherits is on because the overlay is a pseudo-element of the animated span. */
+@property --count {
+  syntax: '<integer>';
+  inherits: true;
+  initial-value: 0;
+}
+
+@keyframes macro-count {
+  from {
+    --count: 0;
+  }
+}
+
+.macro-count-up::after {
+  content: counter(macro-count);
+  counter-reset: macro-count var(--count);
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: var(--color-text);
+}
+
+@keyframes pattern-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes macro-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .macro-reveal-pill {
+    animation: macro-grow 1000ms cubic-bezier(0.65, 0, 0.35, 1) 400ms backwards;
+  }
+
+  .macro-reveal-pill-from-zero {
+    animation: macro-grow-from-zero 1000ms cubic-bezier(0.65, 0, 0.35, 1) 400ms
+      backwards;
+  }
+
+  .macro-reveal-strip {
+    animation:
+      macro-drop-in 1000ms cubic-bezier(0.65, 0, 0.35, 1) 400ms backwards,
+      macro-fade-in 1000ms ease-out backwards;
+  }
+
+  .macro-count-up {
+    animation: macro-count 1400ms cubic-bezier(0.65, 0, 0.35, 1) backwards;
+  }
+
+  .macro-reveal-late {
+    animation: macro-fade-in 1000ms ease-out 1400ms backwards;
+  }
+}
+
 @layer theme {
   :root {
     /* Typography */
@@ -82,6 +170,13 @@
     mask-image: url('/patterns/percent-tile.webp');
     -webkit-mask-size: 420px 420px;
     mask-size: 420px 420px;
+  }
+
+  /* The pattern fades in over the first second of a page load */
+  @media (prefers-reduced-motion: no-preference) {
+    body::before {
+      animation: pattern-fade-in 1000ms ease-out backwards;
+    }
   }
 
   /* Smooth scrolling for hash navigation (respects user motion preferences) */

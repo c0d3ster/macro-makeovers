@@ -116,6 +116,16 @@ describe('NutritionTable', () => {
     expect(screen.getByText('195g')).toBeInTheDocument()
   })
 
+  it('has a solid background so the page pattern does not show through', () => {
+    const { container } = render(
+      <NutritionTable builds={[makeover]} servings={5} featured={makeover} />
+    )
+
+    expect(container.querySelector('table')?.parentElement).toHaveClass(
+      'bg-background'
+    )
+  })
+
   it('does not scroll sideways', () => {
     const { container } = render(
       <NutritionTable builds={[makeover]} servings={5} featured={makeover} />
@@ -262,9 +272,36 @@ describe('RecipeHero', () => {
       <RecipeHero recipe={{ ...recipe, nutrition: [makeover, traditional] }} />
     )
 
+    const strip = screen.getByRole('img', {
+      name: /original recipe calories by macro/i,
+    })
+
+    expect(strip).toHaveClass('macro-reveal-strip')
+  })
+
+  it('animates the pills from the original split when there is one', () => {
+    const { container } = render(
+      <RecipeHero recipe={{ ...recipe, nutrition: [makeover, traditional] }} />
+    )
+
+    const pills = container.querySelectorAll('.macro-reveal-pill')
+
+    expect(pills).toHaveLength(3)
+
+    // 30g carbs, 28g fat, 27g protein -> 25 / 53 / 23 by calories
+    const startOf = (pill: Element): string =>
+      (pill as HTMLElement).style.getPropertyValue('--macro-from')
+
+    expect(Array.from(pills, startOf)).toEqual(['25', '53', '23'])
+  })
+
+  it('grows the pills from nothing without a traditional build', () => {
+    const { container } = render(<RecipeHero recipe={recipe} />)
+
     expect(
-      screen.getByRole('img', { name: /original recipe calories by macro/i })
-    ).toBeInTheDocument()
+      container.querySelectorAll('.macro-reveal-pill-from-zero')
+    ).toHaveLength(3)
+    expect(container.querySelector('.macro-reveal-pill')).toBeNull()
   })
 
   it('leaves the strip out without a traditional build', () => {

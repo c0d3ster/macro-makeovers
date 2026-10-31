@@ -1,5 +1,6 @@
 export * from './Badge'
 export * from './CostTier'
+export * from './CountUp'
 export * from './DifficultyDots'
 export * from './MacroPill'
 export * from './MacroStrip'
