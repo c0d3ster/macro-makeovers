@@ -121,7 +121,7 @@ describe('RecipeCard fit', () => {
   })
 
   it('tags a good fit with text, not color alone', () => {
-    render(<RecipeCard recipe={recipe} fit={{ isFit: true }} />)
+    render(<RecipeCard recipe={recipe} fit={{ isFit: true, reasons: [] }} />)
 
     expect(screen.getByText('Good fit')).toBeInTheDocument()
   })
@@ -130,12 +130,28 @@ describe('RecipeCard fit', () => {
     render(
       <RecipeCard
         recipe={recipe}
-        fit={{ isFit: false, reason: 'Over 550 cal' }}
+        fit={{ isFit: false, reasons: ['Over 550 cal'] }}
       />
     )
 
     expect(screen.getByText('Over 550 cal')).toBeInTheDocument()
     expect(screen.queryByText('Good fit')).not.toBeInTheDocument()
+  })
+
+  it('lists every reason, in the order given', () => {
+    render(
+      <RecipeCard
+        recipe={recipe}
+        fit={{
+          isFit: false,
+          reasons: ['Over 550 cal', 'High carbs for this goal', 'Low fat for this goal'],
+        }}
+      />
+    )
+
+    expect(
+      screen.getAllByRole('listitem').map((item) => item.textContent).slice(0, 3)
+    ).toEqual(['Over 550 cal', 'High carbs for this goal', 'Low fat for this goal'])
   })
 })
 
@@ -146,10 +162,10 @@ describe('RecipeGrid dividers', () => {
     title: slug.toUpperCase(),
   }))
   const fits = {
-    a: { isFit: true },
-    b: { isFit: true },
-    c: { isFit: false, reason: 'Over 550 cal' },
-    d: { isFit: false, reason: 'Over 550 cal' },
+    a: { isFit: true, reasons: [] },
+    b: { isFit: true, reasons: [] },
+    c: { isFit: false, reasons: ['Over 550 cal'] },
+    d: { isFit: false, reasons: ['Over 550 cal'] },
   }
 
   it('labels the close matches and the rest', () => {
@@ -167,7 +183,7 @@ describe('RecipeGrid dividers', () => {
     render(
       <RecipeGrid
         recipes={recipes}
-        fits={{ ...fits, b: { isFit: false } }}
+        fits={{ ...fits, b: { isFit: false, reasons: [] } }}
         showDividers
       />
     )
@@ -178,8 +194,8 @@ describe('RecipeGrid dividers', () => {
   })
 
   it('leaves the dividers out when every recipe or none fits', () => {
-    const all = Object.fromEntries(recipes.map(({ slug }) => [slug, { isFit: true }]))
-    const none = Object.fromEntries(recipes.map(({ slug }) => [slug, { isFit: false }]))
+    const all = Object.fromEntries(recipes.map(({ slug }) => [slug, { isFit: true, reasons: [] }]))
+    const none = Object.fromEntries(recipes.map(({ slug }) => [slug, { isFit: false, reasons: [] }]))
 
     const { rerender } = render(
       <RecipeGrid recipes={recipes} fits={all} showDividers />

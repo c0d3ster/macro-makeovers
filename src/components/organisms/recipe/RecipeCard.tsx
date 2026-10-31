@@ -70,28 +70,31 @@ export const RecipeCard = ({ recipe, fit }: RecipeCardProps): ReactElement => {
         />
       )}
       <div className='flex flex-1 flex-col gap-4 p-5'>
-        {fit && (
-          <p className='flex min-h-6 flex-wrap items-center gap-x-2 text-xs'>
-            {fit.isFit ? (
-              <span className='inline-flex items-center gap-1 rounded-full border border-primary px-2 py-0.5 font-medium text-primary'>
-                <svg
-                  aria-hidden='true'
-                  viewBox='0 0 16 16'
-                  className='size-3'
-                  fill='none'
-                  stroke='currentColor'
-                  strokeWidth='2'
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                >
-                  <path d='M3 8.5l3.5 3.5L13 5' />
-                </svg>
-                Good fit
-              </span>
-            ) : (
-              <span className='text-text-muted'>{fit.reason}</span>
-            )}
+        {fit?.isFit && (
+          <p className='flex min-h-6 items-center text-xs'>
+            <span className='inline-flex items-center gap-1 rounded-full border border-primary px-2 py-0.5 font-medium text-primary'>
+              <svg
+                aria-hidden='true'
+                viewBox='0 0 16 16'
+                className='size-3'
+                fill='none'
+                stroke='currentColor'
+                strokeWidth='2'
+                strokeLinecap='round'
+                strokeLinejoin='round'
+              >
+                <path d='M3 8.5l3.5 3.5L13 5' />
+              </svg>
+              Good fit
+            </span>
           </p>
+        )}
+        {fit && !fit.isFit && fit.reasons.length > 0 && (
+          <ul className='flex flex-col gap-0.5 text-xs text-text-muted'>
+            {fit.reasons.map((reason) => (
+              <li key={reason}>{reason}</li>
+            ))}
+          </ul>
         )}
         <div className='flex flex-col gap-2'>
           <h3 className='text-lg font-semibold text-text group-hover:text-primary'>

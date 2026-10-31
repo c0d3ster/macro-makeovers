@@ -1,5 +1,6 @@
 import type { RecipeCard } from './recipeCards'
 import type { Target } from './recipeGoals'
+import type { MacroTarget } from './recipeMacros'
 
 import {
   macroDistance,
@@ -9,40 +10,58 @@ import {
 
 export type Fit = {
   isFit: boolean
-  // Why a recipe is not a good fit, short enough for a card
-  reason?: string
+  // Every way a recipe misses, short enough for a card. A calorie miss comes first, then the
+  // macros from the furthest off to the closest.
+  reasons: string[]
 }
 
 const MACROS = ['carbs', 'fat', 'protein'] as const
 
-const misfitReason = (
+// How many points a share sits outside what the target accepts
+const missBy = (target: MacroTarget, percent: number): number => {
+  if (target.kind === 'atMost') return percent - target.value
+  if (target.kind === 'atLeast') return target.value - percent
+  return Math.abs(percent - target.value)
+}
+
+const isHigh = (target: MacroTarget, percent: number): boolean =>
+  target.kind === 'atMost' ||
+  (target.kind === 'near' && percent > target.value)
+
+const misfitReasons = (
   recipe: RecipeCard,
   { goal, fit }: Target
-): string | undefined => {
+): string[] => {
+  const calorieReasons: string[] = []
   if (fit.maxCalories !== undefined && recipe.calories > fit.maxCalories) {
-    return `Over ${fit.maxCalories} cal`
+    calorieReasons.push(`Over ${fit.maxCalories} cal`)
   }
   if (fit.minCalories !== undefined && recipe.calories < fit.minCalories) {
-    return `Under ${fit.minCalories} cal`
+    calorieReasons.push(`Under ${fit.minCalories} cal`)
   }
 
   const percents = recipeMacroPercents(recipe)
-  const missed = MACROS.find((name) => {
+  const subject = goal ? 'this goal' : 'your targets'
+  // Array.sort is stable, so equal misses keep the carbs, fat, protein order
+  const macroReasons = MACROS.flatMap((name) => {
     const target = fit[name]
-    return target && !matchesMacroTarget(target, percents[name])
+    if (!target || matchesMacroTarget(target, percents[name])) return []
+    return [
+      {
+        gap: missBy(target, percents[name]),
+        text: `${isHigh(target, percents[name]) ? 'High' : 'Low'} ${name} for ${subject}`,
+      },
+    ]
   })
-  const target = missed && fit[missed]
-  if (!missed || !target) return undefined
+    .sort((a, b) => b.gap - a.gap)
+    .map(({ text }) => text)
 
-  const isHigh =
-    target.kind === 'atMost' ||
-    (target.kind === 'near' && percents[missed] > target.value)
-  return `${isHigh ? 'High' : 'Low'} ${missed} for ${goal ? 'this goal' : 'your targets'}`
+  return [...calorieReasons, ...macroReasons]
 }
 
 export const evaluateFit = (recipe: RecipeCard, target: Target): Fit => {
-  const reason = misfitReason(recipe, target)
-  return reason === undefined ? { isFit: true } : { isFit: false, reason }
+  const reasons = misfitReasons(recipe, target)
+  return { isFit: reasons.length === 0, reasons }
 }
 
 // How far a recipe's shares sit from the ranking targets, summed. Lower is closer.
