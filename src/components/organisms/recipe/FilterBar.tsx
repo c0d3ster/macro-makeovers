@@ -176,7 +176,7 @@ const FiltersToggle = ({
   <span className={`inline-grid ${className}`}>
     <FiltersButton
       {...button}
-      count={88}
+      count={8}
       className='pointer-events-none invisible col-start-1 row-start-1'
       isGhost
     />
@@ -436,7 +436,7 @@ export const FilterBar = ({
               </p>
             )}
 
-            <div className='flex flex-col gap-3 lg:col-span-3 lg:row-start-4 lg:flex-row lg:flex-wrap lg:items-center lg:gap-x-5 lg:gap-y-2'>
+            <div className='flex flex-col gap-3 lg:col-span-3 lg:row-start-4 lg:flex-row lg:flex-wrap lg:items-center lg:gap-x-4 lg:gap-y-2'>
               <FiltersToggle
                 count={barCount}
                 isOpen={moreOpen}
