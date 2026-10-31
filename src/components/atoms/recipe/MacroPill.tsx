@@ -2,11 +2,21 @@ import type { ReactElement } from 'react'
 
 export type MacroTone = 'carbs' | 'fat' | 'protein'
 
-// Written out in full so Tailwind can see every class
-const TONES: Record<MacroTone, string> = {
-  carbs: 'bg-carbs/35',
-  fat: 'bg-fat/35',
-  protein: 'bg-protein/35',
+// The 35% tint of each macro color, mixed over what the pill sits on so the fill is fully
+// opaque and the page's % pattern can't show through. Written out in full so Tailwind can see
+// every class.
+const PAGE_TONES: Record<MacroTone, string> = {
+  carbs: 'bg-[color-mix(in_srgb,var(--color-carbs)_35%,var(--c-background))]',
+  fat: 'bg-[color-mix(in_srgb,var(--color-fat)_35%,var(--c-background))]',
+  protein:
+    'bg-[color-mix(in_srgb,var(--color-protein)_35%,var(--c-background))]',
+}
+
+// Cards sit on the surface color, not the page
+const CARD_TONES: Record<MacroTone, string> = {
+  carbs: 'bg-[color-mix(in_srgb,var(--color-carbs)_35%,var(--c-surface))]',
+  fat: 'bg-[color-mix(in_srgb,var(--color-fat)_35%,var(--c-surface))]',
+  protein: 'bg-[color-mix(in_srgb,var(--color-protein)_35%,var(--c-surface))]',
 }
 
 const NEUTRAL = 'bg-background'
@@ -35,7 +45,7 @@ export const MacroPill = ({
   reveal = false,
 }: MacroPillProps): ReactElement => (
   <div
-    className={`flex size-full flex-col items-center justify-center rounded-lg border border-text-muted/30 text-center text-text ${tone ? TONES[tone] : NEUTRAL} ${large ? 'px-2 py-3' : 'px-2 py-1.5'}`}
+    className={`flex size-full flex-col items-center justify-center rounded-lg border border-text-muted/30 text-center text-text ${tone ? (large ? PAGE_TONES : CARD_TONES)[tone] : NEUTRAL} ${reveal ? 'macro-reveal-fill' : ''} ${large ? 'px-2 py-3' : 'px-2 py-1.5'}`}
   >
     <span
       className={`leading-tight font-semibold ${large ? 'text-2xl' : 'text-base'} ${reveal ? REVEAL : ''}`}

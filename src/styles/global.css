@@ -106,6 +106,13 @@
   color: var(--color-text);
 }
 
+/* The pills' opaque fills fade in over the first second, leaving just the outline at first */
+@keyframes macro-fill-in {
+  from {
+    background-color: transparent;
+  }
+}
+
 @keyframes macro-fade-in {
   from {
     opacity: 0;
@@ -130,6 +137,10 @@
 
   .macro-count-up {
     animation: macro-count 1300ms cubic-bezier(0.65, 0, 0.35, 1) backwards;
+  }
+
+  .macro-reveal-fill {
+    animation: macro-fill-in 1000ms ease-out backwards;
   }
 
   .macro-reveal-late {
