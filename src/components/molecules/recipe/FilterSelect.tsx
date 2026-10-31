@@ -64,7 +64,7 @@ export const FilterSelect = ({
         name={name}
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        className={`${FILTER_FIELD_CLASS} min-w-0 cursor-pointer appearance-none pr-9`}
+        className={`${FILTER_FIELD_CLASS} min-w-0 cursor-pointer appearance-none pr-8`}
       >
         {anyLabel !== false && <option value=''>{anyLabel}</option>}
         {options.map((option) => (

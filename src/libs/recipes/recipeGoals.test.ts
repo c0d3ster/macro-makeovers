@@ -22,7 +22,7 @@ describe('detectGoal', () => {
   })
 
   it('reads as custom once a selector is edited', () => {
-    const recomp = goal('recomp')
+    const recomp = goal('body-recomp')
 
     expect(detectGoal({ ...recomp, fat: { kind: 'near', value: 30 } })).toBe(
       'custom'
@@ -32,13 +32,37 @@ describe('detectGoal', () => {
 
   it('tells Recomp and Fat loss apart by the calorie cap and protein', () => {
     expect(detectGoal(goal('fat-loss'))).toBe(goal('fat-loss'))
-    expect(detectGoal(goal('recomp'))).toBe(goal('recomp'))
+    expect(detectGoal(goal('body-recomp'))).toBe(goal('body-recomp'))
   })
 
   it('treats a lone macro target as custom unless it is a carb cycling day', () => {
     expect(detectGoal({ carbs: { kind: 'near', value: 40 } })).toBe('custom')
     expect(detectGoal({ carbs: { kind: 'atMost', value: 35 } })).toBe(
-      goal('low-carb-day')
+      goal('carb-cycling-low')
     )
+  })
+})
+
+describe('goal table', () => {
+  it('names the six goals in the order the dropdown lists them', () => {
+    expect(GOALS.map(({ label }) => label)).toEqual([
+      'Fat Loss',
+      'Body Recomp',
+      'Clean Bulk',
+      'Full Bulk',
+      'Carb Cycling Low',
+      'Carb Cycling High',
+    ])
+  })
+
+  it('gives Full Bulk a 50 / 25 / 25 split and a 500 calorie surplus note', () => {
+    const full = goal('full-bulk')
+
+    expect([full.carbs, full.fat, full.protein]).toEqual([
+      { kind: 'near', value: 50 },
+      { kind: 'near', value: 25 },
+      { kind: 'near', value: 25 },
+    ])
+    expect(full.note).toMatch(/500 calorie surplus/)
   })
 })

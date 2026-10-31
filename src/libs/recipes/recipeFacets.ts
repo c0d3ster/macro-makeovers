@@ -60,7 +60,7 @@ export const FACET_VALUES = {
   maxMinutes: ['30', '45', '60', '90'],
   maxCost: ['1', '2', '3', '4', '5'],
   maxDifficulty: ['1', '2', '3', '4', '5'],
-  carbs: ['le35', '35', '40', '45', 'ge45'],
+  carbs: ['le35', '35', '40', '45', '50', 'ge45'],
   fat: ['20', '25', '30', '35'],
   protein: ['25', '30', '35', '40'],
 }
@@ -139,8 +139,8 @@ const capitalize = (text: string): string =>
   text.charAt(0).toUpperCase() + text.slice(1)
 
 const describeTarget = (name: string, target: MacroTarget): string => {
-  if (target.kind === 'atMost') return `${name} ${target.value}% or less`
-  if (target.kind === 'atLeast') return `${name} ${target.value}% or more`
+  if (target.kind === 'atMost') return `${name} ≤ ${target.value}%`
+  if (target.kind === 'atLeast') return `${name} ≥ ${target.value}%`
   return `${name} ~${target.value}%`
 }
 
@@ -154,7 +154,7 @@ export const describeFilters = (filters: RecipeFilters): FilterChip[] => {
   }
 
   if (goal && goal !== 'custom') {
-    add(goal.id, goal.chip, ['carbs', 'fat', 'protein', 'maxCalories'])
+    add(goal.id, goal.label, ['carbs', 'fat', 'protein', 'maxCalories'])
   } else {
     if (filters.carbs) {
       add('carbs', describeTarget('Carbs', filters.carbs), ['carbs'])

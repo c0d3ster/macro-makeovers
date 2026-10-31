@@ -93,10 +93,10 @@ const toDraft = (filters: RecipeFilters): Draft => {
 const capitalize = (text: string): string =>
   text.charAt(0).toUpperCase() + text.slice(1)
 
-// "le35" reads "35% or less", "ge45" reads "45% or more", and "40" reads "~40%"
+// "le35" reads "≤ 35%", "ge45" reads "≥ 45%", and "40" reads "~40%"
 const macroLabel = (value: string): string => {
-  if (value.startsWith('le')) return `${value.slice(2)}% or less`
-  if (value.startsWith('ge')) return `${value.slice(2)}% or more`
+  if (value.startsWith('le')) return `≤ ${value.slice(2)}%`
+  if (value.startsWith('ge')) return `≥ ${value.slice(2)}%`
   return `~${value}%`
 }
 
@@ -107,9 +107,9 @@ const SORT_LABELS = {
   calories: ['Fewest calories', 'Most calories'],
   time: ['Quickest', 'Slowest'],
   cost: ['Cheapest', 'Priciest'],
-  carbs: ['Carbs, lowest first', 'Carbs, highest first'],
-  fat: ['Fat, lowest first', 'Fat, highest first'],
-  protein: ['Protein, highest first', 'Protein, lowest first'],
+  carbs: ['Lowest carbs', 'Highest carbs'],
+  fat: ['Lowest fat', 'Highest fat'],
+  protein: ['Highest protein', 'Lowest protein'],
 } as const
 
 type SortKey = keyof typeof SORT_LABELS
@@ -361,7 +361,7 @@ export const FilterBar = ({
         aria-label='Search and filter recipes'
         aria-busy={isPending}
         onSubmit={submitSearch}
-        className='mb-8 grid grid-cols-1 gap-y-3 lg:grid-cols-[minmax(0,1fr)_minmax(0,236px)_minmax(0,236px)] lg:gap-x-2'
+        className='mb-8 grid grid-cols-1 gap-y-3 lg:grid-cols-[minmax(0,1fr)_minmax(0,256px)_minmax(0,216px)] lg:gap-x-2'
       >
         <div className='lg:col-start-1 lg:row-span-3 lg:row-start-1 lg:pr-6'>
           {intro}
@@ -400,7 +400,7 @@ export const FilterBar = ({
               aria-pressed={reversed}
               disabled={!canReverse}
               onClick={() => update({ reverse: reversed ? '' : '1' })}
-              className={`flex size-9 shrink-0 cursor-pointer items-center justify-center rounded-lg border border-text-muted/30 text-text-muted hover:border-primary hover:text-text focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none ${
+              className={`flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-lg border border-text-muted/30 text-text-muted hover:border-primary hover:text-text focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none ${
                 canReverse ? '' : 'invisible'
               }`}
             >

@@ -112,8 +112,8 @@ describe('describeFilters', () => {
 
     expect(chips).toEqual([
       {
-        id: 'recomp',
-        label: 'Recomp',
+        id: 'body-recomp',
+        label: 'Body Recomp',
         params: ['carbs', 'fat', 'protein', 'maxCalories'],
       },
     ])
@@ -131,7 +131,7 @@ describe('describeFilters', () => {
     )
 
     expect(chips.map(({ label }) => label)).toEqual([
-      'Carbs 35% or less',
+      'Carbs ≤ 35%',
       'Fat ~30%',
       'Up to 45 min',
       'Cost up to $$',

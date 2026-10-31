@@ -91,9 +91,9 @@ describe('FilterBar', () => {
       'Fewest calories',
       'Quickest',
       'Cheapest',
-      'Carbs, lowest first',
-      'Fat, lowest first',
-      'Protein, highest first',
+      'Lowest carbs',
+      'Lowest fat',
+      'Highest protein',
     ])
   })
 
@@ -148,7 +148,7 @@ describe('FilterBar', () => {
   it('shows the goal and its note when the selectors match a preset', () => {
     renderBar({ carbs: '45', fat: '25', protein: '30' })
 
-    expect(select(/goal/i)).toHaveValue('recomp')
+    expect(select(/goal/i)).toHaveValue('body-recomp')
     expect(screen.getByText(/at or near maintenance/i)).toBeInTheDocument()
   })
 

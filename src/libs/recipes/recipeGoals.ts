@@ -4,10 +4,11 @@ import { formatMacroTarget } from './recipeMacros'
 
 type GoalId =
   | 'fat-loss'
-  | 'recomp'
+  | 'body-recomp'
   | 'clean-bulk'
-  | 'low-carb-day'
-  | 'high-carb-day'
+  | 'full-bulk'
+  | 'carb-cycling-low'
+  | 'carb-cycling-high'
 
 // The filters a goal fills in. A goal is only a preset of these, so what it selected is
 // always visible and editable in the filter bar.
@@ -20,9 +21,8 @@ export type GoalFields = {
 
 export type Goal = GoalFields & {
   id: GoalId
+  // Shown in the Goal dropdown and on the active-filter chip
   label: string
-  // Short name for the active-filter chip
-  chip: string
   note: string
   // Which way Best match leans on calories once the ratio is as close as it gets
   calories?: 'asc' | 'desc'
@@ -30,13 +30,12 @@ export type Goal = GoalFields & {
 
 const near = (value: number): MacroTarget => ({ kind: 'near', value })
 
-// Recomp and Clean bulk are the book's own ratios (docs/nutrition-guide.md). The rest are
+// Body Recomp and Clean Bulk are the book's own ratios (docs/nutrition-guide.md). The rest are
 // working defaults, kept here in one place so tuning them is a one-line edit.
 export const GOALS: Goal[] = [
   {
     id: 'fat-loss',
-    label: 'Fat loss 40/25/35, max 550 cal',
-    chip: 'Fat loss',
+    label: 'Fat Loss',
     note: 'Calorie deficit. Meals up to 550 cal, near 40 / 25 / 35.',
     carbs: near(40),
     fat: near(25),
@@ -44,9 +43,8 @@ export const GOALS: Goal[] = [
     maxCalories: 550,
   },
   {
-    id: 'recomp',
-    label: 'Recomp 45/25/30',
-    chip: 'Recomp',
+    id: 'body-recomp',
+    label: 'Body Recomp',
     note: 'At or near maintenance calories. Meals near 45 / 25 / 30.',
     carbs: near(45),
     fat: near(25),
@@ -55,8 +53,7 @@ export const GOALS: Goal[] = [
   },
   {
     id: 'clean-bulk',
-    label: 'Clean bulk 40/30/30',
-    chip: 'Clean bulk',
+    label: 'Clean Bulk',
     note: 'Small calorie surplus. Meals near 40 / 30 / 30.',
     carbs: near(40),
     fat: near(30),
@@ -64,16 +61,23 @@ export const GOALS: Goal[] = [
     calories: 'desc',
   },
   {
-    id: 'low-carb-day',
-    label: 'Carb cycling: low-carb day',
-    chip: 'Low-carb day',
+    id: 'full-bulk',
+    label: 'Full Bulk',
+    note: 'Up to a 500 calorie surplus. Meals near 50 / 25 / 25.',
+    carbs: near(50),
+    fat: near(25),
+    protein: near(25),
+    calories: 'desc',
+  },
+  {
+    id: 'carb-cycling-low',
+    label: 'Carb Cycling Low',
     note: 'Lower-carb day, often with fewer total calories. Fewest carbs first.',
     carbs: { kind: 'atMost', value: 35 },
   },
   {
-    id: 'high-carb-day',
-    label: 'Carb cycling: high-carb day',
-    chip: 'High-carb day',
+    id: 'carb-cycling-high',
+    label: 'Carb Cycling High',
     note: 'Higher-carb day, often with more total calories. Most carbs first.',
     carbs: { kind: 'atLeast', value: 45 },
   },
