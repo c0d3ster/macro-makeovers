@@ -50,9 +50,9 @@ export const NutritionTable = ({
         </div>
       ))}
 
-      <div className='macro-reveal-fill overflow-hidden rounded-lg border border-text-muted/30 bg-background'>
+      <div className='overflow-hidden rounded-lg border border-text-muted/30 bg-background'>
         <table className='w-full text-left text-xs sm:text-sm'>
-          <thead className='macro-reveal-fill bg-surface text-text'>
+          <thead className='bg-surface text-text'>
             <tr>
               <td />
               {HEADERS.map((header) => (
@@ -113,7 +113,7 @@ export const NutritionTable = ({
       {analysis.map((body) => (
         <aside
           key={body}
-          className='macro-reveal-fill rounded-xl bg-surface px-4 py-3 text-sm text-text-muted'
+          className='rounded-xl bg-surface px-4 py-3 text-sm text-text-muted'
         >
           <Markdown>{body}</Markdown>
         </aside>

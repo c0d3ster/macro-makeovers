@@ -105,6 +105,12 @@
   color: var(--color-text);
 }
 
+@keyframes pattern-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
 @keyframes macro-fade-in {
   from {
     opacity: 0;
@@ -164,6 +170,13 @@
     mask-image: url('/patterns/percent-tile.webp');
     -webkit-mask-size: 420px 420px;
     mask-size: 420px 420px;
+  }
+
+  /* The pattern fades in over the first second of a page load */
+  @media (prefers-reduced-motion: no-preference) {
+    body::before {
+      animation: pattern-fade-in 1000ms ease-out backwards;
+    }
   }
 
   /* Smooth scrolling for hash navigation (respects user motion preferences) */
