@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 
 import type { Goal } from './recipeGoals'
 
-import { detectGoal, GOALS } from './recipeGoals'
+import { GOALS, resolveTarget } from './recipeGoals'
 
 const goal = (id: string): Goal => {
   const found = GOALS.find((item) => item.id === id)
@@ -10,47 +10,69 @@ const goal = (id: string): Goal => {
   return found
 }
 
-describe('detectGoal', () => {
-  it('finds nothing when no goal field is set', () => {
-    expect(detectGoal({})).toBeUndefined()
-  })
-
-  it('recognizes every preset from its own fields', () => {
-    GOALS.forEach((preset) => {
-      expect(detectGoal(preset)).toBe(preset)
-    })
-  })
-
-  it('reads as custom once a selector is edited', () => {
-    const recomp = goal('body-recomp')
-
-    expect(detectGoal({ ...recomp, fat: { kind: 'near', value: 30 } })).toBe(
-      'custom'
-    )
-    expect(detectGoal({ ...recomp, maxCalories: 550 })).toBe('custom')
-  })
-
-  it('tells Recomp and Fat loss apart by the calorie cap and protein', () => {
-    expect(detectGoal(goal('fat-loss'))).toBe(goal('fat-loss'))
-    expect(detectGoal(goal('body-recomp'))).toBe(goal('body-recomp'))
-  })
-
-  it('treats a lone macro target as custom unless it is a carb cycling day', () => {
-    expect(detectGoal({ carbs: { kind: 'near', value: 40 } })).toBe('custom')
-    expect(detectGoal({ carbs: { kind: 'atMost', value: 35 } })).toBe(
-      goal('carb-cycling-low')
-    )
-  })
-})
-
 describe('goal table', () => {
-  it('names the five goals in the order the dropdown lists them', () => {
+  it('lists the seven goals with Balanced first', () => {
     expect(GOALS.map(({ label }) => label)).toEqual([
+      'Balanced',
       'Fat Loss',
       'Body Recomp',
       'Clean Bulk',
+      'Full Bulk',
       'Carb Cycling Low',
       'Carb Cycling High',
     ])
+  })
+
+  it('puts calories in the rule where the spec does', () => {
+    expect(goal('fat-loss').fit.maxCalories).toBe(550)
+    expect(goal('full-bulk').fit.minCalories).toBe(600)
+    expect(goal('body-recomp').fit.maxCalories).toBeUndefined()
+  })
+
+  it('scores Clean Bulk on fat and protein only, and Full Bulk on a 45 / 30 / 25 split', () => {
+    expect(resolveTarget({ goal: 'clean-bulk' })?.rank).toEqual({
+      fat: { kind: 'near', value: 25 },
+      protein: { kind: 'near', value: 30 },
+    })
+    expect(resolveTarget({ goal: 'full-bulk' })?.rank).toEqual({
+      carbs: { kind: 'near', value: 45 },
+      fat: { kind: 'near', value: 30 },
+      protein: { kind: 'near', value: 25 },
+    })
+  })
+})
+
+describe('resolveTarget', () => {
+  it('has no target without a goal or macros', () => {
+    expect(resolveTarget({})).toBeUndefined()
+    expect(resolveTarget({ goal: 'nonsense' })).toBeUndefined()
+  })
+
+  it('uses the goal when one is picked, ranking by its own targets', () => {
+    const target = resolveTarget({ goal: 'body-recomp' })
+
+    expect(target?.goal).toBe(goal('body-recomp'))
+    expect(target?.calories).toBe('asc')
+  })
+
+  it('lets a goal win over hand-set macros', () => {
+    const target = resolveTarget({
+      goal: 'balanced',
+      carbs: { kind: 'near', value: 60 },
+    })
+
+    expect(target?.fit.carbs).toEqual({ kind: 'near', value: 40 })
+  })
+
+  it('builds a custom target from the macros alone', () => {
+    const target = resolveTarget({ fat: { kind: 'near', value: 25 } })
+
+    expect(target?.goal).toBeUndefined()
+    expect(target?.fit).toEqual({
+      carbs: undefined,
+      fat: { kind: 'near', value: 25 },
+      protein: undefined,
+    })
+    expect(target?.rank).toEqual(target?.fit)
   })
 })

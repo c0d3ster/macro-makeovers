@@ -134,22 +134,60 @@ describe('FilterBar', () => {
     expect(push).toHaveBeenCalledWith('/?sort=time', { scroll: false })
   })
 
-  it('fills in the selectors when a goal is picked', () => {
+  it('lists the goals with Balanced first', () => {
+    renderBar()
+
+    expect(
+      within(select(/goal/i))
+        .getAllByRole('option')
+        .map((option) => option.textContent)
+    ).toEqual([
+      'None',
+      'Balanced',
+      'Fat Loss',
+      'Body Recomp',
+      'Clean Bulk',
+      'Full Bulk',
+      'Carb Cycling Low',
+      'Carb Cycling High',
+    ])
+  })
+
+  it('puts the goal in the URL when one is picked', () => {
     renderBar()
 
     fireEvent.change(select(/goal/i), { target: { value: 'fat-loss' } })
 
-    expect(push).toHaveBeenCalledWith(
-      '/?maxCalories=550&carbs=40&fat=25&protein=35',
-      { scroll: false }
-    )
+    expect(push).toHaveBeenCalledWith('/?goal=fat-loss', { scroll: false })
   })
 
-  it('shows the goal and its note when the selectors match a preset', () => {
-    renderBar({ carbs: '45', fat: '25', protein: '30' })
+  it('shows the goal, its note, and its targets in the macro dropdowns', () => {
+    renderBar({ goal: 'body-recomp' })
 
     expect(select(/goal/i)).toHaveValue('body-recomp')
-    expect(screen.getByText(/at or near maintenance/i)).toBeInTheDocument()
+    expect(screen.getByText(/slightly below maintenance/i)).toBeInTheDocument()
+    expect(select(/^carbs\b/i)).toHaveValue('45')
+    expect(select(/^fat\b/i)).toHaveValue('25')
+    expect(select(/^protein\b/i)).toHaveValue('30')
+  })
+
+  it('shows Clean Bulk as 40% carbs or more', () => {
+    renderBar({ goal: 'clean-bulk' })
+
+    expect(select(/^carbs\b/i)).toHaveValue('ge40')
+    expect(
+      screen.getByRole('option', { name: '≥ 40%' })
+    ).toBeInTheDocument()
+  })
+
+  it('leaves the goal when a macro dropdown is edited, keeping the other targets', () => {
+    renderBar({ goal: 'body-recomp' })
+
+    fireEvent.change(select(/^fat\b/i), { target: { value: '30' } })
+
+    expect(push).toHaveBeenCalledWith('/?carbs=45&fat=30&protein=30', {
+      scroll: false,
+    })
   })
 
   it('reads Custom once a selector no longer matches a preset', () => {

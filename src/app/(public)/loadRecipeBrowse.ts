@@ -1,4 +1,5 @@
 import type {
+  Fit,
   RecipeCard,
   RecipeFilters,
   TagGroups,
@@ -7,11 +8,13 @@ import type {
 
 import { logger } from '@/libs/Logger'
 import {
+  evaluateFit,
   filterRecipes,
   findRecipeSlugsByIngredient,
   findUnavailableOptions,
   groupTags,
   listRecipeCards,
+  resolveTarget,
 } from '@/libs/recipes'
 import { createPublicClient } from '@/libs/supabase/public'
 
@@ -21,6 +24,8 @@ type RecipeBrowse = {
   // The recipes left after applying the filters
   visible: RecipeCard[]
   tagGroups: TagGroups
+  // How each visible recipe fits the goal or macro targets, by slug. Missing with no target.
+  fits?: Record<string, Fit>
   // Filter options that would return nothing on top of the current filters
   unavailable: UnavailableOptions
 }
@@ -41,11 +46,18 @@ export const loadRecipeBrowse = async (
         })
       : new Set<string>()
     const tagGroups = groupTags(all)
+    const visible = filterRecipes(all, filters, ingredientMatches)
+    const target = resolveTarget(filters)
 
     return {
       all,
-      visible: filterRecipes(all, filters, ingredientMatches),
+      visible,
       tagGroups,
+      fits: target
+        ? Object.fromEntries(
+            visible.map((recipe) => [recipe.slug, evaluateFit(recipe, target)])
+          )
+        : undefined,
       unavailable: findUnavailableOptions(
         all,
         filters,

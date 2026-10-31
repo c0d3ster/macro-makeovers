@@ -1,13 +1,10 @@
 import type { RecipeCard } from './recipeCards'
+import type { GoalId } from './recipeGoals'
 import type { MacroTarget } from './recipeMacros'
 
-import { detectGoal } from './recipeGoals'
-import {
-  macroDistance,
-  matchesMacroTarget,
-  parseMacroTarget,
-  recipeMacroPercents,
-} from './recipeMacros'
+import { distanceToTarget, evaluateFit } from './recipeFit'
+import { GOALS, resolveTarget } from './recipeGoals'
+import { parseMacroTarget, recipeMacroPercents } from './recipeMacros'
 
 const RECIPE_SORTS = [
   'match',
@@ -39,9 +36,12 @@ export type RecipeFilters = {
   maxMinutes?: number
   maxCostTier?: number
   maxDifficulty?: number
+  // Macro targets set by hand. They rank and tag recipes, and never hide any.
   carbs?: MacroTarget
   fat?: MacroTarget
   protein?: MacroTarget
+  // A goal ranks and tags against its own targets, and wins over the macros above
+  goal?: GoalId
   sort: RecipeSort
   // Flips the sort's natural direction. Best match has no direction to flip.
   reverse?: boolean
@@ -73,7 +73,7 @@ const toName = (value: string | string[] | undefined): string | undefined =>
 
 // Best match only makes sense with something to match: search text, a goal, or macro targets
 export const hasBestMatch = (filters: FilterFields): boolean =>
-  Boolean(filters.q) || detectGoal(filters) !== undefined
+  Boolean(filters.q) || resolveTarget(filters) !== undefined
 
 export const defaultSort = (filters: FilterFields): RecipeSort =>
   hasBestMatch(filters) ? 'match' : 'title'
@@ -106,6 +106,7 @@ export const parseRecipeFilters = (params: SearchParams): RecipeFilters => {
     carbs: parseMacroTarget(firstValue(params.carbs)),
     fat: parseMacroTarget(firstValue(params.fat)),
     protein: parseMacroTarget(firstValue(params.protein)),
+    goal: GOALS.find((goal) => goal.id === firstValue(params.goal))?.id,
   }
 
   return {
@@ -129,6 +130,7 @@ export const countBarFilters = ({
   reverse: _reverse,
   q: _q,
   tag: _tag,
+  goal: _goal,
   ...filters
 }: RecipeFilters): number =>
   Object.values(filters).filter((value) => value !== undefined).length
@@ -155,19 +157,6 @@ const withinLimits = (
   (maxCostTier === undefined || recipe.costTier <= maxCostTier) &&
   (maxDifficulty === undefined || recipe.difficulty <= maxDifficulty)
 
-const matchesMacros = (
-  recipe: RecipeCard,
-  { carbs, fat, protein }: FilterFields
-): boolean => {
-  const percents = recipeMacroPercents(recipe)
-
-  return (
-    (!carbs || matchesMacroTarget(carbs, percents.carbs)) &&
-    (!fat || matchesMacroTarget(fat, percents.fat)) &&
-    (!protein || matchesMacroTarget(protein, percents.protein))
-  )
-}
-
 const matchesFilters = (
   recipe: RecipeCard,
   filters: FilterFields,
@@ -181,8 +170,7 @@ const matchesFilters = (
 
   return (
     [tag, meat, method, dish, goodFor].every((name) => hasTag(recipe, name)) &&
-    withinLimits(recipe, filters) &&
-    matchesMacros(recipe, filters)
+    withinLimits(recipe, filters)
   )
 }
 
@@ -216,28 +204,18 @@ const textTier = (recipe: RecipeCard, q: string | undefined): number => {
   return hits(recipe.summary) ? 1 : 0
 }
 
-// How far a recipe's macro shares sit from the targets, summed. Lower is closer.
-const distanceToTargets = (
-  recipe: RecipeCard,
-  { carbs, fat, protein }: FilterFields
-): number => {
-  const percents = recipeMacroPercents(recipe)
-
-  return (
-    (carbs ? macroDistance(carbs, percents.carbs) : 0) +
-    (fat ? macroDistance(fat, percents.fat) : 0) +
-    (protein ? macroDistance(protein, percents.protein) : 0)
-  )
-}
-
-// Text relevance first, then closeness to the macro targets, then the goal's calorie lean
-// (Recomp lighter first, Clean bulk heavier first), then A to Z.
+// Text relevance first, then good fits ahead of the rest, then closeness to the targets, then
+// the goal's calorie lean (Recomp lighter first, the bulks heavier first), then A to Z.
 const bestMatchComparator = (
   filters: RecipeFilters
 ): ((a: RecipeCard, b: RecipeCard) => number) => {
-  const goal = detectGoal(filters)
-  const lean = goal && goal !== 'custom' ? goal.calories : undefined
+  const target = resolveTarget(filters)
+  const lean = target?.calories
 
+  const fitScore = (recipe: RecipeCard): number =>
+    target && evaluateFit(recipe, target).isFit ? 1 : 0
+  const closeness = (a: RecipeCard, b: RecipeCard): number =>
+    target ? distanceToTarget(a, target) - distanceToTarget(b, target) : 0
   const byCalories = (a: RecipeCard, b: RecipeCard): number => {
     if (lean === 'asc') return a.calories - b.calories
     if (lean === 'desc') return b.calories - a.calories
@@ -246,7 +224,8 @@ const bestMatchComparator = (
 
   return (a, b) =>
     textTier(b, filters.q) - textTier(a, filters.q) ||
-    distanceToTargets(a, filters) - distanceToTargets(b, filters) ||
+    fitScore(b) - fitScore(a) ||
+    closeness(a, b) ||
     byCalories(a, b) ||
     SORTERS.title(a, b)
 }

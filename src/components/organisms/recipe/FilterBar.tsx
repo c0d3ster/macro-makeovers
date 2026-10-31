@@ -9,6 +9,7 @@ import { useEffect, useState, useTransition } from 'react'
 import type { FilterOption } from '@/components/molecules'
 import type {
   FacetKey,
+  MacroTargets,
   RecipeFilters,
   TagFacet,
   TagGroups,
@@ -24,11 +25,11 @@ import {
 import {
   countBarFilters,
   describeFilters,
-  detectGoal,
   FACET_VALUES,
   formatMacroTarget,
   GOALS,
   hasBestMatch,
+  MACRO_VALUES,
   searchParamsWithout,
   toSearchParams,
 } from '@/libs/recipes'
@@ -47,6 +48,8 @@ type FilterBarProps = {
 // What the controls show right now, as the strings the URL holds. Empty means "not set".
 type Draft = {
   q: string
+  // A goal id. The macro fields then show what the goal sets, and stay out of the URL.
+  goal: string
   sort: string
   // "1" flips the sort's natural direction
   reverse: string
@@ -64,25 +67,39 @@ type Draft = {
 }
 
 const SHEET_ID = 'recipe-filters-sheet'
+const MACRO_FIELDS = ['carbs', 'fat', 'protein']
 const MORE_ID = 'recipe-filters-more'
 const SCALE_VALUES = [1, 2, 3, 4, 5]
 const TIME_VALUES = FACET_VALUES.maxMinutes.map(Number)
 
+const showTarget = (target: MacroTargets[keyof MacroTargets]): string =>
+  target ? formatMacroTarget(target) : ''
+
+// What the macro dropdowns show: the goal's own targets while a goal is picked, otherwise
+// whatever was set by hand
+const macroDraft = (
+  source: MacroTargets
+): Pick<Draft, 'carbs' | 'fat' | 'protein'> => ({
+  carbs: showTarget(source.carbs),
+  fat: showTarget(source.fat),
+  protein: showTarget(source.protein),
+})
+
 const toDraft = (filters: RecipeFilters): Draft => {
   const params = toSearchParams(filters)
   const get = (key: string): string => params.get(key) ?? ''
+  const goal = GOALS.find((item) => item.id === filters.goal)
 
   return {
     q: get('q'),
+    goal: goal?.id ?? '',
     sort: get('sort'),
     reverse: get('reverse'),
     maxCalories: get('maxCalories'),
     maxMinutes: get('maxMinutes'),
     maxCost: get('maxCost'),
     maxDifficulty: get('maxDifficulty'),
-    carbs: get('carbs'),
-    fat: get('fat'),
-    protein: get('protein'),
+    ...macroDraft(goal ? goal.fit : filters),
     meat: get('meat'),
     method: get('method'),
     dish: get('dish'),
@@ -256,7 +273,10 @@ export const FilterBar = ({
   const apply = (next: Draft): void => {
     setDraft(next)
     const query = new URLSearchParams(
-      Object.entries(next).filter(([, value]) => value !== '')
+      Object.entries(next).filter(
+        ([key, value]) =>
+          value !== '' && !(next.goal && MACRO_FIELDS.includes(key))
+      )
     ).toString()
 
     startTransition(() => {
@@ -264,22 +284,26 @@ export const FilterBar = ({
     })
   }
   const update = (patch: Partial<Draft>): void => apply({ ...draft, ...patch })
+  // Editing a macro dropdown after picking a goal leaves the goal behind. The macros it had
+  // set stay as they are and become the custom targets.
+  const updateMacro = (patch: Partial<Draft>): void => update({ goal: '', ...patch })
 
-  const goal = detectGoal(filters)
-  const goalValue = goal && goal !== 'custom' ? goal.id : (goal ?? '')
+  const goal = GOALS.find((item) => item.id === filters.goal)
+  const hasCustomTargets = Boolean(
+    filters.carbs || filters.fat || filters.protein
+  )
+  const goalValue = goal ? goal.id : hasCustomTargets ? 'custom' : ''
   const pickGoal = (id: string): void => {
     if (id === 'custom') return
 
     const picked = GOALS.find((item) => item.id === id)
-    // A goal replaces the four selectors it owns, and puts the sort back to its default
+    // A goal puts the sort back to its default and shows its targets in the macro dropdowns
     apply({
       ...draft,
+      goal: picked?.id ?? '',
       sort: '',
       reverse: '',
-      carbs: picked?.carbs ? formatMacroTarget(picked.carbs) : '',
-      fat: picked?.fat ? formatMacroTarget(picked.fat) : '',
-      protein: picked?.protein ? formatMacroTarget(picked.protein) : '',
-      maxCalories: picked?.maxCalories ? String(picked.maxCalories) : '',
+      ...macroDraft(picked ? picked.fit : {}),
     })
   }
 
@@ -306,15 +330,10 @@ export const FilterBar = ({
       }))
     )
   const macroOptions = (key: 'carbs' | 'fat' | 'protein'): FilterOption[] =>
-    withOff(
-      key,
-      FACET_VALUES[key].map((value) => ({
-        value,
-        label: macroLabel(value),
-      }))
-    )
+    MACRO_VALUES[key].map((value) => ({ value, label: macroLabel(value) }))
 
   const barCount = countBarFilters(filters)
+  const hasFilters = barCount > 0 || Boolean(filters.goal)
   const chips = describeFilters(filters)
   const hrefFor = (params: URLSearchParams): string => {
     const query = params.toString()
@@ -341,7 +360,7 @@ export const FilterBar = ({
   const canReverse = filters.sort !== 'match'
   const goalOptions: FilterOption[] = [
     ...GOALS.map(({ id, label }) => ({ value: id, label })),
-    ...(goal === 'custom' ? [{ value: 'custom', label: 'Custom' }] : []),
+    ...(goalValue === 'custom' ? [{ value: 'custom', label: 'Custom' }] : []),
   ]
 
   return (
@@ -485,7 +504,7 @@ export const FilterBar = ({
             </div>
             {/* Holds one line of height on desktop even when empty, so a goal never pushes the rows below */}
             <p className='text-xs leading-snug text-text-muted empty:hidden lg:col-span-2 lg:col-start-2 lg:row-start-3 lg:min-h-4.25 lg:empty:block'>
-              {goal && goal !== 'custom' ? goal.note : null}
+              {goal ? goal.note : null}
             </p>
 
             <div className='flex flex-col gap-3 lg:col-span-3 lg:row-start-4 lg:flex-row lg:flex-wrap lg:items-center lg:gap-x-4 lg:gap-y-2'>
@@ -550,7 +569,7 @@ export const FilterBar = ({
               <Link
                 href={clearHref}
                 className={`hidden text-sm text-text-muted underline hover:text-text lg:inline ${
-                  barCount > 0 ? '' : 'invisible'
+                  hasFilters ? '' : 'invisible'
                 }`}
               >
                 Clear all
@@ -567,7 +586,7 @@ export const FilterBar = ({
                     className='lg:flex-1'
                     options={macroOptions('carbs')}
                     value={draft.carbs}
-                    onChange={(carbs) => update({ carbs })}
+                    onChange={(carbs) => updateMacro({ carbs })}
                   />
                   <FilterSelect
                     label='Fat'
@@ -576,7 +595,7 @@ export const FilterBar = ({
                     className='lg:flex-1'
                     options={macroOptions('fat')}
                     value={draft.fat}
-                    onChange={(fat) => update({ fat })}
+                    onChange={(fat) => updateMacro({ fat })}
                   />
                   <FilterSelect
                     label='Protein'
@@ -585,7 +604,7 @@ export const FilterBar = ({
                     className='lg:flex-1'
                     options={macroOptions('protein')}
                     value={draft.protein}
-                    onChange={(protein) => update({ protein })}
+                    onChange={(protein) => updateMacro({ protein })}
                   />
                 </div>
               </div>
@@ -642,7 +661,7 @@ export const FilterBar = ({
           </div>
 
           <div className='flex items-center gap-3 border-t border-text-muted/20 bg-surface p-3 lg:hidden'>
-            {barCount > 0 && (
+            {hasFilters && (
               <Link
                 href={clearHref}
                 onClick={() => setSheetOpen(false)}

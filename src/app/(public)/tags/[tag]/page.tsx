@@ -76,6 +76,8 @@ const TagPage = async ({
             />
             <RecipeGrid
               recipes={browse.visible}
+              fits={browse.fits}
+              showDividers={filters.sort === 'match'}
               isFiltered={browse.all.length > 0}
             />
           </>

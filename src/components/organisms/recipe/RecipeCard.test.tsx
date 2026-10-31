@@ -112,3 +112,97 @@ describe('RecipeGrid', () => {
     expect(screen.getByText(/No recipes yet/)).toBeInTheDocument()
   })
 })
+
+describe('RecipeCard fit', () => {
+  it('shows nothing extra when there is no goal', () => {
+    render(<RecipeCard recipe={recipe} />)
+
+    expect(screen.queryByText('Good fit')).not.toBeInTheDocument()
+  })
+
+  it('tags a good fit with text, not color alone', () => {
+    render(<RecipeCard recipe={recipe} fit={{ isFit: true }} />)
+
+    expect(screen.getByText('Good fit')).toBeInTheDocument()
+  })
+
+  it('gives the reason a recipe is not a good fit', () => {
+    render(
+      <RecipeCard
+        recipe={recipe}
+        fit={{ isFit: false, reason: 'Over 550 cal' }}
+      />
+    )
+
+    expect(screen.getByText('Over 550 cal')).toBeInTheDocument()
+    expect(screen.queryByText('Good fit')).not.toBeInTheDocument()
+  })
+})
+
+describe('RecipeGrid dividers', () => {
+  const recipes = ['a', 'b', 'c', 'd'].map((slug) => ({
+    ...recipe,
+    slug,
+    title: slug.toUpperCase(),
+  }))
+  const fits = {
+    a: { isFit: true },
+    b: { isFit: true },
+    c: { isFit: false, reason: 'Over 550 cal' },
+    d: { isFit: false, reason: 'Over 550 cal' },
+  }
+
+  it('labels the close matches and the rest', () => {
+    render(<RecipeGrid recipes={recipes} fits={fits} showDividers />)
+
+    expect(
+      screen.getByRole('heading', { name: '2 close matches' })
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', { name: 'Other recipes' })
+    ).toBeInTheDocument()
+  })
+
+  it('says "1 close match" for a single fit', () => {
+    render(
+      <RecipeGrid
+        recipes={recipes}
+        fits={{ ...fits, b: { isFit: false } }}
+        showDividers
+      />
+    )
+
+    expect(
+      screen.getByRole('heading', { name: '1 close match' })
+    ).toBeInTheDocument()
+  })
+
+  it('leaves the dividers out when every recipe or none fits', () => {
+    const all = Object.fromEntries(recipes.map(({ slug }) => [slug, { isFit: true }]))
+    const none = Object.fromEntries(recipes.map(({ slug }) => [slug, { isFit: false }]))
+
+    const { rerender } = render(
+      <RecipeGrid recipes={recipes} fits={all} showDividers />
+    )
+
+    expect(screen.queryAllByRole('heading', { level: 2 })).toHaveLength(0)
+
+    rerender(<RecipeGrid recipes={recipes} fits={none} showDividers />)
+
+    expect(screen.queryAllByRole('heading', { level: 2 })).toHaveLength(0)
+  })
+
+  it('leaves them out when another sort has scattered the fits', () => {
+    const scattered = [recipes[2]!, recipes[0]!, recipes[3]!, recipes[1]!]
+
+    render(<RecipeGrid recipes={scattered} fits={fits} showDividers />)
+
+    expect(screen.queryAllByRole('heading', { level: 2 })).toHaveLength(0)
+  })
+
+  it('leaves them out unless asked', () => {
+    render(<RecipeGrid recipes={recipes} fits={fits} />)
+
+    expect(screen.queryAllByRole('heading', { level: 2 })).toHaveLength(0)
+  })
+})

@@ -243,19 +243,77 @@ describe('macro targets', () => {
     card({ slug: 'low-carb', title: 'Low carb', ...shares(25, 40, 35) }),
   ]
 
-  it('keeps recipes within four points of a target', () => {
+  it('ranks by closeness to the targets and hides nothing', () => {
     const filters = parseRecipeFilters({ carbs: '45', fat: '25', protein: '30' })
 
-    expect(slugs(filterRecipes(macros, filters))).toEqual(['exact', 'close'])
+    expect(slugs(filterRecipes(macros, filters))).toEqual([
+      'exact',
+      'close',
+      'far',
+      'low-carb',
+    ])
   })
 
-  it('treats "or less" and "or more" as open-ended', () => {
+  it('puts the extreme first for "or less" and "or more"', () => {
     const atMost = parseRecipeFilters({ carbs: 'le35' })
     const atLeast = parseRecipeFilters({ carbs: 'ge45' })
 
-    // Best match is the default here, and "35 or less" puts the fewest carbs first
-    expect(slugs(filterRecipes(macros, atMost))).toEqual(['low-carb', 'far'])
-    expect(slugs(filterRecipes(macros, atLeast))).toEqual(['exact'])
+    expect(slugs(filterRecipes(macros, atMost))).toEqual([
+      'low-carb',
+      'far',
+      'close',
+      'exact',
+    ])
+    expect(slugs(filterRecipes(macros, atLeast))).toEqual([
+      'exact',
+      'close',
+      'far',
+      'low-carb',
+    ])
+  })
+
+  it('still hides recipes for the hard filters', () => {
+    const filters = parseRecipeFilters({ carbs: '45', maxCalories: '1' })
+
+    expect(filterRecipes(macros, filters)).toEqual([])
+  })
+})
+
+describe('goals', () => {
+  it('reads a goal from the URL and ignores an unknown one', () => {
+    expect(parseRecipeFilters({ goal: 'fat-loss' }).goal).toBe('fat-loss')
+    expect(parseRecipeFilters({ goal: 'nonsense' }).goal).toBeUndefined()
+  })
+
+  it('turns Best match on and makes it the default sort', () => {
+    expect(parseRecipeFilters({ goal: 'balanced' }).sort).toBe('match')
+  })
+
+  it('puts good fits ahead of closer recipes that break the calorie rule', () => {
+    const goalRecipes = [
+      // The exact ratio, but over the 550 calorie ceiling
+      card({ slug: 'heavy', title: 'Heavy', calories: 700, ...shares(40, 25, 35) }),
+      // Inside the ratio window and under the ceiling, if a little further away
+      card({ slug: 'light', title: 'Light', calories: 500, ...shares(42, 27, 33) }),
+    ]
+
+    expect(
+      slugs(filterRecipes(goalRecipes, parseRecipeFilters({ goal: 'fat-loss' })))
+    ).toEqual(['light', 'heavy'])
+  })
+
+  it('leans lighter for Recomp and heavier for a bulk when the ratio ties', () => {
+    const tied = [
+      card({ slug: 'light', title: 'Light', calories: 450, ...shares(45, 25, 30) }),
+      card({ slug: 'heavy', title: 'Heavy', calories: 700, ...shares(45, 25, 30) }),
+    ]
+
+    expect(
+      slugs(filterRecipes(tied, parseRecipeFilters({ goal: 'body-recomp' })))
+    ).toEqual(['light', 'heavy'])
+    expect(
+      slugs(filterRecipes(tied, parseRecipeFilters({ goal: 'full-bulk' })))
+    ).toEqual(['heavy', 'light'])
   })
 })
 

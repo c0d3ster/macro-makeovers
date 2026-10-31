@@ -3,8 +3,8 @@ import type { RecipeFilters, TagFacet } from './recipeFilters'
 import type { MacroTarget } from './recipeMacros'
 
 import { defaultSort, filterRecipes } from './recipeFilters'
-import { detectGoal } from './recipeGoals'
-import { formatMacroTarget, parseMacroTarget } from './recipeMacros'
+import { GOALS } from './recipeGoals'
+import { formatMacroTarget } from './recipeMacros'
 
 // Which tags belong to which picker. Tags are free text in the data, so the grouping lives
 // here until tags carry a kind of their own.
@@ -41,26 +41,28 @@ export const groupTags = (recipes: RecipeCard[]): TagGroups => {
   }
 }
 
-// Filter bar controls, named after their URL params
+// Filter bar controls that hide recipes, named after their URL params. The macro dropdowns
+// are not here: they rank and tag, so no choice of theirs can leave an empty list.
 export type FacetKey =
   | 'maxCalories'
   | 'maxMinutes'
   | 'maxCost'
   | 'maxDifficulty'
-  | 'carbs'
-  | 'fat'
-  | 'protein'
   | TagFacet
 
 export type UnavailableOptions = Partial<Record<FacetKey, string[]>>
 
-// The fixed choices of each control, in URL form
+// The fixed choices of each hiding control, in URL form
 export const FACET_VALUES = {
   maxCalories: ['400', '500', '550', '600', '700'],
   maxMinutes: ['30', '45', '60', '90'],
   maxCost: ['1', '2', '3', '4', '5'],
   maxDifficulty: ['1', '2', '3', '4', '5'],
-  carbs: ['le35', '35', '40', '45', 'ge45'],
+}
+
+// The macro dropdowns' choices: "35" is near 35, "le35" is 35 or less, "ge45" is 45 or more
+export const MACRO_VALUES = {
+  carbs: ['le35', '35', '40', '45', 'ge40', 'ge45'],
   fat: ['20', '25', '30', '35'],
   protein: ['25', '30', '35', '40'],
 }
@@ -75,12 +77,6 @@ const APPLIERS: Record<
   maxDifficulty: (filters, value) => ({
     ...filters,
     maxDifficulty: Number(value),
-  }),
-  carbs: (filters, value) => ({ ...filters, carbs: parseMacroTarget(value) }),
-  fat: (filters, value) => ({ ...filters, fat: parseMacroTarget(value) }),
-  protein: (filters, value) => ({
-    ...filters,
-    protein: parseMacroTarget(value),
   }),
   meat: (filters, value) => ({ ...filters, meat: value }),
   method: (filters, value) => ({ ...filters, method: value }),
@@ -107,9 +103,11 @@ export const toSearchParams = (filters: RecipeFilters): URLSearchParams => {
     ['maxMinutes', numberParam(filters.maxMinutes)],
     ['maxCost', numberParam(filters.maxCostTier)],
     ['maxDifficulty', numberParam(filters.maxDifficulty)],
-    ['carbs', targetParam(filters.carbs)],
-    ['fat', targetParam(filters.fat)],
-    ['protein', targetParam(filters.protein)],
+    ['goal', filters.goal],
+    // A goal supplies its own targets, so hand-set macros only travel without one
+    ['carbs', filters.goal ? undefined : targetParam(filters.carbs)],
+    ['fat', filters.goal ? undefined : targetParam(filters.fat)],
+    ['protein', filters.goal ? undefined : targetParam(filters.protein)],
     ['sort', filters.sort === defaultSort(filters) ? undefined : filters.sort],
     ['reverse', filters.reverse && filters.sort !== 'match' ? '1' : undefined],
   ]
@@ -147,14 +145,14 @@ const describeTarget = (name: string, target: MacroTarget): string => {
 // What is applied, in words, for the chips on a phone. A preset goal is one chip, and a
 // custom mix lists each selector on its own.
 export const describeFilters = (filters: RecipeFilters): FilterChip[] => {
-  const goal = detectGoal(filters)
+  const goal = GOALS.find((item) => item.id === filters.goal)
   const chips: FilterChip[] = []
   const add = (id: string, label: string, params: string[]): void => {
     chips.push({ id, label, params })
   }
 
-  if (goal && goal !== 'custom') {
-    add(goal.id, goal.label, ['carbs', 'fat', 'protein', 'maxCalories'])
+  if (goal) {
+    add(goal.id, goal.label, ['goal'])
   } else {
     if (filters.carbs) {
       add('carbs', describeTarget('Carbs', filters.carbs), ['carbs'])
@@ -163,11 +161,11 @@ export const describeFilters = (filters: RecipeFilters): FilterChip[] => {
     if (filters.protein) {
       add('protein', describeTarget('Protein', filters.protein), ['protein'])
     }
-    if (filters.maxCalories !== undefined) {
-      add('maxCalories', `Up to ${filters.maxCalories} cal`, ['maxCalories'])
-    }
   }
 
+  if (filters.maxCalories !== undefined) {
+    add('maxCalories', `Up to ${filters.maxCalories} cal`, ['maxCalories'])
+  }
   if (filters.maxMinutes !== undefined) {
     add('maxMinutes', `Up to ${filters.maxMinutes} min`, ['maxMinutes'])
   }

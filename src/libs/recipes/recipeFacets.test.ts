@@ -95,6 +95,18 @@ describe('search params', () => {
     ).toBe(false)
   })
 
+  it('keeps a goal in the URL and leaves hand-set macros out while one is picked', () => {
+    const filters = parseRecipeFilters({
+      goal: 'fat-loss',
+      carbs: '45',
+      fat: '25',
+    })
+
+    expect(Object.fromEntries(toSearchParams(filters))).toEqual({
+      goal: 'fat-loss',
+    })
+  })
+
   it('can drop params for a chip', () => {
     const filters = parseRecipeFilters({ q: 'chili', maxMinutes: '45' })
 
@@ -106,16 +118,10 @@ describe('search params', () => {
 
 describe('describeFilters', () => {
   it('shows a preset goal as one chip', () => {
-    const chips = describeFilters(
-      parseRecipeFilters({ carbs: '45', fat: '25', protein: '30' })
-    )
+    const chips = describeFilters(parseRecipeFilters({ goal: 'body-recomp' }))
 
     expect(chips).toEqual([
-      {
-        id: 'body-recomp',
-        label: 'Body Recomp',
-        params: ['carbs', 'fat', 'protein', 'maxCalories'],
-      },
+      { id: 'body-recomp', label: 'Body Recomp', params: ['goal'] },
     ])
   })
 
@@ -172,6 +178,19 @@ describe('findUnavailableOptions', () => {
 
     // 30 matches nothing for chicken, but it is the selected option so it stays pickable
     expect(unavailable.maxMinutes).toEqual(['45', '60'])
+  })
+
+  it('leaves the macro dropdowns out, since they rank instead of hiding', () => {
+    const unavailable = findUnavailableOptions(
+      recipes,
+      parseRecipeFilters({ carbs: '40' }),
+      new Set(),
+      groups
+    )
+
+    expect(Object.keys(unavailable)).not.toContain('carbs')
+    expect(Object.keys(unavailable)).not.toContain('fat')
+    expect(Object.keys(unavailable)).not.toContain('protein')
   })
 
   it('flags nothing for a group no recipe has tags in', () => {
