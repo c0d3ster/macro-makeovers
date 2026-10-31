@@ -122,16 +122,26 @@ type FiltersToggleProps = {
   isOpen: boolean
   controls: string
   onClick: () => void
+  // Display for the wrapper, which decides where the button shows
   className: string
+  // Which side the button stays on while the reserved space around it is empty
+  alignClassName: string
 }
 
-const FiltersToggle = ({
+type FiltersButtonProps = Omit<FiltersToggleProps, 'className' | 'alignClassName'> & {
+  className?: string
+  // An invisible copy that only holds the space of the widest state
+  isGhost?: boolean
+}
+
+const FiltersButton = ({
   count,
   isOpen,
   controls,
   onClick,
-  className,
-}: FiltersToggleProps): ReactElement => (
+  className = '',
+  isGhost = false,
+}: FiltersButtonProps): ReactElement => (
   <Button
     type='button'
     size='sm'
@@ -139,20 +149,40 @@ const FiltersToggle = ({
     aria-label={count > 0 ? `Filters, ${count} active` : 'Filters'}
     aria-expanded={isOpen}
     aria-controls={controls}
+    aria-hidden={isGhost}
+    tabIndex={isGhost ? -1 : undefined}
     onClick={onClick}
     className={`items-center gap-2 ${className}`}
   >
     <FilterIcon />
     <span>Filters</span>
-    {/* Always laid out, and only hidden at zero, so picking a filter never shifts the row */}
-    <span
-      className={`min-w-5 rounded-full bg-primary px-1.5 text-center text-xs text-on-primary ${
-        count > 0 ? '' : 'invisible'
-      }`}
-    >
-      {count}
-    </span>
+    {count > 0 && (
+      <span className='min-w-5 rounded-full bg-primary px-1.5 text-center text-xs text-on-primary'>
+        {count}
+      </span>
+    )}
   </Button>
+)
+
+// The button is only as wide as it needs to be, but it sits in a cell sized for its widest
+// state, so the badge growing into empty space never pushes the controls beside it.
+const FiltersToggle = ({
+  className,
+  alignClassName,
+  ...button
+}: FiltersToggleProps): ReactElement => (
+  <span className={`inline-grid ${className}`}>
+    <FiltersButton
+      {...button}
+      count={88}
+      className='pointer-events-none invisible col-start-1 row-start-1'
+      isGhost
+    />
+    <FiltersButton
+      {...button}
+      className={`col-start-1 row-start-1 ${alignClassName}`}
+    />
+  </span>
 )
 
 // Search and the goal sit beside the title. Time, cost, difficulty and the three macro shares
@@ -339,6 +369,7 @@ export const FilterBar = ({
             controls={SHEET_ID}
             onClick={() => setSheetOpen(true)}
             className='lg:hidden'
+            alignClassName='justify-self-end'
           />
         </div>
 
@@ -409,7 +440,8 @@ export const FilterBar = ({
                 isOpen={moreOpen}
                 controls={MORE_ID}
                 onClick={() => setMoreOpen(!moreOpen)}
-                className='hidden lg:inline-flex'
+                className='hidden lg:inline-grid'
+                alignClassName='justify-self-start'
               />
               <SymbolScale
                 label='Time'
