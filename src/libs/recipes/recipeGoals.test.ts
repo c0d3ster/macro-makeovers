@@ -1,0 +1,44 @@
+import { describe, expect, it } from 'vitest'
+
+import type { Goal } from './recipeGoals'
+
+import { detectGoal, GOALS } from './recipeGoals'
+
+const goal = (id: string): Goal => {
+  const found = GOALS.find((item) => item.id === id)
+  if (!found) throw new Error(`No goal ${id}`)
+  return found
+}
+
+describe('detectGoal', () => {
+  it('finds nothing when no goal field is set', () => {
+    expect(detectGoal({})).toBeUndefined()
+  })
+
+  it('recognizes every preset from its own fields', () => {
+    GOALS.forEach((preset) => {
+      expect(detectGoal(preset)).toBe(preset)
+    })
+  })
+
+  it('reads as custom once a selector is edited', () => {
+    const recomp = goal('recomp')
+
+    expect(detectGoal({ ...recomp, fat: { kind: 'near', value: 30 } })).toBe(
+      'custom'
+    )
+    expect(detectGoal({ ...recomp, maxCalories: 550 })).toBe('custom')
+  })
+
+  it('tells Recomp and Fat loss apart by the calorie cap and protein', () => {
+    expect(detectGoal(goal('fat-loss'))).toBe(goal('fat-loss'))
+    expect(detectGoal(goal('recomp'))).toBe(goal('recomp'))
+  })
+
+  it('treats a lone macro target as custom unless it is a carb cycling day', () => {
+    expect(detectGoal({ carbs: { kind: 'near', value: 40 } })).toBe('custom')
+    expect(detectGoal({ carbs: { kind: 'atMost', value: 35 } })).toBe(
+      goal('low-carb-day')
+    )
+  })
+})

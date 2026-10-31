@@ -6,13 +6,20 @@ import { RecipeCard } from './RecipeCard'
 
 type RecipeGridProps = {
   recipes: RecipeCardData[]
+  // True when the list may be empty because of filters, not because there are no recipes
+  isFiltered?: boolean
 }
 
-export const RecipeGrid = ({ recipes }: RecipeGridProps): ReactElement => {
+export const RecipeGrid = ({
+  recipes,
+  isFiltered = false,
+}: RecipeGridProps): ReactElement => {
   if (recipes.length === 0) {
     return (
       <p className='rounded-xl bg-surface p-8 text-center text-text-muted'>
-        No recipes yet. Check back soon.
+        {isFiltered
+          ? 'No recipes match those filters. Try loosening one.'
+          : 'No recipes yet. Check back soon.'}
       </p>
     )
   }

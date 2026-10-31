@@ -13,7 +13,7 @@ import {
   RecipeImage,
 } from '@/components/atoms'
 import { MacroBar } from '@/components/molecules'
-import { toMacroRatios } from '@/libs/recipes'
+import { toMacroRatios, toTagPath } from '@/libs/recipes'
 import { formatMinutes } from '@/utils/formatMinutes'
 
 type RecipeHeroProps = {
@@ -171,7 +171,12 @@ export const RecipeHero = ({ recipe }: RecipeHeroProps): ReactElement => {
             <ul className='flex flex-wrap gap-1.5 md:mt-auto'>
               {tags.map((tag) => (
                 <li key={tag}>
-                  <Badge>{tag}</Badge>
+                  <Link
+                    href={toTagPath(tag)}
+                    className='rounded-full focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none'
+                  >
+                    <Badge>{tag}</Badge>
+                  </Link>
                 </li>
               ))}
             </ul>
