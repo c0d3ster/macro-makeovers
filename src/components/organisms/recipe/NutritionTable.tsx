@@ -18,7 +18,7 @@ type NutritionTableProps = {
 const RATIO_HEADER = 'Ratio C/F/P'
 const HEADERS = ['Calories', 'Carbs', 'Fat', 'Protein', RATIO_HEADER]
 
-const cell = 'px-2 py-2 sm:px-3'
+const cell = 'px-1 py-2 sm:px-3'
 const ratioCell = `${cell} whitespace-nowrap`
 
 const formatNumber = (value: number): string => value.toLocaleString('en-US')
@@ -50,7 +50,7 @@ export const NutritionTable = ({
         </div>
       ))}
 
-      <div className='overflow-hidden rounded-lg border border-text-muted/30'>
+      <div className='overflow-x-auto rounded-lg border border-text-muted/30'>
         <table className='w-full text-left text-xs sm:text-sm'>
           <thead className='bg-surface text-text'>
             <tr>
