@@ -18,7 +18,9 @@ type NutritionTableProps = {
 const RATIO_HEADER = 'Ratio C/F/P'
 const HEADERS = ['Calories', 'Carbs', 'Fat', 'Protein', RATIO_HEADER]
 
-const cell = 'px-2 py-2 sm:px-3'
+// Phones step the type down so the table fits without scrolling: 10px at 350px, 11px from
+// 375px, 12px from 395px. Under 350px the padding tightens too.
+const cell = 'px-1 py-2 min-[350px]:px-2 sm:px-3'
 const ratioCell = `${cell} whitespace-nowrap`
 
 const formatNumber = (value: number): string => value.toLocaleString('en-US')
@@ -51,7 +53,7 @@ export const NutritionTable = ({
       ))}
 
       <div className='overflow-hidden rounded-lg border border-text-muted/30 bg-background'>
-        <table className='w-full text-left text-xs sm:text-sm'>
+        <table className='w-full text-left text-[10px] min-[375px]:text-[11px] min-[395px]:text-xs sm:text-sm'>
           <thead className='bg-surface text-text'>
             <tr>
               <td />

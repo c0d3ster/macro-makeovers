@@ -61,13 +61,13 @@ const RecipePage = async ({
 
   return (
     <LandingPageTemplate>
-      <main className='mx-auto flex max-w-6xl flex-col gap-12 px-4 py-10 sm:px-6 lg:px-8'>
+      <main className='mx-auto flex max-w-6xl flex-col gap-12 px-3 py-10 sm:px-6 lg:px-8'>
         <RecipeHero recipe={recipe} />
         {/* Nutrition and steps share the left column. Ingredients sit on the right, level with
             nutrition and sticky while the steps scroll. On a phone they stack in cooking order:
             nutrition, ingredients, steps. The right column is the home for later extras
             (favorite, shopping list, reviews). */}
-        <div className='grid gap-x-10 gap-y-12 lg:grid-cols-[minmax(0,1fr)_24rem]'>
+        <div className='grid grid-cols-1 gap-x-10 gap-y-12 lg:grid-cols-[minmax(0,1fr)_24rem]'>
           <div className='lg:col-start-1 lg:row-start-1'>
             <NutritionTable
               builds={recipe.nutrition}
