@@ -48,11 +48,11 @@ export const RecipeHero = ({ recipe }: RecipeHeroProps): ReactElement => {
         &larr; All recipes
       </Link>
 
-      <div className='grid gap-x-10 gap-y-5 md:grid-cols-[minmax(0,1fr)_20rem] lg:grid-cols-[minmax(0,1fr)_24rem]'>
+      <div className='grid gap-y-5 md:grid-cols-[minmax(0,1fr)_21rem] md:gap-x-6 lg:grid-cols-[minmax(0,1fr)_24rem] lg:gap-x-10'>
         <h1 className='text-4xl font-bold text-text md:col-start-1 md:row-start-1'>
           {title}
         </h1>
-        <dl className='flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-text-muted md:col-start-2 md:row-start-1 md:justify-end'>
+        <dl className='flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-text-muted md:col-start-2 md:row-start-1 md:justify-end md:gap-x-3 lg:gap-x-6'>
           <div className='flex items-center gap-2'>
             <dt>Total</dt>
             <dd className='text-text'>{formatMinutes(totalMinutes)}</dd>

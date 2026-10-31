@@ -67,7 +67,7 @@ const RecipePage = async ({
             nutrition and sticky while the steps scroll. On a phone they stack in cooking order:
             nutrition, ingredients, steps. The right column is the home for later extras
             (favorite, shopping list, reviews). */}
-        <div className='grid grid-cols-1 gap-y-12 md:grid-cols-[minmax(0,1fr)_18rem] md:gap-x-6 lg:grid-cols-[minmax(0,1fr)_24rem] lg:gap-x-10'>
+        <div className='grid grid-cols-1 gap-y-12 md:grid-cols-[minmax(0,1fr)_21rem] md:gap-x-6 lg:grid-cols-[minmax(0,1fr)_24rem] lg:gap-x-10'>
           <div className='md:col-start-1 md:row-start-1'>
             <NutritionTable
               builds={recipe.nutrition}
