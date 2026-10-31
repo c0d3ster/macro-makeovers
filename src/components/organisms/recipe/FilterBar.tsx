@@ -152,7 +152,9 @@ const FiltersButton = ({
     aria-hidden={isGhost}
     tabIndex={isGhost ? -1 : undefined}
     onClick={onClick}
-    className={`items-center gap-2 ${className}`}
+    // The Button atom is inline-block, and an SVG is block-level, so flex keeps the icon, label,
+    // and count on one line
+    className={`inline-flex items-center gap-2 ${className}`}
   >
     <FilterIcon />
     <span>Filters</span>
