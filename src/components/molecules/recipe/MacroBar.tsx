@@ -30,7 +30,11 @@ export const MacroBar = ({
   compact = false,
   reveal = false,
 }: MacroBarProps): ReactElement => (
-  <div className='flex gap-2' role='group' aria-label='Calories by macro'>
+  <div
+    className={`flex gap-2 ${reveal ? 'relative z-10' : ''}`}
+    role='group'
+    aria-label='Calories by macro'
+  >
     {macros.map(({ label, tone, percent, grams, fromPercent }) => (
       <div
         key={label}
