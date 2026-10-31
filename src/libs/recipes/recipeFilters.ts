@@ -194,9 +194,9 @@ const SORTERS: Record<
   calories: (a, b) => a.calories - b.calories,
   time: (a, b) => a.totalMinutes - b.totalMinutes,
   cost: (a, b) => a.costTier - b.costTier,
-  // Macro sorts use the same rounded shares as the cards. Carbs and fat run lowest first, and
-  // protein runs highest first, which is what each is most often sorted for.
-  carbs: (a, b) => recipeMacroPercents(a).carbs - recipeMacroPercents(b).carbs,
+  // Macro sorts use the same rounded shares as the cards. Fat runs lowest first, and carbs and
+  // protein run highest first, which is what each is most often sorted for.
+  carbs: (a, b) => recipeMacroPercents(b).carbs - recipeMacroPercents(a).carbs,
   fat: (a, b) => recipeMacroPercents(a).fat - recipeMacroPercents(b).fat,
   protein: (a, b) =>
     recipeMacroPercents(b).protein - recipeMacroPercents(a).protein,

@@ -44,25 +44,13 @@ describe('detectGoal', () => {
 })
 
 describe('goal table', () => {
-  it('names the six goals in the order the dropdown lists them', () => {
+  it('names the five goals in the order the dropdown lists them', () => {
     expect(GOALS.map(({ label }) => label)).toEqual([
       'Fat Loss',
       'Body Recomp',
       'Clean Bulk',
-      'Full Bulk',
       'Carb Cycling Low',
       'Carb Cycling High',
     ])
-  })
-
-  it('gives Full Bulk a 50 / 25 / 25 split and a 500 calorie surplus note', () => {
-    const full = goal('full-bulk')
-
-    expect([full.carbs, full.fat, full.protein]).toEqual([
-      { kind: 'near', value: 50 },
-      { kind: 'near', value: 25 },
-      { kind: 'near', value: 25 },
-    ])
-    expect(full.note).toMatch(/500 calorie surplus/)
   })
 })

@@ -6,7 +6,6 @@ type GoalId =
   | 'fat-loss'
   | 'body-recomp'
   | 'clean-bulk'
-  | 'full-bulk'
   | 'carb-cycling-low'
   | 'carb-cycling-high'
 
@@ -58,15 +57,6 @@ export const GOALS: Goal[] = [
     carbs: near(40),
     fat: near(30),
     protein: near(30),
-    calories: 'desc',
-  },
-  {
-    id: 'full-bulk',
-    label: 'Full Bulk',
-    note: 'Up to a 500 calorie surplus. Meals near 50 / 25 / 25.',
-    carbs: near(50),
-    fat: near(25),
-    protein: near(25),
     calories: 'desc',
   },
   {

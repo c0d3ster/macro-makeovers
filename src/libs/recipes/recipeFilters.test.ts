@@ -324,14 +324,14 @@ describe('macro sorts and reversing', () => {
   const sorted = (params: Record<string, string>): string[] =>
     slugs(filterRecipes(macros, parseRecipeFilters(params)))
 
-  it('runs carbs and fat lowest first, and protein highest first', () => {
-    expect(sorted({ sort: 'carbs' })).toEqual(['c', 'b', 'a'])
+  it('runs fat lowest first, and carbs and protein highest first', () => {
+    expect(sorted({ sort: 'carbs' })).toEqual(['a', 'b', 'c'])
     expect(sorted({ sort: 'fat' })).toEqual(['a', 'b', 'c'])
     expect(sorted({ sort: 'protein' })).toEqual(['b', 'a', 'c'])
   })
 
   it('flips the direction with reverse', () => {
-    expect(sorted({ sort: 'carbs', reverse: '1' })).toEqual(['a', 'b', 'c'])
+    expect(sorted({ sort: 'carbs', reverse: '1' })).toEqual(['c', 'b', 'a'])
     expect(sorted({ sort: 'protein', reverse: '1' })).toEqual(['a', 'c', 'b'])
     expect(sorted({ sort: 'title', reverse: '1' })).toEqual(['c', 'b', 'a'])
   })

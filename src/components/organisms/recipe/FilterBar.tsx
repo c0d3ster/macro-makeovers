@@ -107,7 +107,7 @@ const SORT_LABELS = {
   calories: ['Fewest calories', 'Most calories'],
   time: ['Quickest', 'Slowest'],
   cost: ['Cheapest', 'Priciest'],
-  carbs: ['Lowest carbs', 'Highest carbs'],
+  carbs: ['Highest carbs', 'Lowest carbs'],
   fat: ['Lowest fat', 'Highest fat'],
   protein: ['Highest protein', 'Lowest protein'],
 } as const
@@ -361,7 +361,7 @@ export const FilterBar = ({
         aria-label='Search and filter recipes'
         aria-busy={isPending}
         onSubmit={submitSearch}
-        className='mb-8 grid grid-cols-1 gap-y-3 lg:grid-cols-[minmax(0,1fr)_minmax(0,256px)_minmax(0,216px)] lg:gap-x-2'
+        className='mb-8 grid grid-cols-1 gap-y-3 lg:grid-cols-[minmax(0,1fr)_minmax(0,236px)_minmax(0,236px)] lg:gap-x-2'
       >
         <div className='lg:col-start-1 lg:row-span-3 lg:row-start-1 lg:pr-6'>
           {intro}
