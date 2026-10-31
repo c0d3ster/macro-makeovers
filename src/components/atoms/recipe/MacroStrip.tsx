@@ -19,7 +19,8 @@ const TONES: Record<MacroTone, string> = {
   protein: 'bg-protein',
 }
 
-// A slim, faded bar that only shows the proportions. The numbers live elsewhere.
+// A slim, faded bar that only shows the proportions. The numbers live elsewhere. The gap and
+// minimum widths match the MacroBar pills so its segments line up with theirs edge to edge.
 export const MacroStrip = ({
   segments,
   label,
@@ -29,12 +30,12 @@ export const MacroStrip = ({
   <div
     role='img'
     aria-label={label}
-    className={`flex w-full gap-0.5 opacity-20 ${large ? 'h-1.5' : 'h-1'} ${reveal ? 'macro-reveal-strip' : ''}`}
+    className={`flex w-full gap-2 opacity-20 ${large ? 'h-1.5' : 'h-1'} ${reveal ? 'macro-reveal-strip' : ''}`}
   >
     {segments.map(({ tone, percent }) => (
       <div
         key={tone}
-        className={`rounded-full ${TONES[tone]}`}
+        className={`rounded-full ${large ? 'min-w-22' : 'min-w-14'} ${TONES[tone]}`}
         style={{ flexGrow: percent, flexBasis: 0 }}
       />
     ))}
