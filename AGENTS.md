@@ -27,4 +27,5 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - Commits use Conventional Commits. Keep body lines under 100 characters (commitlint rejects longer ones) and
   keep messages succinct.
 - Commit and push at reasonable checkpoints, not after every change.
+- Bring a branch up to date with `main` by rebasing, never by merging `main` in. Force push only your own branch, with `--force-with-lease`.
 - Never commit `supabase/.env` or any secret.
