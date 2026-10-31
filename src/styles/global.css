@@ -129,12 +129,12 @@
 
   .macro-reveal-strip {
     animation:
-      macro-drop-in 1000ms cubic-bezier(0.65, 0, 0.35, 1) backwards,
+      macro-drop-in 1000ms cubic-bezier(0.65, 0, 0.35, 1) 400ms backwards,
       macro-fade-in 1000ms ease-out backwards;
   }
 
   .macro-count-up {
-    animation: macro-count 1000ms cubic-bezier(0.65, 0, 0.35, 1) backwards;
+    animation: macro-count 1400ms cubic-bezier(0.65, 0, 0.35, 1) backwards;
   }
 
   .macro-reveal-late {
