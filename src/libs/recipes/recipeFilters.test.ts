@@ -315,6 +315,44 @@ describe('Best match', () => {
   })
 })
 
+describe('macro sorts and reversing', () => {
+  const macros = [
+    card({ slug: 'a', title: 'A', ...shares(50, 20, 30) }),
+    card({ slug: 'b', title: 'B', ...shares(40, 25, 35) }),
+    card({ slug: 'c', title: 'C', ...shares(30, 40, 30) }),
+  ]
+  const sorted = (params: Record<string, string>): string[] =>
+    slugs(filterRecipes(macros, parseRecipeFilters(params)))
+
+  it('runs carbs and fat lowest first, and protein highest first', () => {
+    expect(sorted({ sort: 'carbs' })).toEqual(['c', 'b', 'a'])
+    expect(sorted({ sort: 'fat' })).toEqual(['a', 'b', 'c'])
+    expect(sorted({ sort: 'protein' })).toEqual(['b', 'a', 'c'])
+  })
+
+  it('flips the direction with reverse', () => {
+    expect(sorted({ sort: 'carbs', reverse: '1' })).toEqual(['a', 'b', 'c'])
+    expect(sorted({ sort: 'protein', reverse: '1' })).toEqual(['a', 'c', 'b'])
+    expect(sorted({ sort: 'title', reverse: '1' })).toEqual(['c', 'b', 'a'])
+  })
+
+  it('keeps ties in A to Z order even when reversed', () => {
+    expect(sorted({ sort: 'protein', reverse: '1' }).slice(0, 2)).toEqual([
+      'a',
+      'c',
+    ])
+  })
+
+  it('reads reverse only from "1"', () => {
+    expect(parseRecipeFilters({ reverse: '1' }).reverse).toBe(true)
+    expect(parseRecipeFilters({ reverse: 'yes' }).reverse).toBeUndefined()
+  })
+
+  it('does not count the direction as a filter', () => {
+    expect(countActiveFilters(parseRecipeFilters({ reverse: '1' }))).toBe(0)
+  })
+})
+
 describe('collectTags', () => {
   it('returns each tag once, A to Z', () => {
     expect(collectTags(recipes)).toEqual([

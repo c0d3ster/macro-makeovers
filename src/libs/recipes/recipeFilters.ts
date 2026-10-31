@@ -9,7 +9,16 @@ import {
   recipeMacroPercents,
 } from './recipeMacros'
 
-const RECIPE_SORTS = ['match', 'title', 'calories', 'time', 'cost'] as const
+const RECIPE_SORTS = [
+  'match',
+  'title',
+  'calories',
+  'time',
+  'cost',
+  'carbs',
+  'fat',
+  'protein',
+] as const
 
 // Tag groups with their own picker. Each holds one tag name per recipe filter.
 export const TAG_FACETS = ['meat', 'method', 'dish', 'goodFor'] as const
@@ -34,9 +43,11 @@ export type RecipeFilters = {
   fat?: MacroTarget
   protein?: MacroTarget
   sort: RecipeSort
+  // Flips the sort's natural direction. Best match has no direction to flip.
+  reverse?: boolean
 }
 
-type FilterFields = Omit<RecipeFilters, 'sort'>
+type FilterFields = Omit<RecipeFilters, 'sort' | 'reverse'>
 type SearchParams = Record<string, string | string[] | undefined>
 
 const COST_TIER_RANGE = { min: 1, max: 5 }
@@ -97,12 +108,17 @@ export const parseRecipeFilters = (params: SearchParams): RecipeFilters => {
     protein: parseMacroTarget(firstValue(params.protein)),
   }
 
-  return { ...filters, sort: resolveSort(filters, firstValue(params.sort)) }
+  return {
+    ...filters,
+    sort: resolveSort(filters, firstValue(params.sort)),
+    reverse: firstValue(params.reverse) === '1' ? true : undefined,
+  }
 }
 
 // Filters that are set, not counting the sort. Drives the "clear" link and result copy.
 export const countActiveFilters = ({
   sort: _sort,
+  reverse: _reverse,
   ...filters
 }: RecipeFilters): number =>
   Object.values(filters).filter((value) => value !== undefined).length
@@ -110,6 +126,7 @@ export const countActiveFilters = ({
 // What the filter bar's badge counts: its own controls, not the search text or a tag page's tag
 export const countBarFilters = ({
   sort: _sort,
+  reverse: _reverse,
   q: _q,
   tag: _tag,
   ...filters
@@ -177,6 +194,12 @@ const SORTERS: Record<
   calories: (a, b) => a.calories - b.calories,
   time: (a, b) => a.totalMinutes - b.totalMinutes,
   cost: (a, b) => a.costTier - b.costTier,
+  // Macro sorts use the same rounded shares as the cards. Carbs and fat run lowest first, and
+  // protein runs highest first, which is what each is most often sorted for.
+  carbs: (a, b) => recipeMacroPercents(a).carbs - recipeMacroPercents(b).carbs,
+  fat: (a, b) => recipeMacroPercents(a).fat - recipeMacroPercents(b).fat,
+  protein: (a, b) =>
+    recipeMacroPercents(b).protein - recipeMacroPercents(a).protein,
 }
 
 // 3 for a title hit, 2 for tags, 1 for the summary, 0 for a recipe that only matched through
@@ -235,7 +258,8 @@ const comparatorFor = (
   if (sort === 'match') return bestMatchComparator(filters)
 
   // Ties fall back to A to Z so the order is stable between visits
-  return (a, b) => SORTERS[sort](a, b) || SORTERS.title(a, b)
+  const direction = filters.reverse ? -1 : 1
+  return (a, b) => direction * SORTERS[sort](a, b) || SORTERS.title(a, b)
 }
 
 // ingredientMatches holds slugs whose ingredients matched the search text, so "salmon" finds

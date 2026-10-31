@@ -48,6 +48,8 @@ type FilterBarProps = {
 type Draft = {
   q: string
   sort: string
+  // "1" flips the sort's natural direction
+  reverse: string
   maxCalories: string
   maxMinutes: string
   maxCost: string
@@ -73,6 +75,7 @@ const toDraft = (filters: RecipeFilters): Draft => {
   return {
     q: get('q'),
     sort: get('sort'),
+    reverse: get('reverse'),
     maxCalories: get('maxCalories'),
     maxMinutes: get('maxMinutes'),
     maxCost: get('maxCost'),
@@ -97,10 +100,27 @@ const macroLabel = (value: string): string => {
   return `~${value}%`
 }
 
-const SORT_OPTIONS: FilterOption[] = [
-  { value: 'calories', label: 'Fewest calories' },
-  { value: 'time', label: 'Quickest' },
-  { value: 'cost', label: 'Cheapest' },
+// [natural direction, reversed]. The labels name the direction, so the dropdown never says
+// "A to Z" while the list runs the other way.
+const SORT_LABELS = {
+  title: ['A to Z', 'Z to A'],
+  calories: ['Fewest calories', 'Most calories'],
+  time: ['Quickest', 'Slowest'],
+  cost: ['Cheapest', 'Priciest'],
+  carbs: ['Carbs, lowest first', 'Carbs, highest first'],
+  fat: ['Fat, lowest first', 'Fat, highest first'],
+  protein: ['Protein, highest first', 'Protein, lowest first'],
+} as const
+
+type SortKey = keyof typeof SORT_LABELS
+
+const OTHER_SORTS: SortKey[] = [
+  'calories',
+  'time',
+  'cost',
+  'carbs',
+  'fat',
+  'protein',
 ]
 
 const FilterIcon = (): ReactElement => (
@@ -255,6 +275,7 @@ export const FilterBar = ({
     apply({
       ...draft,
       sort: '',
+      reverse: '',
       carbs: picked?.carbs ? formatMacroTarget(picked.carbs) : '',
       fat: picked?.fat ? formatMacroTarget(picked.fat) : '',
       protein: picked?.protein ? formatMacroTarget(picked.protein) : '',
@@ -303,13 +324,21 @@ export const FilterBar = ({
     new URLSearchParams(filters.q ? { q: filters.q } : {})
   )
 
-  const sortOptions: FilterOption[] = hasBestMatch(filters)
-    ? [
-        { value: '', label: 'Best match' },
-        { value: 'title', label: 'A to Z' },
-        ...SORT_OPTIONS,
-      ]
-    : [{ value: '', label: 'A to Z' }, ...SORT_OPTIONS]
+  const reversed = Boolean(filters.reverse)
+  const sortLabel = (key: SortKey): string => SORT_LABELS[key][reversed ? 1 : 0]
+  const sortOptions: FilterOption[] = [
+    // The empty value is the default: Best match when there is something to match
+    {
+      value: '',
+      label: hasBestMatch(filters) ? 'Best match' : sortLabel('title'),
+    },
+    ...(hasBestMatch(filters)
+      ? [{ value: 'title', label: sortLabel('title') }]
+      : []),
+    ...OTHER_SORTS.map((key) => ({ value: key, label: sortLabel(key) })),
+  ]
+  // Best match is an ordering by closeness, so it has no direction to flip
+  const canReverse = filters.sort !== 'match'
   const goalOptions: FilterOption[] = [
     ...GOALS.map(({ id, label }) => ({ value: id, label })),
     ...(goal === 'custom' ? [{ value: 'custom', label: 'Custom' }] : []),
@@ -354,16 +383,40 @@ export const FilterBar = ({
         </div>
 
         <div className='flex gap-2 lg:contents'>
-          <div className='min-w-0 flex-1 lg:col-start-2 lg:row-start-2'>
+          <div className='flex min-w-0 flex-1 items-center gap-1.5 lg:col-start-2 lg:row-start-2'>
             <FilterSelect
               label='Sort'
               inline
+              className='flex-1'
               name='sort'
               anyLabel={false}
               options={sortOptions}
               value={draft.sort}
-              onChange={(sort) => update({ sort })}
+              onChange={(sort) => update({ sort, reverse: '' })}
             />
+            <button
+              type='button'
+              aria-label='Reverse sort order'
+              aria-pressed={reversed}
+              disabled={!canReverse}
+              onClick={() => update({ reverse: reversed ? '' : '1' })}
+              className={`flex size-9 shrink-0 cursor-pointer items-center justify-center rounded-lg border border-text-muted/30 text-text-muted hover:border-primary hover:text-text focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none ${
+                canReverse ? '' : 'invisible'
+              }`}
+            >
+              <svg
+                aria-hidden='true'
+                viewBox='0 0 16 16'
+                className={`size-4 transition-transform ${reversed ? 'rotate-180' : ''}`}
+                fill='none'
+                stroke='currentColor'
+                strokeWidth='2'
+                strokeLinecap='round'
+                strokeLinejoin='round'
+              >
+                <path d='M8 3v10M4 9l4 4 4-4' />
+              </svg>
+            </button>
           </div>
           <FiltersToggle
             count={barCount}

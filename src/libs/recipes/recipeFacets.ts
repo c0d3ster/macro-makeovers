@@ -111,6 +111,7 @@ export const toSearchParams = (filters: RecipeFilters): URLSearchParams => {
     ['fat', targetParam(filters.fat)],
     ['protein', targetParam(filters.protein)],
     ['sort', filters.sort === defaultSort(filters) ? undefined : filters.sort],
+    ['reverse', filters.reverse && filters.sort !== 'match' ? '1' : undefined],
   ]
 
   return new URLSearchParams(

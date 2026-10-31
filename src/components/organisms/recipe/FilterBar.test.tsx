@@ -79,6 +79,61 @@ describe('FilterBar', () => {
     )
   })
 
+  it('lists the macro sorts after the others, carbs then fat then protein', () => {
+    renderBar()
+
+    const labels = within(select(/sort/i))
+      .getAllByRole('option')
+      .map((option) => option.textContent)
+
+    expect(labels).toEqual([
+      'A to Z',
+      'Fewest calories',
+      'Quickest',
+      'Cheapest',
+      'Carbs, lowest first',
+      'Fat, lowest first',
+      'Protein, highest first',
+    ])
+  })
+
+  it('reverses the sort and names the new direction', () => {
+    renderBar({ sort: 'calories' })
+
+    fireEvent.click(screen.getByRole('button', { name: 'Reverse sort order' }))
+
+    expect(push).toHaveBeenCalledWith('/?sort=calories&reverse=1', {
+      scroll: false,
+    })
+  })
+
+  it('shows reversed labels when the list is reversed', () => {
+    renderBar({ sort: 'time', reverse: '1' })
+
+    expect(
+      within(select(/sort/i)).getByRole('option', { name: 'Slowest' })
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('button', { name: 'Reverse sort order' })
+    ).toHaveAttribute('aria-pressed', 'true')
+  })
+
+  it('has no direction to reverse for Best match', () => {
+    renderBar({ q: 'chili' })
+
+    expect(
+      screen.getByRole('button', { name: 'Reverse sort order' })
+    ).toBeDisabled()
+  })
+
+  it('goes back to the natural direction when the sort changes', () => {
+    renderBar({ sort: 'calories', reverse: '1' })
+
+    fireEvent.change(select(/sort/i), { target: { value: 'time' } })
+
+    expect(push).toHaveBeenCalledWith('/?sort=time', { scroll: false })
+  })
+
   it('fills in the selectors when a goal is picked', () => {
     renderBar()
 

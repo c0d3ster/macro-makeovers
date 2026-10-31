@@ -82,6 +82,19 @@ describe('search params', () => {
     ).toBe('title')
   })
 
+  it('keeps a reversed direction in the URL, except for Best match', () => {
+    expect(
+      toSearchParams(
+        parseRecipeFilters({ sort: 'calories', reverse: '1' })
+      ).get('reverse')
+    ).toBe('1')
+    expect(
+      toSearchParams(parseRecipeFilters({ q: 'chili', reverse: '1' })).has(
+        'reverse'
+      )
+    ).toBe(false)
+  })
+
   it('can drop params for a chip', () => {
     const filters = parseRecipeFilters({ q: 'chili', maxMinutes: '45' })
 
