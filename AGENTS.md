@@ -23,8 +23,8 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 ### Checks and commits
 
-- Do not run `pnpm check:types`, `pnpm lint`, or `pnpm test` by hand before committing. The lefthook pre-commit hook runs lint, the type check, and the tests, and commitlint checks the message. Run one on its own only to debug a specific failure.
-- The hook does not run `pnpm check:deps` (knip). Run it once before opening a PR.
+- Do not run `pnpm check:types`, `pnpm lint`, or `pnpm test` by hand before committing. The lefthook pre-commit hook runs lint and the type check, commitlint checks the message, and the PR pipeline runs the tests. Run one on its own only to debug a specific failure.
+- Neither the hook nor the pipeline is a reason to skip `pnpm check:deps` (knip). Run it once before opening a PR.
 - Commits use Conventional Commits. Keep body lines under 100 characters (commitlint rejects longer ones) and
   keep messages succinct.
 - Commit and push at meaningful checkpoints, such as a finished feature or fix. Batch related edits into one commit instead of committing each small tweak while iterating.
