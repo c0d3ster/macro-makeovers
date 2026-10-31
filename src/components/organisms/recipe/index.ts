@@ -1,3 +1,4 @@
+export * from './FilterBar'
 export * from './NutritionTable'
 export * from './RecipeCard'
 export * from './RecipeGrid'

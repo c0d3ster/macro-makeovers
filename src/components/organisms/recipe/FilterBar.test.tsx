@@ -1,0 +1,269 @@
+import { fireEvent, render, screen, within } from '@testing-library/react'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
+
+import type { TagGroups, UnavailableOptions } from '@/libs/recipes'
+
+import { parseRecipeFilters } from '@/libs/recipes'
+
+import { FilterBar } from './FilterBar'
+
+const push = vi.fn()
+
+vi.mock('next/navigation', () => ({ useRouter: () => ({ push }) }))
+
+const tagGroups: TagGroups = {
+  meat: ['beef', 'chicken'],
+  method: ['oven'],
+  dish: [],
+  goodFor: ['batch friendly'],
+}
+
+const renderBar = (
+  params: Record<string, string> = {},
+  unavailable: UnavailableOptions = {}
+): void => {
+  render(
+    <FilterBar
+      filters={parseRecipeFilters(params)}
+      tagGroups={tagGroups}
+      unavailable={unavailable}
+      intro={<h1>Macro Makeovers</h1>}
+    />
+  )
+}
+
+const select = (name: RegExp): HTMLSelectElement =>
+  screen.getByRole('combobox', { name })
+
+describe('FilterBar', () => {
+  beforeEach(() => {
+    push.mockClear()
+  })
+
+  it('shows the title beside the search', () => {
+    renderBar()
+
+    expect(
+      screen.getByRole('heading', { name: 'Macro Makeovers' })
+    ).toBeInTheDocument()
+    expect(screen.getByRole('searchbox')).toBeInTheDocument()
+  })
+
+  it('submits the search text', () => {
+    renderBar()
+
+    fireEvent.change(screen.getByRole('searchbox'), {
+      target: { value: ' chili ' },
+    })
+    fireEvent.submit(screen.getByRole('search'))
+
+    expect(push).toHaveBeenCalledWith('/?q=chili', { scroll: false })
+  })
+
+  it('offers A to Z first when there is nothing to match', () => {
+    renderBar()
+
+    const options = within(select(/sort/i)).getAllByRole('option')
+
+    expect(options[0]).toHaveTextContent('A to Z')
+    expect(options.map((option) => option.textContent)).not.toContain(
+      'Best match'
+    )
+  })
+
+  it('offers Best match first once there is a goal or search text', () => {
+    renderBar({ carbs: '45', fat: '25', protein: '30' })
+
+    expect(within(select(/sort/i)).getAllByRole('option')[0]).toHaveTextContent(
+      'Best match'
+    )
+  })
+
+  it('lists the macro sorts after the others, carbs then fat then protein', () => {
+    renderBar()
+
+    const labels = within(select(/sort/i))
+      .getAllByRole('option')
+      .map((option) => option.textContent)
+
+    expect(labels).toEqual([
+      'A to Z',
+      'Fewest calories',
+      'Quickest',
+      'Cheapest',
+      'Highest carbs',
+      'Lowest fat',
+      'Highest protein',
+    ])
+  })
+
+  it('reverses the sort and names the new direction', () => {
+    renderBar({ sort: 'calories' })
+
+    fireEvent.click(screen.getByRole('button', { name: 'Reverse sort order' }))
+
+    expect(push).toHaveBeenCalledWith('/?sort=calories&reverse=1', {
+      scroll: false,
+    })
+  })
+
+  it('shows reversed labels when the list is reversed', () => {
+    renderBar({ sort: 'time', reverse: '1' })
+
+    expect(
+      within(select(/sort/i)).getByRole('option', { name: 'Slowest' })
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('button', { name: 'Reverse sort order' })
+    ).toHaveAttribute('aria-pressed', 'true')
+  })
+
+  it('has no direction to reverse for Best match', () => {
+    renderBar({ q: 'chili' })
+
+    expect(
+      screen.getByRole('button', { name: 'Reverse sort order' })
+    ).toBeDisabled()
+  })
+
+  it('goes back to the natural direction when the sort changes', () => {
+    renderBar({ sort: 'calories', reverse: '1' })
+
+    fireEvent.change(select(/sort/i), { target: { value: 'time' } })
+
+    expect(push).toHaveBeenCalledWith('/?sort=time', { scroll: false })
+  })
+
+  it('lists the goals with Balanced first', () => {
+    renderBar()
+
+    expect(
+      within(select(/goal/i))
+        .getAllByRole('option')
+        .map((option) => option.textContent)
+    ).toEqual([
+      'None',
+      'Balanced',
+      'Fat Loss',
+      'Body Recomp',
+      'Clean Bulk',
+      'Full Bulk',
+      'Carb Cycling Low',
+      'Carb Cycling High',
+    ])
+  })
+
+  it('puts the goal in the URL when one is picked', () => {
+    renderBar()
+
+    fireEvent.change(select(/goal/i), { target: { value: 'fat-loss' } })
+
+    expect(push).toHaveBeenCalledWith('/?goal=fat-loss', { scroll: false })
+  })
+
+  it('shows the goal, its note, and its targets in the macro dropdowns', () => {
+    renderBar({ goal: 'body-recomp' })
+
+    expect(select(/goal/i)).toHaveValue('body-recomp')
+    expect(screen.getByText(/slightly below maintenance/i)).toBeInTheDocument()
+    expect(select(/^carbs\b/i)).toHaveValue('45')
+    expect(select(/^fat\b/i)).toHaveValue('25')
+    expect(select(/^protein\b/i)).toHaveValue('30')
+  })
+
+  it('shows Clean Bulk as 40% carbs or more', () => {
+    renderBar({ goal: 'clean-bulk' })
+
+    expect(select(/^carbs\b/i)).toHaveValue('ge40')
+    expect(
+      screen.getByRole('option', { name: '≥ 40%' })
+    ).toBeInTheDocument()
+  })
+
+  it('leaves the goal when a macro dropdown is edited, keeping the other targets', () => {
+    renderBar({ goal: 'body-recomp' })
+
+    fireEvent.change(select(/^fat\b/i), { target: { value: '30' } })
+
+    expect(push).toHaveBeenCalledWith('/?carbs=45&fat=30&protein=30', {
+      scroll: false,
+    })
+  })
+
+  it('reads Custom once a selector no longer matches a preset', () => {
+    renderBar({ carbs: '45', fat: '30', protein: '30' })
+
+    expect(select(/goal/i)).toHaveValue('custom')
+    expect(
+      screen.getByRole('option', { name: 'Custom' })
+    ).toBeInTheDocument()
+  })
+
+  it('changes a macro selector without touching the others', () => {
+    renderBar({ carbs: '45', fat: '25', protein: '30' })
+
+    fireEvent.change(select(/^fat\b/i), { target: { value: '30' } })
+
+    expect(push).toHaveBeenCalledWith('/?carbs=45&fat=30&protein=30', {
+      scroll: false,
+    })
+  })
+
+  it('limits cost from the symbols and clears it on a second click', () => {
+    renderBar()
+
+    fireEvent.click(screen.getByRole('button', { name: 'Cost: up to 3' }))
+
+    expect(push).toHaveBeenLastCalledWith('/?maxCost=3', { scroll: false })
+  })
+
+  it('limits time from the quick links', () => {
+    renderBar()
+
+    fireEvent.click(
+      screen.getAllByRole('button', { name: 'Time: up to 45 minutes' })[0]!
+    )
+
+    expect(push).toHaveBeenLastCalledWith('/?maxMinutes=45', { scroll: false })
+  })
+
+  it('grays out options that would return nothing', () => {
+    renderBar({}, { meat: ['beef'], maxMinutes: ['30'] })
+
+    expect(screen.getByRole('option', { name: 'Beef' })).toBeDisabled()
+    expect(screen.getByRole('option', { name: 'Chicken' })).toBeEnabled()
+    expect(
+      screen.getAllByRole('button', { name: 'Time: up to 30 minutes' })[0]
+    ).toBeDisabled()
+  })
+
+  it('counts the bar filters in the badge and links Clear all', () => {
+    renderBar({ q: 'chili', maxMinutes: '45', carbs: '40' })
+
+    expect(
+      screen.getAllByRole('button', { name: 'Filters, 2 active' })[0]
+    ).toBeInTheDocument()
+    expect(
+      screen.getAllByRole('link', { name: 'Clear all' })[0]
+    ).toHaveAttribute('href', '/?q=chili')
+  })
+
+  it('lists active filters as chips that remove themselves', () => {
+    renderBar({ maxMinutes: '45', maxCost: '2' })
+
+    const chips = within(screen.getByRole('list', { name: 'Applied filters' }))
+
+    expect(chips.getByRole('link', { name: 'Remove Up to 45 min' })).toHaveAttribute(
+      'href',
+      '/?maxCost=2'
+    )
+  })
+
+  it('shows no chips when nothing is applied', () => {
+    renderBar()
+
+    expect(
+      screen.queryByRole('list', { name: 'Applied filters' })
+    ).not.toBeInTheDocument()
+  })
+})

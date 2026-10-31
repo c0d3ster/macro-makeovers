@@ -2,7 +2,7 @@ import type { ReactElement } from 'react'
 
 import Link from 'next/link'
 
-import type { RecipeCard as RecipeCardData } from '@/libs/recipes'
+import type { Fit, RecipeCard as RecipeCardData } from '@/libs/recipes'
 
 import {
   Badge,
@@ -23,9 +23,11 @@ const CARD_PHOTO_SIZES =
 
 type RecipeCardProps = {
   recipe: RecipeCardData
+  // How well the recipe fits the active goal or macro targets. Missing when none is active.
+  fit?: Fit
 }
 
-export const RecipeCard = ({ recipe }: RecipeCardProps): ReactElement => {
+export const RecipeCard = ({ recipe, fit }: RecipeCardProps): ReactElement => {
   const {
     slug,
     title,
@@ -53,7 +55,9 @@ export const RecipeCard = ({ recipe }: RecipeCardProps): ReactElement => {
   return (
     <Link
       href={`/recipes/${slug}`}
-      className='group flex h-full flex-col overflow-hidden rounded-xl bg-surface transition-colors hover:bg-surface/80 focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none'
+      className={`group flex h-full flex-col overflow-hidden rounded-xl bg-surface transition-colors hover:bg-surface/80 focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none ${
+        fit?.isFit ? 'outline-2 outline-primary' : ''
+      } ${fit && !fit.isFit ? 'opacity-90' : ''}`}
     >
       {imageUrl && (
         <RecipeImage
@@ -66,6 +70,32 @@ export const RecipeCard = ({ recipe }: RecipeCardProps): ReactElement => {
         />
       )}
       <div className='flex flex-1 flex-col gap-4 p-5'>
+        {fit?.isFit && (
+          <p className='flex min-h-6 items-center text-xs'>
+            <span className='inline-flex items-center gap-1 rounded-full border border-primary px-2 py-0.5 font-medium text-primary'>
+              <svg
+                aria-hidden='true'
+                viewBox='0 0 16 16'
+                className='size-3'
+                fill='none'
+                stroke='currentColor'
+                strokeWidth='2'
+                strokeLinecap='round'
+                strokeLinejoin='round'
+              >
+                <path d='M3 8.5l3.5 3.5L13 5' />
+              </svg>
+              Good fit
+            </span>
+          </p>
+        )}
+        {fit && !fit.isFit && fit.reasons.length > 0 && (
+          <ul className='flex flex-col gap-0.5 text-xs text-text-muted'>
+            {fit.reasons.map((reason) => (
+              <li key={reason}>{reason}</li>
+            ))}
+          </ul>
+        )}
         <div className='flex flex-col gap-2'>
           <h3 className='text-lg font-semibold text-text group-hover:text-primary'>
             {title}

@@ -6,6 +6,7 @@ import Link from 'next/link'
 
 type ButtonProps = {
   size?: 'sm' | 'md' | 'lg'
+  variant?: 'solid' | 'outline'
   href?: string
   external?: boolean
   className?: string
@@ -17,9 +18,13 @@ type ButtonProps = {
 } & Record<string, unknown>
 
 const baseStyles =
-  'inline-block rounded font-medium transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-50 focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 focus:ring-offset-background focus:outline-none'
+  'inline-block cursor-pointer rounded font-medium transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-50 focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 focus:ring-offset-background focus:outline-none'
 
-const buttonStyle = 'bg-primary text-on-primary hover:bg-primary/90'
+const variants = {
+  solid: 'bg-primary text-on-primary hover:bg-primary/90',
+  outline:
+    'border border-text-muted/40 text-text hover:border-primary hover:text-primary',
+}
 
 const sizes = {
   sm: 'px-4 py-2 text-sm',
@@ -29,6 +34,7 @@ const sizes = {
 
 export const Button = ({
   size = 'md',
+  variant = 'solid',
   href,
   external = false,
   className = '',
@@ -39,7 +45,7 @@ export const Button = ({
   ref,
   ...props
 }: ButtonProps) => {
-  const buttonClasses = `${baseStyles} ${buttonStyle} ${sizes[size]} ${className}`
+  const buttonClasses = `${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`
 
   if (href) {
     // Extract only props relevant for anchor/link elements
@@ -49,6 +55,7 @@ export const Button = ({
       disabled: _disabled,
       ref: _ref,
       size: _size,
+      variant: _variant,
       external: _external,
       ...linkProps
     } = props
@@ -83,6 +90,7 @@ export const Button = ({
     href: _href,
     external: _external,
     size: _size,
+    variant: _variant,
     ...buttonProps
   } = props
 
