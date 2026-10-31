@@ -17,3 +17,7 @@ pre-commit:
       glob: '*.{ts,tsx}'
       run: pnpm run check:types
       priority: 2
+    test:
+      glob: '*.{ts,tsx}'
+      run: pnpm test
+      priority: 2
