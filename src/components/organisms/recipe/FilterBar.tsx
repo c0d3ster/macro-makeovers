@@ -501,7 +501,7 @@ export const FilterBar = ({
               >
                 Clear all
               </Link>
-              <div className='flex flex-col gap-2 lg:ml-auto lg:max-w-120 lg:min-w-85 lg:flex-[1_1_340px]'>
+              <div className='flex flex-col gap-2 lg:ml-auto lg:w-120 lg:flex-none'>
                 <span className='text-xs font-medium text-text-muted lg:hidden'>
                   Share of calories
                 </span>
