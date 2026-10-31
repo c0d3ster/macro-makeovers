@@ -144,11 +144,14 @@ const FiltersToggle = ({
   >
     <FilterIcon />
     <span>Filters</span>
-    {count > 0 && (
-      <span className='rounded-full bg-primary px-1.5 text-xs text-on-primary'>
-        {count}
-      </span>
-    )}
+    {/* Always laid out, and only hidden at zero, so picking a filter never shifts the row */}
+    <span
+      className={`min-w-5 rounded-full bg-primary px-1.5 text-center text-xs text-on-primary ${
+        count > 0 ? '' : 'invisible'
+      }`}
+    >
+      {count}
+    </span>
   </Button>
 )
 
@@ -458,14 +461,14 @@ export const FilterBar = ({
                   />
                 )}
               />
-              {barCount > 0 && (
-                <Link
-                  href={clearHref}
-                  className='hidden text-sm text-text-muted underline hover:text-text lg:inline'
-                >
-                  Clear all
-                </Link>
-              )}
+              <Link
+                href={clearHref}
+                className={`hidden text-sm text-text-muted underline hover:text-text lg:inline ${
+                  barCount > 0 ? '' : 'invisible'
+                }`}
+              >
+                Clear all
+              </Link>
               <div className='flex flex-col gap-2 lg:ml-auto lg:w-120 lg:flex-none'>
                 <span className='text-xs font-medium text-text-muted lg:hidden'>
                   Share of calories
