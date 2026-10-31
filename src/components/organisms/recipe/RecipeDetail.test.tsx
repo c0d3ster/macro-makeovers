@@ -116,6 +116,16 @@ describe('NutritionTable', () => {
     expect(screen.getByText('195g')).toBeInTheDocument()
   })
 
+  it('has a solid background so the page pattern does not show through', () => {
+    const { container } = render(
+      <NutritionTable builds={[makeover]} servings={5} featured={makeover} />
+    )
+
+    expect(container.querySelector('table')?.parentElement).toHaveClass(
+      'bg-background'
+    )
+  })
+
   it('does not scroll sideways', () => {
     const { container } = render(
       <NutritionTable builds={[makeover]} servings={5} featured={makeover} />
