@@ -430,11 +430,10 @@ export const FilterBar = ({
                 onChange={pickGoal}
               />
             </div>
-            {goal && goal !== 'custom' && (
-              <p className='text-xs leading-snug text-text-muted lg:col-span-2 lg:col-start-2 lg:row-start-3'>
-                {goal.note}
-              </p>
-            )}
+            {/* Holds one line of height on desktop even when empty, so a goal never pushes the rows below */}
+            <p className='text-xs leading-snug text-text-muted empty:hidden lg:col-span-2 lg:col-start-2 lg:row-start-3 lg:min-h-4.25 lg:empty:block'>
+              {goal && goal !== 'custom' ? goal.note : null}
+            </p>
 
             <div className='flex flex-col gap-3 lg:col-span-3 lg:row-start-4 lg:flex-row lg:flex-wrap lg:items-center lg:gap-x-4 lg:gap-y-2'>
               <FiltersToggle
