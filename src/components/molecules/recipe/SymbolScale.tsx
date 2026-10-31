@@ -11,7 +11,8 @@ type SymbolScaleProps = {
   values: number[]
   // Current "up to" value, undefined for no limit
   value?: number
-  // Values that would return nothing on top of the other filters
+  // Values that would return nothing on top of the other filters. They keep their color and
+  // only stop taking clicks, so the scale still reads the same.
   disabled?: number[]
   onChange: (value: number | undefined) => void
   // Draws one value, lit or dimmed
@@ -59,7 +60,7 @@ export const SymbolScale = ({
               onFocus={() => setHovered(item)}
               onBlur={() => setHovered(undefined)}
               onClick={() => onChange(isSelected ? undefined : item)}
-              className={`flex cursor-pointer items-center justify-center rounded px-1 focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-30 ${buttonClassName}`}
+              className={`flex cursor-pointer items-center justify-center rounded px-1 focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none disabled:cursor-not-allowed ${buttonClassName}`}
             >
               {renderSymbol(item <= litUpTo, item)}
             </button>
