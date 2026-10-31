@@ -65,9 +65,9 @@ describe('FilterBar', () => {
 
     const options = within(select(/sort/i)).getAllByRole('option')
 
-    expect(options[0]).toHaveTextContent('Sort: A to Z')
+    expect(options[0]).toHaveTextContent('A to Z')
     expect(options.map((option) => option.textContent)).not.toContain(
-      'Sort: Best match'
+      'Best match'
     )
   })
 
@@ -75,7 +75,7 @@ describe('FilterBar', () => {
     renderBar({ carbs: '45', fat: '25', protein: '30' })
 
     expect(within(select(/sort/i)).getAllByRole('option')[0]).toHaveTextContent(
-      'Sort: Best match'
+      'Best match'
     )
   })
 

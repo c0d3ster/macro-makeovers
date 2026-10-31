@@ -98,9 +98,9 @@ const macroLabel = (value: string): string => {
 }
 
 const SORT_OPTIONS: FilterOption[] = [
-  { value: 'calories', label: 'Sort: Fewest calories' },
-  { value: 'time', label: 'Sort: Quickest' },
-  { value: 'cost', label: 'Sort: Cheapest' },
+  { value: 'calories', label: 'Fewest calories' },
+  { value: 'time', label: 'Quickest' },
+  { value: 'cost', label: 'Cheapest' },
 ]
 
 const FilterIcon = (): ReactElement => (
@@ -305,11 +305,11 @@ export const FilterBar = ({
 
   const sortOptions: FilterOption[] = hasBestMatch(filters)
     ? [
-        { value: '', label: 'Sort: Best match' },
-        { value: 'title', label: 'Sort: A to Z' },
+        { value: '', label: 'Best match' },
+        { value: 'title', label: 'A to Z' },
         ...SORT_OPTIONS,
       ]
-    : [{ value: '', label: 'Sort: A to Z' }, ...SORT_OPTIONS]
+    : [{ value: '', label: 'A to Z' }, ...SORT_OPTIONS]
   const goalOptions: FilterOption[] = [
     ...GOALS.map(({ id, label }) => ({ value: id, label })),
     ...(goal === 'custom' ? [{ value: 'custom', label: 'Custom' }] : []),
@@ -356,8 +356,8 @@ export const FilterBar = ({
         <div className='flex gap-2 lg:contents'>
           <div className='min-w-0 flex-1 lg:col-start-2 lg:row-start-2'>
             <FilterSelect
-              label='Sort recipes'
-              labelClassName='sr-only'
+              label='Sort'
+              inline
               name='sort'
               anyLabel={false}
               options={sortOptions}
@@ -423,8 +423,8 @@ export const FilterBar = ({
             <div className='lg:col-start-3 lg:row-start-2'>
               <FilterSelect
                 label='Goal'
-                labelClassName='lg:sr-only'
-                anyLabel='Goal'
+                inlineFromLg
+                anyLabel='None'
                 options={goalOptions}
                 value={goalValue}
                 onChange={pickGoal}
