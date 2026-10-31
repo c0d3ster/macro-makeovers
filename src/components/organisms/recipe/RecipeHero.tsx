@@ -7,6 +7,7 @@ import type { RecipeDetail } from '@/libs/recipes'
 import {
   Badge,
   CostTier,
+  CountUp,
   DifficultyDots,
   MacroStrip,
   RecipeImage,
@@ -76,17 +77,19 @@ export const RecipeHero = ({ recipe }: RecipeHeroProps): ReactElement => {
           <div className='flex max-w-xl flex-col gap-3'>
             <div className='flex flex-wrap items-baseline justify-between gap-x-8 gap-y-1'>
               <p className='flex items-baseline gap-2'>
-                <span className='text-4xl leading-none font-semibold text-text'>
-                  {featured.calories}
-                </span>
+                <CountUp
+                  value={featured.calories}
+                  className='text-4xl leading-none font-semibold'
+                />
                 <span className='text-base text-text-muted'>
                   cals per serving
                 </span>
               </p>
               <p className='flex items-baseline gap-2'>
-                <span className='text-2xl leading-none font-semibold text-text'>
-                  {servings}
-                </span>
+                <CountUp
+                  value={servings}
+                  className='text-2xl leading-none font-semibold'
+                />
                 <span className='text-base text-text-muted'>servings</span>
               </p>
             </div>

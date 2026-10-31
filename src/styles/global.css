@@ -82,6 +82,30 @@
   }
 }
 
+/* Count-up for the hero's calories and servings. The real number stays in the DOM, transparent,
+   so it holds the width and stays readable and copyable. A counter overlay draws the number
+   that rolls up. inherits is on because the overlay is a pseudo-element of the animated span. */
+@property --count {
+  syntax: '<integer>';
+  inherits: true;
+  initial-value: 0;
+}
+
+@keyframes macro-count {
+  from {
+    --count: 0;
+  }
+}
+
+.macro-count-up::after {
+  content: counter(macro-count);
+  counter-reset: macro-count var(--count);
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: var(--color-text);
+}
+
 @keyframes macro-fade-in {
   from {
     opacity: 0;
@@ -102,6 +126,10 @@
     animation:
       macro-drop-in 1300ms cubic-bezier(0.65, 0, 0.35, 1) backwards,
       macro-fade-in 600ms ease-out backwards;
+  }
+
+  .macro-count-up {
+    animation: macro-count 1300ms cubic-bezier(0.65, 0, 0.35, 1) backwards;
   }
 
   .macro-reveal-late {
