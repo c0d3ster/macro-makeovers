@@ -100,12 +100,12 @@ jobs:
       - name: Run unit tests
         uses: docker://mcr.microsoft.com/playwright:v1.64.1-noble
         with:
-          args: sh -c "node -v && npm install -g pnpm@10 && pnpm run test --run --project=unit --coverage"
+          args: sh -c "npm install -g pnpm@10 && pnpm run test --run --project=unit --coverage"
         env:
           COREPACK_ENABLE_DOWNLOAD_PROMPT: '0'
           # Test environment
           NODE_ENV: test
-          # Node 25 ships a built-in localStorage that shadows the jsdom one
+          # The image runs Node 26, whose built-in localStorage shadows the jsdom one
           NODE_OPTIONS: --no-experimental-webstorage
 
       - name: Upload coverage reports to Codecov
