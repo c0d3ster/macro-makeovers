@@ -14,7 +14,7 @@ Prepared cost per serving runs from $2.65 (Blackened Chicken Alfredo) to $7.37 (
 | 4   | Ham & Prosciutto Sliders                                   | 4        | 20.12               | 5.03            | 27.31                    | 0.00                   | 27.31               | $$$    |
 | 5   | Greek Yogurt Tuna Melt (hoagie)                            | 4        | 16.32               | 4.08            | 22.49                    | 11.50                  | 33.99               | $$     |
 | 6   | Cheesy Chicken and Broccoli Rice Bake                      | 5        | 14.59               | 2.92            | 27.00                    | 17.76                  | 44.76               | $      |
-| 7   | Lemon Pepper Shrimp Pesto Linguine                         | 5        | 29.85               | 5.97            | 49.45                    | 20.87                  | 70.32               | $$$    |
+| 7   | Lemon Pepper Shrimp Pesto Linguine                         | 6        | 35.38               | 5.90            | 49.45                    | 20.87                  | 70.32               | $$$    |
 | 8   | Kickin' Fried Chicken (full plate)                         | 5        | 16.29               | 3.26            | 21.27                    | 40.32                  | 61.59               | $$     |
 | 9   | Beef Bulgogi (over black rice), Heritage ribeye strips     | 4        | 29.47               | 7.37            | 32.15                    | 24.07                  | 56.22               | $$$$   |
 | 9a  | Beef Bulgogi (over black rice), flank steak build          | 4        | 20.98               | 5.24            | 23.65                    | 24.07                  | 47.72               | $$$    |
@@ -42,7 +42,7 @@ Two stats show what a shopping trip buys beyond a single batch. **Shopping lefto
 | 4   | Ham & Prosciutto Sliders                                   | 7.19                  | 26%                           | 0.00                      | none                                                    |
 | 5   | Greek Yogurt Tuna Melt (hoagie)                            | 6.39                  | 28%                           | 2.24                      | Dill weed (Great Value)                                 |
 | 6   | Cheesy Chicken and Broccoli Rice Bake                      | 12.81                 | 47%                           | 0.00                      | none                                                    |
-| 7   | Lemon Pepper Shrimp Pesto Linguine                         | 21.42                 | 43%                           | 4.64                      | Lemon pepper (Lawry's)                                  |
+| 7   | Lemon Pepper Shrimp Pesto Linguine                         | 15.96                 | 32%                           | 4.64                      | Lemon pepper (Lawry's)                                  |
 | 8   | Kickin' Fried Chicken (full plate)                         | 8.23                  | 39%                           | 0.00                      | none                                                    |
 | 9   | Beef Bulgogi (over black rice), Heritage ribeye strips     | 4.22                  | 13%                           | 6.37                      | Toasted sesame oil (Kikkoman), Sesame seeds (McCormick) |
 | 9a  | Beef Bulgogi (over black rice), flank steak build          | 4.22                  | 18%                           | 6.37                      | Toasted sesame oil (Kikkoman), Sesame seeds (McCormick) |
@@ -54,7 +54,7 @@ Two stats show what a shopping trip buys beyond a single batch. **Shopping lefto
 
 ### Leftover and bundling
 
-Leftover is not waste when another recipe uses it. Cheese, cottage cheese, eggs, panko and broth carry into the next recipe, and one 16 oz Tillamook block covers the chili, tacos, sliders and hash brown bake together (12.5 oz). The leftover most likely to be wasted is single-use jars, cans and tubs (pine nuts, chipotles, achiote, habanero, orange juice) and packs that round up, such as two bags of shrimp for 1.5 lb or two basil clamshells for 1.4. The Macro Makeovers Basket page pools any set of recipes, rounds packs up once and shows the real trip cost against buying each recipe alone: https://claude.ai/artifact/QhpQkQo7NuGLArGtKBTXxj
+Leftover is not waste when another recipe uses it. Cheese, cottage cheese, eggs, panko and broth carry into the next recipe, and one 16 oz Tillamook block covers the chili, tacos, sliders and hash brown bake together (12.5 oz). The leftover most likely to be wasted is single-use jars, cans and tubs (pine nuts, chipotles, achiote, habanero, orange juice) and packs that round up, such as two basil clamshells for 1.4. The Macro Makeovers Basket page pools any set of recipes, rounds packs up once and shows the real trip cost against buying each recipe alone: https://claude.ai/artifact/QhpQkQo7NuGLArGtKBTXxj
 
 Staples are the common seasonings, condiments and baking basics that most kitchens already stock or reuse across recipes. Specialty buys are the rest. Salt is not costed. The Type column is a judgment call and can be changed per item, which moves that item in or out of the specialty column above.
 
@@ -393,22 +393,22 @@ Every line shows the amount used, the pack it was priced from and the prorated c
 | **Shopping list**                                  |                                 |                      |       |            |
 | Fresh basil                                        | 60 g                            | 1.5 oz clamshell     | $3.63 | $5.08      |
 | Pine nuts (Ava's)                                  | 30 g                            | 4 oz tub             | $9.99 | $2.65      |
-| Parmesan wedge                                     | 35 g                            | 8 oz wedge           | $5.99 | $0.92      |
+| Parmesan wedge                                     | 50 g (40 g pesto, 10 g topping) | 8 oz wedge           | $5.99 | $1.32      |
 | Garlic                                             | 2 cloves                        | head (\~10 cloves)   | $0.89 | $0.18      |
 | Lemon                                              | 1 (pesto + wedges)              | each                 | $0.67 | $0.67      |
 | Greek yogurt, full-fat 5% (Fage Total)             | 3 tbsp                          | 5.3 oz cup (2/3 cup) | $1.47 | $0.41      |
 | Red bell pepper                                    | 2 large                         | each                 | $1.48 | $2.96      |
-| Raw peeled deveined shrimp, 21-30 ct (Great Value) | 1.5 lb raw, peeled and deveined | 16 oz bag            | $9.62 | $14.43     |
-| Pasta (Great Value)                                | 12 oz linguine                  | 16 oz box            | $0.98 | $0.73      |
-| _Shopping list subtotal_                           |                                 |                      |       | _$28.03_   |
+| Raw peeled deveined shrimp, 21-30 ct (Great Value) | 2 lb raw, peeled and deveined   | 16 oz bag            | $9.62 | $19.24     |
+| Pasta (Great Value)                                | 16 oz linguine                  | 16 oz box            | $0.98 | $0.98      |
+| _Shopping list subtotal_                           |                                 |                      |       | _$33.49_   |
 | **Kitchen staples**                                |                                 |                      |       |            |
-| Extra virgin olive oil (Great Value)               | 2 tbsp                          | 17 fl oz bottle      | $6.12 | $0.36      |
+| Extra virgin olive oil (Great Value)               | 2.5 tbsp                        | 17 fl oz bottle      | $6.12 | $0.45      |
 | Lemon pepper (Lawry's)                             | 1.5 tbsp                        | 2.25 oz jar          | $4.64 | $0.98      |
 | Garlic powder (McCormick)                          | 1/2 tsp                         | 3.12 oz jar          | $3.14 | $0.05      |
 | Avocado oil, refined (Chosen Foods)                | 1 tbsp (shrimp)                 | 8.4 fl oz bottle     | $6.97 | $0.41      |
-| _Kitchen staples subtotal_                         |                                 |                      |       | _$1.80_    |
-| **Batch total (prorated)**                         |                                 |                      |       | **$29.85** |
-| **Per serving (÷5)**                               |                                 |                      |       | **$5.97**  |
+| _Kitchen staples subtotal_                         |                                 |                      |       | _$1.89_    |
+| **Batch total (prorated)**                         |                                 |                      |       | **$35.38** |
+| **Per serving (÷6)**                               |                                 |                      |       | **$5.90**  |
 | Full packs: shopping list                          |                                 |                      |       | $49.45     |
 | Full packs: kitchen staples                        |                                 |                      |       | $20.87     |
 | **Full-pack cost (not prorated)**                  |                                 |                      |       | **$70.32** |

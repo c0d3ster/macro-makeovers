@@ -1267,22 +1267,22 @@
       "id": "7",
       "slug": "lemon-pepper-shrimp-pesto-linguine",
       "title": "Lemon Pepper Shrimp Pesto Linguine",
-      "servings": 5,
-      "perServingCost": 5.97,
+      "servings": 6,
+      "perServingCost": 5.9,
       "lines": {
         "basil": 2.1,
         "pine_nuts": 1.06,
-        "parm": 1.23,
+        "parm": 1.76,
         "garlic": 2,
-        "olive_oil": 1,
+        "olive_oil": 1.25,
         "lemon": 1,
         "yogurt5": 0.28,
         "bell_red": 2,
-        "shrimp": 1.5,
+        "shrimp": 2,
         "lemon_pepper": 4.5,
         "garlic_powder": 0.5,
         "avo_oil": 0.5,
-        "pasta": 12
+        "pasta": 16
       }
     },
     {
