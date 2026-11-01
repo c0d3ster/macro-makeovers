@@ -1,7 +1,10 @@
+import type { User } from '@supabase/supabase-js'
+
 import { cleanup, render, screen } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { Env } from '@/libs/Env'
+import { useAuth, useIsOwner } from '@/providers'
 
 import type { NavItem } from './SiteHeader'
 
@@ -19,6 +22,7 @@ vi.mock('@/providers', () => ({
     isLoaded: true,
     signOut: vi.fn(),
   })),
+  useIsOwner: vi.fn(() => false),
 }))
 
 // Mock window properties to prevent hanging
@@ -33,6 +37,11 @@ const sampleMenuItems: NavItem[] = [
 describe('SiteHeader', () => {
   beforeEach(() => {
     vi.clearAllMocks()
+    vi.mocked(useAuth).mockReturnValue({
+      user: null,
+      isLoaded: true,
+      signOut: vi.fn(),
+    })
     cleanup()
   })
 
@@ -65,6 +74,20 @@ describe('SiteHeader', () => {
     expect(screen.getByText('Contact')).toBeInTheDocument()
   })
 
+  it('shows the account menu instead of Sign In when signed in', () => {
+    vi.mocked(useAuth).mockReturnValue({
+      user: { id: 'user-1' } as User,
+      isLoaded: true,
+      signOut: vi.fn(),
+    })
+    render(<SiteHeader menuItems={sampleMenuItems} />)
+
+    expect(
+      screen.getByRole('button', { name: 'Account menu' })
+    ).toBeInTheDocument()
+    expect(screen.queryByText('Sign In')).not.toBeInTheDocument()
+  })
+
   it('renders Sign In button when user is not logged in', () => {
     vi.stubEnv('NEXT_PUBLIC_SUPABASE_URL', 'http://localhost:54321')
     vi.stubEnv('NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY', 'sb_publishable_stub')
@@ -91,6 +114,26 @@ describe('SiteHeader', () => {
     const homeLink = screen.getByText('Home').closest('a')
 
     expect(homeLink).toHaveClass('text-sm', 'font-medium', 'transition-colors')
+  })
+
+  it('shows owner-only links to the owner only', () => {
+    const items: NavItem[] = [
+      ...sampleMenuItems,
+      { id: 'manage', label: 'Manage recipes', href: '/admin', ownerOnly: true },
+    ]
+    const { rerender } = render(<SiteHeader menuItems={items} />)
+
+    expect(
+      screen.queryByRole('link', { name: 'Manage recipes' })
+    ).not.toBeInTheDocument()
+
+    vi.mocked(useIsOwner).mockReturnValue(true)
+    rerender(<SiteHeader menuItems={items} activeItem='manage' />)
+
+    expect(screen.getByRole('link', { name: 'Manage recipes' })).toHaveAttribute(
+      'href',
+      '/admin'
+    )
   })
 
   it('renders without errors when no menu items provided', () => {

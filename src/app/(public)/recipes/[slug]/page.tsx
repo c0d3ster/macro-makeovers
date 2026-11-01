@@ -3,6 +3,7 @@ import type { ReactElement } from 'react'
 
 import { notFound } from 'next/navigation'
 
+import { OwnerEditLink } from '@/components/molecules'
 import {
   NutritionTable,
   RecipeHero,
@@ -61,7 +62,8 @@ const RecipePage = async ({
 
   return (
     <LandingPageTemplate>
-      <main className='mx-auto flex max-w-6xl flex-col gap-12 px-3 py-10 sm:px-6 lg:px-8'>
+      <main className='relative mx-auto flex max-w-6xl flex-col gap-12 px-3 py-10 sm:px-6 lg:px-8'>
+        <OwnerEditLink recipeId={recipe.id} />
         <RecipeHero recipe={recipe} />
         {/* Nutrition and steps share the left column. Ingredients sit on the right, level with
             nutrition and sticky while the steps scroll. On a phone they stack in cooking order:

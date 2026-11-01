@@ -49,7 +49,7 @@ One `recipes` table with child tables for everything that repeats. Nutrition is 
 | `recipe_notes`        | `recipe_id`, `kind` (make_or_break, fixes, levers, tip), `position`, `body_md`                                                                                                                 | Holds the book's make-or-break, fixes, and levers sections.                                    |
 | `tags`, `recipe_tags` | `name`, `kind` (category, method, attribute)                                                                                                                                                   | For example pasta, air fryer, freezer friendly, high protein.                                  |
 | `recipe_revisions`    | `recipe_id`, `snapshot` (jsonb), `created_at`                                                                                                                                                  | One snapshot per save, so edits are reversible.                                                |
-| `profiles`            | `user_id`, `role` (owner or member)                                                                                                                                                            | Role check used by RLS.                                                                        |
+| `users`               | `auth_id`, `email`, `role` (client, developer, admin, or super_admin; admin and super_admin are the owner)                                                                                     |
 
 Whole-batch rows and C/F/P ratios from the book are derived from per-serving values and servings, so they are not stored.
 
@@ -149,7 +149,7 @@ The public side is a filterable grid and a recipe page. The admin side is an edi
 Public read, owner-only write, enforced in the database and not only in the UI. Anyone can read published recipes. Only your account can create, edit, or publish.
 
 - Supabase Auth with Google OAuth, sessions through `@supabase/ssr`, and middleware that redirects `/admin` to `/login`.
-- Public sign-ups are turned off in the Supabase Auth settings, and your `profiles.role` is set to `owner`. RLS checks the role, so the app is not the only guard.
+- Public sign-ups are turned off in the Supabase Auth settings, and your `users.role` is set to `admin`. RLS checks the role, so the app is not the only guard.
 - RLS policies allow anonymous `select` on rows where `status = 'published'`, with child tables checked through their parent. `insert`, `update`, and `delete` are allowed only for owners, and drafts are visible only to the owner.
 - The import route and CLI use the service role key, kept server-side and never shipped to the browser.
 
@@ -174,13 +174,13 @@ The import pipeline comes before the UI on purpose. Once real recipes are in the
 
 Nothing here is built in phase 1, but the schema already carries what each phase needs.
 
-| Phase                     | Adds                                                                                                                            | Already in place                                                                                             |
-| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
-| Accounts and paywall      | Stripe, `subscriptions` table, premium recipes, free previews                                                                   | `access` column, RLS                                                                                         |
-| Meal planning             | Plan builder, daily macro totals, merged grocery list, servings scaling                                                         | Per-serving nutrition, structured ingredients with category                                                  |
-| Personalization           | Member profiles with goal weight, goal (balanced, fat loss, recomp, bulk), and protein grams, using the book's goal ratios      | `profiles` table, ratios computed from macros                                                                |
-| Carb cycling and training | High and low carb day plans, lower-carb variants, training-day tagging                                                          | Nutrition variants and tags, so levers like the bulgogi rice cut or lettuce wraps import as swappable builds |
-| Grocery ordering          | Instacart cart link built from the grocery list                                                                                 | Normalized ingredient names and aisle categories                                                             |
+| Phase                     | Adds                                                                                                                       | Already in place                                                                                             |
+| ------------------------- | -------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| Accounts and paywall      | Stripe, `subscriptions` table, premium recipes, free previews                                                              | `access` column, RLS                                                                                         |
+| Meal planning             | Plan builder, daily macro totals, merged grocery list, servings scaling                                                    | Per-serving nutrition, structured ingredients with category                                                  |
+| Personalization           | Member profiles with goal weight, goal (balanced, fat loss, recomp, bulk), and protein grams, using the book's goal ratios | `users` table, ratios computed from macros                                                                   |
+| Carb cycling and training | High and low carb day plans, lower-carb variants, training-day tagging                                                     | Nutrition variants and tags, so levers like the bulgogi rice cut or lettuce wraps import as swappable builds |
+| Grocery ordering          | Instacart cart link built from the grocery list                                                                            | Normalized ingredient names and aisle categories                                                             |
 
 For ordering, Instacart's developer platform fits a send-a-list, get-a-cart-link flow, but access is application-based, so check current terms before designing around it.
 
