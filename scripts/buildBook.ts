@@ -4,7 +4,7 @@ import { mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 
-import { parseRecipesMarkdown } from '@/libs/recipes'
+import { parseRecipesMarkdown, toMacroRatios } from '@/libs/recipes'
 
 // Builds the printable recipe book (build/macro-makeovers.pdf) from docs/recipes.md and the
 // photos in public/images. Needs pandoc on the PATH. Run with `pnpm book:pdf`.
@@ -40,18 +40,25 @@ const STYLES = `
   .recipe-start { break-before: page; }
   h2.recipe-start { display: flex; justify-content: space-between; align-items: center; gap: 12pt; margin-top: 0; }
   .pill { flex: none; font-size: 9pt; font-weight: normal; padding: 4pt 10pt; border-radius: 12pt; background: #efeedd; border: 1px solid #d8d6bc; color: #444; }
-  .hero { display: flex; gap: 0.2in; align-items: stretch; margin: 0.08in 0 0.12in; break-inside: avoid; }
-  .hero-text { flex: 1; display: flex; flex-direction: column; justify-content: space-between; gap: 8pt; }
-  .hero-text p { margin: 0; }
-  .photo { flex: none; width: 3.1in; height: 2.1in; object-fit: cover; border-radius: 6pt; display: block; }
-  .strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5pt; }
-  .strip div { text-align: center; padding: 4pt 2pt; border-radius: 4pt; background: #f5f5ef; border-top: 3px solid #bbb; }
-  .strip b { display: block; font-size: 12pt; }
-  .strip span { font-size: 7.5pt; color: #666; text-transform: uppercase; letter-spacing: 0.04em; }
-  .strip .carbs { border-top-color: rgb(117 132 205); }
-  .strip .fat { border-top-color: rgb(214 168 82); }
-  .strip .protein { border-top-color: rgb(112 164 124); }
-  .servings { font-size: 8.5pt; color: #666; }
+  .photo { width: 100%; height: 2.5in; object-fit: cover; border-radius: 6pt; margin: 0.08in 0 0.12in; display: block; }
+  .stats { margin: 0 0 0.12in; break-inside: avoid; }
+  .headline { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6pt; }
+  .headline b { font-size: 22pt; line-height: 1; margin-right: 4pt; }
+  .headline .servings b { font-size: 15pt; }
+  .headline span { color: #666; font-size: 10pt; }
+  .macros { display: flex; gap: 6pt; }
+  .macro { min-width: 0.9in; text-align: center; padding: 6pt 4pt; border-radius: 6pt; border: 1px solid #c9c9c9; line-height: 1.2; }
+  .macro b { display: block; font-size: 15pt; }
+  .macro span { display: block; color: #555; font-size: 9pt; }
+  .macro small { color: #666; font-size: 8pt; }
+  .macro.carbs { background: rgb(117 132 205 / 0.35); }
+  .macro.fat { background: rgb(214 168 82 / 0.35); }
+  .macro.protein { background: rgb(112 164 124 / 0.35); }
+  .original { display: flex; gap: 6pt; height: 4pt; margin-top: 5pt; opacity: 0.25; }
+  .original div { min-width: 0.9in; border-radius: 4pt; }
+  .original .carbs { background: rgb(117 132 205); }
+  .original .fat { background: rgb(214 168 82); }
+  .original .protein { background: rgb(112 164 124); }
   .quickref { break-inside: avoid; }
   .quickref table { margin-top: 0.04in; }
   .quickref td, .quickref th { padding: 3pt 7pt; white-space: nowrap; }
@@ -65,7 +72,7 @@ const imageFor = (number: string): string | undefined => {
 }
 
 // The photo goes in as a marker image right under each recipe heading, before pandoc runs.
-// layoutHero() later moves it next to the intro.
+// layoutRecipes() later puts the stats block under it.
 const addPhotos = (markdown: string): string =>
   markdown.replace(RECIPE_HEADING, (heading, number: string) => {
     const image = imageFor(number)
@@ -76,60 +83,66 @@ const addPhotos = (markdown: string): string =>
     return `${heading}\n\n<img class="photo" src="${pathToFileURL(image).href}" alt="">`
   })
 
-type Strip = {
-  calories: number
-  carbsG: number
-  fatG: number
-  proteinG: number
-  servings: number
-}
+type Row = { calories: number; carbsG: number; fatG: number; proteinG: number }
+type Stats = { servings: number; featured: Row; original?: Row }
 
-// Per-serving default row for each recipe, in book order (the same order as the headings).
-const stripsFor = (markdown: string): Strip[] =>
+// Per-serving default row (and the traditional one) for each recipe, in book order, which is the
+// same order as the headings.
+const statsFor = (markdown: string): Stats[] =>
   parseRecipesMarkdown(markdown).map(({ nutrition, servings }) => {
-    const row = nutrition.find(({ isDefault }) => isDefault) ?? nutrition[0]
-    if (!row) throw new Error('A recipe has no nutrition row')
-    return { ...row, servings }
+    const featured =
+      nutrition.find(({ isDefault }) => isDefault) ?? nutrition[0]
+    if (!featured) throw new Error('A recipe has no nutrition row')
+    return {
+      servings,
+      featured,
+      original: nutrition.find(({ kind }) => kind === 'traditional'),
+    }
   })
 
-const stripHtml = ({
-  calories,
-  carbsG,
-  fatG,
-  proteinG,
-  servings,
-}: Strip): string =>
-  `<div class="macros"><div class="strip"><div><b>~${calories}</b><span>Cal</span></div>` +
-  `<div class="carbs"><b>${carbsG}g</b><span>Carbs</span></div>` +
-  `<div class="fat"><b>${fatG}g</b><span>Fat</span></div>` +
-  `<div class="protein"><b>${proteinG}g</b><span>Protein</span></div></div>` +
-  `<div class="servings">Per serving, makes ${servings}</div></div>`
+const MACROS = [
+  { key: 'carbs', label: 'Carbs', pct: 'carbsPct', grams: 'carbsG' },
+  { key: 'fat', label: 'Fat', pct: 'fatPct', grams: 'fatG' },
+  { key: 'protein', label: 'Protein', pct: 'proteinPct', grams: 'proteinG' },
+] as const
+
+// The same top block as the recipe page: calories and servings, the macro bar (pills sized by
+// share of calories), and a faint strip showing the original recipe's split.
+const statsHtml = ({ servings, featured, original }: Stats): string => {
+  const ratios = toMacroRatios(featured)
+  const pills = MACROS.map(
+    ({ key, label, pct, grams }) =>
+      `<div class="macro ${key}" style="flex: ${ratios[pct]} 1 0"><b>${ratios[pct]}%</b><span>${label}</span><small>${featured[grams]}g</small></div>`
+  ).join('')
+  const originalRatios = original && toMacroRatios(original)
+  const strip = originalRatios
+    ? `<div class="original">${MACROS.map(({ key, pct }) => `<div class="${key}" style="flex: ${originalRatios[pct]} 1 0"></div>`).join('')}</div>`
+    : ''
+
+  return (
+    `<div class="stats"><div class="headline"><p><b>${featured.calories}</b><span>cals per serving</span></p>` +
+    `<p class="servings"><b>${servings}</b><span>servings</span></p></div>` +
+    `<div class="macros">${pills}</div>${strip}</div>`
+  )
+}
 
 // Pandoc renders the heading as plain text. Split the "| $$ · ~35 min · ●●●○○" tail into a pill,
-// mark the heading so each recipe starts on a new page, and put the intro and a macro strip on the
-// left with the photo on the right. A recipe with no photo keeps the plain intro.
-const layoutRecipes = (html: string, strips: Strip[]): string => {
+// mark the heading so each recipe starts on a new page, and run the photo and stats block ahead of
+// the intro. A recipe with no photo skips the photo.
+const layoutRecipes = (html: string, stats: Stats[]): string => {
   let index = 0
   return html.replace(
-    /<h2 id="([^"]+)">(\d+[a-z]?\. .+?) \| (.+?)<\/h2>(\s*<p>\s*<img class="photo"[^>]*>\s*<\/p>)?(\s*<p>[\s\S]*?<\/p>)/g,
-    (
-      _match,
-      id: string,
-      title: string,
-      pill: string,
-      photo = '',
-      intro: string
-    ) => {
-      const strip = strips[index++]
-      if (!strip) throw new Error(`No nutrition for "${title}"`)
+    /<h2 id="([^"]+)">(\d+[a-z]?\. .+?) \| (.+?)<\/h2>(\s*<p>\s*<img class="photo"[^>]*>\s*<\/p>)?/g,
+    (_match, id: string, title: string, pill: string, photo = '') => {
+      const recipeStats = stats[index++]
+      if (!recipeStats) throw new Error(`No nutrition for "${title}"`)
       const heading = `<h2 id="${id}" class="recipe-start"><span>${title}</span><span class="pill">${pill}</span></h2>`
-      if (!photo) return `${heading}${intro}`
-      return `${heading}<div class="hero"><div class="hero-text">${intro}${stripHtml(strip)}</div>${photo.replace(/<\/?p>/g, '').trim()}</div>`
+      return `${heading}${photo.replace(/<\/?p>/g, '').trim()}${statsHtml(recipeStats)}`
     }
   )
 }
 
-const renderHtml = (markdown: string, strips: Strip[]): string => {
+const renderHtml = (markdown: string, stats: Stats[]): string => {
   const body = execFileSync(
     'pandoc',
     ['--from', 'markdown+fenced_divs', '--to', 'html5', '--wrap=none'],
@@ -139,14 +152,14 @@ const renderHtml = (markdown: string, strips: Strip[]): string => {
   return `<!doctype html>
 <html lang="en">
 <head><meta charset="utf-8"><title>Macro Makeovers</title><style>${STYLES}</style></head>
-<body>${layoutRecipes(body, strips)}</body>
+<body>${layoutRecipes(body, stats)}</body>
 </html>`
 }
 
 const main = async (): Promise<void> => {
   mkdirSync(OUTPUT_DIR, { recursive: true })
   const markdown = readFileSync(SOURCE, 'utf8')
-  const html = renderHtml(addPhotos(markdown), stripsFor(markdown))
+  const html = renderHtml(addPhotos(markdown), statsFor(markdown))
   writeFileSync(HTML_PATH, html)
 
   // CHROMIUM_PATH points at a browser you already have; otherwise Playwright's own is used
