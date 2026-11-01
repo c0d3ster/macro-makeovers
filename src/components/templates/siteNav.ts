@@ -9,7 +9,6 @@ export const SITE_NAV_ITEMS: NavItem[] = [
 // The signed-in part of the site: same header, its own links. Meal planning and goals will
 // join these as they are built.
 export const ACCOUNT_NAV_ITEMS: NavItem[] = [
-  { id: 'recipes', label: 'Recipes', href: '/' },
   { id: 'account', label: 'My account', href: '/profile' },
   { id: 'manage', label: 'Manage recipes', href: '/admin', ownerOnly: true },
 ]
