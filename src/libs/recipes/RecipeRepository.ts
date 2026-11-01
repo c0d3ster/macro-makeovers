@@ -16,7 +16,7 @@ import {
   tags,
 } from '@/models'
 
-import type { RecipeStore } from './recipeStore'
+import { RecipeRuleError } from './recipeRuleError'
 
 // Not exported from the recipes barrel on purpose: this pulls in the Drizzle models, which
 // client components that import the barrel for pure helpers must not bundle. Import it by
@@ -26,10 +26,12 @@ type Db = NodePgDatabase<typeof schemas>
 type Tx = Parameters<Parameters<Db['transaction']>[0]>[0]
 type Reader = Db | Tx
 
-type StoreOptions = {
-  // The Supabase auth id of whoever is importing, recorded on the revision. Omit for
-  // scripts, which write revisions with no author.
-  authId?: string | undefined
+const UNIQUE_VIOLATION = '23505'
+
+// Drizzle wraps the driver error, so the Postgres code can be on the error or its cause
+const isUniqueViolation = (error: unknown): boolean => {
+  const { code, cause } = error as { code?: string; cause?: { code?: string } }
+  return code === UNIQUE_VIOLATION || cause?.code === UNIQUE_VIOLATION
 }
 
 // Same as jsonb_strip_nulls on the old SQL snapshot: a missing value is left out, not null
@@ -130,7 +132,7 @@ const readSnapshot = async (
 // The base a variant points at has to exist, be a base itself, and the recipe being written
 // cannot already be someone's base. Variants are one level deep.
 const resolveBaseId = async (
-  tx: Tx,
+  tx: Reader,
   { slug, variantOf }: RecipeImport
 ): Promise<string | null> => {
   if (!variantOf) return null
@@ -141,11 +143,15 @@ const resolveBaseId = async (
     .where(eq(recipes.slug, variantOf))
     .limit(1)
   if (!base) {
-    throw new Error(`Base recipe "${variantOf}" does not exist. Import it first.`)
+    throw new RecipeRuleError(
+      'variantOf',
+      `Base recipe "${variantOf}" does not exist. Import it first`
+    )
   }
   if (base.variantOf) {
-    throw new Error(
-      `"${variantOf}" is itself a variant, and variants are one level deep.`
+    throw new RecipeRuleError(
+      'variantOf',
+      `"${variantOf}" is itself a variant, and variants are one level deep`
     )
   }
 
@@ -161,8 +167,9 @@ const resolveBaseId = async (
       .where(eq(recipes.variantOf, self.id))
       .limit(1)
     if (child) {
-      throw new Error(
-        `"${slug}" has variants, so it cannot become a variant itself.`
+      throw new RecipeRuleError(
+        'variantOf',
+        `"${slug}" has variants, so it cannot become a variant itself`
       )
     }
   }
@@ -170,34 +177,14 @@ const resolveBaseId = async (
   return base.id
 }
 
-const writeRecipe = async (
+
+// Replaces everything hanging off a recipe with what the import says. Runs inside the
+// create or update transaction, so the old rows only go if the new ones land.
+const replaceChildren = async (
   tx: Tx,
-  recipe: RecipeImport,
-  authId: string | undefined
-): Promise<string> => {
-  const variantOf = await resolveBaseId(tx, recipe)
-
-  const fields = {
-    title: recipe.title,
-    summary: recipe.summary,
-    servings: recipe.servings,
-    prepMinutes: recipe.prepMinutes,
-    cookMinutes: recipe.cookMinutes,
-    costTier: recipe.costTier,
-    difficulty: recipe.difficulty,
-    variantOf,
-  }
-
-  // A new slug lands as a draft. An existing recipe keeps its status and access, so
-  // re-importing a published recipe does not take it offline.
-  const [row] = await tx
-    .insert(recipes)
-    .values({ slug: recipe.slug, ...fields })
-    .onConflictDoUpdate({ target: recipes.slug, set: fields })
-    .returning({ id: recipes.id })
-  if (!row) throw new Error(`Could not save "${recipe.slug}".`)
-  const recipeId = row.id
-
+  recipeId: string,
+  recipe: RecipeImport
+): Promise<void> => {
   await tx.delete(recipeNutrition).where(eq(recipeNutrition.recipeId, recipeId))
   await tx.delete(ingredients).where(eq(ingredients.recipeId, recipeId))
   await tx.delete(steps).where(eq(steps.recipeId, recipeId))
@@ -265,35 +252,98 @@ const writeRecipe = async (
       .insert(recipeTags)
       .values(tagRows.map(({ id }) => ({ recipeId, tagId: id })))
   }
-
-  // Every write leaves a revision of the resulting state
-  await tx.insert(recipeRevisions).values({
-    recipeId,
-    snapshot: await readSnapshot(tx, recipeId),
-    createdBy: authId ?? null,
-  })
-
-  return recipeId
 }
 
-// Backed by Drizzle. The whole write runs in one transaction, so a failure anywhere leaves
-// the recipe as it was. The connection is the database owner's and bypasses RLS, so only
-// call this after checking who is asking.
-export const createDrizzleRecipeStore = (
-  database: Db,
-  { authId }: StoreOptions = {}
-): RecipeStore => ({
-  findIdBySlug: async (slug) => {
-    const [row] = await database
+const variantFields = (recipe: RecipeImport, variantOf: string | null) => ({
+  title: recipe.title,
+  summary: recipe.summary,
+  servings: recipe.servings,
+  prepMinutes: recipe.prepMinutes,
+  cookMinutes: recipe.cookMinutes,
+  costTier: recipe.costTier,
+  difficulty: recipe.difficulty,
+  variantOf,
+})
+
+// Recipes in Postgres through Drizzle. Each create or update runs in one transaction, so a
+// failure anywhere leaves the recipe as it was, and writes a revision of the result. The
+// connection is the database owner's and bypasses RLS, so only call this after checking
+// who is asking.
+export class RecipeRepository {
+  // authId is the Supabase auth id of whoever is importing, recorded on the revision.
+  // Leave it out for scripts, which write revisions with no author.
+  constructor(
+    private database: Db,
+    private authId?: string
+  ) {}
+
+  getRecipeIdBySlug = async (slug: string): Promise<string | undefined> => {
+    const [row] = await this.database
       .select({ id: recipes.id })
       .from(recipes)
       .where(eq(recipes.slug, slug))
       .limit(1)
     return row?.id
-  },
+  }
 
-  getSnapshot: (id) => readSnapshot(database, id),
+  // The recipe in import shape. The caller validates it, since stored data can drift from
+  // the schema.
+  getRecipe = (id: string): Promise<unknown> => readSnapshot(this.database, id)
 
-  write: (recipe) =>
-    database.transaction((tx) => writeRecipe(tx, recipe, authId)),
-})
+  // Throws RecipeRuleError when the recipe breaks a rule that needs the database to check,
+  // such as variant links. Nothing is written. Create and update enforce the same rules.
+  validateRecipe = async (recipe: RecipeImport): Promise<void> => {
+    await resolveBaseId(this.database, recipe)
+  }
+
+  // A new recipe lands as a draft
+  createRecipe = (recipe: RecipeImport): Promise<string> =>
+    this.database
+      .transaction(async (tx) => {
+        const variantOf = await resolveBaseId(tx, recipe)
+        const [row] = await tx
+          .insert(recipes)
+          .values({ slug: recipe.slug, ...variantFields(recipe, variantOf) })
+          .returning({ id: recipes.id })
+        if (!row) throw new Error(`Could not save "${recipe.slug}".`)
+
+        await replaceChildren(tx, row.id, recipe)
+        await this.writeRevision(tx, row.id)
+        return row.id
+      })
+      .catch((error: unknown) => {
+        // Two creates of one slug at once: the loser gets a normal issue, not a raw error
+        if (isUniqueViolation(error)) {
+          throw new RecipeRuleError(
+            'slug',
+            'A recipe with that slug already exists'
+          )
+        }
+        throw error
+      })
+
+  // An existing recipe keeps its status and access, so re-importing a published recipe does
+  // not take it offline
+  updateRecipe = (id: string, recipe: RecipeImport): Promise<string> =>
+    this.database.transaction(async (tx) => {
+      const variantOf = await resolveBaseId(tx, recipe)
+      const [row] = await tx
+        .update(recipes)
+        .set(variantFields(recipe, variantOf))
+        .where(eq(recipes.id, id))
+        .returning({ id: recipes.id })
+      if (!row) throw new Error(`Recipe ${id} no longer exists.`)
+
+      await replaceChildren(tx, row.id, recipe)
+      await this.writeRevision(tx, row.id)
+      return row.id
+    })
+
+  private writeRevision = async (tx: Tx, recipeId: string): Promise<void> => {
+    await tx.insert(recipeRevisions).values({
+      recipeId,
+      snapshot: await readSnapshot(tx, recipeId),
+      createdBy: this.authId ?? null,
+    })
+  }
+}

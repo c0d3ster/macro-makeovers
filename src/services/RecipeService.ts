@@ -4,16 +4,36 @@ import type { ImportRecipeResult } from '@/graphql/schema'
 import type { ImportResult } from '@/libs/recipes'
 import type { schemas } from '@/models'
 
+import { revalidatePath } from 'next/cache'
+
 import { ImportRecipeStatus } from '@/graphql/schema'
 import { db } from '@/libs/DB'
+import { logger } from '@/libs/Logger'
 import { importRecipe } from '@/libs/recipes'
-import { createDrizzleRecipeStore } from '@/libs/recipes/drizzleRecipeStore'
+import { RecipeRepository } from '@/libs/recipes/RecipeRepository'
+import { revalidateRecipePages } from '@/libs/recipes/revalidateRecipePages'
 
 type ImportOptions = {
   overwrite: boolean
   dryRun: boolean
   // Supabase auth id of the importer, recorded on the revision
   authId?: string | undefined
+  // Set when editing: the slug must belong to this recipe
+  recipeId?: string | undefined
+}
+
+// Public pages and the admin list cache recipes, so a write refreshes them. A failure here
+// must not turn a saved recipe into an error.
+const refreshPages = (slug: string): void => {
+  try {
+    revalidateRecipePages(slug)
+    revalidatePath('/admin')
+  } catch (error) {
+    logger.warn('Could not refresh recipe pages after an import', {
+      slug,
+      error: String(error),
+    })
+  }
 }
 
 const STATUS_BY_RESULT: Record<ImportResult['status'], ImportRecipeStatus> = {
@@ -51,10 +71,18 @@ export class RecipeService {
 
   async importRecipe(
     input: unknown,
-    { overwrite, dryRun, authId }: ImportOptions
+    { overwrite, dryRun, authId, recipeId }: ImportOptions
   ): Promise<ImportRecipeResult> {
-    const store = createDrizzleRecipeStore(this.database, { authId })
-    const result = await importRecipe(store, input, { overwrite, dryRun })
+    const repository = new RecipeRepository(this.database, authId)
+    const result = await importRecipe(repository, input, {
+      overwrite,
+      dryRun,
+      ...(recipeId ? { recipeId } : {}),
+    })
+
+    if (!dryRun && (result.status === 'created' || result.status === 'updated')) {
+      refreshPages(result.slug)
+    }
 
     return toImportRecipeResult(result)
   }

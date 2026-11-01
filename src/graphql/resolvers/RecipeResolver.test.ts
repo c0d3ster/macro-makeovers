@@ -30,7 +30,7 @@ describe('RecipeResolver.importRecipe', () => {
     const { importRecipe, resolver, ctx } = setup({ isOwner: false })
 
     await expect(
-      resolver.importRecipe({ slug: 'x' }, false, false, ctx)
+      resolver.importRecipe({ slug: 'x' }, false, false, undefined, ctx)
     ).rejects.toMatchObject({
       message: 'Only the site owner can import recipes.',
       extensions: { code: 'FORBIDDEN' },
@@ -45,13 +45,14 @@ describe('RecipeResolver.importRecipe', () => {
     })
     const recipe = { slug: 'blackened-chicken-alfredo' }
 
-    await expect(resolver.importRecipe(recipe, true, false, ctx)).resolves.toBe(
+    await expect(resolver.importRecipe(recipe, true, false, 'recipe-1', ctx)).resolves.toBe(
       created
     )
     expect(importRecipe).toHaveBeenCalledWith(recipe, {
       overwrite: true,
       dryRun: false,
       authId: 'auth-1',
+      recipeId: 'recipe-1',
     })
   })
 })

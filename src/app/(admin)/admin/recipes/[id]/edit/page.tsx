@@ -13,7 +13,6 @@ import { getRecipeForEdit, getRecipeStatus } from '@/libs/recipes'
 import { createAdminClient } from '@/libs/supabase/admin'
 
 import { setStatusAction } from '../../../actions'
-import { saveRecipeAction } from '../../actions'
 
 export const metadata: Metadata = {
   title: `Edit recipe - ${Env.NEXT_PUBLIC_BRAND_NAME}`,
@@ -58,7 +57,7 @@ const EditRecipePage = async ({
         </div>
       }
     >
-      <RecipeForm recipeId={id} initial={recipe} action={saveRecipeAction} />
+      <RecipeForm recipeId={id} initial={recipe} />
     </CleanPageTemplate>
   )
 }

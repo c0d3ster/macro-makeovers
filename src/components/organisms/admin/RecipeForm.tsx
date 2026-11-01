@@ -8,22 +8,18 @@ import { useRouter } from 'next/navigation'
 import { useState, useTransition } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
 
-import type { ImportIssue } from '@/libs/recipes'
+import type { SaveRecipeResult } from '@/apiClients'
 import type { RecipeImport, RecipeImportInput } from '@/validations'
 
+import { useSaveRecipe } from '@/apiClients'
 import { Button } from '@/components/atoms'
 import { FILTER_FIELD_CLASS } from '@/components/molecules'
 import { recipeImportSchema } from '@/validations'
-
-export type SaveRecipeResult =
-  | { ok: true; id: string; slug: string; summary: string }
-  | { ok: false; error: string; issues?: ImportIssue[] }
 
 type RecipeFormProps = {
   // Set when editing. The slug is then fixed, because it is the recipe's address.
   recipeId?: string
   initial?: RecipeImportInput
-  action: (recipeId: string | undefined, input: unknown) => Promise<SaveRecipeResult>
 }
 
 const EMPTY_RECIPE: RecipeImportInput = {
@@ -150,9 +146,9 @@ const numberField = (
 export const RecipeForm = ({
   recipeId,
   initial = EMPTY_RECIPE,
-  action,
 }: RecipeFormProps): ReactElement => {
   const router = useRouter()
+  const saveRecipe = useSaveRecipe()
   const [isPending, startTransition] = useTransition()
   const [result, setResult] = useState<SaveRecipeResult>()
 
@@ -173,7 +169,7 @@ export const RecipeForm = ({
   const save = handleSubmit((values) => {
     setResult(undefined)
     startTransition(async () => {
-      const saved = await action(recipeId, values)
+      const saved = await saveRecipe(recipeId, values)
       setResult(saved)
       if (saved.ok && !recipeId) router.push(`/admin/recipes/${saved.id}/edit`)
     })

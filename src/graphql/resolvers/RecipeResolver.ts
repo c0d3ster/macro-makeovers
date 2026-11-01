@@ -1,5 +1,5 @@
 import { GraphQLError } from 'graphql'
-import { Arg, Ctx, Mutation, Resolver } from 'type-graphql'
+import { Arg, Ctx, ID, Mutation, Resolver } from 'type-graphql'
 
 import type { GraphQLContext } from '@/graphql/context'
 import type { RecipeService } from '@/services'
@@ -20,6 +20,12 @@ export class RecipeResolver {
     @Arg('overwrite', () => Boolean, { defaultValue: false })
     overwrite: boolean,
     @Arg('dryRun', () => Boolean, { defaultValue: false }) dryRun: boolean,
+    @Arg('recipeId', () => ID, {
+      nullable: true,
+      description:
+        'The recipe being edited. When set, the slug has to belong to it.',
+    })
+    recipeId: string | undefined,
     @Ctx() ctx: GraphQLContext
   ): Promise<ImportRecipeResult> {
     if (!(await ctx.isOwner())) {
@@ -33,6 +39,7 @@ export class RecipeResolver {
         overwrite,
         dryRun,
         authId: ctx.authId,
+        recipeId,
       })
     } catch (error) {
       logger.error('Error in importRecipe mutation', { error: String(error) })

@@ -3,7 +3,7 @@
 Every recipe enters the database through one function, `importRecipe`
 (`src/libs/recipes`). It validates the recipe against the shared Zod schema
 (`src/validations/RecipeImportValidation.ts`), then upserts it by slug in one
-Drizzle transaction (`createDrizzleRecipeStore`). Either every table is written or none is.
+Drizzle transaction (`RecipeRepository`). Either every table is written or none is.
 
 - A new slug lands as a **draft**.
 - An existing slug is **never overwritten silently**. The import returns a

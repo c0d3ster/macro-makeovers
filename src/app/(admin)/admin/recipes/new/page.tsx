@@ -6,8 +6,6 @@ import { RecipeForm } from '@/components/organisms'
 import { CleanPageTemplate } from '@/components/templates'
 import { Env } from '@/libs/Env'
 
-import { saveRecipeAction } from '../actions'
-
 export const metadata: Metadata = {
   title: `New recipe - ${Env.NEXT_PUBLIC_BRAND_NAME}`,
 }
@@ -23,7 +21,7 @@ const NewRecipePage = (): ReactElement => (
       </Button>
     }
   >
-    <RecipeForm action={saveRecipeAction} />
+    <RecipeForm />
   </CleanPageTemplate>
 )
 
