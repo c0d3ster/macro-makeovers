@@ -12,7 +12,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 ### Nutrition display
 
-- Macros always read carbs, fat, protein (C/F/P): tables, ratios, bars, and share images. Never lead with protein and never highlight it.
+- Macro ratios always read carbs, fat, protein (C/F/P): tables, ratio text, bars, and share images. That is only the ordering. Protein is a core part of the book, so keep it visible and give it full weight in copy, summaries, and highlights.
 - Use `formatMacroRatios` for the "42 / 27 / 31" ratio text and `toMacroRatios` for percentages.
 - Macro colors are theme tokens (`carbs`, `fat`, `protein` in `src/styles/global.css`). The rest of the palette comes from the logo.
 
