@@ -26,4 +26,6 @@ export const setStatusAction = async (formData: FormData): Promise<void> => {
   const slug = await setRecipeStatus(createAdminClient(), id, status)
   revalidateRecipePages(slug)
   revalidatePath('/admin')
+  // The editor shows the recipe's status too
+  revalidatePath('/admin/recipes/[id]/edit', 'page')
 }

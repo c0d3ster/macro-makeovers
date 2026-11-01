@@ -48,6 +48,19 @@ export const setRecipeStatus = async (
   return data.slug
 }
 
+export const getRecipeStatus = async (
+  client: SupabaseClient<Database>,
+  id: string
+): Promise<RecipeStatus | undefined> => {
+  const { data, error } = await client
+    .from('recipes')
+    .select('status')
+    .eq('id', id)
+    .maybeSingle()
+  if (error) throw new Error(`Could not read recipe ${id}: ${error.message}`)
+  return data?.status
+}
+
 // The stored recipe in the shape the editor and importer share, or undefined if the id is
 // unknown or the stored data no longer matches the schema
 export const getRecipeForEdit = async (

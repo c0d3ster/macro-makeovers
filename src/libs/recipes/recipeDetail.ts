@@ -35,6 +35,7 @@ export type RelatedRecipe = {
 }
 
 export type RecipeDetail = {
+  id: string
   slug: string
   title: string
   summary: string
@@ -169,6 +170,7 @@ export const toRecipeDetail = (
       .map(({ body_md }) => body_md)
 
   return {
+    id: row.id,
     slug: row.slug,
     title: row.title,
     summary: row.summary,

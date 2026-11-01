@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { SignOutButton, ThemeToggle } from '@/components/molecules'
+import { ThemeToggle, UserMenu } from '@/components/molecules'
 import { Env } from '@/libs/Env'
 import { isSupabaseConfigured } from '@/libs/supabase/client'
 import { useAuth } from '@/providers'
@@ -29,7 +29,7 @@ const NavAuthSection = () => {
   if (!isLoaded) return null
 
   return user ? (
-    <SignOutButton />
+    <UserMenu />
   ) : (
     <Link
       href='/login'

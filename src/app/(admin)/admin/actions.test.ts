@@ -59,5 +59,9 @@ describe('setStatusAction', () => {
     )
     expect(mocks.revalidateRecipePages).toHaveBeenCalledWith('test-chili')
     expect(mocks.revalidatePath).toHaveBeenCalledWith('/admin')
+    expect(mocks.revalidatePath).toHaveBeenCalledWith(
+      '/admin/recipes/[id]/edit',
+      'page'
+    )
   })
 })

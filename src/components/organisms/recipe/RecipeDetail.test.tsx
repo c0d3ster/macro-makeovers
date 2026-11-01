@@ -213,6 +213,7 @@ describe('RecipeNotes', () => {
 
 describe('RecipeHero', () => {
   const recipe: RecipeDetail = {
+    id: 'recipe-1',
     slug: 'test-chili',
     title: 'Test Chili',
     summary: 'A test recipe.',

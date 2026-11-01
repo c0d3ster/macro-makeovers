@@ -1,88 +1,63 @@
 import type { Metadata } from 'next'
+import type { ReactElement } from 'react'
+
+import { redirect } from 'next/navigation'
 
 import { Button } from '@/components/atoms'
 import { SignOutButton } from '@/components/molecules'
 import { CleanPageTemplate } from '@/components/templates'
 import { Env } from '@/libs/Env'
+import { isOwner } from '@/libs/supabase/owner'
+import { createClient } from '@/libs/supabase/server'
 
 export const metadata: Metadata = {
-  title: `Profile - ${Env.NEXT_PUBLIC_BRAND_NAME}`,
-  description: 'User profile page',
+  title: `My account - ${Env.NEXT_PUBLIC_BRAND_NAME}`,
 }
 
-export default function ProfilePage() {
-  const header = <SignOutButton />
+const text = (value: unknown): string | undefined =>
+  typeof value === 'string' && value.trim() ? value : undefined
 
-  const content = (
-    <>
-      {/* Content Cards */}
-      <div className='grid gap-6 md:grid-cols-2'>
-        {/* Authentication Status Card */}
-        <div className='rounded-lg bg-surface p-6'>
-          <h2 className='mb-4 text-xl font-semibold text-text'>
-            Authentication Status
-          </h2>
-          <div className='space-y-3'>
-            <div className='flex items-center space-x-2'>
-              <div className='size-2 rounded-full bg-accent'></div>
-              <span className='text-text-muted'>Signed in successfully</span>
-            </div>
-            <div className='flex items-center space-x-2'>
-              <div className='size-2 rounded-full bg-accent'></div>
-              <span className='text-text-muted'>Protected route accessed</span>
-            </div>
-            <div className='flex items-center space-x-2'>
-              <div className='size-2 rounded-full bg-accent'></div>
-              <span className='text-text-muted'>User session active</span>
-            </div>
-          </div>
-        </div>
+const ProfilePage = async (): Promise<ReactElement> => {
+  const supabase = await createClient()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+  // The proxy already sends signed-out visitors to /login. This covers a session that just ended.
+  if (!user) redirect('/login?next=/profile')
 
-        {/* Quick Actions Card */}
-        <div className='rounded-lg bg-surface p-6'>
-          <h2 className='mb-4 text-xl font-semibold text-text'>
-            Quick Actions
-          </h2>
-          <div className='space-y-3'>
-            <Button href='/' className='w-full text-center'>
-              Return to Home
-            </Button>
-          </div>
-        </div>
-      </div>
-
-      {/* Information Section */}
-      <div className='mt-8 rounded-lg bg-surface p-6'>
-        <h2 className='mb-4 text-xl font-semibold text-text'>
-          About This Demo
-        </h2>
-        <div className='space-y-2 text-text-muted'>
-          <p>
-            This page demonstrates successful authentication with Supabase Auth.
-            You can see:
-          </p>
-          <ul className='ml-4 list-disc space-y-1'>
-            <li>Protected route access (this page requires authentication)</li>
-            <li>User session management</li>
-            <li>Sign out functionality</li>
-            <li>Navigation between authenticated and public pages</li>
-          </ul>
-          <p className='mt-4'>
-            Try signing out and accessing this page directly - you'll be
-            redirected to the sign-in page.
-          </p>
-        </div>
-      </div>
-    </>
-  )
+  const owner = await isOwner()
+  const details: [string, string][] = [
+    [
+      'Name',
+      text(user.user_metadata.full_name) ??
+        text(user.user_metadata.name) ??
+        'Not set',
+    ],
+    ['Email', user.email ?? 'Not set'],
+    ['Role', owner ? 'Owner' : 'Member'],
+  ]
 
   return (
     <CleanPageTemplate
-      title={`Welcome to ${Env.NEXT_PUBLIC_BRAND_NAME}`}
-      subtitle='You are successfully authenticated!'
-      header={header}
+      title='My account'
+      subtitle='Your sign-in details.'
+      header={<SignOutButton />}
     >
-      {content}
+      <dl className='grid gap-x-6 gap-y-4 rounded-lg bg-surface p-6 sm:grid-cols-[8rem_minmax(0,1fr)]'>
+        {details.map(([label, value]) => (
+          <div key={label} className='contents'>
+            <dt className='text-sm text-text-muted'>{label}</dt>
+            <dd className='wrap-break-word text-text'>{value}</dd>
+          </div>
+        ))}
+      </dl>
+      {owner && (
+        <div className='mt-6'>
+          <Button href='/admin'>Open the admin area</Button>
+        </div>
+      )}
     </CleanPageTemplate>
   )
 }
+
+export default ProfilePage
