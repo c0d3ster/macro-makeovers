@@ -115,7 +115,7 @@ Only `raw` is required on each ingredient, so imports work today and a parsing p
 
 **Seeding the existing recipes.** Run the book's markdown through the same flow once. An LLM pass converts each recipe to this JSON, and you check the nutrition rows against the book's tables before publishing.
 
-**Direct push later.** A token-protected route handler (`POST /api/admin/import`) lets Claude Code send the JSON straight from the conversation, skipping the paste.
+**Direct push later.** An owner-only `importRecipe` GraphQL mutation lets the Claude web project send the JSON straight from the conversation, skipping the paste. The API is GraphQL only, so there is no REST import route. See [Roadmap](#roadmap-graphql-import-photos-and-the-automated-book).
 
 ## App structure and features
 
@@ -206,10 +206,36 @@ The biggest risk is ingredient parsing quality, and it only matters from meal pl
 2. Confirm the domain.
 3. Next up is the SQL migration with RLS and the Zod import schema, so the first recipe imports end to end.
 
+## Roadmap: GraphQL import, photos, and the automated book
+
+The workflow: draft and refine a recipe in the Claude web project, send it to the site, get a placeholder photo, publish, and have the printable book rebuild itself. Tasks are in the order to work on them. Mark each one done here as it lands.
+
+**Rule for all of it:** GraphQL only. Secrets (`OPENAI_API_KEY`, R2 keys, GitHub token) live in hosting env and GitHub secrets, never in the repo.
+
+| #   | Task                         | Scope                                                                                                                                                                                                                                                                                                                          | Done when                                                                        |
+| --- | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------- |
+| 1   | GraphQL import               | `importRecipe` mutation (with a `dryRun` flag and `overwrite`) on top of the existing `importRecipe` lib. Owner-only. Returns the field-level diff and import result. Add a `RecipeResolver` and schema types.                                                                                                                 | A signed-in owner can import a recipe from a GraphQL client and get the diff     |
+| 2   | Non-browser auth             | Let a client that has no browser cookie authenticate as the owner (see below). Wire it into `createContext` so every owner-only resolver works.                                                                                                                                                                                | The Claude web project can call task 1 without you pasting or logging in by hand |
+| 3   | Move admin writes to GraphQL | Admin import, publish, and edit currently use Next server actions. Move them to GraphQL mutations so there is one API. Keep thin server actions only if a form needs one.                                                                                                                                                      | No admin write path bypasses the GraphQL API                                     |
+| 4   | Baseline book                | Install pandoc and Chromium locally (pandoc via `scoop install pandoc`), run `pnpm book:pdf`, keep the PDF as the format baseline.                                                                                                                                                                                             | A reference PDF exists to compare against                                        |
+| 5   | Book from the DB             | `buildBook.ts` reads published recipes through `src/libs/recipes` and generates markdown in the shape of `docs/recipes.md`. The pandoc and `layoutRecipes` path stays untouched. Prose (intro, nutrition guidance) comes from `docs/`. The quick reference table is generated.                                                 | The DB-built book matches the baseline recipe by recipe, with any gaps listed    |
+| 6   | R2 photos                    | After a new recipe imports with no `image_url`, a separate step generates a placeholder with OpenAI's image API from the title and summary, uploads it to Cloudflare R2, and writes the URL to `image_url`. Failure never fails the import. An overwrite never replaces an existing photo. Mark photos as placeholders.        | A new import ends up with a photo on its card and recipe page                    |
+| 7   | Book photos from R2          | The book build downloads each recipe's `image_url`. `public/images` stays as the fallback for the original 14.                                                                                                                                                                                                                 | A recipe added through the API appears in the book with its photo                |
+| 8   | Book workflow                | `.github/workflows/book.yml` installs pandoc and Chromium, runs `pnpm book:pdf`, and uploads the PDF to a rolling `recipe-book` GitHub Release. Triggers: push touching `docs/**`, `content/**`, or `public/images/**`, `workflow_dispatch`, and `repository_dispatch`. Use a concurrency group so quick edits make one build. | Merging a docs change rebuilds the release PDF                                   |
+| 9   | Rebuild on DB edits          | A publish or edit through GraphQL fires `repository_dispatch` with a token that can only do that. Debounced.                                                                                                                                                                                                                   | Publishing a recipe updates the release PDF without you doing anything           |
+| 10  | Docs                         | Update `importing-recipes.md` for the new flow and add a knowledge block for the Claude web project (schema plus an example recipe).                                                                                                                                                                                           | The web project produces JSON that imports cleanly                               |
+
+**Auth options for task 2 (undecided).** The Claude web UI cannot hold your browser session, and Playwright is not available there. The realistic options:
+
+1. **Owner API token (recommended first).** A long-random token you generate in the admin, stored hashed in the database, sent as `Authorization: Bearer`. `createContext` resolves it to the owner. It can be revoked and scoped to the import and publish mutations only. This needs the web project to be able to make outbound HTTP calls, which depends on its network settings. Verify that before building.
+2. **Your Supabase session token.** The JWT from signing in on the site works as a bearer token, but it expires in about an hour and needs a refresh token to renew. Fine for testing, annoying as the real flow.
+3. **Remote MCP server with OAuth.** Expose the import and publish mutations as an MCP connector, with Google sign-in through Supabase for the OAuth step. This is the cleanest way for the Claude web UI to authenticate you, and it needs no token to paste. It is more work, so treat it as a follow-up to option 1.
+
 ## Decisions since this plan was written
 
 - The book now has 12 recipes, and all 12 are seeded in milestone 3 (see [recipes.md](./recipes.md)).
 - The repo is built on the `nextjs-graphql-template` Supabase variant, bootstrapped with `database`, `auth`, and `email`. Realtime and file uploads were left out for now.
-- Images are deferred. Supabase Storage is the plan when the time comes.
+- Images: Cloudflare R2 replaces Supabase Storage as the plan. New recipes get an AI-generated placeholder photo (see the roadmap).
+- The API is GraphQL only. No REST endpoints are added. `/auth/callback` stays a route handler because Supabase's OAuth redirect requires one.
 - Steps get an optional `durationMinutes` so a later cook mode can run per-step timers without a migration.
 - The recipe book also holds material for content pages (about, nutrition guide, shopping guide). Proposed: keep them as MDX in the repo, not in the database. Not yet decided.

@@ -21,7 +21,7 @@ transaction through the `import_recipe` database function.
 | ------------------------ | --------------------------------------------- |
 | `/admin/import`          | Paste the JSON an agent produced (owner only) |
 | `pnpm recipe:import`     | Files on disk, including the 13 seed recipes  |
-| `POST /api/admin/import` | Later: send JSON straight from an agent       |
+| `importRecipe` (GraphQL) | Later: send JSON straight from an agent       |
 
 ## The recipe book to the database
 
