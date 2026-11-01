@@ -1194,7 +1194,7 @@ Shredded chicken breast poached right in a homemade red sauce, layered with blac
 |                           | Calories | Carbs | Fat   | Protein | Ratio C/F/P    |
 | ------------------------- | -------- | ----- | ----- | ------- | -------------- |
 | **Per serving (÷6)**      | ~525     | 57g   | 15g   | 46g     | 42 / 24 / 34   |
-| **Whole batch**           | ~3,140   | 340g  | 89g   | 278g    | n/a            |
+| **Whole batch**           | ~3,140   | 340g  | 89g   | 278g    | —              |
 | _Traditional per serving_ | _~665_   | _30g_ | _47g_ | _31g_   | _18 / 63 / 19_ |
 
 The traditional row assumes 1.5 lb of 80/20 beef, 12 tortillas fried in about 3 tbsp of oil, canned sauce, 8 oz of cheese, and 1/2 cup of sour cream. The fat savings come from the lean chicken, the dry-warmed tortillas, half the cheese, and cottage cheese in place of sour cream. They go toward protein and the beans and corn, so carbs run higher than the traditional version. Fat lands just under 25%, so there is room to add cheese (see Levers).
