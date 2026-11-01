@@ -32,6 +32,7 @@ export class RecipeResolver {
       return await this.recipeService.importRecipe(recipe, {
         overwrite,
         dryRun,
+        authId: ctx.authId,
       })
     } catch (error) {
       logger.error('Error in importRecipe mutation', { error: String(error) })

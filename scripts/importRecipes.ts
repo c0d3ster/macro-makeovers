@@ -1,4 +1,4 @@
-// Imports recipe JSON files into Supabase.
+// Imports recipe JSON files into the database over Drizzle.
 //
 //   pnpm recipe:import content/recipes            # a folder of .json files
 //   pnpm recipe:import path/to/recipe.json        # one file
@@ -6,17 +6,22 @@
 //   pnpm recipe:import content/recipes --overwrite
 //   pnpm recipe:import content/recipes --publish  # also publish what was imported or unchanged
 //
-// Writes with the service role key from .env.local, against the URL in .env (the local
-// Docker stack). To import into the hosted project use `pnpm recipe:import:prod`, which
-// reads the URL from .env.production and the secret key from .env.production.local
-// (gitignored). Same arguments as above.
+// Connects with DATABASE_URL from .env (the local Docker stack), or from .env.local if set.
+// To import into the hosted project use `pnpm recipe:import:prod`, which reads
+// .env.production and then .env.production.local (gitignored), where DATABASE_URL should be
+// the direct connection string from the Supabase dashboard. Same arguments as above.
+import 'reflect-metadata'
+
 import { readdirSync, readFileSync, statSync } from 'node:fs'
 import { extname, join, resolve } from 'node:path'
+import { inArray } from 'drizzle-orm'
 
 import type { ImportResult } from '@/libs/recipes'
 
-import { createSupabaseRecipeStore, importRecipe } from '@/libs/recipes'
-import { createAdminClient } from '@/libs/supabase/admin'
+import { db } from '@/libs/DB'
+import { importRecipe } from '@/libs/recipes'
+import { createDrizzleRecipeStore } from '@/libs/recipes/drizzleRecipeStore'
+import { recipes } from '@/models'
 
 const FLAGS = ['--overwrite', '--dry-run', '--publish']
 
@@ -86,8 +91,7 @@ const main = async (): Promise<void> => {
     dryRun: args.includes('--dry-run'),
   }
   const publish = args.includes('--publish')
-  const client = createAdminClient()
-  const store = createSupabaseRecipeStore(client)
+  const store = createDrizzleRecipeStore(db)
   const files = targets.flatMap(collectFiles)
   if (files.length === 0) {
     console.error('No .json files found')
@@ -114,11 +118,10 @@ const main = async (): Promise<void> => {
   }
 
   if (publish && !options.dryRun && publishable.length > 0) {
-    const { error } = await client
-      .from('recipes')
-      .update({ status: 'published' })
-      .in('slug', publishable)
-    if (error) throw new Error(`Could not publish: ${error.message}`)
+    await db
+      .update(recipes)
+      .set({ status: 'published' })
+      .where(inArray(recipes.slug, publishable))
     console.log(`\nPublished ${publishable.length} recipes`)
   }
 
@@ -129,7 +132,16 @@ const main = async (): Promise<void> => {
   }
 }
 
-main().catch((error: unknown) => {
-  console.error(error instanceof Error ? error.message : error)
-  process.exit(1)
-})
+main()
+  .catch((error: unknown) => {
+    console.error(error instanceof Error ? error.message : error)
+    process.exitCode = 1
+  })
+  .finally(async () => {
+    // Lets the process exit. Skipped quietly when no connection was ever opened.
+    try {
+      await db.$client.end()
+    } catch {
+      // nothing to close
+    }
+  })

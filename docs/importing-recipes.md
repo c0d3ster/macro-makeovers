@@ -3,7 +3,7 @@
 Every recipe enters the database through one function, `importRecipe`
 (`src/libs/recipes`). It validates the recipe against the shared Zod schema
 (`src/validations/RecipeImportValidation.ts`), then upserts it by slug in one
-transaction through the `import_recipe` database function.
+Drizzle transaction (`createDrizzleRecipeStore`). Either every table is written or none is.
 
 - A new slug lands as a **draft**.
 - An existing slug is **never overwritten silently**. The import returns a
@@ -26,8 +26,9 @@ transaction through the `import_recipe` database function.
 
 The mutation takes the recipe as JSON, plus `overwrite` and `dryRun`, and returns a
 status, any field issues, and the field-level changes. Only the site owner can call it.
-The CLI uses the same `importRecipe` library function directly, because it runs outside
-the web app.
+The CLI uses the same `importRecipe` library function and Drizzle store directly, because it
+runs outside the web app. The Drizzle connection is the database owner's and bypasses RLS, so
+the mutation checks the caller first.
 
 ## Importing from Claude (MCP connector)
 
@@ -83,21 +84,6 @@ photo from `public/images` (matched by the recipe number, so `07-...jpg` goes wi
 (`pnpm exec playwright install chromium`). Set `CHROMIUM_PATH` to use a browser you already have.
 The build folder is gitignored, so upload the PDF wherever the book is kept.
 
-## Importing into the hosted project
-
-The CLI reads `.env` (the local Docker stack) and then `.env.local`. To write to
-the hosted project, set the URL and the **secret key** for one command only,
-and never put them in a file in the repo:
-
-```bash
-NEXT_PUBLIC_SUPABASE_URL=https://<project-ref>.supabase.co \
-SUPABASE_SECRET_KEY=<secret key from the dashboard> \
-pnpm recipe:import content/recipes
-```
-
-The secret key bypasses RLS. It is used only on the server, and the admin page
-checks `public.is_owner()` before using it.
-
 ## Recipe JSON
 
 See the schema in `src/validations/RecipeImportValidation.ts`. Only `raw` is
@@ -128,10 +114,12 @@ slug). Flank steak bulgogi and the sausage hash brown bake are variants.
 loads `.env.production` and `.env.production.local` instead of `.env` and
 `.env.local`.
 
-- `.env.production` (committed) sets `NEXT_PUBLIC_SUPABASE_URL` to the hosted
-  project URL.
-- `.env.production.local` (gitignored) sets `SUPABASE_SECRET_KEY` to the hosted
-  secret key from the Supabase dashboard (Project Settings, API Keys).
+- `.env.local` and `.env.production.local` (both gitignored) can set `DATABASE_URL`.
+  The local default in `.env` points at the Docker stack.
+- For the hosted project, put the **direct** connection string from the Supabase
+  dashboard (Connect, port 5432, not the transaction pooler) in
+  `.env.production.local`. It carries the database password, so never put it in a
+  file that is committed.
 
 Run `supabase db push --linked` first so the hosted database has the latest
 migrations, and start with `--dry-run`.
