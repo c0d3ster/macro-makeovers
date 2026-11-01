@@ -23,7 +23,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 ### Checks and commits
 
-- Before committing, run `pnpm check:types`, `pnpm lint`, `pnpm check:deps`, and `pnpm test`. Skip them for tiny visual tweaks while iterating.
+- Do not run `pnpm check:types`, `pnpm lint`, `pnpm check:deps`, or `pnpm test` on your own. Lefthook already runs lint and type checks on every commit, and the PR pipeline runs the deps check and the tests, so nothing needs a local run first. Run one only when the user asks, or to diagnose a specific failing CI job (run just that check).
 - Commits use Conventional Commits. Keep body lines under 100 characters (commitlint rejects longer ones) and
   keep messages succinct.
 - Commit and push at reasonable checkpoints, not after every change.
