@@ -14,7 +14,7 @@ Per serving, default/featured build for each. Full nutrition, other build option
 
 | Recipe                                                                            | Calories | Protein | Ratio C/F/P  | Servings |
 | --------------------------------------------------------------------------------- | -------- | ------- | ------------ | -------- |
-| [Blackened Chicken Alfredo](#1-blackened-chicken-alfredo-cottage-cheese-sauce)    | ~625     | 52g     | 40 / 26 / 34 | 6        |
+| [Blackened Chicken Alfredo](#1-blackened-chicken-alfredo-cottage-cheese-sauce)    | ~625     | 52g     | 41 / 26 / 33 | 6        |
 | [Spicy Turkey Chili](#2-spicy-turkey-chili) _(fully loaded)_                      | ~500     | 39g     | 42 / 27 / 31 | 5        |
 | [Turkey Taco Grillers](#3-lean-taco-grillers-lean-beef-or-turkey) _(2 grillers)_  | ~700     | 49g     | 45 / 27 / 28 | 4        |
 | [Ham & Prosciutto Sliders](#4-ham--prosciutto-sliders) _(3 sliders)_              | ~620     | 41g     | 36 / 38 / 26 | 4        |
@@ -22,12 +22,12 @@ Per serving, default/featured build for each. Full nutrition, other build option
 | [Cheesy Chicken and Broccoli Rice Bake](#6-cheesy-chicken-and-broccoli-rice-bake) | ~610     | 51g     | 38 / 28 / 34 | 5        |
 | [Lemon Pepper Shrimp Pesto Linguine](#7-lemon-pepper-shrimp-pesto-linguine)       | ~530     | 40g     | 45 / 25 / 30 | 6        |
 | [Kickin' Fried Chicken](#8-kickin-fried-chicken) _(full plate)_                   | ~605     | 45g     | 48 / 22 / 30 | 5        |
-| [Beef Bulgogi](#9-beef-bulgogi) _(over black rice)_                               | ~520     | 46g     | 40 / 24 / 36 | 4        |
-| [Cheesy Hash Brown Bacon Bake](#10-cheesy-hash-brown-bacon-bake)                  | ~550     | 45g     | 36 / 30 / 34 | 4        |
-| [Southwest Sausage Hash Brown Bake](#10a-southwest-sausage-hash-brown-bake)       | ~600     | 47g     | 40 / 29 / 31 | 4        |
+| [Beef Bulgogi](#9-beef-bulgogi) _(over black rice)_                               | ~520     | 46g     | 40 / 25 / 36 | 4        |
+| [Cheesy Hash Brown Bacon Bake](#10-cheesy-hash-brown-bacon-bake)                  | ~550     | 45g     | 35 / 31 / 34 | 4        |
+| [Southwest Sausage Hash Brown Bake](#10a-southwest-sausage-hash-brown-bake)       | ~600     | 47g     | 40 / 28 / 31 | 4        |
 | [Pollo Asado Chicken Thigh Bowl](#11-pollo-asado-chicken-thigh-bowl) _(skinless)_ | ~670     | 56g     | 40 / 27 / 33 | 4        |
-| [Shake 'n Bake Pork Chops](#12-shake-n-bake-pork-chops) _(full plate)_            | ~675     | 55g     | 34 / 33 / 33 | 4        |
-| [Red Enchilada Casserole](#13-red-enchilada-casserole)                            | ~525     | 46g     | 42 / 24 / 34 | 6        |
+| [Shake 'n Bake Pork Chops](#12-shake-n-bake-pork-chops) _(full plate)_            | ~675     | 55g     | 34 / 33 / 32 | 4        |
+| [Red Enchilada Casserole](#13-red-enchilada-casserole)                            | ~525     | 46g     | 42 / 25 / 34 | 6        |
 
 :::
 
@@ -43,7 +43,7 @@ No heavy cream, a quarter of the butter, and half the cheese of a traditional Al
 
 |                           | Calories | Carbs | Fat   | Protein | Ratio C/F/P    |
 | ------------------------- | -------- | ----- | ----- | ------- | -------------- |
-| **Per serving (÷6)**      | ~625     | 63g   | 18g   | 52g     | 40 / 26 / 34   |
+| **Per serving (÷6)**      | ~625     | 63g   | 18g   | 52g     | 41 / 26 / 33   |
 | **Whole batch**           | ~3,750   | 376g  | 107g  | 313g    | —              |
 | _Traditional per serving_ | _~805_   | _48g_ | _55g_ | _30g_   | _24 / 61 / 15_ |
 
@@ -719,7 +719,7 @@ Thin-sliced ribeye strips in a soy-pear marinade, seared hard in cast iron and s
 
 |                                                                    | Calories | Carbs | Fat   | Protein | Ratio C/F/P    |
 | ------------------------------------------------------------------ | -------- | ----- | ----- | ------- | -------------- |
-| **Per serving (÷4)**                                               | ~520     | 51g   | 14g   | 46g     | 40 / 24 / 36   |
+| **Per serving (÷4)**                                               | ~520     | 51g   | 14g   | 46g     | 40 / 25 / 36   |
 | **Whole batch**                                                    | ~2,080   | 204g  | 56g   | 184g    | —              |
 | _Traditional per serving (sirloin, standard marinade, white rice)_ | _~525_   | _39g_ | _23g_ | _41g_   | _30 / 39 / 31_ |
 
@@ -797,7 +797,7 @@ Hash brown breakfast bake rebuilt around a cottage cheese and egg white custard.
 
 |                           | Calories | Carbs | Fat   | Protein | Ratio C/F/P    |
 | ------------------------- | -------- | ----- | ----- | ------- | -------------- |
-| **Per serving (÷4)**      | ~550     | 47g   | 18g   | 45g     | 36 / 30 / 34   |
+| **Per serving (÷4)**      | ~550     | 47g   | 18g   | 45g     | 35 / 31 / 34   |
 | **Whole batch**           | ~2,200   | 188g  | 71g   | 180g    | —              |
 | _Traditional per serving_ | _~520_   | _38g_ | _30g_ | _22g_   | _30 / 53 / 17_ |
 
@@ -894,7 +894,7 @@ Shredded southwest hash browns roasted crisp, baked breakfast sausage, black bea
 
 |                           | Calories | Carbs | Fat   | Protein | Ratio C/F/P    |
 | ------------------------- | -------- | ----- | ----- | ------- | -------------- |
-| **Per serving (÷4)**      | ~600     | 61g   | 19g   | 47g     | 40 / 29 / 31   |
+| **Per serving (÷4)**      | ~600     | 61g   | 19g   | 47g     | 40 / 28 / 31   |
 | **Whole batch**           | ~2,410   | 244g  | 77g   | 186g    | —              |
 | _Traditional per serving_ | _~560_   | _30g_ | _37g_ | _28g_   | _21 / 59 / 20_ |
 
@@ -1100,7 +1100,7 @@ Thin, crispy panko pork chops with a scallion cottage cheese pan sauce, over a t
 
 |                         | Calories | Carbs | Fat   | Protein | Ratio C/F/P    |
 | ----------------------- | -------- | ----- | ----- | ------- | -------------- |
-| **Per plate (÷4)**      | ~675     | 58g   | 25g   | 55g     | 34 / 33 / 33   |
+| **Per plate (÷4)**      | ~675     | 58g   | 25g   | 55g     | 34 / 33 / 32   |
 | **Whole batch**         | ~2,700   | 232g  | 100g  | 220g    | —              |
 | _Traditional per plate_ | _~1,015_ | _56g_ | _67g_ | _51g_   | _22 / 58 / 20_ |
 
@@ -1193,7 +1193,7 @@ Shredded chicken breast poached right in a homemade red sauce, layered with blac
 
 |                           | Calories | Carbs | Fat   | Protein | Ratio C/F/P    |
 | ------------------------- | -------- | ----- | ----- | ------- | -------------- |
-| **Per serving (÷6)**      | ~525     | 57g   | 15g   | 46g     | 42 / 24 / 34   |
+| **Per serving (÷6)**      | ~525     | 57g   | 15g   | 46g     | 42 / 25 / 34   |
 | **Whole batch**           | ~3,140   | 340g  | 89g   | 278g    | —              |
 | _Traditional per serving_ | _~665_   | _30g_ | _47g_ | _31g_   | _18 / 63 / 19_ |
 
