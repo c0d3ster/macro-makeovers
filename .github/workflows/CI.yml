@@ -100,7 +100,7 @@ jobs:
       - name: Run unit tests
         uses: docker://mcr.microsoft.com/playwright:v1.64.1-noble
         with:
-          args: sh -c "npm install -g corepack && corepack enable pnpm && pnpm run test --run --project=unit --coverage"
+          args: sh -c "npm install -g pnpm@10 && pnpm run test --run --project=unit --coverage"
         env:
           COREPACK_ENABLE_DOWNLOAD_PROMPT: '0'
           # Test environment
@@ -138,7 +138,7 @@ jobs:
       - name: Run E2E tests
         uses: docker://mcr.microsoft.com/playwright:v1.64.1-noble
         with:
-          args: sh -c "npm install -g corepack && corepack enable pnpm && HOME=/root pnpm run test:e2e" # Set HOME to /root to avoid Playwright error with Firefox
+          args: sh -c "npm install -g pnpm@10 && HOME=/root pnpm run test:e2e" # Set HOME to /root to avoid Playwright error with Firefox
         env:
           COREPACK_ENABLE_DOWNLOAD_PROMPT: '0'
           # Test environment
