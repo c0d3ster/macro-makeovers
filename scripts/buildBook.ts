@@ -40,14 +40,17 @@ const STYLES = `
   .recipe-start { break-before: page; }
   h2.recipe-start { display: flex; justify-content: space-between; align-items: center; gap: 12pt; margin-top: 0; }
   .pill { flex: none; font-size: 9pt; font-weight: normal; padding: 4pt 10pt; border-radius: 12pt; background: #efeedd; border: 1px solid #d8d6bc; color: #444; }
-  .photo { width: 100%; height: 2.5in; object-fit: cover; border-radius: 6pt; margin: 0.08in 0 0.12in; display: block; }
-  .stats { margin: 0 0 0.12in; break-inside: avoid; }
+  .hero { display: flex; gap: 0.25in; align-items: stretch; margin: 0.1in 0 0.14in; break-inside: avoid; }
+  .hero-text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 9pt; }
+  .hero-text p { margin: 0; }
+  .photo { flex: none; width: 3.1in; min-height: 2.4in; object-fit: cover; border-radius: 6pt; display: block; }
+  .stats { margin-top: auto; }
   .headline { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6pt; }
-  .headline b { font-size: 22pt; line-height: 1; margin-right: 4pt; }
+  .headline b { font-size: 20pt; line-height: 1; margin-right: 4pt; }
   .headline .servings b { font-size: 15pt; }
   .headline span { color: #666; font-size: 10pt; }
   .macros { display: flex; gap: 6pt; }
-  .macro { min-width: 0.9in; text-align: center; padding: 6pt 4pt; border-radius: 6pt; border: 1px solid #c9c9c9; line-height: 1.2; }
+  .macro { min-width: 0.8in; text-align: center; padding: 6pt 4pt; border-radius: 6pt; border: 1px solid #c9c9c9; line-height: 1.2; }
   .macro b { display: block; font-size: 15pt; }
   .macro span { display: block; color: #555; font-size: 9pt; }
   .macro small { color: #666; font-size: 8pt; }
@@ -55,7 +58,7 @@ const STYLES = `
   .macro.fat { background: rgb(214 168 82 / 0.35); }
   .macro.protein { background: rgb(112 164 124 / 0.35); }
   .original { display: flex; gap: 6pt; height: 4pt; margin-top: 5pt; opacity: 0.25; }
-  .original div { min-width: 0.9in; border-radius: 4pt; }
+  .original div { min-width: 0.8in; border-radius: 4pt; }
   .original .carbs { background: rgb(117 132 205); }
   .original .fat { background: rgb(214 168 82); }
   .original .protein { background: rgb(112 164 124); }
@@ -127,17 +130,33 @@ const statsHtml = ({ servings, featured, original }: Stats): string => {
 }
 
 // Pandoc renders the heading as plain text. Split the "| $$ · ~35 min · ●●●○○" tail into a pill,
-// mark the heading so each recipe starts on a new page, and run the photo and stats block ahead of
-// the intro. A recipe with no photo skips the photo.
+// mark the heading so each recipe starts on a new page, and build the two-column opener like the
+// recipe page: the intro and stats on the left, the photo on the right. The servings count lives in
+// the stats, so the intro drops its "Makes ~6 servings." line. A recipe with no photo keeps the
+// plain intro.
 const layoutRecipes = (html: string, stats: Stats[]): string => {
   let index = 0
   return html.replace(
-    /<h2 id="([^"]+)">(\d+[a-z]?\. .+?) \| (.+?)<\/h2>(\s*<p>\s*<img class="photo"[^>]*>\s*<\/p>)?/g,
-    (_match, id: string, title: string, pill: string, photo = '') => {
+    /<h2 id="([^"]+)">(\d+[a-z]?\. .+?) \| (.+?)<\/h2>(\s*<p>\s*<img class="photo"[^>]*>\s*<\/p>)?(\s*<p>[\s\S]*?<\/p>)/g,
+    (
+      _match,
+      id: string,
+      title: string,
+      pill: string,
+      photo = '',
+      intro: string
+    ) => {
       const recipeStats = stats[index++]
       if (!recipeStats) throw new Error(`No nutrition for "${title}"`)
       const heading = `<h2 id="${id}" class="recipe-start"><span>${title}</span><span class="pill">${pill}</span></h2>`
-      return `${heading}${photo.replace(/<\/?p>/g, '').trim()}${statsHtml(recipeStats)}`
+      if (!photo) return `${heading}${intro}`
+
+      const text = intro.replace(
+        /\s*<strong>Makes ~?\d+ servings\.<\/strong>/,
+        ''
+      )
+      const image = photo.replace(/<\/?p>/g, '').trim()
+      return `${heading}<div class="hero"><div class="hero-text">${text.trim()}${statsHtml(recipeStats)}</div>${image}</div>`
     }
   )
 }
