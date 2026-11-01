@@ -31,6 +31,16 @@ Per serving, default/featured build for each. Full nutrition, other build option
 
 :::
 
+## How difficulty is rated
+
+Difficulty is about technique risk, not effort. A long recipe with forgiving steps stays low. A short one where a small mistake ruins the dish goes high.
+
+- **1 ●○○○○:** assembly, almost no cooking.
+- **2 ●●○○○:** one forgiving method, hard to mess up.
+- **3 ●●●○○:** a few components, or one spot to watch.
+- **4 ●●●●○:** several things to time together, or one technique that can fail.
+- **5 ●●●●●:** a technique where a small mistake ruins it (poached eggs and hollandaise, a thick steak, a soufflé). Nothing in this book is a 5 yet.
+
 ---
 
 <a id="1-blackened-chicken-alfredo-cottage-cheese-sauce"></a>
@@ -435,7 +445,7 @@ Pouches are 2.6 oz ready-to-use; a 5 oz can drains to ~3.4 oz. Leaner and higher
 
 <a id="6-cheesy-chicken-and-broccoli-rice-bake"></a>
 
-## 6. Cheesy Chicken and Broccoli Rice Bake | $ · ~70 min · ●●●●○
+## 6. Cheesy Chicken and Broccoli Rice Bake | $ · ~70 min · ●●●○○
 
 Classic casserole, rebuilt. No cream of chicken soup: cottage cheese blended with warm broth carries the creamy body instead, and real cheddar gets used deliberately (half in the sauce, half on top) rather than buried. **Makes ~5 servings.**
 
@@ -607,7 +617,7 @@ Protein-forward and meaningfully lower fat than a standard pesto made with full 
 
 <a id="8-kickin-fried-chicken"></a>
 
-## 8. Kickin' Fried Chicken | $$ · ~40 min · ●●●●●
+## 8. Kickin' Fried Chicken | $$ · ~40 min · ●●●●○
 
 Same triple-coat breading (flour and cornstarch, egg, seasoned panko) and heavy cayenne/paprika hit as the original skillet version, air fried instead of pan-fried in oil. Compared here against a full home-style fried chicken dinner: deep-fried breast, mashed potatoes and gravy, and corn, since that's the real plate this replaces, not just the chicken on its own. **Makes 5 servings.**
 
