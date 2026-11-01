@@ -1,7 +1,13 @@
 import type { NodePgDatabase } from 'drizzle-orm/node-postgres'
 
 import type { ImportRecipeResult } from '@/graphql/schema'
-import type { ImportResult } from '@/libs/recipes'
+import type {
+  ImportResult,
+  RecipeCard,
+  RecipeDetail,
+  RecipeStatus,
+} from '@/libs/recipes'
+import type { AdminRecipe } from '@/libs/recipes/RecipeRepository'
 import type { schemas } from '@/models'
 
 import { revalidatePath } from 'next/cache'
@@ -12,6 +18,7 @@ import { logger } from '@/libs/Logger'
 import { importRecipe } from '@/libs/recipes'
 import { RecipeRepository } from '@/libs/recipes/RecipeRepository'
 import { revalidateRecipePages } from '@/libs/recipes/revalidateRecipePages'
+import { recipeImportSchema } from '@/validations'
 
 type ImportOptions = {
   overwrite: boolean
@@ -20,6 +27,17 @@ type ImportOptions = {
   authId?: string | undefined
   // Set when editing: the slug must belong to this recipe
   recipeId?: string | undefined
+}
+
+// Long enough for any real search, short enough that nobody sends a novel to Postgres
+const MAX_SEARCH_LENGTH = 200
+
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+
+type EditableRecipe = {
+  id: string
+  status: RecipeStatus
+  recipe: unknown
 }
 
 // Public pages and the admin list cache recipes, so a write refreshes them. A failure here
@@ -80,10 +98,67 @@ export class RecipeService {
       ...(recipeId ? { recipeId } : {}),
     })
 
-    if (!dryRun && (result.status === 'created' || result.status === 'updated')) {
+    if (
+      !dryRun &&
+      (result.status === 'created' || result.status === 'updated')
+    ) {
       refreshPages(result.slug)
     }
 
     return toImportRecipeResult(result)
+  }
+
+  private reader(): RecipeRepository {
+    return new RecipeRepository(this.database)
+  }
+
+  // Public reads. They only ever return published recipes, so no caller check is needed.
+
+  getRecipeCards(): Promise<RecipeCard[]> {
+    return this.reader().listPublishedCards()
+  }
+
+  getRecipe(slug: string): Promise<RecipeDetail | undefined> {
+    return this.reader().getPublishedDetail(slug)
+  }
+
+  getRecipeSlugs(): Promise<string[]> {
+    return this.reader().listPublishedSlugs()
+  }
+
+  async getRecipeSlugsByIngredient(search: string): Promise<string[]> {
+    const text = search.trim().slice(0, MAX_SEARCH_LENGTH)
+    if (!text) return []
+    return this.reader().findPublishedSlugsByIngredient(text)
+  }
+
+  // Owner reads. They include drafts, so the resolver checks the owner before calling them.
+
+  getAdminRecipes(): Promise<AdminRecipe[]> {
+    return this.reader().listAdminRecipes()
+  }
+
+  // The stored recipe in import shape for the editor, or undefined when the id is unknown or
+  // the stored data no longer matches the import schema
+  async getEditableRecipe(id: string): Promise<EditableRecipe | undefined> {
+    if (!UUID.test(id)) return undefined
+
+    const repository = this.reader()
+    const [status, snapshot] = await Promise.all([
+      repository.getRecipeStatus(id),
+      repository.getRecipe(id),
+    ])
+    if (!status) return undefined
+
+    const parsed = recipeImportSchema.safeParse(snapshot)
+    if (!parsed.success) {
+      logger.error('Stored recipe does not match the import schema', {
+        id,
+        error: parsed.error.message,
+      })
+      return undefined
+    }
+
+    return { id, status, recipe: parsed.data }
   }
 }

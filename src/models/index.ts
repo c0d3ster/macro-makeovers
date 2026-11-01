@@ -1,14 +1,5 @@
 // Re-export for convenience
-import {
-  ingredients,
-  recipeNotes,
-  recipeNutrition,
-  recipeRevisions,
-  recipes,
-  recipeTags,
-  steps,
-  tags,
-} from './recipes'
+import * as recipeModels from './recipes'
 import { users } from './users'
 
 // Export all enums
@@ -17,14 +8,8 @@ export * from './enums'
 export * from './recipes'
 export * from './users'
 
+// Tables and relations together, which is what db.query needs
 export const schemas = {
   users,
-  recipes,
-  recipeNutrition,
-  ingredients,
-  steps,
-  recipeNotes,
-  tags,
-  recipeTags,
-  recipeRevisions,
+  ...recipeModels,
 }

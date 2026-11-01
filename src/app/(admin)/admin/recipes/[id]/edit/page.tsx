@@ -9,10 +9,9 @@ import { RecipeForm } from '@/components/organisms'
 import { CleanPageTemplate } from '@/components/templates'
 import { Env } from '@/libs/Env'
 import { logger } from '@/libs/Logger'
-import { getRecipeForEdit, getRecipeStatus } from '@/libs/recipes'
-import { createAdminClient } from '@/libs/supabase/admin'
 
 import { setStatusAction } from '../../../actions'
+import { loadEditableRecipe } from '../../../loadAdminRecipes'
 
 export const metadata: Metadata = {
   title: `Edit recipe - ${Env.NEXT_PUBLIC_BRAND_NAME}`,
@@ -22,21 +21,18 @@ type EditRecipePageProps = {
   params: Promise<{ id: string }>
 }
 
-// The layout has already checked the owner, so the service role client is safe to use here
+// The layout has already checked the owner, and the query checks again
 const EditRecipePage = async ({
   params,
 }: EditRecipePageProps): Promise<ReactElement> => {
   const { id } = await params
-  const client = createAdminClient()
-  const [recipe, status] = await Promise.all([
-    getRecipeForEdit(client, id),
-    getRecipeStatus(client, id),
-  ]).catch((error) => {
-    // A malformed id or a missing recipe both end at the 404 page
+  const editable = await loadEditableRecipe(id).catch((error) => {
+    // A malformed id, a missing recipe, and a failed lookup all end at the 404 page
     logger.error('Could not load the recipe to edit', { id, error })
-    return []
+    return undefined
   })
-  if (!recipe || !status) notFound()
+  if (!editable) notFound()
+  const { recipe, status } = editable
 
   return (
     <CleanPageTemplate

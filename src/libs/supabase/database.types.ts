@@ -393,9 +393,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      import_recipe: { Args: { p_recipe: Json }; Returns: string }
       is_owner: { Args: Record<PropertyKey, never>; Returns: boolean }
-      recipe_snapshot: { Args: { p_recipe_id: string }; Returns: Json }
     }
     Enums: {
       note_kind:

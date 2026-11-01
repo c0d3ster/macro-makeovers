@@ -164,7 +164,9 @@ pnpm run db:push
 
 Set `NEXT_PUBLIC_SUPABASE_URL` (`https://<project-ref>.supabase.co`) and the keys from Dashboard → Project
 Settings → API Keys. For `DATABASE_URL`, use Dashboard → Connect: the transaction pooler (port 6543) at runtime,
-and the direct or session connection (port 5432) for `db:pull`.
+and the direct or session connection (port 5432) for `db:pull`. Recipe pages are built ahead of time, so
+`DATABASE_URL` has to be set for the build as well as at runtime. Without it the build still succeeds and the
+recipe pages render on first visit instead.
 
 **Google sign-in (local):** it is enabled in `supabase/config.toml`, but the stack starts without credentials and
 "Continue with Google" only errors until you add them. Create an OAuth client in Google Cloud Console (Web

@@ -30,6 +30,23 @@ The CLI uses the same `importRecipe` library function and Drizzle store directly
 runs outside the web app. The Drizzle connection is the database owner's and bypasses RLS, so
 the mutation checks the caller first.
 
+## Reading recipes
+
+The site reads recipes through GraphQL queries too, so Drizzle is the only door to the recipe
+tables. Server components run the query in-process (`src/graphql/execute.ts`), which keeps the
+recipe pages buildable ahead of time.
+
+| Query                                  | Who        | Returns                             |
+| -------------------------------------- | ---------- | ----------------------------------- |
+| `recipeCards`, `recipe`, `recipeSlugs` | Anyone     | Published recipes only              |
+| `recipeSlugsByIngredient`              | Anyone     | Published slugs matching the search |
+| `adminRecipes`, `editableRecipe`       | Owner only | Drafts too, and the editor's recipe |
+
+Drizzle connects as the database owner and bypasses row-level security, so "published only" is
+written into the repository's public queries (`RecipeRepository`), and the owner queries check
+the caller first. The RLS policies stay on the tables as a second line of defense for anything
+that reaches them through the Supabase API.
+
 ## Importing from Claude (MCP connector)
 
 `/api/mcp` is a remote MCP server with three tools: `get_recipe_schema`, `validate_recipe`
