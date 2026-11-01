@@ -20,7 +20,7 @@ import type { ImportResult } from '@/libs/recipes'
 
 import { db } from '@/libs/DB'
 import { importRecipe } from '@/libs/recipes'
-import { createDrizzleRecipeStore } from '@/libs/recipes/drizzleRecipeStore'
+import { RecipeRepository } from '@/libs/recipes/RecipeRepository'
 import { recipes } from '@/models'
 
 const FLAGS = ['--overwrite', '--dry-run', '--publish']
@@ -91,7 +91,7 @@ const main = async (): Promise<void> => {
     dryRun: args.includes('--dry-run'),
   }
   const publish = args.includes('--publish')
-  const store = createDrizzleRecipeStore(db)
+  const repository = new RecipeRepository(db)
   const files = targets.flatMap(collectFiles)
   if (files.length === 0) {
     console.error('No .json files found')
@@ -109,7 +109,7 @@ const main = async (): Promise<void> => {
   let failed = 0
   const publishable: string[] = []
   for (const { file, input } of inputs) {
-    const result = await importRecipe(store, input, options)
+    const result = await importRecipe(repository, input, options)
 
     describe(file, result).forEach((line) => console.log(line))
 

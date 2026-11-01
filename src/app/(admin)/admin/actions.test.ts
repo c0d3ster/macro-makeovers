@@ -15,7 +15,7 @@ vi.mock('@/libs/supabase/owner', () => ({ isOwner: mocks.isOwner }))
 vi.mock('@/libs/supabase/admin', () => ({
   createAdminClient: mocks.createAdminClient,
 }))
-vi.mock('./revalidateRecipePages', () => ({
+vi.mock('@/libs/recipes/revalidateRecipePages', () => ({
   revalidateRecipePages: mocks.revalidateRecipePages,
 }))
 vi.mock('@/libs/recipes', () => ({ setRecipeStatus: mocks.setRecipeStatus }))

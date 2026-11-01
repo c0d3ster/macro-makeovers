@@ -1,7 +1,7 @@
 import gql from 'graphql-tag'
 
 import type { ImportRecipeMutation } from '@/graphql/generated/graphql'
-import type { ImportResult } from '@/libs/recipes'
+import type { ImportIssue, ImportResult } from '@/libs/recipes'
 
 import {
   ImportRecipeStatus,
@@ -14,8 +14,14 @@ export const IMPORT_RECIPE = gql`
     $recipe: JSON!
     $overwrite: Boolean!
     $dryRun: Boolean!
+    $recipeId: ID
   ) {
-    importRecipe(recipe: $recipe, overwrite: $overwrite, dryRun: $dryRun) {
+    importRecipe(
+      recipe: $recipe
+      overwrite: $overwrite
+      dryRun: $dryRun
+      recipeId: $recipeId
+    ) {
       status
       slug
       id
@@ -68,5 +74,70 @@ export const toImportResult = ({
       return { status: 'unchanged', slug: slug ?? '', id: id ?? '' }
     case ImportRecipeStatus.Conflict:
       return { status: 'conflict', slug: slug ?? '', changes: fieldChanges }
+  }
+}
+
+export type SaveRecipeResult =
+  | { ok: true; id: string; slug: string; summary: string }
+  | { ok: false; error: string; issues?: ImportIssue[] }
+
+// What the recipe editor shows for each outcome of a save
+export const toSaveRecipeResult = (result: ImportResult): SaveRecipeResult => {
+  switch (result.status) {
+    case 'invalid':
+      return {
+        ok: false,
+        error: 'Fix these fields and save again.',
+        issues: result.issues,
+      }
+    case 'conflict':
+      return { ok: false, error: 'A recipe with that slug already exists.' }
+    case 'unchanged':
+      return {
+        ok: true,
+        id: result.id,
+        slug: result.slug,
+        summary: 'No changes to save.',
+      }
+    case 'created':
+    case 'updated':
+      return result.id
+        ? {
+            ok: true,
+            id: result.id,
+            slug: result.slug,
+            summary:
+              result.status === 'created' ? 'Saved as a draft.' : 'Saved.',
+          }
+        : { ok: false, error: 'The save did not finish.' }
+  }
+}
+
+// Saves from the recipe editor through the same mutation as the import page. Editing passes
+// the recipe's id, which overwrites it and keeps its slug fixed. Creating never overwrites.
+export const useSaveRecipe = (): ((
+  recipeId: string | undefined,
+  input: unknown
+) => Promise<SaveRecipeResult>) => {
+  const [importRecipe] = useImportRecipe()
+
+  return async (recipeId, input) => {
+    try {
+      const { data } = await importRecipe({
+        variables: {
+          recipe: input,
+          overwrite: Boolean(recipeId),
+          dryRun: false,
+          ...(recipeId ? { recipeId } : {}),
+        },
+      })
+      if (!data) return { ok: false, error: 'The save returned no data.' }
+      return toSaveRecipeResult(toImportResult(data.importRecipe))
+    } catch (error) {
+      return {
+        ok: false,
+        error: error instanceof Error ? error.message : 'The save failed.',
+      }
+    }
   }
 }

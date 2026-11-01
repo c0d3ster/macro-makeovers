@@ -5,10 +5,9 @@ import { revalidatePath } from 'next/cache'
 import type { RecipeStatus } from '@/libs/recipes'
 
 import { setRecipeStatus } from '@/libs/recipes'
+import { revalidateRecipePages } from '@/libs/recipes/revalidateRecipePages'
 import { createAdminClient } from '@/libs/supabase/admin'
 import { isOwner } from '@/libs/supabase/owner'
-
-import { revalidateRecipePages } from './revalidateRecipePages'
 
 const isStatus = (value: unknown): value is RecipeStatus =>
   value === 'draft' || value === 'published'

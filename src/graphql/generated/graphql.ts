@@ -68,6 +68,7 @@ export type MutationImportRecipeArgs = {
   dryRun?: Scalars['Boolean']['input'];
   overwrite?: Scalars['Boolean']['input'];
   recipe: Scalars['JSON']['input'];
+  recipeId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 
@@ -149,6 +150,7 @@ export type ImportRecipeMutationVariables = Exact<{
   recipe: Scalars['JSON']['input'];
   overwrite: Scalars['Boolean']['input'];
   dryRun: Scalars['Boolean']['input'];
+  recipeId?: InputMaybe<Scalars['ID']['input']>;
 }>;
 
 
@@ -218,8 +220,13 @@ export function useSubmitContactFormMutation(baseOptions?: ApolloReactHooks.Muta
       }
 export type SubmitContactFormMutationHookResult = ReturnType<typeof useSubmitContactFormMutation>;
 export const ImportRecipeDocument = gql`
-    mutation ImportRecipe($recipe: JSON!, $overwrite: Boolean!, $dryRun: Boolean!) {
-  importRecipe(recipe: $recipe, overwrite: $overwrite, dryRun: $dryRun) {
+    mutation ImportRecipe($recipe: JSON!, $overwrite: Boolean!, $dryRun: Boolean!, $recipeId: ID) {
+  importRecipe(
+    recipe: $recipe
+    overwrite: $overwrite
+    dryRun: $dryRun
+    recipeId: $recipeId
+  ) {
     status
     slug
     id
@@ -252,6 +259,7 @@ export const ImportRecipeDocument = gql`
  *      recipe: // value for 'recipe'
  *      overwrite: // value for 'overwrite'
  *      dryRun: // value for 'dryRun'
+ *      recipeId: // value for 'recipeId'
  *   },
  * });
  */
