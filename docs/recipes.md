@@ -1369,7 +1369,7 @@ Bulk/fiber: beans, lentils, rice. Snacks: jerky, Greek yogurt.
 
 **Dishes versus the whole day:** these ratios describe a full day of eating. A single dish in this book rarely reaches the carb share of a bulk day, and it doesn't need to. Snacks, shakes, and drinks like a sports drink are mostly carbs, so they pull the day toward the bulk ratios. A dish near 40 / 30 / 30 with a snack or a pre-workout drink can add up to a 50 / 25 / 25 day. The recipe filters rank dishes by how close they are to each goal and mark the good fits, instead of hiding the rest.
 
-**Serving size:** servings are sized for a day of 4-5 sittings. That's often 3 meals plus a snack, shake, or drink (nuts, jerky, a protein bar) at other times. Protein is used best in moderate doses spread through the day, since one sitting has diminishing returns and a very large meal is hard to eat. A larger dinner with a fast-digesting shake keeps amino acids coming into the night.
+**Serving size:** servings are sized for eating 4-5 times throughout the day. That's often 3 meals plus a shake, drink, or snack (nuts, jerky, a protein bar, fruit) at other times. Protein is used best in moderate doses spread through the day, since one sitting has diminishing returns and a very large meal is hard to eat. A larger dinner with a fast-digesting shake keeps amino acids coming into the night.
 
 Same skeleton, different dial. Protein is the one number that stays put in grams, and the percentages move around it as calories change.
 
