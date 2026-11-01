@@ -22,12 +22,12 @@ Per serving, default/featured build for each. Full nutrition, other build option
 | [Cheesy Chicken and Broccoli Rice Bake](#6-cheesy-chicken-and-broccoli-rice-bake) | ~610     | 51g     | 38 / 28 / 34 | 5        |
 | [Lemon Pepper Shrimp Pesto Linguine](#7-lemon-pepper-shrimp-pesto-linguine)       | ~530     | 40g     | 45 / 25 / 30 | 6        |
 | [Kickin' Fried Chicken](#8-kickin-fried-chicken) _(full plate)_                   | ~605     | 45g     | 48 / 22 / 30 | 5        |
-| [Beef Bulgogi](#9-beef-bulgogi) _(over black rice)_                               | ~520     | 46g     | 40 / 25 / 36 | 4        |
+| [Beef Bulgogi](#9-beef-bulgogi) _(over black rice)_                               | ~520     | 46g     | 40 / 24 / 36 | 4        |
 | [Cheesy Hash Brown Bacon Bake](#10-cheesy-hash-brown-bacon-bake)                  | ~550     | 45g     | 35 / 31 / 34 | 4        |
-| [Southwest Sausage Hash Brown Bake](#10a-southwest-sausage-hash-brown-bake)       | ~600     | 47g     | 40 / 28 / 31 | 4        |
+| [Southwest Sausage Hash Brown Bake](#10a-southwest-sausage-hash-brown-bake)       | ~600     | 47g     | 41 / 28 / 31 | 4        |
 | [Pollo Asado Chicken Thigh Bowl](#11-pollo-asado-chicken-thigh-bowl) _(skinless)_ | ~670     | 56g     | 40 / 27 / 33 | 4        |
-| [Shake 'n Bake Pork Chops](#12-shake-n-bake-pork-chops) _(full plate)_            | ~675     | 55g     | 34 / 33 / 32 | 4        |
-| [Red Enchilada Casserole](#13-red-enchilada-casserole)                            | ~525     | 46g     | 42 / 25 / 34 | 6        |
+| [Shake 'n Bake Pork Chops](#12-shake-n-bake-pork-chops) _(full plate)_            | ~675     | 55g     | 34 / 33 / 33 | 4        |
+| [Red Enchilada Casserole](#13-red-enchilada-casserole)                            | ~525     | 46g     | 42 / 25 / 33 | 6        |
 
 :::
 
@@ -517,7 +517,7 @@ A lightened basil pesto (ice water and Greek yogurt standing in for most of the 
 | ------------------------------------------------------ | -------- | ----- | ----- | ------- | -------------- |
 | **Per serving (÷6)**                                   | ~530     | 60g   | 15g   | 40g     | 45 / 25 / 30   |
 | **Whole batch**                                        | ~3,180   | 360g  | 90g   | 240g    | —              |
-| _Traditional (regular pesto, shrimp seared in butter)_ | _~610_   | _60g_ | _24g_ | _39g_   | _39 / 35 / 25_ |
+| _Traditional (regular pesto, shrimp seared in butter)_ | _~610_   | _60g_ | _24g_ | _39g_   | _39 / 35 / 26_ |
 
 Protein-forward and meaningfully lower fat than a standard pesto made with full oil, thanks to the ice-water and yogurt swap in the sauce and lean shrimp. The roasted red pepper adds sweetness and color for about 15 cal per bowl. Weigh the shrimp raw, peeled and deveined. Pine nuts and walnuts land about the same, so the table holds for either.
 
@@ -719,7 +719,7 @@ Thin-sliced ribeye strips in a soy-pear marinade, seared hard in cast iron and s
 
 |                                                                    | Calories | Carbs | Fat   | Protein | Ratio C/F/P    |
 | ------------------------------------------------------------------ | -------- | ----- | ----- | ------- | -------------- |
-| **Per serving (÷4)**                                               | ~520     | 51g   | 14g   | 46g     | 40 / 25 / 36   |
+| **Per serving (÷4)**                                               | ~520     | 51g   | 14g   | 46g     | 40 / 24 / 36   |
 | **Whole batch**                                                    | ~2,080   | 204g  | 56g   | 184g    | —              |
 | _Traditional per serving (sirloin, standard marinade, white rice)_ | _~525_   | _39g_ | _23g_ | _41g_   | _30 / 39 / 31_ |
 
@@ -894,7 +894,7 @@ Shredded southwest hash browns roasted crisp, baked breakfast sausage, black bea
 
 |                           | Calories | Carbs | Fat   | Protein | Ratio C/F/P    |
 | ------------------------- | -------- | ----- | ----- | ------- | -------------- |
-| **Per serving (÷4)**      | ~600     | 61g   | 19g   | 47g     | 40 / 28 / 31   |
+| **Per serving (÷4)**      | ~600     | 61g   | 19g   | 47g     | 41 / 28 / 31   |
 | **Whole batch**           | ~2,410   | 244g  | 77g   | 186g    | —              |
 | _Traditional per serving_ | _~560_   | _30g_ | _37g_ | _28g_   | _21 / 59 / 20_ |
 
@@ -1100,7 +1100,7 @@ Thin, crispy panko pork chops with a scallion cottage cheese pan sauce, over a t
 
 |                         | Calories | Carbs | Fat   | Protein | Ratio C/F/P    |
 | ----------------------- | -------- | ----- | ----- | ------- | -------------- |
-| **Per plate (÷4)**      | ~675     | 58g   | 25g   | 55g     | 34 / 33 / 32   |
+| **Per plate (÷4)**      | ~675     | 58g   | 25g   | 55g     | 34 / 33 / 33   |
 | **Whole batch**         | ~2,700   | 232g  | 100g  | 220g    | —              |
 | _Traditional per plate_ | _~1,015_ | _56g_ | _67g_ | _51g_   | _22 / 58 / 20_ |
 
@@ -1193,7 +1193,7 @@ Shredded chicken breast poached right in a homemade red sauce, layered with blac
 
 |                           | Calories | Carbs | Fat   | Protein | Ratio C/F/P    |
 | ------------------------- | -------- | ----- | ----- | ------- | -------------- |
-| **Per serving (÷6)**      | ~525     | 57g   | 15g   | 46g     | 42 / 25 / 34   |
+| **Per serving (÷6)**      | ~525     | 57g   | 15g   | 46g     | 42 / 25 / 33   |
 | **Whole batch**           | ~3,140   | 340g  | 89g   | 278g    | —              |
 | _Traditional per serving_ | _~665_   | _30g_ | _47g_ | _31g_   | _18 / 63 / 19_ |
 
@@ -1334,7 +1334,7 @@ Per serving, from the same base.
 | ---------------------------- | -------- | ----- | --- | ------- | ------------ |
 | **Chicken breast (default)** | ~525     | 57g   | 15g | 46g     | 42 / 24 / 34 |
 | **Beef eye of round**        | ~540     | 57g   | 17g | 47g     | 40 / 27 / 33 |
-| **Beef chuck, trimmed**      | ~580     | 57g   | 23g | 43g     | 37 / 34 / 28 |
+| **Beef chuck, trimmed**      | ~580     | 57g   | 23g | 43g     | 38 / 34 / 28 |
 
 Beef braises in the same sauce, covered, at the lowest simmer or in a 300°F oven, 2.5 to 3 hr until it shreds with a fork. Chuck is richer and more traditional but lands above the fat target. Eye of round stays in range and shreds a bit drier, so toss it with extra sauce.
 
