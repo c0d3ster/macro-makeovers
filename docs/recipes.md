@@ -519,7 +519,7 @@ A lightened basil pesto (ice water and Greek yogurt standing in for most of the 
 | **Whole batch**                                        | ~3,180   | 360g  | 90g   | 240g    | —              |
 | _Traditional (regular pesto, shrimp seared in butter)_ | _~580_   | _50g_ | _24g_ | _41g_   | _34 / 37 / 28_ |
 
-Meaningfully lower fat than a standard pesto made with full oil, thanks to the ice-water and yogurt swap in the sauce and lean shrimp. The roasted red pepper adds sweetness and color for about 15 cal per bowl. Weigh the shrimp raw, peeled and deveined. Pine nuts and walnuts land about the same, so the table holds for either.
+Protein-forward and meaningfully lower fat than a standard pesto made with full oil, thanks to the ice-water and yogurt swap in the sauce and lean shrimp. The roasted red pepper adds sweetness and color for about 15 cal per bowl. Weigh the shrimp raw, peeled and deveined. Pine nuts and walnuts land about the same, so the table holds for either.
 
 ### Ingredients
 
