@@ -46,6 +46,8 @@ const refreshPages = (slug: string): void => {
   try {
     revalidateRecipePages(slug)
     revalidatePath('/admin')
+    // The editor shows the title and status too
+    revalidatePath('/admin/recipes/[id]/edit', 'page')
   } catch (error) {
     logger.warn('Could not refresh recipe pages after an import', {
       slug,
@@ -136,6 +138,19 @@ export class RecipeService {
 
   getAdminRecipes(): Promise<AdminRecipe[]> {
     return this.reader().listAdminRecipes()
+  }
+
+  // Publishes or unpublishes a recipe and refreshes the pages it appears on. Returns undefined
+  // for an unknown id. The resolver checks the owner first.
+  async setRecipeStatus(
+    id: string,
+    status: RecipeStatus
+  ): Promise<AdminRecipe | undefined> {
+    if (!UUID.test(id)) return undefined
+
+    const recipe = await this.reader().updateRecipeStatus(id, status)
+    if (recipe) refreshPages(recipe.slug)
+    return recipe
   }
 
   // The stored recipe in import shape for the editor, or undefined when the id is unknown or

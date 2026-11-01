@@ -22,7 +22,9 @@ import type { RecipeImportInput } from '@/validations'
 
 import {
   ImportRecipeStatus,
+  PublishStatus,
   useImportRecipeMutation,
+  useSetRecipeStatusMutation,
 } from '@/graphql/generated/graphql'
 
 // GraphQL Operations
@@ -51,6 +53,16 @@ export const IMPORT_RECIPE = gql`
         before
         after
       }
+    }
+  }
+`
+
+export const SET_RECIPE_STATUS = gql`
+  mutation SetRecipeStatus($id: ID!, $status: PublishStatus!) {
+    setRecipeStatus(id: $id, status: $status) {
+      id
+      slug
+      status
     }
   }
 `
@@ -277,6 +289,26 @@ export const useSaveRecipe = (): ((
         error: error instanceof Error ? error.message : 'The save failed.',
       }
     }
+  }
+}
+
+// Publishes or unpublishes a recipe. Throws when the server refuses.
+export const useSetRecipeStatus = (): ((
+  id: string,
+  status: RecipeStatus
+) => Promise<void>) => {
+  const [setRecipeStatus] = useSetRecipeStatusMutation()
+
+  return async (id, status) => {
+    await setRecipeStatus({
+      variables: {
+        id,
+        status:
+          status === 'published'
+            ? PublishStatus.Published
+            : PublishStatus.Draft,
+      },
+    })
   }
 }
 

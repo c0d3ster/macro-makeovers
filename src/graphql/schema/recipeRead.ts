@@ -1,6 +1,24 @@
-import { Field, Float, ID, Int, ObjectType } from 'type-graphql'
+import {
+  Field,
+  Float,
+  ID,
+  Int,
+  ObjectType,
+  registerEnumType,
+} from 'type-graphql'
 
 import { JsonScalar } from './recipe'
+
+export enum PublishStatus {
+  Draft = 'draft',
+  Published = 'published',
+}
+
+registerEnumType(PublishStatus, {
+  name: 'PublishStatus',
+  description:
+    'Draft recipes are visible to the owner only. Published recipes are on the public site.',
+})
 
 // What the public site reads. These mirror the types in src/libs/recipes so the service can
 // return them as they are. Kinds and statuses travel as plain strings.

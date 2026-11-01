@@ -45,13 +45,7 @@ export default defineConfig({
     env: {
       // Only include what tests/app actually need + public prefixes
       ...pickEnv(
-        [
-          'NODE_ENV',
-          'DATABASE_URL',
-          'SUPABASE_SECRET_KEY',
-          'PORT',
-          'VERCEL_URL',
-        ],
+        ['NODE_ENV', 'DATABASE_URL', 'PORT', 'VERCEL_URL'],
         ['NEXT_PUBLIC_', 'PLAYWRIGHT_']
       ),
       // Force-disable telemetry in E2E

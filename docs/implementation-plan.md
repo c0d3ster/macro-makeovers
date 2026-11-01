@@ -151,7 +151,7 @@ Public read, owner-only write, enforced in the database and not only in the UI. 
 - Supabase Auth with Google OAuth, sessions through `@supabase/ssr`, and middleware that redirects `/admin` to `/login`.
 - Public sign-ups are turned off in the Supabase Auth settings, and your `users.role` is set to `admin`. RLS checks the role, so the app is not the only guard.
 - RLS policies allow anonymous `select` on rows where `status = 'published'`, with child tables checked through their parent. `insert`, `update`, and `delete` are allowed only for owners, and drafts are visible only to the owner.
-- The import route and CLI use the service role key, kept server-side and never shipped to the browser.
+- Recipe reads and writes go through GraphQL and Drizzle on a server-side database connection, which bypasses RLS, so the resolvers check the owner. There is no service role key in the app.
 
 **Paywall readiness** comes from one column. Each recipe has `access` (free by default). Later, a `subscriptions` table plus one extra RLS condition gates premium recipes without touching pages that already exist.
 

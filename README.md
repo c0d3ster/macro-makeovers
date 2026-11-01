@@ -109,7 +109,6 @@ DATABASE / EXTERNAL APIs
 
 NEXT_PUBLIC_SUPABASE_URL=http://127.0.0.1:54321
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=sb_publishable_...
-SUPABASE_SECRET_KEY=sb_secret_...
 
 # Postgres from the local Docker stack
 

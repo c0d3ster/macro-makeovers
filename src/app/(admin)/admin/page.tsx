@@ -4,10 +4,10 @@ import type { ReactElement } from 'react'
 import Link from 'next/link'
 
 import { Button } from '@/components/atoms'
+import { RecipePublishButton } from '@/components/molecules'
 import { CleanPageTemplate } from '@/components/templates'
 import { Env } from '@/libs/Env'
 
-import { setStatusAction } from './actions'
 import { loadAdminRecipes } from './loadAdminRecipes'
 
 export const metadata: Metadata = {
@@ -65,17 +65,7 @@ const AdminPage = async (): Promise<ReactElement> => {
                   Edited {formatDate(updatedAt)}
                 </p>
               </div>
-              <form action={setStatusAction}>
-                <input type='hidden' name='id' value={id} />
-                <input
-                  type='hidden'
-                  name='status'
-                  value={status === 'published' ? 'draft' : 'published'}
-                />
-                <Button type='submit' size='sm'>
-                  {status === 'published' ? 'Unpublish' : 'Publish'}
-                </Button>
-              </form>
+              <RecipePublishButton id={id} status={status} />
             </li>
           ))}
         </ul>

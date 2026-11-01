@@ -3,7 +3,7 @@ import { describe, expect, it, vi } from 'vitest'
 import type { GraphQLContext } from '@/graphql/context'
 import type { RecipeService } from '@/services'
 
-import { ImportRecipeStatus } from '@/graphql/schema'
+import { ImportRecipeStatus, PublishStatus } from '@/graphql/schema'
 
 import { RecipeResolver } from './RecipeResolver'
 
@@ -127,5 +127,60 @@ describe('RecipeResolver reads', () => {
       },
     ])
     await expect(resolver.editableRecipe('r2', ctx)).resolves.toBeNull()
+  })
+})
+
+describe('RecipeResolver.setRecipeStatus', () => {
+  const recipe = {
+    id: 'r1',
+    slug: 'chili',
+    title: 'Chili',
+    status: 'published',
+    updatedAt: new Date('2026-11-01T12:00:00.000Z'),
+  }
+
+  const setup = (isOwner: boolean, found = true) => {
+    const setRecipeStatus = vi
+      .fn()
+      .mockResolvedValue(found ? recipe : undefined)
+    return {
+      setRecipeStatus,
+      resolver: new RecipeResolver({
+        setRecipeStatus,
+      } as unknown as RecipeService),
+      ctx: {
+        isOwner: vi.fn().mockResolvedValue(isOwner),
+      } as unknown as GraphQLContext,
+    }
+  }
+
+  it('refuses anyone who is not the owner and changes nothing', async () => {
+    const { resolver, ctx, setRecipeStatus } = setup(false)
+
+    await expect(
+      resolver.setRecipeStatus('r1', PublishStatus.Published, ctx)
+    ).rejects.toMatchObject({ extensions: { code: 'FORBIDDEN' } })
+    expect(setRecipeStatus).not.toHaveBeenCalled()
+  })
+
+  it('publishes for the owner and returns the recipe with an ISO date', async () => {
+    const { resolver, ctx, setRecipeStatus } = setup(true)
+
+    await expect(
+      resolver.setRecipeStatus('r1', PublishStatus.Published, ctx)
+    ).resolves.toMatchObject({
+      slug: 'chili',
+      updatedAt: '2026-11-01T12:00:00.000Z',
+    })
+    expect(setRecipeStatus).toHaveBeenCalledWith('r1', 'published')
+  })
+
+  it('maps draft through and reports an unknown recipe', async () => {
+    const { resolver, ctx, setRecipeStatus } = setup(true, false)
+
+    await expect(
+      resolver.setRecipeStatus('r1', PublishStatus.Draft, ctx)
+    ).rejects.toMatchObject({ extensions: { code: 'NOT_FOUND' } })
+    expect(setRecipeStatus).toHaveBeenCalledWith('r1', 'draft')
   })
 })

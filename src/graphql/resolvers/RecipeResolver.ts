@@ -9,6 +9,7 @@ import {
   EditableRecipe,
   ImportRecipeResult,
   JsonScalar,
+  PublishStatus,
   RecipeCard,
   RecipeDetail,
 } from '@/graphql/schema'
@@ -26,6 +27,17 @@ const requireOwner = async (
     extensions: { code: 'FORBIDDEN' },
   })
 }
+
+// The list and the status change both show a recipe the same way
+const toAdminRecipe = ({
+  updatedAt,
+  ...recipe
+}: Awaited<
+  ReturnType<RecipeService['getAdminRecipes']>
+>[number]): AdminRecipe => ({
+  ...recipe,
+  updatedAt: updatedAt.toISOString(),
+})
 
 @Resolver()
 export class RecipeResolver {
@@ -71,10 +83,7 @@ export class RecipeResolver {
     await requireOwner(ctx, 'list every recipe')
 
     const recipes = await this.recipeService.getAdminRecipes()
-    return recipes.map(({ updatedAt, ...recipe }) => ({
-      ...recipe,
-      updatedAt: updatedAt.toISOString(),
-    }))
+    return recipes.map(toAdminRecipe)
   }
 
   @Query(() => EditableRecipe, {
@@ -88,6 +97,28 @@ export class RecipeResolver {
     await requireOwner(ctx, 'edit recipes')
 
     return (await this.recipeService.getEditableRecipe(id)) ?? null
+  }
+
+  @Mutation(() => AdminRecipe, {
+    description: 'Publishes or unpublishes a recipe. Owner only.',
+  })
+  async setRecipeStatus(
+    @Arg('id', () => ID) id: string,
+    @Arg('status', () => PublishStatus) status: PublishStatus,
+    @Ctx() ctx: GraphQLContext
+  ): Promise<AdminRecipe> {
+    await requireOwner(ctx, 'publish recipes')
+
+    const recipe = await this.recipeService.setRecipeStatus(
+      id,
+      status === PublishStatus.Published ? 'published' : 'draft'
+    )
+    if (!recipe) {
+      throw new GraphQLError('That recipe does not exist.', {
+        extensions: { code: 'NOT_FOUND' },
+      })
+    }
+    return toAdminRecipe(recipe)
   }
 
   @Mutation(() => ImportRecipeResult, {
