@@ -1367,7 +1367,9 @@ Bulk/fiber: beans, lentils, rice. Snacks: jerky, Greek yogurt.
 - **Full bulk: 45 / 30 / 25 C/F/P.** A bigger surplus, about 500 calories. Protein grams stay put and the extra calories go mostly to fat, the easiest way to eat a lot. Look for dishes of 600 calories or more.
 - **Carb cycling:** a higher-carb day (45% or more carbs) on heavy training days, a lower-carb day (35% or less) on rest days.
 
-**Dishes versus the whole day:** these ratios describe a full day of eating. A single dish in this book rarely reaches the carb share of a bulk day, and it doesn't need to. Snacks, shakes, and drinks like a sports drink are mostly carbs, so they pull the day toward the bulk ratios. A dish near 40 / 30 / 30 with a snack or a pre-workout drink can add up to a 50 / 25 / 25 day. Servings are sized so 4-5 meals cover a day's calories, with room for those extras. The recipe filters rank dishes by how close they are to each goal and mark the good fits, instead of hiding the rest.
+**Dishes versus the whole day:** these ratios describe a full day of eating. A single dish in this book rarely reaches the carb share of a bulk day, and it doesn't need to. Snacks, shakes, and drinks like a sports drink are mostly carbs, so they pull the day toward the bulk ratios. A dish near 40 / 30 / 30 with a snack or a pre-workout drink can add up to a 50 / 25 / 25 day. The recipe filters rank dishes by how close they are to each goal and mark the good fits, instead of hiding the rest.
+
+**Serving size:** servings are sized so 4-5 meals cover a day's calories, with room for a snack, shake, or drink. Protein is used best in moderate doses spread through the day, since one sitting has diminishing returns and a very large meal is hard to eat. A larger dinner with a fast-digesting shake keeps amino acids coming into the night.
 
 Same skeleton, different dial. Protein is the one number that stays put in grams, and the percentages move around it as calories change.
 
