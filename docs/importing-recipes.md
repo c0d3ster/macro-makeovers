@@ -17,11 +17,43 @@ transaction through the `import_recipe` database function.
 
 ## Ways in
 
-| Where                    | Use it for                                    |
-| ------------------------ | --------------------------------------------- |
-| `/admin/import`          | Paste the JSON an agent produced (owner only) |
-| `pnpm recipe:import`     | Files on disk, including the 13 seed recipes  |
-| `importRecipe` (GraphQL) | Later: send JSON straight from an agent       |
+| Where                    | Use it for                                                  |
+| ------------------------ | ----------------------------------------------------------- |
+| `importRecipe` (GraphQL) | The write path for the admin page and the Claude connector  |
+| `/admin/import`          | Paste the JSON an agent produced (owner only), calls it     |
+| `/api/mcp`               | Claude connector: validate and import from a chat, calls it |
+| `pnpm recipe:import`     | Files on disk, including the 13 seed recipes                |
+
+The mutation takes the recipe as JSON, plus `overwrite` and `dryRun`, and returns a
+status, any field issues, and the field-level changes. Only the site owner can call it.
+The CLI uses the same `importRecipe` library function directly, because it runs outside
+the web app.
+
+## Importing from Claude (MCP connector)
+
+`/api/mcp` is a remote MCP server with three tools: `get_recipe_schema`, `validate_recipe`
+(dry run, writes nothing), and `import_recipe`. Each call runs the `importRecipe` mutation
+in-process. Supabase Auth is the OAuth server, and the route accepts only tokens that
+Supabase issued through it to the site owner.
+
+One-time setup:
+
+1. Supabase dashboard, Authentication, OAuth Server: turn it on, set the Authorization Path
+   to `/oauth/consent`, and turn on dynamic client registration. The Site URL under URL
+   Configuration must be the public site URL.
+2. Use asymmetric JWT signing keys (Authentication, JWT Keys), which the OAuth server
+   recommends and the route verifies locally.
+3. Set `NEXT_PUBLIC_APP_URL` to the public site URL. The connector URL and the OAuth
+   metadata are built from it.
+4. In Claude, Customize, Connectors, Add custom connector: URL `https://<site>/api/mcp`,
+   authentication "Sign in now", and register the OAuth client automatically.
+5. Approve the connection on `/oauth/consent`. The page only approves return addresses
+   listed in `src/libs/mcp/allowedClients.ts`. If it refuses Claude, it shows the address
+   it saw, and that origin belongs on the list.
+
+Approving gives the app a Supabase token for the owner, so treat the connection like a
+signed-in session. Remove the connector in Claude and revoke the client in the Supabase
+dashboard to cut it off.
 
 ## The recipe book to the database
 

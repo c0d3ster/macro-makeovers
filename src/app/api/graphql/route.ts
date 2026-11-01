@@ -15,6 +15,9 @@ const server = new ApolloServer({
     // Log errors for debugging
     logger.error('GraphQL Error:', { error })
 
+    // A resolver chose this message on purpose, so the client can show it
+    if (error.extensions?.code === 'FORBIDDEN') return error
+
     // Return sanitized error in production
     if (process.env.NODE_ENV === 'production') {
       return {

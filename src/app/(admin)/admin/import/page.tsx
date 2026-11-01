@@ -5,8 +5,6 @@ import { RecipeImportForm } from '@/components/organisms'
 import { CleanPageTemplate } from '@/components/templates'
 import { Env } from '@/libs/Env'
 
-import { importRecipeAction } from './actions'
-
 export const metadata: Metadata = {
   title: `Import a recipe - ${Env.NEXT_PUBLIC_BRAND_NAME}`,
 }
@@ -22,7 +20,7 @@ const ImportPage = () => (
       </Button>
     }
   >
-    <RecipeImportForm action={importRecipeAction} />
+    <RecipeImportForm />
   </CleanPageTemplate>
 )
 
