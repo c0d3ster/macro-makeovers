@@ -206,7 +206,7 @@ The base is lean enough that toppings become the dominant fat source, which is w
 
 ## 3. Turkey Taco Grillers (or lean beef) | $$ · ~40 min · ●●●○○
 
-The single swap of 80/20 beef for lean turkey (or 90/10 beef) roughly halves the fat. The spices carry tacos, not the fat, so season aggressively. **Servings are for the filling only.**
+The single swap of 80/20 beef for lean turkey (or 90/10 beef) roughly halves the fat. The spices carry tacos, not the fat, so season aggressively. A serving is 2 grillers (~700 cal), the default build. **Makes 4 servings.**
 
 ### Nutrition
 
