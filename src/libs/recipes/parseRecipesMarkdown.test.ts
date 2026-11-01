@@ -41,7 +41,7 @@ describe('parseRecipesMarkdown (docs/recipes.md)', () => {
       prepMinutes: 10,
       cookMinutes: 25,
     })
-    expect(bySlug('kickin-fried-chicken').difficulty).toBe(5)
+    expect(bySlug('kickin-fried-chicken').difficulty).toBe(4)
     expect(bySlug('ham-and-prosciutto-sliders').costTier).toBe(3)
   })
 
