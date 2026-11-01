@@ -43,6 +43,14 @@ corn pico in the taco recipe are kept whole as `levers` notes, and per-batch
 and per-slider nutrition rows are skipped because they derive from the
 per-serving rows.
 
+## The printable book
+
+`pnpm book:pdf` renders `docs/recipes.md` to `build/macro-makeovers.pdf` with each recipe's
+photo from `public/images` (matched by the recipe number, so `07-...jpg` goes with recipe 7 and
+`10a-...jpg` with 10a). It needs `pandoc` on the PATH and Playwright's Chromium
+(`pnpm exec playwright install chromium`). Set `CHROMIUM_PATH` to use a browser you already have.
+The build folder is gitignored, so upload the PDF wherever the book is kept.
+
 ## Importing into the hosted project
 
 The CLI reads `.env` (the local Docker stack) and then `.env.local`. To write to
