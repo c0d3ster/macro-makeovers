@@ -41,6 +41,7 @@ const EditRecipePage = async ({
 
   return (
     <CleanPageTemplate
+      activeItem='manage'
       title={recipe.title}
       subtitle='Every save keeps a revision, and published recipes update right away.'
       header={

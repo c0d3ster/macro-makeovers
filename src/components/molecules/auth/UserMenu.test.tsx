@@ -5,12 +5,10 @@ import { UserMenu } from './UserMenu'
 
 const mocks = vi.hoisted(() => ({
   signOut: vi.fn(),
-  isOwner: vi.fn(),
 }))
 
 vi.mock('@/providers', () => ({
   useAuth: () => ({ user: null, isLoaded: true, signOut: mocks.signOut }),
-  useIsOwner: () => mocks.isOwner(),
 }))
 
 const open = (): void => {
@@ -20,7 +18,6 @@ const open = (): void => {
 describe('UserMenu', () => {
   beforeEach(() => {
     mocks.signOut.mockReset()
-    mocks.isOwner.mockReturnValue(false)
   })
 
   afterEach(cleanup)
@@ -35,7 +32,7 @@ describe('UserMenu', () => {
     )
   })
 
-  it('opens to My account and Sign out for a member', () => {
+  it('opens to My account and Sign out', () => {
     render(<UserMenu />)
     open()
 
@@ -44,20 +41,6 @@ describe('UserMenu', () => {
       '/profile'
     )
     expect(screen.getByRole('menuitem', { name: 'Sign out' })).toBeInTheDocument()
-    expect(
-      screen.queryByRole('menuitem', { name: 'Admin' })
-    ).not.toBeInTheDocument()
-  })
-
-  it('adds an Admin link for the owner', () => {
-    mocks.isOwner.mockReturnValue(true)
-    render(<UserMenu />)
-    open()
-
-    expect(screen.getByRole('menuitem', { name: 'Admin' })).toHaveAttribute(
-      'href',
-      '/admin'
-    )
   })
 
   it('signs out and closes', () => {
@@ -90,23 +73,22 @@ describe('UserMenu', () => {
   })
 
   it('moves between the items with the arrow keys', () => {
-    mocks.isOwner.mockReturnValue(true)
     render(<UserMenu />)
     open()
-    const [first, second, last] = screen.getAllByRole('menuitem')
+    const [first, last] = screen.getAllByRole('menuitem')
 
     expect(first).toHaveFocus()
 
     fireEvent.keyDown(screen.getByRole('menu'), { key: 'ArrowDown' })
-
-    expect(second).toHaveFocus()
-
-    fireEvent.keyDown(screen.getByRole('menu'), { key: 'End' })
 
     expect(last).toHaveFocus()
 
     fireEvent.keyDown(screen.getByRole('menu'), { key: 'ArrowDown' })
 
     expect(first).toHaveFocus()
+
+    fireEvent.keyDown(screen.getByRole('menu'), { key: 'End' })
+
+    expect(last).toHaveFocus()
   })
 })

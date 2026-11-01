@@ -3,6 +3,13 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { CleanPageTemplate } from './CleanPageTemplate'
 
+vi.mock('next/navigation', () => ({ usePathname: vi.fn(() => '/') }))
+
+vi.mock('@/providers', () => ({
+  useAuth: vi.fn(() => ({ user: null, isLoaded: true, signOut: vi.fn() })),
+  useIsOwner: vi.fn(() => false),
+}))
+
 describe('CleanPageTemplate', () => {
   beforeEach(() => {
     vi.clearAllMocks()
@@ -112,7 +119,8 @@ describe('CleanPageTemplate', () => {
 
     expect(screen.getByText('Page Title')).toBeInTheDocument()
     expect(screen.getByText('Page subtitle')).toBeInTheDocument()
-    expect(screen.getByRole('banner')).toBeInTheDocument()
+    // The account header plus the one in the test content
+    expect(screen.getAllByRole('banner')).toHaveLength(2)
     expect(screen.getByRole('main')).toBeInTheDocument()
     expect(screen.getByRole('contentinfo')).toBeInTheDocument()
     expect(screen.getByText('Content Title')).toBeInTheDocument()
@@ -143,5 +151,29 @@ describe('CleanPageTemplate', () => {
     )
 
     expect(screen.getByText('Simple string content')).toBeInTheDocument()
+  })
+
+  it('shows the account header', () => {
+    render(
+      <CleanPageTemplate title='Test Page'>
+        <div>content</div>
+      </CleanPageTemplate>
+    )
+
+    expect(screen.getByRole('banner')).toBeInTheDocument()
+  })
+
+  it('uses the account links, not the public ones', () => {
+    render(
+      <CleanPageTemplate title='Test Page' activeItem='account'>
+        <div>content</div>
+      </CleanPageTemplate>
+    )
+
+    expect(screen.getByRole('link', { name: 'My account' })).toHaveAttribute(
+      'href',
+      '/profile'
+    )
+    expect(screen.queryByRole('link', { name: 'Contact' })).not.toBeInTheDocument()
   })
 })

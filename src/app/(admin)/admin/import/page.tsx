@@ -13,6 +13,7 @@ export const metadata: Metadata = {
 
 const ImportPage = () => (
   <CleanPageTemplate
+      activeItem='manage'
     title='Import a recipe'
     subtitle='Paste the JSON your agent produced. New recipes land as drafts.'
     header={

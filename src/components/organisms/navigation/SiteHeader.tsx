@@ -6,13 +6,15 @@ import Link from 'next/link'
 import { ThemeToggle, UserMenu } from '@/components/molecules'
 import { Env } from '@/libs/Env'
 import { isSupabaseConfigured } from '@/libs/supabase/client'
-import { useAuth } from '@/providers'
+import { useAuth, useIsOwner } from '@/providers'
 
 export type NavItem = {
   label: string
   href: string
   id: string
   hideOnMobile?: boolean
+  // Only shown to the site owner
+  ownerOnly?: boolean
 }
 
 type SiteHeaderProps = {
@@ -46,6 +48,8 @@ export const SiteHeader = ({
   logoUrl,
 }: SiteHeaderProps) => {
   const authEnabled = isSupabaseConfigured()
+  const isOwner = useIsOwner()
+  const items = menuItems.filter(({ ownerOnly }) => !ownerOnly || isOwner)
 
   return (
     <header className='fixed inset-x-0 top-0 z-50 border-b border-header-muted/20 bg-header shadow-lg'>
@@ -75,7 +79,7 @@ export const SiteHeader = ({
 
           {/* Navigation */}
           <nav className='ml-auto flex space-x-3 sm:ml-0 sm:space-x-8'>
-            {menuItems.map((item) => {
+            {items.map((item) => {
               const isActive = activeItem === item.id
               return (
                 <Link

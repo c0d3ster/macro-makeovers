@@ -14,6 +14,7 @@ export const metadata: Metadata = {
 
 const NewRecipePage = (): ReactElement => (
   <CleanPageTemplate
+      activeItem='manage'
     title='New recipe'
     subtitle='Saves as a draft. Publish it from the recipe list.'
     header={

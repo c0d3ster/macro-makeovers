@@ -5,16 +5,15 @@ import type { KeyboardEvent, ReactElement } from 'react'
 import Link from 'next/link'
 import { useEffect, useId, useRef, useState } from 'react'
 
-import { useAuth, useIsOwner } from '@/providers'
+import { useAuth } from '@/providers'
 
 const ITEM_CLASS =
   'block w-full cursor-pointer px-4 py-2 text-left text-sm text-text hover:bg-background focus-visible:bg-background focus-visible:outline-none'
 
-// A person icon that opens My account, Admin (owner only), and Sign out. It closes on Escape,
+// A person icon that opens My account and Sign out. It closes on Escape,
 // on a click outside, and when an item is chosen, and the arrow keys move between the items.
 export const UserMenu = (): ReactElement => {
   const { signOut } = useAuth()
-  const isOwner = useIsOwner()
   const [isOpen, setIsOpen] = useState(false)
   const menuId = useId()
   const rootRef = useRef<HTMLDivElement>(null)
@@ -101,16 +100,6 @@ export const UserMenu = (): ReactElement => {
           >
             My account
           </Link>
-          {isOwner && (
-            <Link
-              role='menuitem'
-              href='/admin'
-              onClick={close}
-              className={ITEM_CLASS}
-            >
-              Admin
-            </Link>
-          )}
           <button
             type='button'
             role='menuitem'

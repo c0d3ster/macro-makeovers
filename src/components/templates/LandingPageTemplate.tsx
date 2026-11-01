@@ -2,21 +2,15 @@
 
 import type { ReactNode } from 'react'
 
-import type { NavItem } from '@/components/organisms'
-
 import { SiteHeader } from '@/components/organisms'
 
+import { SITE_NAV_ITEMS } from './siteNav'
 import { useActiveNavItem } from './useActiveNavItem'
 
 type LandingPageTemplateProps = {
   children: ReactNode
   logoUrl?: string
 }
-
-const menuItems: NavItem[] = [
-  { id: 'home', label: 'Home', href: '/', hideOnMobile: true },
-  { id: 'contact', label: 'Contact', href: '/#contact' },
-]
 
 export const LandingPageTemplate = ({
   children,
@@ -27,7 +21,7 @@ export const LandingPageTemplate = ({
   return (
     <div className='min-h-screen scroll-smooth'>
       <SiteHeader
-        menuItems={menuItems}
+        menuItems={SITE_NAV_ITEMS}
         activeItem={activeItem}
         logoUrl={logoUrl}
       />

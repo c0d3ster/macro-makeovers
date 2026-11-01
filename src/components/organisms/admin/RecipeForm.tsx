@@ -115,14 +115,27 @@ const Field = ({ label, error, children }: FieldProps): ReactElement => (
   </label>
 )
 
-type RemoveButtonProps = { label: string; onClick: () => void }
+type RemoveButtonProps = {
+  label: string
+  onClick: () => void
+  // Lines the button up with the inputs when the row is top-aligned
+  className?: string
+}
 
-const RemoveButton = ({ label, onClick }: RemoveButtonProps): ReactElement => (
+// Rows are top-aligned so an error under one field never moves its neighbors. The offset is
+// the label line (1rem) plus its gap (0.25rem), and the height matches an input.
+const ROW_OFFSET = 'mt-5 h-[2.625rem]'
+
+const RemoveButton = ({
+  label,
+  onClick,
+  className = '',
+}: RemoveButtonProps): ReactElement => (
   <button
     type='button'
     aria-label={label}
     onClick={onClick}
-    className='self-start text-sm text-text-muted underline hover:text-text'
+    className={`flex items-center self-start text-sm text-text-muted underline hover:text-text ${className}`}
   >
     Remove
   </button>
@@ -269,7 +282,7 @@ export const RecipeForm = ({
         {nutrition.fields.map((row, index) => (
           <div
             key={row.id}
-            className='grid grid-cols-2 items-end gap-3 sm:grid-cols-4'
+            className='grid grid-cols-2 items-start gap-3 sm:grid-cols-4'
           >
             <Field label='Kind'>
               <select
@@ -317,7 +330,9 @@ export const RecipeForm = ({
                 className={FILTER_FIELD_CLASS}
               />
             </Field>
-            <label className='flex items-center gap-2 text-sm text-text'>
+            <label
+              className={`flex items-center gap-2 text-sm text-text ${ROW_OFFSET}`}
+            >
               <input
                 type='checkbox'
                 {...register(`nutrition.${index}.isDefault`)}
@@ -327,6 +342,7 @@ export const RecipeForm = ({
             <RemoveButton
               label={`Remove nutrition row ${index + 1}`}
               onClick={() => nutrition.remove(index)}
+              className={ROW_OFFSET}
             />
             {errors.nutrition?.[index]?.isDefault?.message && (
               <p role='alert' className='col-span-full text-red-400'>
@@ -350,7 +366,7 @@ export const RecipeForm = ({
         {ingredients.fields.map((row, index) => (
           <div
             key={row.id}
-            className='grid grid-cols-1 items-end gap-3 sm:grid-cols-[1fr_2fr_auto]'
+            className='grid grid-cols-1 items-start gap-3 sm:grid-cols-[1fr_2fr_auto]'
           >
             <Field label='Group'>
               <input
@@ -374,6 +390,7 @@ export const RecipeForm = ({
             <RemoveButton
               label={`Remove ingredient ${index + 1}`}
               onClick={() => ingredients.remove(index)}
+              className='sm:mt-5 sm:h-10.5'
             />
           </div>
         ))}
@@ -391,7 +408,7 @@ export const RecipeForm = ({
         )}
         {steps.fields.map((row, index) => (
           <div key={row.id} className='flex flex-col gap-3'>
-            <div className='grid grid-cols-2 items-end gap-3 sm:grid-cols-[auto_auto_1fr]'>
+            <div className='grid grid-cols-2 items-start gap-3 sm:grid-cols-[auto_auto_1fr]'>
               <Field label='Phase'>
                 <select
                   {...register(`steps.${index}.phase`)}
@@ -415,6 +432,7 @@ export const RecipeForm = ({
               <RemoveButton
                 label={`Remove step ${index + 1}`}
                 onClick={() => steps.remove(index)}
+                className={ROW_OFFSET}
               />
             </div>
             <Field

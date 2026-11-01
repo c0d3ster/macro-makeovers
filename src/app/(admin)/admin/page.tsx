@@ -28,6 +28,7 @@ const AdminPage = async (): Promise<ReactElement> => {
 
   return (
     <CleanPageTemplate
+      activeItem='manage'
       title='Recipes'
       subtitle='Drafts and published recipes. Publishing goes live right away.'
       header={

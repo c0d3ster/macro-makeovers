@@ -17,6 +17,15 @@ export const metadata: Metadata = {
 const text = (value: unknown): string | undefined =>
   typeof value === 'string' && value.trim() ? value : undefined
 
+const ROLE_LABELS: Record<string, string> = {
+  super_admin: 'Super admin',
+  admin: 'Admin',
+  developer: 'Developer',
+}
+
+const roleLabel = (role?: string): string =>
+  (role && ROLE_LABELS[role]) || 'Member'
+
 const ProfilePage = async (): Promise<ReactElement> => {
   const supabase = await createClient()
   const {
@@ -26,6 +35,12 @@ const ProfilePage = async (): Promise<ReactElement> => {
   if (!user) redirect('/login?next=/profile')
 
   const owner = await isOwner()
+  // Users can read their own row, so this is the role as stored: client, admin, super_admin
+  const { data: row } = await supabase
+    .from('users')
+    .select('role')
+    .eq('auth_id', user.id)
+    .maybeSingle()
   const details: [string, string][] = [
     [
       'Name',
@@ -34,11 +49,12 @@ const ProfilePage = async (): Promise<ReactElement> => {
         'Not set',
     ],
     ['Email', user.email ?? 'Not set'],
-    ['Role', owner ? 'Owner' : 'Member'],
+    ['Role', roleLabel(row?.role)],
   ]
 
   return (
     <CleanPageTemplate
+      activeItem='account'
       title='My account'
       subtitle='Your sign-in details.'
       header={<SignOutButton />}
@@ -53,7 +69,7 @@ const ProfilePage = async (): Promise<ReactElement> => {
       </dl>
       {owner && (
         <div className='mt-6'>
-          <Button href='/admin'>Open the admin area</Button>
+          <Button href='/admin'>Manage recipes</Button>
         </div>
       )}
     </CleanPageTemplate>

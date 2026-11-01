@@ -4,7 +4,7 @@ import { cleanup, render, screen } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { Env } from '@/libs/Env'
-import { useAuth } from '@/providers'
+import { useAuth, useIsOwner } from '@/providers'
 
 import type { NavItem } from './SiteHeader'
 
@@ -114,6 +114,26 @@ describe('SiteHeader', () => {
     const homeLink = screen.getByText('Home').closest('a')
 
     expect(homeLink).toHaveClass('text-sm', 'font-medium', 'transition-colors')
+  })
+
+  it('shows owner-only links to the owner only', () => {
+    const items: NavItem[] = [
+      ...sampleMenuItems,
+      { id: 'manage', label: 'Manage recipes', href: '/admin', ownerOnly: true },
+    ]
+    const { rerender } = render(<SiteHeader menuItems={items} />)
+
+    expect(
+      screen.queryByRole('link', { name: 'Manage recipes' })
+    ).not.toBeInTheDocument()
+
+    vi.mocked(useIsOwner).mockReturnValue(true)
+    rerender(<SiteHeader menuItems={items} activeItem='manage' />)
+
+    expect(screen.getByRole('link', { name: 'Manage recipes' })).toHaveAttribute(
+      'href',
+      '/admin'
+    )
   })
 
   it('renders without errors when no menu items provided', () => {

@@ -5,6 +5,7 @@ import ProfilePage from './page'
 
 const mocks = vi.hoisted(() => ({
   getUser: vi.fn(),
+  role: vi.fn(),
   isOwner: vi.fn(),
   redirect: vi.fn(() => {
     throw new Error('redirected')
@@ -13,11 +14,21 @@ const mocks = vi.hoisted(() => ({
 
 vi.mock('next/navigation', () => ({ redirect: mocks.redirect }))
 vi.mock('@/libs/supabase/server', () => ({
-  createClient: async () => ({ auth: { getUser: mocks.getUser } }),
+  createClient: async () => ({
+    auth: { getUser: mocks.getUser },
+    from: () => ({
+      select: () => ({
+        eq: () => ({
+          maybeSingle: async () => ({ data: { role: mocks.role() } }),
+        }),
+      }),
+    }),
+  }),
 }))
 vi.mock('@/libs/supabase/owner', () => ({ isOwner: mocks.isOwner }))
 vi.mock('@/providers', () => ({
   useAuth: () => ({ user: null, isLoaded: true, signOut: vi.fn() }),
+  useIsOwner: () => false,
 }))
 
 const signedIn = (metadata: Record<string, unknown> = {}): void => {
@@ -30,6 +41,7 @@ describe('ProfilePage', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     mocks.isOwner.mockResolvedValue(false)
+    mocks.role.mockReturnValue('client')
   })
 
   it('shows the signed-in details as a member', async () => {
@@ -52,14 +64,15 @@ describe('ProfilePage', () => {
     expect(screen.getByText('Not set')).toBeInTheDocument()
   })
 
-  it('shows the owner their role and a way into the admin area', async () => {
+  it('shows the owner their role and a way to manage recipes', async () => {
     signedIn()
     mocks.isOwner.mockResolvedValue(true)
+    mocks.role.mockReturnValue('super_admin')
     render(await ProfilePage())
 
-    expect(screen.getByText('Owner')).toBeInTheDocument()
+    expect(screen.getByText('Super admin')).toBeInTheDocument()
     expect(
-      screen.getByRole('link', { name: 'Open the admin area' })
+      screen.getByRole('link', { name: 'Manage recipes' })
     ).toHaveAttribute('href', '/admin')
   })
 
