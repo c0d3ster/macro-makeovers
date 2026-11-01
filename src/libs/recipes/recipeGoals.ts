@@ -91,13 +91,13 @@ export const GOALS: Goal[] = [
   {
     id: 'carb-cycling-low',
     label: 'Carb Cycling Low',
-    note: 'Lower-carb day. Fewest carbs first.',
+    note: 'Lower-carb day, often with fewer total calories. Fewest carbs first.',
     fit: { carbs: { kind: 'atMost', value: 35 } },
   },
   {
     id: 'carb-cycling-high',
     label: 'Carb Cycling High',
-    note: 'Higher-carb day. Most carbs first.',
+    note: 'Higher-carb day, often with more total calories. Most carbs first.',
     fit: { carbs: { kind: 'atLeast', value: 45 } },
   },
 ]
