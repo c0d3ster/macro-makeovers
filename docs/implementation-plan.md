@@ -229,18 +229,18 @@ The workflow: draft and refine a recipe in the Claude web project, send it to th
 
 Each task lists what must be done first. Anything in the same wave can run at the same time (separate branches, separate agents).
 
-| Task | Needs first    | Wave |
-| ---- | -------------- | ---- |
-| 1    | none           | A    |
-| 4    | none           | A    |
-| 2    | 1              | B    |
-| 3    | 1              | B    |
-| 5    | 4              | B    |
-| 6    | 1              | B    |
-| 7    | 5, 6           | C    |
-| 8    | 5              | C    |
-| 9    | 1, 8           | D    |
-| 10   | everything     | E    |
+| Task | Needs first | Wave |
+| ---- | ----------- | ---- |
+| 1    | none        | A    |
+| 4    | none        | A    |
+| 2    | 1           | B    |
+| 3    | 1           | B    |
+| 5    | 4           | B    |
+| 6    | 1           | B    |
+| 7    | 5, 6        | C    |
+| 8    | 5           | C    |
+| 9    | 1, 8        | D    |
+| 10   | everything  | E    |
 
 ```text
 1 ──┬── 2
