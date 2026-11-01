@@ -1,12 +1,11 @@
-// Builds the printable recipe book (build/macro-makeovers.pdf) from docs/recipes.md and the
-// photos in public/images. Needs pandoc on the PATH. Run with `pnpm book:pdf`.
+import { chromium } from '@playwright/test'
 import { execFileSync } from 'node:child_process'
 import { mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 
-import { chromium } from '@playwright/test'
-
+// Builds the printable recipe book (build/macro-makeovers.pdf) from docs/recipes.md and the
+// photos in public/images. Needs pandoc on the PATH. Run with `pnpm book:pdf`.
 const ROOT = process.cwd()
 const SOURCE = resolve(ROOT, 'docs/recipes.md')
 const IMAGE_DIR = resolve(ROOT, 'public/images')
