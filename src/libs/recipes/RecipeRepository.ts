@@ -18,7 +18,7 @@ import {
 
 import type { RecipeCard } from './recipeCards'
 import type { RecipeDetail } from './recipeDetail'
-import type { RecipeStatus } from './adminRecipes'
+import type { RecipeStatus } from './recipeStatus'
 
 import { toRecipeCard } from './recipeCards'
 import { toRecipeDetail } from './recipeDetail'
@@ -442,6 +442,26 @@ export class RecipeRepository {
       })
       .from(recipes)
       .orderBy(desc(recipes.updatedAt))
+
+  // Publishes or unpublishes a recipe. Returns the recipe as the admin list shows it, or
+  // undefined for an unknown id. Owner only.
+  updateRecipeStatus = async (
+    id: string,
+    status: RecipeStatus
+  ): Promise<AdminRecipe | undefined> => {
+    const [row] = await this.database
+      .update(recipes)
+      .set({ status })
+      .where(eq(recipes.id, id))
+      .returning({
+        id: recipes.id,
+        slug: recipes.slug,
+        title: recipes.title,
+        status: recipes.status,
+        updatedAt: recipes.updatedAt,
+      })
+    return row
+  }
 
   // A recipe's publish status, or undefined for an unknown id. Owner only.
   getRecipeStatus = async (id: string): Promise<RecipeStatus | undefined> => {

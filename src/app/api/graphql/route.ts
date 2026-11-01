@@ -8,6 +8,9 @@ import { startServerAndCreateNextHandler } from '@as-integrations/next'
 import { createContext, createSchema } from '@/graphql'
 import { logger } from '@/libs/Logger'
 
+// Errors a resolver throws deliberately, with a message written for the person who sees it
+const CLIENT_SAFE_CODES = new Set(['FORBIDDEN', 'NOT_FOUND'])
+
 const server = new ApolloServer({
   schema: await createSchema(),
   introspection: process.env.NODE_ENV !== 'production',
@@ -16,7 +19,7 @@ const server = new ApolloServer({
     logger.error('GraphQL Error:', { error })
 
     // A resolver chose this message on purpose, so the client can show it
-    if (error.extensions?.code === 'FORBIDDEN') return error
+    if (CLIENT_SAFE_CODES.has(String(error.extensions?.code))) return error
 
     // Return sanitized error in production
     if (process.env.NODE_ENV === 'production') {

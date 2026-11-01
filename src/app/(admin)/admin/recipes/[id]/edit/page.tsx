@@ -10,7 +10,6 @@ import { CleanPageTemplate } from '@/components/templates'
 import { Env } from '@/libs/Env'
 import { logger } from '@/libs/Logger'
 
-import { setStatusAction } from '../../../actions'
 import { loadEditableRecipe } from '../../../loadAdminRecipes'
 
 export const metadata: Metadata = {
@@ -44,12 +43,7 @@ const EditRecipePage = async ({
           <Button href='/admin' variant='outline' size='sm'>
             Back to recipes
           </Button>
-          <RecipePublishControls
-            id={id}
-            slug={recipe.slug}
-            status={status}
-            action={setStatusAction}
-          />
+          <RecipePublishControls id={id} slug={recipe.slug} status={status} />
         </div>
       }
     >
