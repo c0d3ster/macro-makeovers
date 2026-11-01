@@ -1,15 +1,19 @@
-import type { SupabaseClient } from '@supabase/supabase-js'
-
-import type { Database } from '@/libs/supabase/database.types'
-
 import type { RecipeIngredient } from './ingredients'
 
 import { placeholderPhotoFor } from './recipeImages'
 
-type Enums = Database['public']['Enums']
+export type NutritionKind = 'makeover' | 'traditional'
+export type StepPhase = 'prep' | 'cook'
+export type NoteKind =
+  | 'make_or_break'
+  | 'fixes'
+  | 'levers'
+  | 'tip'
+  | 'nutrition_intro'
+  | 'nutrition_analysis'
 
 export type NutritionBuild = {
-  kind: Enums['nutrition_kind']
+  kind: NutritionKind
   label: string
   isDefault: boolean
   calories: number
@@ -19,13 +23,13 @@ export type NutritionBuild = {
 }
 
 export type RecipeStep = {
-  phase: Enums['step_phase']
+  phase: StepPhase
   body: string
   durationMinutes?: number
 }
 
 export type RecipeNote = {
-  kind: Enums['note_kind']
+  kind: NoteKind
   body: string
 }
 
@@ -65,41 +69,41 @@ export type RecipeDetail = {
 
 type Positioned = { position: number }
 
+// A published recipe as the database returns it, with every child attached
 export type RecipeDetailRow = {
   id: string
   slug: string
   title: string
   summary: string
   servings: number
-  prep_minutes: number
-  cook_minutes: number
-  cost_tier: number
+  prepMinutes: number
+  cookMinutes: number
+  costTier: number
   difficulty: number
-  variant_of: string | null
-  image_url: string | null
-  recipe_nutrition: (Positioned & {
-    kind: Enums['nutrition_kind']
+  imageUrl: string | null
+  nutrition: (Positioned & {
+    kind: NutritionKind
     label: string
-    is_default: boolean
+    isDefault: boolean
     calories: number
-    carbs_g: number
-    fat_g: number
-    protein_g: number
+    carbsG: number
+    fatG: number
+    proteinG: number
   })[]
   ingredients: (Positioned & {
-    group_name: string | null
-    raw_text: string
+    groupName: string | null
+    rawText: string
   })[]
   steps: (Positioned & {
-    phase: Enums['step_phase']
-    body_md: string
-    duration_minutes: number | null
+    phase: StepPhase
+    bodyMd: string
+    durationMinutes: number | null
   })[]
-  recipe_notes: (Positioned & {
-    kind: Enums['note_kind']
-    body_md: string
+  notes: (Positioned & {
+    kind: NoteKind
+    bodyMd: string
   })[]
-  recipe_tags: { tags: { name: string } | null }[]
+  recipeTags: { tag: { name: string } }[]
 }
 
 type RelatedRecipes = {
@@ -107,24 +111,15 @@ type RelatedRecipes = {
   variants: RelatedRecipe[]
 }
 
-const DETAIL_COLUMNS = `
-  id, slug, title, summary, servings, prep_minutes, cook_minutes, cost_tier, difficulty, variant_of, image_url,
-  recipe_nutrition (kind, label, is_default, position, calories, carbs_g, fat_g, protein_g),
-  ingredients (group_name, position, raw_text),
-  steps (phase, position, body_md, duration_minutes),
-  recipe_notes (kind, position, body_md),
-  recipe_tags (tags (name))
-`
-
 // The order the sections read in on the page
-const NOTE_ORDER: readonly Enums['note_kind'][] = [
+const NOTE_ORDER: readonly NoteKind[] = [
   'make_or_break',
   'tip',
   'fixes',
   'levers',
 ]
 
-const NUTRITION_KINDS: readonly Enums['note_kind'][] = [
+const NUTRITION_NOTE_KINDS: readonly NoteKind[] = [
   'nutrition_intro',
   'nutrition_analysis',
 ]
@@ -147,68 +142,64 @@ export const toRecipeDetail = (
   row: RecipeDetailRow,
   { baseRecipe, variants }: RelatedRecipes
 ): RecipeDetail | undefined => {
-  const nutrition = [...row.recipe_nutrition]
+  const nutrition = [...row.nutrition]
     .sort(byPosition)
-    .map(
-      ({ kind, label, is_default, calories, protein_g, carbs_g, fat_g }) => ({
-        kind,
-        label,
-        isDefault: is_default,
-        calories,
-        proteinG: protein_g,
-        carbsG: carbs_g,
-        fatG: fat_g,
-      })
-    )
+    .map(({ kind, label, isDefault, calories, proteinG, carbsG, fatG }) => ({
+      kind,
+      label,
+      isDefault,
+      calories,
+      proteinG,
+      carbsG,
+      fatG,
+    }))
   const featured = featuredBuild(nutrition)
   if (!featured) return undefined
 
-  const nutritionNotes = (kind: Enums['note_kind']): string[] =>
-    row.recipe_notes
+  const nutritionNotes = (kind: NoteKind): string[] =>
+    row.notes
       .filter((note) => note.kind === kind)
       .sort(byPosition)
-      .map(({ body_md }) => body_md)
+      .map(({ bodyMd }) => bodyMd)
 
   return {
     id: row.id,
     slug: row.slug,
     title: row.title,
     summary: row.summary,
-    imageUrl: row.image_url ?? placeholderPhotoFor(row.slug),
+    imageUrl: row.imageUrl ?? placeholderPhotoFor(row.slug),
     servings: row.servings,
-    prepMinutes: row.prep_minutes,
-    cookMinutes: row.cook_minutes,
-    totalMinutes: row.prep_minutes + row.cook_minutes,
-    costTier: row.cost_tier,
+    prepMinutes: row.prepMinutes,
+    cookMinutes: row.cookMinutes,
+    totalMinutes: row.prepMinutes + row.cookMinutes,
+    costTier: row.costTier,
     difficulty: row.difficulty,
-    tags: row.recipe_tags
-      .flatMap(({ tags }) => (tags ? [tags.name] : []))
-      .sort(),
+    tags: row.recipeTags.map(({ tag }) => tag.name).sort(),
     nutrition,
     featured,
     ingredients: [...row.ingredients]
       .sort(byPosition)
-      .map(({ group_name, raw_text }) => ({
-        group: group_name ?? undefined,
-        raw: raw_text,
+      .map(({ groupName, rawText }) => ({
+        group: groupName ?? undefined,
+        raw: rawText,
       })),
     steps: [...row.steps]
       .sort(byPosition)
-      .map(({ phase, body_md, duration_minutes }) => ({
+      .map(({ phase, bodyMd, durationMinutes }) => ({
         phase,
-        body: body_md,
-        durationMinutes: duration_minutes ?? undefined,
+        body: bodyMd,
+        durationMinutes: durationMinutes ?? undefined,
       })),
     nutritionIntro: nutritionNotes('nutrition_intro'),
     nutritionAnalysis: nutritionNotes('nutrition_analysis'),
-    notes: [...row.recipe_notes]
-      .filter(({ kind }) => !NUTRITION_KINDS.includes(kind))
+    notes: [...row.notes]
+      .filter(({ kind }) => !NUTRITION_NOTE_KINDS.includes(kind))
       .sort(
         (a, b) =>
           NOTE_ORDER.indexOf(a.kind) - NOTE_ORDER.indexOf(b.kind) ||
           byPosition(a, b)
       )
-      .map(({ kind, body_md }) => ({ kind, body: body_md })),
+      .map(({ kind, bodyMd }) => ({ kind, body: bodyMd })),
     baseRecipe,
     variants,
   }
@@ -220,69 +211,4 @@ export const toMetaDescription = (summary: string): string => {
   if (sentence.length <= META_DESCRIPTION_LIMIT) return sentence
 
   return `${sentence.slice(0, META_DESCRIPTION_LIMIT - 3).trimEnd()}...`
-}
-
-const loadRelated = async (
-  client: SupabaseClient<Database>,
-  { id, variantOf }: { id: string; variantOf: string | null }
-): Promise<RelatedRecipes> => {
-  const [variants, base] = await Promise.all([
-    client
-      .from('recipes')
-      .select('slug, title')
-      .eq('variant_of', id)
-      .eq('status', 'published')
-      .order('title'),
-    variantOf
-      ? client
-          .from('recipes')
-          .select('slug, title')
-          .eq('id', variantOf)
-          .eq('status', 'published')
-          .maybeSingle()
-      : undefined,
-  ])
-  if (variants.error) {
-    throw new Error(`Could not load variants: ${variants.error.message}`)
-  }
-  if (base?.error) {
-    throw new Error(`Could not load the base recipe: ${base.error.message}`)
-  }
-
-  return { baseRecipe: base?.data ?? undefined, variants: variants.data }
-}
-
-// One published recipe with everything the page needs, or undefined when the slug is unknown
-// or unpublished (row-level security hides drafts from this client either way).
-export const getRecipeDetail = async (
-  client: SupabaseClient<Database>,
-  slug: string
-): Promise<RecipeDetail | undefined> => {
-  const { data, error } = await client
-    .from('recipes')
-    .select(DETAIL_COLUMNS)
-    .eq('slug', slug)
-    .eq('status', 'published')
-    .maybeSingle()
-  if (error) throw new Error(`Could not load "${slug}": ${error.message}`)
-  if (!data) return undefined
-
-  const related = await loadRelated(client, {
-    id: data.id,
-    variantOf: data.variant_of,
-  })
-  return toRecipeDetail(data, related)
-}
-
-// Every published slug, variants included, so each recipe page can be built ahead of time
-export const listRecipeSlugs = async (
-  client: SupabaseClient<Database>
-): Promise<string[]> => {
-  const { data, error } = await client
-    .from('recipes')
-    .select('slug')
-    .eq('status', 'published')
-  if (error) throw new Error(`Could not list recipes: ${error.message}`)
-
-  return data.map(({ slug }) => slug)
 }

@@ -1,3 +1,4 @@
+import { relations } from 'drizzle-orm'
 import {
   boolean,
   index,
@@ -104,7 +105,9 @@ export const ingredients = pgTable(
     note: text('note'),
     category: text('category'),
   },
-  (table) => [index('ingredients_recipe_idx').on(table.recipeId, table.position)]
+  (table) => [
+    index('ingredients_recipe_idx').on(table.recipeId, table.position),
+  ]
 )
 
 export const steps = pgTable(
@@ -137,7 +140,9 @@ export const recipeNotes = pgTable(
     position: integer('position').notNull(),
     bodyMd: text('body_md').notNull(),
   },
-  (table) => [index('recipe_notes_recipe_idx').on(table.recipeId, table.position)]
+  (table) => [
+    index('recipe_notes_recipe_idx').on(table.recipeId, table.position),
+  ]
 )
 
 export const tags = pgTable('tags', {
@@ -177,5 +182,64 @@ export const recipeRevisions = pgTable(
       .defaultNow()
       .notNull(),
   },
-  (table) => [index('recipe_revisions_recipe_idx').on(table.recipeId, table.createdAt)]
+  (table) => [
+    index('recipe_revisions_recipe_idx').on(table.recipeId, table.createdAt),
+  ]
 )
+
+// Relations power db.query reads, which load a recipe with its children in one call.
+// They live only in Drizzle: the foreign keys themselves are in the SQL migrations.
+export const recipesRelations = relations(recipes, ({ one, many }) => ({
+  // A variant points at its base, and a base lists its variants
+  base: one(recipes, {
+    fields: [recipes.variantOf],
+    references: [recipes.id],
+    relationName: 'variants',
+  }),
+  variants: many(recipes, { relationName: 'variants' }),
+  nutrition: many(recipeNutrition),
+  ingredients: many(ingredients),
+  steps: many(steps),
+  notes: many(recipeNotes),
+  recipeTags: many(recipeTags),
+}))
+
+export const recipeNutritionRelations = relations(
+  recipeNutrition,
+  ({ one }) => ({
+    recipe: one(recipes, {
+      fields: [recipeNutrition.recipeId],
+      references: [recipes.id],
+    }),
+  })
+)
+
+export const ingredientsRelations = relations(ingredients, ({ one }) => ({
+  recipe: one(recipes, {
+    fields: [ingredients.recipeId],
+    references: [recipes.id],
+  }),
+}))
+
+export const stepsRelations = relations(steps, ({ one }) => ({
+  recipe: one(recipes, { fields: [steps.recipeId], references: [recipes.id] }),
+}))
+
+export const recipeNotesRelations = relations(recipeNotes, ({ one }) => ({
+  recipe: one(recipes, {
+    fields: [recipeNotes.recipeId],
+    references: [recipes.id],
+  }),
+}))
+
+export const tagsRelations = relations(tags, ({ many }) => ({
+  recipeTags: many(recipeTags),
+}))
+
+export const recipeTagsRelations = relations(recipeTags, ({ one }) => ({
+  recipe: one(recipes, {
+    fields: [recipeTags.recipeId],
+    references: [recipes.id],
+  }),
+  tag: one(tags, { fields: [recipeTags.tagId], references: [tags.id] }),
+}))

@@ -1,7 +1,24 @@
 import gql from 'graphql-tag'
 
-import type { ImportRecipeMutation } from '@/graphql/generated/graphql'
-import type { ImportIssue, ImportResult } from '@/libs/recipes'
+import type {
+  AdminRecipesQuery,
+  EditableRecipeQuery,
+  ImportRecipeMutation,
+  RecipeCardsQuery,
+  RecipeQuery,
+} from '@/graphql/generated/graphql'
+import type {
+  ImportIssue,
+  ImportResult,
+  NoteKind,
+  NutritionBuild,
+  NutritionKind,
+  RecipeCard,
+  RecipeDetail,
+  RecipeStatus,
+  StepPhase,
+} from '@/libs/recipes'
+import type { RecipeImportInput } from '@/validations'
 
 import {
   ImportRecipeStatus,
@@ -34,6 +51,127 @@ export const IMPORT_RECIPE = gql`
         before
         after
       }
+    }
+  }
+`
+
+// Reads. Server components run these in-process (see src/graphql/execute.ts), so nothing
+// here talks to the network.
+export const RECIPE_CARDS = gql`
+  query RecipeCards {
+    recipeCards {
+      slug
+      title
+      summary
+      imageUrl
+      servings
+      totalMinutes
+      costTier
+      difficulty
+      tags
+      calories
+      proteinG
+      carbsG
+      fatG
+      original {
+        proteinG
+        carbsG
+        fatG
+      }
+    }
+  }
+`
+
+export const RECIPE = gql`
+  query Recipe($slug: String!) {
+    recipe(slug: $slug) {
+      id
+      slug
+      title
+      summary
+      imageUrl
+      servings
+      prepMinutes
+      cookMinutes
+      totalMinutes
+      costTier
+      difficulty
+      tags
+      nutrition {
+        kind
+        label
+        isDefault
+        calories
+        proteinG
+        carbsG
+        fatG
+      }
+      featured {
+        kind
+        label
+        isDefault
+        calories
+        proteinG
+        carbsG
+        fatG
+      }
+      ingredients {
+        group
+        raw
+      }
+      steps {
+        phase
+        body
+        durationMinutes
+      }
+      nutritionIntro
+      nutritionAnalysis
+      notes {
+        kind
+        body
+      }
+      baseRecipe {
+        slug
+        title
+      }
+      variants {
+        slug
+        title
+      }
+    }
+  }
+`
+
+export const RECIPE_SLUGS = gql`
+  query RecipeSlugs {
+    recipeSlugs
+  }
+`
+
+export const RECIPE_SLUGS_BY_INGREDIENT = gql`
+  query RecipeSlugsByIngredient($search: String!) {
+    recipeSlugsByIngredient(search: $search)
+  }
+`
+
+export const ADMIN_RECIPES = gql`
+  query AdminRecipes {
+    adminRecipes {
+      id
+      slug
+      title
+      status
+      updatedAt
+    }
+  }
+`
+
+export const EDITABLE_RECIPE = gql`
+  query EditableRecipe($id: ID!) {
+    editableRecipe(id: $id) {
+      id
+      status
+      recipe
     }
   }
 `
@@ -141,3 +279,143 @@ export const useSaveRecipe = (): ((
     }
   }
 }
+
+// Kinds and statuses travel as plain strings, so narrow them back to the unions the pages use.
+// An unknown value means the data is broken, which should fail loudly instead of rendering.
+const oneOf = <T extends string>(
+  allowed: readonly T[],
+  value: string,
+  label: string
+): T => {
+  const match = allowed.find((option) => option === value)
+  if (!match) throw new Error(`Unexpected ${label} "${value}"`)
+  return match
+}
+
+const NUTRITION_KINDS: readonly NutritionKind[] = ['makeover', 'traditional']
+const STEP_PHASES: readonly StepPhase[] = ['prep', 'cook']
+const NOTE_KINDS: readonly NoteKind[] = [
+  'make_or_break',
+  'fixes',
+  'levers',
+  'tip',
+  'nutrition_intro',
+  'nutrition_analysis',
+]
+const STATUSES: readonly RecipeStatus[] = ['draft', 'published']
+
+// GraphQL sends null where the pages expect a missing value
+export const readRecipeCards = ({
+  recipeCards,
+}: RecipeCardsQuery): RecipeCard[] =>
+  recipeCards.map((card) => ({
+    slug: card.slug,
+    title: card.title,
+    summary: card.summary,
+    imageUrl: card.imageUrl ?? undefined,
+    servings: card.servings,
+    totalMinutes: card.totalMinutes,
+    costTier: card.costTier,
+    difficulty: card.difficulty,
+    tags: [...card.tags],
+    calories: card.calories,
+    proteinG: card.proteinG,
+    carbsG: card.carbsG,
+    fatG: card.fatG,
+    original: card.original
+      ? {
+          proteinG: card.original.proteinG,
+          carbsG: card.original.carbsG,
+          fatG: card.original.fatG,
+        }
+      : undefined,
+  }))
+
+type BuildPayload = NonNullable<RecipeQuery['recipe']>['featured']
+
+const readBuild = (build: BuildPayload): NutritionBuild => ({
+  kind: oneOf(NUTRITION_KINDS, build.kind, 'nutrition kind'),
+  label: build.label,
+  isDefault: build.isDefault,
+  calories: build.calories,
+  proteinG: build.proteinG,
+  carbsG: build.carbsG,
+  fatG: build.fatG,
+})
+
+export const readRecipeDetail = ({
+  recipe,
+}: RecipeQuery): RecipeDetail | undefined => {
+  if (!recipe) return undefined
+
+  return {
+    id: recipe.id,
+    slug: recipe.slug,
+    title: recipe.title,
+    summary: recipe.summary,
+    imageUrl: recipe.imageUrl ?? undefined,
+    servings: recipe.servings,
+    prepMinutes: recipe.prepMinutes,
+    cookMinutes: recipe.cookMinutes,
+    totalMinutes: recipe.totalMinutes,
+    costTier: recipe.costTier,
+    difficulty: recipe.difficulty,
+    tags: [...recipe.tags],
+    nutrition: recipe.nutrition.map(readBuild),
+    featured: readBuild(recipe.featured),
+    ingredients: recipe.ingredients.map(({ group, raw }) => ({
+      group: group ?? undefined,
+      raw,
+    })),
+    steps: recipe.steps.map(({ phase, body, durationMinutes }) => ({
+      phase: oneOf(STEP_PHASES, phase, 'step phase'),
+      body,
+      durationMinutes: durationMinutes ?? undefined,
+    })),
+    nutritionIntro: [...recipe.nutritionIntro],
+    nutritionAnalysis: [...recipe.nutritionAnalysis],
+    notes: recipe.notes.map(({ kind, body }) => ({
+      kind: oneOf(NOTE_KINDS, kind, 'note kind'),
+      body,
+    })),
+    baseRecipe: recipe.baseRecipe
+      ? { slug: recipe.baseRecipe.slug, title: recipe.baseRecipe.title }
+      : undefined,
+    variants: recipe.variants.map(({ slug, title }) => ({ slug, title })),
+  }
+}
+
+type AdminRecipeRow = {
+  id: string
+  slug: string
+  title: string
+  status: RecipeStatus
+  updatedAt: string
+}
+
+export const readAdminRecipes = ({
+  adminRecipes,
+}: AdminRecipesQuery): AdminRecipeRow[] =>
+  adminRecipes.map(({ id, slug, title, status, updatedAt }) => ({
+    id,
+    slug,
+    title,
+    status: oneOf(STATUSES, status, 'recipe status'),
+    updatedAt,
+  }))
+
+type EditableRecipeData = {
+  status: RecipeStatus
+  recipe: RecipeImportInput
+}
+
+// The recipe is JSON the server already validated against the import schema
+export const readEditableRecipe = ({
+  editableRecipe,
+}: EditableRecipeQuery): EditableRecipeData | undefined =>
+  editableRecipe
+    ? {
+        status: oneOf(STATUSES, editableRecipe.status, 'recipe status'),
+        recipe: editableRecipe.recipe as RecipeImportInput,
+      }
+    : undefined

@@ -1,15 +1,94 @@
 import { GraphQLError } from 'graphql'
-import { Arg, Ctx, ID, Mutation, Resolver } from 'type-graphql'
+import { Arg, Ctx, ID, Mutation, Query, Resolver } from 'type-graphql'
 
 import type { GraphQLContext } from '@/graphql/context'
 import type { RecipeService } from '@/services'
 
-import { ImportRecipeResult, JsonScalar } from '@/graphql/schema'
+import {
+  AdminRecipe,
+  EditableRecipe,
+  ImportRecipeResult,
+  JsonScalar,
+  RecipeCard,
+  RecipeDetail,
+} from '@/graphql/schema'
 import { logger } from '@/libs/Logger'
+
+// Recipe writes and draft reads go through the database owner's connection, which bypasses
+// RLS, so each one starts here
+const requireOwner = async (
+  ctx: GraphQLContext,
+  action: string
+): Promise<void> => {
+  if (await ctx.isOwner()) return
+
+  throw new GraphQLError(`Only the site owner can ${action}.`, {
+    extensions: { code: 'FORBIDDEN' },
+  })
+}
 
 @Resolver()
 export class RecipeResolver {
   constructor(private recipeService: RecipeService) {}
+
+  @Query(() => [RecipeCard], {
+    description: 'Published base recipes for the grid, A to Z',
+  })
+  recipeCards(): Promise<RecipeCard[]> {
+    return this.recipeService.getRecipeCards()
+  }
+
+  @Query(() => RecipeDetail, {
+    nullable: true,
+    description:
+      'One published recipe, or null for an unknown or unpublished slug',
+  })
+  async recipe(
+    @Arg('slug', () => String) slug: string
+  ): Promise<RecipeDetail | null> {
+    return (await this.recipeService.getRecipe(slug)) ?? null
+  }
+
+  @Query(() => [String], { description: 'Every published slug' })
+  recipeSlugs(): Promise<string[]> {
+    return this.recipeService.getRecipeSlugs()
+  }
+
+  @Query(() => [String], {
+    description:
+      'Slugs of published recipes with an ingredient matching the search',
+  })
+  recipeSlugsByIngredient(
+    @Arg('search', () => String) search: string
+  ): Promise<string[]> {
+    return this.recipeService.getRecipeSlugsByIngredient(search)
+  }
+
+  @Query(() => [AdminRecipe], {
+    description: 'Drafts and published recipes, newest edit first. Owner only.',
+  })
+  async adminRecipes(@Ctx() ctx: GraphQLContext): Promise<AdminRecipe[]> {
+    await requireOwner(ctx, 'list every recipe')
+
+    const recipes = await this.recipeService.getAdminRecipes()
+    return recipes.map(({ updatedAt, ...recipe }) => ({
+      ...recipe,
+      updatedAt: updatedAt.toISOString(),
+    }))
+  }
+
+  @Query(() => EditableRecipe, {
+    nullable: true,
+    description: 'A stored recipe in import shape for the editor. Owner only.',
+  })
+  async editableRecipe(
+    @Arg('id', () => ID) id: string,
+    @Ctx() ctx: GraphQLContext
+  ): Promise<EditableRecipe | null> {
+    await requireOwner(ctx, 'edit recipes')
+
+    return (await this.recipeService.getEditableRecipe(id)) ?? null
+  }
 
   @Mutation(() => ImportRecipeResult, {
     description:
@@ -28,11 +107,7 @@ export class RecipeResolver {
     recipeId: string | undefined,
     @Ctx() ctx: GraphQLContext
   ): Promise<ImportRecipeResult> {
-    if (!(await ctx.isOwner())) {
-      throw new GraphQLError('Only the site owner can import recipes.', {
-        extensions: { code: 'FORBIDDEN' },
-      })
-    }
+    await requireOwner(ctx, 'import recipes')
 
     try {
       return await this.recipeService.importRecipe(recipe, {

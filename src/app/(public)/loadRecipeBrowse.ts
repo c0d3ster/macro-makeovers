@@ -1,4 +1,8 @@
 import type {
+  RecipeCardsQuery,
+  RecipeSlugsByIngredientQuery,
+} from '@/graphql/generated/graphql'
+import type {
   Fit,
   RecipeCard,
   RecipeFilters,
@@ -6,17 +10,20 @@ import type {
   UnavailableOptions,
 } from '@/libs/recipes'
 
+import { readRecipeCards } from '@/apiClients'
+import { runPublicQuery } from '@/graphql/execute'
+import {
+  RecipeCardsDocument,
+  RecipeSlugsByIngredientDocument,
+} from '@/graphql/generated/graphql'
 import { logger } from '@/libs/Logger'
 import {
   evaluateFit,
   filterRecipes,
-  findRecipeSlugsByIngredient,
   findUnavailableOptions,
   groupTags,
-  listRecipeCards,
   resolveTarget,
 } from '@/libs/recipes'
-import { createPublicClient } from '@/libs/supabase/public'
 
 type RecipeBrowse = {
   // Every published recipe, for building the tag list
@@ -30,17 +37,28 @@ type RecipeBrowse = {
   unavailable: UnavailableOptions
 }
 
+// Slugs of published recipes with an ingredient matching the search text
+const searchIngredients = async (search: string): Promise<Set<string>> => {
+  const { recipeSlugsByIngredient } =
+    await runPublicQuery<RecipeSlugsByIngredientQuery>(
+      RecipeSlugsByIngredientDocument,
+      { search }
+    )
+  return new Set(recipeSlugsByIngredient)
+}
+
 // Shared by the home grid and the tag pages. Returns undefined when recipes can't be loaded,
 // so the page can show an empty state instead of failing the whole site.
 export const loadRecipeBrowse = async (
   filters: RecipeFilters
 ): Promise<RecipeBrowse | undefined> => {
   try {
-    const client = createPublicClient()
-    const all = await listRecipeCards(client)
+    const all = readRecipeCards(
+      await runPublicQuery<RecipeCardsQuery>(RecipeCardsDocument)
+    )
     // A failed ingredient search still leaves title, summary, and tag search working
     const ingredientMatches = filters.q
-      ? await findRecipeSlugsByIngredient(client, filters.q).catch((error) => {
+      ? await searchIngredients(filters.q).catch((error) => {
           logger.error('Could not search ingredients', { error })
           return new Set<string>()
         })

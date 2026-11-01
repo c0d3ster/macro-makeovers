@@ -9,42 +9,38 @@ const row: RecipeCardRow = {
   title: 'Test Chili',
   summary: 'A test recipe',
   servings: 5,
-  prep_minutes: 15,
-  cook_minutes: 55,
-  cost_tier: 1,
+  prepMinutes: 15,
+  cookMinutes: 55,
+  costTier: 1,
   difficulty: 2,
-  image_url: null,
-  recipe_nutrition: [
+  imageUrl: null,
+  nutrition: [
     {
       kind: 'makeover',
-      is_default: false,
+      isDefault: false,
       calories: 370,
-      carbs_g: 42,
-      fat_g: 8,
-      protein_g: 32,
+      carbsG: 42,
+      fatG: 8,
+      proteinG: 32,
     },
     {
       kind: 'makeover',
-      is_default: true,
+      isDefault: true,
       calories: 500,
-      carbs_g: 52,
-      fat_g: 15,
-      protein_g: 39,
+      carbsG: 52,
+      fatG: 15,
+      proteinG: 39,
     },
     {
       kind: 'traditional',
-      is_default: false,
+      isDefault: false,
       calories: 480,
-      carbs_g: 30,
-      fat_g: 28,
-      protein_g: 27,
+      carbsG: 30,
+      fatG: 28,
+      proteinG: 27,
     },
   ],
-  recipe_tags: [
-    { tags: { name: 'turkey' } },
-    { tags: { name: 'chili' } },
-    { tags: null },
-  ],
+  recipeTags: [{ tag: { name: 'turkey' } }, { tag: { name: 'chili' } }],
 }
 
 describe('toRecipeCard', () => {
@@ -68,9 +64,7 @@ describe('toRecipeCard', () => {
   it('has no original macros without a traditional row', () => {
     const makeoverOnly: RecipeCardRow = {
       ...row,
-      recipe_nutrition: row.recipe_nutrition.filter(
-        ({ kind }) => kind === 'makeover'
-      ),
+      nutrition: row.nutrition.filter(({ kind }) => kind === 'makeover'),
     }
 
     expect(toRecipeCard(makeoverOnly)?.original).toBeUndefined()
@@ -86,9 +80,9 @@ describe('toRecipeCard', () => {
   it('falls back to the first makeover row when none is flagged', () => {
     const unflagged: RecipeCardRow = {
       ...row,
-      recipe_nutrition: row.recipe_nutrition.map((item) => ({
+      nutrition: row.nutrition.map((item) => ({
         ...item,
-        is_default: false,
+        isDefault: false,
       })),
     }
 
@@ -98,9 +92,7 @@ describe('toRecipeCard', () => {
   it('never uses the traditional row as the featured build', () => {
     const onlyTraditional: RecipeCardRow = {
       ...row,
-      recipe_nutrition: row.recipe_nutrition.filter(
-        ({ kind }) => kind === 'traditional'
-      ),
+      nutrition: row.nutrition.filter(({ kind }) => kind === 'traditional'),
     }
 
     expect(toRecipeCard(onlyTraditional)).toBeUndefined()
@@ -122,7 +114,7 @@ describe('toRecipeCard photo', () => {
     const card = toRecipeCard({
       ...row,
       slug: 'spicy-turkey-chili',
-      image_url: 'https://example.com/chili.jpg',
+      imageUrl: 'https://example.com/chili.jpg',
     })
 
     expect(card?.imageUrl).toBe('https://example.com/chili.jpg')

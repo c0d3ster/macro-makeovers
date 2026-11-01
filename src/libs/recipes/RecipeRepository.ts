@@ -1,6 +1,6 @@
 import type { NodePgDatabase } from 'drizzle-orm/node-postgres'
 
-import { asc, eq, inArray } from 'drizzle-orm'
+import { and, asc, desc, eq, inArray, isNull, sql } from 'drizzle-orm'
 
 import type { RecipeImport } from '@/validations'
 
@@ -16,6 +16,12 @@ import {
   tags,
 } from '@/models'
 
+import type { RecipeCard } from './recipeCards'
+import type { RecipeDetail } from './recipeDetail'
+import type { RecipeStatus } from './adminRecipes'
+
+import { toRecipeCard } from './recipeCards'
+import { toRecipeDetail } from './recipeDetail'
 import { RecipeRuleError } from './recipeRuleError'
 
 // Not exported from the recipes barrel on purpose: this pulls in the Drizzle models, which
@@ -25,6 +31,15 @@ import { RecipeRuleError } from './recipeRuleError'
 type Db = NodePgDatabase<typeof schemas>
 type Tx = Parameters<Parameters<Db['transaction']>[0]>[0]
 type Reader = Db | Tx
+
+// One row of the admin list: drafts and published recipes together
+export type AdminRecipe = {
+  id: string
+  slug: string
+  title: string
+  status: RecipeStatus
+  updatedAt: Date
+}
 
 const UNIQUE_VIOLATION = '23505'
 
@@ -176,7 +191,6 @@ const resolveBaseId = async (
 
   return base.id
 }
-
 
 // Replaces everything hanging off a recipe with what the import says. Runs inside the
 // create or update transaction, so the old rows only go if the new ones land.
@@ -338,6 +352,106 @@ export class RecipeRepository {
       await this.writeRevision(tx, row.id)
       return row.id
     })
+
+  // Reads. Drizzle connects as the database owner and bypasses RLS, so what a public reader
+  // may see is decided here: every method for the public says "published" in its query.
+  // The admin methods further down see drafts, so the caller must check the owner first.
+
+  // Published base recipes for the grid, A to Z. Variants are reached from their base recipe.
+  listPublishedCards = async (): Promise<RecipeCard[]> => {
+    const rows = await this.database.query.recipes.findMany({
+      where: and(eq(recipes.status, 'published'), isNull(recipes.variantOf)),
+      orderBy: asc(recipes.title),
+      with: { nutrition: true, recipeTags: { with: { tag: true } } },
+    })
+
+    return rows.flatMap((row) => {
+      const card = toRecipeCard(row)
+      return card ? [card] : []
+    })
+  }
+
+  // One published recipe with everything the page needs, or undefined when the slug is
+  // unknown, unpublished, or has no makeover build to lead with
+  getPublishedDetail = async (
+    slug: string
+  ): Promise<RecipeDetail | undefined> => {
+    const row = await this.database.query.recipes.findFirst({
+      where: and(eq(recipes.slug, slug), eq(recipes.status, 'published')),
+      with: {
+        nutrition: true,
+        ingredients: true,
+        steps: true,
+        notes: true,
+        recipeTags: { with: { tag: true } },
+        base: { columns: { slug: true, title: true, status: true } },
+        variants: {
+          columns: { slug: true, title: true },
+          where: (variant, { eq: equals }) =>
+            equals(variant.status, 'published'),
+          orderBy: (variant, { asc: ascending }) => ascending(variant.title),
+        },
+      },
+    })
+    if (!row) return undefined
+
+    return toRecipeDetail(row, {
+      // A draft base stays hidden from the public page
+      baseRecipe:
+        row.base?.status === 'published'
+          ? { slug: row.base.slug, title: row.base.title }
+          : undefined,
+      variants: row.variants,
+    })
+  }
+
+  // Every published slug, variants included, so each recipe page can be built ahead of time
+  listPublishedSlugs = async (): Promise<string[]> => {
+    const rows = await this.database
+      .select({ slug: recipes.slug })
+      .from(recipes)
+      .where(eq(recipes.status, 'published'))
+    return rows.map(({ slug }) => slug)
+  }
+
+  // Slugs of published recipes with an ingredient matching the search text. Uses the generated
+  // tsvector on ingredients.raw_text, so "chicken thigh" also finds "chicken thighs".
+  findPublishedSlugsByIngredient = async (text: string): Promise<string[]> => {
+    const rows = await this.database
+      .selectDistinct({ slug: recipes.slug })
+      .from(ingredients)
+      .innerJoin(recipes, eq(recipes.id, ingredients.recipeId))
+      .where(
+        and(
+          eq(recipes.status, 'published'),
+          sql`"ingredients"."search" @@ websearch_to_tsquery('english', ${text})`
+        )
+      )
+    return rows.map(({ slug }) => slug)
+  }
+
+  // Drafts and published recipes together, newest edit first. Owner only.
+  listAdminRecipes = (): Promise<AdminRecipe[]> =>
+    this.database
+      .select({
+        id: recipes.id,
+        slug: recipes.slug,
+        title: recipes.title,
+        status: recipes.status,
+        updatedAt: recipes.updatedAt,
+      })
+      .from(recipes)
+      .orderBy(desc(recipes.updatedAt))
+
+  // A recipe's publish status, or undefined for an unknown id. Owner only.
+  getRecipeStatus = async (id: string): Promise<RecipeStatus | undefined> => {
+    const [row] = await this.database
+      .select({ status: recipes.status })
+      .from(recipes)
+      .where(eq(recipes.id, id))
+      .limit(1)
+    return row?.status
+  }
 
   private writeRevision = async (tx: Tx, recipeId: string): Promise<void> => {
     await tx.insert(recipeRevisions).values({

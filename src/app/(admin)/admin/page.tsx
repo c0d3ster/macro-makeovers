@@ -6,10 +6,9 @@ import Link from 'next/link'
 import { Button } from '@/components/atoms'
 import { CleanPageTemplate } from '@/components/templates'
 import { Env } from '@/libs/Env'
-import { listAdminRecipes } from '@/libs/recipes'
-import { createAdminClient } from '@/libs/supabase/admin'
 
 import { setStatusAction } from './actions'
+import { loadAdminRecipes } from './loadAdminRecipes'
 
 export const metadata: Metadata = {
   title: `Recipes - ${Env.NEXT_PUBLIC_BRAND_NAME}`,
@@ -22,9 +21,9 @@ const formatDate = (iso: string): string =>
     year: 'numeric',
   })
 
-// The layout has already checked the owner, so the service role client is safe to use here
+// The layout has already checked the owner, and the query checks again
 const AdminPage = async (): Promise<ReactElement> => {
-  const recipes = await listAdminRecipes(createAdminClient())
+  const recipes = await loadAdminRecipes()
 
   return (
     <CleanPageTemplate
