@@ -71,7 +71,7 @@ export const GOALS: Goal[] = [
   {
     id: 'clean-bulk',
     label: 'Clean Bulk',
-    note: 'Small surplus. Add a carb side or a drink to reach 50 / 25 / 25.',
+    note: 'Small surplus. Add a drink or snack to reach 50 / 25 / 25.',
     fit: {
       carbs: { kind: 'atLeast', value: 40 },
       fat: near(25),
