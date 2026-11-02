@@ -16,6 +16,7 @@ import type {
 import type { schemas } from '@/models'
 
 import { ImportRecipeStatus } from '@/graphql/schema'
+import { triggerBookRebuild } from '@/libs/bookRebuild'
 import { db } from '@/libs/DB'
 import { logger } from '@/libs/Logger'
 import { importRecipe } from '@/libs/recipes'
@@ -113,11 +114,30 @@ export class RecipeService {
       refreshPages(result.slug)
     }
 
+    // A new recipe lands as a draft, so only edits to an existing one can change the book
+    if (!dryRun && result.status === 'updated' && result.id) {
+      await this.rebuildBookIfPublished(result.id)
+    }
+
     return toImportRecipeResult(result)
   }
 
   private reader(): RecipeRepository {
     return new RecipeRepository(this.database)
+  }
+
+  // Asks for a book rebuild when the recipe is published. Never throws: the write it follows
+  // has already succeeded.
+  private async rebuildBookIfPublished(id: string): Promise<void> {
+    try {
+      const status = await this.reader().getRecipeStatus(id)
+      if (status === 'published') await triggerBookRebuild()
+    } catch (error) {
+      logger.warn('Could not request a book rebuild', {
+        id,
+        error: String(error),
+      })
+    }
   }
 
   // Public reads. They only ever return published recipes, so they need no caller check.
@@ -154,8 +174,13 @@ export class RecipeService {
   ): Promise<AdminRecipe | undefined> {
     if (!UUID.test(id)) return undefined
 
+    const before = await this.reader().getRecipeStatus(id)
     const recipe = await this.reader().updateRecipeStatus(id, status)
     if (recipe) refreshPages(recipe.slug)
+    // Publishing and unpublishing both change the book. Saving a draft as a draft does not.
+    if (recipe && (before === 'published' || status === 'published')) {
+      await triggerBookRebuild()
+    }
     return recipe
   }
 
@@ -164,8 +189,12 @@ export class RecipeService {
   async deleteRecipe(id: string): Promise<DeleteRecipeResult> {
     if (!UUID.test(id)) return { status: 'not_found' }
 
+    const before = await this.reader().getRecipeStatus(id)
     const result = await this.reader().deleteRecipe(id)
-    if (result.status === 'deleted') refreshPages(result.slug)
+    if (result.status === 'deleted') {
+      refreshPages(result.slug)
+      if (before === 'published') await triggerBookRebuild()
+    }
     return result
   }
 
