@@ -32,19 +32,19 @@ the mutation checks the caller first.
 
 ## Reading recipes
 
-The site reads recipes through GraphQL queries too, so Drizzle is the only door to the recipe
-tables. Server components run the query in-process (`src/graphql/execute.ts`), which keeps the
-recipe pages buildable ahead of time.
+Writes go through GraphQL mutations (`importRecipe`, `setRecipeStatus`). Server components
+read the other way: they call `RecipeService` directly, which uses `RecipeRepository` (Drizzle),
+so there is no query layer between a page and the data. The recipe pages stay buildable ahead
+of time because nothing needs a running server.
 
-| Query                                  | Who        | Returns                             |
-| -------------------------------------- | ---------- | ----------------------------------- |
-| `recipeCards`, `recipe`, `recipeSlugs` | Anyone     | Published recipes only              |
-| `recipeSlugsByIngredient`              | Anyone     | Published slugs matching the search |
-| `adminRecipes`, `editableRecipe`       | Owner only | Drafts too, and the editor's recipe |
+| Loader                                   | Who        | Returns                             |
+| ---------------------------------------- | ---------- | ----------------------------------- |
+| `loadRecipeBrowse`, `loadRecipe`         | Anyone     | Published recipes only              |
+| `loadAdminRecipes`, `loadEditableRecipe` | Owner only | Drafts too, and the editor's recipe |
 
 Drizzle connects as the database owner and bypasses row-level security, so "published only" is
-written into the repository's public queries (`RecipeRepository`), and the owner queries check
-the caller first. The RLS policies stay on the tables as a second line of defense for anything
+written into the repository's public queries, and the admin loaders check the owner before
+reading drafts. The RLS policies stay on the tables as a second line of defense for anything
 that reaches them through the Supabase API.
 
 ## Importing from Claude (MCP connector)

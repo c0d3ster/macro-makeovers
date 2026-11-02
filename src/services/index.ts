@@ -1,4 +1,6 @@
 // Service instances with dependency injection
+// RecipeService pulls in the GraphQL schema classes, whose decorators need this polyfill first
+import 'reflect-metadata'
 import { Resend } from 'resend'
 
 import { Env } from '@/libs/Env'

@@ -114,7 +114,7 @@ export class RecipeService {
     return new RecipeRepository(this.database)
   }
 
-  // Public reads. They only ever return published recipes, so no caller check is needed.
+  // Public reads. They only ever return published recipes, so they need no caller check.
 
   getRecipeCards(): Promise<RecipeCard[]> {
     return this.reader().listPublishedCards()
@@ -134,7 +134,7 @@ export class RecipeService {
     return this.reader().findPublishedSlugsByIngredient(text)
   }
 
-  // Owner reads. They include drafts, so the resolver checks the owner before calling them.
+  // Owner reads. They include drafts, so the caller (the admin loaders) checks the owner first.
 
   getAdminRecipes(): Promise<AdminRecipe[]> {
     return this.reader().listAdminRecipes()
