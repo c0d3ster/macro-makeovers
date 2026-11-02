@@ -12,7 +12,7 @@ export const generateOpenAiImage = async (
   apiKey: string,
   prompt: string,
   fetchImpl: FetchLike = fetch
-): Promise<Uint8Array> => {
+): Promise<Uint8Array<ArrayBuffer>> => {
   const response = await fetchImpl(
     'https://api.openai.com/v1/images/generations',
     {
@@ -22,7 +22,7 @@ export const generateOpenAiImage = async (
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'gpt-image-1',
+        model: 'gpt-image-2.5-sunburst',
         prompt,
         size: '1024x1024',
         n: 1,

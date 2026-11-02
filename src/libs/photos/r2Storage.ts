@@ -14,7 +14,7 @@ type FetchLike = typeof fetch
 export const uploadToR2 = async (
   config: R2Config,
   key: string,
-  bytes: Uint8Array,
+  bytes: Uint8Array<ArrayBuffer>,
   fetchImpl: FetchLike = fetch
 ): Promise<string> => {
   const client = new AwsClient({
