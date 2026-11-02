@@ -57,7 +57,9 @@ describe('triggerBookRebuild', () => {
     await triggerBookRebuild()
 
     expect(fetchMock).toHaveBeenCalledTimes(1)
+
     const [url, init] = fetchMock.mock.calls[0] ?? []
+
     expect(url).toBe('https://api.github.com/repos/owner/repo/dispatches')
     expect(init?.method).toBe('POST')
     expect(init?.headers).toMatchObject({ Authorization: 'Bearer token-1' })
@@ -83,6 +85,7 @@ describe('triggerBookRebuild', () => {
     fetchMock.mockResolvedValueOnce(new Response(null, { status: 403 }))
 
     await expect(triggerBookRebuild()).resolves.toBeUndefined()
+
     await triggerBookRebuild()
 
     expect(fetchMock).toHaveBeenCalledTimes(2)
