@@ -9,9 +9,9 @@ export type PhotoRecipe = {
 }
 
 export type PhotoDeps = {
-  generateImage: (prompt: string) => Promise<Uint8Array>
+  generateImage: (prompt: string) => Promise<Uint8Array<ArrayBuffer>>
   // Stores the bytes under the key and returns the public URL
-  uploadImage: (key: string, bytes: Uint8Array) => Promise<string>
+  uploadImage: (key: string, bytes: Uint8Array<ArrayBuffer>) => Promise<string>
   // Writes the URL only if the recipe still has no photo. False means it had one.
   saveImageUrl: (id: string, url: string) => Promise<boolean>
 }
