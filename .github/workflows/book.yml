@@ -1,0 +1,82 @@
+name: Recipe book
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'docs/**'
+      - 'content/**'
+      - 'public/images/**'
+  workflow_dispatch:
+  # Fired by the app when a published recipe changes (see src/libs/bookRebuild)
+  repository_dispatch:
+    types: [recipe-book-rebuild]
+
+# A burst of edits makes one build: the newest run cancels the ones still going
+concurrency:
+  group: recipe-book
+  cancel-in-progress: true
+
+jobs:
+  book:
+    name: Build and publish the PDF
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write # to create the recipe-book release and replace its asset
+
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up Node.js environment
+        uses: ./.github/actions/setup-project
+        with:
+          node-version: 22.x
+
+      # Georgia is not on Linux runners. The book falls back to Times New Roman, and Liberation
+      # Serif is metric-compatible with it, so line breaks and page count stay close to a local build.
+      - name: Install pandoc and fonts
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends pandoc fonts-liberation
+          fc-match 'Times New Roman'
+
+      - name: Get Playwright version
+        id: playwright
+        run: echo "version=$(pnpm exec playwright --version | awk '{print $2}')" >> "$GITHUB_OUTPUT"
+
+      - name: Cache Chromium
+        id: chromium-cache
+        uses: actions/cache@v6
+        with:
+          path: ~/.cache/ms-playwright
+          key: chromium-${{ runner.os }}-${{ steps.playwright.outputs.version }}
+
+      - name: Install Chromium
+        if: steps.chromium-cache.outputs.cache-hit != 'true'
+        run: pnpm exec playwright install --with-deps chromium
+
+      # The browser download is cached, the system libraries it needs are not
+      - name: Install Chromium system dependencies
+        if: steps.chromium-cache.outputs.cache-hit == 'true'
+        run: pnpm exec playwright install-deps chromium
+
+      - name: Build the PDF
+        run: pnpm book:pdf
+
+      # The asset name stays the same, so
+      # https://github.com/${{ github.repository }}/releases/download/recipe-book/macro-makeovers.pdf
+      # always points at the latest build.
+      - name: Publish to the recipe-book release
+        run: |
+          if ! gh release view recipe-book >/dev/null 2>&1; then
+            gh release create recipe-book \
+              --title 'Recipe book' \
+              --notes 'Rolling release. The PDF is rebuilt automatically.' \
+              --latest=false
+          fi
+          gh release upload recipe-book build/macro-makeovers.pdf --clobber
+          gh release edit recipe-book --notes "Rolling release. Last built $(date -u +'%Y-%m-%d %H:%M UTC') from ${GITHUB_SHA::7}."
