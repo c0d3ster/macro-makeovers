@@ -137,10 +137,11 @@ const statsHtml = ({ servings, featured, original }: Stats): string => {
 const layoutRecipes = (html: string, stats: Stats[]): string => {
   let index = 0
   return html.replace(
-    /<h2 id="([^"]+)">(\d+[a-z]?\. .+?) \| (.+?)<\/h2>(\s*<p>\s*<img class="photo"[^>]*>\s*<\/p>)?(\s*<p>[\s\S]*?<\/p>)/g,
+    /(?:<p><a id="([^"]+)"><\/a><\/p>\s*)?<h2 id="([^"]+)">(\d+[a-z]?\. .+?) \| (.+?)<\/h2>(\s*<p>\s*<img class="photo"[^>]*>\s*<\/p>)?(\s*<p>[\s\S]*?<\/p>)/g,
     (
       _match,
-      id: string,
+      anchorId: string | undefined,
+      headingId: string,
       title: string,
       pill: string,
       photo = '',
@@ -148,6 +149,10 @@ const layoutRecipes = (html: string, stats: Stats[]): string => {
     ) => {
       const recipeStats = stats[index++]
       if (!recipeStats) throw new Error(`No nutrition for "${title}"`)
+      // The quick reference links to the hand-written anchor. Put that id on the heading itself:
+      // a standalone anchor sits before the page break, so a link lands at the end of the
+      // previous page and shows the new recipe half way down the view.
+      const id = anchorId ?? headingId
       const heading = `<h2 id="${id}" class="recipe-start"><span>${title}</span><span class="pill">${pill}</span></h2>`
       if (!photo) return `${heading}${intro}`
 
