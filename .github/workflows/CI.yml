@@ -25,7 +25,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Restore or cache Next.js build
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: |
             .next/cache
@@ -40,7 +40,7 @@ jobs:
 
       - if: matrix.node-version == '22.x' && success()
         name: Cache Next.js build output
-        uses: actions/cache/save@v5
+        uses: actions/cache/save@v6
         with:
           path: |
             .next
@@ -100,11 +100,13 @@ jobs:
       - name: Run unit tests
         uses: docker://mcr.microsoft.com/playwright:v1.64.1-noble
         with:
-          args: sh -c "corepack enable pnpm && pnpm run test --run --project=unit --coverage"
+          args: sh -c "npm install -g pnpm@10 && pnpm run test --run --project=unit --coverage"
         env:
           COREPACK_ENABLE_DOWNLOAD_PROMPT: '0'
           # Test environment
           NODE_ENV: test
+          # The image runs Node 26, whose built-in localStorage shadows the jsdom one
+          NODE_OPTIONS: --no-experimental-webstorage
 
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v5
@@ -138,7 +140,7 @@ jobs:
       - name: Run E2E tests
         uses: docker://mcr.microsoft.com/playwright:v1.64.1-noble
         with:
-          args: sh -c "corepack enable pnpm && HOME=/root pnpm run test:e2e" # Set HOME to /root to avoid Playwright error with Firefox
+          args: sh -c "npm install -g pnpm@10 && HOME=/root pnpm run test:e2e" # Set HOME to /root to avoid Playwright error with Firefox
         env:
           COREPACK_ENABLE_DOWNLOAD_PROMPT: '0'
           # Test environment

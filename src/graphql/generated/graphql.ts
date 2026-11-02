@@ -17,6 +17,19 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
+  JSON: { input: any; output: any; }
+};
+
+/** A recipe as the admin list shows it, drafts included. Owner only. */
+export type AdminRecipe = {
+  readonly __typename?: 'AdminRecipe';
+  readonly id: Scalars['ID']['output'];
+  readonly slug: Scalars['String']['output'];
+  /** draft or published */
+  readonly status: Scalars['String']['output'];
+  readonly title: Scalars['String']['output'];
+  /** ISO timestamp of the last edit */
+  readonly updatedAt: Scalars['String']['output'];
 };
 
 export type ContactFormInput = {
@@ -36,10 +49,46 @@ export type ContactSubmission = {
   readonly submittedAt: Scalars['String']['output'];
 };
 
+export type ImportRecipeResult = {
+  readonly __typename?: 'ImportRecipeResult';
+  readonly changes: ReadonlyArray<RecipeFieldChange>;
+  readonly id?: Maybe<Scalars['String']['output']>;
+  readonly issues: ReadonlyArray<RecipeImportIssue>;
+  readonly slug?: Maybe<Scalars['String']['output']>;
+  readonly status: ImportRecipeStatus;
+};
+
+/** Invalid: fix the issues. Created: a new draft. Updated: an existing recipe was replaced. Unchanged: nothing differs. Conflict: the slug exists and overwrite was not requested. */
+export enum ImportRecipeStatus {
+  Conflict = 'Conflict',
+  Created = 'Created',
+  Invalid = 'Invalid',
+  Unchanged = 'Unchanged',
+  Updated = 'Updated'
+}
+
 export type Mutation = {
   readonly __typename?: 'Mutation';
+  /** Validates a recipe and saves it as a draft. An existing slug is only replaced with overwrite. dryRun checks and diffs without writing. Owner only. */
+  readonly importRecipe: ImportRecipeResult;
+  /** Publishes or unpublishes a recipe. Owner only. */
+  readonly setRecipeStatus: AdminRecipe;
   readonly submitContactForm: ContactSubmission;
   readonly updateUser: User;
+};
+
+
+export type MutationImportRecipeArgs = {
+  dryRun?: Scalars['Boolean']['input'];
+  overwrite?: Scalars['Boolean']['input'];
+  recipe: Scalars['JSON']['input'];
+  recipeId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type MutationSetRecipeStatusArgs = {
+  id: Scalars['ID']['input'];
+  status: PublishStatus;
 };
 
 
@@ -53,6 +102,12 @@ export type MutationUpdateUserArgs = {
   input: UpdateUserInput;
 };
 
+/** Draft recipes are visible to the owner only. Published recipes are on the public site. */
+export enum PublishStatus {
+  Draft = 'Draft',
+  Published = 'Published'
+}
+
 export type Query = {
   readonly __typename?: 'Query';
   /** Liveness check */
@@ -64,6 +119,21 @@ export type Query = {
 
 export type QueryUserArgs = {
   id: Scalars['ID']['input'];
+};
+
+export type RecipeFieldChange = {
+  readonly __typename?: 'RecipeFieldChange';
+  readonly after?: Maybe<Scalars['JSON']['output']>;
+  readonly before?: Maybe<Scalars['JSON']['output']>;
+  /** Field path, e.g. ingredients[2].raw */
+  readonly path: Scalars['String']['output'];
+};
+
+export type RecipeImportIssue = {
+  readonly __typename?: 'RecipeImportIssue';
+  readonly message: Scalars['String']['output'];
+  /** Field path, e.g. nutrition[1].calories */
+  readonly path: Scalars['String']['output'];
 };
 
 export type UpdateUserInput = {
@@ -101,6 +171,24 @@ export type SubmitContactFormMutationVariables = Exact<{
 export type SubmitContactFormMutation = { readonly __typename?: 'Mutation', readonly submitContactForm: { readonly __typename?: 'ContactSubmission', readonly id: string, readonly name: string, readonly email: string, readonly subject: string, readonly message: string, readonly submittedAt: string } };
 
 export type UserDisplayFragment = { readonly __typename?: 'User', readonly id: string, readonly firstName?: string | null, readonly lastName?: string | null, readonly email: string };
+
+export type ImportRecipeMutationVariables = Exact<{
+  recipe: Scalars['JSON']['input'];
+  overwrite: Scalars['Boolean']['input'];
+  dryRun: Scalars['Boolean']['input'];
+  recipeId?: InputMaybe<Scalars['ID']['input']>;
+}>;
+
+
+export type ImportRecipeMutation = { readonly __typename?: 'Mutation', readonly importRecipe: { readonly __typename?: 'ImportRecipeResult', readonly status: ImportRecipeStatus, readonly slug?: string | null, readonly id?: string | null, readonly issues: ReadonlyArray<{ readonly __typename?: 'RecipeImportIssue', readonly path: string, readonly message: string }>, readonly changes: ReadonlyArray<{ readonly __typename?: 'RecipeFieldChange', readonly path: string, readonly before?: any | null, readonly after?: any | null }> } };
+
+export type SetRecipeStatusMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  status: PublishStatus;
+}>;
+
+
+export type SetRecipeStatusMutation = { readonly __typename?: 'Mutation', readonly setRecipeStatus: { readonly __typename?: 'AdminRecipe', readonly id: string, readonly slug: string, readonly status: string } };
 
 export type GetMeQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -165,6 +253,88 @@ export function useSubmitContactFormMutation(baseOptions?: ApolloReactHooks.Muta
         return ApolloReactHooks.useMutation<SubmitContactFormMutation, SubmitContactFormMutationVariables>(SubmitContactFormDocument, options);
       }
 export type SubmitContactFormMutationHookResult = ReturnType<typeof useSubmitContactFormMutation>;
+export const ImportRecipeDocument = gql`
+    mutation ImportRecipe($recipe: JSON!, $overwrite: Boolean!, $dryRun: Boolean!, $recipeId: ID) {
+  importRecipe(
+    recipe: $recipe
+    overwrite: $overwrite
+    dryRun: $dryRun
+    recipeId: $recipeId
+  ) {
+    status
+    slug
+    id
+    issues {
+      path
+      message
+    }
+    changes {
+      path
+      before
+      after
+    }
+  }
+}
+    `;
+
+/**
+ * __useImportRecipeMutation__
+ *
+ * To run a mutation, you first call `useImportRecipeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useImportRecipeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [importRecipeMutation, { data, loading, error }] = useImportRecipeMutation({
+ *   variables: {
+ *      recipe: // value for 'recipe'
+ *      overwrite: // value for 'overwrite'
+ *      dryRun: // value for 'dryRun'
+ *      recipeId: // value for 'recipeId'
+ *   },
+ * });
+ */
+export function useImportRecipeMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<ImportRecipeMutation, ImportRecipeMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useMutation<ImportRecipeMutation, ImportRecipeMutationVariables>(ImportRecipeDocument, options);
+      }
+export type ImportRecipeMutationHookResult = ReturnType<typeof useImportRecipeMutation>;
+export const SetRecipeStatusDocument = gql`
+    mutation SetRecipeStatus($id: ID!, $status: PublishStatus!) {
+  setRecipeStatus(id: $id, status: $status) {
+    id
+    slug
+    status
+  }
+}
+    `;
+
+/**
+ * __useSetRecipeStatusMutation__
+ *
+ * To run a mutation, you first call `useSetRecipeStatusMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSetRecipeStatusMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [setRecipeStatusMutation, { data, loading, error }] = useSetRecipeStatusMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      status: // value for 'status'
+ *   },
+ * });
+ */
+export function useSetRecipeStatusMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<SetRecipeStatusMutation, SetRecipeStatusMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useMutation<SetRecipeStatusMutation, SetRecipeStatusMutationVariables>(SetRecipeStatusDocument, options);
+      }
+export type SetRecipeStatusMutationHookResult = ReturnType<typeof useSetRecipeStatusMutation>;
 export const GetMeDocument = gql`
     query GetMe {
   me {

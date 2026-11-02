@@ -16,21 +16,34 @@ const KCAL_PER_G_FAT = 9
 
 // Share of macro calories from each macro. Normalized over the three macros rather than the
 // label calories, so the split always reads as 100 (fiber and rounding don't leave a gap).
+// Rounded by largest remainder so the three whole numbers always add up to exactly 100.
 export const toMacroRatios = ({
   proteinG,
   carbsG,
   fatG,
 }: MacroGrams): MacroRatios => {
-  const protein = proteinG * KCAL_PER_G_PROTEIN
-  const carbs = carbsG * KCAL_PER_G_CARBS
-  const fat = fatG * KCAL_PER_G_FAT
-  const total = protein + carbs + fat
+  const shares = [
+    proteinG * KCAL_PER_G_PROTEIN,
+    carbsG * KCAL_PER_G_CARBS,
+    fatG * KCAL_PER_G_FAT,
+  ]
+  const total = shares[0]! + shares[1]! + shares[2]!
   if (total === 0) return { proteinPct: 0, carbsPct: 0, fatPct: 0 }
 
+  const exact = shares.map((share) => (share / total) * 100)
+  const floors = exact.map(Math.floor)
+  const missing = 100 - floors.reduce((sum, value) => sum + value, 0)
+  const byRemainder = exact
+    .map((value, index) => ({ index, remainder: value - Math.floor(value) }))
+    .sort((a, b) => b.remainder - a.remainder)
+  byRemainder.slice(0, missing).forEach(({ index }) => {
+    floors[index] = (floors[index] ?? 0) + 1
+  })
+
   return {
-    proteinPct: Math.round((protein / total) * 100),
-    carbsPct: Math.round((carbs / total) * 100),
-    fatPct: Math.round((fat / total) * 100),
+    proteinPct: floors[0] ?? 0,
+    carbsPct: floors[1] ?? 0,
+    fatPct: floors[2] ?? 0,
   }
 }
 

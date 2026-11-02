@@ -8,7 +8,7 @@ import { requireEnv } from './Env'
 
 // Stores the db connection in the global scope to prevent multiple instances due to hot reloading with Next.js
 const globalForDb = globalThis as unknown as {
-  drizzle: NodePgDatabase<typeof schemas> | undefined
+  drizzle: ReturnType<typeof createDbConnection> | undefined
 }
 
 // Need a database for production? Check out https://www.prisma.io/?via=nextjsboilerplate
@@ -18,9 +18,13 @@ const createDbConnection = () => {
   return drizzle({
     connection: {
       connectionString: databaseUrl,
+      // Hosted connections are encrypted but not checked against a CA: Supabase's pooler
+      // certificate is not signed by a root Node trusts, so a checked connection fails with
+      // "self-signed certificate in certificate chain"
       ssl:
-        !databaseUrl.includes('localhost') &&
-        !databaseUrl.includes('127.0.0.1'),
+        databaseUrl.includes('localhost') || databaseUrl.includes('127.0.0.1')
+          ? false
+          : { rejectUnauthorized: false },
     },
     schema: schemas,
   })
@@ -43,3 +47,8 @@ export const db = new Proxy({} as NodePgDatabase<typeof schemas>, {
     return getDb()[prop as keyof NodePgDatabase<typeof schemas>]
   },
 }) as NodePgDatabase<typeof schemas>
+
+// Closes the pool so a script can exit. Does nothing when no connection was ever opened.
+export const closeDb = async (): Promise<void> => {
+  await globalForDb.drizzle?.$client.end()
+}

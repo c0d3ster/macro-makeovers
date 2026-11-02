@@ -12,7 +12,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 ### Nutrition display
 
-- Macros always read carbs, fat, protein (C/F/P): tables, ratios, bars, and share images. Never lead with protein and never highlight it.
+- Macro ratios always read carbs, fat, protein (C/F/P): tables, ratio text, bars, and share images. That is only the ordering. Protein is a core part of the book, so keep it visible and give it full weight in copy, summaries, and highlights.
 - Use `formatMacroRatios` for the "42 / 27 / 31" ratio text and `toMacroRatios` for percentages.
 - Macro colors are theme tokens (`carbs`, `fat`, `protein` in `src/styles/global.css`). The rest of the palette comes from the logo.
 
@@ -23,7 +23,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 ### Checks and commits
 
-- Before committing, run `pnpm check:types`, `pnpm lint`, `pnpm check:deps`, and `pnpm test`. Skip them for tiny visual tweaks while iterating.
+- Do not run `pnpm check:types`, `pnpm lint`, `pnpm check:deps`, or `pnpm test` on your own. Lefthook already runs lint and type checks on every commit, and the PR pipeline runs the deps check and the tests, so nothing needs a local run first. Run one only when the user asks, or to diagnose a specific failing CI job (run just that check).
 - Commits use Conventional Commits. Keep body lines under 100 characters (commitlint rejects longer ones) and
   keep messages succinct.
 - Commit and push at reasonable checkpoints, not after every change.

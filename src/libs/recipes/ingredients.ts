@@ -79,6 +79,10 @@ export const scaleIngredient = (raw: string, factor: number): string => {
   return `${scaled}${range}${raw.slice(whole.length)}`
 }
 
+// Headings display in capitals, so "sauce" and "Sauce" are one group. The first spelling wins.
+const sameGroup = (a?: string, b?: string): boolean =>
+  a?.trim().toLowerCase() === b?.trim().toLowerCase()
+
 // Groups ingredient lines under their headings, in the order each heading first appears
 export const groupIngredients = (
   ingredients: RecipeIngredient[]
@@ -86,7 +90,7 @@ export const groupIngredients = (
   const groups: IngredientGroup[] = []
 
   ingredients.forEach((ingredient) => {
-    const current = groups.find(({ name }) => name === ingredient.group)
+    const current = groups.find(({ name }) => sameGroup(name, ingredient.group))
     if (current) {
       current.ingredients.push(ingredient)
       return

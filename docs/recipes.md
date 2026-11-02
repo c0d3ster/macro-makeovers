@@ -14,22 +14,32 @@ Per serving, default/featured build for each. Full nutrition, other build option
 
 | Recipe                                                                            | Calories | Protein | Ratio C/F/P  | Servings |
 | --------------------------------------------------------------------------------- | -------- | ------- | ------------ | -------- |
-| [Blackened Chicken Alfredo](#1-blackened-chicken-alfredo-cottage-cheese-sauce)    | ~625     | 52g     | 40 / 26 / 34 | 6        |
+| [Blackened Chicken Alfredo](#1-blackened-chicken-alfredo-cottage-cheese-sauce)    | ~625     | 52g     | 41 / 26 / 33 | 6        |
 | [Spicy Turkey Chili](#2-spicy-turkey-chili) _(fully loaded)_                      | ~500     | 39g     | 42 / 27 / 31 | 5        |
 | [Turkey Taco Grillers](#3-lean-taco-grillers-lean-beef-or-turkey) _(2 grillers)_  | ~700     | 49g     | 45 / 27 / 28 | 4        |
 | [Ham & Prosciutto Sliders](#4-ham--prosciutto-sliders) _(3 sliders)_              | ~620     | 41g     | 36 / 38 / 26 | 4        |
 | [Greek Yogurt Tuna Melt](#5-greek-yogurt-tuna-melt) _(hoagie)_                    | ~485     | 41g     | 42 / 24 / 34 | 4        |
 | [Cheesy Chicken and Broccoli Rice Bake](#6-cheesy-chicken-and-broccoli-rice-bake) | ~610     | 51g     | 38 / 28 / 34 | 5        |
-| [Lemon Pepper Shrimp Pesto Linguine](#7-lemon-pepper-shrimp-pesto-linguine)       | ~505     | 43g     | 42 / 25 / 34 | 5        |
+| [Lemon Pepper Shrimp Pesto Linguine](#7-lemon-pepper-shrimp-pesto-linguine)       | ~530     | 40g     | 45 / 25 / 30 | 6        |
 | [Kickin' Fried Chicken](#8-kickin-fried-chicken) _(full plate)_                   | ~605     | 45g     | 48 / 22 / 30 | 5        |
 | [Beef Bulgogi](#9-beef-bulgogi) _(over black rice)_                               | ~520     | 46g     | 40 / 24 / 36 | 4        |
-| [Cheesy Hash Brown Bacon Bake](#10-cheesy-hash-brown-bacon-bake)                  | ~550     | 45g     | 36 / 30 / 34 | 4        |
-| [Southwest Sausage Hash Brown Bake](#10a-southwest-sausage-hash-brown-bake)       | ~600     | 47g     | 40 / 29 / 31 | 4        |
+| [Cheesy Hash Brown Bacon Bake](#10-cheesy-hash-brown-bacon-bake)                  | ~550     | 45g     | 35 / 31 / 34 | 4        |
+| [Southwest Sausage Hash Brown Bake](#10a-southwest-sausage-hash-brown-bake)       | ~600     | 47g     | 41 / 28 / 31 | 4        |
 | [Pollo Asado Chicken Thigh Bowl](#11-pollo-asado-chicken-thigh-bowl) _(skinless)_ | ~670     | 56g     | 40 / 27 / 33 | 4        |
 | [Shake 'n Bake Pork Chops](#12-shake-n-bake-pork-chops) _(full plate)_            | ~675     | 55g     | 34 / 33 / 33 | 4        |
-| [Red Enchilada Casserole](#13-red-enchilada-casserole)                            | ~525     | 46g     | 42 / 24 / 34 | 6        |
+| [Red Enchilada Casserole](#13-red-enchilada-casserole)                            | ~525     | 46g     | 42 / 25 / 33 | 6        |
 
 :::
+
+## How difficulty is rated
+
+Difficulty is about technique risk, not effort. A long recipe with forgiving steps stays low. A short one where a small mistake ruins the dish goes high.
+
+- **1 ●○○○○:** assembly, almost no cooking.
+- **2 ●●○○○:** one forgiving method, hard to mess up.
+- **3 ●●●○○:** a few components, or one spot to watch.
+- **4 ●●●●○:** several things to time together, or one technique that can fail.
+- **5 ●●●●●:** a technique where a small mistake ruins it (poached eggs and hollandaise, a thick steak, a soufflé). Nothing in this book is a 5 yet.
 
 ---
 
@@ -43,7 +53,7 @@ No heavy cream, a quarter of the butter, and half the cheese of a traditional Al
 
 |                           | Calories | Carbs | Fat   | Protein | Ratio C/F/P    |
 | ------------------------- | -------- | ----- | ----- | ------- | -------------- |
-| **Per serving (÷6)**      | ~625     | 63g   | 18g   | 52g     | 40 / 26 / 34   |
+| **Per serving (÷6)**      | ~625     | 63g   | 18g   | 52g     | 41 / 26 / 33   |
 | **Whole batch**           | ~3,750   | 376g  | 107g  | 313g    | —              |
 | _Traditional per serving_ | _~805_   | _48g_ | _55g_ | _30g_   | _24 / 61 / 15_ |
 
@@ -206,7 +216,7 @@ The base is lean enough that toppings become the dominant fat source, which is w
 
 ## 3. Turkey Taco Grillers (or lean beef) | $$ · ~40 min · ●●●○○
 
-The single swap of 80/20 beef for lean turkey (or 90/10 beef) roughly halves the fat. The spices carry tacos, not the fat, so season aggressively. **Servings are for the filling only.**
+The single swap of 80/20 beef for lean turkey (or 90/10 beef) roughly halves the fat. The spices carry tacos, not the fat, so season aggressively. A serving is 2 grillers (~700 cal), the default build. **Makes 4 servings.**
 
 ### Nutrition
 
@@ -435,7 +445,7 @@ Pouches are 2.6 oz ready-to-use; a 5 oz can drains to ~3.4 oz. Leaner and higher
 
 <a id="6-cheesy-chicken-and-broccoli-rice-bake"></a>
 
-## 6. Cheesy Chicken and Broccoli Rice Bake | $ · ~70 min · ●●●●○
+## 6. Cheesy Chicken and Broccoli Rice Bake | $ · ~70 min · ●●●○○
 
 Classic casserole, rebuilt. No cream of chicken soup: cottage cheese blended with warm broth carries the creamy body instead, and real cheddar gets used deliberately (half in the sauce, half on top) rather than buried. **Makes ~5 servings.**
 
@@ -509,15 +519,15 @@ Cuts about a third of the fat (19g vs 30g) while nearly doubling the protein (51
 
 ## 7. Lemon Pepper Shrimp Pesto Linguine | $$$ · ~50 min · ●●●○○
 
-A lightened basil pesto (ice water and Greek yogurt standing in for most of the oil) tossed with linguine, roasted red pepper strips, and lemon pepper shrimp charred in cast iron. The lemon in both the pesto and the seasoning ties the dish together. Written for 21/25 or 26/30 shrimp. **Makes ~5 servings.**
+A lightened basil pesto (ice water and Greek yogurt standing in for most of the oil) tossed with linguine, roasted red pepper strips, and lemon pepper shrimp charred in cast iron. The lemon in both the pesto and the seasoning ties the dish together. Written for 21/25 or 26/30 shrimp. **Makes ~6 servings.**
 
 ### Nutrition
 
 |                                                        | Calories | Carbs | Fat   | Protein | Ratio C/F/P    |
 | ------------------------------------------------------ | -------- | ----- | ----- | ------- | -------------- |
-| **Per serving (÷5)**                                   | ~505     | 53g   | 14g   | 43g     | 42 / 25 / 34   |
-| **Whole batch**                                        | ~2,525   | 265g  | 70g   | 215g    | —              |
-| _Traditional (regular pesto, shrimp seared in butter)_ | _~580_   | _50g_ | _24g_ | _41g_   | _34 / 37 / 28_ |
+| **Per serving (÷6)**                                   | ~530     | 60g   | 15g   | 40g     | 45 / 25 / 30   |
+| **Whole batch**                                        | ~3,180   | 360g  | 90g   | 240g    | —              |
+| _Traditional (regular pesto, shrimp seared in butter)_ | _~610_   | _60g_ | _24g_ | _39g_   | _39 / 35 / 26_ |
 
 Protein-forward and meaningfully lower fat than a standard pesto made with full oil, thanks to the ice-water and yogurt swap in the sauce and lean shrimp. The roasted red pepper adds sweetness and color for about 15 cal per bowl. Weigh the shrimp raw, peeled and deveined. Pine nuts and walnuts land about the same, so the table holds for either.
 
@@ -527,9 +537,9 @@ Protein-forward and meaningfully lower fat than a standard pesto made with full 
 
 - 60g fresh basil leaves, packed and completely dry (thawed from freezer, if using frozen)
 - 30g pine nuts (or walnuts)
-- 35g parmesan cheese, grated (about 1/3 cup)
+- 50g parmesan cheese, grated (about 1/2 cup). Set aside 10g for topping the bowls
 - 2 garlic cloves
-- 2 tbsp extra virgin olive oil, adjust down based on oil retained from freezing (see note)
+- 2.5 tbsp extra virgin olive oil, adjust down based on oil retained from freezing (see note)
 - Juice of 1/2 lemon
 - Pinch black pepper, cracked
 - 3 tbsp plain Greek yogurt, full-fat (5%) preferred
@@ -538,11 +548,11 @@ Protein-forward and meaningfully lower fat than a standard pesto made with full 
 **Rest of dish**
 
 - 2 large red bell peppers
-- 1.5 lb raw shrimp, 21/25 or 26/30, peeled and deveined (about 32 to 38 of the 21/25, or 39 to 45 of the 26/30)
+- 2 lb raw shrimp, 21/25 or 26/30, peeled and deveined (about 42 to 50 of the 21/25, or 52 to 60 of the 26/30)
 - 1–1.5 tbsp lemon pepper seasoning (or blackening seasoning for more char)
 - 1/2 tsp garlic powder
 - 1 tbsp avocado oil (for the shrimp)
-- 1 box (12oz dry) linguine
+- 1 box (16oz dry) linguine
 - Reserved pasta water, to loosen
 - Lemon wedges, to finish
 
@@ -550,19 +560,19 @@ Protein-forward and meaningfully lower fat than a standard pesto made with full 
 
 > **Salt:** the pesto has no added salt. The parmesan and the lemon pepper on the shrimp carry it. Taste the finished pesto and add a pinch only if it needs it.
 
-> **Freezing basil for this recipe:** coat trimmed basil lightly in oil before freezing for best color and quality. A blanch-and-shock (2–3 sec in boiling water, then straight into ice water, patted fully dry) helps it stay bright. Keep a running tally of oil used across all your freezing batches. When it's time to make the pesto, take half that total and subtract it from the 2 tbsp fresh oil above, skip the fresh oil entirely if the retained amount already covers it.
+> **Freezing basil for this recipe:** coat trimmed basil lightly in oil before freezing for best color and quality. A blanch-and-shock (2–3 sec in boiling water, then straight into ice water, patted fully dry) helps it stay bright. Keep a running tally of oil used across all your freezing batches. When it's time to make the pesto, take half that total and subtract it from the 2.5 tbsp fresh oil above, skip the fresh oil entirely if the retained amount already covers it.
 
 ### Method
 
 **Prep** (~10 min)
 
 - Thaw the shrimp fully, then pat them very dry with paper towels. Keep them in the fridge until the pan is hot.
-- Measure out the parmesan, garlic, lemon juice, Greek yogurt, and ice water for the pesto.
+- Measure out the parmesan, garlic, lemon juice, Greek yogurt, and ice water for the pesto. Set 10g of the parmesan aside for topping.
 
 **Cook** (~40 min)
 
-1. **Roast the peppers first.** Broil whole peppers about 5 inches from the element, or roast at 450°F, 20–30 min, turning every 5–8 min until blackened on most sides. No oil needed.
-2. Move them to a bowl, cover, and steam 10 min. Peel, seed, slice into strips, and pat dry.
+1. **Roast the peppers first.** Quarter the peppers and pull out the stems and seeds. Lay them skin side up on a sheet pan and broil about 5 inches from the element, 10–15 min, until the skins are blackened and blistered. No oil needed.
+2. Move them to a bowl, cover, and steam 10 min. Peel off the skins, slice into strips, and pat dry.
 3. Get a big pot of salted water going for the linguine.
 4. **Toast the nuts.** Dry pan, medium heat, shaking constantly, until fragrant. Pine nuts take 1–2 min and walnuts 2–3 min. Let cool slightly.
 5. **Combine the pesto solids first.** Cooled nuts, garlic, and parmesan into the food processor before the basil. This abrasive base helps everything break down evenly.
@@ -573,16 +583,16 @@ Protein-forward and meaningfully lower fat than a standard pesto made with full 
 10. **Heat the cast iron** over high for the full 5 min while the pasta cooks.
 11. Once the water's at a hard boil, cook the linguine, pulling it 1–2 min under box time so it's al dente. Reserve pasta water.
 12. **Combine off-heat.** Toss the hot pasta with the pesto and pepper strips, loosening with a splash of pasta water until it coats evenly.
-13. **Season and sear the shrimp last.** Toss them in a bowl with the lemon pepper, garlic powder, and avocado oil right before they hit the pan. Cook in 3 batches, one layer with space between, and give the pan a minute to recover between batches.
+13. **Season and sear the shrimp last.** Toss them in a bowl with the lemon pepper, garlic powder, and avocado oil right before they hit the pan. Cook in 3 to 4 batches, one layer with space between, and give the pan a minute to recover between batches.
     - **21/25:** 60–75 seconds untouched, then 30–40 seconds on the second side
     - **26/30:** 45–60 seconds untouched, then 20–30 seconds on the second side
     - Pull them at a loose "C" with charred edges. They keep cooking on the plate, so go slightly early.
-14. Top the bowls with the shrimp straight from the pan and finish with a squeeze of lemon.
+14. Top the bowls with the shrimp straight from the pan, sprinkle on the reserved 10g of parmesan, and finish with a squeeze of lemon.
 
 ### Make-or-break
 
 - **Dry shrimp and a fully preheated pan.** Smaller shrimp release more surface water for their size, and wet shrimp steam instead of char
-- **Don't crowd the pan.** Smaller shrimp mean more pieces, so a third batch is worth it
+- **Don't crowd the pan.** Smaller shrimp mean more pieces, so an extra batch is worth it
 - **Season right before cooking.** Salt sitting on shrimp pulls out water
 - **Pull at a loose "C".** A tight "O" is overcooked and rubbery
 - **Sear the shrimp last.** They cook in about 90 seconds a batch at this size, so they should go from pan to bowl
@@ -607,7 +617,7 @@ Protein-forward and meaningfully lower fat than a standard pesto made with full 
 
 <a id="8-kickin-fried-chicken"></a>
 
-## 8. Kickin' Fried Chicken | $$ · ~40 min · ●●●●●
+## 8. Kickin' Fried Chicken | $$ · ~40 min · ●●●●○
 
 Same triple-coat breading (flour and cornstarch, egg, seasoned panko) and heavy cayenne/paprika hit as the original skillet version, air fried instead of pan-fried in oil. Compared here against a full home-style fried chicken dinner: deep-fried breast, mashed potatoes and gravy, and corn, since that's the real plate this replaces, not just the chicken on its own. **Makes 5 servings.**
 
@@ -797,7 +807,7 @@ Hash brown breakfast bake rebuilt around a cottage cheese and egg white custard.
 
 |                           | Calories | Carbs | Fat   | Protein | Ratio C/F/P    |
 | ------------------------- | -------- | ----- | ----- | ------- | -------------- |
-| **Per serving (÷4)**      | ~550     | 47g   | 18g   | 45g     | 36 / 30 / 34   |
+| **Per serving (÷4)**      | ~550     | 47g   | 18g   | 45g     | 35 / 31 / 34   |
 | **Whole batch**           | ~2,200   | 188g  | 71g   | 180g    | —              |
 | _Traditional per serving_ | _~520_   | _38g_ | _30g_ | _22g_   | _30 / 53 / 17_ |
 
@@ -894,7 +904,7 @@ Shredded southwest hash browns roasted crisp, baked breakfast sausage, black bea
 
 |                           | Calories | Carbs | Fat   | Protein | Ratio C/F/P    |
 | ------------------------- | -------- | ----- | ----- | ------- | -------------- |
-| **Per serving (÷4)**      | ~600     | 61g   | 19g   | 47g     | 40 / 29 / 31   |
+| **Per serving (÷4)**      | ~600     | 61g   | 19g   | 47g     | 41 / 28 / 31   |
 | **Whole batch**           | ~2,410   | 244g  | 77g   | 186g    | —              |
 | _Traditional per serving_ | _~560_   | _30g_ | _37g_ | _28g_   | _21 / 59 / 20_ |
 
@@ -1193,8 +1203,8 @@ Shredded chicken breast poached right in a homemade red sauce, layered with blac
 
 |                           | Calories | Carbs | Fat   | Protein | Ratio C/F/P    |
 | ------------------------- | -------- | ----- | ----- | ------- | -------------- |
-| **Per serving (÷6)**      | ~525     | 57g   | 15g   | 46g     | 42 / 24 / 34   |
-| **Whole batch**           | ~3,140   | 340g  | 89g   | 278g    | n/a            |
+| **Per serving (÷6)**      | ~525     | 57g   | 15g   | 46g     | 42 / 25 / 33   |
+| **Whole batch**           | ~3,140   | 340g  | 89g   | 278g    | —              |
 | _Traditional per serving_ | _~665_   | _30g_ | _47g_ | _31g_   | _18 / 63 / 19_ |
 
 The traditional row assumes 1.5 lb of 80/20 beef, 12 tortillas fried in about 3 tbsp of oil, canned sauce, 8 oz of cheese, and 1/2 cup of sour cream. The fat savings come from the lean chicken, the dry-warmed tortillas, half the cheese, and cottage cheese in place of sour cream. They go toward protein and the beans and corn, so carbs run higher than the traditional version. Fat lands just under 25%, so there is room to add cheese (see Levers).
@@ -1334,7 +1344,7 @@ Per serving, from the same base.
 | ---------------------------- | -------- | ----- | --- | ------- | ------------ |
 | **Chicken breast (default)** | ~525     | 57g   | 15g | 46g     | 42 / 24 / 34 |
 | **Beef eye of round**        | ~540     | 57g   | 17g | 47g     | 40 / 27 / 33 |
-| **Beef chuck, trimmed**      | ~580     | 57g   | 23g | 43g     | 37 / 34 / 28 |
+| **Beef chuck, trimmed**      | ~580     | 57g   | 23g | 43g     | 38 / 34 / 28 |
 
 Beef braises in the same sauce, covered, at the lowest simmer or in a 300°F oven, 2.5 to 3 hr until it shreds with a fork. Chuck is richer and more traditional but lands above the fat target. Eye of round stays in range and shreds a bit drier, so toss it with extra sauce.
 

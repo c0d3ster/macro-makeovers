@@ -3,6 +3,7 @@ import type { ReactElement } from 'react'
 
 import { notFound } from 'next/navigation'
 
+import { OwnerEditLink } from '@/components/molecules'
 import {
   NutritionTable,
   RecipeHero,
@@ -12,10 +13,9 @@ import {
 } from '@/components/organisms'
 import { LandingPageTemplate } from '@/components/templates'
 import { logger } from '@/libs/Logger'
-import { listRecipeSlugs, toMetaDescription } from '@/libs/recipes'
-import { createPublicClient } from '@/libs/supabase/public'
+import { toMetaDescription } from '@/libs/recipes'
 
-import { loadRecipe } from './loadRecipe'
+import { loadRecipe, loadRecipeSlugs } from './loadRecipe'
 
 type RecipePageProps = {
   params: Promise<{ slug: string }>
@@ -28,7 +28,7 @@ export const revalidate = 60
 // failed lookup here just means every page renders on demand instead of failing the build.
 export const generateStaticParams = async (): Promise<{ slug: string }[]> => {
   try {
-    const slugs = await listRecipeSlugs(createPublicClient())
+    const slugs = await loadRecipeSlugs()
     return slugs.map((slug) => ({ slug }))
   } catch (error) {
     logger.error('Could not list recipes to prebuild', { error })
@@ -61,7 +61,8 @@ const RecipePage = async ({
 
   return (
     <LandingPageTemplate>
-      <main className='mx-auto flex max-w-6xl flex-col gap-12 px-3 py-10 sm:px-6 lg:px-8'>
+      <main className='relative mx-auto flex max-w-6xl flex-col gap-12 px-3 py-10 sm:px-6 lg:px-8'>
+        <OwnerEditLink recipeId={recipe.id} />
         <RecipeHero recipe={recipe} />
         {/* Nutrition and steps share the left column. Ingredients sit on the right, level with
             nutrition and sticky while the steps scroll. On a phone they stack in cooking order:

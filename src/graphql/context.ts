@@ -5,6 +5,10 @@ import { eq } from 'drizzle-orm'
 import { db } from '@/libs/DB'
 import { logger } from '@/libs/Logger'
 import { isSupabaseConfigured } from '@/libs/supabase/client'
+import {
+  isOwnerForToken,
+  isOwner as isSessionOwner,
+} from '@/libs/supabase/owner'
 import { getAuthId } from '@/libs/supabase/server'
 import { schemas } from '@/models'
 
@@ -13,7 +17,11 @@ export type GraphQLContext = {
   user?: typeof schemas.users.$inferSelect | null
   db: typeof db
   schemas: typeof schemas
-  req: NextRequest
+  // Set for HTTP and MCP calls
+  req?: NextRequest
+  // Whether the caller is the site owner, decided by the database when first asked. Resolvers
+  // that write recipes gate on this.
+  isOwner: () => Promise<boolean>
 }
 
 type AuthContext = Pick<GraphQLContext, 'authId' | 'user'>
@@ -57,5 +65,24 @@ export const createContext = async (
   db,
   schemas,
   req,
+  isOwner: isSessionOwner,
   ...(await getAuthContext()),
+})
+
+type TokenCaller = {
+  authId: string
+  token: string
+}
+
+// Context for a caller that proves who it is with a bearer token instead of cookies, which is
+// how the MCP route calls the schema in-process
+export const createTokenContext = (
+  req: NextRequest,
+  { authId, token }: TokenCaller
+): GraphQLContext => ({
+  db,
+  schemas,
+  req,
+  authId,
+  isOwner: () => isOwnerForToken(token),
 })

@@ -2,7 +2,7 @@
   "slug": "lemon-pepper-shrimp-pesto-linguine",
   "title": "Lemon Pepper Shrimp Pesto Linguine",
   "summary": "A lightened basil pesto (ice water and Greek yogurt standing in for most of the oil) tossed with linguine, roasted red pepper strips, and lemon pepper shrimp charred in cast iron. The lemon in both the pesto and the seasoning ties the dish together. Written for 21/25 or 26/30 shrimp.",
-  "servings": 5,
+  "servings": 6,
   "prepMinutes": 10,
   "cookMinutes": 40,
   "costTier": 3,
@@ -11,19 +11,19 @@
     {
       "kind": "makeover",
       "label": "Per serving",
-      "calories": 505,
-      "carbsG": 53,
-      "fatG": 14,
-      "proteinG": 43,
+      "calories": 530,
+      "carbsG": 60,
+      "fatG": 15,
+      "proteinG": 40,
       "isDefault": true
     },
     {
       "kind": "traditional",
       "label": "Traditional (regular pesto, shrimp seared in butter)",
-      "calories": 580,
-      "carbsG": 50,
+      "calories": 610,
+      "carbsG": 60,
       "fatG": 24,
-      "proteinG": 41,
+      "proteinG": 39,
       "isDefault": false
     }
   ],
@@ -38,7 +38,7 @@
     },
     {
       "group": "Pesto",
-      "raw": "35g parmesan cheese, grated (about 1/3 cup)"
+      "raw": "50g parmesan cheese, grated (about 1/2 cup). Set aside 10g for topping the bowls"
     },
     {
       "group": "Pesto",
@@ -46,7 +46,7 @@
     },
     {
       "group": "Pesto",
-      "raw": "2 tbsp extra virgin olive oil, adjust down based on oil retained from freezing (see note)"
+      "raw": "2.5 tbsp extra virgin olive oil, adjust down based on oil retained from freezing (see note)"
     },
     {
       "group": "Pesto",
@@ -70,7 +70,7 @@
     },
     {
       "group": "Rest of dish",
-      "raw": "1.5 lb raw shrimp, 21/25 or 26/30, peeled and deveined (about 32 to 38 of the 21/25, or 39 to 45 of the 26/30)"
+      "raw": "2 lb raw shrimp, 21/25 or 26/30, peeled and deveined (about 42 to 50 of the 21/25, or 52 to 60 of the 26/30)"
     },
     {
       "group": "Rest of dish",
@@ -86,7 +86,7 @@
     },
     {
       "group": "Rest of dish",
-      "raw": "1 box (12oz dry) linguine"
+      "raw": "1 box (16oz dry) linguine"
     },
     {
       "group": "Rest of dish",
@@ -104,15 +104,15 @@
     },
     {
       "phase": "prep",
-      "body": "Measure out the parmesan, garlic, lemon juice, Greek yogurt, and ice water for the pesto."
+      "body": "Measure out the parmesan, garlic, lemon juice, Greek yogurt, and ice water for the pesto. Set 10g of the parmesan aside for topping."
     },
     {
       "phase": "cook",
-      "body": "**Roast the peppers first.** Broil whole peppers about 5 inches from the element, or roast at 450°F, 20–30 min, turning every 5–8 min until blackened on most sides. No oil needed."
+      "body": "**Roast the peppers first.** Quarter the peppers and pull out the stems and seeds. Lay them skin side up on a sheet pan and broil about 5 inches from the element, 10–15 min, until the skins are blackened and blistered. No oil needed."
     },
     {
       "phase": "cook",
-      "body": "Move them to a bowl, cover, and steam 10 min. Peel, seed, slice into strips, and pat dry."
+      "body": "Move them to a bowl, cover, and steam 10 min. Peel off the skins, slice into strips, and pat dry."
     },
     {
       "phase": "cook",
@@ -156,11 +156,11 @@
     },
     {
       "phase": "cook",
-      "body": "**Season and sear the shrimp last.** Toss them in a bowl with the lemon pepper, garlic powder, and avocado oil right before they hit the pan. Cook in 3 batches, one layer with space between, and give the pan a minute to recover between batches.\n    - **21/25:** 60–75 seconds untouched, then 30–40 seconds on the second side\n    - **26/30:** 45–60 seconds untouched, then 20–30 seconds on the second side\n    - Pull them at a loose \"C\" with charred edges. They keep cooking on the plate, so go slightly early."
+      "body": "**Season and sear the shrimp last.** Toss them in a bowl with the lemon pepper, garlic powder, and avocado oil right before they hit the pan. Cook in 3 to 4 batches, one layer with space between, and give the pan a minute to recover between batches.\n    - **21/25:** 60–75 seconds untouched, then 30–40 seconds on the second side\n    - **26/30:** 45–60 seconds untouched, then 20–30 seconds on the second side\n    - Pull them at a loose \"C\" with charred edges. They keep cooking on the plate, so go slightly early."
     },
     {
       "phase": "cook",
-      "body": "Top the bowls with the shrimp straight from the pan and finish with a squeeze of lemon."
+      "body": "Top the bowls with the shrimp straight from the pan, sprinkle on the reserved 10g of parmesan, and finish with a squeeze of lemon."
     }
   ],
   "notes": [
@@ -178,7 +178,7 @@
     },
     {
       "kind": "tip",
-      "body": "Freezing basil for this recipe: coat trimmed basil lightly in oil before freezing for best color and quality. A blanch-and-shock (2–3 sec in boiling water, then straight into ice water, patted fully dry) helps it stay bright. Keep a running tally of oil used across all your freezing batches. When it's time to make the pesto, take half that total and subtract it from the 2 tbsp fresh oil above, skip the fresh oil entirely if the retained amount already covers it."
+      "body": "Freezing basil for this recipe: coat trimmed basil lightly in oil before freezing for best color and quality. A blanch-and-shock (2–3 sec in boiling water, then straight into ice water, patted fully dry) helps it stay bright. Keep a running tally of oil used across all your freezing batches. When it's time to make the pesto, take half that total and subtract it from the 2.5 tbsp fresh oil above, skip the fresh oil entirely if the retained amount already covers it."
     },
     {
       "kind": "make_or_break",
@@ -186,7 +186,7 @@
     },
     {
       "kind": "make_or_break",
-      "body": "**Don't crowd the pan.** Smaller shrimp mean more pieces, so a third batch is worth it"
+      "body": "**Don't crowd the pan.** Smaller shrimp mean more pieces, so an extra batch is worth it"
     },
     {
       "kind": "make_or_break",

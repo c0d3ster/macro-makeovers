@@ -12,6 +12,17 @@ describe('toMacroRatios', () => {
     })
   })
 
+  it('always adds up to 100', () => {
+    // Plain rounding gives 40 / 28 / 31 (99) for 61g carbs, 19g fat, 47g protein
+    const { proteinPct, carbsPct, fatPct } = toMacroRatios({
+      proteinG: 47,
+      carbsG: 61,
+      fatG: 19,
+    })
+
+    expect(proteinPct + carbsPct + fatPct).toBe(100)
+  })
+
   it('returns zeros when there are no macros', () => {
     expect(toMacroRatios({ proteinG: 0, carbsG: 0, fatG: 0 })).toEqual({
       proteinPct: 0,

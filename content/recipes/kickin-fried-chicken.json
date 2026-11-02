@@ -6,7 +6,7 @@
   "prepMinutes": 15,
   "cookMinutes": 25,
   "costTier": 2,
-  "difficulty": 5,
+  "difficulty": 4,
   "nutrition": [
     {
       "kind": "makeover",

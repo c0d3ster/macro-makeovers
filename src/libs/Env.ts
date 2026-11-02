@@ -3,7 +3,6 @@ import { z } from 'zod'
 
 export const Env = createEnv({
   server: {
-    SUPABASE_SECRET_KEY: z.string().optional(),
     DATABASE_URL: z.string().optional(),
     RESEND_API_KEY: z.string().optional(),
     SUPPORT_EMAIL: z.string().default('support@example.com'),
@@ -19,7 +18,6 @@ export const Env = createEnv({
   },
   // You need to destructure all the keys manually
   runtimeEnv: {
-    SUPABASE_SECRET_KEY: process.env.SUPABASE_SECRET_KEY,
     DATABASE_URL: process.env.DATABASE_URL,
     RESEND_API_KEY: process.env.RESEND_API_KEY,
     SUPPORT_EMAIL: process.env.SUPPORT_EMAIL,
@@ -45,12 +43,6 @@ export const requireEnv = {
       throw new Error('NEXT_PUBLIC_SUPABASE_URL is required but not set')
     }
     return Env.NEXT_PUBLIC_SUPABASE_URL
-  },
-  SUPABASE_SECRET_KEY: (): string => {
-    if (!Env.SUPABASE_SECRET_KEY) {
-      throw new Error('SUPABASE_SECRET_KEY is required but not set')
-    }
-    return Env.SUPABASE_SECRET_KEY
   },
   NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: (): string => {
     if (!Env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY) {

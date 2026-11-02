@@ -64,6 +64,17 @@ describe('groupIngredients', () => {
     expect(groups[0]?.ingredients).toHaveLength(2)
   })
 
+  it('treats headings that differ only by case or spacing as one group', () => {
+    const groups = groupIngredients([
+      { group: 'Sauce', raw: '1 tbsp soy' },
+      { group: 'sauce ', raw: '1 tsp honey' },
+      { group: 'SAUCE', raw: '1 tsp garlic' },
+    ])
+
+    expect(groups.map(({ name }) => name)).toEqual(['Sauce'])
+    expect(groups[0]?.ingredients).toHaveLength(3)
+  })
+
   it('keeps ungrouped lines together without a heading', () => {
     const groups = groupIngredients([{ raw: 'Salt' }, { raw: 'Pepper' }])
 

@@ -213,6 +213,7 @@ describe('RecipeNotes', () => {
 
 describe('RecipeHero', () => {
   const recipe: RecipeDetail = {
+    id: 'recipe-1',
     slug: 'test-chili',
     title: 'Test Chili',
     summary: 'A test recipe.',
@@ -288,11 +289,11 @@ describe('RecipeHero', () => {
 
     expect(pills).toHaveLength(3)
 
-    // 30g carbs, 28g fat, 27g protein -> 25 / 53 / 23 by calories
+    // 30g carbs, 28g fat, 27g protein -> 25 / 52 / 23 by calories (fat and protein tie at .5, so protein rounds up and it adds to 100)
     const startOf = (pill: Element): string =>
       (pill as HTMLElement).style.getPropertyValue('--macro-from')
 
-    expect(Array.from(pills, startOf)).toEqual(['25', '53', '23'])
+    expect(Array.from(pills, startOf)).toEqual(['25', '52', '23'])
   })
 
   it('grows the pills from nothing without a traditional build', () => {

@@ -1,37 +1,75 @@
 'use client'
 
-import { useActionState, useState } from 'react'
+import { useState } from 'react'
 
 import type { ImportResult } from '@/libs/recipes'
 
+import { toImportResult, useImportRecipe } from '@/apiClients'
 import { Button } from '@/components/atoms'
 import { ImportResultPanel } from '@/components/molecules'
 
-export type ImportIntent = 'preview' | 'import' | 'overwrite'
+type ImportIntent = 'preview' | 'import' | 'overwrite'
 
-export type RecipeImportFormState = {
+type ImportState = {
   intent?: ImportIntent
+  // The JSON that produced the result, so Overwrite only applies to what was reviewed
+  source?: string
   result?: ImportResult
   error?: string
 }
 
-type RecipeImportFormProps = {
-  action: (
-    previous: RecipeImportFormState,
-    formData: FormData
-  ) => Promise<RecipeImportFormState>
-}
+const errorMessage = (error: unknown, fallback: string): string =>
+  error instanceof Error ? error.message : fallback
 
-export const RecipeImportForm = ({ action }: RecipeImportFormProps) => {
-  const [state, formAction, isPending] = useActionState(action, {})
-  // Controlled so the text survives the form reset that follows an action
+export const RecipeImportForm = () => {
+  const [importRecipe, { loading }] = useImportRecipe()
   const [json, setJson] = useState('')
+  const [state, setState] = useState<ImportState>({})
 
   const isEmpty = !json.trim()
-  const canOverwrite = state.result?.status === 'conflict'
+  // A preview of a changed recipe reports `updated` (it was not written), a save reports
+  // `conflict`. Either way the changes shown are only valid for the JSON still in the box.
+  const showsPendingChanges =
+    state.result?.status === 'conflict' ||
+    (state.intent === 'preview' && state.result?.status === 'updated')
+  const canOverwrite = showsPendingChanges && state.source === json
+
+  const run = async (intent: ImportIntent): Promise<void> => {
+    let recipe: unknown
+    try {
+      recipe = JSON.parse(json)
+    } catch (error) {
+      setState({
+        error: `That is not valid JSON: ${errorMessage(error, 'parse error')}`,
+      })
+      return
+    }
+
+    try {
+      const { data } = await importRecipe({
+        variables: {
+          recipe,
+          // A preview of an existing slug shows what an overwrite would change
+          overwrite: intent !== 'import',
+          dryRun: intent === 'preview',
+        },
+      })
+      if (!data) {
+        setState({ error: 'The import returned no data.' })
+        return
+      }
+      setState({
+        intent,
+        source: json,
+        result: toImportResult(data.importRecipe),
+      })
+    } catch (error) {
+      setState({ error: errorMessage(error, 'The import failed.') })
+    }
+  }
 
   return (
-    <form action={formAction}>
+    <form onSubmit={(event) => event.preventDefault()}>
       <label htmlFor='recipe-json' className='mb-2 block font-medium text-text'>
         Recipe JSON
       </label>
@@ -47,28 +85,16 @@ export const RecipeImportForm = ({ action }: RecipeImportFormProps) => {
       />
 
       <div className='mt-4 flex flex-wrap gap-3'>
-        <Button
-          type='submit'
-          name='intent'
-          value='preview'
-          disabled={isPending || isEmpty}
-        >
+        <Button disabled={loading || isEmpty} onClick={() => run('preview')}>
           Preview
         </Button>
-        <Button
-          type='submit'
-          name='intent'
-          value='import'
-          disabled={isPending || isEmpty}
-        >
+        <Button disabled={loading || isEmpty} onClick={() => run('import')}>
           Save as draft
         </Button>
         {canOverwrite && (
           <Button
-            type='submit'
-            name='intent'
-            value='overwrite'
-            disabled={isPending || isEmpty}
+            disabled={loading || isEmpty}
+            onClick={() => run('overwrite')}
           >
             Overwrite existing
           </Button>
