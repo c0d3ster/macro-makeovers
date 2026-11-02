@@ -97,7 +97,7 @@ Each ingredient is costed as pack price divided by pack quantity, times the amou
 - **Whole items are priced each and prorated by the fraction used.** Half an onion costs half the price of one.
 - **Each ingredient uses the lowest price found.** Prices come from the Martin's shelf at the Winchester, VA store (read October 29), your Martin's receipt, and Walmart, Kroger, HEB, ShopRite, Acme and Costco listings. The price book shows the winning store and the other prices found for every item that has more than one. Items not yet read at Martin's (produce, spices, sesame seeds, orange juice, achiote, adobo, sugars, vinegar, basil, pickles, flank and black rice) carry their earlier retail or receipt price. Treat the totals as relative costs, since prices vary by region and store.
 - **Pack sizes and approximations.** Oils are priced at the smallest bottles found (8.4 fl oz avocado, 17 fl oz olive). Cheddar is Tillamook Extra Sharp White at HEB's 16 oz price, not store brand. Chicken breast is your $3.00 per lb target. The baby potato bag is assumed to be 1.5 lb.
-- **Not costed.** Salt, water, and the optional cocoa or chocolate in the chili.
+- **Not costed.** Salt and water.
 
 ## Price book
 

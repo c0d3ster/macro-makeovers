@@ -140,11 +140,10 @@ Carb-forward from the beans, but low fat and strong protein. Using the cottage c
 
 **Umami boosters**
 
-- **Worcestershire (preferred): ~2 tsp**, or soy sauce. This is the only either/or: pick one, not both
+- **Worcestershire (preferred): ~2 tsp**, or soy sauce
 - Small amount of brown sugar to balance the acidity from the tomatoes and paste
-- _Optional:_ 1 tsp cocoa powder or a small square of dark chocolate, which adds faint bitterness and depth, not chocolate flavor
 
-**Spice base** (for 1 lb turkey, scale up proportionally for more)
+**Spice base**
 
 - Spice mix: chili powder 1 tbsp, cumin 2 tsp, smoked paprika 1 tsp, garlic powder 1 tsp, onion powder 1 tsp, oregano 1 tsp, salt ~1 tsp (to taste), black pepper 1/2 tsp, cayenne 1/2 tsp
 
@@ -159,7 +158,7 @@ Carb-forward from the beans, but low fat and strong protein. Using the cottage c
 - Dice the onion, bell pepper, and jalapeño. Mince the garlic.
 - Mix the spice base in a bowl, then split it roughly in half: one half for browning the turkey, one half for the pot.
 - Drain the beans.
-- Measure out the tomato paste, broth, and umami boosters (Worcestershire or soy sauce, brown sugar, optional cocoa) so they're ready to add in sequence.
+- Measure out the tomato paste, broth, and umami boosters (Worcestershire or soy sauce, brown sugar).
 
 **Cook** (~40–60 min)
 
@@ -185,8 +184,6 @@ Cheddar (measured, 1/8 cup), a creamy topping, scallions, cilantro, jalapeño, s
 Sour cream is the outlier: it costs 4–6x the fat of any other option and gives back almost no protein. Greek yogurt is the leanest but its tang is sharper. **Blended 2% cottage cheese is the best all-around swap**. It's creamy and pourable like sour cream, mild enough not to fight the spice, and adds real protein.
 
 > **The blend (recommended):** 1/2 cup cottage cheese : 2 tbsp sour cream : 2 tbsp milk. The sour cream is ~1/4 the cottage cheese by volume; the milk loosens it enough to blend smooth. Yields ~3/4 cup, enough for 5 bowls. Whole blend: ~170 cal, 9g fat, 14g protein.
->
-> Stir it **into** the hot bowl rather than dolloping cold on top. The heat carries it through the whole bowl.
 
 **Cheddar note:** 1/8 cup (~0.5 oz) runs ~55 cal and 4.5g fat. This is where to spend fat if anywhere. It carries the flavor. Measure it rather than free-pouring; a heavy hand doubles it fast. 4 saltines add ~50 cal and 9g carbs.
 
@@ -1179,7 +1176,6 @@ The chop is ~330 cal and 40g protein, the sides ~260 cal, and the sauce ~80 cal.
 - **Sauce too thick:** splash of stock or water
 - **Sauce too thin:** reduce the stock a minute longer before adding the cottage cheese
 - **Not crispy enough:** more oil spray, or toast the panko longer
-- **Vegetables steaming instead of crisping:** the pans were crowded or the pieces were wet. Spread them out and pat dry
 
 ---
 
