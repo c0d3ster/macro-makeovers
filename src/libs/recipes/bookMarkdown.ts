@@ -176,8 +176,11 @@ const toQuote = (body: string): string => {
 
 // "Per sandwich — pick one" is a bold label with a trailing remark
 const groupHeading = (group: string): string => {
-  const match = /^(.+?)(\s+(?:—|\().*)$/.exec(group)
-  return match ? `**${match[1]}**${match[2]}` : `**${group}**`
+  // The label ends where the first whitespace run before a dash or an opening paren starts
+  const split = group.search(/\s+(?:—|\()/)
+  return split > 0
+    ? `**${group.slice(0, split)}**${group.slice(split)}`
+    : `**${group}**`
 }
 
 const ingredientsSection = ({ ingredients, notes }: RecipeImport): string => {
@@ -292,13 +295,13 @@ export const renderBookMarkdown = (
     `All ${countWord} numbered recipes`
   )
 
-  return (
-    [
-      text,
-      quickReference(recipes),
-      ...recipes.map((book) => `---\n\n${recipeSection(book)}`),
-      `---\n\n${guide}`,
-      `---\n\n${outro}`,
-    ].join('\n\n') + '\n'
-  )
+  const sections = [
+    text,
+    quickReference(recipes),
+    ...recipes.map((book) => `---\n\n${recipeSection(book)}`),
+    `---\n\n${guide}`,
+    `---\n\n${outro}`,
+  ]
+
+  return `${sections.join('\n\n')}\n`
 }
