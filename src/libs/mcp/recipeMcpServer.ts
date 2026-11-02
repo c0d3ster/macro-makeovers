@@ -75,9 +75,7 @@ export const createRecipeMcpServer = (caller: McpCaller): McpServer => {
       annotations: { readOnlyHint: true },
     },
     async () =>
-      reply(
-        JSON.stringify(z.toJSONSchema(recipeImportSchema, { io: 'input' }))
-      )
+      reply(JSON.stringify(z.toJSONSchema(recipeImportSchema, { io: 'input' })))
   )
 
   server.registerTool(
@@ -96,7 +94,7 @@ export const createRecipeMcpServer = (caller: McpCaller): McpServer => {
     'import_recipe',
     {
       description:
-        'Saves a recipe. A new slug is created as a draft. An existing slug comes back as status conflict with the changes, and is only replaced when overwrite is true. An overwrite keeps the recipe\'s published status. Run validate_recipe first and show the person the result before saving.',
+        "Saves a recipe. A new slug is created as a draft. An existing slug comes back as status conflict with the changes, and is only replaced when overwrite is true. An overwrite keeps the recipe's published status. Run validate_recipe first and show the person the result before saving.",
       inputSchema: {
         recipe: recipeArgument,
         overwrite: z
