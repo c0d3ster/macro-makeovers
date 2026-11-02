@@ -61,6 +61,31 @@ export class RecipeResolver {
     return toAdminRecipe(recipe)
   }
 
+  @Mutation(() => ID, {
+    description:
+      'Deletes a recipe with its revision history. Refused while other recipes are variants of it. Owner only.',
+  })
+  async deleteRecipe(
+    @Arg('id', () => ID) id: string,
+    @Ctx() ctx: GraphQLContext
+  ): Promise<string> {
+    await requireOwner(ctx, 'delete recipes')
+
+    const result = await this.recipeService.deleteRecipe(id)
+    if (result.status === 'not_found') {
+      throw new GraphQLError('That recipe does not exist.', {
+        extensions: { code: 'NOT_FOUND' },
+      })
+    }
+    if (result.status === 'has_variants') {
+      throw new GraphQLError(
+        `Delete or unlink its variants first: ${result.titles.join(', ')}.`,
+        { extensions: { code: 'BAD_USER_INPUT' } }
+      )
+    }
+    return id
+  }
+
   @Mutation(() => ImportRecipeResult, {
     description:
       'Validates a recipe and saves it as a draft. An existing slug is only replaced with overwrite. dryRun checks and diffs without writing. Owner only.',

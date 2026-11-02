@@ -6,6 +6,7 @@ import type { ImportIssue, ImportResult, RecipeStatus } from '@/libs/recipes'
 import {
   ImportRecipeStatus,
   PublishStatus,
+  useDeleteRecipeMutation,
   useImportRecipeMutation,
   useSetRecipeStatusMutation,
 } from '@/graphql/generated/graphql'
@@ -47,6 +48,12 @@ export const SET_RECIPE_STATUS = gql`
       slug
       status
     }
+  }
+`
+
+export const DELETE_RECIPE = gql`
+  mutation DeleteRecipe($id: ID!) {
+    deleteRecipe(id: $id)
   }
 `
 
@@ -151,6 +158,16 @@ export const useSaveRecipe = (): ((
         error: error instanceof Error ? error.message : 'The save failed.',
       }
     }
+  }
+}
+
+// Deletes a recipe for good. Throws with the server's message when it refuses, for example
+// while the recipe still has variants.
+export const useDeleteRecipe = (): ((id: string) => Promise<void>) => {
+  const [deleteRecipe] = useDeleteRecipeMutation()
+
+  return async (id) => {
+    await deleteRecipe({ variables: { id } })
   }
 }
 

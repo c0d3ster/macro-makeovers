@@ -69,12 +69,19 @@ export enum ImportRecipeStatus {
 
 export type Mutation = {
   readonly __typename?: 'Mutation';
+  /** Deletes a recipe with its revision history. Refused while other recipes are variants of it. Owner only. */
+  readonly deleteRecipe: Scalars['ID']['output'];
   /** Validates a recipe and saves it as a draft. An existing slug is only replaced with overwrite. dryRun checks and diffs without writing. Owner only. */
   readonly importRecipe: ImportRecipeResult;
   /** Publishes or unpublishes a recipe. Owner only. */
   readonly setRecipeStatus: AdminRecipe;
   readonly submitContactForm: ContactSubmission;
   readonly updateUser: User;
+};
+
+
+export type MutationDeleteRecipeArgs = {
+  id: Scalars['ID']['input'];
 };
 
 
@@ -189,6 +196,13 @@ export type SetRecipeStatusMutationVariables = Exact<{
 
 
 export type SetRecipeStatusMutation = { readonly __typename?: 'Mutation', readonly setRecipeStatus: { readonly __typename?: 'AdminRecipe', readonly id: string, readonly slug: string, readonly status: string } };
+
+export type DeleteRecipeMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type DeleteRecipeMutation = { readonly __typename?: 'Mutation', readonly deleteRecipe: string };
 
 export type GetMeQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -335,6 +349,34 @@ export function useSetRecipeStatusMutation(baseOptions?: ApolloReactHooks.Mutati
         return ApolloReactHooks.useMutation<SetRecipeStatusMutation, SetRecipeStatusMutationVariables>(SetRecipeStatusDocument, options);
       }
 export type SetRecipeStatusMutationHookResult = ReturnType<typeof useSetRecipeStatusMutation>;
+export const DeleteRecipeDocument = gql`
+    mutation DeleteRecipe($id: ID!) {
+  deleteRecipe(id: $id)
+}
+    `;
+
+/**
+ * __useDeleteRecipeMutation__
+ *
+ * To run a mutation, you first call `useDeleteRecipeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteRecipeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteRecipeMutation, { data, loading, error }] = useDeleteRecipeMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteRecipeMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<DeleteRecipeMutation, DeleteRecipeMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useMutation<DeleteRecipeMutation, DeleteRecipeMutationVariables>(DeleteRecipeDocument, options);
+      }
+export type DeleteRecipeMutationHookResult = ReturnType<typeof useDeleteRecipeMutation>;
 export const GetMeDocument = gql`
     query GetMe {
   me {

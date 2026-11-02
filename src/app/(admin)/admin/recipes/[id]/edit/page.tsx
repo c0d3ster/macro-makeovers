@@ -4,7 +4,10 @@ import type { ReactElement } from 'react'
 import { notFound } from 'next/navigation'
 
 import { Button } from '@/components/atoms'
-import { RecipePublishControls } from '@/components/molecules'
+import {
+  RecipeDeleteButton,
+  RecipePublishControls,
+} from '@/components/molecules'
 import { RecipeForm } from '@/components/organisms'
 import { CleanPageTemplate } from '@/components/templates'
 import { Env } from '@/libs/Env'
@@ -44,6 +47,11 @@ const EditRecipePage = async ({
             Back to recipes
           </Button>
           <RecipePublishControls id={id} slug={recipe.slug} status={status} />
+          <RecipeDeleteButton
+            id={id}
+            title={recipe.title}
+            redirectTo='/admin'
+          />
         </div>
       }
     >

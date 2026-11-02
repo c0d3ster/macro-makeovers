@@ -9,7 +9,10 @@ import type {
   RecipeDetail,
   RecipeStatus,
 } from '@/libs/recipes'
-import type { AdminRecipe } from '@/libs/recipes/RecipeRepository'
+import type {
+  AdminRecipe,
+  DeleteRecipeResult,
+} from '@/libs/recipes/RecipeRepository'
 import type { schemas } from '@/models'
 
 import { ImportRecipeStatus } from '@/graphql/schema'
@@ -33,6 +36,11 @@ type ImportOptions = {
 const MAX_SEARCH_LENGTH = 200
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+
+type RecipePreview = {
+  status: RecipeStatus
+  recipe: RecipeDetail
+}
 
 type EditableRecipe = {
   id: string
@@ -149,6 +157,29 @@ export class RecipeService {
     const recipe = await this.reader().updateRecipeStatus(id, status)
     if (recipe) refreshPages(recipe.slug)
     return recipe
+  }
+
+  // Deletes a recipe and refreshes the pages it appeared on. Refuses while it has variants.
+  // The caller checks the owner first.
+  async deleteRecipe(id: string): Promise<DeleteRecipeResult> {
+    if (!UUID.test(id)) return { status: 'not_found' }
+
+    const result = await this.reader().deleteRecipe(id)
+    if (result.status === 'deleted') refreshPages(result.slug)
+    return result
+  }
+
+  // A recipe as its page would show it, drafts included, with its publish status. Undefined for
+  // an unknown id or a recipe the page cannot show. The caller checks the owner first.
+  async getRecipePreview(id: string): Promise<RecipePreview | undefined> {
+    if (!UUID.test(id)) return undefined
+
+    const repository = this.reader()
+    const [status, recipe] = await Promise.all([
+      repository.getRecipeStatus(id),
+      repository.getDetailById(id),
+    ])
+    return status && recipe ? { status, recipe } : undefined
   }
 
   // The stored recipe in import shape for the editor, or undefined when the id is unknown or

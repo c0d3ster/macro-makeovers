@@ -113,3 +113,57 @@ describe('RecipeResolver.setRecipeStatus', () => {
     expect(setRecipeStatus).toHaveBeenCalledWith('r1', 'draft')
   })
 })
+
+describe('RecipeResolver.deleteRecipe', () => {
+  const setup = (
+    isOwner: boolean,
+    result: unknown = { status: 'deleted', slug: 'chili' }
+  ) => {
+    const deleteRecipe = vi.fn().mockResolvedValue(result)
+    return {
+      deleteRecipe,
+      resolver: new RecipeResolver({
+        deleteRecipe,
+      } as unknown as RecipeService),
+      ctx: {
+        isOwner: vi.fn().mockResolvedValue(isOwner),
+      } as unknown as GraphQLContext,
+    }
+  }
+
+  it('refuses anyone who is not the owner and deletes nothing', async () => {
+    const { resolver, ctx, deleteRecipe } = setup(false)
+
+    await expect(resolver.deleteRecipe('r1', ctx)).rejects.toMatchObject({
+      extensions: { code: 'FORBIDDEN' },
+    })
+    expect(deleteRecipe).not.toHaveBeenCalled()
+  })
+
+  it('returns the id of the recipe it deleted', async () => {
+    const { resolver, ctx, deleteRecipe } = setup(true)
+
+    await expect(resolver.deleteRecipe('r1', ctx)).resolves.toBe('r1')
+    expect(deleteRecipe).toHaveBeenCalledWith('r1')
+  })
+
+  it('reports an unknown recipe', async () => {
+    const { resolver, ctx } = setup(true, { status: 'not_found' })
+
+    await expect(resolver.deleteRecipe('r1', ctx)).rejects.toMatchObject({
+      extensions: { code: 'NOT_FOUND' },
+    })
+  })
+
+  it('names the variants that block the delete', async () => {
+    const { resolver, ctx } = setup(true, {
+      status: 'has_variants',
+      titles: ['Flank Steak Bulgogi', 'Pork Bulgogi'],
+    })
+
+    await expect(resolver.deleteRecipe('r1', ctx)).rejects.toMatchObject({
+      message: expect.stringContaining('Flank Steak Bulgogi, Pork Bulgogi'),
+      extensions: { code: 'BAD_USER_INPUT' },
+    })
+  })
+})

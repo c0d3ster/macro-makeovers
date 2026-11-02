@@ -233,7 +233,10 @@ export const RecipeForm = ({
             />
           </Field>
         </div>
-        <Field label='Variant of (slug, optional)' error={errors.variantOf?.message}>
+        <Field
+          label='Variant of (slug, optional)'
+          error={errors.variantOf?.message}
+        >
           <input
             {...register('variantOf', { setValueAs: optionalText })}
             className={FILTER_FIELD_CLASS}
@@ -488,6 +491,15 @@ export const RecipeForm = ({
         <Button type='submit' disabled={isPending}>
           {isPending ? 'Saving...' : 'Save'}
         </Button>
+        {recipeId && (
+          <Button
+            href={`/admin/recipes/${recipeId}/preview`}
+            external
+            variant='outline'
+          >
+            Preview saved version
+          </Button>
+        )}
         {result?.ok && (
           <p role='status' className='text-sm text-text'>
             {result.summary}
