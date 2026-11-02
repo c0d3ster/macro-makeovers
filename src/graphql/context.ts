@@ -6,8 +6,8 @@ import { db } from '@/libs/DB'
 import { logger } from '@/libs/Logger'
 import { isSupabaseConfigured } from '@/libs/supabase/client'
 import {
-  isOwner as isSessionOwner,
   isOwnerForToken,
+  isOwner as isSessionOwner,
 } from '@/libs/supabase/owner'
 import { getAuthId } from '@/libs/supabase/server'
 import { schemas } from '@/models'

@@ -1,8 +1,8 @@
+import { notFound } from 'next/navigation'
+
 import type { RecipeStatus } from '@/libs/recipes'
 import type { AdminRecipe } from '@/libs/recipes/RecipeRepository'
 import type { RecipeImportInput } from '@/validations'
-
-import { notFound } from 'next/navigation'
 
 import { isOwner } from '@/libs/supabase/owner'
 import { services } from '@/services'

@@ -27,6 +27,7 @@ describe('RecipePublishButton', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Publish' }))
 
     await waitFor(() => expect(mocks.refresh).toHaveBeenCalled())
+
     expect(mocks.setRecipeStatus).toHaveBeenCalledWith('recipe-1', 'published')
   })
 
@@ -36,6 +37,7 @@ describe('RecipePublishButton', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Unpublish' }))
 
     await waitFor(() => expect(mocks.refresh).toHaveBeenCalled())
+
     expect(mocks.setRecipeStatus).toHaveBeenCalledWith('recipe-1', 'draft')
   })
 
