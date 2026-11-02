@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
 
+import { Analytics } from '@vercel/analytics/next'
+
 import { Env } from '@/libs/Env'
 import { ProvidersWrapper } from '@/providers'
 import { getBaseUrl } from '@/utils/Env'
@@ -47,6 +49,7 @@ export default function RootLayout({
       </head>
       <body>
         <ProvidersWrapper>{children}</ProvidersWrapper>
+        <Analytics />
       </body>
     </html>
   )
