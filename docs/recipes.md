@@ -8,7 +8,7 @@ All thirteen numbered recipes below are batch/leftover friendly and built around
 
 ## Quick reference
 
-Per serving, default/featured build for each. Full nutrition, other build options, and traditional comparisons are in each entry below.
+Per serving, default/featured build for each. Full nutrition, other build options, and traditional comparisons are in each entry below. Each recipe heading also shows its cost per serving ($ to $$$$$), total time, and difficulty (● to ●●●●●). [How to read the recipes](#how-to-read-the-recipes) at the end of the book explains those, plus the make-or-break, fixes, and levers sections.
 
 ::: {.quickref}
 
@@ -30,16 +30,6 @@ Per serving, default/featured build for each. Full nutrition, other build option
 | [Red Enchilada Casserole](#13-red-enchilada-casserole)                            | ~525     | 46g     | 42 / 25 / 33 | 6        |
 
 :::
-
-## How difficulty is rated
-
-Difficulty is about technique risk, not effort. A long recipe with forgiving steps stays low. A short one where a small mistake ruins the dish goes high.
-
-- **1 ●○○○○:** assembly, almost no cooking.
-- **2 ●●○○○:** one forgiving method, hard to mess up.
-- **3 ●●●○○:** a few components, or one spot to watch.
-- **4 ●●●●○:** several things to time together, or one technique that can fail.
-- **5 ●●●●●:** a technique where a small mistake ruins it (poached eggs and hollandaise, a thick steak, a soufflé). Nothing in this book is a 5 yet.
 
 ---
 
@@ -1347,6 +1337,47 @@ Per serving, from the same base.
 | **Beef chuck, trimmed**      | ~580     | 57g   | 23g | 43g     | 38 / 34 / 28 |
 
 Beef braises in the same sauce, covered, at the lowest simmer or in a 300°F oven, 2.5 to 3 hr until it shreds with a fork. Chuck is richer and more traditional but lands above the fat target. Eye of round stays in range and shreds a bit drier, so toss it with extra sauce.
+
+---
+
+## How to read the recipes
+
+Each recipe heading reads like `$$ · ~40 min · ●●●○○`: cost, time, and difficulty.
+
+### Cost
+
+Cost is per serving, from the lowest prices found across several stores for each ingredient, so it is a relative guide and prices will differ where you shop.
+
+- **$:** under $3
+- **$$:** $3 to $4.99
+- **$$$:** $5 to $6.99
+- **$$$$:** $7 to $9.99
+- **$$$$$:** $10 and up. Nothing in this book reaches it yet.
+
+### Time
+
+Time is hands-on prep plus cooking. A wait like a marinade is listed beside it, as in "~60 min + 2 hr marinade".
+
+### Difficulty
+
+Difficulty is about technique risk, not effort. A long recipe with forgiving steps stays low. A short one where a small mistake ruins the dish goes high.
+
+- **1 ●○○○○:** assembly, almost no cooking.
+- **2 ●●○○○:** one forgiving method, hard to mess up.
+- **3 ●●●○○:** a few components, or one spot to watch.
+- **4 ●●●●○:** several things to time together, or one technique that can fail.
+- **5 ●●●●●:** a technique where a small mistake ruins it (poached eggs and hollandaise, a thick steak, a soufflé). Nothing in this book is a 5 yet.
+
+### Nutrition
+
+Every nutrition table is per serving and estimated. Ratios read carbs / fat / protein (C/F/P) as shares of calories. The italic traditional row is the same dish made the usual way, so you can see what the makeover saves.
+
+### Make-or-break, fixes, and levers
+
+- **Make-or-break:** the few steps that decide whether the dish works. If you only read one list before cooking, read this one.
+- **Fixes:** what to do when something goes wrong, such as a sauce that turns grainy or too thin.
+- **Levers:** changes you can make to hit a different goal, like more cheese for fat, fewer tortillas or less rice for carbs, or more meat for protein. Where the numbers move, the table shows by how much.
+- **Options and toppings:** some recipes also list swappable builds, like the meat options in the tacos and enchilada casserole, with their own macros.
 
 ---
 

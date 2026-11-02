@@ -5,11 +5,12 @@ import { formatMacroRatios } from './macroRatios'
 type Nutrition = RecipeImport['nutrition'][number]
 type Note = RecipeImport['notes'][number]
 
-// The recipe book text that is not recipes: the intro, the difficulty guide, and the closing
-// sections. It is cut out of docs/recipes.md, so editing the prose there changes the book.
+// The recipe book text that is not recipes: the intro, the "How to read the recipes" guide, and
+// the closing sections. It is cut out of docs/recipes.md, so editing the prose there changes the
+// book.
 export type BookProse = {
   intro: string
-  difficulty: string
+  guide: string
   outro: string
 }
 
@@ -55,18 +56,18 @@ const DIVIDED_LABEL = /^per (?:serving|plate)$/i
 // Pieces of docs/recipes.md that stay hand-written. The generated parts sit between them.
 export const splitBookProse = (markdown: string): BookProse => {
   const quickStart = markdown.indexOf('\n## Quick reference')
-  const difficultyStart = markdown.indexOf('\n## How difficulty is rated')
+  const guideStart = markdown.indexOf('\n## How to read the recipes')
   const outroStart = markdown.indexOf('\n## Second Helpings')
-  if (quickStart === -1 || difficultyStart === -1 || outroStart === -1) {
+  if (quickStart === -1 || guideStart === -1 || outroStart === -1) {
     throw new Error(
-      'docs/recipes.md needs "Quick reference", "How difficulty is rated", and "Second Helpings" sections'
+      'docs/recipes.md needs "Quick reference", "How to read the recipes", and "Second Helpings" sections'
     )
   }
-  const firstRecipe = markdown.indexOf('\n---\n', difficultyStart)
+  const guideEnd = markdown.indexOf('\n---\n', guideStart)
 
   return {
     intro: markdown.slice(0, quickStart).trim(),
-    difficulty: markdown.slice(difficultyStart, firstRecipe).trim(),
+    guide: markdown.slice(guideStart, guideEnd).trim(),
     outro: markdown.slice(outroStart).trim(),
   }
 }
@@ -282,7 +283,7 @@ const recipeSection = (book: BookRecipe): string => {
 // by numberBookRecipes. The quick reference table is generated from the same data.
 export const renderBookMarkdown = (
   recipes: BookRecipe[],
-  { intro, difficulty, outro }: BookProse
+  { intro, guide, outro }: BookProse
 ): string => {
   const baseCount = recipes.filter(({ recipe }) => !recipe.variantOf).length
   const countWord = NUMBER_WORDS[baseCount] ?? String(baseCount)
@@ -295,8 +296,8 @@ export const renderBookMarkdown = (
     [
       text,
       quickReference(recipes),
-      difficulty,
       ...recipes.map((book) => `---\n\n${recipeSection(book)}`),
+      `---\n\n${guide}`,
       `---\n\n${outro}`,
     ].join('\n\n') + '\n'
   )

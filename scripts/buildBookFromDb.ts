@@ -1,6 +1,6 @@
 // Writes the recipe book as markdown from the published recipes in the database, in the shape
 // of docs/recipes.md (build/recipes-from-db.md). The pandoc and PDF path in buildBook.ts is
-// unchanged and still reads docs/recipes.md. Prose (intro, difficulty guide, shopping and
+// unchanged and still reads docs/recipes.md. Prose (intro, reading guide, shopping and
 // nutrition sections) is cut from docs/recipes.md; the recipes and quick reference table are
 // generated. Run with `pnpm book:md:db`, or `pnpm book:md:db --from content/recipes` to render
 // recipe JSON files instead of the database (no connection needed).
