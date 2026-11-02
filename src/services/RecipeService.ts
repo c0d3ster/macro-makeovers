@@ -66,9 +66,7 @@ const STATUS_BY_RESULT: Record<ImportResult['status'], ImportRecipeStatus> = {
 
 // Flattens the library's union into one GraphQL object. Both lists are always present, so a
 // client never has to null-check them.
-const toImportRecipeResult = (
-  result: ImportResult
-): ImportRecipeResult => {
+const toImportRecipeResult = (result: ImportResult): ImportRecipeResult => {
   const status = STATUS_BY_RESULT[result.status]
 
   if (result.status === 'invalid') {

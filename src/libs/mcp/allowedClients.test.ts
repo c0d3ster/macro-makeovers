@@ -4,9 +4,9 @@ import { isAllowedRedirectUri } from './allowedClients'
 
 describe('isAllowedRedirectUri', () => {
   it('allows a listed origin on any path', () => {
-    expect(isAllowedRedirectUri('https://claude.ai/api/mcp/auth_callback')).toBe(
-      true
-    )
+    expect(
+      isAllowedRedirectUri('https://claude.ai/api/mcp/auth_callback')
+    ).toBe(true)
   })
 
   it('rejects an unlisted origin', () => {
