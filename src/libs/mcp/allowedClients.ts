@@ -2,7 +2,7 @@
 // register an OAuth client, so the consent step only approves apps that return to one of these
 // origins. If approving Claude is refused, the consent page shows the address it saw, and that
 // origin belongs here.
-export const ALLOWED_REDIRECT_ORIGINS: readonly string[] = [
+const ALLOWED_REDIRECT_ORIGINS: readonly string[] = [
   'https://claude.ai',
   'https://claude.com',
 ]
