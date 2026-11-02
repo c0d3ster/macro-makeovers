@@ -19,9 +19,9 @@ const PDF_PATH = resolve(OUTPUT_DIR, 'macro-makeovers.pdf')
 const RECIPE_HEADING = /^## (\d+[a-z]?)\. (.+?) \| (.+)$/gm
 
 const STYLES = `
-  @page { size: Letter; margin: 0.7in 0.75in 0.8in; }
+  @page { size: Letter; margin: 0.5in; }
   * { box-sizing: border-box; }
-  body { font-family: Georgia, 'Times New Roman', serif; font-size: 10pt; line-height: 1.45; color: #222; margin: 0; }
+  body { font-family: Georgia, 'Times New Roman', serif; font-size: 10pt; line-height: 1.4; color: #222; margin: 0; }
   h1 { font-size: 26pt; margin: 0 0 0.1in; padding-bottom: 6pt; border-bottom: 2px solid #222; }
   h2 { font-size: 15pt; margin: 0.3in 0 0.1in; padding-bottom: 4pt; border-bottom: 1px solid #999; }
   h3 { font-size: 11pt; margin: 0.2in 0 0.06in; color: #444; }
@@ -31,13 +31,18 @@ const STYLES = `
   a { color: #2a5a9a; text-decoration: none; }
   ul, ol { margin: 0 0 0.1in; padding-left: 0.3in; }
   li { margin-bottom: 2pt; }
+  .ingredients { column-count: 2; column-gap: 0.3in; }
+  .ingredients li { break-inside: avoid; }
+  .ingredients ul { margin-bottom: 0.06in; }
+  .nutrition table { margin: 0.04in 0 0.08in; }
+  .nutrition th, .nutrition td { padding: 2.5pt 7pt; }
   table { width: 100%; border-collapse: collapse; margin: 0.08in 0 0.12in; font-size: 9pt; break-inside: avoid; }
   th, td { border: 1px solid #bbb; padding: 4pt 7pt; text-align: left; }
   th { background: #eee; }
   blockquote { margin: 0.1in 0; padding: 6pt 10pt; background: #f5f5ef; border-left: 3px solid #888; font-size: 9pt; break-inside: avoid; }
   blockquote p:last-child { margin-bottom: 0; }
   hr { display: none; }
-  .recipe-start { break-before: page; }
+  .recipe-start, #how-to-read-the-recipes { break-before: page; }
   h2.recipe-start { display: flex; justify-content: space-between; align-items: center; gap: 12pt; margin-top: 0; }
   .pill { flex: none; font-size: 9pt; font-weight: normal; padding: 4pt 10pt; border-radius: 12pt; background: #efeedd; border: 1px solid #d8d6bc; color: #444; }
   .hero { display: flex; gap: 0.25in; align-items: stretch; margin: 0.1in 0 0.14in; break-inside: avoid; }
@@ -166,6 +171,19 @@ const layoutRecipes = (html: string, stats: Stats[]): string => {
   )
 }
 
+// Ingredient lists are mostly short lines, so each runs in two columns to save pages.
+const columnIngredients = (html: string): string =>
+  html
+    .replace(
+      /(<h3 id="ingredients[^"]*">Ingredients<\/h3>)([\s\S]*?)(?=<h3 )/g,
+      '$1<div class="ingredients">$2</div>'
+    )
+    // Nutrition tables get tighter rows than the rest of the book's tables
+    .replace(
+      /(<h3 id="nutrition[^"]*">Nutrition[^<]*<\/h3>)([\s\S]*?)(?=<h3 )/g,
+      '$1<div class="nutrition">$2</div>'
+    )
+
 const renderHtml = (markdown: string, stats: Stats[]): string => {
   const body = execFileSync(
     'pandoc',
@@ -176,7 +194,7 @@ const renderHtml = (markdown: string, stats: Stats[]): string => {
   return `<!doctype html>
 <html lang="en">
 <head><meta charset="utf-8"><title>Macro Makeovers</title><style>${STYLES}</style></head>
-<body>${layoutRecipes(body, stats)}</body>
+<body>${columnIngredients(layoutRecipes(body, stats))}</body>
 </html>`
 }
 
