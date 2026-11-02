@@ -9,6 +9,13 @@ export const Env = createEnv({
     // Both optional: without them, publishing a recipe does not trigger a book rebuild
     GITHUB_DISPATCH_TOKEN: z.string().optional(),
     GITHUB_REPO: z.string().optional(),
+    OPENAI_API_KEY: z.string().optional(),
+    R2_ACCOUNT_ID: z.string().optional(),
+    R2_ACCESS_KEY_ID: z.string().optional(),
+    R2_SECRET_ACCESS_KEY: z.string().optional(),
+    R2_BUCKET: z.string().optional(),
+    // Public base URL of the bucket (r2.dev or a custom domain)
+    R2_PUBLIC_URL: z.string().optional(),
   },
   client: {
     NEXT_PUBLIC_APP_URL: z.string().optional(),
@@ -26,6 +33,12 @@ export const Env = createEnv({
     SUPPORT_EMAIL: process.env.SUPPORT_EMAIL,
     GITHUB_DISPATCH_TOKEN: process.env.GITHUB_DISPATCH_TOKEN,
     GITHUB_REPO: process.env.GITHUB_REPO,
+    OPENAI_API_KEY: process.env.OPENAI_API_KEY,
+    R2_ACCOUNT_ID: process.env.R2_ACCOUNT_ID,
+    R2_ACCESS_KEY_ID: process.env.R2_ACCESS_KEY_ID,
+    R2_SECRET_ACCESS_KEY: process.env.R2_SECRET_ACCESS_KEY,
+    R2_BUCKET: process.env.R2_BUCKET,
+    R2_PUBLIC_URL: process.env.R2_PUBLIC_URL,
     NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
     NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
     NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY:

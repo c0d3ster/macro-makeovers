@@ -502,6 +502,17 @@ export class RecipeRepository {
         : { status: 'not_found' }
     })
 
+  // Stores a generated placeholder photo, but only while the recipe has no photo at all, so a
+  // real image is never replaced. Returns whether the row was written.
+  setPlaceholderImage = async (id: string, url: string): Promise<boolean> => {
+    const rows = await this.database
+      .update(recipes)
+      .set({ imageUrl: url, imageIsPlaceholder: true })
+      .where(and(eq(recipes.id, id), isNull(recipes.imageUrl)))
+      .returning({ id: recipes.id })
+    return rows.length > 0
+  }
+
   // A recipe's publish status, or undefined for an unknown id. Owner only.
   getRecipeStatus = async (id: string): Promise<RecipeStatus | undefined> => {
     const [row] = await this.database
