@@ -1,3 +1,5 @@
+import type { AnyPgColumn } from 'drizzle-orm/pg-core'
+
 import { relations } from 'drizzle-orm'
 import {
   boolean,
@@ -43,7 +45,7 @@ export const recipes = pgTable('recipes', {
   access: recipeAccessEnum('access').notNull().default('free'),
   imageUrl: text('image_url'),
   // The base recipe when this one is a variant. One level deep, enforced on import.
-  variantOf: uuid('variant_of').references((): typeof recipes.id => recipes.id),
+  variantOf: uuid('variant_of').references((): AnyPgColumn => recipes.id),
   createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' })
     .defaultNow()
     .notNull(),

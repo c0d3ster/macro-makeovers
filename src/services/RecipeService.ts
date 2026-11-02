@@ -1,5 +1,7 @@
 import type { NodePgDatabase } from 'drizzle-orm/node-postgres'
 
+import { revalidatePath } from 'next/cache'
+
 import type { ImportRecipeResult } from '@/graphql/schema'
 import type {
   ImportResult,
@@ -9,8 +11,6 @@ import type {
 } from '@/libs/recipes'
 import type { AdminRecipe } from '@/libs/recipes/RecipeRepository'
 import type { schemas } from '@/models'
-
-import { revalidatePath } from 'next/cache'
 
 import { ImportRecipeStatus } from '@/graphql/schema'
 import { db } from '@/libs/DB'

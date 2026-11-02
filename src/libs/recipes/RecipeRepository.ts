@@ -2,6 +2,7 @@ import type { NodePgDatabase } from 'drizzle-orm/node-postgres'
 
 import { and, asc, desc, eq, inArray, isNull, sql } from 'drizzle-orm'
 
+import type { schemas } from '@/models'
 import type { RecipeImport } from '@/validations'
 
 import {
@@ -11,7 +12,6 @@ import {
   recipeRevisions,
   recipes,
   recipeTags,
-  schemas,
   steps,
   tags,
 } from '@/models'

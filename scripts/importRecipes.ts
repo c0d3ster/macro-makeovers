@@ -17,7 +17,7 @@ import { extname, join, resolve } from 'node:path'
 
 import type { ImportResult } from '@/libs/recipes'
 
-import { db } from '@/libs/DB'
+import { closeDb, db } from '@/libs/DB'
 import { importRecipe } from '@/libs/recipes'
 import { RecipeRepository } from '@/libs/recipes/RecipeRepository'
 import { recipes } from '@/models'
@@ -137,10 +137,6 @@ main()
     process.exitCode = 1
   })
   .finally(async () => {
-    // Lets the process exit. Skipped quietly when no connection was ever opened.
-    try {
-      await db.$client.end()
-    } catch {
-      // nothing to close
-    }
+    // Lets the process exit
+    await closeDb()
   })
