@@ -7,6 +7,10 @@ const SUPABASE_HOST = process.env.NEXT_PUBLIC_SUPABASE_URL
   ? new URL(process.env.NEXT_PUBLIC_SUPABASE_URL).hostname
   : null
 
+const R2_HOST = process.env.R2_PUBLIC_URL
+  ? new URL(process.env.R2_PUBLIC_URL).hostname
+  : null
+
 // Define the base Next.js configuration
 const baseConfig: NextConfig = {
   poweredByHeader: false,
@@ -33,6 +37,10 @@ const baseConfig: NextConfig = {
               pathname: '/storage/v1/object/public/**',
             },
           ]
+        : []),
+      // Cloudflare R2 placeholder photos
+      ...(R2_HOST
+        ? [{ protocol: 'https' as const, hostname: R2_HOST, port: '' }]
         : []),
     ],
   },

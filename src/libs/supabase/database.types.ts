@@ -238,6 +238,7 @@ export type Database = {
           created_at: string
           difficulty: number
           id: string
+          image_is_placeholder: boolean
           image_url: string | null
           prep_minutes: number
           search: unknown
@@ -257,6 +258,7 @@ export type Database = {
           created_at?: string
           difficulty: number
           id?: string
+          image_is_placeholder?: boolean
           image_url?: string | null
           prep_minutes: number
           search?: never
@@ -275,6 +277,7 @@ export type Database = {
           created_at?: string
           difficulty?: number
           id?: string
+          image_is_placeholder?: boolean
           image_url?: string | null
           prep_minutes?: number
           search?: never

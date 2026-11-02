@@ -44,6 +44,8 @@ export const recipes = pgTable('recipes', {
   status: recipeStatusEnum('status').notNull().default('draft'),
   access: recipeAccessEnum('access').notNull().default('free'),
   imageUrl: text('image_url'),
+  // True when imageUrl is an AI-generated stand-in rather than a real photo
+  imageIsPlaceholder: boolean('image_is_placeholder').notNull().default(false),
   // The base recipe when this one is a variant. One level deep, enforced on import.
   variantOf: uuid('variant_of').references((): AnyPgColumn => recipes.id),
   createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' })
