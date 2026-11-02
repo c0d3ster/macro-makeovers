@@ -11,10 +11,9 @@
 // .env.production and then .env.production.local (gitignored), where DATABASE_URL should be
 // the direct connection string from the Supabase dashboard. Same arguments as above.
 import 'reflect-metadata'
-
+import { inArray } from 'drizzle-orm'
 import { readdirSync, readFileSync, statSync } from 'node:fs'
 import { extname, join, resolve } from 'node:path'
-import { inArray } from 'drizzle-orm'
 
 import type { ImportResult } from '@/libs/recipes'
 

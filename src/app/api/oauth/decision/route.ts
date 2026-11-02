@@ -2,6 +2,7 @@ import type { SupabaseClient } from '@supabase/supabase-js'
 import type { NextRequest } from 'next/server'
 
 import { NextResponse } from 'next/server'
+import { z } from 'zod'
 
 import type { Database } from '@/libs/supabase/database.types'
 
@@ -18,21 +19,30 @@ const hasAllowedRedirect = async (
   const { data } =
     await supabase.auth.oauth.getAuthorizationDetails(authorizationId)
 
-  return !!data && 'redirect_uri' in data && isAllowedRedirectUri(data.redirect_uri)
+  return (
+    !!data && 'redirect_uri' in data && isAllowedRedirectUri(data.redirect_uri)
+  )
 }
+
+const decisionSchema = z.object({
+  authorization_id: z.string().min(1),
+  decision: z.enum(['approve', 'deny']),
+})
 
 // Records the owner's decision with Supabase, then sends the browser back to the app
 export const POST = async (request: NextRequest): Promise<NextResponse> => {
-  const form = await request.formData()
-  const authorizationId = form.get('authorization_id')
-  const decision = form.get('decision')
-  if (
-    typeof authorizationId !== 'string' ||
-    !authorizationId ||
-    (decision !== 'approve' && decision !== 'deny')
-  ) {
+  // formData() rejects on a wrong content type or a malformed body, which is a bad request
+  const form = await request.formData().catch(() => null)
+  const parsed = decisionSchema.safeParse(
+    form && {
+      authorization_id: form.get('authorization_id'),
+      decision: form.get('decision'),
+    }
+  )
+  if (!parsed.success) {
     return NextResponse.json({ error: 'Invalid request.' }, { status: 400 })
   }
+  const { authorization_id: authorizationId, decision } = parsed.data
 
   if (!(await isOwner())) {
     return NextResponse.json(

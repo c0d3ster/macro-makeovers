@@ -12,6 +12,8 @@ type ImportIntent = 'preview' | 'import' | 'overwrite'
 
 type ImportState = {
   intent?: ImportIntent
+  // The JSON that produced the result, so Overwrite only applies to what was reviewed
+  source?: string
   result?: ImportResult
   error?: string
 }
@@ -25,7 +27,12 @@ export const RecipeImportForm = () => {
   const [state, setState] = useState<ImportState>({})
 
   const isEmpty = !json.trim()
-  const canOverwrite = state.result?.status === 'conflict'
+  // A preview of a changed recipe reports `updated` (it was not written), a save reports
+  // `conflict`. Either way the changes shown are only valid for the JSON still in the box.
+  const showsPendingChanges =
+    state.result?.status === 'conflict' ||
+    (state.intent === 'preview' && state.result?.status === 'updated')
+  const canOverwrite = showsPendingChanges && state.source === json
 
   const run = async (intent: ImportIntent): Promise<void> => {
     let recipe: unknown
@@ -51,7 +58,11 @@ export const RecipeImportForm = () => {
         setState({ error: 'The import returned no data.' })
         return
       }
-      setState({ intent, result: toImportResult(data.importRecipe) })
+      setState({
+        intent,
+        source: json,
+        result: toImportResult(data.importRecipe),
+      })
     } catch (error) {
       setState({ error: errorMessage(error, 'The import failed.') })
     }
@@ -74,16 +85,10 @@ export const RecipeImportForm = () => {
       />
 
       <div className='mt-4 flex flex-wrap gap-3'>
-        <Button
-          disabled={loading || isEmpty}
-          onClick={() => run('preview')}
-        >
+        <Button disabled={loading || isEmpty} onClick={() => run('preview')}>
           Preview
         </Button>
-        <Button
-          disabled={loading || isEmpty}
-          onClick={() => run('import')}
-        >
+        <Button disabled={loading || isEmpty} onClick={() => run('import')}>
           Save as draft
         </Button>
         {canOverwrite && (
