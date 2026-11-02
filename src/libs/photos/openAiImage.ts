@@ -24,7 +24,7 @@ export const generateOpenAiImage = async (
       body: JSON.stringify({
         model: 'gpt-image-2.5-sunburst',
         prompt,
-        size: '1024x1024',
+        size: '1536x1024',
         n: 1,
       }),
     }
