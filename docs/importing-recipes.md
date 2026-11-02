@@ -59,7 +59,7 @@ One-time setup:
 1. Supabase dashboard, Authentication, OAuth Server: turn it on, set the Authorization Path
    to `/oauth/consent`, and turn on dynamic client registration. The Site URL under URL
    Configuration must be the public site URL.
-2. Use asymmetric JWT signing keys (Authentication, JWT Keys), which the OAuth server
+2. Use asymmetric JWT signing keys (Project Settings, JWT Keys: Migrate JWT secret, then Rotate keys), which the OAuth server
    recommends and the route verifies locally.
 3. Set `NEXT_PUBLIC_APP_URL` to the public site URL. The connector URL and the OAuth
    metadata are built from it.
