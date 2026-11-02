@@ -1,8 +1,4 @@
 import type {
-  RecipeCardsQuery,
-  RecipeSlugsByIngredientQuery,
-} from '@/graphql/generated/graphql'
-import type {
   Fit,
   RecipeCard,
   RecipeFilters,
@@ -10,12 +6,6 @@ import type {
   UnavailableOptions,
 } from '@/libs/recipes'
 
-import { readRecipeCards } from '@/apiClients'
-import { runPublicQuery } from '@/graphql/execute'
-import {
-  RecipeCardsDocument,
-  RecipeSlugsByIngredientDocument,
-} from '@/graphql/generated/graphql'
 import { logger } from '@/libs/Logger'
 import {
   evaluateFit,
@@ -24,6 +14,7 @@ import {
   groupTags,
   resolveTarget,
 } from '@/libs/recipes'
+import { services } from '@/services'
 
 type RecipeBrowse = {
   // Every published recipe, for building the tag list
@@ -38,14 +29,8 @@ type RecipeBrowse = {
 }
 
 // Slugs of published recipes with an ingredient matching the search text
-const searchIngredients = async (search: string): Promise<Set<string>> => {
-  const { recipeSlugsByIngredient } =
-    await runPublicQuery<RecipeSlugsByIngredientQuery>(
-      RecipeSlugsByIngredientDocument,
-      { search }
-    )
-  return new Set(recipeSlugsByIngredient)
-}
+const searchIngredients = async (search: string): Promise<Set<string>> =>
+  new Set(await services.recipeService.getRecipeSlugsByIngredient(search))
 
 // Shared by the home grid and the tag pages. Returns undefined when recipes can't be loaded,
 // so the page can show an empty state instead of failing the whole site.
@@ -53,9 +38,7 @@ export const loadRecipeBrowse = async (
   filters: RecipeFilters
 ): Promise<RecipeBrowse | undefined> => {
   try {
-    const all = readRecipeCards(
-      await runPublicQuery<RecipeCardsQuery>(RecipeCardsDocument)
-    )
+    const all = await services.recipeService.getRecipeCards()
     // A failed ingredient search still leaves title, summary, and tag search working
     const ingredientMatches = filters.q
       ? await searchIngredients(filters.q).catch((error) => {

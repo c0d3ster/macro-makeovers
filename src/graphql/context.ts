@@ -17,7 +17,7 @@ export type GraphQLContext = {
   user?: typeof schemas.users.$inferSelect | null
   db: typeof db
   schemas: typeof schemas
-  // Set for HTTP and MCP calls. Server components run queries in-process, with no request.
+  // Set for HTTP and MCP calls
   req?: NextRequest
   // Whether the caller is the site owner, decided by the database when first asked. Resolvers
   // that write recipes gate on this.
@@ -67,23 +67,6 @@ export const createContext = async (
   req,
   isOwner: isSessionOwner,
   ...(await getAuthContext()),
-})
-
-// For server components that run a query in-process as the signed-in visitor. It reads the
-// session cookie, so only use it on pages that are already dynamic, like the admin pages.
-export const createSessionContext = async (): Promise<GraphQLContext> => ({
-  db,
-  schemas,
-  isOwner: isSessionOwner,
-  ...(await getAuthContext()),
-})
-
-// For public pages. Never touches cookies, so the page can still be built ahead of time and
-// revalidated, and nobody is the owner.
-export const createPublicContext = (): GraphQLContext => ({
-  db,
-  schemas,
-  isOwner: async () => false,
 })
 
 type TokenCaller = {

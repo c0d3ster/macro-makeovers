@@ -14,14 +14,14 @@ export const metadata: Metadata = {
   title: `Recipes - ${Env.NEXT_PUBLIC_BRAND_NAME}`,
 }
 
-const formatDate = (iso: string): string =>
-  new Date(iso).toLocaleDateString('en-US', {
+const formatDate = (date: Date): string =>
+  date.toLocaleDateString('en-US', {
     month: 'short',
     day: 'numeric',
     year: 'numeric',
   })
 
-// The layout has already checked the owner, and the query checks again
+// The layout has already checked the owner, and the loader checks again
 const AdminPage = async (): Promise<ReactElement> => {
   const recipes = await loadAdminRecipes()
 

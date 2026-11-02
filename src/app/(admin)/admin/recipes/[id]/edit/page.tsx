@@ -20,7 +20,7 @@ type EditRecipePageProps = {
   params: Promise<{ id: string }>
 }
 
-// The layout has already checked the owner, and the query checks again
+// The layout has already checked the owner, and the loader checks again
 const EditRecipePage = async ({
   params,
 }: EditRecipePageProps): Promise<ReactElement> => {
