@@ -4,7 +4,7 @@ import type { ReactElement } from 'react'
 import Link from 'next/link'
 
 import { Button } from '@/components/atoms'
-import { RecipePublishButton } from '@/components/molecules'
+import { RecipeDeleteButton, RecipePublishButton } from '@/components/molecules'
 import { CleanPageTemplate } from '@/components/templates'
 import { Env } from '@/libs/Env'
 
@@ -65,7 +65,17 @@ const AdminPage = async (): Promise<ReactElement> => {
                   Edited {formatDate(updatedAt)}
                 </p>
               </div>
-              <RecipePublishButton id={id} status={status} />
+              <div className='flex flex-wrap items-center gap-2'>
+                <Button
+                  href={`/admin/recipes/${id}/preview`}
+                  size='sm'
+                  variant='outline'
+                >
+                  Preview
+                </Button>
+                <RecipePublishButton id={id} status={status} />
+                <RecipeDeleteButton id={id} title={title} />
+              </div>
             </li>
           ))}
         </ul>

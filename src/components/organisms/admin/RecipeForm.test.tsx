@@ -46,6 +46,22 @@ describe('RecipeForm', () => {
     expect(screen.getByLabelText('Slug')).toHaveAttribute('readonly')
   })
 
+  it('links to the preview of the saved recipe only when editing', () => {
+    const { rerender } = render(
+      <RecipeForm recipeId='recipe-1' initial={sampleRecipe} />
+    )
+
+    expect(
+      screen.getByRole('link', { name: 'Preview saved version' })
+    ).toHaveAttribute('href', '/admin/recipes/recipe-1/preview')
+
+    rerender(<RecipeForm initial={sampleRecipe} />)
+
+    expect(
+      screen.queryByRole('link', { name: 'Preview saved version' })
+    ).not.toBeInTheDocument()
+  })
+
   it('blocks a save with an empty title and does not call the mutation', async () => {
     render(<RecipeForm initial={sampleRecipe} />)
 

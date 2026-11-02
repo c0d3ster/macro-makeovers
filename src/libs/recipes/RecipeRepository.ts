@@ -1,3 +1,4 @@
+import type { SQL } from 'drizzle-orm'
 import type { NodePgDatabase } from 'drizzle-orm/node-postgres'
 
 import { and, asc, desc, eq, inArray, isNull, sql } from 'drizzle-orm'
@@ -33,6 +34,11 @@ type Tx = Parameters<Parameters<Db['transaction']>[0]>[0]
 type Reader = Db | Tx
 
 // One row of the admin list: drafts and published recipes together
+export type DeleteRecipeResult =
+  | { status: 'deleted'; slug: string }
+  | { status: 'not_found' }
+  | { status: 'has_variants'; titles: string[] }
+
 export type AdminRecipe = {
   id: string
   slug: string
@@ -373,11 +379,21 @@ export class RecipeRepository {
 
   // One published recipe with everything the page needs, or undefined when the slug is
   // unknown, unpublished, or has no makeover build to lead with
-  getPublishedDetail = async (
-    slug: string
+  getPublishedDetail = (slug: string): Promise<RecipeDetail | undefined> =>
+    this.findDetail(
+      and(eq(recipes.slug, slug), eq(recipes.status, 'published'))
+    )
+
+  // The same page data for any recipe by id, drafts included, so the owner can preview a recipe
+  // before publishing it. Related recipes are filtered as they are on the public page. Owner only.
+  getDetailById = (id: string): Promise<RecipeDetail | undefined> =>
+    this.findDetail(eq(recipes.id, id))
+
+  private findDetail = async (
+    where: SQL | undefined
   ): Promise<RecipeDetail | undefined> => {
     const row = await this.database.query.recipes.findFirst({
-      where: and(eq(recipes.slug, slug), eq(recipes.status, 'published')),
+      where,
       with: {
         nutrition: true,
         ingredients: true,
@@ -462,6 +478,29 @@ export class RecipeRepository {
       })
     return row
   }
+
+  // Deletes a recipe with its ingredients, steps, notes, nutrition, tags and revision history.
+  // A base recipe that still has variants is left alone, because deleting it would orphan them.
+  // Owner only.
+  deleteRecipe = (id: string): Promise<DeleteRecipeResult> =>
+    this.database.transaction(async (tx) => {
+      const variants = await tx
+        .select({ title: recipes.title })
+        .from(recipes)
+        .where(eq(recipes.variantOf, id))
+        .orderBy(asc(recipes.title))
+      if (variants.length > 0) {
+        return { status: 'has_variants', titles: variants.map((v) => v.title) }
+      }
+
+      const [row] = await tx
+        .delete(recipes)
+        .where(eq(recipes.id, id))
+        .returning({ slug: recipes.slug })
+      return row
+        ? { status: 'deleted', slug: row.slug }
+        : { status: 'not_found' }
+    })
 
   // A recipe's publish status, or undefined for an unknown id. Owner only.
   getRecipeStatus = async (id: string): Promise<RecipeStatus | undefined> => {

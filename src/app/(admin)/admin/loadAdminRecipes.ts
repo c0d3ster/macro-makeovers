@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 
-import type { RecipeStatus } from '@/libs/recipes'
+import type { RecipeDetail, RecipeStatus } from '@/libs/recipes'
 import type { AdminRecipe } from '@/libs/recipes/RecipeRepository'
 import type { RecipeImportInput } from '@/validations'
 
@@ -22,6 +22,15 @@ const requireOwner = async (): Promise<void> => {
 export const loadAdminRecipes = async (): Promise<AdminRecipe[]> => {
   await requireOwner()
   return services.recipeService.getAdminRecipes()
+}
+
+// A recipe as its public page would show it, drafts included, or undefined when the id is
+// unknown or the recipe has no makeover build to lead with
+export const loadRecipePreview = async (
+  id: string
+): Promise<{ status: RecipeStatus; recipe: RecipeDetail } | undefined> => {
+  await requireOwner()
+  return services.recipeService.getRecipePreview(id)
 }
 
 // The stored recipe in import shape, or undefined when the id is unknown
