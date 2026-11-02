@@ -4,6 +4,7 @@ import { logger } from '@/libs/Logger'
 import type { PhotoRecipe } from './placeholderPhoto'
 
 import { generateOpenAiImage } from './openAiImage'
+import { toWebJpeg } from './optimizeImage'
 import { readPhotoConfig } from './photoConfig'
 import { createPlaceholderPhoto } from './placeholderPhoto'
 import { uploadToR2 } from './r2Storage'
@@ -34,6 +35,7 @@ export const addPlaceholderPhoto = async (
       {
         generateImage: (prompt) =>
           generateOpenAiImage(config.openAiApiKey, prompt),
+        optimizeImage: toWebJpeg,
         uploadImage: (key, bytes) => uploadToR2(config.r2, key, bytes),
         saveImageUrl: writer.setPlaceholderImage,
       },

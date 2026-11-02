@@ -6,15 +6,13 @@ import { uploadToR2 } from './r2Storage'
 
 describe('generateOpenAiImage', () => {
   it('decodes the base64 image', async () => {
-    const fetchMock = vi
-      .fn<typeof fetch>()
-      .mockResolvedValue(
-        new Response(
-          JSON.stringify({
-            data: [{ b64_json: Buffer.from('png').toString('base64') }],
-          })
-        )
+    const fetchMock = vi.fn<typeof fetch>().mockResolvedValue(
+      new Response(
+        JSON.stringify({
+          data: [{ b64_json: Buffer.from('png').toString('base64') }],
+        })
       )
+    )
 
     const bytes = await generateOpenAiImage('key', 'a prompt', fetchMock)
 
@@ -53,12 +51,12 @@ describe('uploadToR2', () => {
 
     const url = await uploadToR2(
       config,
-      'recipes/a.png',
+      'recipes/a.jpg',
       new Uint8Array([1]),
       fetchMock
     )
 
-    expect(url).toBe('https://cdn.test/recipes/a.png')
+    expect(url).toBe('https://cdn.test/recipes/a.jpg')
     expect(fetchMock).toHaveBeenCalledOnce()
   })
 

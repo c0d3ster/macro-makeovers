@@ -27,7 +27,7 @@ export const uploadToR2 = async (
   // Sign with aws4fetch, send with the injected fetch
   const signed = await client.sign(endpoint, {
     method: 'PUT',
-    headers: { 'Content-Type': 'image/png' },
+    headers: { 'Content-Type': 'image/jpeg' },
     body: bytes,
   })
   const response = await fetchImpl(signed)

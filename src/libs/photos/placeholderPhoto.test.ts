@@ -17,6 +17,7 @@ const recipe: PhotoRecipe = {
 
 const makeDeps = (saved: boolean): PhotoDeps => ({
   generateImage: vi.fn().mockResolvedValue(new Uint8Array([1, 2])),
+  optimizeImage: vi.fn().mockResolvedValue(new Uint8Array([9])),
   uploadImage: vi.fn().mockResolvedValue('https://cdn.test/a.png'),
   saveImageUrl: vi.fn().mockResolvedValue(saved),
 })
@@ -32,7 +33,7 @@ describe('buildPhotoPrompt', () => {
 describe('photoKey', () => {
   it('namespaces by slug and marks the file as a placeholder', () => {
     expect(photoKey('spicy-chili', 5)).toBe(
-      'recipes/spicy-chili-placeholder-5.png'
+      'recipes/spicy-chili-placeholder-5.jpg'
     )
   })
 })
@@ -44,12 +45,20 @@ describe('createPlaceholderPhoto', () => {
     await expect(createPlaceholderPhoto(deps, recipe)).resolves.toBe('saved')
     expect(deps.uploadImage).toHaveBeenCalledWith(
       expect.stringContaining('recipes/spicy-chili-placeholder-'),
-      new Uint8Array([1, 2])
+      new Uint8Array([9])
     )
     expect(deps.saveImageUrl).toHaveBeenCalledWith(
       'r1',
       'https://cdn.test/a.png'
     )
+  })
+
+  it('uploads the optimized bytes, not the generated ones', async () => {
+    const deps = makeDeps(true)
+
+    await createPlaceholderPhoto(deps, recipe)
+
+    expect(deps.optimizeImage).toHaveBeenCalledWith(new Uint8Array([1, 2]))
   })
 
   it('reports when the recipe already had a photo', async () => {
