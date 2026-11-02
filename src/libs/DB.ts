@@ -18,9 +18,13 @@ const createDbConnection = () => {
   return drizzle({
     connection: {
       connectionString: databaseUrl,
+      // Hosted connections are encrypted but not checked against a CA: Supabase's pooler
+      // certificate is not signed by a root Node trusts, so a checked connection fails with
+      // "self-signed certificate in certificate chain"
       ssl:
-        !databaseUrl.includes('localhost') &&
-        !databaseUrl.includes('127.0.0.1'),
+        databaseUrl.includes('localhost') || databaseUrl.includes('127.0.0.1')
+          ? false
+          : { rejectUnauthorized: false },
     },
     schema: schemas,
   })
