@@ -225,6 +225,40 @@ The workflow: draft and refine a recipe in the Claude web project, send it to th
 | 9   | Rebuild on DB edits          | A publish or edit through GraphQL fires `repository_dispatch` with a token that can only do that. Debounced.                                                                                                                                                                                                                   | Publishing a recipe updates the release PDF without you doing anything           |
 | 10  | Docs                         | Update `importing-recipes.md` for the new flow and add a knowledge block for the Claude web project (schema plus an example recipe).                                                                                                                                                                                           | The web project produces JSON that imports cleanly                               |
 
+### Order and parallel work
+
+Each task lists what must be done first. Anything in the same wave can run at the same time (separate branches, separate agents).
+
+| Task | Needs first | Wave |
+| ---- | ----------- | ---- |
+| 1    | none        | A    |
+| 4    | none        | A    |
+| 2    | 1           | B    |
+| 3    | 1           | B    |
+| 5    | 4           | B    |
+| 6    | 1           | B    |
+| 7    | 5, 6        | C    |
+| 8    | 5           | C    |
+| 9    | 1, 8        | D    |
+| 10   | everything  | E    |
+
+```text
+1 ──┬── 2
+    ├── 3
+    ├── 6 ──┐
+    │       ├── 7
+4 ── 5 ─────┤
+            └── 8 ── 9 ── 10
+(1 also feeds 9)
+```
+
+- Longest chains (5 steps each): 1 → 6 → 7 → 9 → 10 and 4 → 5 → 8 → 9 → 10. Start both early.
+- Task 4 needs pandoc and Chromium on a machine that has them, so it is a local task, not a remote-session one.
+- Tasks 2 and 3 both touch `createContext` and the resolver layer. Expect to rebase one on the other.
+- Task 2's auth choice depends on whether the Claude web project can make outbound HTTPS calls. Verify that before building.
+- Task 6 needs `OPENAI_API_KEY` and R2 credentials, so it can only be tested end to end where those secrets exist.
+- Tasks 1, 2 and 3 are in progress in PR #32 (GraphQL import and MCP connector). Check it before starting any of them.
+
 **Auth options for task 2 (undecided).** The Claude web UI cannot hold your browser session, and Playwright is not available there. The realistic options:
 
 1. **Owner API token (recommended first).** A long-random token you generate in the admin, stored hashed in the database, sent as `Authorization: Bearer`. `createContext` resolves it to the owner. It can be revoked and scoped to the import and publish mutations only. This needs the web project to be able to make outbound HTTP calls, which depends on its network settings. Verify that before building.
