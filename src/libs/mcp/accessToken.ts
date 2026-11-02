@@ -1,7 +1,7 @@
 import { isOwnerForToken } from '@/libs/supabase/owner'
 import { createPublicClient } from '@/libs/supabase/public'
 
-export type AccessTokenCheck =
+type AccessTokenCheck =
   | { ok: true; authId: string; token: string }
   | { ok: false; reason: 'missing' | 'invalid' | 'forbidden' }
 
