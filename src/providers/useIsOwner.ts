@@ -11,7 +11,7 @@ type OwnerCheck = {
   isOwner: boolean
 }
 
-export type OwnerStatus = 'pending' | 'owner' | 'visitor'
+type OwnerStatus = 'pending' | 'owner' | 'visitor'
 
 // Whether the signed-in user is the site owner, asked of the database through the same
 // public.is_owner() the row-level security policies use. It runs in the browser on purpose:
