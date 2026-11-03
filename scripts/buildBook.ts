@@ -1,22 +1,27 @@
 import { chromium } from '@playwright/test'
 import { execFileSync } from 'node:child_process'
-import { mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 
 import { parseRecipesMarkdown, toMacroRatios } from '@/libs/recipes'
 
+import {
+  photoKeyFor,
+  RECIPE_HEADING,
+  slugForHeadingTitle,
+  slugsByTitle,
+} from './bookPhotos'
+
 // Builds the printable recipe book (build/macro-makeovers.pdf) from docs/recipes.md and the
-// photos in public/images. Needs pandoc on the PATH. Run with `pnpm book:pdf`.
+// photos from R2 (R2_PUBLIC_URL). Needs pandoc on the PATH. Run with `pnpm book:pdf`.
 const ROOT = process.cwd()
 const SOURCE = resolve(ROOT, 'docs/recipes.md')
-const IMAGE_DIR = resolve(ROOT, 'public/images')
+const PHOTO_DIR = resolve(ROOT, 'build/photos')
+const R2_PUBLIC_URL = process.env.R2_PUBLIC_URL
 const OUTPUT_DIR = resolve(ROOT, 'build')
 const HTML_PATH = resolve(OUTPUT_DIR, 'macro-makeovers.html')
 const PDF_PATH = resolve(OUTPUT_DIR, 'macro-makeovers.pdf')
-
-// "## 7. Lemon Pepper Shrimp Pesto Linguine | $$$ · ~50 min · ●●●○○", "## 10a. ..."
-const RECIPE_HEADING = /^## (\d+[a-z]?)\. (.+?) \| (.+)$/gm
 
 const STYLES = `
   @page { size: Letter; margin: 0.5in; }
@@ -73,22 +78,43 @@ const STYLES = `
   .quickref td:first-child { width: 52%; white-space: normal; }
 `
 
-const imageFor = (number: string): string | undefined => {
-  const prefix = `${number.replace(/^\d+/, (digits) => digits.padStart(2, '0'))}-`
-  const file = readdirSync(IMAGE_DIR).find((name) => name.startsWith(prefix))
-  return file ? resolve(IMAGE_DIR, file) : undefined
+// Downloads each recipe's photo from R2 into build/photos, keyed by the number in its heading.
+// A recipe whose photo cannot be fetched is left without one.
+const downloadPhotos = async (markdown: string): Promise<Map<string, string>> => {
+  const photos = new Map<string, string>()
+  if (!R2_PUBLIC_URL) {
+    console.warn('R2_PUBLIC_URL is not set, so the book has no photos')
+    return photos
+  }
+
+  mkdirSync(PHOTO_DIR, { recursive: true })
+  const slugs = slugsByTitle()
+  for (const [, number, title] of markdown.matchAll(RECIPE_HEADING)) {
+    const slug = number && title ? slugForHeadingTitle(slugs, title) : undefined
+    if (!number || !slug) continue
+
+    const url = `${R2_PUBLIC_URL.replace(/\/+$/, '')}/${photoKeyFor(slug)}`
+    const response = await fetch(url)
+    if (!response.ok) {
+      console.warn(`No photo for recipe ${number} (${response.status} ${url})`)
+      continue
+    }
+    const file = resolve(PHOTO_DIR, `${slug}.jpg`)
+    writeFileSync(file, new Uint8Array(await response.arrayBuffer()))
+    photos.set(number, file)
+  }
+  return photos
 }
 
 // The photo goes in as a marker image right under each recipe heading, before pandoc runs.
 // layoutRecipes() later puts the stats block under it.
-const addPhotos = (markdown: string): string =>
+const addPhotos = (markdown: string, photos: Map<string, string>): string =>
   markdown.replace(RECIPE_HEADING, (heading, number: string) => {
-    const image = imageFor(number)
-    if (!image) {
-      console.warn(`No photo for recipe ${number}`)
-      return heading
-    }
-    return `${heading}\n\n<img class="photo" src="${pathToFileURL(image).href}" alt="">`
+    const image = photos.get(number)
+    if (!image) return heading
+    return `${heading}
+
+<img class="photo" src="${pathToFileURL(image).href}" alt="">`
   })
 
 type Row = { calories: number; carbsG: number; fatG: number; proteinG: number }
@@ -201,7 +227,8 @@ const renderHtml = (markdown: string, stats: Stats[]): string => {
 const main = async (): Promise<void> => {
   mkdirSync(OUTPUT_DIR, { recursive: true })
   const markdown = readFileSync(SOURCE, 'utf8')
-  const html = renderHtml(addPhotos(markdown), statsFor(markdown))
+  const photos = await downloadPhotos(markdown)
+  const html = renderHtml(addPhotos(markdown, photos), statsFor(markdown))
   writeFileSync(HTML_PATH, html)
 
   // CHROMIUM_PATH points at a browser you already have; otherwise Playwright's own is used
