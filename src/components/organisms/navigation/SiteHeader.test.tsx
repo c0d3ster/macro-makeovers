@@ -113,7 +113,7 @@ describe('SiteHeader', () => {
 
     const homeLink = screen.getByText('Home').closest('a')
 
-    expect(homeLink).toHaveClass('text-sm', 'font-medium', 'transition-[color,opacity]')
+    expect(homeLink).toHaveClass('text-sm', 'font-medium', 'transition-colors')
   })
 
   it('shows owner-only links to the owner only', () => {
@@ -136,7 +136,7 @@ describe('SiteHeader', () => {
     )
   })
 
-  it('holds an owner-only link out of sight while the owner check is pending', () => {
+  it('keeps the nav out of sight while the owner check is pending', () => {
     vi.mocked(useOwnerStatus).mockReturnValue('pending')
     render(
       <SiteHeader
@@ -152,11 +152,22 @@ describe('SiteHeader', () => {
       />
     )
 
-    // It takes up its space but cannot be seen, reached or read out
+    // The links take up their space but cannot be seen, reached or read out
     expect(
       screen.queryByRole('link', { name: 'Manage recipes' })
     ).not.toBeInTheDocument()
-    expect(screen.getByText('Manage recipes')).toHaveClass('opacity-0')
+    expect(screen.getByText('Manage recipes').closest('nav')).toHaveClass(
+      'opacity-0'
+    )
+
+    vi.mocked(useOwnerStatus).mockReturnValue('visitor')
+  })
+
+  it('does not hide the nav of a header with no owner-only links', () => {
+    vi.mocked(useOwnerStatus).mockReturnValue('pending')
+    render(<SiteHeader menuItems={sampleMenuItems} />)
+
+    expect(screen.getByRole('link', { name: 'Home' })).toBeInTheDocument()
   })
 
   it('renders without errors when no menu items provided', () => {
