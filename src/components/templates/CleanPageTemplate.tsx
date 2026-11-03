@@ -11,6 +11,8 @@ type CleanPageTemplateProps = {
   title: string
   subtitle?: string
   header?: ReactNode
+  // A quiet link above the title, like "<- Back to recipes"
+  backLink?: ReactNode
   // Which nav link to mark as the current page, like 'account'
   activeItem?: string
 }
@@ -20,12 +22,15 @@ export const CleanPageTemplate = ({
   title,
   subtitle,
   header,
+  backLink,
   activeItem = '',
 }: CleanPageTemplateProps) => {
   return (
     <div className='min-h-screen'>
       <SiteHeader menuItems={ACCOUNT_NAV_ITEMS} activeItem={activeItem} />
       <div className='mx-auto max-w-4xl px-4 pt-24 pb-8'>
+        {backLink && <div className='mb-4'>{backLink}</div>}
+
         {/* Header */}
         <div className='mb-8 flex items-center justify-between'>
           <div>

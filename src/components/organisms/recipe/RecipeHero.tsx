@@ -1,10 +1,11 @@
-import type { ReactElement } from 'react'
+import type { ReactElement, ReactNode } from 'react'
 
 import Link from 'next/link'
 
 import type { RecipeDetail } from '@/libs/recipes'
 
 import {
+  BackLink,
   Badge,
   CostTier,
   CountUp,
@@ -18,9 +19,14 @@ import { formatMinutes } from '@/utils/formatMinutes'
 
 type RecipeHeroProps = {
   recipe: RecipeDetail
+  // Sits at the right end of the back link row, such as the owner's edit link
+  corner?: ReactNode
 }
 
-export const RecipeHero = ({ recipe }: RecipeHeroProps): ReactElement => {
+export const RecipeHero = ({
+  recipe,
+  corner,
+}: RecipeHeroProps): ReactElement => {
   const {
     title,
     summary,
@@ -41,12 +47,16 @@ export const RecipeHero = ({ recipe }: RecipeHeroProps): ReactElement => {
 
   return (
     <header className='flex flex-col gap-5'>
-      <Link
-        href='/'
-        className='w-fit text-sm text-text-muted hover:text-primary'
-      >
-        &larr; All recipes
-      </Link>
+      {/* The corner is centered on the link's line and out of the flow, so it appearing late
+          never moves the page */}
+      <div className='relative flex items-center'>
+        <BackLink href='/'>All recipes</BackLink>
+        {corner && (
+          <div className='absolute top-1/2 right-0 -translate-y-1/2'>
+            {corner}
+          </div>
+        )}
+      </div>
 
       <div className='grid gap-x-10 gap-y-5 md:grid-cols-[minmax(0,1fr)_20rem] lg:grid-cols-[minmax(0,1fr)_24rem]'>
         <h1 className='text-4xl font-bold text-text md:col-start-1 md:row-start-1'>

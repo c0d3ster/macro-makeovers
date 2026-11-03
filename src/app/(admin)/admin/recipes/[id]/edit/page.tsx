@@ -3,7 +3,7 @@ import type { ReactElement } from 'react'
 
 import { notFound } from 'next/navigation'
 
-import { Button } from '@/components/atoms'
+import { BackLink } from '@/components/atoms'
 import {
   RecipeDeleteButton,
   RecipePublishControls,
@@ -41,18 +41,15 @@ const EditRecipePage = async ({
       activeItem='manage'
       title={recipe.title}
       subtitle='Every save keeps a revision, and published recipes update right away.'
+      backLink={<BackLink href='/admin'>Back to recipes</BackLink>}
       header={
-        <div className='flex flex-col items-end gap-3'>
-          <Button href='/admin' variant='outline' size='sm'>
-            Back to recipes
-          </Button>
-          <RecipePublishControls id={id} slug={recipe.slug} status={status} />
+        <RecipePublishControls id={id} slug={recipe.slug} status={status}>
           <RecipeDeleteButton
             id={id}
             title={recipe.title}
             redirectTo='/admin'
           />
-        </div>
+        </RecipePublishControls>
       }
     >
       <RecipeForm recipeId={id} initial={recipe} />

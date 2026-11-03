@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { ThemeToggle, UserMenu } from '@/components/molecules'
 import { Env } from '@/libs/Env'
 import { isSupabaseConfigured } from '@/libs/supabase/client'
-import { useAuth, useIsOwner } from '@/providers'
+import { useAuth, useOwnerStatus } from '@/providers'
 
 export type NavItem = {
   label: string
@@ -48,8 +48,12 @@ export const SiteHeader = ({
   logoUrl,
 }: SiteHeaderProps) => {
   const authEnabled = isSupabaseConfigured()
-  const isOwner = useIsOwner()
-  const items = menuItems.filter(({ ownerOnly }) => !ownerOnly || isOwner)
+  const ownerStatus = useOwnerStatus()
+  // Owner-only links hold their place while the owner check is pending, then fade in, so the
+  // other links never shift when they arrive
+  const items = menuItems.filter(
+    ({ ownerOnly }) => !ownerOnly || ownerStatus !== 'visitor'
+  )
 
   return (
     <header className='fixed inset-x-0 top-0 z-50 border-b border-header-muted/20 bg-header shadow-lg'>
@@ -81,11 +85,14 @@ export const SiteHeader = ({
           <nav className='ml-auto flex space-x-3 sm:ml-0 sm:space-x-8'>
             {items.map((item) => {
               const isActive = activeItem === item.id
+              const isHeld = item.ownerOnly && ownerStatus === 'pending'
               return (
                 <Link
                   key={item.label}
                   href={item.href}
-                  className={`text-sm font-medium transition-colors ${isActive ? 'text-header-text' : 'text-header-muted hover:text-header-text'} ${item.hideOnMobile ? 'hidden sm:block' : ''}`}
+                  aria-hidden={isHeld || undefined}
+                  tabIndex={isHeld ? -1 : undefined}
+                  className={`text-sm font-medium transition-[color,opacity] duration-300 ${isActive ? 'text-header-text' : 'text-header-muted hover:text-header-text'} ${item.hideOnMobile ? 'hidden sm:block' : ''} ${isHeld ? 'pointer-events-none opacity-0' : 'opacity-100'}`}
                 >
                   {item.label}
                 </Link>

@@ -15,6 +15,10 @@ type RecipeDeleteButtonProps = {
   redirectTo?: string
 }
 
+// Red outline, so it reads as the risky one next to the publish button
+const DANGER =
+  'border-red-500/70 text-red-500 hover:border-red-500 hover:bg-red-500/10 hover:text-red-500'
+
 // Deleting is permanent, so the first click only asks. The second click deletes the recipe,
 // its ingredients, steps, notes and revision history.
 export const RecipeDeleteButton = ({
@@ -50,6 +54,7 @@ export const RecipeDeleteButton = ({
       <Button
         size='sm'
         variant='outline'
+        className={DANGER}
         onClick={() => {
           setError(undefined)
           setIsAsking(true)
@@ -65,7 +70,12 @@ export const RecipeDeleteButton = ({
       <span className='text-sm text-text'>
         Delete &ldquo;{title}&rdquo; for good?
       </span>
-      <Button size='sm' disabled={isPending} onClick={confirm}>
+      <Button
+        size='sm'
+        disabled={isPending}
+        onClick={confirm}
+        className='border border-red-500 bg-red-500 text-white hover:bg-red-600'
+      >
         {isPending ? 'Deleting...' : 'Yes, delete'}
       </Button>
       <Button

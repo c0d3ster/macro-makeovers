@@ -4,7 +4,7 @@ import { cleanup, render, screen } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { Env } from '@/libs/Env'
-import { useAuth, useIsOwner } from '@/providers'
+import { useAuth, useOwnerStatus } from '@/providers'
 
 import type { NavItem } from './SiteHeader'
 
@@ -22,7 +22,7 @@ vi.mock('@/providers', () => ({
     isLoaded: true,
     signOut: vi.fn(),
   })),
-  useIsOwner: vi.fn(() => false),
+  useOwnerStatus: vi.fn((): 'pending' | 'owner' | 'visitor' => 'visitor'),
 }))
 
 // Mock window properties to prevent hanging
@@ -127,13 +127,36 @@ describe('SiteHeader', () => {
       screen.queryByRole('link', { name: 'Manage recipes' })
     ).not.toBeInTheDocument()
 
-    vi.mocked(useIsOwner).mockReturnValue(true)
+    vi.mocked(useOwnerStatus).mockReturnValue('owner')
     rerender(<SiteHeader menuItems={items} activeItem='manage' />)
 
     expect(screen.getByRole('link', { name: 'Manage recipes' })).toHaveAttribute(
       'href',
       '/admin'
     )
+  })
+
+  it('holds an owner-only link out of sight while the owner check is pending', () => {
+    vi.mocked(useOwnerStatus).mockReturnValue('pending')
+    render(
+      <SiteHeader
+        menuItems={[
+          ...sampleMenuItems,
+          {
+            id: 'manage',
+            label: 'Manage recipes',
+            href: '/admin',
+            ownerOnly: true,
+          },
+        ]}
+      />
+    )
+
+    // It takes up its space but cannot be seen, reached or read out
+    expect(
+      screen.queryByRole('link', { name: 'Manage recipes' })
+    ).not.toBeInTheDocument()
+    expect(screen.getByText('Manage recipes')).toHaveClass('opacity-0')
   })
 
   it('renders without errors when no menu items provided', () => {

@@ -1,4 +1,4 @@
-import type { ReactElement } from 'react'
+import type { ReactElement, ReactNode } from 'react'
 
 import Link from 'next/link'
 
@@ -12,6 +12,8 @@ type RecipePublishControlsProps = {
   id: string
   slug: string
   status: RecipeStatus
+  // Extra actions beside the publish button, like delete
+  children?: ReactNode
 }
 
 // Status and the publish switch for one recipe. It publishes what is saved, so a recipe with
@@ -20,21 +22,27 @@ export const RecipePublishControls = ({
   id,
   slug,
   status,
+  children,
 }: RecipePublishControlsProps): ReactElement => {
   const isPublished = status === 'published'
 
   return (
-    <div className='flex flex-wrap items-center gap-3'>
-      <Badge>{isPublished ? 'Published' : 'Draft'}</Badge>
-      {isPublished && (
-        <Link
-          href={`/recipes/${slug}`}
-          className='text-sm text-text-muted underline hover:text-text'
-        >
-          View live
-        </Link>
-      )}
-      <RecipePublishButton id={id} status={status} />
+    <div className='flex flex-col items-end gap-3'>
+      <div className='flex items-center gap-3'>
+        <Badge>{isPublished ? 'Published' : 'Draft'}</Badge>
+        {isPublished && (
+          <Link
+            href={`/recipes/${slug}`}
+            className='text-sm text-text-muted underline hover:text-text'
+          >
+            View live
+          </Link>
+        )}
+      </div>
+      <div className='flex flex-wrap items-center justify-end gap-3'>
+        <RecipePublishButton id={id} status={status} />
+        {children}
+      </div>
     </div>
   )
 }
