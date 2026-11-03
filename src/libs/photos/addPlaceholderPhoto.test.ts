@@ -23,6 +23,7 @@ describe('addPlaceholderPhoto', () => {
     ).resolves.toBeUndefined()
     expect(fetchSpy).not.toHaveBeenCalled()
     expect(writer.setPlaceholderImage).not.toHaveBeenCalled()
+
     fetchSpy.mockRestore()
   })
 
@@ -36,6 +37,7 @@ describe('addPlaceholderPhoto', () => {
       addPlaceholderPhoto(writer, recipe, fullEnv)
     ).resolves.toBeUndefined()
     expect(writer.setPlaceholderImage).not.toHaveBeenCalled()
+
     fetchSpy.mockRestore()
   })
 })
