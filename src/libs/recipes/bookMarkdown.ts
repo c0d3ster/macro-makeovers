@@ -8,7 +8,7 @@ type Note = RecipeImport['notes'][number]
 // The recipe book text that is not recipes: the intro, the "How to read the recipes" guide, and
 // the closing sections. It is cut out of docs/recipes.md, so editing the prose there changes the
 // book.
-export type BookProse = {
+type BookProse = {
   intro: string
   guide: string
   outro: string
