@@ -96,8 +96,8 @@ per-serving rows.
 ## The printable book
 
 `pnpm book:pdf` renders `docs/recipes.md` to `build/macro-makeovers.pdf` with each recipe's
-photo from `public/images` (matched by the recipe number, so `07-...jpg` goes with recipe 7 and
-`10a-...jpg` with 10a). It needs `pandoc` on the PATH and Playwright's Chromium
+photo downloaded from Cloudflare R2 (`R2_PUBLIC_URL`, object `recipes/<slug>.jpg`, matched by the
+recipe title in its heading). Without `R2_PUBLIC_URL` the book builds with no photos. It needs `pandoc` on the PATH and Playwright's Chromium
 (`pnpm exec playwright install chromium`). Set `CHROMIUM_PATH` to use a browser you already have.
 The build folder is gitignored, so upload the PDF wherever the book is kept.
 

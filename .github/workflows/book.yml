@@ -6,7 +6,6 @@ on:
     paths:
       - 'docs/**'
       - 'content/**'
-      - 'public/images/**'
   workflow_dispatch:
   # Fired by the app when a published recipe changes (see src/libs/bookRebuild)
   repository_dispatch:
@@ -27,6 +26,8 @@ jobs:
 
     env:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # Public base URL of the R2 bucket the book photos are downloaded from
+      R2_PUBLIC_URL: ${{ vars.R2_PUBLIC_URL }}
 
     steps:
       - uses: actions/checkout@v7

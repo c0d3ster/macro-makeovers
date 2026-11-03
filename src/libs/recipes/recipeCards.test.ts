@@ -100,20 +100,13 @@ describe('toRecipeCard', () => {
 })
 
 describe('toRecipeCard photo', () => {
-  it('has no photo for a recipe without a stand-in or upload', () => {
-    expect(toRecipeCard(row)?.imageUrl).toBeUndefined()
+  it('has no photo when the recipe has no image_url', () => {
+    expect(toRecipeCard({ ...row, imageUrl: null })?.imageUrl).toBeUndefined()
   })
 
-  it('uses the stand-in photo for a known recipe', () => {
-    expect(toRecipeCard({ ...row, slug: 'spicy-turkey-chili' })?.imageUrl).toBe(
-      '/images/02-spicy-turkey-chili.jpg'
-    )
-  })
-
-  it('prefers an uploaded photo', () => {
+  it('uses the recipe image_url', () => {
     const card = toRecipeCard({
       ...row,
-      slug: 'spicy-turkey-chili',
       imageUrl: 'https://example.com/chili.jpg',
     })
 

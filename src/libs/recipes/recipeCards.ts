@@ -1,11 +1,9 @@
-import { placeholderPhotoFor } from './recipeImages'
-
 // What the grid needs to draw one recipe: headline facts plus the featured build's macros
 export type RecipeCard = {
   slug: string
   title: string
   summary: string
-  // The recipe's own photo, else a stand-in from public/images, else none
+  // The recipe's own photo (an R2 URL), if it has one
   imageUrl?: string
   servings: number
   totalMinutes: number
@@ -64,7 +62,7 @@ export const toRecipeCard = (row: RecipeCardRow): RecipeCard | undefined => {
     slug: row.slug,
     title: row.title,
     summary: toCardSummary(row.summary),
-    imageUrl: row.imageUrl ?? placeholderPhotoFor(row.slug),
+    imageUrl: row.imageUrl ?? undefined,
     servings: row.servings,
     totalMinutes: row.prepMinutes + row.cookMinutes,
     costTier: row.costTier,

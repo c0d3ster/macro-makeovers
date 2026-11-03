@@ -319,16 +319,19 @@ describe('RecipeHero', () => {
     ).toBeInTheDocument()
   })
 
-  it('shows a stand-in photo from public/ through the image optimizer', () => {
+  it('sends an R2 photo through the image optimizer', () => {
     render(
       <RecipeHero
-        recipe={{ ...recipe, imageUrl: '/images/02-spicy-turkey-chili.jpg' }}
+        recipe={{
+          ...recipe,
+          imageUrl: 'https://images.example.com/recipes/spicy-turkey-chili.jpg',
+        }}
       />
     )
 
     expect(screen.getByTestId('next-image')).toHaveAttribute(
       'data-src',
-      '/images/02-spicy-turkey-chili.jpg'
+      'https://images.example.com/recipes/spicy-turkey-chili.jpg'
     )
   })
 

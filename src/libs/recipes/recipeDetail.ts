@@ -1,7 +1,5 @@
 import type { RecipeIngredient } from './ingredients'
 
-import { placeholderPhotoFor } from './recipeImages'
-
 export type NutritionKind = 'makeover' | 'traditional'
 export type StepPhase = 'prep' | 'cook'
 export type NoteKind =
@@ -43,7 +41,7 @@ export type RecipeDetail = {
   slug: string
   title: string
   summary: string
-  // The recipe's own photo, else a stand-in from public/images, else none
+  // The recipe's own photo (an R2 URL), if it has one
   imageUrl?: string
   servings: number
   prepMinutes: number
@@ -167,7 +165,7 @@ export const toRecipeDetail = (
     slug: row.slug,
     title: row.title,
     summary: row.summary,
-    imageUrl: row.imageUrl ?? placeholderPhotoFor(row.slug),
+    imageUrl: row.imageUrl ?? undefined,
     servings: row.servings,
     prepMinutes: row.prepMinutes,
     cookMinutes: row.cookMinutes,
