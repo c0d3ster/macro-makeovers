@@ -25,6 +25,7 @@ const makeDeps = (saved: boolean): PhotoDeps => ({
 describe('buildPhotoPrompt', () => {
   it('uses the title and summary', () => {
     const prompt = buildPhotoPrompt(recipe)
+
     expect(prompt).toContain('Spicy Chili')
     expect(prompt).toContain('A high protein bowl.')
   })

@@ -1,3 +1,4 @@
+import { Buffer } from 'node:buffer'
 import { describe, expect, it, vi } from 'vitest'
 
 import { generateOpenAiImage } from './openAiImage'
@@ -24,11 +25,13 @@ describe('generateOpenAiImage', () => {
     const failing = vi
       .fn<typeof fetch>()
       .mockResolvedValue(new Response('x', { status: 429 }))
+
     await expect(generateOpenAiImage('k', 'p', failing)).rejects.toThrow('429')
 
     const empty = vi
       .fn<typeof fetch>()
       .mockResolvedValue(new Response(JSON.stringify({ data: [] })))
+
     await expect(generateOpenAiImage('k', 'p', empty)).rejects.toThrow(
       'no image data'
     )
