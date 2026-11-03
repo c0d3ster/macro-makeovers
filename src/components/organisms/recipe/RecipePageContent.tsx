@@ -10,7 +10,7 @@ import { StepList } from './StepList'
 
 type RecipePageContentProps = {
   recipe: RecipeDetail
-  // Sits in the top corner of the page, such as the owner's edit link
+  // Sits beside the back link at the top of the page, such as the owner's edit link
   corner?: ReactNode
 }
 
@@ -19,9 +19,8 @@ export const RecipePageContent = ({
   recipe,
   corner,
 }: RecipePageContentProps): ReactElement => (
-  <main className='relative mx-auto flex max-w-6xl flex-col gap-12 px-3 py-10 sm:px-6 lg:px-8'>
-    {corner}
-    <RecipeHero recipe={recipe} />
+  <main className='mx-auto flex max-w-6xl flex-col gap-12 px-3 py-10 sm:px-6 lg:px-8'>
+    <RecipeHero recipe={recipe} corner={corner} />
     {/* Nutrition and steps share the left column. Ingredients sit on the right, level with
         nutrition and sticky while the steps scroll. On a phone they stack in cooking order:
         nutrition, ingredients, steps. The right column is the home for later extras
