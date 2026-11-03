@@ -7,7 +7,7 @@ vi.mock('next/navigation', () => ({ usePathname: vi.fn(() => '/') }))
 
 vi.mock('@/providers', () => ({
   useAuth: vi.fn(() => ({ user: null, isLoaded: true, signOut: vi.fn() })),
-  useIsOwner: vi.fn(() => false),
+  useOwnerStatus: vi.fn(() => 'visitor'),
 }))
 
 describe('CleanPageTemplate', () => {

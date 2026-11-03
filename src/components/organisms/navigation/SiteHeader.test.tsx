@@ -113,7 +113,7 @@ describe('SiteHeader', () => {
 
     const homeLink = screen.getByText('Home').closest('a')
 
-    expect(homeLink).toHaveClass('text-sm', 'font-medium', 'transition-colors')
+    expect(homeLink).toHaveClass('text-sm', 'font-medium', 'transition-[color,opacity]')
   })
 
   it('shows owner-only links to the owner only', () => {

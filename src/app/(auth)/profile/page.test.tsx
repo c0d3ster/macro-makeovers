@@ -28,7 +28,7 @@ vi.mock('@/libs/supabase/server', () => ({
 vi.mock('@/libs/supabase/owner', () => ({ isOwner: mocks.isOwner }))
 vi.mock('@/providers', () => ({
   useAuth: () => ({ user: null, isLoaded: true, signOut: vi.fn() }),
-  useIsOwner: () => false,
+  useOwnerStatus: () => 'visitor',
 }))
 
 const signedIn = (metadata: Record<string, unknown> = {}): void => {
