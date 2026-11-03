@@ -20,7 +20,7 @@ export type PhotoDeps = {
   saveImageUrl: (id: string, url: string) => Promise<boolean>
 }
 
-export type PhotoOutcome = 'saved' | 'skipped-existing'
+type PhotoOutcome = 'saved' | 'skipped-existing'
 
 export const buildPhotoPrompt = ({
   title,

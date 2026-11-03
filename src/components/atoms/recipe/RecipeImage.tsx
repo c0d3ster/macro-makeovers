@@ -38,8 +38,9 @@ export const RecipeImage = ({
   const frame = frameFor(rounded)
   const zoom = zoomOnHover ? ZOOM : ''
 
-  // Photos in public/ go through the image optimizer, so a phone never loads the full-size original
-  if (imageUrl?.startsWith('/')) {
+  // Photos live in R2 and go through the image optimizer, so a phone never loads the full-size
+  // original. The R2 host is allowed in next.config.ts (R2_PUBLIC_URL).
+  if (imageUrl) {
     return (
       <div className={`relative overflow-hidden ${frame}`}>
         <Image
@@ -49,19 +50,6 @@ export const RecipeImage = ({
           priority={priority}
           sizes={sizes}
           className={`object-cover ${zoom}`}
-        />
-      </div>
-    )
-  }
-
-  if (imageUrl) {
-    return (
-      // Uploaded photos come from storage we have not configured for the optimizer yet
-      <div className={`overflow-hidden ${frame}`}>
-        <img
-          src={imageUrl}
-          alt={title}
-          className={`size-full object-cover ${zoom}`}
         />
       </div>
     )

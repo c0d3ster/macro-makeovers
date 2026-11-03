@@ -78,13 +78,13 @@ describe('RecipeCard photo', () => {
   it('shows the photo above the title when there is one', () => {
     render(
       <RecipeCard
-        recipe={{ ...recipe, imageUrl: '/images/02-spicy-turkey-chili.jpg' }}
+        recipe={{ ...recipe, imageUrl: 'https://images.example.com/recipes/spicy-turkey-chili.jpg' }}
       />
     )
 
     expect(screen.getByTestId('next-image')).toHaveAttribute(
       'data-src',
-      '/images/02-spicy-turkey-chili.jpg'
+      'https://images.example.com/recipes/spicy-turkey-chili.jpg'
     )
   })
 
