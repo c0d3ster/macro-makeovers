@@ -1,6 +1,6 @@
 import type { R2Config } from './r2Storage'
 
-export type PhotoConfig = {
+type PhotoConfig = {
   openAiApiKey: string
   r2: R2Config
 }
