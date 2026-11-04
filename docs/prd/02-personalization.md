@@ -14,8 +14,8 @@ This is not a calorie tracker. The site only covers recipes, not every meal in s
 
 **In**
 
-- Profile with two inputs: goal (balanced, fat loss, recomp, bulk) and goal weight.
-- A per-meal protein and fat range worked out from goal weight (grams per pound of goal weight, per goal), shared across a few meals a day.
+- Profile with two inputs: goal and goal weight. Goals start as balanced, fat loss, recomp, and bulk, and are expected to grow (for example pure bulk and clean bulk as separate goals).
+- Each goal is defined by grams per pound of goal weight for protein and for fat. The daily grams at the member's weight are shared across a few meals a day to give a per-meal range.
 - Browse filters start preset to the member's range, with a clear "fits my goal" toggle to turn it off.
 - Recipe pages show whether a recipe fits, per serving, with protein given full weight next to C/F/P. Where a recipe misses, suggest a servings amount that gets closer.
 - Units setting (lb or kg).
@@ -30,13 +30,14 @@ This is not a calorie tracker. The site only covers recipes, not every meal in s
 ## Requirements
 
 1. The profile is optional. Without it the site works exactly as today.
-2. One pure function turns goal and goal weight into a per-meal range for protein and fat. The planner reuses it. The number of meals it divides across is a constant (proposed: 3), not a member input.
-3. Filter presets only set protein and fat bounds. They never hide recipes with no way back: the toggle is always visible, and the member can change the bounds by hand.
-4. Protein stays a first-class number, shown alongside C/F/P and not treated as a leftover.
-5. A recipe "fit" is computed from per-serving nutrition. Where a recipe has several variants (for example fully loaded), use the default one.
-6. The profile form validates ranges and rejects absurd values.
-7. Members can delete their profile data.
-8. Goal and goal weight record their source: `manual` or `partner`. A partner write never overwrites a `manual` value, and the member sees where each value came from. This keeps the door open for ForgeFit (see PRD 01 and the README) to send weight later, through GraphQL with a scoped credential and not through the form. No partner work is built now.
+2. Goals are data, not code paths: a table or constant mapping each goal to protein and fat grams per pound, so adding a goal or retuning one needs no logic change. Illustrative values to confirm: pure bulk 1.2 protein and 0.5 fat, clean bulk 1.0 and 0.4, recomp about 0.3 fat. Today's hard-coded book ratios are replaced by this model.
+3. One pure function turns goal and goal weight into a per-meal range for protein and fat. The planner reuses it. The number of meals it divides across is a constant (proposed: 3), not a member input.
+4. Filter presets only set protein and fat bounds. They never hide recipes with no way back: the toggle is always visible, and the member can change the bounds by hand.
+5. Protein stays a first-class number, shown alongside C/F/P and not treated as a leftover.
+6. A recipe "fit" is computed from per-serving nutrition. Where a recipe has several variants (for example fully loaded), use the default one.
+7. The profile form validates ranges and rejects absurd values.
+8. Members can delete their profile data.
+9. Goal and goal weight record their source: `manual` or `partner`. A partner write never overwrites a `manual` value, and the member sees where each value came from. This keeps the door open for ForgeFit (see PRD 01 and the README) to send weight later, through GraphQL with a scoped credential and not through the form. No partner work is built now.
 
 ## Data
 
@@ -51,7 +52,8 @@ This is not a calorie tracker. The site only covers recipes, not every meal in s
 ## Risks and open questions
 
 - Health claims. Keep language to "recipe fit based on your goal weight", with a disclaimer, and avoid anything that sounds like a prescription.
-- Confirm the grams-per-pound values per goal for protein and fat, and how a per-meal range is derived from the daily figure (even split across 3 meals is the proposal).
+- Confirm the grams-per-pound values per goal. Protein and fat come straight from weight, so no calorie input is needed. The recipe's own carbs are shown but not targeted, because without calories there is no carb target. The C/F/P ratio on a recipe is the recipe's own, not a per-member prescription.
+- How a per-meal range is derived from the daily figure (even split across 3 meals is the proposal).
 - Whether fat should be a ceiling only (fat loss), a range, or left unfiltered for some goals.
 - Whether a calorie filter is wanted at all. Default is no, since calories are not an input.
 
