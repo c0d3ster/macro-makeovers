@@ -2,7 +2,7 @@
 
 Draft entries in the `docs/recipes.md` format, for review before they become JSON. Numbering continues from the thirteen existing recipes.
 
-Built for lower-carb days: carbs around 14 to 27% of calories, fat held near 32 to 36%, and the rest from lean protein and vegetables. All macros are estimates from typical ingredient values and have not been checked against labels or a nutrition database.
+Built for lower-carb days: carbs around 14 to 25% of calories, fat held near 30 to 35%, and the rest from lean protein and vegetables. All macros are estimates from typical ingredient values and have not been checked against labels or a nutrition database.
 
 ## Quick reference
 
@@ -10,8 +10,7 @@ Built for lower-carb days: carbs around 14 to 27% of calories, fat held near 32 
 | --------------------------------------------------------- | -------- | ------------ | -------- |
 | [Chicken Parm Skillet](#14-chicken-parm-skillet)          | ~420     | 14 / 35 / 51 | 4        |
 | [Garlic Sirloin Squash Stir Fry](#15-garlic-sirloin-squash-stir-fry) | ~405 | 25 / 32 / 42 | 4        |
-| [Chicken Fajita Bowl](#16-chicken-fajita-bowl) _(black beans)_ | ~515 | 27 / 32 / 41 | 4        |
-| [Greek Chicken Bowl](#17-greek-chicken-bowl) _(with chickpeas)_ | ~440 | 22 / 30 / 48 | 4        |
+| [Greek Chicken Bowl](#16-greek-chicken-bowl) _(with chickpeas)_ | ~440 | 22 / 30 / 48 | 4        |
 
 ---
 
@@ -86,7 +85,7 @@ The default is the low-carb-day build. Add pasta underneath on a day with more c
 
 ## 15. Garlic Sirloin Squash Stir Fry | $$ · ~30 min · ●●○○○
 
-A takeout stir fry with the rice and the sugary sauce taken out. Lean sirloin, a big pile of zucchini, yellow squash, pepper, and onion, and a lot of garlic. The flavor comes from char and aromatics, so it never tastes like diet food. **Makes 4 servings.**
+A takeout stir fry with the rice and the sugary sauce taken out. Lean sirloin, a big pile of mushrooms, zucchini, pepper, and onion, and a lot of garlic. The flavor comes from char and aromatics, so it never tastes like diet food. **Makes 4 servings.**
 
 ### Nutrition
 
@@ -106,8 +105,7 @@ The traditional row is a takeout beef stir fry with white rice. The carbs here c
 - 3 medium bell peppers (mix of red and green)
 - 2 medium onions
 - 8 oz cremini mushrooms, sliced
-- 2 medium zucchini
-- 1 medium yellow squash
+- 3 medium zucchini
 - 8 cloves garlic, minced
 - 4 tsp avocado oil
 - 2 tsp toasted sesame oil, to finish
@@ -128,7 +126,7 @@ The traditional row is a takeout beef stir fry with white rice. The carbs here c
 **Prep** (~15 min)
 
 - Freeze the sirloin for 20 min, then slice it against the grain as thin as you can.
-- Slice the mushrooms. Cut the peppers and onions into strips, and the zucchini and yellow squash into half-moons about 1/4 inch thick.
+- Slice the mushrooms. Cut the peppers and onions into strips, and the zucchini into half-moons about 1/4 inch thick.
 - Mince the garlic and split it into two piles.
 - Whisk the sauce together, including the cornstarch slurry.
 
@@ -137,7 +135,7 @@ The traditional row is a takeout beef stir fry with white rice. The carbs here c
 1. Get a wide skillet or wok very hot. Add 2 tsp of the avocado oil and sear the beef in two batches, about 1 to 2 min each, until browned. Move to a plate.
 2. Add the remaining 2 tsp oil. Add the mushrooms in one layer and leave them alone for 2 min, then stir and cook 2 to 3 min more until browned and their liquid is gone.
 3. Add the onions and peppers and cook 3 to 4 min until the edges char. Add half the garlic.
-4. Add the zucchini and yellow squash and cook 2 to 3 min until just tender with some browned edges. They should still have a bite.
+4. Add the zucchini and cook 2 to 3 min until just tender with some browned edges. They should still have a bite.
 5. Return the beef, add the rest of the garlic, and pour in the sauce. Toss for about 1 min until glossy.
 6. Off the heat, drizzle with the sesame oil, add chili flakes if using, and serve.
 
@@ -169,83 +167,7 @@ Thighs are juicier and more forgiving, at the cost of a few grams of fat. Trim t
 
 ---
 
-## 16. Chicken Fajita Bowl | $$ · ~35 min · ●●○○○
-
-Fajitas without the tortillas and the sour cream. Black beans carry the carbs and the fiber, avocado and a little cheese carry the fat, and Greek yogurt stands in for sour cream. **Makes 4 servings.**
-
-### Nutrition
-
-|                                | Calories | Carbs | Fat   | Protein | Ratio C/F/P    |
-| ------------------------------ | -------- | ----- | ----- | ------- | -------------- |
-| **Black bean bowl (÷4)**       | ~515     | 35g   | 18g   | 53g     | 27 / 32 / 41   |
-| **Cauliflower rice bowl**      | ~455     | 25g   | 18g   | 49g     | 22 / 35 / 43   |
-| **Whole batch (beans)**        | ~2,055   | 139g  | 72g   | 213g    | -              |
-| _Traditional fajita plate_     | _~1,075_ | _90g_ | _55g_ | _55g_   | _33 / 46 / 20_ |
-
-The bean bowl is the default. For fewer carbs, swap the beans for cauliflower rice (about 1 cup per serving). It is still carbs, just a fifth as many per cup as rice. The traditional row is a restaurant plate with tortillas, rice, sour cream, and cheese.
-
-### Ingredients
-
-**Chicken and vegetables**
-
-- 1.5 lb chicken breast, sliced into strips
-- 3 medium bell peppers, sliced
-- 1 large onion, sliced
-- 2 tsp avocado oil
-- Juice of 2 limes
-
-**Seasoning**
-
-- 1 tbsp chili powder
-- 2 tsp cumin
-- 1 tsp smoked paprika
-- 1 tsp garlic powder
-- 1 tsp oregano
-- Salt and pepper
-
-**Bowl**
-
-- 1 can black beans, drained and rinsed (or about 4 cups riced cauliflower)
-- 1/2 cup shredded cheddar or Mexican blend
-- 1/2 cup nonfat Greek yogurt
-- 1/2 cup salsa
-- 1 avocado, sliced
-- Cilantro
-
-### Method
-
-**Prep** (~10 min)
-
-- Toss the chicken strips with the seasoning, half the lime juice, and 1 tsp of the oil. Let sit at least 10 min.
-- Slice the peppers and onion. Drain the beans.
-- Slice the avocado and chop the cilantro.
-
-**Cook** (~25 min)
-
-1. Heat a cast iron skillet over high. Sear the chicken in two batches, 3 to 4 min per side, until browned and cooked through. Move to a plate.
-2. Add the remaining 1 tsp oil. Cook the peppers and onion hot, without stirring too much, until charred at the edges, about 5 to 6 min.
-3. Warm the beans with a splash of water, a pinch of cumin, and salt. (Or warm the cauliflower rice in a dry pan for 4 to 5 min.)
-4. Build the bowls: beans or cauliflower rice, chicken, peppers and onion, cheese, a spoonful of yogurt, salsa, and avocado. Squeeze over the rest of the lime and finish with cilantro.
-
-### Make-or-break
-
-- **Season aggressively.** Lean chicken needs it
-- Sear the chicken in **batches**. A crowded pan steams it
-- Let the peppers and onions **char**. That smoky edge is what makes it taste like fajitas
-- Warm the beans with spices, not straight from the can
-
-### Fixes
-
-- **Dry chicken:** slice it thicker and pull it as soon as it's cooked through
-- **Bland beans:** salt, cumin, and lime. A drained, rinsed can needs seasoning
-- **Soggy cauliflower rice:** cook it in a dry pan until the water steams off
-- **Too much fat:** use half the avocado, or skip the cheese
-
-> **Thighs instead of breast?** Boneless, skinless thighs add roughly 4g of fat and drop about 5g of protein per serving. They stay juicier. Trim them well.
-
----
-
-## 17. Greek Chicken Bowl | $$ · ~30 min + marinate · ●●○○○
+## 16. Greek Chicken Bowl | $$ · ~30 min + marinate · ●●○○○
 
 A gyro plate without the pita and fries. Lemon-oregano chicken over crisp romaine with cucumber, tomato, olives, and feta, and a thick tzatziki made from nonfat Greek yogurt. Served cold and fresh, so it feels nothing like the hot, seared bowls. **Makes 4 servings.**
 
