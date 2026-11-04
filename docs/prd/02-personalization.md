@@ -15,7 +15,7 @@ This is not a calorie tracker. The site only covers recipes, not every meal in s
 **In**
 
 - Profile with two inputs: goal and goal weight. Goals start as balanced, fat loss, recomp, and bulk, and are expected to grow (for example pure bulk and clean bulk as separate goals).
-- Each goal is defined by grams per pound of goal weight for protein and for fat, plus a calories-per-pound constant for that goal. Together they give the member's target C/F/P percentages: protein and fat grams become calories (4 and 9 per gram), and carbs are the remainder of the goal's calories. The site keeps displaying ratios, now personalized. The calorie base is a goal constant, never something the member enters or tracks.
+- Each goal is defined by grams per pound of goal weight for protein and for fat, plus a calories-per-pound constant for that goal. Together they give the member's target C/F/P percentages: carbs are the remainder of the goal's calories after the fat and protein grams are converted to calories (9 and 4 per gram). The site keeps displaying ratios, now personalized. The calorie base is a goal constant, never something the member enters or tracks.
 - The daily grams at the member's weight are shared across a few meals a day to give a per-meal range.
 - Browse filters start preset to the member's range, with a clear "fits my goal" toggle to turn it off.
 - Recipe pages show whether a recipe fits, per serving, with protein given full weight next to C/F/P. Where a recipe misses, suggest a servings amount that gets closer.
@@ -53,7 +53,7 @@ This is not a calorie tracker. The site only covers recipes, not every meal in s
 ## Risks and open questions
 
 - Health claims. Keep language to "recipe fit based on your goal weight", with a disclaimer, and avoid anything that sounds like a prescription.
-- Confirm the grams-per-pound values per goal, and pick a calories-per-pound constant for each goal. It only exists to turn protein and fat grams into percentages with carbs as the remainder, so it should be a round, defensible number and labeled as an estimate. Example for a sense of scale: at 1.2 g/lb protein, 0.5 g/lb fat and 16 kcal/lb, protein is 30 percent, fat is 28 percent and carbs are 42 percent. The 16 is illustrative only.
+- Confirm the grams-per-pound values per goal, and pick a calories-per-pound constant for each goal. It only exists to turn protein and fat grams into percentages with carbs as the remainder, so it should be a round, defensible number and labeled as an estimate. Example for a sense of scale: at 1.2 g/lb protein, 0.5 g/lb fat and 16 kcal/lb, the ratio is 42 / 28 / 30 (C/F/P). The 16 is illustrative only.
 - Fit is judged on protein and fat grams per meal plus how close the recipe's own C/F/P is to the member's target ratio. Decide how much weight carbs get in "fits my goal", since carbs are the loosest of the three.
 - How a per-meal range is derived from the daily figure (even split across 3 meals is the proposal).
 - Whether fat should be a ceiling only (fat loss), a range, or left unfiltered for some goals.
