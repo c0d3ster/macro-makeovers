@@ -85,7 +85,7 @@ The default is the low-carb-day build. Add pasta underneath on a day with more c
 
 ## 15. Garlic Sirloin Squash Stir Fry | $$ · ~30 min · ●●○○○
 
-A takeout stir fry with the rice and the sugary sauce taken out. Lean sirloin, a big pile of mushrooms, zucchini, pepper, and onion, and a lot of garlic. The flavor comes from char and aromatics, so it never tastes like diet food. **Makes 4 servings.**
+A takeout stir fry with the rice and the sugary sauce taken out. Lean sirloin, a big pile of mushrooms, zucchini, yellow squash, pepper, and onion, and a lot of garlic. The flavor comes from char and aromatics, so it never tastes like diet food. **Makes 4 servings.**
 
 ### Nutrition
 
@@ -105,7 +105,8 @@ The traditional row is a takeout beef stir fry with white rice. The carbs here c
 - 3 medium bell peppers (mix of red and green)
 - 2 medium onions
 - 8 oz cremini mushrooms, sliced
-- 3 medium zucchini
+- 2 medium zucchini
+- 1 medium yellow squash
 - 8 cloves garlic, minced
 - 4 tsp avocado oil
 - 2 tsp toasted sesame oil, to finish
@@ -126,7 +127,7 @@ The traditional row is a takeout beef stir fry with white rice. The carbs here c
 **Prep** (~15 min)
 
 - Freeze the sirloin for 20 min, then slice it against the grain as thin as you can.
-- Slice the mushrooms. Cut the peppers and onions into strips, and the zucchini into half-moons about 1/4 inch thick.
+- Slice the mushrooms. Cut the peppers and onions into strips, and the zucchini and yellow squash into half-moons about 1/4 inch thick.
 - Mince the garlic and split it into two piles.
 - Whisk the sauce together, including the cornstarch slurry.
 
@@ -135,7 +136,7 @@ The traditional row is a takeout beef stir fry with white rice. The carbs here c
 1. Get a wide skillet or wok very hot. Add 2 tsp of the avocado oil and sear the beef in two batches, about 1 to 2 min each, until browned. Move to a plate.
 2. Add the remaining 2 tsp oil. Add the mushrooms in one layer and leave them alone for 2 min, then stir and cook 2 to 3 min more until browned and their liquid is gone.
 3. Add the onions and peppers and cook 3 to 4 min until the edges char. Add half the garlic.
-4. Add the zucchini and cook 2 to 3 min until just tender with some browned edges. They should still have a bite.
+4. Add the zucchini and yellow squash and cook 2 to 3 min until just tender with some browned edges. They should still have a bite.
 5. Return the beef, add the rest of the garlic, and pour in the sauce. Toss for about 1 min until glossy.
 6. Off the heat, drizzle with the sesame oil, add chili flakes if using, and serve.
 
