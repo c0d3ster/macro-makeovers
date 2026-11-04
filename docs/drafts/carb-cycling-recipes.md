@@ -2,13 +2,13 @@
 
 Draft entries in the `docs/recipes.md` format, for review before they become JSON. Numbering continues from the thirteen existing recipes.
 
-Built for lower-carb days: carbs around 14 to 25% of calories, fat held near 30 to 35%, and the rest from lean protein and vegetables. All macros are estimates from typical ingredient values and have not been checked against labels or a nutrition database.
+Built for lower-carb days: carbs around 14 to 25% of calories, fat between 30 and 43%, and the rest from lean protein and vegetables. All macros are estimates from typical ingredient values and have not been checked against labels or a nutrition database.
 
 ## Quick reference
 
 | Recipe                                                    | Calories | Ratio C/F/P  | Servings |
 | --------------------------------------------------------- | -------- | ------------ | -------- |
-| [Chicken Parm Skillet](#14-chicken-parm-skillet)          | ~420     | 14 / 35 / 51 | 4        |
+| [Chicken Parm Skillet](#14-chicken-parm-skillet)          | ~440     | 12 / 43 / 45 | 4        |
 | [Garlic Sirloin Squash Stir Fry](#15-garlic-sirloin-squash-stir-fry) | ~405 | 25 / 32 / 42 | 4        |
 | [Greek Chicken Bowl](#16-greek-chicken-bowl) _(with chickpeas)_ | ~440 | 22 / 30 / 48 | 4        |
 
@@ -22,12 +22,12 @@ Chicken parm without the pasta and the deep-fried breading. A thin parmesan crus
 
 |                           | Calories | Carbs | Fat   | Protein | Ratio C/F/P    |
 | ------------------------- | -------- | ----- | ----- | ------- | -------------- |
-| **Per serving (÷4)**      | ~420     | 14g   | 17g   | 53g     | 14 / 35 / 51   |
-| **With 1/2 cup pasta**    | ~520     | 34g   | 17g   | 57g     | 26 / 30 / 44   |
-| **Whole batch**           | ~1,670   | 57g   | 66g   | 213g    | -              |
+| **Per serving (÷4)**      | ~440     | 13g   | 21g   | 50g     | 12 / 43 / 45   |
+| **With 1/2 cup pasta**    | ~540     | 33g   | 22g   | 54g     | 24 / 33 / 40   |
+| **Whole batch**           | ~1,770   | 53g   | 84g   | 202g    | -              |
 | _Traditional per serving_ | _~1,050_ | _90g_ | _50g_ | _60g_   | _34 / 43 / 23_ |
 
-The default is the low-carb-day build. Add pasta underneath on a day with more carbs to spend, and the same pan lands at 26 / 30 / 44. The traditional row is a typical restaurant plate with pasta.
+The default is the low-carb-day build. Add pasta underneath on a day with more carbs to spend, and the same pan lands at 24 / 33 / 40. The traditional row is a typical restaurant plate with pasta. The sauce sets a lot of the fat here: Mezzetta Spicy Marinara has 8g fat per 1/2 cup (see Sauce options).
 
 ### Ingredients
 
@@ -45,8 +45,8 @@ The default is the low-carb-day build. Add pasta underneath on a day with more c
 
 - 10 oz baby spinach
 - 2 cloves garlic, minced
-- 1.5 cups marinara (no sugar added if you can find it)
-- 4 oz part-skim mozzarella, shredded
+- 1.5 cups Mezzetta Spicy Marinara (no sugar added, gluten free), or Rao's or Filippo Berio
+- 3 oz fresh mozzarella (the log), sliced into 4 rounds
 - Fresh basil, to finish
 
 ### Method
@@ -55,7 +55,7 @@ The default is the low-carb-day build. Add pasta underneath on a day with more c
 
 - Slice each breast in half horizontally, or pound to an even 1/2 inch. Pat very dry.
 - Mix the parmesan, panko, and Italian seasoning on a plate. Beat the egg with the water in a shallow dish.
-- Mince the garlic. Shred the mozzarella from a block.
+- Mince the garlic. Slice the mozzarella log into 4 rounds about 1/4 inch thick and pat them dry with a paper towel.
 
 **Cook** (~25 min)
 
@@ -64,7 +64,7 @@ The default is the low-carb-day build. Add pasta underneath on a day with more c
 3. Heat the oil in a large oven-safe skillet over medium-high. Sear the cutlets 3 to 4 min per side until golden. Move to a plate (they will not be cooked through yet).
 4. In the same pan, add the garlic for 30 seconds, then the spinach in handfuls until wilted. Pour in the marinara and simmer 2 min.
 5. Nestle the chicken back on top. Spoon a little sauce around the cutlets, not over the crust.
-6. Scatter the mozzarella on top. Broil 3 to 4 min until bubbly and spotted. The chicken should read 165°F.
+6. Lay a slice of mozzarella on each cutlet. Broil 3 to 4 min until melted, bubbly and spotted. The chicken should read 165°F.
 7. Finish with basil.
 
 ### Make-or-break
@@ -72,14 +72,26 @@ The default is the low-carb-day build. Add pasta underneath on a day with more c
 - Pat the chicken **very dry** before the egg, or the crust slides off
 - Even thickness. A thin, even cutlet cooks through in the time it takes the crust to brown
 - Sauce **around** the chicken, not on it, so the crust stays crisp
-- Shred mozzarella from a block. Fresh mozzarella weeps water, pre-shredded bags don't melt as well
+- **Pat the fresh mozzarella dry.** It weeps water, which thins the sauce and softens the crust
 
 ### Fixes
 
 - **Soggy crust:** less sauce on top, and make sure the pan was properly hot for the sear
 - **Dry chicken:** thinner cutlets, and pull at 160°F, since it carries over
 - **Watery sauce:** simmer 2 more minutes before the chicken goes back in
-- **Cheese oily:** use part-skim mozzarella and drain any oil off the top before serving
+- **Watery top:** blot the mozzarella slices before they go on, and slice them no thinner than 1/4 inch
+
+### Sauce options
+
+Per 1/2 cup, from retailer label listings, so check the jar. The batch uses 1.5 cups (3 servings of sauce).
+
+| Sauce                         | Calories | Carbs | Fat  | Pan per serving (C/F/P) |
+| ----------------------------- | -------- | ----- | ---- | ----------------------- |
+| Mezzetta Spicy Marinara       | 100      | 9g    | 8g   | 13 / 21 / 50g, ~12 / 43 / 45 |
+| Rao's Homemade Marinara       | 100      | 6g    | 7g   | 11 / 20 / 50g, ~10 / 42 / 47 |
+| Filippo Berio Marinara        | 60       | 6g    | 3.5g | 11 / 17.5 / 50g, ~11 / 39 / 50 |
+
+To pull the fat down with Mezzetta, use 1 cup of sauce instead of 1.5 and 1 tsp of oil for the sear. That lands around 11 / 40 / 49.
 
 ---
 
