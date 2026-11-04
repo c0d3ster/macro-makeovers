@@ -17,6 +17,7 @@ A signed-in member sets a goal and body info once. The site then shows recipes a
 - Recipe pages show "fits your plan": per-serving macros against the member's per-meal share, and a suggested servings amount.
 - Browse filters get a "fits my goal" toggle.
 - Units setting (lb or kg).
+- Optional resting calories (daily calories burned at rest). A member can type it in, and a partner app (ForgeFit, see PRD 01) can supply it later. When present, the calorie target is built from it with a goal adjustment instead of the default ratio-derived number.
 
 **Out**
 
@@ -32,10 +33,13 @@ A signed-in member sets a goal and body info once. The site then shows recipes a
 4. A recipe "fit" is computed from per-serving nutrition variants. Where a recipe has several variants (for example fully loaded), use the default one.
 5. The profile form validates ranges and rejects absurd values.
 6. Members can delete their profile data.
+7. Resting calories is one optional input to the target function. Absent means current behavior, so nothing else changes. Protein and fat stay set by weight either way, and carbs fill the remaining calories.
+8. Every stored target and the resting calories value records its source: `manual`, `calculated`, or `partner`. A partner write never overwrites a `manual` value. The member sees where each number came from and can switch back to manual.
+9. Partner writes arrive through GraphQL with a scoped credential (see PRD 01), not through the profile form.
 
 ## Data
 
-Add to `users` or a `member_profiles` table: `goal`, `goal_weight_kg`, `protein_target_g`, `calorie_target`, `meals_per_day`, `units`. Prefer a separate table so the auth-linked `users` row stays small.
+Add to `users` or a `member_profiles` table: `goal`, `goal_weight_kg`, `protein_target_g`, `calorie_target`, `resting_calories` (nullable), `meals_per_day`, `units`, plus a source column for each overridable value. Prefer a separate table so the auth-linked `users` row stays small.
 
 ## Success metrics
 
@@ -47,6 +51,7 @@ Add to `users` or a `member_profiles` table: `goal`, `goal_weight_kg`, `protein_
 
 - Health claims. Keep language to "targets based on the book's ratios", with a disclaimer.
 - Inputs: decided, goal and goal weight only. No height, age, or activity. Those two are enough for the by-weight protein and fat recommendations (grams per pound of goal weight), which is what the targets need.
+- Goal adjustment on resting calories: resting calories alone is not total burn. Decide whether v1 applies a fixed activity multiplier per goal or treats resting calories as a floor that the member adjusts. Needs a decision before building.
 - Confirm the exact per-goal grams-per-pound values and the book's ratio table before building the target function.
 
 ## Tasks

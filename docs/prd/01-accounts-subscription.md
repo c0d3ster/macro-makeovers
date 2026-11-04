@@ -23,6 +23,14 @@ Visitors can sign up free, subscribe to one paid plan, and get the paid features
 **Out**
 
 - Annual plan, coupons, trials, teams, a second tier, hard copy orders. Leave room for them, build none.
+- The ForgeFit partner integration itself. Only the seams below are in scope now.
+
+**Planned, not built: partner entitlement.** ForgeFit will sell a higher tier that includes MacroMakeovers, and ForgeFit's business pays this one per user. Those members get paid access without a Stripe subscription here. Keep this possible:
+
+- `hasPaidAccess` reads an entitlement source, not Stripe alone. Add `source` to `subscriptions` (`stripe` now, `partner` later) so a partner grant is a row, not a special case.
+- A partner member must never see our checkout or billing portal. Billing belongs to ForgeFit.
+- Partner access can end (they downgrade or the contract ends), so grants carry a status and period end like any subscription.
+- Per-user billing to the partner needs a usage record (active partner members per month). Decide that when the integration PRD is written.
 
 ## Requirements
 
