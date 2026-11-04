@@ -22,7 +22,7 @@ Drizzle transaction (`RecipeRepository`). Either every table is written or none 
 | `importRecipe` (GraphQL) | The write path for the admin page and the Claude connector  |
 | `/admin/import`          | Paste the JSON an agent produced (owner only), calls it     |
 | `/api/mcp`               | Claude connector: validate and import from a chat, calls it |
-| `pnpm recipe:import`     | Files on disk, including the 13 seed recipes                |
+| `pnpm recipe:import`     | Files on disk, including the 14 seed recipes                |
 
 The mutation takes the recipe as JSON, plus `overwrite` and `dryRun`, and returns a
 status, any field issues, and the field-level changes. Only the site owner can call it.
@@ -73,33 +73,81 @@ Approving gives the app a Supabase token for the owner, so treat the connection 
 signed-in session. Remove the connector in Claude and revoke the client in the Supabase
 dashboard to cut it off.
 
-## The recipe book to the database
+## Seed recipes
 
-`docs/recipes.md` is the editable source for the 13 seed recipes.
+The 14 seed recipes live in `content/recipes/*.json` and are already in the database. The database
+is the source of truth, so new and edited recipes go through the admin or the Claude connector,
+not a markdown file.
 
 ```bash
-pnpm recipe:parse                       # docs/recipes.md -> content/recipes/*.json
 pnpm recipe:import content/recipes --dry-run   # validate and diff, write nothing
 pnpm recipe:import content/recipes             # import (new slugs only)
 pnpm recipe:import content/recipes --overwrite # replace recipes that already exist
+pnpm recipe:import:prod content/recipes        # same, against the hosted database
 ```
 
-`recipe:parse` checks each recipe's default nutrition row against the quick
-reference table at the top of the book and fails if they disagree. Tags are not
-in the book, so they are assigned in `scripts/recipesToJson.ts`.
+`docs/recipes.md` is the original book the seeds were parsed from (`pnpm recipe:parse`). It stays
+for that parser and its tests. Nothing in the book build reads it.
 
-Not every part of the book maps onto a field. Toppings, option tables, and the
-corn pico in the taco recipe are kept whole as `levers` notes, and per-batch
-and per-slider nutrition rows are skipped because they derive from the
-per-serving rows.
+Not every part of the original book maps onto a field. Toppings, option tables, and the corn pico
+in the taco recipe are kept whole as `levers` notes, and per-batch and per-slider nutrition rows
+are skipped because they derive from the per-serving rows.
+
+For the Claude web project, paste [claude-project-knowledge.md](./claude-project-knowledge.md)
+into the project's knowledge. It holds the rules and an example recipe.
+
+## Photos
+
+A new recipe imported with no photo gets a placeholder after the response. It is generated from
+the title and summary with OpenAI's image API, uploaded to Cloudflare R2 as `recipes/<slug>.jpg`,
+and saved to `image_url` with `image_is_placeholder` set. The step is skipped with a log when any
+of `OPENAI_API_KEY`, `R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`, `R2_BUCKET`, or
+`R2_PUBLIC_URL` is unset. It never fails the import and never replaces an existing photo. The 14
+seed photos were uploaded once, and `pnpm photos:backfill` (`:prod` for hosted) points their
+`image_url` at them.
 
 ## The printable book
 
-`pnpm book:pdf` renders `docs/recipes.md` to `build/macro-makeovers.pdf` with each recipe's
-photo downloaded from Cloudflare R2 (`R2_PUBLIC_URL`, object `recipes/<slug>.jpg`, matched by the
-recipe title in its heading). Without `R2_PUBLIC_URL` the book builds with no photos. It needs `pandoc` on the PATH and Playwright's Chromium
-(`pnpm exec playwright install chromium`). Set `CHROMIUM_PATH` to use a browser you already have.
-The build folder is gitignored, so upload the PDF wherever the book is kept.
+The book is built from the published recipes in the database, so a recipe added through the API
+appears in it with its photo.
+
+- Recipes and the quick reference table are generated (`src/libs/recipes/bookMarkdown.ts`).
+- The intro, reading guide, and shopping and nutrition sections are `content/book/intro.md`,
+  `guide.md`, and `outro.md`.
+- `content/book/order.json` lists recipe slugs in book order. Recipes not listed follow, A to Z.
+  Variants take a letter after their base (10, 10a).
+- Each photo is downloaded from R2 (`R2_PUBLIC_URL`, object `recipes/<slug>.jpg`). A recipe with
+  no photo in R2 prints without one, and without `R2_PUBLIC_URL` the book has no photos.
+
+```bash
+pnpm book:pdf                            # build/macro-makeovers.pdf from the local database
+pnpm book:pdf:prod                       # same, from the hosted database
+pnpm book:pdf --from content/recipes     # from the recipe JSON files, no database
+pnpm book:md:db                          # only the markdown, build/recipes-from-db.md
+```
+
+It needs `pandoc` on the PATH and Playwright's Chromium (`pnpm exec playwright install chromium`).
+Set `CHROMIUM_PATH` to use a browser you already have.
+
+### Automatic rebuild
+
+`.github/workflows/book.yml` builds the PDF and uploads it to the rolling `recipe-book` GitHub
+Release. It runs on a push to `main` that touches `docs/**` or `content/**`, on manual dispatch,
+and on `repository_dispatch` (`recipe-book-rebuild`), which the app fires when a published recipe
+changes. A burst of edits cancels down to one build.
+
+Setup:
+
+- GitHub secret `DATABASE_URL` (the hosted database connection string, a read-only role if you
+  can) and variable `R2_PUBLIC_URL`.
+- Vercel env vars `GITHUB_REPO` (`owner/name`) and `GITHUB_DISPATCH_TOKEN`, a fine-grained token
+  for this one repository with only Contents: Read and write. Without them publishing works and
+  logs a skipped rebuild.
+- If the release step fails with a 403, allow read and write workflow permissions in the repo's
+  Actions settings.
+
+The latest PDF is at
+`https://github.com/c0d3ster/macro-makeovers/releases/download/recipe-book/macro-makeovers.pdf`.
 
 ## Recipe JSON
 
@@ -113,10 +161,9 @@ A variant is a full recipe with its own directions, ingredients, nutrition, and
 `costTier`, linked to the recipe it riffs on with `variantOf` (the base recipe's
 slug). Flank steak bulgogi and the sausage hash brown bake are variants.
 
-- In `docs/recipes.md` a heading numbered with a letter is a variant of the
-  numbered recipe above it: `## 10a. Southwest Sausage Hash Brown Bake` varies
-  `## 10. Cheesy Hash Brown Bacon Bake`. Give it its own row in the quick
-  reference table.
+- In the book, a number with a letter is a variant of the numbered recipe above it: `10a`
+  Southwest Sausage Hash Brown Bake varies `10` Cheesy Hash Brown Bacon Bake. The book build
+  assigns the numbers, so there is nothing to maintain.
 - The base has to exist before its variant. `pnpm recipe:import` imports bases
   first, and a variant whose base is missing fails with a clear message.
 - Variants are one level deep: a variant cannot be a base, and a recipe that
