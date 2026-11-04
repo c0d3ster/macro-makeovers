@@ -1,22 +1,23 @@
+import 'reflect-metadata'
 import { chromium } from '@playwright/test'
 import { execFileSync } from 'node:child_process'
-import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { mkdirSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 
-import { parseRecipesMarkdown, toMacroRatios } from '@/libs/recipes'
+import type { BookRecipe } from '@/libs/recipes'
+import type { RecipeImport } from '@/validations'
 
-import {
-  photoKeyFor,
-  RECIPE_HEADING,
-  slugForHeadingTitle,
-  slugsByTitle,
-} from './bookPhotos'
+import { closeDb } from '@/libs/DB'
+import { renderBookMarkdown, toMacroRatios } from '@/libs/recipes'
 
-// Builds the printable recipe book (build/macro-makeovers.pdf) from docs/recipes.md and the
-// photos from R2 (R2_PUBLIC_URL). Needs pandoc on the PATH. Run with `pnpm book:pdf`.
+import { photoKeyFor, RECIPE_HEADING } from './bookPhotos'
+import { loadBookProse, loadBookRecipes } from './bookSource'
+
+// Builds the printable recipe book (build/macro-makeovers.pdf) from the published recipes in the
+// database (or `--from <folder>` of recipe JSON), the prose in content/book, and the photos from
+// R2 (R2_PUBLIC_URL). Needs pandoc on the PATH. Run with `pnpm book:pdf`.
 const ROOT = process.cwd()
-const SOURCE = resolve(ROOT, 'docs/recipes.md')
 const PHOTO_DIR = resolve(ROOT, 'build/photos')
 const R2_PUBLIC_URL = process.env.R2_PUBLIC_URL
 const OUTPUT_DIR = resolve(ROOT, 'build')
@@ -78,9 +79,11 @@ const STYLES = `
   .quickref td:first-child { width: 52%; white-space: normal; }
 `
 
-// Downloads each recipe's photo from R2 into build/photos, keyed by the number in its heading.
+// Downloads each recipe's photo from R2 into build/photos, keyed by its number in the book.
 // A recipe whose photo cannot be fetched is left without one.
-const downloadPhotos = async (markdown: string): Promise<Map<string, string>> => {
+const downloadPhotos = async (
+  recipes: BookRecipe[]
+): Promise<Map<string, string>> => {
   const photos = new Map<string, string>()
   if (!R2_PUBLIC_URL) {
     console.warn('R2_PUBLIC_URL is not set, so the book has no photos')
@@ -88,18 +91,14 @@ const downloadPhotos = async (markdown: string): Promise<Map<string, string>> =>
   }
 
   mkdirSync(PHOTO_DIR, { recursive: true })
-  const slugs = slugsByTitle()
-  for (const [, number, title] of markdown.matchAll(RECIPE_HEADING)) {
-    const slug = number && title ? slugForHeadingTitle(slugs, title) : undefined
-    if (!number || !slug) continue
-
-    const url = `${R2_PUBLIC_URL.replace(/\/+$/, '')}/${photoKeyFor(slug)}`
+  for (const { number, recipe } of recipes) {
+    const url = `${R2_PUBLIC_URL.replace(/\/+$/, '')}/${photoKeyFor(recipe.slug)}`
     const response = await fetch(url)
     if (!response.ok) {
       console.warn(`No photo for recipe ${number} (${response.status} ${url})`)
       continue
     }
-    const file = resolve(PHOTO_DIR, `${slug}.jpg`)
+    const file = resolve(PHOTO_DIR, `${recipe.slug}.jpg`)
     writeFileSync(file, new Uint8Array(await response.arrayBuffer()))
     photos.set(number, file)
   }
@@ -117,13 +116,13 @@ const addPhotos = (markdown: string, photos: Map<string, string>): string =>
 <img class="photo" src="${pathToFileURL(image).href}" alt="">`
   })
 
-type Row = { calories: number; carbsG: number; fatG: number; proteinG: number }
+type Row = RecipeImport['nutrition'][number]
 type Stats = { servings: number; featured: Row; original?: Row }
 
 // Per-serving default row (and the traditional one) for each recipe, in book order, which is the
 // same order as the headings.
-const statsFor = (markdown: string): Stats[] =>
-  parseRecipesMarkdown(markdown).map(({ nutrition, servings }) => {
+const statsFor = (recipes: BookRecipe[]): Stats[] =>
+  recipes.map(({ recipe: { nutrition, servings } }) => {
     const featured =
       nutrition.find(({ isDefault }) => isDefault) ?? nutrition[0]
     if (!featured) throw new Error('A recipe has no nutrition row')
@@ -226,9 +225,10 @@ const renderHtml = (markdown: string, stats: Stats[]): string => {
 
 const main = async (): Promise<void> => {
   mkdirSync(OUTPUT_DIR, { recursive: true })
-  const markdown = readFileSync(SOURCE, 'utf8')
-  const photos = await downloadPhotos(markdown)
-  const html = renderHtml(addPhotos(markdown, photos), statsFor(markdown))
+  const recipes = await loadBookRecipes(process.argv.slice(2))
+  const markdown = renderBookMarkdown(recipes, loadBookProse())
+  const photos = await downloadPhotos(recipes)
+  const html = renderHtml(addPhotos(markdown, photos), statsFor(recipes))
   writeFileSync(HTML_PATH, html)
 
   // CHROMIUM_PATH points at a browser you already have; otherwise Playwright's own is used
@@ -254,7 +254,11 @@ const main = async (): Promise<void> => {
   console.log(`Wrote ${PDF_PATH}`)
 }
 
-main().catch((error: unknown) => {
-  console.error(error)
-  process.exit(1)
-})
+main()
+  .catch((error: unknown) => {
+    console.error(error)
+    process.exitCode = 1
+  })
+  .finally(async () => {
+    await closeDb()
+  })

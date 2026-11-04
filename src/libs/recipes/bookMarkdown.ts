@@ -6,15 +6,14 @@ type Nutrition = RecipeImport['nutrition'][number]
 type Note = RecipeImport['notes'][number]
 
 // The recipe book text that is not recipes: the intro, the "How to read the recipes" guide, and
-// the closing sections. It is cut out of docs/recipes.md, so editing the prose there changes the
-// book.
-type BookProse = {
+// the closing sections. It lives in content/book, so editing those files changes the book.
+export type BookProse = {
   intro: string
   guide: string
   outro: string
 }
 
-type BookRecipe = {
+export type BookRecipe = {
   recipe: RecipeImport
   // "10", or "10a" for a variant
   number: string
@@ -52,25 +51,6 @@ const NOTE_HEADINGS: Partial<Record<Note['kind'], string>> = {
 
 // "Per serving" rows say what they were divided by, the way the book prints them
 const DIVIDED_LABEL = /^per (?:serving|plate)$/i
-
-// Pieces of docs/recipes.md that stay hand-written. The generated parts sit between them.
-export const splitBookProse = (markdown: string): BookProse => {
-  const quickStart = markdown.indexOf('\n## Quick reference')
-  const guideStart = markdown.indexOf('\n## How to read the recipes')
-  const outroStart = markdown.indexOf('\n## Second Helpings')
-  if (quickStart === -1 || guideStart === -1 || outroStart === -1) {
-    throw new Error(
-      'docs/recipes.md needs "Quick reference", "How to read the recipes", and "Second Helpings" sections'
-    )
-  }
-  const guideEnd = markdown.indexOf('\n---\n', guideStart)
-
-  return {
-    intro: markdown.slice(0, quickStart).trim(),
-    guide: markdown.slice(guideStart, guideEnd).trim(),
-    outro: markdown.slice(outroStart).trim(),
-  }
-}
 
 // Book order: recipes the book already lists keep their place, anything newer follows A to Z.
 // A variant sits right after its base and shares its number with a letter (10, 10a).
@@ -282,7 +262,7 @@ const recipeSection = (book: BookRecipe): string => {
   ].join('\n\n')
 }
 
-// The whole book as markdown, in the shape of docs/recipes.md, from recipes already numbered
+// The whole book as markdown, as the printable book's source, from recipes already numbered
 // by numberBookRecipes. The quick reference table is generated from the same data.
 export const renderBookMarkdown = (
   recipes: BookRecipe[],

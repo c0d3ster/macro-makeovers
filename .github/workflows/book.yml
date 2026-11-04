@@ -28,6 +28,8 @@ jobs:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       # Public base URL of the R2 bucket the book photos are downloaded from
       R2_PUBLIC_URL: ${{ vars.R2_PUBLIC_URL }}
+      # The book is built from the published recipes in the hosted database (read only)
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
     steps:
       - uses: actions/checkout@v7
@@ -66,7 +68,7 @@ jobs:
         run: pnpm exec playwright install-deps chromium
 
       - name: Build the PDF
-        run: pnpm book:pdf
+        run: pnpm exec tsx scripts/buildBook.ts
 
       # The asset name stays the same, so
       # https://github.com/${{ github.repository }}/releases/download/recipe-book/macro-makeovers.pdf

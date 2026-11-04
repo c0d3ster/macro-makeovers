@@ -4,7 +4,7 @@ import { closeDb, db } from '@/libs/DB'
 import { Env } from '@/libs/Env'
 import { RecipeRepository } from '@/libs/recipes/RecipeRepository'
 
-import { photoKeyFor, slugsByTitle } from './bookPhotos'
+import { photoKeyFor, seedSlugs } from './bookPhotos'
 
 // Points each recipe's image_url at its original photo in Cloudflare R2 (recipes/<slug>.jpg),
 // only while the recipe has none and the object really exists, so nothing is overwritten.
@@ -15,7 +15,7 @@ const main = async (): Promise<void> => {
   if (!R2_PUBLIC_URL) throw new Error('Set R2_PUBLIC_URL')
 
   const repository = new RecipeRepository(db)
-  for (const slug of [...slugsByTitle().values()].sort()) {
+  for (const slug of seedSlugs().sort()) {
     const url = `${R2_PUBLIC_URL.replace(/\/+$/, '')}/${photoKeyFor(slug)}`
     const head = await fetch(url, { method: 'HEAD' })
     if (!head.ok) {
