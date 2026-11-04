@@ -2,49 +2,45 @@
 
 ## Problem
 
-Every visitor sees the same recipes with the same numbers. People want to know what fits their goal and their protein target.
+Every visitor sees the same recipes with the same filters. People want to know which recipes fit their goal and their body weight, without doing the math.
 
 ## Goal
 
-A signed-in member sets a goal and body info once. The site then shows recipes and portions in terms of their targets. This is free and feeds the paid planner.
+A signed-in member sets a goal and a goal weight once. The site then adjusts its filters and recipe highlights to match. This is free and feeds the paid planner.
+
+This is not a calorie tracker. The site only covers recipes, not every meal in someone's day, so it does not track daily intake, calories burned, or activity. Weight and goal are the only inputs.
 
 ## Scope
 
 **In**
 
-- Profile with two inputs: goal (balanced, fat loss, recomp, bulk) and goal weight. The daily protein target in grams can be overridden.
-- Daily protein and fat targets set by weight (grams per pound of goal weight, per goal), with carbs and calories filled in from the book's goal ratios. The member can override any number.
-- Recipe pages show "fits your plan": per-serving macros against the member's per-meal share, and a suggested servings amount.
-- Browse filters get a "fits my goal" toggle.
+- Profile with two inputs: goal (balanced, fat loss, recomp, bulk) and goal weight.
+- A per-meal protein and fat range worked out from goal weight (grams per pound of goal weight, per goal), shared across a few meals a day.
+- Browse filters start preset to the member's range, with a clear "fits my goal" toggle to turn it off.
+- Recipe pages show whether a recipe fits, per serving, with protein given full weight next to C/F/P. Where a recipe misses, suggest a servings amount that gets closer.
 - Units setting (lb or kg).
-- Optional resting calories (daily calories burned at rest). A member can type it in, and a partner app (ForgeFit, see PRD 01) can supply it later. When present, the calorie target is built from it with a goal adjustment instead of the default ratio-derived number.
-- Optional average activity burn (daily calories burned through activity, on top of resting). The member picks an activity level preset, which fills the burn automatically as a percent of resting calories, or types an exact daily number. When resting calories is set and nothing is chosen, the default preset is used.
 
 **Out**
 
+- Calorie targets, resting calories, activity levels, and any tracking of daily totals.
 - Carb cycling and training-day plans. Later.
 - Wearable or tracker sync.
-- Medical advice. Show the nutrition disclaimer next to targets.
+- Medical advice. Show the nutrition disclaimer next to anything derived from weight.
 
 ## Requirements
 
-1. Profile is optional. Without it the site works exactly as today.
-2. Targets come from one pure function, so the planner reuses it. Inputs: goal, goal weight, protein override, meals per day.
-3. Protein stays a first-class target, shown alongside C/F/P and not treated as a leftover.
-4. A recipe "fit" is computed from per-serving nutrition variants. Where a recipe has several variants (for example fully loaded), use the default one.
-5. The profile form validates ranges and rejects absurd values.
-6. Members can delete their profile data.
-7. Resting calories and average activity burn are optional inputs to the target function. Total daily burn is resting plus activity, and the goal adjustment (deficit, maintenance, surplus) applies to that total. With neither set, behavior is unchanged. Activity burn without resting calories is ignored, since there is nothing to add it to.
-   - Activity level presets, each a percent of resting calories: light 10 percent, moderate 15 percent, active 20 percent. Moderate is the default. Most people sit at 15 to 20 percent at most. The percents live in one constant so they are easy to tune.
-   - Choosing a preset fills the burn number right away and shows the result in calories, so the member sees what the preset means for them.
-   - The member can instead enter an exact average daily burn in calories. Editing the number by hand switches the level to "custom".
-   - The UI shows total burn and labels the activity source. A partner can supply a real average, which replaces a preset but never a manual number. Protein and fat stay set by weight either way, and carbs fill the remaining calories.
-8. Every stored target and the resting calories value records its source: `manual`, `calculated`, or `partner`. A partner write never overwrites a `manual` value. The member sees where each number came from and can switch back to manual.
-9. Partner writes arrive through GraphQL with a scoped credential (see PRD 01), not through the profile form.
+1. The profile is optional. Without it the site works exactly as today.
+2. One pure function turns goal and goal weight into a per-meal range for protein and fat. The planner reuses it. The number of meals it divides across is a constant (proposed: 3), not a member input.
+3. Filter presets only set protein and fat bounds. They never hide recipes with no way back: the toggle is always visible, and the member can change the bounds by hand.
+4. Protein stays a first-class number, shown alongside C/F/P and not treated as a leftover.
+5. A recipe "fit" is computed from per-serving nutrition. Where a recipe has several variants (for example fully loaded), use the default one.
+6. The profile form validates ranges and rejects absurd values.
+7. Members can delete their profile data.
+8. Goal and goal weight record their source: `manual` or `partner`. A partner write never overwrites a `manual` value, and the member sees where each value came from. This keeps the door open for ForgeFit (see PRD 01 and the README) to send weight later, through GraphQL with a scoped credential and not through the form. No partner work is built now.
 
 ## Data
 
-Add to `users` or a `member_profiles` table: `goal`, `goal_weight_kg`, `protein_target_g`, `calorie_target`, `resting_calories` (nullable), `activity_level` (light, moderate, active, or custom; nullable, default applied in code), `activity_calories` (nullable, stored only for custom or partner values; preset values are computed from resting calories so they follow it when it changes), `meals_per_day`, `units`, plus a source column for each overridable value. Prefer a separate table so the auth-linked `users` row stays small.
+`member_profiles(user_id, goal, goal_weight_kg, units, goal_source, weight_source)`. A separate table keeps the auth-linked `users` row small. Ranges are computed, not stored.
 
 ## Success metrics
 
@@ -54,14 +50,15 @@ Add to `users` or a `member_profiles` table: `goal`, `goal_weight_kg`, `protein_
 
 ## Risks and open questions
 
-- Health claims. Keep language to "targets based on the book's ratios", with a disclaimer.
-- Inputs: decided, goal and goal weight only. No height, age, or activity. Those two are enough for the by-weight protein and fat recommendations (grams per pound of goal weight), which is what the targets need.
-- Decided: resting calories plus an optional average activity burn, with a default activity value when none is given. Activity is chosen from presets (10, 15, 20 percent of resting, moderate default) or entered manually. Still to confirm: the preset names and percents, and the per-goal adjustment sizes for fat loss, recomp, and bulk.
-- Confirm the exact per-goal grams-per-pound values and the book's ratio table before building the target function.
+- Health claims. Keep language to "recipe fit based on your goal weight", with a disclaimer, and avoid anything that sounds like a prescription.
+- Confirm the grams-per-pound values per goal for protein and fat, and how a per-meal range is derived from the daily figure (even split across 3 meals is the proposal).
+- Whether fat should be a ceiling only (fat loss), a range, or left unfiltered for some goals.
+- Whether a calorie filter is wanted at all. Default is no, since calories are not an input.
 
 ## Tasks
 
 1. Migration, model, GraphQL type and mutation for the profile.
-2. Target calculation function with tests.
+2. Range function (goal and weight to per-meal protein and fat bounds) with tests.
 3. Profile form on the account page.
-4. "Fits your plan" block on recipe pages and the browse toggle.
+4. Browse filter presets and the "fits my goal" toggle.
+5. "Fits your goal" block on recipe pages.

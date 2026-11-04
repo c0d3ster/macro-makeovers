@@ -6,7 +6,7 @@ Members who like the recipes still have to work out a week of meals that hits th
 
 ## Goal
 
-A paid member builds a weekly plan from the recipes, sees daily macro totals against their targets, and gets a merged shopping list.
+A paid member builds a weekly plan from the recipes, sees how each meal fits their goal, and gets a merged shopping list.
 
 ## Scope
 
@@ -14,7 +14,7 @@ A paid member builds a weekly plan from the recipes, sees daily macro totals aga
 
 - Plan view for a week (7 days, meals per day from the profile).
 - Add a recipe to a day and meal slot, with a servings amount.
-- Daily and weekly totals for calories, carbs, fat, protein, shown as C/F/P and compared to the member's targets.
+- Per-meal fit for each planned recipe, using the per-meal protein and fat range from PRD 02. Protein, fat and carbs show as C/F/P with protein given full weight. Day and week sums are shown for reference only, because the plan covers recipes, not everything the member eats, so there is no daily target to hit.
 - Auto-suggest: fill empty slots with recipes that fit the remaining macros. Start simple (filter and rank), not an optimizer.
 - Swap a recipe, duplicate a day, repeat last week.
 - Leftovers: a recipe cooked once can fill several slots (batch cooking is how this book works).
@@ -31,7 +31,7 @@ A paid member builds a weekly plan from the recipes, sees daily macro totals aga
 
 1. Paid only. Free members see a preview with sample data and an upgrade prompt. The preview does not need real planner logic.
 2. Totals use per-serving nutrition from the default variant, scaled by servings. Allow choosing another variant where a recipe has one.
-3. A plan works without a profile, using default targets, and nudges the member to set one.
+3. A plan works without a profile, with no fit indicators, and nudges the member to set a goal and goal weight.
 4. Servings math is shared with the recipe page scaler.
 5. Mobile first. Planning happens on a phone in a store aisle or a couch.
 6. Plan data is private to the member (RLS on user id).
@@ -56,7 +56,7 @@ A paid member builds a weekly plan from the recipes, sees daily macro totals aga
 ## Tasks
 
 1. Migration, models, GraphQL types, and plan service.
-2. Totals and target comparison logic with tests.
+2. Per-meal fit logic and reference sums with tests.
 3. Plan UI: week grid, add and swap, servings.
 4. Paid gating and the free preview.
 5. Auto-suggest (v2).
