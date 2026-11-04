@@ -35,7 +35,7 @@ A signed-in member sets a goal and body info once. The site then shows recipes a
 5. The profile form validates ranges and rejects absurd values.
 6. Members can delete their profile data.
 7. Resting calories and average activity burn are optional inputs to the target function. Total daily burn is resting plus activity, and the goal adjustment (deficit, maintenance, surplus) applies to that total. With neither set, behavior is unchanged. Activity burn without resting calories is ignored, since there is nothing to add it to.
-   - Default activity burn is a single configured value (proposed: 30 percent of resting calories, roughly lightly active), kept in one constant so it is easy to tune.
+   - Default activity burn is a single configured value (proposed: 15 percent of resting calories, since most people sit at 15 to 20 percent at most), kept in one constant so it is easy to tune.
    - The UI shows total burn and marks activity as "default" or "yours". A partner can supply a real average, which replaces the default. Protein and fat stay set by weight either way, and carbs fill the remaining calories.
 8. Every stored target and the resting calories value records its source: `manual`, `calculated`, or `partner`. A partner write never overwrites a `manual` value. The member sees where each number came from and can switch back to manual.
 9. Partner writes arrive through GraphQL with a scoped credential (see PRD 01), not through the profile form.
@@ -54,7 +54,7 @@ Add to `users` or a `member_profiles` table: `goal`, `goal_weight_kg`, `protein_
 
 - Health claims. Keep language to "targets based on the book's ratios", with a disclaimer.
 - Inputs: decided, goal and goal weight only. No height, age, or activity. Those two are enough for the by-weight protein and fat recommendations (grams per pound of goal weight), which is what the targets need.
-- Decided: resting calories plus an optional average activity burn, with a default activity value when none is given. Still to confirm: the default (30 percent of resting is a proposal) and the per-goal adjustment sizes for fat loss, recomp, and bulk.
+- Decided: resting calories plus an optional average activity burn, with a default activity value when none is given. Still to confirm: the default (15 percent of resting is a proposal, 20 percent is the ceiling) and the per-goal adjustment sizes for fat loss, recomp, and bulk.
 - Confirm the exact per-goal grams-per-pound values and the book's ratio table before building the target function.
 
 ## Tasks
