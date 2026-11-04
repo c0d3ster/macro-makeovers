@@ -11,6 +11,7 @@ Built for lower-carb days: carbs around 14 to 27% of calories, fat held near 32 
 | [Chicken Parm Skillet](#14-chicken-parm-skillet)          | ~420     | 14 / 35 / 51 | 4        |
 | [Garlic Sirloin Squash Stir Fry](#15-garlic-sirloin-squash-stir-fry) | ~405 | 25 / 32 / 42 | 4        |
 | [Chicken Fajita Bowl](#16-chicken-fajita-bowl) _(black beans)_ | ~515 | 27 / 32 / 41 | 4        |
+| [Greek Chicken Bowl](#17-greek-chicken-bowl) _(with chickpeas)_ | ~440 | 22 / 30 / 48 | 4        |
 
 ---
 
@@ -241,3 +242,81 @@ The bean bowl is the default. For fewer carbs, swap the beans for cauliflower ri
 - **Too much fat:** use half the avocado, or skip the cheese
 
 > **Thighs instead of breast?** Boneless, skinless thighs add roughly 4g of fat and drop about 5g of protein per serving. They stay juicier. Trim them well.
+
+---
+
+## 17. Greek Chicken Bowl | $$ · ~30 min + marinate · ●●○○○
+
+A gyro plate without the pita and fries. Lemon-oregano chicken over crisp romaine with cucumber, tomato, olives, and feta, and a thick tzatziki made from nonfat Greek yogurt. Served cold and fresh, so it feels nothing like the hot, seared bowls. **Makes 4 servings.**
+
+### Nutrition
+
+|                                | Calories | Carbs | Fat   | Protein | Ratio C/F/P    |
+| ------------------------------ | -------- | ----- | ----- | ------- | -------------- |
+| **With chickpeas (÷4)**        | ~440     | 25g   | 15g   | 52g     | 22 / 30 / 48   |
+| **No chickpeas**               | ~390     | 16g   | 14g   | 50g     | 16 / 32 / 51   |
+| **Lamb leg instead of chicken**| ~485     | 25g   | 21g   | 51g     | 20 / 38 / 42   |
+| **Whole batch (chickpeas)**    | ~1,760   | 98g   | 59g   | 209g    | -              |
+| _Traditional gyro plate_       | _~970_   | _85g_ | _50g_ | _45g_   | _35 / 46 / 19_ |
+
+The default has half a can of chickpeas for the beans and fiber, about 1/4 cup per bowl. Leave them out for the lowest-carb version. The traditional row is a typical gyro plate with pita, fries, and sauce.
+
+### Ingredients
+
+**Chicken**
+
+- 1.5 lb chicken breast, cut into strips or left as cutlets
+- 1 tbsp olive oil
+- Juice of 1 lemon
+- 4 cloves garlic, minced
+- 2 tsp dried oregano
+- Salt and pepper
+
+**Tzatziki**
+
+- 1 cup nonfat Greek yogurt
+- 1/2 cucumber, grated and squeezed dry
+- 1 clove garlic, minced
+- 1 tbsp lemon juice
+- Fresh dill or mint, salt
+
+**Bowl**
+
+- 2 romaine hearts, chopped
+- 2 medium cucumbers, diced
+- 1 pint cherry tomatoes, halved
+- 1/2 medium red onion, thinly sliced
+- 3 oz feta, crumbled
+- 1/4 cup kalamata olives, halved
+- 1/2 can chickpeas, drained and rinsed
+
+### Method
+
+**Prep** (~15 min, plus at least 30 min to marinate)
+
+- Toss the chicken with the oil, lemon juice, garlic, oregano, salt, and pepper. Marinate at least 30 min, up to overnight.
+- Make the tzatziki: squeeze the grated cucumber very dry, then stir into the yogurt with the garlic, lemon, dill, and salt. Chill.
+- Chop the romaine, cucumbers, tomatoes, and onion.
+
+**Cook** (~15 min)
+
+1. Heat a grill pan or skillet over medium-high. Cook the chicken 4 to 5 min per side until browned and 165°F inside. Rest 5 min, then slice.
+2. Build the bowls: romaine, cucumber, tomato, onion, olives, and chickpeas, topped with the chicken, feta, and a big spoonful of tzatziki.
+
+### Make-or-break
+
+- **Squeeze the cucumber dry** for the tzatziki or it turns watery
+- Marinate the chicken at least 30 min. Lemon and oregano do the work that fat usually does
+- Slice the chicken **after** resting so the juices stay in
+- Keep the tzatziki cold. It is a big part of why the bowl feels rich
+
+### Fixes
+
+- **Watery tzatziki:** more squeezing, or stir in a spoonful more yogurt
+- **Dry chicken:** thinner cutlets, and pull at 160°F, since it carries over
+- **Bland:** more lemon, more salt, more oregano on the chicken
+- **Too sharp:** soak the sliced red onion in cold water for 5 min first
+
+### Lamb option
+
+Lean leg of lamb, trimmed and sliced thin, lands around 38% fat as written. Ground lamb is much fattier and pushes the bowl past 50%. I earlier suggested mixing 1 part ground lamb with 2 parts lean meat, but that works out closer to 41% fat, so leg of lamb is the better lamb swap. Store-bought gyro slices are typically a fatty beef and lamb blend and would also run well above 35%, so check the label before using them.
