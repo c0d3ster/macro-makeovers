@@ -14,7 +14,7 @@ A paid member builds a weekly plan from the recipes, sees how each meal fits the
 
 - Plan view for a week (7 days, meals per day from the profile).
 - Add a recipe to a day and meal slot, with a servings amount.
-- Per-meal fit for each planned recipe, using the per-meal protein and fat range from PRD 02. Protein, fat and carbs show as C/F/P with protein given full weight. Day and week sums are shown for reference only, because the plan covers recipes, not everything the member eats, so there is no daily target to hit.
+- Per-meal fit for each planned recipe, using the per-meal protein and fat range from PRD 02. Macros show in C/F/P order, with protein given full weight. Day and week sums are shown for reference only, because the plan covers recipes, not everything the member eats, so there is no daily target to hit.
 - Auto-suggest: fill empty slots with recipes that fit the remaining macros. Start simple (filter and rank), not an optimizer.
 - Swap a recipe, duplicate a day, repeat last week.
 - Leftovers: a recipe cooked once can fill several slots (batch cooking is how this book works).
