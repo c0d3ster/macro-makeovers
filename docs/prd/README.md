@@ -7,7 +7,7 @@ PRDs for the post-launch features. Each file is self-contained: problem, scope, 
 - **Free:** every recipe, filters, servings scaler, accounts, personalization, reviews.
 - **Paid, one plan:** meal planning, grocery list and ordering, and the book download. A small monthly price.
 - **Later, if needed:** a hard copy book tier and a more comprehensive planning tier. Nothing in these PRDs should block that, but none of it is built now.
-- **Later, partner channel:** ForgeFit (a separate personal training app that reads Garmin data) will sell a higher tier that includes MacroMakeovers, and pay this business per user. Data flows from ForgeFit to here (for example current weight and goal). It needs its own PRD once ForgeFit has a stable API. For now, PRD 01 keeps entitlements source-agnostic and PRD 02 records the source of goal and weight so a partner can supply them later. This site does not track calories or activity.
+- **Later, partner channel:** ForgeFit (a separate personal training app that reads Garmin data) will sell a higher tier that includes MacroMakeovers, and pay this business per user. Data flows from ForgeFit to here (for example weight, resting calories, and average activity burn). It needs its own PRD once ForgeFit has a stable API. For now, PRD 01 keeps entitlements source-agnostic and PRD 02 records the source of weight, resting calories, and activity burn so a partner can supply them later. This site does not track daily intake.
 
 ## Order
 
