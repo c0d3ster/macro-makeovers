@@ -37,7 +37,7 @@ This is not a calorie tracker. The site only covers recipes, not every meal in s
 2. Goals are data, not code paths: a table or constant mapping each goal to protein grams per pound, fat grams per pound, and a calorie adjustment, so adding or retuning a goal needs no logic change. Illustrative protein and fat values to confirm: pure bulk 1.2 and 0.5, clean bulk 1.0 and 0.4, recomp about 0.3 fat. Today's hard-coded book ratios are replaced by this model.
 3. One pure function turns goal, goal weight, and the optional burn inputs into target calories, grams, C/F/P percents, and a per-meal range for protein and fat. The planner reuses it. The number of meals it divides across is a constant (proposed: 3), not a member input.
 4. Defaults keep the function total when inputs are missing:
-   - No resting calories: estimate from goal weight with one global constant (calories per pound).
+   - No resting calories: estimate from goal weight with one global constant (11 calories per pound, see open questions).
    - Resting set but no activity chosen: use the moderate preset.
    - Activity without resting calories: apply the preset percent to the estimated resting value.
    - The preset percents, the weight constant, and the goal adjustments live in one place so they are easy to tune.
@@ -72,7 +72,8 @@ A separate table keeps the auth-linked `users` row small.
 - Health claims. Keep language to "recipe fit based on your goal and burn", with a disclaimer, and avoid anything that sounds like a prescription.
 - Confirm the grams-per-pound values per goal for protein and fat.
 - Confirm the calorie adjustment for each goal (deficit for fat loss, maintenance for balanced and recomp, surplus for bulks), as a percent of total burn.
-- Pick the default resting estimate (one calories-per-pound constant on goal weight). Label it as an estimate. It will be off for individuals, which is why the member can enter their own.
+- Default resting estimate: 11 calories per pound of goal weight (about 24 per kg), from a general resting burn chart by weight. The chart works out to 10.8 to 10.9 per pound from 100 to 200 lbs, which is 1 calorie per kg per hour. At 200 lbs that is about 2,200 a day, so the 10, 15, and 20 percent presets add roughly 220, 330, and 440. It ignores muscle mass, age, and sex, so label it an estimate. It will be off for individuals, which is why the member can enter their own.
+- The estimate uses goal weight, since that is the weight we ask for. For someone cutting, goal weight is below current weight, so the default runs a little low. Decide whether to also ask for current weight, or accept the error.
 - Confirm the preset names and percents (light 10, moderate 15, active 20).
 - Fit is judged on protein and fat grams per meal plus how close the recipe's own C/F/P is to the member's target ratio. Decide how much weight carbs get in "fits my goal", since carbs are the loosest of the three.
 - How a per-meal range is derived from the daily figure (even split across 3 meals is the proposal).
