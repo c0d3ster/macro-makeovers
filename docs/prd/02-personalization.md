@@ -18,7 +18,7 @@ A signed-in member sets a goal and body info once. The site then shows recipes a
 - Browse filters get a "fits my goal" toggle.
 - Units setting (lb or kg).
 - Optional resting calories (daily calories burned at rest). A member can type it in, and a partner app (ForgeFit, see PRD 01) can supply it later. When present, the calorie target is built from it with a goal adjustment instead of the default ratio-derived number.
-- Optional average activity burn (daily calories burned through activity, on top of resting). Same input rules as resting calories. When resting calories is set and activity burn is not, a default is used.
+- Optional average activity burn (daily calories burned through activity, on top of resting). The member picks an activity level preset, which fills the burn automatically as a percent of resting calories, or types an exact daily number. When resting calories is set and nothing is chosen, the default preset is used.
 
 **Out**
 
@@ -35,14 +35,16 @@ A signed-in member sets a goal and body info once. The site then shows recipes a
 5. The profile form validates ranges and rejects absurd values.
 6. Members can delete their profile data.
 7. Resting calories and average activity burn are optional inputs to the target function. Total daily burn is resting plus activity, and the goal adjustment (deficit, maintenance, surplus) applies to that total. With neither set, behavior is unchanged. Activity burn without resting calories is ignored, since there is nothing to add it to.
-   - Default activity burn is a single configured value (proposed: 15 percent of resting calories, since most people sit at 15 to 20 percent at most), kept in one constant so it is easy to tune.
-   - The UI shows total burn and marks activity as "default" or "yours". A partner can supply a real average, which replaces the default. Protein and fat stay set by weight either way, and carbs fill the remaining calories.
+   - Activity level presets, each a percent of resting calories: light 10 percent, moderate 15 percent, active 20 percent. Moderate is the default. Most people sit at 15 to 20 percent at most. The percents live in one constant so they are easy to tune.
+   - Choosing a preset fills the burn number right away and shows the result in calories, so the member sees what the preset means for them.
+   - The member can instead enter an exact average daily burn in calories. Editing the number by hand switches the level to "custom".
+   - The UI shows total burn and labels the activity source. A partner can supply a real average, which replaces a preset but never a manual number. Protein and fat stay set by weight either way, and carbs fill the remaining calories.
 8. Every stored target and the resting calories value records its source: `manual`, `calculated`, or `partner`. A partner write never overwrites a `manual` value. The member sees where each number came from and can switch back to manual.
 9. Partner writes arrive through GraphQL with a scoped credential (see PRD 01), not through the profile form.
 
 ## Data
 
-Add to `users` or a `member_profiles` table: `goal`, `goal_weight_kg`, `protein_target_g`, `calorie_target`, `resting_calories` (nullable), `activity_calories` (nullable, default applied in code, not stored), `meals_per_day`, `units`, plus a source column for each overridable value. Prefer a separate table so the auth-linked `users` row stays small.
+Add to `users` or a `member_profiles` table: `goal`, `goal_weight_kg`, `protein_target_g`, `calorie_target`, `resting_calories` (nullable), `activity_level` (light, moderate, active, or custom; nullable, default applied in code), `activity_calories` (nullable, stored only for custom or partner values; preset values are computed from resting calories so they follow it when it changes), `meals_per_day`, `units`, plus a source column for each overridable value. Prefer a separate table so the auth-linked `users` row stays small.
 
 ## Success metrics
 
@@ -54,7 +56,7 @@ Add to `users` or a `member_profiles` table: `goal`, `goal_weight_kg`, `protein_
 
 - Health claims. Keep language to "targets based on the book's ratios", with a disclaimer.
 - Inputs: decided, goal and goal weight only. No height, age, or activity. Those two are enough for the by-weight protein and fat recommendations (grams per pound of goal weight), which is what the targets need.
-- Decided: resting calories plus an optional average activity burn, with a default activity value when none is given. Still to confirm: the default (15 percent of resting is a proposal, 20 percent is the ceiling) and the per-goal adjustment sizes for fat loss, recomp, and bulk.
+- Decided: resting calories plus an optional average activity burn, with a default activity value when none is given. Activity is chosen from presets (10, 15, 20 percent of resting, moderate default) or entered manually. Still to confirm: the preset names and percents, and the per-goal adjustment sizes for fat loss, recomp, and bulk.
 - Confirm the exact per-goal grams-per-pound values and the book's ratio table before building the target function.
 
 ## Tasks
