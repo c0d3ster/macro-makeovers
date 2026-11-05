@@ -8,7 +8,7 @@ Built for lower-carb days: carbs around 14 to 25% of calories, fat between 30 an
 
 | Recipe                                                    | Calories | Ratio C/F/P  | Servings |
 | --------------------------------------------------------- | -------- | ------------ | -------- |
-| [Chicken Parm Skillet](#14-chicken-parm-skillet)          | ~440     | 11 / 35 / 54 | 4        |
+| [Chicken Parm Skillet](#14-chicken-parm-skillet)          | ~400     | 14 / 38 / 48 | 4        |
 | [Garlic Sirloin Squash Stir Fry](#15-garlic-sirloin-squash-stir-fry) | ~405 | 25 / 32 / 42 | 4        |
 | [Greek Chicken Bowl](#16-greek-chicken-bowl) _(with chickpeas)_ | ~440 | 22 / 30 / 48 | 4        |
 
@@ -22,14 +22,14 @@ Chicken parm without the pasta and the deep-fried breading. A thin parmesan crus
 
 |                           | Calories | Carbs | Fat   | Protein | Ratio C/F/P    |
 | ------------------------- | -------- | ----- | ----- | ------- | -------------- |
-| **Per serving (÷4)**      | ~440     | 12g   | 17g   | 57g     | 11 / 35 / 54   |
-| **With 1 oz dry pasta**   | ~555     | 35g   | 18g   | 61g     | 25 / 30 / 45   |
-| **With 2 oz dry pasta**   | ~670     | 57g   | 19g   | 65g     | 34 / 26 / 40   |
-| **With 3 oz dry pasta**   | ~785     | 80g   | 21g   | 69g     | 41 / 24 / 35   |
-| **Whole batch**           | ~1,750   | 48g   | 66g   | 229g    | -              |
+| **Per serving (÷4)**      | ~400     | 14g   | 16g   | 47g     | 14 / 38 / 48   |
+| **With 1 oz dry pasta**   | ~515     | 36g   | 18g   | 51g     | 29 / 31 / 40   |
+| **With 2 oz dry pasta**   | ~630     | 59g   | 19g   | 55g     | 38 / 27 / 35   |
+| **With 3 oz dry pasta**   | ~745     | 81g   | 21g   | 59g     | 44 / 25 / 31   |
+| **Whole batch**           | ~1,610   | 56g   | 65g   | 188g    | -              |
 | _Home-style fried, 3 oz pasta_ | _~1,090_ | _100g_ | _45g_ | _74g_ | _36 / 37 / 27_ |
 
-The default is the low-carb-day build. Add pasta underneath on a day with more carbs to spend. The pasta rows scale the sauce with the pasta: 2 cups with 1 oz dry per serving (4 oz for the pan), 2.5 cups with 2 oz (8 oz, half a box), and 3 cups with 3 oz (12 oz, three quarters of a box), which is 3/4 cup per serving. The traditional row is a home-style fried cutlet with the same 3 oz of dry pasta and 3/4 cup of sauce per serving, so the comparison is portion for portion. The sauce sets a lot of the fat here. Filippo Berio keeps it lean at 3.5g fat per 1/2 cup, and richer jars like Mezzetta and Rao's push the fat share to about 38 to 39% (see Sauce options).
+The default is the low-carb-day build. Add pasta underneath on a day with more carbs to spend. The pasta rows scale the sauce with the pasta: 2 cups with 1 oz dry per serving (4 oz for the pan), 2.5 cups with 2 oz (8 oz, half a box), and 3 cups with 3 oz (12 oz, three quarters of a box), which is 3/4 cup per serving. The traditional row is a home-style fried cutlet with the same 3 oz of dry pasta and 3/4 cup of sauce per serving, so the comparison is portion for portion. The sauce sets a lot of the fat here. Filippo Berio keeps it lean at 3.5g fat per 1/2 cup, and richer jars like Mezzetta and Rao's push the fat share to about 41% (see Sauce options).
 
 The fat comes out of the frying and the cheese pile, not the ingredients. The crust crisps in the air fryer with just 2 tsp of oil, and each breast gets one ounce of full-fat fresh mozzarella over an Italian-tomato marinara, so it still eats like chicken parm at under half the fat.
 
@@ -39,8 +39,8 @@ The fat comes out of the frying and the cheese pile, not the ingredients. The cr
 
 - 1.5 lb chicken breast (4 breasts, about 6 oz each)
 - 1 egg, beaten with 1 tbsp water
-- 1/3 cup grated parmesan
-- 1/3 cup panko
+- 40g grated parmesan (a heaping 1/3 cup)
+- 1/2 cup panko
 - 1 tsp Italian seasoning
 - 2 tsp avocado oil, for the chicken
 - Salt, pepper
@@ -104,11 +104,11 @@ Filippo Berio is the default. Per 1/2 cup, from retailer label listings, so chec
 
 | Sauce                          | Calories | Carbs | Fat  | Italian tomatoes              | Pan ratio C/F/P |
 | ------------------------------ | -------- | ----- | ---- | ----------------------------- | --------------- |
-| Filippo Berio (default)        | 60       | 6g    | 3.5g | Yes                           | 11 / 35 / 54    |
-| Bertolli Organic               | 70       | 11g   | 1.5g | Not stated, likely US         | 15 / 32 / 53    |
-| Rao's Homemade                 | 100      | 6g    | 7g   | Yes                           | 11 / 38 / 51    |
-| Carbone Marinara               | 90       | 6g    | 7g   | Yes                           | 11 / 39 / 50    |
-| Mezzetta Spicy                 | 100      | 9g    | 8g   | Mixed, Italian and California | 12 / 39 / 49    |
+| Filippo Berio (default)        | 60       | 6g    | 3.5g | Yes                           | 14 / 38 / 48    |
+| Bertolli Organic               | 70       | 11g   | 1.5g | Not stated, likely US         | 18 / 34 / 48    |
+| Rao's Homemade                 | 100      | 6g    | 7g   | Yes                           | 13 / 41 / 46    |
+| Carbone Marinara               | 90       | 6g    | 7g   | Yes                           | 14 / 41 / 45    |
+| Mezzetta Spicy                 | 100      | 9g    | 8g   | Mixed, Italian and California | 15 / 41 / 44    |
 
 Mezzetta Spicy is the one with built-in heat. With a milder sauce, add chili flakes.
 
