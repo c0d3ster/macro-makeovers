@@ -94,10 +94,10 @@ Filippo Berio is the default. Per 1/2 cup, from retailer label listings, so chec
 | Sauce                          | Calories | Carbs | Fat  | Italian tomatoes        | Pan ratio C/F/P |
 | ------------------------------ | -------- | ----- | ---- | ----------------------- | --------------- |
 | Filippo Berio (default)        | 60       | 6g    | 3.5g | Yes                     | 11 / 39 / 50    |
-| Bertolli Organic               | 70       | 11g   | 1.5g | No, USA-made            | 14 / 36 / 50    |
+| Bertolli Organic               | 70       | 11g   | 1.5g | Not stated              | 14 / 36 / 50    |
 | Rao's Homemade                 | 100      | 6g    | 7g   | Yes                     | 10 / 42 / 47    |
 | Carbone Marinara               | 90       | 6g    | 7g   | Yes                     | 10 / 43 / 47    |
-| Mezzetta Spicy                 | 100      | 9g    | 8g   | Artisan line only       | 12 / 43 / 45    |
+| Mezzetta Spicy                 | 100      | 9g    | 8g   | Mixed, Italian and California | 12 / 43 / 45    |
 
 Mezzetta Spicy is the one with built-in heat. With a milder sauce, add chili flakes.
 
