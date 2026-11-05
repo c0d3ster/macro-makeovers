@@ -194,7 +194,7 @@ Thighs are juicier and more forgiving, at the cost of a few grams of fat. Trim t
 
 ## 16. Greek Chicken Bowl | $$ · ~30 min + marinate · ●●○○○
 
-A gyro plate without the pita and fries. Lemon-oregano chicken over crisp romaine with cucumber, tomato, olives, and feta, and a thick tzatziki made from nonfat Greek yogurt. Served cold and fresh, so it feels nothing like the hot, seared bowls. **Makes 4 servings.**
+A gyro plate without the pita and fries. Grilled lemon-oregano chicken over crisp romaine with cucumber, tomato, olives, and feta, and a thick tzatziki made from nonfat Greek yogurt. Served cold and fresh, so it feels nothing like the hot, seared bowls. **Makes 4 servings.**
 
 ### Nutrition
 
@@ -212,7 +212,7 @@ The default has half a can of chickpeas for the beans and fiber, about 1/4 cup p
 
 **Chicken**
 
-- 1.5 lb chicken breast, cut into strips or left as cutlets
+- 1.5 lb chicken breast (4 breasts, about 6 oz each), pounded to an even 3/4 inch
 - 1 tbsp olive oil
 - Juice of 1 lemon
 - 4 cloves garlic, minced
@@ -247,20 +247,21 @@ The default has half a can of chickpeas for the beans and fiber, about 1/4 cup p
 
 **Cook** (~15 min)
 
-1. Heat a grill pan or skillet over medium-high. Cook the chicken 4 to 5 min per side until browned and 165°F inside. Rest 5 min, then slice.
+1. Heat the grill to medium-high (about 450°F) and oil the grates. Grill the chicken 5 to 6 min per side, until charred in spots and 165°F inside. No grill: a grill pan or cast iron skillet over medium-high, 5 to 6 min per side. Rest 5 min, then slice.
 2. Build the bowls: romaine, cucumber, tomato, onion, olives, and chickpeas, topped with the chicken, feta, and a big spoonful of tzatziki.
 
 ### Make-or-break
 
 - **Squeeze the cucumber dry** for the tzatziki or it turns watery
 - Marinate the chicken at least 30 min. Lemon and oregano do the work that fat usually does
+- Oil the grates and leave the chicken alone until it releases, or the marinade sticks and tears
 - Slice the chicken **after** resting so the juices stay in
 - Keep the tzatziki cold. It is a big part of why the bowl feels rich
 
 ### Fixes
 
 - **Watery tzatziki:** more squeezing, or stir in a spoonful more yogurt
-- **Dry chicken:** thinner cutlets, and pull at 160°F, since it carries over
+- **Dry chicken:** pound it to an even thickness, and pull at 160°F, since it carries over
 - **Bland:** more lemon, more salt, more oregano on the chicken
 - **Too sharp:** soak the sliced red onion in cold water for 5 min first
 
