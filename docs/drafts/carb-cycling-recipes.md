@@ -25,12 +25,13 @@ Chicken parm without the pasta and the deep-fried breading. A thin parmesan crus
 | **Per serving (÷4)**      | ~400     | 11g   | 17g   | 51g     | 11 / 38 / 51   |
 | **With 1 oz dry pasta**   | ~510     | 33g   | 18g   | 55g     | 26 / 31 / 43   |
 | **With 2 oz dry pasta**   | ~620     | 54g   | 19g   | 59g     | 35 / 27 / 38   |
+| **With 3 oz dry pasta**   | ~730     | 76g   | 20g   | 63g     | 42 / 24 / 34   |
 | **Whole batch**           | ~1,600   | 44g   | 67g   | 205g    | -              |
-| _Traditional per serving_ | _~1,050_ | _90g_ | _50g_ | _60g_   | _34 / 43 / 23_ |
+| _Home-style fried, 3 oz pasta_ | _~1,090_ | _100g_ | _45g_ | _74g_ | _36 / 37 / 27_ |
 
-The default is the low-carb-day build. Add pasta underneath on a day with more carbs to spend. The pasta rows scale the sauce with the pasta: 1.75 cups with 1 oz dry per serving (4 oz for the pan), and 2 cups with a full 2 oz dry per serving (8 oz, half a box). The traditional row is a typical restaurant plate with pasta. The sauce sets a lot of the fat here. Filippo Berio keeps it lean at 3.5g fat per 1/2 cup, and richer jars like Mezzetta and Rao's push the fat share to about 41 to 42% (see Sauce options).
+The default is the low-carb-day build. Add pasta underneath on a day with more carbs to spend. The pasta rows scale the sauce with the pasta: 1.75 cups with 1 oz dry per serving (4 oz for the pan), 2 cups with 2 oz (8 oz, half a box), and 2.25 cups with 3 oz (12 oz, three quarters of a box). The traditional row is a home-style fried cutlet with the same 3 oz of dry pasta, so the comparison is portion for portion. The sauce sets a lot of the fat here. Filippo Berio keeps it lean at 3.5g fat per 1/2 cup, and richer jars like Mezzetta and Rao's push the fat share to about 41 to 42% (see Sauce options).
 
-The fat comes out of the frying and the cheese pile, not the ingredients. The crust crisps in the air fryer with a spray of oil, and each breast gets one ounce of full-fat fresh mozzarella over an Italian-tomato marinara, so it still eats like chicken parm at about a third of the fat.
+The fat comes out of the frying and the cheese pile, not the ingredients. The crust crisps in the air fryer with a spray of oil, and each breast gets one ounce of full-fat fresh mozzarella over an Italian-tomato marinara, so it still eats like chicken parm at well under half the fat.
 
 ### Ingredients
 
@@ -48,13 +49,13 @@ The fat comes out of the frying and the cheese pile, not the ingredients. The cr
 
 - 10 oz baby spinach
 - 2 cloves garlic, minced
-- 1.5 cups Filippo Berio Marinara (made with Italian tomatoes). Use 1.75 cups with 1 oz pasta per serving and 2 cups with 2 oz
+- 1.5 cups Filippo Berio Marinara (made with Italian tomatoes). Use 1.75 cups with 1 oz pasta per serving, 2 cups with 2 oz, and 2.25 cups with 3 oz
 - 8 slices Galbani fresh mozzarella log, pre-sliced (2 per breast, about 1/2 oz each, 4 oz total)
 - Fresh basil, to finish
 
 **Optional pasta**
 
-- 1 oz dry spaghetti or spaghetti rigati per serving (4 oz for the pan), or 2 oz per serving (8 oz, half a box)
+- 1 oz dry spaghetti or spaghetti rigati per serving (4 oz for the pan), 2 oz per serving (8 oz, half a box), or 3 oz per serving (12 oz, three quarters of a box)
 
 ### Method
 
