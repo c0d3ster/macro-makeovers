@@ -91,13 +91,15 @@ The default is the low-carb-day build. Add pasta underneath on a day with more c
 
 Filippo Berio is the default. Per 1/2 cup, from retailer label listings, so check the jar. The pan ratios are for the no-pasta build with 1.5 cups of sauce.
 
-| Sauce                          | Calories | Carbs | Fat  | Italian tomatoes        | Pan ratio C/F/P |
-| ------------------------------ | -------- | ----- | ---- | ----------------------- | --------------- |
-| Filippo Berio (default)        | 60       | 6g    | 3.5g | Yes                     | 11 / 39 / 50    |
-| Bertolli Organic               | 70       | 11g   | 1.5g | Not stated, likely US   | 14 / 36 / 50    |
-| Rao's Homemade                 | 100      | 6g    | 7g   | Yes                     | 10 / 42 / 47    |
-| Carbone Marinara               | 90       | 6g    | 7g   | Yes                     | 10 / 43 / 47    |
-| Mezzetta Spicy                 | 100      | 9g    | 8g   | Mixed, Italian and California | 12 / 43 / 45    |
+| Sauce                          | Calories | Carbs | Fat  | Italian tomatoes              | Gluten free              | Pan ratio C/F/P |
+| ------------------------------ | -------- | ----- | ---- | ----------------------------- | ------------------------ | --------------- |
+| Filippo Berio (default)        | 60       | 6g    | 3.5g | Yes                           | Yes                      | 11 / 39 / 50    |
+| Bertolli Organic               | 70       | 11g   | 1.5g | Not stated, likely US         | No claim found           | 14 / 36 / 50    |
+| Rao's Homemade                 | 100      | 6g    | 7g   | Yes                           | Unclear, not on the jar  | 10 / 42 / 47    |
+| Carbone Marinara               | 90       | 6g    | 7g   | Yes                           | Yes                      | 10 / 43 / 47    |
+| Mezzetta Spicy                 | 100      | 9g    | 8g   | Mixed, Italian and California | Yes                      | 12 / 43 / 45    |
+
+The gluten column is about the sauce only. The recipe itself is not gluten free yet because of the panko and the optional pasta.
 
 Mezzetta Spicy is the one with built-in heat. With a milder sauce, add chili flakes.
 
