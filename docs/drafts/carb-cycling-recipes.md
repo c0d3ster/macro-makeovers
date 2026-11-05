@@ -27,9 +27,9 @@ Chicken parm without the pasta and the deep-fried breading. A thin parmesan crus
 | **With 2 oz dry pasta**   | ~620     | 54g   | 19g   | 59g     | 35 / 27 / 38   |
 | **With 3 oz dry pasta**   | ~730     | 76g   | 20g   | 63g     | 42 / 24 / 34   |
 | **Whole batch**           | ~1,600   | 44g   | 67g   | 205g    | -              |
-| _Home-style fried, 3 oz pasta_ | _~1,090_ | _100g_ | _45g_ | _74g_ | _36 / 37 / 27_ |
+| _Home-style fried, 3 oz pasta_ | _~1,070_ | _96g_ | _44g_ | _73g_ | _36 / 37 / 27_ |
 
-The default is the low-carb-day build. Add pasta underneath on a day with more carbs to spend. The pasta rows scale the sauce with the pasta: 1.75 cups with 1 oz dry per serving (4 oz for the pan), 2 cups with 2 oz (8 oz, half a box), and 2.25 cups with 3 oz (12 oz, three quarters of a box). The traditional row is a home-style fried cutlet with the same 3 oz of dry pasta, so the comparison is portion for portion. The sauce sets a lot of the fat here. Filippo Berio keeps it lean at 3.5g fat per 1/2 cup, and richer jars like Mezzetta and Rao's push the fat share to about 41 to 42% (see Sauce options).
+The default is the low-carb-day build. Add pasta underneath on a day with more carbs to spend. The pasta rows scale the sauce with the pasta: 1.75 cups with 1 oz dry per serving (4 oz for the pan), 2 cups with 2 oz (8 oz, half a box), and 2.25 cups with 3 oz (12 oz, three quarters of a box). The traditional row is a home-style fried cutlet with the same 3 oz of dry pasta and the same amount of sauce, so the comparison is portion for portion. The sauce sets a lot of the fat here. Filippo Berio keeps it lean at 3.5g fat per 1/2 cup, and richer jars like Mezzetta and Rao's push the fat share to about 41 to 42% (see Sauce options).
 
 The fat comes out of the frying and the cheese pile, not the ingredients. The crust crisps in the air fryer with a spray of oil, and each breast gets one ounce of full-fat fresh mozzarella over an Italian-tomato marinara, so it still eats like chicken parm at well under half the fat.
 
