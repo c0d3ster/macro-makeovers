@@ -42,7 +42,7 @@ The fat comes out of the frying and the cheese pile, not the ingredients. The cr
 - 40g grated parmesan (a heaping 1/3 cup)
 - 1/2 cup panko
 - 1 tsp Italian seasoning
-- 2 tsp avocado oil, for the chicken
+- 2 tsp avocado oil, sprayed on the chicken (about 4 to 5 seconds per side across the batch)
 - Salt, pepper
 
 **Skillet**
@@ -74,7 +74,7 @@ Air fryer first, like the other crispy recipes. The skillet only holds the sauce
 
 1. Preheat the air fryer to 400°F.
 2. Season the chicken with salt and pepper, dip in the egg, then press the parmesan mix on firmly on both sides. Let the breasts sit 5 min so the crust sets.
-3. Chicken into the air fryer. Single layer, don't crowd it, both sides brushed or misted with the avocado oil. Air fry at 400°F, 12 to 16 min, flipping halfway, until golden and 165°F inside. No air fryer: wire rack over a sheet pan, 425°F oven, 18-22 min, flip halfway.
+3. Chicken into the air fryer. Single layer, don't crowd it, both sides sprayed with the avocado oil. Air fry at 400°F, 12 to 16 min, flipping halfway, until golden and 165°F inside. No air fryer: wire rack over a sheet pan, 425°F oven, 18-22 min, flip halfway.
 4. While the chicken cooks, warm the olive oil in a large skillet over medium. Add the garlic for 30 seconds, pour in the marinara, and bring it to a simmer. Add the spinach a big handful at a time, stirring each into the sauce until wilted, then simmer 2 to 3 min and keep it on low.
 5. When the chicken is done, lay 2 slices of mozzarella on each breast and air fry 1 to 2 min more, until melted. (Oven: 2 to 3 min, or a minute under the broiler for color.)
 6. Spoon the spinach and sauce onto plates (or serve from the skillet) and set the breasts on top or alongside, never sauce over the crust. Finish with basil, and serve over the pasta if using.
@@ -84,7 +84,7 @@ Air fryer first, like the other crispy recipes. The skillet only holds the sauce
 - Pat the chicken **very dry** before the egg, or the crust slides off
 - Even thickness. Pound the breasts so they cook through in the time it takes the crust to brown
 - **Toast the panko first** for color and deeper crunch, since the air fryer alone won't brown it in the time the chicken needs to cook through
-- **Oil the crust.** Dry panko only browns with oil on it
+- **Spray the crust.** Dry panko only browns with oil on it
 - **Don't crowd the air fryer basket.** Steam kills crisping as fast as no oil does
 - **Never cook the breaded chicken on bare foil.** The crust bonds to it. Use the basket or a sprayed rack, or parchment
 - Sauce **under or beside** the chicken, not on it, so the crust stays crisp
@@ -92,7 +92,7 @@ Air fryer first, like the other crispy recipes. The skillet only holds the sauce
 
 ### Fixes
 
-- **Pale or dusty crust:** add a little more oil, and make sure the panko was pressed on firmly
+- **Pale or dusty crust:** spray a little more oil, and make sure the panko was pressed on firmly
 - **Crust browns before the chicken is cooked:** pound it thinner, or drop to 375°F and add a few minutes
 - **Dry chicken:** pound thinner, and pull at 160°F, since it carries over
 - **Watery sauce:** simmer 2 more minutes
