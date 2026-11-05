@@ -23,11 +23,12 @@ Chicken parm without the pasta and the deep-fried breading. A thin parmesan crus
 |                           | Calories | Carbs | Fat   | Protein | Ratio C/F/P    |
 | ------------------------- | -------- | ----- | ----- | ------- | -------------- |
 | **Per serving (÷4)**      | ~440     | 13g   | 21g   | 50g     | 12 / 43 / 45   |
-| **With 1/2 cup pasta**    | ~540     | 33g   | 22g   | 54g     | 24 / 33 / 40   |
+| **With 1 oz dry pasta**   | ~540     | 33g   | 22g   | 54g     | 24 / 33 / 40   |
+| **With 2 oz dry pasta**   | ~640     | 55g   | 22g   | 57g     | 34 / 31 / 35   |
 | **Whole batch**           | ~1,770   | 53g   | 84g   | 202g    | -              |
 | _Traditional per serving_ | _~1,050_ | _90g_ | _50g_ | _60g_   | _34 / 43 / 23_ |
 
-The default is the low-carb-day build. Add pasta underneath on a day with more carbs to spend, and the same pan lands at 24 / 33 / 40. The traditional row is a typical restaurant plate with pasta. The sauce sets a lot of the fat here: Mezzetta Spicy Marinara has 8g fat per 1/2 cup (see Sauce options).
+The default is the low-carb-day build. Add pasta underneath on a day with more carbs to spend. 1 oz dry per serving (4 oz for the pan) lands at 24 / 33 / 40, and a full 2 oz dry per serving (8 oz, half a box) lands at 34 / 31 / 35. Use spaghetti or spaghetti rigati, and go up to about 2 cups of sauce for the full 2 oz. The traditional row is a typical restaurant plate with pasta. The sauce sets a lot of the fat here: Mezzetta Spicy Marinara has 8g fat per 1/2 cup (see Sauce options).
 
 ### Ingredients
 
