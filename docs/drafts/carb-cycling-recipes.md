@@ -8,7 +8,7 @@ Built for lower-carb days: carbs around 14 to 25% of calories, fat between 30 an
 
 | Recipe                                                    | Calories | Ratio C/F/P  | Servings |
 | --------------------------------------------------------- | -------- | ------------ | -------- |
-| [Chicken Parm Skillet](#14-chicken-parm-skillet)          | ~415     | 11 / 39 / 50 | 4        |
+| [Chicken Parm Skillet](#14-chicken-parm-skillet)          | ~440     | 11 / 35 / 54 | 4        |
 | [Garlic Sirloin Squash Stir Fry](#15-garlic-sirloin-squash-stir-fry) | ~405 | 25 / 32 / 42 | 4        |
 | [Greek Chicken Bowl](#16-greek-chicken-bowl) _(with chickpeas)_ | ~440 | 22 / 30 / 48 | 4        |
 
@@ -22,16 +22,16 @@ Chicken parm without the pasta and the deep-fried breading. A thin parmesan crus
 
 |                           | Calories | Carbs | Fat   | Protein | Ratio C/F/P    |
 | ------------------------- | -------- | ----- | ----- | ------- | -------------- |
-| **Per serving (÷4)**      | ~415     | 12g   | 18g   | 51g     | 11 / 39 / 50   |
-| **With 1 oz dry pasta**   | ~535     | 34g   | 19g   | 55g     | 25 / 33 / 42   |
-| **With 2 oz dry pasta**   | ~650     | 57g   | 21g   | 59g     | 35 / 29 / 36   |
-| **With 3 oz dry pasta**   | ~770     | 79g   | 22g   | 63g     | 41 / 26 / 33   |
-| **Whole batch**           | ~1,660   | 48g   | 72g   | 206g    | -              |
+| **Per serving (÷4)**      | ~440     | 12g   | 17g   | 57g     | 11 / 35 / 54   |
+| **With 1 oz dry pasta**   | ~555     | 35g   | 18g   | 61g     | 25 / 30 / 45   |
+| **With 2 oz dry pasta**   | ~670     | 57g   | 19g   | 65g     | 34 / 26 / 40   |
+| **With 3 oz dry pasta**   | ~785     | 80g   | 21g   | 69g     | 41 / 24 / 35   |
+| **Whole batch**           | ~1,750   | 48g   | 66g   | 229g    | -              |
 | _Home-style fried, 3 oz pasta_ | _~1,090_ | _100g_ | _45g_ | _74g_ | _36 / 37 / 27_ |
 
-The default is the low-carb-day build. Add pasta underneath on a day with more carbs to spend. The pasta rows scale the sauce with the pasta: 2 cups with 1 oz dry per serving (4 oz for the pan), 2.5 cups with 2 oz (8 oz, half a box), and 3 cups with 3 oz (12 oz, three quarters of a box), which is 3/4 cup per serving. The traditional row is a home-style fried cutlet with the same 3 oz of dry pasta and 3/4 cup of sauce per serving, so the comparison is portion for portion. The sauce sets a lot of the fat here. Filippo Berio keeps it lean at 3.5g fat per 1/2 cup, and richer jars like Mezzetta and Rao's push the fat share to about 41 to 42% (see Sauce options).
+The default is the low-carb-day build. Add pasta underneath on a day with more carbs to spend. The pasta rows scale the sauce with the pasta: 2 cups with 1 oz dry per serving (4 oz for the pan), 2.5 cups with 2 oz (8 oz, half a box), and 3 cups with 3 oz (12 oz, three quarters of a box), which is 3/4 cup per serving. The traditional row is a home-style fried cutlet with the same 3 oz of dry pasta and 3/4 cup of sauce per serving, so the comparison is portion for portion. The sauce sets a lot of the fat here. Filippo Berio keeps it lean at 3.5g fat per 1/2 cup, and richer jars like Mezzetta and Rao's push the fat share to about 38 to 39% (see Sauce options).
 
-The fat comes out of the frying and the cheese pile, not the ingredients. The crust crisps in the air fryer with a spray of oil, and each breast gets one ounce of full-fat fresh mozzarella over an Italian-tomato marinara, so it still eats like chicken parm at well under half the fat.
+The fat comes out of the frying and the cheese pile, not the ingredients. The crust crisps in the air fryer with just 2 tsp of oil, and each breast gets one ounce of full-fat fresh mozzarella over an Italian-tomato marinara, so it still eats like chicken parm at under half the fat.
 
 ### Ingredients
 
@@ -42,7 +42,7 @@ The fat comes out of the frying and the cheese pile, not the ingredients. The cr
 - 1/3 cup grated parmesan
 - 1/3 cup panko
 - 1 tsp Italian seasoning
-- Oil spray (avocado or olive), for the air fryer
+- 2 tsp avocado oil, for the chicken
 - Salt, pepper
 
 **Skillet**
@@ -74,7 +74,7 @@ Air fryer first, like the other crispy recipes. The skillet only holds the sauce
 
 1. Preheat the air fryer to 400°F.
 2. Season the chicken with salt and pepper, dip in the egg, then press the parmesan mix on firmly on both sides. Let the breasts sit 5 min so the crust sets.
-3. Chicken into the air fryer. Single layer, don't crowd it, both sides sprayed with oil. Air fry at 400°F, 12 to 16 min, flipping halfway, until golden and 165°F inside. No air fryer: wire rack over a sheet pan, 425°F oven, 18-22 min, flip halfway.
+3. Chicken into the air fryer. Single layer, don't crowd it, both sides brushed or misted with the avocado oil. Air fry at 400°F, 12 to 16 min, flipping halfway, until golden and 165°F inside. No air fryer: wire rack over a sheet pan, 425°F oven, 18-22 min, flip halfway.
 4. While the chicken cooks, warm the olive oil in a large skillet over medium. Add the garlic for 30 seconds, pour in the marinara, and bring it to a simmer. Add the spinach a big handful at a time, stirring each into the sauce until wilted, then simmer 2 to 3 min and keep it on low.
 5. When the chicken is done, lay 2 slices of mozzarella on each breast and air fry 1 to 2 min more, until melted. (Oven: 2 to 3 min, or a minute under the broiler for color.)
 6. Spoon the spinach and sauce onto plates (or serve from the skillet) and set the breasts on top or alongside, never sauce over the crust. Finish with basil, and serve over the pasta if using.
@@ -84,7 +84,7 @@ Air fryer first, like the other crispy recipes. The skillet only holds the sauce
 - Pat the chicken **very dry** before the egg, or the crust slides off
 - Even thickness. Pound the breasts so they cook through in the time it takes the crust to brown
 - **Toast the panko first** for color and deeper crunch, since the air fryer alone won't brown it in the time the chicken needs to cook through
-- **Spray the crust.** Dry panko only browns with oil on it
+- **Oil the crust.** Dry panko only browns with oil on it
 - **Don't crowd the air fryer basket.** Steam kills crisping as fast as no oil does
 - **Never cook the breaded chicken on bare foil.** The crust bonds to it. Use the basket or a sprayed rack, or parchment
 - Sauce **under or beside** the chicken, not on it, so the crust stays crisp
@@ -92,7 +92,7 @@ Air fryer first, like the other crispy recipes. The skillet only holds the sauce
 
 ### Fixes
 
-- **Pale or dusty crust:** spray more oil, and make sure the panko was pressed on firmly
+- **Pale or dusty crust:** add a little more oil, and make sure the panko was pressed on firmly
 - **Crust browns before the chicken is cooked:** pound it thinner, or drop to 375°F and add a few minutes
 - **Dry chicken:** pound thinner, and pull at 160°F, since it carries over
 - **Watery sauce:** simmer 2 more minutes
@@ -104,11 +104,11 @@ Filippo Berio is the default. Per 1/2 cup, from retailer label listings, so chec
 
 | Sauce                          | Calories | Carbs | Fat  | Italian tomatoes              | Pan ratio C/F/P |
 | ------------------------------ | -------- | ----- | ---- | ----------------------------- | --------------- |
-| Filippo Berio (default)        | 60       | 6g    | 3.5g | Yes                           | 11 / 39 / 50    |
-| Bertolli Organic               | 70       | 11g   | 1.5g | Not stated, likely US         | 15 / 36 / 49    |
-| Rao's Homemade                 | 100      | 6g    | 7g   | Yes                           | 11 / 42 / 47    |
-| Carbone Marinara               | 90       | 6g    | 7g   | Yes                           | 11 / 43 / 46    |
-| Mezzetta Spicy                 | 100      | 9g    | 8g   | Mixed, Italian and California | 13 / 42 / 45    |
+| Filippo Berio (default)        | 60       | 6g    | 3.5g | Yes                           | 11 / 35 / 54    |
+| Bertolli Organic               | 70       | 11g   | 1.5g | Not stated, likely US         | 15 / 32 / 53    |
+| Rao's Homemade                 | 100      | 6g    | 7g   | Yes                           | 11 / 38 / 51    |
+| Carbone Marinara               | 90       | 6g    | 7g   | Yes                           | 11 / 39 / 50    |
+| Mezzetta Spicy                 | 100      | 9g    | 8g   | Mixed, Italian and California | 12 / 39 / 49    |
 
 Mezzetta Spicy is the one with built-in heat. With a milder sauce, add chili flakes.
 
