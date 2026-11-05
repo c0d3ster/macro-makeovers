@@ -34,7 +34,7 @@ The default is the low-carb-day build. Add pasta underneath on a day with more c
 
 **Chicken**
 
-- 1.5 lb chicken breast (about 2 large breasts), each cut in half into 2 thin cutlets
+- 1.5 lb chicken breast (4 breasts, about 6 oz each), each sliced in half into 2 thin cutlets
 - 1 egg, beaten with 1 tbsp water
 - 1/3 cup grated parmesan
 - 1/4 cup panko
@@ -47,7 +47,7 @@ The default is the low-carb-day build. Add pasta underneath on a day with more c
 - 10 oz baby spinach
 - 2 cloves garlic, minced
 - 1.5 cups Filippo Berio Marinara (made with Italian tomatoes). Use 1.75 cups with 1 oz pasta per serving and 2 cups with 2 oz
-- 4 slices Galbani fresh mozzarella log, pre-sliced (2 per breast, about 4 oz)
+- 8 slices Galbani fresh mozzarella log, pre-sliced (2 per breast, about 1/2 oz each, 4 oz total)
 - Fresh basil, to finish
 
 **Optional pasta**
@@ -61,7 +61,7 @@ The default is the low-carb-day build. Add pasta underneath on a day with more c
 - Slice each breast in half horizontally, or pound to an even 1/2 inch. Pat very dry.
 - Mix the parmesan, panko, and Italian seasoning on a plate. Beat the egg with the water in a shallow dish.
 - If using pasta, boil it 1 to 2 min under the package time so it stays al dente, then drain.
-- Mince the garlic. Take 4 slices from the pre-sliced mozzarella log and pat them dry with a paper towel.
+- Mince the garlic. Take 8 slices from the pre-sliced mozzarella log and pat them dry with a paper towel.
 
 **Cook** (~25 min)
 
