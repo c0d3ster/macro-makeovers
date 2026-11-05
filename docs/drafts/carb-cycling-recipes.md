@@ -2,13 +2,13 @@
 
 Draft entries in the `docs/recipes.md` format, for review before they become JSON. Numbering continues from the thirteen existing recipes.
 
-Built for lower-carb days: carbs around 14 to 25% of calories, fat between 30 and 43%, and the rest from lean protein and vegetables. All macros are estimates from typical ingredient values and have not been checked against labels or a nutrition database.
+Built for lower-carb days: carbs around 14 to 25% of calories, fat between 30 and 40%, and the rest from lean protein and vegetables. All macros are estimates from typical ingredient values and have not been checked against labels or a nutrition database.
 
 ## Quick reference
 
 | Recipe                                                    | Calories | Ratio C/F/P  | Servings |
 | --------------------------------------------------------- | -------- | ------------ | -------- |
-| [Chicken Parm Skillet](#14-chicken-parm-skillet)          | ~440     | 12 / 43 / 45 | 4        |
+| [Chicken Parm Skillet](#14-chicken-parm-skillet)          | ~400     | 11 / 39 / 50 | 4        |
 | [Garlic Sirloin Squash Stir Fry](#15-garlic-sirloin-squash-stir-fry) | ~405 | 25 / 32 / 42 | 4        |
 | [Greek Chicken Bowl](#16-greek-chicken-bowl) _(with chickpeas)_ | ~440 | 22 / 30 / 48 | 4        |
 
@@ -22,13 +22,13 @@ Chicken parm without the pasta and the deep-fried breading. A thin parmesan crus
 
 |                           | Calories | Carbs | Fat   | Protein | Ratio C/F/P    |
 | ------------------------- | -------- | ----- | ----- | ------- | -------------- |
-| **Per serving (÷4)**      | ~440     | 13g   | 21g   | 50g     | 12 / 43 / 45   |
-| **With 1 oz dry pasta**   | ~555     | 35g   | 22g   | 54g     | 25 / 36 / 39   |
-| **With 2 oz dry pasta**   | ~675     | 57g   | 24g   | 58g     | 34 / 32 / 34   |
-| **Whole batch**           | ~1,770   | 53g   | 84g   | 202g    | -              |
+| **Per serving (÷4)**      | ~400     | 11g   | 18g   | 50g     | 11 / 39 / 50   |
+| **With 1 oz dry pasta**   | ~515     | 33g   | 18g   | 54g     | 26 / 32 / 42   |
+| **With 2 oz dry pasta**   | ~625     | 54g   | 19g   | 58g     | 35 / 28 / 37   |
+| **Whole batch**           | ~1,610   | 44g   | 70g   | 202g    | -              |
 | _Traditional per serving_ | _~1,050_ | _90g_ | _50g_ | _60g_   | _34 / 43 / 23_ |
 
-The default is the low-carb-day build. Add pasta underneath on a day with more carbs to spend. The pasta rows scale the sauce with the pasta: 1.75 cups with 1 oz dry per serving (4 oz for the pan), and 2 cups with a full 2 oz dry per serving (8 oz, half a box). The traditional row is a typical restaurant plate with pasta. The sauce sets a lot of the fat here: Mezzetta Spicy Marinara has 8g fat per 1/2 cup (see Sauce options).
+The default is the low-carb-day build. Add pasta underneath on a day with more carbs to spend. The pasta rows scale the sauce with the pasta: 1.75 cups with 1 oz dry per serving (4 oz for the pan), and 2 cups with a full 2 oz dry per serving (8 oz, half a box). The traditional row is a typical restaurant plate with pasta. The sauce sets a lot of the fat here. Filippo Berio keeps it lean at 3.5g fat per 1/2 cup, and richer jars like Mezzetta and Rao's push the fat share to about 43% (see Sauce options).
 
 ### Ingredients
 
@@ -46,7 +46,7 @@ The default is the low-carb-day build. Add pasta underneath on a day with more c
 
 - 10 oz baby spinach
 - 2 cloves garlic, minced
-- 1.5 cups Mezzetta Spicy Marinara (no sugar added, gluten free), or Rao's or Filippo Berio. Use 1.75 cups with 1 oz pasta per serving and 2 cups with 2 oz
+- 1.5 cups Filippo Berio Marinara (made with Italian tomatoes). Use 1.75 cups with 1 oz pasta per serving and 2 cups with 2 oz
 - 3 oz fresh mozzarella (the log), sliced into 4 rounds
 - Fresh basil, to finish
 
@@ -89,15 +89,17 @@ The default is the low-carb-day build. Add pasta underneath on a day with more c
 
 ### Sauce options
 
-Per 1/2 cup, from retailer label listings, so check the jar. The no-pasta batch uses 1.5 cups (3 servings of sauce), and the pan ratios below are for that build.
+Filippo Berio is the default. Per 1/2 cup, from retailer label listings, so check the jar. The pan ratios are for the no-pasta build with 1.5 cups of sauce.
 
-| Sauce                         | Calories | Carbs | Fat  | Pan per serving (C/F/P) |
-| ----------------------------- | -------- | ----- | ---- | ----------------------- |
-| Mezzetta Spicy Marinara       | 100      | 9g    | 8g   | 13 / 21 / 50g, ~12 / 43 / 45 |
-| Rao's Homemade Marinara       | 100      | 6g    | 7g   | 11 / 20 / 50g, ~10 / 42 / 47 |
-| Filippo Berio Marinara        | 60       | 6g    | 3.5g | 11 / 17.5 / 50g, ~11 / 39 / 50 |
+| Sauce                          | Calories | Carbs | Fat  | Italian tomatoes        | Pan ratio C/F/P |
+| ------------------------------ | -------- | ----- | ---- | ----------------------- | --------------- |
+| Filippo Berio (default)        | 60       | 6g    | 3.5g | Yes                     | 11 / 39 / 50    |
+| Bertolli Organic               | 70       | 11g   | 1.5g | No, USA-made            | 14 / 36 / 50    |
+| Rao's Homemade                 | 100      | 6g    | 7g   | Yes                     | 10 / 42 / 47    |
+| Carbone Marinara               | 90       | 6g    | 7g   | Yes                     | 10 / 43 / 47    |
+| Mezzetta Spicy                 | 100      | 9g    | 8g   | Artisan line only       | 12 / 43 / 45    |
 
-To pull the fat down with Mezzetta, use 1 cup of sauce instead of 1.5 and 1 tsp of oil for the sear. That lands around 11 / 40 / 49.
+Mezzetta Spicy is the one with built-in heat. With a milder sauce, add chili flakes.
 
 ---
 
