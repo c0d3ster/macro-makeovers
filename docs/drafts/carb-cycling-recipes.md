@@ -23,12 +23,12 @@ Chicken parm without the pasta and the deep-fried breading. A thin parmesan crus
 |                           | Calories | Carbs | Fat   | Protein | Ratio C/F/P    |
 | ------------------------- | -------- | ----- | ----- | ------- | -------------- |
 | **Per serving (÷4)**      | ~440     | 13g   | 21g   | 50g     | 12 / 43 / 45   |
-| **With 1 oz dry pasta**   | ~540     | 33g   | 22g   | 54g     | 24 / 33 / 40   |
-| **With 2 oz dry pasta**   | ~640     | 55g   | 22g   | 57g     | 34 / 31 / 35   |
+| **With 1 oz dry pasta**   | ~555     | 35g   | 22g   | 54g     | 25 / 36 / 39   |
+| **With 2 oz dry pasta**   | ~675     | 57g   | 24g   | 58g     | 34 / 32 / 34   |
 | **Whole batch**           | ~1,770   | 53g   | 84g   | 202g    | -              |
 | _Traditional per serving_ | _~1,050_ | _90g_ | _50g_ | _60g_   | _34 / 43 / 23_ |
 
-The default is the low-carb-day build. Add pasta underneath on a day with more carbs to spend. 1 oz dry per serving (4 oz for the pan) lands at 24 / 33 / 40, and a full 2 oz dry per serving (8 oz, half a box) lands at 34 / 31 / 35. Use spaghetti or spaghetti rigati, and go up to about 2 cups of sauce for the full 2 oz. The traditional row is a typical restaurant plate with pasta. The sauce sets a lot of the fat here: Mezzetta Spicy Marinara has 8g fat per 1/2 cup (see Sauce options).
+The default is the low-carb-day build. Add pasta underneath on a day with more carbs to spend. The pasta rows scale the sauce with the pasta: 1.75 cups with 1 oz dry per serving (4 oz for the pan), and 2 cups with a full 2 oz dry per serving (8 oz, half a box). The traditional row is a typical restaurant plate with pasta. The sauce sets a lot of the fat here: Mezzetta Spicy Marinara has 8g fat per 1/2 cup (see Sauce options).
 
 ### Ingredients
 
@@ -46,9 +46,13 @@ The default is the low-carb-day build. Add pasta underneath on a day with more c
 
 - 10 oz baby spinach
 - 2 cloves garlic, minced
-- 1.5 cups Mezzetta Spicy Marinara (no sugar added, gluten free), or Rao's or Filippo Berio
+- 1.5 cups Mezzetta Spicy Marinara (no sugar added, gluten free), or Rao's or Filippo Berio. Use 1.75 cups with 1 oz pasta per serving and 2 cups with 2 oz
 - 3 oz fresh mozzarella (the log), sliced into 4 rounds
 - Fresh basil, to finish
+
+**Optional pasta**
+
+- 1 oz dry spaghetti or spaghetti rigati per serving (4 oz for the pan), or 2 oz per serving (8 oz, half a box)
 
 ### Method
 
@@ -56,6 +60,7 @@ The default is the low-carb-day build. Add pasta underneath on a day with more c
 
 - Slice each breast in half horizontally, or pound to an even 1/2 inch. Pat very dry.
 - Mix the parmesan, panko, and Italian seasoning on a plate. Beat the egg with the water in a shallow dish.
+- If using pasta, boil it 1 to 2 min under the package time so it stays al dente, then drain.
 - Mince the garlic. Slice the mozzarella log into 4 rounds about 1/4 inch thick and pat them dry with a paper towel.
 
 **Cook** (~25 min)
@@ -66,7 +71,7 @@ The default is the low-carb-day build. Add pasta underneath on a day with more c
 4. In the same pan, add the garlic for 30 seconds, then the spinach in handfuls until wilted. Pour in the marinara and simmer 2 min.
 5. Nestle the chicken back on top. Spoon a little sauce around the cutlets, not over the crust.
 6. Lay a slice of mozzarella on each cutlet. Broil 3 to 4 min until melted, bubbly and spotted. The chicken should read 165°F.
-7. Finish with basil.
+7. Finish with basil, and serve over the pasta if using.
 
 ### Make-or-break
 
@@ -84,7 +89,7 @@ The default is the low-carb-day build. Add pasta underneath on a day with more c
 
 ### Sauce options
 
-Per 1/2 cup, from retailer label listings, so check the jar. The batch uses 1.5 cups (3 servings of sauce).
+Per 1/2 cup, from retailer label listings, so check the jar. The no-pasta batch uses 1.5 cups (3 servings of sauce), and the pan ratios below are for that build.
 
 | Sauce                         | Calories | Carbs | Fat  | Pan per serving (C/F/P) |
 | ----------------------------- | -------- | ----- | ---- | ----------------------- |
