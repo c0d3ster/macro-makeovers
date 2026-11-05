@@ -56,7 +56,7 @@ The default is the low-carb-day build. Add pasta underneath on a day with more c
 
 ### Method
 
-Bake it in the oven on a rack (all 4 breasts at once) or in an air fryer (2 at a time). The skillet holds the sauce either way.
+Air fryer first, like the other crispy recipes. The skillet only holds the sauce.
 
 **Prep** (~10 min)
 
@@ -65,30 +65,28 @@ Bake it in the oven on a rack (all 4 breasts at once) or in an air fryer (2 at a
 - If using pasta, boil it 1 to 2 min under the package time so it stays al dente, then drain.
 - Mince the garlic. Take 8 slices from the pre-sliced mozzarella log and pat them dry with a paper towel.
 
-**Cook** (~35 min in the oven, ~45 min in the air fryer)
+**Cook** (~30 min)
 
-1. Season the chicken with salt and pepper, dip in the egg, then press the parmesan mix on firmly on both sides. Let the breasts sit 5 min so the crust sets.
-2. Cook the chicken, one of two ways:
-   - **Oven:** heat the oven to 425°F with a rack in the upper third. Set a wire rack on a sheet pan and spray it. Lay the breasts on the rack and spray both sides generously with oil. Bake 18 to 22 min, flipping once halfway, until golden and 165°F inside. No rack? Use parchment and flip the breasts halfway.
-   - **Air fryer:** preheat to 400°F. Spray both sides of the breasts generously with oil. Air fry 2 breasts at a time, 12 to 16 min, flipping halfway, until golden and 165°F inside. Keep the first batch warm while the second cooks.
-3. While the chicken cooks, warm a large skillet over medium. Add the garlic for 30 seconds, then the spinach in handfuls until wilted. Pour in the marinara and simmer 2 min, then keep it on low.
-4. Lay 2 slices of mozzarella on each breast and cook until melted: 2 to 3 min in the oven (a minute under the broiler for color), or 1 to 2 min in the air fryer.
-5. Spoon the spinach and sauce onto plates (or serve from the skillet) and set the breasts on top or alongside, never sauce over the crust. Finish with basil, and serve over the pasta if using.
+1. Preheat the air fryer to 400°F.
+2. Season the chicken with salt and pepper, dip in the egg, then press the parmesan mix on firmly on both sides. Let the breasts sit 5 min so the crust sets.
+3. Spray both sides generously with oil. Air fry 2 breasts at a time, 12 to 16 min, flipping halfway, until golden and 165°F inside. No air fryer: wire rack over a sheet pan, 425°F oven, 18-22 min, flip halfway. All 4 breasts fit at once.
+4. While the chicken cooks, warm a large skillet over medium. Add the garlic for 30 seconds, then the spinach in handfuls until wilted. Pour in the marinara and simmer 2 min, then keep it on low.
+5. When each batch is done, lay 2 slices of mozzarella on each breast and air fry 1 to 2 min more, until melted. (Oven: 2 to 3 min, or a minute under the broiler for color.)
+6. Spoon the spinach and sauce onto plates (or serve from the skillet) and set the breasts on top or alongside, never sauce over the crust. Finish with basil, and serve over the pasta if using.
 
 ### Make-or-break
 
 - Pat the chicken **very dry** before the egg, or the crust slides off
 - Even thickness. Pound the breasts so they cook through in the time it takes the crust to brown
 - **Spray the crust.** Dry panko only browns with oil on it
-- **Oven:** use a wire rack so air reaches the bottom. **Air fryer:** don't crowd the basket, two breasts at a time
+- **Don't crowd the air fryer basket.** Two breasts at a time, so the air can reach all sides
 - Sauce **under or beside** the chicken, not on it, so the crust stays crisp
 - **Pat the fresh mozzarella dry.** It weeps water, which thins the sauce and softens the crust
 
 ### Fixes
 
 - **Pale or dusty crust:** spray more oil, and make sure the panko was pressed on firmly
-- **Crust browns before the chicken is cooked:** pound it thinner, or lower the heat 25°F and add a few minutes
-- **Soggy bottom (oven):** the breasts were on a flat pan. Use a wire rack
+- **Crust browns before the chicken is cooked:** pound it thinner, or drop to 375°F and add a few minutes
 - **Dry chicken:** pound thinner, and pull at 160°F, since it carries over
 - **Watery sauce:** simmer 2 more minutes
 - **Watery top:** blot the mozzarella slices before they go on
