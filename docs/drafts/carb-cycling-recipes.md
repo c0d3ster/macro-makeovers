@@ -8,7 +8,7 @@ Built for lower-carb days: carbs around 14 to 25% of calories, fat between 30 an
 
 | Recipe                                                    | Calories | Ratio C/F/P  | Servings |
 | --------------------------------------------------------- | -------- | ------------ | -------- |
-| [Chicken Parm Skillet](#14-chicken-parm-skillet)          | ~400     | 11 / 39 / 50 | 4        |
+| [Chicken Parm Skillet](#14-chicken-parm-skillet)          | ~415     | 11 / 40 / 49 | 4        |
 | [Garlic Sirloin Squash Stir Fry](#15-garlic-sirloin-squash-stir-fry) | ~405 | 25 / 32 / 42 | 4        |
 | [Greek Chicken Bowl](#16-greek-chicken-bowl) _(with chickpeas)_ | ~440 | 22 / 30 / 48 | 4        |
 
@@ -22,10 +22,10 @@ Chicken parm without the pasta and the deep-fried breading. A thin parmesan crus
 
 |                           | Calories | Carbs | Fat   | Protein | Ratio C/F/P    |
 | ------------------------- | -------- | ----- | ----- | ------- | -------------- |
-| **Per serving (÷4)**      | ~400     | 11g   | 18g   | 50g     | 11 / 39 / 50   |
-| **With 1 oz dry pasta**   | ~515     | 33g   | 18g   | 54g     | 26 / 32 / 42   |
-| **With 2 oz dry pasta**   | ~625     | 54g   | 19g   | 58g     | 35 / 28 / 37   |
-| **Whole batch**           | ~1,610   | 44g   | 70g   | 202g    | -              |
+| **Per serving (÷4)**      | ~415     | 11g   | 18g   | 51g     | 11 / 40 / 49   |
+| **With 1 oz dry pasta**   | ~525     | 33g   | 19g   | 55g     | 25 / 33 / 42   |
+| **With 2 oz dry pasta**   | ~635     | 54g   | 20g   | 59g     | 34 / 29 / 37   |
+| **Whole batch**           | ~1,655   | 44g   | 74g   | 205g    | -              |
 | _Traditional per serving_ | _~1,050_ | _90g_ | _50g_ | _60g_   | _34 / 43 / 23_ |
 
 The default is the low-carb-day build. Add pasta underneath on a day with more carbs to spend. The pasta rows scale the sauce with the pasta: 1.75 cups with 1 oz dry per serving (4 oz for the pan), and 2 cups with a full 2 oz dry per serving (8 oz, half a box). The traditional row is a typical restaurant plate with pasta. The sauce sets a lot of the fat here. Filippo Berio keeps it lean at 3.5g fat per 1/2 cup, and richer jars like Mezzetta and Rao's push the fat share to about 43% (see Sauce options).
@@ -47,7 +47,7 @@ The default is the low-carb-day build. Add pasta underneath on a day with more c
 - 10 oz baby spinach
 - 2 cloves garlic, minced
 - 1.5 cups Filippo Berio Marinara (made with Italian tomatoes). Use 1.75 cups with 1 oz pasta per serving and 2 cups with 2 oz
-- 3 oz fresh mozzarella (the log), sliced into 4 rounds
+- 4 slices Galbani fresh mozzarella log, pre-sliced (about 4 oz)
 - Fresh basil, to finish
 
 **Optional pasta**
@@ -61,7 +61,7 @@ The default is the low-carb-day build. Add pasta underneath on a day with more c
 - Slice each breast in half horizontally, or pound to an even 1/2 inch. Pat very dry.
 - Mix the parmesan, panko, and Italian seasoning on a plate. Beat the egg with the water in a shallow dish.
 - If using pasta, boil it 1 to 2 min under the package time so it stays al dente, then drain.
-- Mince the garlic. Slice the mozzarella log into 4 rounds about 1/4 inch thick and pat them dry with a paper towel.
+- Mince the garlic. Take 4 slices from the pre-sliced mozzarella log and pat them dry with a paper towel.
 
 **Cook** (~25 min)
 
@@ -85,21 +85,19 @@ The default is the low-carb-day build. Add pasta underneath on a day with more c
 - **Soggy crust:** less sauce on top, and make sure the pan was properly hot for the sear
 - **Dry chicken:** thinner cutlets, and pull at 160°F, since it carries over
 - **Watery sauce:** simmer 2 more minutes before the chicken goes back in
-- **Watery top:** blot the mozzarella slices before they go on, and slice them no thinner than 1/4 inch
+- **Watery top:** blot the mozzarella slices before they go on
 
 ### Sauce options
 
 Filippo Berio is the default. Per 1/2 cup, from retailer label listings, so check the jar. The pan ratios are for the no-pasta build with 1.5 cups of sauce.
 
-| Sauce                          | Calories | Carbs | Fat  | Italian tomatoes              | Gluten free              | Pan ratio C/F/P |
-| ------------------------------ | -------- | ----- | ---- | ----------------------------- | ------------------------ | --------------- |
-| Filippo Berio (default)        | 60       | 6g    | 3.5g | Yes                           | Yes                      | 11 / 39 / 50    |
-| Bertolli Organic               | 70       | 11g   | 1.5g | Not stated, likely US         | No claim found           | 14 / 36 / 50    |
-| Rao's Homemade                 | 100      | 6g    | 7g   | Yes                           | Unclear, not on the jar  | 10 / 42 / 47    |
-| Carbone Marinara               | 90       | 6g    | 7g   | Yes                           | Yes                      | 10 / 43 / 47    |
-| Mezzetta Spicy                 | 100      | 9g    | 8g   | Mixed, Italian and California | Yes                      | 12 / 43 / 45    |
-
-The gluten column is about the sauce only. The recipe itself is not gluten free yet because of the panko and the optional pasta.
+| Sauce                          | Calories | Carbs | Fat  | Italian tomatoes              | Pan ratio C/F/P |
+| ------------------------------ | -------- | ----- | ---- | ----------------------------- | --------------- |
+| Filippo Berio (default)        | 60       | 6g    | 3.5g | Yes                           | 11 / 40 / 49    |
+| Bertolli Organic               | 70       | 11g   | 1.5g | Not stated, likely US         | 14 / 37 / 49    |
+| Rao's Homemade                 | 100      | 6g    | 7g   | Yes                           | 10 / 43 / 47    |
+| Carbone Marinara               | 90       | 6g    | 7g   | Yes                           | 10 / 44 / 46    |
+| Mezzetta Spicy                 | 100      | 9g    | 8g   | Mixed, Italian and California | 12 / 43 / 45    |
 
 Mezzetta Spicy is the one with built-in heat. With a milder sauce, add chili flakes.
 
