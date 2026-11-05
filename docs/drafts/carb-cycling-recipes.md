@@ -212,7 +212,7 @@ The default has half a can of chickpeas for the beans and fiber, about 1/4 cup p
 
 **Chicken**
 
-- 1.5 lb chicken breast (4 breasts, about 6 oz each), pounded to an even 3/4 inch
+- 1.5 lb chicken breast, cut into 1 to 1 1/2 inch cubes
 - 1 tbsp olive oil
 - Juice of 1 lemon
 - 4 cloves garlic, minced
@@ -241,13 +241,14 @@ The default has half a can of chickpeas for the beans and fiber, about 1/4 cup p
 
 **Prep** (~15 min, plus at least 30 min to marinate)
 
-- Toss the chicken with the oil, lemon juice, garlic, oregano, salt, and pepper. Marinate at least 30 min, up to overnight.
+- Cut the chicken into even 1 to 1 1/2 inch cubes. Toss with the oil, lemon juice, garlic, oregano, salt, and pepper. Marinate at least 30 min, up to overnight.
+- Thread the cubes onto skewers. If they are wooden, soak them in water for 30 min first.
 - Make the tzatziki: squeeze the grated cucumber very dry, then stir into the yogurt with the garlic, lemon, dill, and salt. Chill.
 - Chop the romaine, cucumbers, tomatoes, and onion.
 
 **Cook** (~15 min)
 
-1. Heat the grill to medium-high (about 450°F) and oil the grates. Grill the chicken 5 to 6 min per side, until charred in spots and 165°F inside. No grill: a grill pan or cast iron skillet over medium-high, 5 to 6 min per side. Rest 5 min, then slice.
+1. Heat the grill to medium-high (about 450°F) and oil the grates. Grill the skewers 8 to 10 min, turning every 2 to 3 min, until charred in spots and 165°F inside. No grill: a grill pan or cast iron skillet over medium-high, cubes in a single layer, 6 to 8 min, turning. Rest 5 min.
 2. Build the bowls: romaine, cucumber, tomato, onion, olives, and chickpeas, topped with the chicken, feta, and a big spoonful of tzatziki.
 
 ### Make-or-break
@@ -255,13 +256,13 @@ The default has half a can of chickpeas for the beans and fiber, about 1/4 cup p
 - **Squeeze the cucumber dry** for the tzatziki or it turns watery
 - Marinate the chicken at least 30 min. Lemon and oregano do the work that fat usually does
 - Oil the grates and leave the chicken alone until it releases, or the marinade sticks and tears
-- Slice the chicken **after** resting so the juices stay in
+- Cut the cubes **even** so they finish together, and rest them 5 min so the juices stay in
 - Keep the tzatziki cold. It is a big part of why the bowl feels rich
 
 ### Fixes
 
 - **Watery tzatziki:** more squeezing, or stir in a spoonful more yogurt
-- **Dry chicken:** pound it to an even thickness, and pull at 160°F, since it carries over
+- **Dry chicken:** keep the cubes at least 1 inch, and pull at 160°F, since it carries over
 - **Bland:** more lemon, more salt, more oregano on the chicken
 - **Too sharp:** soak the sliced red onion in cold water for 5 min first
 
