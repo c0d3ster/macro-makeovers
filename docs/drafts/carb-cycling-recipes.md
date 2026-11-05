@@ -69,9 +69,9 @@ Air fryer first, like the other crispy recipes. The skillet only holds the sauce
 
 1. Preheat the air fryer to 400°F.
 2. Season the chicken with salt and pepper, dip in the egg, then press the parmesan mix on firmly on both sides. Let the breasts sit 5 min so the crust sets.
-3. Spray both sides generously with oil. Air fry 2 breasts at a time, 12 to 16 min, flipping halfway, until golden and 165°F inside. No air fryer: wire rack over a sheet pan, 425°F oven, 18-22 min, flip halfway. All 4 breasts fit at once.
+3. Chicken into the air fryer. Single layer, don't crowd it, both sides sprayed with oil. Air fry at 400°F, 12 to 16 min, flipping halfway, until golden and 165°F inside. If your basket is small, cook in two batches and keep the first warm. No air fryer: wire rack over a sheet pan, 425°F oven, 18-22 min, flip halfway.
 4. While the chicken cooks, warm a large skillet over medium. Add the garlic for 30 seconds, then the spinach in handfuls until wilted. Pour in the marinara and simmer 2 min, then keep it on low.
-5. When each batch is done, lay 2 slices of mozzarella on each breast and air fry 1 to 2 min more, until melted. (Oven: 2 to 3 min, or a minute under the broiler for color.)
+5. When the chicken is done, lay 2 slices of mozzarella on each breast and air fry 1 to 2 min more, until melted. (Oven: 2 to 3 min, or a minute under the broiler for color.)
 6. Spoon the spinach and sauce onto plates (or serve from the skillet) and set the breasts on top or alongside, never sauce over the crust. Finish with basil, and serve over the pasta if using.
 
 ### Make-or-break
@@ -79,7 +79,7 @@ Air fryer first, like the other crispy recipes. The skillet only holds the sauce
 - Pat the chicken **very dry** before the egg, or the crust slides off
 - Even thickness. Pound the breasts so they cook through in the time it takes the crust to brown
 - **Spray the crust.** Dry panko only browns with oil on it
-- **Don't crowd the air fryer basket.** Two breasts at a time, so the air can reach all sides
+- **Don't crowd the air fryer basket.** Steam kills crisping as fast as no oil does
 - Sauce **under or beside** the chicken, not on it, so the crust stays crisp
 - **Pat the fresh mozzarella dry.** It weeps water, which thins the sauce and softens the crust
 
