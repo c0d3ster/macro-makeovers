@@ -13,7 +13,7 @@ import { recipeImportSchema } from '@/validations'
 // JSON with `--from <folder>`), plus the hand-written prose and recipe order in content/book.
 const BOOK_DIR = resolve(process.cwd(), 'content/book')
 
-export const loadPublishedRecipes = async (
+const loadPublishedRecipes = async (
   repository: RecipeRepository
 ): Promise<RecipeImport[]> => {
   const slugs = await repository.listPublishedSlugs()
@@ -30,7 +30,7 @@ export const loadPublishedRecipes = async (
   return recipes
 }
 
-export const loadRecipeFiles = (folder: string): RecipeImport[] =>
+const loadRecipeFiles = (folder: string): RecipeImport[] =>
   readdirSync(resolve(folder))
     .filter((name) => extname(name) === '.json')
     .sort()
@@ -52,7 +52,7 @@ export const loadBookProse = (): BookProse => ({
 })
 
 // Recipes in the book keep the order listed in content/book/order.json. Newer ones follow A to Z.
-export const numberRecipes = (recipes: RecipeImport[]): BookRecipe[] => {
+const numberRecipes = (recipes: RecipeImport[]): BookRecipe[] => {
   const order: unknown = JSON.parse(readBookFile('order.json'))
   const knownOrder = Array.isArray(order)
     ? order.filter((slug): slug is string => typeof slug === 'string')
