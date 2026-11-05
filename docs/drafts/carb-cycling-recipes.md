@@ -8,7 +8,7 @@ Built for lower-carb days: carbs around 14 to 25% of calories, fat between 30 an
 
 | Recipe                                                    | Calories | Ratio C/F/P  | Servings |
 | --------------------------------------------------------- | -------- | ------------ | -------- |
-| [Chicken Parm Skillet](#14-chicken-parm-skillet)          | ~415     | 11 / 40 / 49 | 4        |
+| [Chicken Parm Skillet](#14-chicken-parm-skillet)          | ~400     | 11 / 38 / 51 | 4        |
 | [Garlic Sirloin Squash Stir Fry](#15-garlic-sirloin-squash-stir-fry) | ~405 | 25 / 32 / 42 | 4        |
 | [Greek Chicken Bowl](#16-greek-chicken-bowl) _(with chickpeas)_ | ~440 | 22 / 30 / 48 | 4        |
 
@@ -22,10 +22,10 @@ Chicken parm without the pasta and the deep-fried breading. A thin parmesan crus
 
 |                           | Calories | Carbs | Fat   | Protein | Ratio C/F/P    |
 | ------------------------- | -------- | ----- | ----- | ------- | -------------- |
-| **Per serving (÷4)**      | ~415     | 11g   | 18g   | 51g     | 11 / 40 / 49   |
-| **With 1 oz dry pasta**   | ~525     | 33g   | 19g   | 55g     | 25 / 33 / 42   |
-| **With 2 oz dry pasta**   | ~635     | 54g   | 20g   | 59g     | 34 / 29 / 37   |
-| **Whole batch**           | ~1,655   | 44g   | 74g   | 205g    | -              |
+| **Per serving (÷4)**      | ~400     | 11g   | 17g   | 51g     | 11 / 38 / 51   |
+| **With 1 oz dry pasta**   | ~510     | 33g   | 18g   | 55g     | 26 / 31 / 43   |
+| **With 2 oz dry pasta**   | ~620     | 54g   | 19g   | 59g     | 35 / 27 / 38   |
+| **Whole batch**           | ~1,600   | 44g   | 67g   | 205g    | -              |
 | _Traditional per serving_ | _~1,050_ | _90g_ | _50g_ | _60g_   | _34 / 43 / 23_ |
 
 The default is the low-carb-day build. Add pasta underneath on a day with more carbs to spend. The pasta rows scale the sauce with the pasta: 1.75 cups with 1 oz dry per serving (4 oz for the pan), and 2 cups with a full 2 oz dry per serving (8 oz, half a box). The traditional row is a typical restaurant plate with pasta. The sauce sets a lot of the fat here. Filippo Berio keeps it lean at 3.5g fat per 1/2 cup, and richer jars like Mezzetta and Rao's push the fat share to about 43% (see Sauce options).
@@ -39,7 +39,7 @@ The default is the low-carb-day build. Add pasta underneath on a day with more c
 - 1/3 cup grated parmesan
 - 1/4 cup panko
 - 1 tsp Italian seasoning
-- 2 tsp olive oil
+- Oil spray (avocado or olive), for the air fryer
 - Salt, pepper
 
 **Skillet**
@@ -56,6 +56,8 @@ The default is the low-carb-day build. Add pasta underneath on a day with more c
 
 ### Method
 
+You need an air fryer. The skillet only holds the sauce.
+
 **Prep** (~10 min)
 
 - Pound each breast to an even 1/2 to 3/4 inch. Pat very dry.
@@ -63,28 +65,30 @@ The default is the low-carb-day build. Add pasta underneath on a day with more c
 - If using pasta, boil it 1 to 2 min under the package time so it stays al dente, then drain.
 - Mince the garlic. Take 8 slices from the pre-sliced mozzarella log and pat them dry with a paper towel.
 
-**Cook** (~25 min)
+**Cook** (~30 min)
 
-1. Heat the oven broiler to high, with a rack about 6 inches from the element.
-2. Season the chicken, dip in the egg, then press into the parmesan mix on both sides.
-3. Heat the oil in a large oven-safe skillet over medium-high. Sear the breasts 4 to 5 min per side until golden. Move to a plate (they will not be cooked through yet).
-4. In the same pan, add the garlic for 30 seconds, then the spinach in handfuls until wilted. Pour in the marinara and simmer 2 min.
-5. Nestle the chicken back on top. Spoon a little sauce around the breasts, not over the crust.
-6. Lay 2 slices of mozzarella on each breast. Broil 3 to 4 min until melted, bubbly and spotted. The chicken should read 165°F.
-7. Finish with basil, and serve over the pasta if using.
+1. Preheat the air fryer to 400°F.
+2. Season the chicken with salt and pepper, dip in the egg, then press the parmesan mix on firmly on both sides. Let the breasts sit 5 min so the crust sets.
+3. Spray both sides generously with oil. Air fry 2 breasts at a time, 12 to 16 min, flipping halfway, until golden and 165°F inside.
+4. While the chicken cooks, warm a large skillet over medium. Add the garlic for 30 seconds, then the spinach in handfuls until wilted. Pour in the marinara and simmer 2 min, then keep it on low.
+5. When each batch is done, lay 2 slices of mozzarella on each breast and air fry 1 to 2 min more, until melted.
+6. Spoon the spinach and sauce onto plates (or serve from the skillet) and set the breasts on top or alongside, never sauce over the crust. Finish with basil, and serve over the pasta if using.
 
 ### Make-or-break
 
 - Pat the chicken **very dry** before the egg, or the crust slides off
 - Even thickness. Pound the breasts so they cook through in the time it takes the crust to brown
-- Sauce **around** the chicken, not on it, so the crust stays crisp
+- **Spray the crust.** Dry panko only browns with oil on it
+- Don't crowd the basket. Two breasts at a time, so the air can reach all sides
+- Sauce **under or beside** the chicken, not on it, so the crust stays crisp
 - **Pat the fresh mozzarella dry.** It weeps water, which thins the sauce and softens the crust
 
 ### Fixes
 
-- **Soggy crust:** less sauce on top, and make sure the pan was properly hot for the sear
+- **Pale or dusty crust:** spray more oil, and make sure the panko was pressed on firmly
+- **Crust browns before the chicken is cooked:** pound it thinner, or drop to 375°F and add a few minutes
 - **Dry chicken:** pound thinner, and pull at 160°F, since it carries over
-- **Watery sauce:** simmer 2 more minutes before the chicken goes back in
+- **Watery sauce:** simmer 2 more minutes
 - **Watery top:** blot the mozzarella slices before they go on
 
 ### Sauce options
@@ -93,11 +97,11 @@ Filippo Berio is the default. Per 1/2 cup, from retailer label listings, so chec
 
 | Sauce                          | Calories | Carbs | Fat  | Italian tomatoes              | Pan ratio C/F/P |
 | ------------------------------ | -------- | ----- | ---- | ----------------------------- | --------------- |
-| Filippo Berio (default)        | 60       | 6g    | 3.5g | Yes                           | 11 / 40 / 49    |
-| Bertolli Organic               | 70       | 11g   | 1.5g | Not stated, likely US         | 14 / 37 / 49    |
-| Rao's Homemade                 | 100      | 6g    | 7g   | Yes                           | 10 / 43 / 47    |
-| Carbone Marinara               | 90       | 6g    | 7g   | Yes                           | 10 / 44 / 46    |
-| Mezzetta Spicy                 | 100      | 9g    | 8g   | Mixed, Italian and California | 12 / 43 / 45    |
+| Filippo Berio (default)        | 60       | 6g    | 3.5g | Yes                           | 11 / 38 / 51    |
+| Bertolli Organic               | 70       | 11g   | 1.5g | Not stated, likely US         | 15 / 34 / 51    |
+| Rao's Homemade                 | 100      | 6g    | 7g   | Yes                           | 11 / 41 / 48    |
+| Carbone Marinara               | 90       | 6g    | 7g   | Yes                           | 10 / 42 / 48    |
+| Mezzetta Spicy                 | 100      | 9g    | 8g   | Mixed, Italian and California | 12 / 41 / 47    |
 
 Mezzetta Spicy is the one with built-in heat. With a milder sauce, add chili flakes.
 
