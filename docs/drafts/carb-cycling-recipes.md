@@ -34,7 +34,7 @@ The default is the low-carb-day build. Add pasta underneath on a day with more c
 
 **Chicken**
 
-- 1.5 lb chicken breast (4 breasts, about 6 oz each), each sliced in half into 2 thin cutlets
+- 1.5 lb chicken breast (4 breasts, about 6 oz each)
 - 1 egg, beaten with 1 tbsp water
 - 1/3 cup grated parmesan
 - 1/4 cup panko
@@ -58,7 +58,7 @@ The default is the low-carb-day build. Add pasta underneath on a day with more c
 
 **Prep** (~10 min)
 
-- Slice each breast in half horizontally, or pound to an even 1/2 inch. Pat very dry.
+- Pound each breast to an even 1/2 to 3/4 inch. Pat very dry.
 - Mix the parmesan, panko, and Italian seasoning on a plate. Beat the egg with the water in a shallow dish.
 - If using pasta, boil it 1 to 2 min under the package time so it stays al dente, then drain.
 - Mince the garlic. Take 8 slices from the pre-sliced mozzarella log and pat them dry with a paper towel.
@@ -67,23 +67,23 @@ The default is the low-carb-day build. Add pasta underneath on a day with more c
 
 1. Heat the oven broiler to high, with a rack about 6 inches from the element.
 2. Season the chicken, dip in the egg, then press into the parmesan mix on both sides.
-3. Heat the oil in a large oven-safe skillet over medium-high. Sear the cutlets 3 to 4 min per side until golden. Move to a plate (they will not be cooked through yet).
+3. Heat the oil in a large oven-safe skillet over medium-high. Sear the breasts 4 to 5 min per side until golden. Move to a plate (they will not be cooked through yet).
 4. In the same pan, add the garlic for 30 seconds, then the spinach in handfuls until wilted. Pour in the marinara and simmer 2 min.
-5. Nestle the chicken back on top. Spoon a little sauce around the cutlets, not over the crust.
-6. Lay a slice of mozzarella on each cutlet. Broil 3 to 4 min until melted, bubbly and spotted. The chicken should read 165°F.
+5. Nestle the chicken back on top. Spoon a little sauce around the breasts, not over the crust.
+6. Lay 2 slices of mozzarella on each breast. Broil 3 to 4 min until melted, bubbly and spotted. The chicken should read 165°F.
 7. Finish with basil, and serve over the pasta if using.
 
 ### Make-or-break
 
 - Pat the chicken **very dry** before the egg, or the crust slides off
-- Even thickness. A thin, even cutlet cooks through in the time it takes the crust to brown
+- Even thickness. Pound the breasts so they cook through in the time it takes the crust to brown
 - Sauce **around** the chicken, not on it, so the crust stays crisp
 - **Pat the fresh mozzarella dry.** It weeps water, which thins the sauce and softens the crust
 
 ### Fixes
 
 - **Soggy crust:** less sauce on top, and make sure the pan was properly hot for the sear
-- **Dry chicken:** thinner cutlets, and pull at 160°F, since it carries over
+- **Dry chicken:** pound thinner, and pull at 160°F, since it carries over
 - **Watery sauce:** simmer 2 more minutes before the chicken goes back in
 - **Watery top:** blot the mozzarella slices before they go on
 
