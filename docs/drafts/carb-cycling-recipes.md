@@ -27,9 +27,9 @@ Chicken parm without the pasta and the deep-fried breading. A thin parmesan crus
 | **With 2 oz dry pasta**   | ~630     | 59g   | 19g   | 55g     | 38 / 27 / 35   |
 | **With 3 oz dry pasta**   | ~745     | 81g   | 21g   | 59g     | 44 / 25 / 31   |
 | **Whole batch**           | ~1,610   | 56g   | 65g   | 188g    | -              |
-| _Home-style fried, 3 oz pasta_ | _~1,090_ | _100g_ | _45g_ | _74g_ | _36 / 37 / 27_ |
+| _Home-style fried, 3 oz pasta_ | _~980_ | _94g_ | _39g_ | _67g_ | _38 / 35 / 27_ |
 
-The default is the low-carb-day build. Add pasta underneath on a day with more carbs to spend. The pasta rows scale the sauce with the pasta: 2 cups with 1 oz dry per serving (4 oz for the pan), 2.5 cups with 2 oz (8 oz, half a box), and 3 cups with 3 oz (12 oz, three quarters of a box), which is 3/4 cup per serving. The traditional row is a home-style fried cutlet with the same 3 oz of dry pasta and 3/4 cup of sauce per serving, so the comparison is portion for portion. The sauce sets a lot of the fat here. Filippo Berio keeps it lean at 3.5g fat per 1/2 cup, and richer jars like Mezzetta and Rao's push the fat share to about 41% (see Sauce options).
+The default is the low-carb-day build. Add pasta underneath on a day with more carbs to spend. The pasta rows scale the sauce with the pasta: 2 cups with 1 oz dry per serving (4 oz for the pan), 2.5 cups with 2 oz (8 oz, half a box), and 3 cups with 3 oz (12 oz, three quarters of a box), which is 3/4 cup per serving. The traditional row is a home-style fried cutlet with the same 3 oz of dry pasta and 3/4 cup of sauce per serving. The sauce sets a lot of the fat here. Filippo Berio keeps it lean at 3.5g fat per 1/2 cup, and richer jars like Mezzetta and Rao's push the fat share to about 41% (see Sauce options).
 
 The fat comes out of the frying and the cheese pile, not the ingredients. The crust crisps in the air fryer with just 2 tsp of oil, and each breast gets one ounce of full-fat fresh mozzarella over an Italian-tomato marinara, so it still eats like chicken parm at under half the fat.
 
