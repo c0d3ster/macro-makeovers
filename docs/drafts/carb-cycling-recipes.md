@@ -62,10 +62,11 @@ The fat comes out of the frying and the cheese pile, not the ingredients. The cr
 
 Air fryer first, like the other crispy recipes. The skillet only holds the sauce.
 
-**Prep** (~10 min)
+**Prep** (~15 min)
 
 - Pound each breast to an even 1/2 to 3/4 inch. Pat very dry.
-- Mix the parmesan, panko, and Italian seasoning on a plate. Beat the egg with the water in a shallow dish.
+- Toast the panko dry in a pan over medium heat, 2 to 3 min, until light golden. Let it cool.
+- Mix the cooled panko, parmesan, and Italian seasoning on a plate. Beat the egg with the water in a shallow dish.
 - If using pasta, boil it 1 to 2 min under the package time so it stays al dente, then drain.
 - Mince the garlic. Take 8 slices from the pre-sliced mozzarella log and pat them dry with a paper towel.
 
@@ -82,8 +83,10 @@ Air fryer first, like the other crispy recipes. The skillet only holds the sauce
 
 - Pat the chicken **very dry** before the egg, or the crust slides off
 - Even thickness. Pound the breasts so they cook through in the time it takes the crust to brown
+- **Toast the panko first** for color and deeper crunch, since the air fryer alone won't brown it in the time the chicken needs to cook through
 - **Spray the crust.** Dry panko only browns with oil on it
 - **Don't crowd the air fryer basket.** Steam kills crisping as fast as no oil does
+- **Never cook the breaded chicken on bare foil.** The crust bonds to it. Use the basket or a sprayed rack, or parchment
 - Sauce **under or beside** the chicken, not on it, so the crust stays crisp
 - **Pat the fresh mozzarella dry.** It weeps water, which thins the sauce and softens the crust
 
