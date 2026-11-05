@@ -30,6 +30,8 @@ Chicken parm without the pasta and the deep-fried breading. A thin parmesan crus
 
 The default is the low-carb-day build. Add pasta underneath on a day with more carbs to spend. The pasta rows scale the sauce with the pasta: 1.75 cups with 1 oz dry per serving (4 oz for the pan), and 2 cups with a full 2 oz dry per serving (8 oz, half a box). The traditional row is a typical restaurant plate with pasta. The sauce sets a lot of the fat here. Filippo Berio keeps it lean at 3.5g fat per 1/2 cup, and richer jars like Mezzetta and Rao's push the fat share to about 41 to 42% (see Sauce options).
 
+The fat savings come from how the chicken is cooked and how much cheese goes on it, not from swapping ingredients. A restaurant cutlet is fried in oil and buried under melted cheese. Here the crust crisps in the air fryer with a spray of oil, and each breast gets one ounce of fresh mozzarella. We did not trade the cheese for part-skim or the sauce for a thin low-fat jar: it is full-fat fresh mozzarella and a marinara made with Italian tomatoes and olive oil, so it still eats like chicken parm at about a third of the fat.
+
 ### Ingredients
 
 **Chicken**
