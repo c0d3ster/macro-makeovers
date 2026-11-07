@@ -10,7 +10,7 @@ import type { RecipeImportInput } from '@/validations'
 import {
   AddRowButton,
   InlineInput,
-  InlineSelect,
+  PlaceholderButton,
   RemoveRowButton,
 } from '@/components/molecules'
 import { formatMacroRatios } from '@/libs/recipes/macroRatios'
@@ -29,15 +29,48 @@ type RecipeNutritionEditorProps = {
   notes: UseFieldArrayReturn<RecipeImportInput, 'notes'>
 }
 
-const cell = 'px-2 py-2 align-top'
+type NutritionKind = RecipeImportInput['nutrition'][number]['kind']
+type NutritionNoteKind = 'nutrition_intro' | 'nutrition_analysis'
+
+// The page's cell padding, less the field's own, so the numbers sit where the page puts them
+const cell = 'px-2 py-2 align-top sm:px-3'
 const MACRO_FIELDS = [
   { field: 'carbsG', title: 'Carbs' },
   { field: 'fatG', title: 'Fat' },
   { field: 'proteinG', title: 'Protein' },
 ] as const
 
+// Where each kind of nutrition note sits on the page, and how it looks there
+const NUTRITION_NOTES: Record<
+  NutritionNoteKind,
+  { className: string; placeholder: string; empty: string }
+> = {
+  nutrition_intro: {
+    className: 'text-sm text-text-muted',
+    placeholder: 'A line above the table defining the builds',
+    empty: 'Add an intro: a line above the table defining the builds',
+  },
+  nutrition_analysis: {
+    className: 'rounded-xl bg-surface px-4 py-3 text-sm text-text-muted',
+    placeholder: 'What the numbers mean, and where the savings come from',
+    empty:
+      'Add an analysis: what the numbers mean, and where the savings come from',
+  },
+}
+
+const emptyRow = (kind: NutritionKind): RecipeImportInput['nutrition'][number] => ({
+  kind,
+  label: kind === 'traditional' ? 'Traditional' : '',
+  isDefault: false,
+  calories: 0,
+  carbsG: 0,
+  fatG: 0,
+  proteinG: 0,
+})
+
 // The page's nutrition table with its numbers as fields, in the same row order: makeovers, the
 // whole batch, then the traditional comparison. Ratios and the batch row update while typing.
+// A row stays the kind it was added as.
 export const RecipeNutritionEditor = ({
   notes,
 }: RecipeNutritionEditorProps): ReactElement => {
@@ -76,72 +109,69 @@ export const RecipeNutritionEditor = ({
     return (
       <tr
         key={id}
-        className={`border-t border-text-muted/30 ${isMakeover ? '' : 'text-text-muted italic'}`}
+        className={`group/editable border-t border-text-muted/30 ${isMakeover ? '' : 'text-text-muted italic'}`}
       >
         <th scope='row' className={`${cell} font-normal`}>
-          <div className='flex flex-col gap-1'>
+          <div className='flex flex-col gap-0.5'>
             <InlineInput
               label={`${name} label`}
               error={errors.nutrition?.[index]?.label?.message}
+              placeholder={isMakeover ? 'Build name' : 'Traditional'}
               className={isMakeover ? 'font-semibold' : ''}
               {...register(`nutrition.${index}.label`)}
             />
-            <div className='flex flex-wrap items-center gap-2 text-xs font-normal not-italic'>
-              <InlineSelect
-                label={`${name} kind`}
-                fieldClassName='w-fit'
-                {...register(`nutrition.${index}.kind`, {
-                  // A traditional row can never lead the recipe
-                  onChange: () =>
-                    setValue(`nutrition.${index}.isDefault`, false),
-                })}
+            {isMakeover && (
+              <label
+                className={`flex w-fit cursor-pointer items-center gap-1 text-xs text-text-muted ${featuredIndex === index ? '' : 'opacity-0 group-focus-within/editable:opacity-100 group-hover/editable:opacity-100 pointer-coarse:opacity-100'}`}
               >
-                <option value='makeover'>Makeover</option>
-                <option value='traditional'>Traditional</option>
-              </InlineSelect>
-              {isMakeover && (
-                <label className='flex cursor-pointer items-center gap-1 text-text-muted'>
-                  <input
-                    type='radio'
-                    name='featured-build'
-                    checked={featuredIndex === index}
-                    onChange={() => feature(index)}
-                  />
-                  Featured
-                </label>
-              )}
-            </div>
+                <input
+                  type='radio'
+                  name='featured-build'
+                  checked={featuredIndex === index}
+                  onChange={() => feature(index)}
+                />
+                Featured
+              </label>
+            )}
             {errors.nutrition?.[index]?.isDefault?.message && (
-              <p role='alert' className='text-xs text-red-400'>
+              <p role='alert' className='text-xs text-red-400 not-italic'>
                 {errors.nutrition[index].isDefault.message}
               </p>
             )}
           </div>
         </th>
         <td className={cell}>
-          <InlineInput
-            label={`${name} calories`}
-            type='number'
-            step='any'
-            error={errors.nutrition?.[index]?.calories?.message}
-            {...numberField(register, `nutrition.${index}.calories`)}
-          />
+          <span className='flex items-baseline'>
+            ~
+            <InlineInput
+              fit
+              label={`${name} calories`}
+              type='number'
+              step='any'
+              error={errors.nutrition?.[index]?.calories?.message}
+              {...numberField(register, `nutrition.${index}.calories`)}
+            />
+          </span>
         </td>
         {MACRO_FIELDS.map(({ field, title }) => (
           <td key={field} className={cell}>
-            <InlineInput
-              label={`${name} ${title.toLowerCase()} grams`}
-              type='number'
-              step='any'
-              error={errors.nutrition?.[index]?.[field]?.message}
-              {...numberField(register, `nutrition.${index}.${field}`)}
-            />
+            <span className='flex items-baseline'>
+              <InlineInput
+                fit
+                label={`${name} ${title.toLowerCase()} grams`}
+                type='number'
+                step='any'
+                error={errors.nutrition?.[index]?.[field]?.message}
+                {...numberField(register, `nutrition.${index}.${field}`)}
+              />
+              g
+            </span>
           </td>
         ))}
-        <td className={`${cell} pt-3 whitespace-nowrap`}>
+        <td className={`${cell} pt-2.5 whitespace-nowrap`}>
           {formatMacroRatios(build)}
         </td>
-        <td className={`${cell} pt-2.5`}>
+        <td className='py-2 pr-1 align-top'>
           <RemoveRowButton
             label={`Remove nutrition row ${index + 1}`}
             onClick={() => nutrition.remove(index)}
@@ -151,27 +181,36 @@ export const RecipeNutritionEditor = ({
     )
   }
 
-  const rowsOfKind = (
-    kind: RecipeImportInput['nutrition'][number]['kind']
-  ): (ReactElement | null)[] =>
+  const rowsOfKind = (kind: NutritionKind): (ReactElement | null)[] =>
     nutrition.fields.flatMap(({ id }, index) =>
       builds[index]?.kind === kind ? [renderRow(id, index)] : []
     )
 
-  const notesOfKind = (
-    kind: 'nutrition_intro' | 'nutrition_analysis'
-  ): ReactElement[] =>
-    notes.fields.flatMap(({ id }, index) =>
-      noteRows[index]?.kind === kind
-        ? [
-            <RecipeNoteField
-              key={id}
-              index={index}
-              onRemove={() => notes.remove(index)}
-            />,
-          ]
-        : []
+  // A nutrition note in its place, or a placeholder in its shape while there is none
+  const nutritionNotes = (kind: NutritionNoteKind): ReactElement => {
+    const { className, placeholder, empty } = NUTRITION_NOTES[kind]
+    const placed = notes.fields.flatMap(({ id }, index) =>
+      noteRows[index]?.kind === kind ? [{ id, index }] : []
     )
+    const add = (): void => notes.append({ kind, body: '' })
+
+    if (placed.length === 0) {
+      return <PlaceholderButton onClick={add}>{empty}</PlaceholderButton>
+    }
+    return (
+      <>
+        {placed.map(({ id, index }) => (
+          <RecipeNoteField
+            key={id}
+            index={index}
+            onRemove={() => notes.remove(index)}
+            className={className}
+            placeholder={placeholder}
+          />
+        ))}
+      </>
+    )
+  }
 
   return (
     <section
@@ -182,7 +221,7 @@ export const RecipeNutritionEditor = ({
         Nutrition
       </h2>
 
-      {notesOfKind('nutrition_intro')}
+      {nutritionNotes('nutrition_intro')}
 
       {listMessage && (
         <p role='alert' className='text-sm text-red-400'>
@@ -190,10 +229,10 @@ export const RecipeNutritionEditor = ({
         </p>
       )}
 
-      {/* The fields need more room than the page's numbers, so a narrow screen scrolls sideways.
-          Relative keeps the hidden field labels inside the scroller, not past the page's edge. */}
+      {/* A narrow screen scrolls the table sideways. Relative keeps the hidden field labels
+          inside the scroller, not past the page's edge. */}
       <div className='relative overflow-x-auto rounded-lg border border-text-muted/30 bg-background'>
-        <table className='w-full min-w-xl text-left text-sm'>
+        <table className='w-full min-w-lg text-left text-sm'>
           <thead className='bg-surface text-text'>
             <tr>
               <td className='w-2/5' />
@@ -222,14 +261,14 @@ export const RecipeNutritionEditor = ({
             {rowsOfKind('makeover')}
             {featured && (
               <tr className='border-t border-text-muted/30'>
-                <th scope='row' className={`${cell} px-3.5 font-semibold`}>
+                <th scope='row' className={`${cell} font-semibold`}>
                   Whole batch (&times;{servings})
                 </th>
-                <td className={`${cell} px-3.5`}>
+                <td className={cell}>
                   ~{(featured.calories * servings).toLocaleString('en-US')}
                 </td>
                 {MACRO_FIELDS.map(({ field }) => (
-                  <td key={field} className={`${cell} px-3.5`}>
+                  <td key={field} className={cell}>
                     {Math.round(featured[field] * servings * 10) / 10}g
                   </td>
                 ))}
@@ -243,52 +282,17 @@ export const RecipeNutritionEditor = ({
       </div>
 
       <div className='flex flex-wrap gap-4'>
-        <AddRowButton
-          onClick={() =>
-            nutrition.append({
-              kind: 'makeover',
-              label: '',
-              isDefault: false,
-              calories: 0,
-              carbsG: 0,
-              fatG: 0,
-              proteinG: 0,
-            })
-          }
-        >
+        <AddRowButton onClick={() => nutrition.append(emptyRow('makeover'))}>
           Add makeover row
         </AddRowButton>
         <AddRowButton
-          onClick={() =>
-            nutrition.append({
-              kind: 'traditional',
-              label: 'Traditional',
-              isDefault: false,
-              calories: 0,
-              carbsG: 0,
-              fatG: 0,
-              proteinG: 0,
-            })
-          }
+          onClick={() => nutrition.append(emptyRow('traditional'))}
         >
           Add traditional row
         </AddRowButton>
       </div>
 
-      {notesOfKind('nutrition_analysis')}
-
-      <div className='flex flex-wrap gap-4'>
-        <AddRowButton
-          onClick={() => notes.append({ kind: 'nutrition_intro', body: '' })}
-        >
-          Add intro
-        </AddRowButton>
-        <AddRowButton
-          onClick={() => notes.append({ kind: 'nutrition_analysis', body: '' })}
-        >
-          Add analysis
-        </AddRowButton>
-      </div>
+      {nutritionNotes('nutrition_analysis')}
     </section>
   )
 }

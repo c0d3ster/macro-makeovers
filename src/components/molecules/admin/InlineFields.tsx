@@ -1,16 +1,34 @@
-import type { ComponentProps, ReactElement, ReactNode } from 'react'
+'use client'
 
-import { useId } from 'react'
+import type {
+  ComponentProps,
+  KeyboardEvent,
+  ReactElement,
+  ReactNode,
+} from 'react'
+import type { UseFormRegisterReturn } from 'react-hook-form'
 
-// A faint outline marks what can be edited without turning the page back into a form
+import { useId, useRef, useState } from 'react'
+
+import { Markdown } from '@/components/atoms'
+
+// No outline until hover or focus, so the editor reads like the page. The negative margin lines
+// the text up with the page's text instead of the field's padding.
 const INLINE_FIELD =
-  'w-full min-w-0 rounded-md border border-text-muted/15 bg-transparent px-1.5 py-0.5 transition-colors placeholder:text-text-muted/50 hover:border-text-muted/40 focus-visible:border-primary focus-visible:ring-1 focus-visible:ring-primary focus-visible:outline-none aria-invalid:border-red-400'
+  'min-w-0 -mx-[7px] rounded-md border border-transparent bg-transparent px-1.5 py-0.5 transition-colors placeholder:text-text-muted/50 hover:border-text-muted/30 focus-visible:border-primary focus-visible:ring-1 focus-visible:ring-primary focus-visible:outline-none read-only:hover:border-transparent aria-invalid:border-red-400'
 
-// Selects also count as read-only to the browser, so this goes on text fields alone
-const TEXT_FIELD = `${INLINE_FIELD} read-only:border-transparent`
+const FULL_WIDTH = 'w-[calc(100%+14px)]'
+
+// Shrinks to its value, like the number it stands in for
+const FIT_WIDTH = 'w-auto min-w-[3ch] field-sizing-content'
 
 const NO_SPINNERS =
   '[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none'
+
+// For controls that only matter while editing a row, like remove. Touch screens have no hover,
+// so they always show there.
+export const SHOW_ON_ROW_HOVER =
+  'opacity-0 transition-opacity group-focus-within/editable:opacity-100 group-hover/editable:opacity-100 focus-visible:opacity-100 pointer-coarse:opacity-100'
 
 type FieldShellProps = {
   label: string
@@ -38,7 +56,7 @@ const FieldShell = ({
       <span
         id={errorId}
         role='alert'
-        className='text-xs font-normal tracking-normal text-red-400 normal-case'
+        className='text-xs font-normal tracking-normal text-red-400 normal-case not-italic'
       >
         {error}
       </span>
@@ -53,14 +71,21 @@ type InlineProps = {
   fieldClassName?: string
 }
 
+type InlineInputProps = InlineProps &
+  ComponentProps<'input'> & {
+    // Size to the value instead of filling the row
+    fit?: boolean
+  }
+
 export const InlineInput = ({
   label,
   error,
   fieldClassName,
   className = '',
+  fit = false,
   onKeyDown,
   ...props
-}: InlineProps & ComponentProps<'input'>): ReactElement => {
+}: InlineInputProps): ReactElement => {
   const errorId = useId()
 
   return (
@@ -80,7 +105,7 @@ export const InlineInput = ({
         }}
         aria-invalid={Boolean(error)}
         aria-describedby={error ? errorId : undefined}
-        className={`${TEXT_FIELD} ${props.type === 'number' ? NO_SPINNERS : ''} ${className}`}
+        className={`${INLINE_FIELD} ${fit ? FIT_WIDTH : FULL_WIDTH} ${props.type === 'number' ? NO_SPINNERS : ''} ${className}`}
       />
     </FieldShell>
   )
@@ -107,38 +132,90 @@ export const InlineTextarea = ({
         {...props}
         aria-invalid={Boolean(error)}
         aria-describedby={error ? errorId : undefined}
-        className={`${TEXT_FIELD} field-sizing-content resize-none ${className}`}
+        className={`${INLINE_FIELD} ${FULL_WIDTH} field-sizing-content resize-none ${className}`}
       />
     </FieldShell>
   )
 }
 
-export const InlineSelect = ({
+type MarkdownFieldProps = InlineProps & {
+  // The current text, watched by the caller, so the rendered version stays in step
+  value: string
+  registration: UseFormRegisterReturn
+  placeholder?: string
+  rows?: number
+  className?: string
+}
+
+// Markdown shows rendered, as the page will show it, and turns back into its text on click or
+// Enter. Empty text stays a field, so a new step or note can be typed into right away.
+export const MarkdownField = ({
   label,
   error,
   fieldClassName,
+  value,
+  registration,
+  placeholder,
+  rows = 2,
   className = '',
-  children,
-  ...props
-}: InlineProps & ComponentProps<'select'>): ReactElement => {
-  const errorId = useId()
+}: MarkdownFieldProps): ReactElement => {
+  const [isEditing, setIsEditing] = useState(false)
+  // Set when the rendered text is clicked, so the field that replaces it takes the focus
+  const focusOnMountRef = useRef(false)
+
+  if (isEditing || !value.trim() || error) {
+    return (
+      <InlineTextarea
+        label={label}
+        error={error}
+        fieldClassName={fieldClassName}
+        rows={rows}
+        placeholder={placeholder}
+        className={className}
+        {...registration}
+        ref={(element) => {
+          registration.ref(element)
+          if (!element || !focusOnMountRef.current) return
+          focusOnMountRef.current = false
+          element.focus()
+          element.setSelectionRange(element.value.length, element.value.length)
+        }}
+        onFocus={() => setIsEditing(true)}
+        onBlur={(event) => {
+          setIsEditing(false)
+          void registration.onBlur(event)
+        }}
+      />
+    )
+  }
+
+  const edit = (): void => {
+    focusOnMountRef.current = true
+    setIsEditing(true)
+  }
+  const onKeyDown = (event: KeyboardEvent<HTMLDivElement>): void => {
+    if (event.key !== 'Enter' && event.key !== ' ') return
+    event.preventDefault()
+    edit()
+  }
 
   return (
-    <FieldShell
-      label={label}
-      error={error}
-      errorId={errorId}
-      className={fieldClassName}
+    <div
+      role='button'
+      tabIndex={0}
+      aria-label={`Edit ${label}`}
+      onClick={edit}
+      onKeyDown={onKeyDown}
+      // A link in the text opens the editor instead of leaving the page with unsaved changes
+      onClickCapture={(event) => {
+        if (event.target instanceof Element && event.target.closest('a')) {
+          event.preventDefault()
+        }
+      }}
+      className={`${INLINE_FIELD} ${FULL_WIDTH} cursor-text text-left ${className} ${fieldClassName ?? ''}`}
     >
-      <select
-        {...props}
-        aria-invalid={Boolean(error)}
-        aria-describedby={error ? errorId : undefined}
-        className={`${INLINE_FIELD} cursor-pointer bg-background ${className}`}
-      >
-        {children}
-      </select>
-    </FieldShell>
+      <Markdown>{value}</Markdown>
+    </div>
   )
 }
 
@@ -160,11 +237,33 @@ export const AddRowButton = ({
   </button>
 )
 
+type PlaceholderButtonProps = {
+  onClick: () => void
+  children: ReactNode
+  className?: string
+}
+
+// Stands where an empty section's content will go, in that content's shape
+export const PlaceholderButton = ({
+  onClick,
+  children,
+  className = '',
+}: PlaceholderButtonProps): ReactElement => (
+  <button
+    type='button'
+    onClick={onClick}
+    className={`w-full cursor-pointer rounded-xl border border-dashed border-text-muted/30 px-4 py-3 text-left text-sm text-text-muted/80 transition-colors hover:border-primary hover:text-text focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none ${className}`}
+  >
+    {children}
+  </button>
+)
+
 type RemoveRowButtonProps = {
   label: string
   onClick: () => void
 }
 
+// Shows while its row, marked `group/editable`, is hovered or focused
 export const RemoveRowButton = ({
   label,
   onClick,
@@ -174,7 +273,7 @@ export const RemoveRowButton = ({
     aria-label={label}
     title={label}
     onClick={onClick}
-    className='flex size-6 shrink-0 cursor-pointer items-center justify-center rounded text-base leading-none text-text-muted hover:text-text focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none'
+    className={`flex size-6 shrink-0 cursor-pointer items-center justify-center rounded text-base leading-none text-text-muted hover:text-text focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none ${SHOW_ON_ROW_HOVER}`}
   >
     &times;
   </button>

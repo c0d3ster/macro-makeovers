@@ -139,10 +139,10 @@ export const RecipeHeroEditor = ({
             </p>
             <div className='flex items-baseline gap-2'>
               <InlineInput
+                fit
                 label='Servings'
                 type='number'
                 error={errors.servings?.message}
-                fieldClassName='w-16'
                 className='text-2xl leading-none font-semibold text-text'
                 {...numberField(register, 'servings')}
               />

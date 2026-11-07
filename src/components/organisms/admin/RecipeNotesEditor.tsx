@@ -7,7 +7,7 @@ import { useWatch } from 'react-hook-form'
 
 import type { RecipeImportInput } from '@/validations'
 
-import { AddRowButton } from '@/components/molecules'
+import { AddRowButton, PlaceholderButton } from '@/components/molecules'
 
 import { useRecipeForm } from './recipeFormFields'
 import { RecipeNoteField } from './RecipeNoteField'
@@ -21,15 +21,37 @@ const SECTIONS: {
   kind: RecipeImportInput['notes'][number]['kind']
   title: string
   singular: string
+  example: string
 }[] = [
-  { kind: 'make_or_break', title: 'Make or break', singular: 'make or break' },
-  { kind: 'tip', title: 'Tips', singular: 'tip' },
-  { kind: 'fixes', title: 'Fixes', singular: 'fix' },
-  { kind: 'levers', title: 'Levers', singular: 'lever' },
+  {
+    kind: 'make_or_break',
+    title: 'Make or break',
+    singular: 'make or break',
+    example: 'the one thing that decides whether this works',
+  },
+  {
+    kind: 'tip',
+    title: 'Tips',
+    singular: 'tip',
+    example: 'a small thing that makes it better',
+  },
+  {
+    kind: 'fixes',
+    title: 'Fixes',
+    singular: 'fix',
+    example: 'what went wrong and how to save it',
+  },
+  {
+    kind: 'levers',
+    title: 'Levers',
+    singular: 'lever',
+    example: 'a swap that moves the macros',
+  },
 ]
 
-// The page's notes, with every section showing so one can be started from empty. A grid here
-// instead of the page's columns, which would reflow the sections while typing.
+// The page's note cards. Every section shows, with a placeholder card when it is empty, so one
+// can be started in place. A grid here instead of the page's columns, which would reflow the
+// sections while typing.
 export const RecipeNotesEditor = ({
   notes,
 }: RecipeNotesEditorProps): ReactElement => {
@@ -43,25 +65,37 @@ export const RecipeNotesEditor = ({
       </h2>
 
       <div className='grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-x-10'>
-        {SECTIONS.map(({ kind, title, singular }) => (
-          <div key={kind} className='flex flex-col gap-3'>
-            <h3 className='text-lg font-semibold text-text'>{title}</h3>
-            {notes.fields.flatMap(({ id }, index) =>
-              rows[index]?.kind === kind
-                ? [
+        {SECTIONS.map(({ kind, title, singular, example }) => {
+          const sectionNotes = notes.fields.flatMap(({ id }, index) =>
+            rows[index]?.kind === kind ? [{ id, index }] : []
+          )
+          const add = (): void => notes.append({ kind, body: '' })
+
+          return (
+            <div key={kind} className='flex flex-col gap-3'>
+              <h3 className='text-lg font-semibold text-text'>{title}</h3>
+              <ul className='flex flex-col gap-3'>
+                {sectionNotes.map(({ id, index }) => (
+                  <li key={id}>
                     <RecipeNoteField
-                      key={id}
                       index={index}
                       onRemove={() => notes.remove(index)}
-                    />,
-                  ]
-                : []
-            )}
-            <AddRowButton onClick={() => notes.append({ kind, body: '' })}>
-              Add {singular}
-            </AddRowButton>
-          </div>
-        ))}
+                      className='rounded-xl bg-surface px-4 py-3 text-text-muted'
+                      placeholder={`A ${singular}: ${example}`}
+                    />
+                  </li>
+                ))}
+              </ul>
+              {sectionNotes.length === 0 ? (
+                <PlaceholderButton onClick={add}>
+                  Add a {singular} note: {example}
+                </PlaceholderButton>
+              ) : (
+                <AddRowButton onClick={add}>Add {singular}</AddRowButton>
+              )}
+            </div>
+          )
+        })}
       </div>
     </section>
   )

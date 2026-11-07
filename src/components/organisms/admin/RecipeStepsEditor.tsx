@@ -9,9 +9,10 @@ import type { RecipeImportInput } from '@/validations'
 import {
   AddRowButton,
   InlineInput,
-  InlineSelect,
-  InlineTextarea,
+  MarkdownField,
+  PlaceholderButton,
   RemoveRowButton,
+  SHOW_ON_ROW_HOVER,
 } from '@/components/molecules'
 
 import { numberField, useRecipeForm } from './recipeFormFields'
@@ -28,7 +29,7 @@ const PHASES: {
 ]
 
 // The page's steps with their text as fields. Numbering runs straight through prep into cook,
-// and both phases always show so a step can be added to an empty one.
+// a step stays in the phase it was added to, and an empty phase shows a placeholder step.
 export const RecipeStepsEditor = (): ReactElement => {
   const {
     control,
@@ -69,80 +70,91 @@ export const RecipeStepsEditor = (): ReactElement => {
         </p>
       )}
 
-      {PHASES.map(({ phase, title, minutesField }) => (
-        <div key={phase} className='flex flex-col gap-3'>
-          <h3 className='flex items-center gap-2 text-sm font-semibold tracking-wide text-accent uppercase'>
-            {title}
-            <span className='flex items-center gap-1 font-normal tracking-normal text-text-muted normal-case'>
-              ~
-              <InlineInput
-                label={`${title} minutes`}
-                type='number'
-                error={errors[minutesField]?.message}
-                fieldClassName='w-14'
-                {...numberField(register, minutesField)}
-              />
-              min
-            </span>
-          </h3>
-          <ol className='flex flex-col gap-4'>
-            {stepsOf(phase).map(({ id, index }) => {
-              number += 1
-              return (
-                <li key={id} className='flex gap-4'>
-                  <span
-                    aria-hidden='true'
-                    className='flex size-8 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-semibold text-on-primary'
-                  >
-                    {number}
-                  </span>
-                  <div className='flex min-w-0 flex-1 flex-col gap-2'>
-                    <InlineTextarea
-                      label={`Step ${index + 1}`}
-                      error={errors.steps?.[index]?.body?.message}
-                      rows={3}
-                      placeholder='What to do. Markdown is fine here.'
-                      className='text-text-muted'
-                      {...register(`steps.${index}.body`)}
-                    />
-                    <div className='flex flex-wrap items-center gap-2 text-xs text-text-muted'>
-                      About
-                      <InlineInput
-                        label={`Step ${index + 1} minutes`}
-                        type='number'
-                        step='any'
-                        error={errors.steps?.[index]?.durationMinutes?.message}
-                        fieldClassName='w-14'
-                        placeholder='-'
-                        {...numberField(
-                          register,
-                          `steps.${index}.durationMinutes`
-                        )}
-                      />
-                      min
-                      <InlineSelect
-                        label={`Step ${index + 1} phase`}
-                        fieldClassName='ml-auto w-fit'
-                        {...register(`steps.${index}.phase`)}
+      {PHASES.map(({ phase, title, minutesField }) => {
+        const phaseSteps = stepsOf(phase)
+
+        return (
+          <div key={phase}>
+            <h3 className='mb-3 flex items-baseline text-sm font-semibold tracking-wide text-accent uppercase'>
+              {title}
+              <span className='ml-1 flex items-baseline font-normal tracking-normal text-text-muted normal-case'>
+                (~
+                <InlineInput
+                  fit
+                  label={`${title} minutes`}
+                  type='number'
+                  error={errors[minutesField]?.message}
+                  {...numberField(register, minutesField)}
+                />
+                &nbsp;min)
+              </span>
+            </h3>
+            <ol className='flex flex-col gap-4'>
+              {phaseSteps.map(({ id, index }) => {
+                number += 1
+                const hasDuration = rows[index]?.durationMinutes !== undefined
+
+                return (
+                  <li key={id} className='group/editable flex gap-4'>
+                    <span
+                      aria-hidden='true'
+                      className='flex size-8 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-semibold text-on-primary'
+                    >
+                      {number}
+                    </span>
+                    <div className='min-w-0 flex-1 pt-0.5 text-text-muted'>
+                      <div className='flex items-start gap-1'>
+                        <MarkdownField
+                          label={`Step ${index + 1}`}
+                          error={errors.steps?.[index]?.body?.message}
+                          fieldClassName='flex-1'
+                          value={rows[index]?.body ?? ''}
+                          registration={register(`steps.${index}.body`)}
+                          placeholder='What to do. Markdown is fine here.'
+                        />
+                        <RemoveRowButton
+                          label={`Remove step ${index + 1}`}
+                          onClick={() => steps.remove(index)}
+                        />
+                      </div>
+                      {/* Shown like the page's "About 5 min" once set, and on hover until then */}
+                      <div
+                        className={`mt-1 flex items-baseline text-xs text-text-muted ${hasDuration ? '' : SHOW_ON_ROW_HOVER}`}
                       >
-                        <option value='prep'>Prep</option>
-                        <option value='cook'>Cook</option>
-                      </InlineSelect>
-                      <RemoveRowButton
-                        label={`Remove step ${index + 1}`}
-                        onClick={() => steps.remove(index)}
-                      />
+                        About&nbsp;
+                        <InlineInput
+                          fit
+                          label={`Step ${index + 1} minutes`}
+                          type='number'
+                          step='any'
+                          error={errors.steps?.[index]?.durationMinutes?.message}
+                          placeholder='-'
+                          {...numberField(
+                            register,
+                            `steps.${index}.durationMinutes`
+                          )}
+                        />
+                        &nbsp;min
+                      </div>
                     </div>
-                  </div>
-                </li>
-              )
-            })}
-          </ol>
-          <AddRowButton onClick={() => addStep(phase)}>
-            Add {title.toLowerCase()} step
-          </AddRowButton>
-        </div>
-      ))}
+                  </li>
+                )
+              })}
+            </ol>
+            <div className={phaseSteps.length > 0 ? 'mt-3' : ''}>
+              {phaseSteps.length === 0 ? (
+                <PlaceholderButton onClick={() => addStep(phase)}>
+                  Add the first {title.toLowerCase()} step
+                </PlaceholderButton>
+              ) : (
+                <AddRowButton onClick={() => addStep(phase)}>
+                  Add {title.toLowerCase()} step
+                </AddRowButton>
+              )}
+            </div>
+          </div>
+        )
+      })}
     </section>
   )
 }
