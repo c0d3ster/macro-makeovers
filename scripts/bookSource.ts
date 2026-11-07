@@ -61,6 +61,14 @@ const numberRecipes = (recipes: RecipeImport[]): BookRecipe[] => {
   return numberBookRecipes(recipes, knownOrder)
 }
 
+// Each recipe's chosen photo by slug. A `--from` build has no database to ask.
+export const loadBookPhotoUrls = (
+  args: string[]
+): Promise<Map<string, string>> =>
+  args.includes('--from')
+    ? Promise.resolve(new Map())
+    : new RecipeRepository(db).listPublishedImageUrls()
+
 // The numbered book recipes for the command line: `--from <folder>` reads recipe JSON files with
 // no database, otherwise the published recipes in the database.
 export const loadBookRecipes = async (

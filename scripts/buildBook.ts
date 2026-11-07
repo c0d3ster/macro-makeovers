@@ -12,7 +12,11 @@ import { closeDb } from '@/libs/DB'
 import { renderBookMarkdown, toMacroRatios } from '@/libs/recipes'
 
 import { photoKeyFor, RECIPE_HEADING } from './bookPhotos'
-import { loadBookProse, loadBookRecipes } from './bookSource'
+import {
+  loadBookPhotoUrls,
+  loadBookProse,
+  loadBookRecipes,
+} from './bookSource'
 
 // Builds the printable recipe book (build/macro-makeovers.pdf) from the published recipes in the
 // database (or `--from <folder>` of recipe JSON), the prose in content/book, and the photos from
@@ -79,10 +83,12 @@ const STYLES = `
   .quickref td:first-child { width: 52%; white-space: normal; }
 `
 
-// Downloads each recipe's photo from R2 into build/photos, keyed by its number in the book.
-// A recipe whose photo cannot be fetched is left without one.
+// Downloads each recipe's photo into build/photos, keyed by its number in the book. That is the
+// photo chosen in the editor, else the one at the recipe's standard R2 address. A recipe whose
+// photo cannot be fetched is left without one.
 const downloadPhotos = async (
-  recipes: BookRecipe[]
+  recipes: BookRecipe[],
+  chosenUrls: Map<string, string>
 ): Promise<Map<string, string>> => {
   const photos = new Map<string, string>()
   if (!R2_PUBLIC_URL) {
@@ -92,7 +98,9 @@ const downloadPhotos = async (
 
   mkdirSync(PHOTO_DIR, { recursive: true })
   for (const { number, recipe } of recipes) {
-    const url = `${R2_PUBLIC_URL.replace(/\/+$/, '')}/${photoKeyFor(recipe.slug)}`
+    const url =
+      chosenUrls.get(recipe.slug) ??
+      `${R2_PUBLIC_URL.replace(/\/+$/, '')}/${photoKeyFor(recipe.slug)}`
     const response = await fetch(url)
     if (!response.ok) {
       console.warn(`No photo for recipe ${number} (${response.status} ${url})`)
@@ -227,7 +235,10 @@ const main = async (): Promise<void> => {
   mkdirSync(OUTPUT_DIR, { recursive: true })
   const recipes = await loadBookRecipes(process.argv.slice(2))
   const markdown = renderBookMarkdown(recipes, loadBookProse())
-  const photos = await downloadPhotos(recipes)
+  const photos = await downloadPhotos(
+    recipes,
+    await loadBookPhotoUrls(process.argv.slice(2))
+  )
   const html = renderHtml(addPhotos(markdown, photos), statsFor(recipes))
   writeFileSync(HTML_PATH, html)
 
