@@ -8,9 +8,8 @@ recipe as JSON the site imports without errors. The schema is the source of trut
 
 1. Draft and refine the recipe in the project chat.
 2. Call `validate_recipe` with the JSON. It writes nothing and returns any field problems.
-3. Fix what it reports, then call `import_recipe`. A new slug lands as a **draft** and gets a
-   placeholder photo.
-4. Review and publish it in the site's admin. Publishing rebuilds the recipe book PDF.
+3. Fix what it reports, then call `import_recipe`. A new slug lands as a **draft**.
+4. Review it, generate its photo, and publish it in the site's admin. Publishing rebuilds the recipe book PDF.
 
 `import_recipe` never overwrites an existing recipe unless asked to. If the slug exists, show the
 returned diff and only retry with overwrite once the user agrees.

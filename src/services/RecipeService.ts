@@ -1,10 +1,8 @@
 import type { NodePgDatabase } from 'drizzle-orm/node-postgres'
 
 import { revalidatePath } from 'next/cache'
-import { after } from 'next/server'
 
 import type { ImportRecipeResult } from '@/graphql/schema'
-import type { PhotoRecipe } from '@/libs/photos'
 import type {
   ImportResult,
   RecipeCard,
@@ -21,7 +19,6 @@ import { ImportRecipeStatus } from '@/graphql/schema'
 import { triggerBookRebuild } from '@/libs/bookRebuild'
 import { db } from '@/libs/DB'
 import { logger } from '@/libs/Logger'
-import { addPlaceholderPhoto } from '@/libs/photos/addPlaceholderPhoto'
 import { importRecipe } from '@/libs/recipes'
 import { RecipeRepository } from '@/libs/recipes/RecipeRepository'
 import { revalidateRecipePages } from '@/libs/recipes/revalidateRecipePages'
@@ -95,15 +92,6 @@ const toImportRecipeResult = (result: ImportResult): ImportRecipeResult => {
   }
 }
 
-const importedField = (input: unknown, field: 'title' | 'summary'): string => {
-  const parsed = recipeImportSchema.safeParse(input)
-  return parsed.success ? parsed.data[field] : ''
-}
-
-const recipeTitleOf = (input: unknown): string => importedField(input, 'title')
-const recipeSummaryOf = (input: unknown): string =>
-  importedField(input, 'summary')
-
 // Authorization happens in the resolver. This writes over the database owner's connection,
 // which bypasses RLS, so never call it without checking who is asking first.
 export class RecipeService {
@@ -132,32 +120,7 @@ export class RecipeService {
       await this.rebuildBookIfPublished(result.id)
     }
 
-    // Only a brand new recipe gets a placeholder. An overwrite never touches image_url.
-    if (!dryRun && result.status === 'created' && result.id) {
-      this.schedulePlaceholderPhoto(repository, {
-        id: result.id,
-        slug: result.slug,
-        title: recipeTitleOf(input),
-        summary: recipeSummaryOf(input),
-      })
-    }
-
     return toImportRecipeResult(result)
-  }
-
-  // Runs after the response, so a slow image never holds up or fails the import. Every failure
-  // is logged and swallowed.
-  private schedulePlaceholderPhoto(
-    repository: RecipeRepository,
-    recipe: PhotoRecipe
-  ): void {
-    const run = (): Promise<void> => addPlaceholderPhoto(repository, recipe)
-    try {
-      after(run)
-    } catch {
-      // Outside a request (scripts, tests) there is no after() scope, so just start it
-      void run()
-    }
   }
 
   private reader(): RecipeRepository {
@@ -247,6 +210,23 @@ export class RecipeService {
       repository.getDetailById(id),
     ])
     return status && recipe ? { status, recipe } : undefined
+  }
+
+  async getRecipeSlug(id: string): Promise<string | undefined> {
+    return UUID.test(id) ? this.reader().getRecipeSlug(id) : undefined
+  }
+
+  // Makes a generated photo the recipe's photo, and refreshes everywhere that shows it. False
+  // when the id is unknown.
+  async setRecipePhoto(id: string, url: string): Promise<boolean> {
+    if (!UUID.test(id)) return false
+
+    const slug = await this.reader().setRecipeImage(id, url)
+    if (!slug) return false
+
+    refreshPages(slug)
+    await this.rebuildBookIfPublished(id)
+    return true
   }
 
   // The stored recipe in import shape for the editor, or undefined when the id is unknown or

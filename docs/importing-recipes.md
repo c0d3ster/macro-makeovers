@@ -98,12 +98,15 @@ into the project's knowledge. It holds the rules and an example recipe.
 
 ## Photos
 
-A new recipe imported with no photo gets a placeholder after the response. It is generated from
-the title and summary with OpenAI's image API, uploaded to Cloudflare R2 as `recipes/<slug>.jpg`,
-and saved to `image_url` with `image_is_placeholder` set. The step is skipped with a log when any
-of `OPENAI_API_KEY`, `R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`, `R2_BUCKET`, or
-`R2_PUBLIC_URL` is unset. It never fails the import and never replaces an existing photo. The 14
-seed photos were uploaded once, and `pnpm photos:backfill` (`:prod` for hosted) points their
+An import never creates a photo. Photos are generated from the recipe editor once the recipe has
+settled, using its current title and summary with OpenAI's image API. You can add notes and a
+reference photo, and refine an attempt. Each attempt is uploaded to Cloudflare R2 as
+`recipes/<slug>-<timestamp>.jpg`, and only the one you pick is saved to `image_url`, with
+`image_is_placeholder` set. Attempts you don't pick stay in the bucket. A reference photo is passed
+through to OpenAI and not stored. Generating needs `OPENAI_API_KEY`, `R2_ACCOUNT_ID`,
+`R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`, `R2_BUCKET`, and `R2_PUBLIC_URL`, and the editor says
+which are missing. The book uses `image_url`, falling back to `recipes/<slug>.jpg`. The 14 seed
+photos were uploaded once, and `pnpm photos:backfill` (`:prod` for hosted) points their
 `image_url` at them.
 
 ## The printable book
