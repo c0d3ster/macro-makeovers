@@ -159,10 +159,74 @@ describe('RecipeForm', () => {
       />
     )
 
+    mockSave.mockResolvedValue({ ok: false, error: 'stop' })
     fireEvent.keyDown(screen.getByLabelText('Ingredient 1'), { key: 'Enter' })
+    fireEvent.change(await screen.findByLabelText('Ingredient 2'), {
+      target: { value: '1 tbsp honey' },
+    })
+    fireEvent.click(screen.getByRole('button', { name: 'Save' }))
 
-    expect(await screen.findByLabelText('Ingredient 2')).toHaveValue('')
-    expect(screen.getByLabelText('Ingredient 2 group')).toHaveValue('Sauce')
+    await waitFor(() => expect(mockSave).toHaveBeenCalled())
+
+    expect(mockSave.mock.calls[0]?.[1].ingredients).toEqual([
+      expect.objectContaining({ group: 'Sauce', raw: '1 cup broth' }),
+      expect.objectContaining({ group: 'Sauce', raw: '1 tbsp honey' }),
+    ])
+  })
+
+  it('shows markdown rendered, and its text again when clicked', async () => {
+    render(<RecipeForm initial={sampleRecipe} />)
+
+    const note = screen.getByRole('button', { name: 'Edit Note 1' })
+
+    expect(note).toHaveTextContent('Simmer long enough')
+
+    fireEvent.click(note)
+
+    expect(await screen.findByLabelText('Note 1')).toHaveValue(
+      'Simmer long enough'
+    )
+  })
+
+  it('puts nutrition intro and analysis placeholders where they show on the page', async () => {
+    mockSave.mockResolvedValue({ ok: false, error: 'stop' })
+    render(<RecipeForm initial={sampleRecipe} />)
+
+    fireEvent.click(screen.getByRole('button', { name: /^Add an intro/ }))
+    fireEvent.change(await screen.findByLabelText('Note 2'), {
+      target: { value: 'Base only is the plain bowl' },
+    })
+    fireEvent.click(screen.getByRole('button', { name: /^Add an analysis/ }))
+    fireEvent.change(await screen.findByLabelText('Note 3'), {
+      target: { value: 'Most of the savings are fat' },
+    })
+    fireEvent.click(screen.getByRole('button', { name: 'Save' }))
+
+    await waitFor(() => expect(mockSave).toHaveBeenCalled())
+
+    expect(mockSave.mock.calls[0]?.[1].notes).toEqual([
+      expect.objectContaining({ kind: 'make_or_break' }),
+      { kind: 'nutrition_intro', body: 'Base only is the plain bowl' },
+      { kind: 'nutrition_analysis', body: 'Most of the savings are fat' },
+    ])
+  })
+
+  it('adds a note to the section it was started from', async () => {
+    mockSave.mockResolvedValue({ ok: false, error: 'stop' })
+    render(<RecipeForm initial={sampleRecipe} />)
+
+    fireEvent.click(screen.getByRole('button', { name: /^Add a lever note/ }))
+    fireEvent.change(await screen.findByLabelText('Note 2'), {
+      target: { value: 'Swap in turkey' },
+    })
+    fireEvent.click(screen.getByRole('button', { name: 'Save' }))
+
+    await waitFor(() => expect(mockSave).toHaveBeenCalled())
+
+    expect(mockSave.mock.calls[0]?.[1].notes[1]).toEqual({
+      kind: 'levers',
+      body: 'Swap in turkey',
+    })
   })
 
   it('adds a prep step ahead of the cook steps', async () => {
