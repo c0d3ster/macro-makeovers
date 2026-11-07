@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
 import type { ReactElement } from 'react'
 
-import { Button } from '@/components/atoms'
+import { BackLink } from '@/components/atoms'
 import { RecipeForm } from '@/components/organisms'
-import { CleanPageTemplate } from '@/components/templates'
+import { RecipeEditorTemplate } from '@/components/templates'
 import { Env } from '@/libs/Env'
 
 export const metadata: Metadata = {
@@ -11,18 +11,17 @@ export const metadata: Metadata = {
 }
 
 const NewRecipePage = (): ReactElement => (
-  <CleanPageTemplate
-      activeItem='manage'
+  <RecipeEditorTemplate
     title='New recipe'
-    subtitle='Saves as a draft. Publish it from the recipe list.'
-    header={
-      <Button href='/admin' variant='outline' size='sm'>
-        Back to recipes
-      </Button>
+    toolbarStart={
+      <>
+        <BackLink href='/admin'>Back to recipes</BackLink>
+        <p>Saves as a draft. Publish it from the recipe list.</p>
+      </>
     }
   >
     <RecipeForm />
-  </CleanPageTemplate>
+  </RecipeEditorTemplate>
 )
 
 export default NewRecipePage

@@ -1,25 +1,37 @@
 'use client'
 
-import type { ReactElement, ReactNode } from 'react'
-import type { UseFormRegister } from 'react-hook-form'
+import type { ReactElement } from 'react'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
 import { useState, useTransition } from 'react'
-import { useFieldArray, useForm } from 'react-hook-form'
+import { FormProvider, useFieldArray, useForm } from 'react-hook-form'
 
 import type { SaveRecipeResult } from '@/apiClients'
 import type { RecipeImport, RecipeImportInput } from '@/validations'
 
 import { useSaveRecipe } from '@/apiClients'
 import { Button } from '@/components/atoms'
-import { FILTER_FIELD_CLASS } from '@/components/molecules'
+import {
+  RECIPE_BODY_GRID,
+  RECIPE_BODY_INGREDIENTS,
+  RECIPE_BODY_NUTRITION,
+  RECIPE_BODY_STEPS,
+  RECIPE_PAGE_LAYOUT,
+} from '@/components/organisms/recipe/recipeLayout'
 import { recipeImportSchema } from '@/validations'
+
+import { RecipeHeroEditor } from './RecipeHeroEditor'
+import { RecipeIngredientsEditor } from './RecipeIngredientsEditor'
+import { RecipeNotesEditor } from './RecipeNotesEditor'
+import { RecipeNutritionEditor } from './RecipeNutritionEditor'
+import { RecipeStepsEditor } from './RecipeStepsEditor'
 
 type RecipeFormProps = {
   // Set when editing. The slug is then fixed, because it is the recipe's address.
   recipeId?: string
   initial?: RecipeImportInput
+  imageUrl?: string
 }
 
 const EMPTY_RECIPE: RecipeImportInput = {
@@ -48,125 +60,25 @@ const EMPTY_RECIPE: RecipeImportInput = {
   notes: [],
 }
 
-const NOTE_KINDS: RecipeImportInput['notes'][number]['kind'][] = [
-  'make_or_break',
-  'fixes',
-  'levers',
-  'tip',
-  'nutrition_intro',
-  'nutrition_analysis',
-]
-
-// Blank inputs mean "not set", which the schema expects as a missing field
-const optionalText = (value: unknown): string | undefined =>
-  typeof value === 'string' && value.trim() ? value : undefined
-const optionalNumber = (value: unknown): number | undefined =>
-  value === '' || value === undefined || value === null
-    ? undefined
-    : Number(value)
-
-const fieldLabel = 'flex flex-col gap-1 text-xs font-medium text-text-muted'
-
-type SectionProps = {
-  title: string
-  onAdd?: () => void
-  addLabel?: string
-  children: ReactNode
-}
-
-const Section = ({
-  title,
-  onAdd,
-  addLabel,
-  children,
-}: SectionProps): ReactElement => (
-  <fieldset className='flex flex-col gap-3 rounded-xl bg-surface p-4'>
-    <legend className='px-1 text-lg font-semibold text-text'>{title}</legend>
-    {children}
-    {onAdd && (
-      <div>
-        <Button type='button' size='sm' onClick={onAdd}>
-          {addLabel ?? 'Add'}
-        </Button>
-      </div>
-    )}
-  </fieldset>
-)
-
-type FieldProps = {
-  label: string
-  error?: string
-  children: ReactNode
-}
-
-const Field = ({ label, error, children }: FieldProps): ReactElement => (
-  <label className={fieldLabel}>
-    {label}
-    {children}
-    {error && (
-      <span role='alert' className='text-red-400'>
-        {error}
-      </span>
-    )}
-  </label>
-)
-
-type RemoveButtonProps = {
-  label: string
-  onClick: () => void
-  // Lines the button up with the inputs when the row is top-aligned
-  className?: string
-}
-
-// Rows are top-aligned so an error under one field never moves its neighbors. The offset is
-// the label line (1rem) plus its gap (0.25rem), and the height matches an input.
-const ROW_OFFSET = 'mt-5 h-[2.625rem]'
-
-const RemoveButton = ({
-  label,
-  onClick,
-  className = '',
-}: RemoveButtonProps): ReactElement => (
-  <button
-    type='button'
-    aria-label={label}
-    onClick={onClick}
-    className={`flex items-center self-start text-sm text-text-muted underline hover:text-text ${className}`}
-  >
-    Remove
-  </button>
-)
-
-const numberField = (
-  register: UseFormRegister<RecipeImportInput>,
-  name: Parameters<UseFormRegister<RecipeImportInput>>[0]
-): ReturnType<UseFormRegister<RecipeImportInput>> =>
-  register(name, { setValueAs: optionalNumber })
-
+// The recipe page with its content as fields, laid out on the same grid, so writing a recipe
+// shows how it will read. Each section edits one part of the import shape.
 export const RecipeForm = ({
   recipeId,
   initial = EMPTY_RECIPE,
+  imageUrl,
 }: RecipeFormProps): ReactElement => {
   const router = useRouter()
   const saveRecipe = useSaveRecipe()
   const [isPending, startTransition] = useTransition()
   const [result, setResult] = useState<SaveRecipeResult>()
 
-  const {
-    register,
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<RecipeImportInput, unknown, RecipeImport>({
+  const form = useForm<RecipeImportInput, unknown, RecipeImport>({
     resolver: zodResolver(recipeImportSchema),
     defaultValues: initial,
   })
-  const nutrition = useFieldArray({ control, name: 'nutrition' })
-  const ingredients = useFieldArray({ control, name: 'ingredients' })
-  const steps = useFieldArray({ control, name: 'steps' })
-  const notes = useFieldArray({ control, name: 'notes' })
+  const notes = useFieldArray({ control: form.control, name: 'notes' })
 
-  const save = handleSubmit((values) => {
+  const save = form.handleSubmit((values) => {
     setResult(undefined)
     startTransition(async () => {
       const saved = await saveRecipe(recipeId, values)
@@ -176,346 +88,59 @@ export const RecipeForm = ({
   })
 
   return (
-    <form onSubmit={save} className='flex flex-col gap-6' noValidate>
-      <Section title='Basics'>
-        <Field label='Slug' error={errors.slug?.message}>
-          <input
-            {...register('slug')}
-            readOnly={Boolean(recipeId)}
-            className={FILTER_FIELD_CLASS}
-            placeholder='blackened-chicken-alfredo'
+    <FormProvider {...form}>
+      <form onSubmit={save} noValidate>
+        <div className={RECIPE_PAGE_LAYOUT}>
+          <RecipeHeroEditor
+            slugLocked={Boolean(recipeId)}
+            imageUrl={imageUrl}
           />
-        </Field>
-        <Field label='Title' error={errors.title?.message}>
-          <input {...register('title')} className={FILTER_FIELD_CLASS} />
-        </Field>
-        <Field label='Summary' error={errors.summary?.message}>
-          <textarea
-            {...register('summary')}
-            rows={4}
-            className={FILTER_FIELD_CLASS}
-          />
-        </Field>
-        <div className='grid grid-cols-2 gap-3 sm:grid-cols-5'>
-          <Field label='Servings' error={errors.servings?.message}>
-            <input
-              type='number'
-              {...numberField(register, 'servings')}
-              className={FILTER_FIELD_CLASS}
-            />
-          </Field>
-          <Field label='Prep (min)' error={errors.prepMinutes?.message}>
-            <input
-              type='number'
-              {...numberField(register, 'prepMinutes')}
-              className={FILTER_FIELD_CLASS}
-            />
-          </Field>
-          <Field label='Cook (min)' error={errors.cookMinutes?.message}>
-            <input
-              type='number'
-              {...numberField(register, 'cookMinutes')}
-              className={FILTER_FIELD_CLASS}
-            />
-          </Field>
-          <Field label='Cost (1 to 5)' error={errors.costTier?.message}>
-            <input
-              type='number'
-              {...numberField(register, 'costTier')}
-              className={FILTER_FIELD_CLASS}
-            />
-          </Field>
-          <Field label='Difficulty (1 to 5)' error={errors.difficulty?.message}>
-            <input
-              type='number'
-              {...numberField(register, 'difficulty')}
-              className={FILTER_FIELD_CLASS}
-            />
-          </Field>
+          <div className={RECIPE_BODY_GRID}>
+            <div className={RECIPE_BODY_NUTRITION}>
+              <RecipeNutritionEditor notes={notes} />
+            </div>
+            <div className={RECIPE_BODY_INGREDIENTS}>
+              <RecipeIngredientsEditor />
+            </div>
+            <div className={RECIPE_BODY_STEPS}>
+              <RecipeStepsEditor />
+            </div>
+          </div>
+          <RecipeNotesEditor notes={notes} />
         </div>
-        <Field
-          label='Variant of (slug, optional)'
-          error={errors.variantOf?.message}
-        >
-          <input
-            {...register('variantOf', { setValueAs: optionalText })}
-            className={FILTER_FIELD_CLASS}
-          />
-        </Field>
-        <Field label='Tags (comma separated)' error={errors.tags?.message}>
-          <input
-            {...register('tags', {
-              setValueAs: (value: unknown) =>
-                Array.isArray(value)
-                  ? value
-                  : String(value ?? '')
-                      .split(',')
-                      .map((tag) => tag.trim())
-                      .filter(Boolean),
-            })}
-            className={FILTER_FIELD_CLASS}
-          />
-        </Field>
-      </Section>
 
-      <Section
-        title='Nutrition'
-        addLabel='Add row'
-        onAdd={() =>
-          nutrition.append({
-            kind: 'traditional',
-            label: 'Traditional',
-            isDefault: false,
-            calories: 0,
-            carbsG: 0,
-            fatG: 0,
-            proteinG: 0,
-          })
-        }
-      >
-        {errors.nutrition?.message && (
-          <p role='alert' className='text-red-400'>
-            {errors.nutrition.message}
-          </p>
-        )}
-        {nutrition.fields.map((row, index) => (
-          <div
-            key={row.id}
-            className='grid grid-cols-2 items-start gap-3 sm:grid-cols-4'
-          >
-            <Field label='Kind'>
-              <select
-                {...register(`nutrition.${index}.kind`)}
-                className={FILTER_FIELD_CLASS}
+        <div className='sticky bottom-0 z-20 border-t border-text-muted/20 bg-background'>
+          <div className='mx-auto flex max-w-6xl flex-wrap items-center gap-4 p-3 sm:px-6 lg:px-8'>
+            <Button type='submit' disabled={isPending}>
+              {isPending ? 'Saving...' : 'Save'}
+            </Button>
+            {recipeId && (
+              <Button
+                href={`/admin/recipes/${recipeId}/preview`}
+                external
+                variant='outline'
               >
-                <option value='makeover'>Makeover</option>
-                <option value='traditional'>Traditional</option>
-              </select>
-            </Field>
-            <Field
-              label='Label'
-              error={errors.nutrition?.[index]?.label?.message}
-            >
-              <input
-                {...register(`nutrition.${index}.label`)}
-                className={FILTER_FIELD_CLASS}
-              />
-            </Field>
-            <Field label='Calories'>
-              <input
-                type='number'
-                {...numberField(register, `nutrition.${index}.calories`)}
-                className={FILTER_FIELD_CLASS}
-              />
-            </Field>
-            <Field label='Carbs (g)'>
-              <input
-                type='number'
-                {...numberField(register, `nutrition.${index}.carbsG`)}
-                className={FILTER_FIELD_CLASS}
-              />
-            </Field>
-            <Field label='Fat (g)'>
-              <input
-                type='number'
-                {...numberField(register, `nutrition.${index}.fatG`)}
-                className={FILTER_FIELD_CLASS}
-              />
-            </Field>
-            <Field label='Protein (g)'>
-              <input
-                type='number'
-                {...numberField(register, `nutrition.${index}.proteinG`)}
-                className={FILTER_FIELD_CLASS}
-              />
-            </Field>
-            <label
-              className={`flex items-center gap-2 text-sm text-text ${ROW_OFFSET}`}
-            >
-              <input
-                type='checkbox'
-                {...register(`nutrition.${index}.isDefault`)}
-              />
-              Featured
-            </label>
-            <RemoveButton
-              label={`Remove nutrition row ${index + 1}`}
-              onClick={() => nutrition.remove(index)}
-              className={ROW_OFFSET}
-            />
-            {errors.nutrition?.[index]?.isDefault?.message && (
-              <p role='alert' className='col-span-full text-red-400'>
-                {errors.nutrition[index].isDefault.message}
+                Preview saved version
+              </Button>
+            )}
+            {result?.ok && (
+              <p role='status' className='text-sm text-text'>
+                {result.summary}
               </p>
             )}
+            {result && !result.ok && (
+              <div role='alert' className='text-sm text-red-400'>
+                <p>{result.error}</p>
+                {result.issues?.map(({ path, message }) => (
+                  <p key={`${path}:${message}`}>
+                    {path}: {message}
+                  </p>
+                ))}
+              </div>
+            )}
           </div>
-        ))}
-      </Section>
-
-      <Section
-        title='Ingredients'
-        addLabel='Add ingredient'
-        onAdd={() => ingredients.append({ raw: '' })}
-      >
-        {errors.ingredients?.message && (
-          <p role='alert' className='text-red-400'>
-            {errors.ingredients.message}
-          </p>
-        )}
-        {ingredients.fields.map((row, index) => (
-          <div
-            key={row.id}
-            className='grid grid-cols-1 items-start gap-3 sm:grid-cols-[1fr_2fr_auto]'
-          >
-            <Field label='Group'>
-              <input
-                {...register(`ingredients.${index}.group`, {
-                  setValueAs: optionalText,
-                })}
-                className={FILTER_FIELD_CLASS}
-                placeholder='Sauce'
-              />
-            </Field>
-            <Field
-              label='Ingredient'
-              error={errors.ingredients?.[index]?.raw?.message}
-            >
-              <input
-                {...register(`ingredients.${index}.raw`)}
-                className={FILTER_FIELD_CLASS}
-                placeholder='2 lbs chicken breast'
-              />
-            </Field>
-            <RemoveButton
-              label={`Remove ingredient ${index + 1}`}
-              onClick={() => ingredients.remove(index)}
-              className='sm:mt-5 sm:h-10.5'
-            />
-          </div>
-        ))}
-      </Section>
-
-      <Section
-        title='Steps'
-        addLabel='Add step'
-        onAdd={() => steps.append({ phase: 'cook', body: '' })}
-      >
-        {errors.steps?.message && (
-          <p role='alert' className='text-red-400'>
-            {errors.steps.message}
-          </p>
-        )}
-        {steps.fields.map((row, index) => (
-          <div key={row.id} className='flex flex-col gap-3'>
-            <div className='grid grid-cols-2 items-start gap-3 sm:grid-cols-[auto_auto_1fr]'>
-              <Field label='Phase'>
-                <select
-                  {...register(`steps.${index}.phase`)}
-                  className={FILTER_FIELD_CLASS}
-                >
-                  <option value='prep'>Prep</option>
-                  <option value='cook'>Cook</option>
-                </select>
-              </Field>
-              <Field
-                label='Minutes (optional)'
-                error={errors.steps?.[index]?.durationMinutes?.message}
-              >
-                <input
-                  type='number'
-                  step='any'
-                  {...numberField(register, `steps.${index}.durationMinutes`)}
-                  className={FILTER_FIELD_CLASS}
-                />
-              </Field>
-              <RemoveButton
-                label={`Remove step ${index + 1}`}
-                onClick={() => steps.remove(index)}
-                className={ROW_OFFSET}
-              />
-            </div>
-            <Field
-              label={`Step ${index + 1}`}
-              error={errors.steps?.[index]?.body?.message}
-            >
-              <textarea
-                {...register(`steps.${index}.body`)}
-                rows={3}
-                className={FILTER_FIELD_CLASS}
-              />
-            </Field>
-          </div>
-        ))}
-      </Section>
-
-      <Section
-        title='Notes'
-        addLabel='Add note'
-        onAdd={() => notes.append({ kind: 'tip', body: '' })}
-      >
-        {notes.fields.map((row, index) => (
-          <div key={row.id} className='flex flex-col gap-3'>
-            <div className='flex items-end gap-3'>
-              <Field label='Kind'>
-                <select
-                  {...register(`notes.${index}.kind`)}
-                  className={FILTER_FIELD_CLASS}
-                >
-                  {NOTE_KINDS.map((kind) => (
-                    <option key={kind} value={kind}>
-                      {kind.replaceAll('_', ' ')}
-                    </option>
-                  ))}
-                </select>
-              </Field>
-              <RemoveButton
-                label={`Remove note ${index + 1}`}
-                onClick={() => notes.remove(index)}
-              />
-            </div>
-            <Field
-              label='Markdown'
-              error={errors.notes?.[index]?.body?.message}
-            >
-              <textarea
-                {...register(`notes.${index}.body`)}
-                rows={4}
-                className={FILTER_FIELD_CLASS}
-              />
-            </Field>
-          </div>
-        ))}
-      </Section>
-
-      <div className='sticky bottom-0 flex flex-wrap items-center gap-4 bg-background py-3'>
-        <Button type='submit' disabled={isPending}>
-          {isPending ? 'Saving...' : 'Save'}
-        </Button>
-        {recipeId && (
-          <Button
-            href={`/admin/recipes/${recipeId}/preview`}
-            external
-            variant='outline'
-          >
-            Preview saved version
-          </Button>
-        )}
-        {result?.ok && (
-          <p role='status' className='text-sm text-text'>
-            {result.summary}
-          </p>
-        )}
-        {result && !result.ok && (
-          <div role='alert' className='text-sm text-red-400'>
-            <p>{result.error}</p>
-            {result.issues?.map(({ path, message }) => (
-              <p key={`${path}:${message}`}>
-                {path}: {message}
-              </p>
-            ))}
-          </div>
-        )}
-      </div>
-    </form>
+        </div>
+      </form>
+    </FormProvider>
   )
 }

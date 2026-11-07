@@ -1,5 +1,6 @@
 export * from './FilterSelect'
 export * from './MacroBar'
 export * from './OwnerEditLink'
+export * from './RecipeMacroSummary'
 export * from './ServingsStepper'
 export * from './SymbolScale'
