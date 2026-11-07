@@ -4,7 +4,6 @@ import type { KeyboardEvent, ReactElement } from 'react'
 
 import { useController, useWatch } from 'react-hook-form'
 
-import { RecipeImage } from '@/components/atoms'
 import {
   InlineInput,
   InlineTextarea,
@@ -29,10 +28,11 @@ import {
   toNutritionBuild,
   useRecipeForm,
 } from './recipeFormFields'
+import { RecipePhotoEditor } from './RecipePhotoEditor'
 
 type RecipeHeroEditorProps = {
-  // The slug is the recipe's address, so it locks once the recipe exists
-  slugLocked: boolean
+  // Set once the recipe exists. The slug then locks, because it is the recipe's address.
+  recipeId?: string
   imageUrl?: string
 }
 
@@ -60,7 +60,7 @@ const difficultySymbol = (isLit: boolean): ReactElement => (
 // The top of the recipe page with its text as fields. Calories and the macro bar are worked out
 // from the nutrition table below, and update while it is edited.
 export const RecipeHeroEditor = ({
-  slugLocked,
+  recipeId,
   imageUrl,
 }: RecipeHeroEditorProps): ReactElement => {
   const {
@@ -71,7 +71,6 @@ export const RecipeHeroEditor = ({
   const cost = useController({ control, name: 'costTier' })
   const difficulty = useController({ control, name: 'difficulty' })
   const tags = useController({ control, name: 'tags' })
-  const title = useWatch({ control, name: 'title' })
   const prepMinutes = useWatch({ control, name: 'prepMinutes' })
   const cookMinutes = useWatch({ control, name: 'cookMinutes' })
   const rows = useWatch({ control, name: 'nutrition' })
@@ -164,7 +163,7 @@ export const RecipeHeroEditor = ({
               label='Slug'
               error={errors.slug?.message}
               fieldClassName='w-full max-w-sm'
-              readOnly={slugLocked}
+              readOnly={Boolean(recipeId)}
               placeholder='blackened-chicken-alfredo'
               {...register('slug')}
             />
@@ -192,9 +191,8 @@ export const RecipeHeroEditor = ({
         </div>
       </div>
 
-      {/* The image generator's controls go below the photo */}
       <div className={RECIPE_HERO_PHOTO}>
-        <RecipeImage imageUrl={imageUrl} title={title} />
+        <RecipePhotoEditor recipeId={recipeId} imageUrl={imageUrl} />
       </div>
     </header>
   )

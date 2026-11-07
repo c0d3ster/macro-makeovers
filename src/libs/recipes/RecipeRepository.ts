@@ -532,6 +532,42 @@ export class RecipeRepository {
     return row?.imageUrl ?? undefined
   }
 
+  getRecipeSlug = async (id: string): Promise<string | undefined> => {
+    const [row] = await this.database
+      .select({ slug: recipes.slug })
+      .from(recipes)
+      .where(eq(recipes.id, id))
+      .limit(1)
+    return row?.slug
+  }
+
+  // Sets the photo the owner picked in the editor, replacing any earlier one. Generated photos
+  // count as placeholders. Returns the slug, or undefined for an unknown id.
+  setRecipeImage = async (
+    id: string,
+    url: string
+  ): Promise<string | undefined> => {
+    const [row] = await this.database
+      .update(recipes)
+      .set({ imageUrl: url, imageIsPlaceholder: true })
+      .where(eq(recipes.id, id))
+      .returning({ slug: recipes.slug })
+    return row?.slug
+  }
+
+  // Each published recipe's photo by slug, for the book
+  listPublishedImageUrls = async (): Promise<Map<string, string>> => {
+    const rows = await this.database
+      .select({ slug: recipes.slug, imageUrl: recipes.imageUrl })
+      .from(recipes)
+      .where(eq(recipes.status, 'published'))
+    const urls = new Map<string, string>()
+    rows.forEach(({ slug, imageUrl }) => {
+      if (imageUrl) urls.set(slug, imageUrl)
+    })
+    return urls
+  }
+
   private writeRevision = async (tx: Tx, recipeId: string): Promise<void> => {
     await tx.insert(recipeRevisions).values({
       recipeId,
