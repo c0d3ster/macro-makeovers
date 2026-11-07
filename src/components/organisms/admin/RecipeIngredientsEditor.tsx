@@ -61,9 +61,10 @@ export const RecipeIngredientsEditor = (): ReactElement => {
   const ingredients = useFieldArray({ control, name: 'ingredients' })
   const rows = useWatch({ control, name: 'ingredients' })
 
-  const lines = ingredients.fields.map(({ id, group }, index) => ({
+  const lines = ingredients.fields.map(({ id, group, raw }, index) => ({
     id,
     index,
+    raw: rows[index]?.raw ?? raw,
     group: rows[index]?.group ?? group,
   }))
   const groups = groupIngredients(lines)
@@ -170,7 +171,7 @@ export const RecipeIngredientsEditor = (): ReactElement => {
               <li className='px-4 py-2'>
                 <AddRowButton
                   onClick={() => {
-                    const last = groupLines[groupLines.length - 1]
+                    const last = groupLines.at(-1)
                     ingredients.insert(
                       last ? last.index + 1 : ingredients.fields.length,
                       { raw: '', group: name }

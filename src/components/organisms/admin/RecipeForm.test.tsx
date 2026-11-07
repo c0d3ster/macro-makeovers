@@ -184,6 +184,15 @@ describe('RecipeForm', () => {
     ])
   })
 
+  it('does not submit when Enter is pressed in a single-line field', () => {
+    render(<RecipeForm initial={sampleRecipe} />)
+
+    // fireEvent returns false when the default action, here the implicit submit, was prevented
+    expect(
+      fireEvent.keyDown(screen.getByLabelText('Slug'), { key: 'Enter' })
+    ).toBe(false)
+  })
+
   it('shows the saved photo in the photo slot', () => {
     render(
       <RecipeForm

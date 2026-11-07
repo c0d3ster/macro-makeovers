@@ -1,6 +1,6 @@
 'use client'
 
-import type { KeyboardEvent, ReactElement } from 'react'
+import type { ReactElement } from 'react'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
@@ -60,14 +60,6 @@ const EMPTY_RECIPE: RecipeImportInput = {
   notes: [],
 }
 
-// With this many fields on the page, Enter in one of them should not save. A published recipe
-// updates right away, so saving stays a deliberate click.
-const blockEnterSubmit = (event: KeyboardEvent<HTMLFormElement>): void => {
-  if (event.key === 'Enter' && event.target instanceof HTMLInputElement) {
-    event.preventDefault()
-  }
-}
-
 // The recipe page with its content as fields, laid out on the same grid, so writing a recipe
 // shows how it will read. Each section edits one part of the import shape.
 export const RecipeForm = ({
@@ -97,7 +89,7 @@ export const RecipeForm = ({
 
   return (
     <FormProvider {...form}>
-      <form onSubmit={save} onKeyDown={blockEnterSubmit} noValidate>
+      <form onSubmit={save} noValidate>
         <div className={RECIPE_PAGE_LAYOUT}>
           <RecipeHeroEditor
             slugLocked={Boolean(recipeId)}
@@ -118,7 +110,7 @@ export const RecipeForm = ({
         </div>
 
         <div className='sticky bottom-0 z-20 border-t border-text-muted/20 bg-background'>
-          <div className='mx-auto flex max-w-6xl flex-wrap items-center gap-4 px-3 py-3 sm:px-6 lg:px-8'>
+          <div className='mx-auto flex max-w-6xl flex-wrap items-center gap-4 p-3 sm:px-6 lg:px-8'>
             <Button type='submit' disabled={isPending}>
               {isPending ? 'Saving...' : 'Save'}
             </Button>

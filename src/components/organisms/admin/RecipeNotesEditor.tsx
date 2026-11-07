@@ -9,8 +9,8 @@ import type { RecipeImportInput } from '@/validations'
 
 import { AddRowButton } from '@/components/molecules'
 
-import { RecipeNoteField } from './RecipeNoteField'
 import { useRecipeForm } from './recipeFormFields'
+import { RecipeNoteField } from './RecipeNoteField'
 
 type RecipeNotesEditorProps = {
   // The notes list, owned by the form because the nutrition section edits it too

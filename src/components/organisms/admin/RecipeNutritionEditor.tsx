@@ -16,13 +16,13 @@ import {
 import { formatMacroRatios } from '@/libs/recipes/macroRatios'
 import { featuredBuild } from '@/libs/recipes/recipeDetail'
 
-import { RecipeNoteField } from './RecipeNoteField'
 import {
   numberField,
   toNumber,
   toNutritionBuild,
   useRecipeForm,
 } from './recipeFormFields'
+import { RecipeNoteField } from './RecipeNoteField'
 
 type RecipeNutritionEditorProps = {
   // The notes list, owned by the form because the notes section edits it too
