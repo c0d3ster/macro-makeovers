@@ -202,7 +202,10 @@ describe('RecipeForm', () => {
       />
     )
 
-    expect(screen.getByRole('img', { name: 'Test Chili' })).toBeInTheDocument()
+    expect(screen.getByTestId('next-image')).toHaveAttribute(
+      'data-src',
+      'https://images.example.com/chili.jpg'
+    )
   })
 
   it('blocks a save with an empty title and does not call the mutation', async () => {
