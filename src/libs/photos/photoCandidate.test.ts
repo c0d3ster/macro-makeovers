@@ -6,6 +6,7 @@ import {
   buildPhotoPrompt,
   candidateKey,
   createPhotoCandidate,
+  storeUploadedPhoto,
 } from './photoCandidate'
 
 const request = {
@@ -84,5 +85,35 @@ describe('createPhotoCandidate', () => {
       stage,
       error: 'boom',
     })
+  })
+})
+
+describe('storeUploadedPhoto', () => {
+  it('optimizes the upload and stores it under a new key', async () => {
+    const deps = makeDeps()
+    const photo = new File([new Uint8Array([7, 8])], 'dish.png', {
+      type: 'image/png',
+    })
+
+    await expect(
+      storeUploadedPhoto(deps, { slug: 'spicy-chili', photo })
+    ).resolves.toEqual({ ok: true, url: 'https://cdn.test/photo.jpg' })
+    expect(deps.optimizeImage).toHaveBeenCalledWith(new Uint8Array([7, 8]))
+    expect(deps.uploadImage).toHaveBeenCalledWith(
+      expect.stringMatching(/^recipes\/spicy-chili-\d+\.jpg$/),
+      new Uint8Array([9])
+    )
+  })
+
+  it('names a recipe with no slug yet as new', async () => {
+    const deps = makeDeps()
+    const photo = new File(['a'], 'dish.png', { type: 'image/png' })
+
+    await storeUploadedPhoto(deps, { photo })
+
+    expect(deps.uploadImage).toHaveBeenCalledWith(
+      expect.stringMatching(/^recipes\/new-recipe-\d+\.jpg$/),
+      expect.anything()
+    )
   })
 })

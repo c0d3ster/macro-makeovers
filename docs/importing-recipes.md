@@ -98,11 +98,12 @@ into the project's knowledge. It holds the rules and an example recipe.
 
 ## Photos
 
-An import never creates a photo. Photos are generated from the recipe editor once the recipe has
-settled, using its current title and summary with OpenAI's image API. You can add notes and a
-reference photo, and refine an attempt. Each attempt is uploaded to Cloudflare R2 as
-`recipes/<slug>-<timestamp>.jpg`, and only the one you pick is saved to `image_url`, with
-`image_is_placeholder` set. Attempts you don't pick stay in the bucket. A reference photo is passed
+An import never creates a photo. Photos are uploaded or generated in the recipe editor, before
+or after the first save, using the title and summary on screen with OpenAI's image API. You can
+add notes and a reference photo, or use the current photo as the reference to refine it. Each
+upload or attempt goes to Cloudflare R2 as `recipes/<slug>-<timestamp>.jpg`, and only the one you
+pick is saved to `image_url`, with `image_is_placeholder` set. Uploads are shrunk in the browser to
+2048px on the long edge first. Attempts you don't pick stay in the bucket. A reference photo is passed
 through to OpenAI and not stored. Generating needs `OPENAI_API_KEY`, `R2_ACCOUNT_ID`,
 `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`, `R2_BUCKET`, and `R2_PUBLIC_URL`, and the editor says
 which are missing. The book uses `image_url`, falling back to `recipes/<slug>.jpg`. The 14 seed

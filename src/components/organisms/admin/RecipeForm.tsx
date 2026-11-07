@@ -8,9 +8,13 @@ import { useState, useTransition } from 'react'
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form'
 
 import type { SaveRecipeResult } from '@/apiClients'
-import type { RecipeImport, RecipeImportInput } from '@/validations'
+import type {
+  PhotoResponse,
+  RecipeImport,
+  RecipeImportInput,
+} from '@/validations'
 
-import { useSaveRecipe } from '@/apiClients'
+import { chooseRecipePhoto, useSaveRecipe } from '@/apiClients'
 import { Button } from '@/components/atoms'
 import {
   RECIPE_BODY_GRID,
@@ -71,6 +75,8 @@ export const RecipeForm = ({
   const saveRecipe = useSaveRecipe()
   const [isPending, startTransition] = useTransition()
   const [result, setResult] = useState<SaveRecipeResult>()
+  // A photo picked before the first save, attached once the recipe exists
+  const [pendingPhoto, setPendingPhoto] = useState<string>()
 
   const form = useForm<RecipeImportInput, unknown, RecipeImport>({
     resolver: zodResolver(recipeImportSchema),
@@ -83,9 +89,20 @@ export const RecipeForm = ({
     startTransition(async () => {
       const saved = await saveRecipe(recipeId, values)
       setResult(saved)
-      if (saved.ok && !recipeId) router.push(`/admin/recipes/${saved.id}/edit`)
+      if (!saved.ok || recipeId) return
+
+      // The recipe exists now, so the editor opens even if the photo fails to attach. Saving
+      // here again would try to create it a second time. The photo can be picked again there.
+      if (pendingPhoto) await chooseRecipePhoto(saved.id, pendingPhoto)
+      router.push(`/admin/recipes/${saved.id}/edit`)
     })
   })
+
+  const choosePhoto = async (url: string): Promise<PhotoResponse> => {
+    if (recipeId) return chooseRecipePhoto(recipeId, url)
+    setPendingPhoto(url)
+    return { ok: true, url }
+  }
 
   return (
     <FormProvider {...form}>
@@ -94,6 +111,7 @@ export const RecipeForm = ({
           <RecipeHeroEditor
             recipeId={recipeId}
             imageUrl={imageUrl}
+            onChoosePhoto={choosePhoto}
           />
           <div className={RECIPE_BODY_GRID}>
             <div className={RECIPE_BODY_NUTRITION}>

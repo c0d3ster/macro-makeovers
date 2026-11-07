@@ -1,11 +1,12 @@
 import type { PhotoStage } from '@/validations'
 
-// Makes one candidate photo for the editor. Every outside call is injected, so the flow is tested
-// without OpenAI or R2. Nothing here touches the recipe: a candidate only goes live when the owner
-// picks it.
+// Makes one candidate photo for the editor, generated or uploaded. Every outside call is
+// injected, so the flow is tested without OpenAI or R2. Nothing here touches the recipe: a
+// candidate only goes live when the owner picks it.
 
 type PhotoCandidateRequest = {
-  slug: string
+  // Unset for a new recipe that has no slug yet
+  slug?: string
   title: string
   summary: string
   // The owner's own direction for this attempt
@@ -14,13 +15,8 @@ type PhotoCandidateRequest = {
   sources: File[]
 }
 
-export type PhotoCandidateDeps = {
-  generateImage: (prompt: string) => Promise<Uint8Array<ArrayBuffer>>
-  editImage: (
-    prompt: string,
-    sources: File[]
-  ) => Promise<Uint8Array<ArrayBuffer>>
-  // Turns the generated image into the web JPEG that gets stored
+type StoreDeps = {
+  // Turns the image into the web JPEG that gets stored
   optimizeImage: (
     image: Uint8Array<ArrayBuffer>
   ) => Promise<Uint8Array<ArrayBuffer>>
@@ -28,9 +24,20 @@ export type PhotoCandidateDeps = {
   uploadImage: (key: string, bytes: Uint8Array<ArrayBuffer>) => Promise<string>
 }
 
+export type PhotoCandidateDeps = StoreDeps & {
+  generateImage: (prompt: string) => Promise<Uint8Array<ArrayBuffer>>
+  editImage: (
+    prompt: string,
+    sources: File[]
+  ) => Promise<Uint8Array<ArrayBuffer>>
+}
+
 type PhotoCandidateResult =
   | { ok: true; url: string }
   | { ok: false; stage: PhotoStage; error: string }
+
+const messageOf = (error: unknown): string =>
+  error instanceof Error ? error.message : String(error)
 
 export const buildPhotoPrompt = ({
   title,
@@ -45,8 +52,10 @@ export const buildPhotoPrompt = ({
   ].join(' ')
 
 // Unique per attempt, so the image optimizer and CDN never serve an older attempt
-export const candidateKey = (slug: string, now: number = Date.now()): string =>
-  `recipes/${slug}-${now}.jpg`
+export const candidateKey = (
+  slug: string | undefined,
+  now: number = Date.now()
+): string => `recipes/${slug ?? 'new-recipe'}-${now}.jpg`
 
 // Never throws. A failure comes back naming the stage, so the editor can say what went wrong.
 export const createPhotoCandidate = async (
@@ -67,10 +76,25 @@ export const createPhotoCandidate = async (
     const url = await deps.uploadImage(candidateKey(request.slug), bytes)
     return { ok: true, url }
   } catch (error) {
-    return {
-      ok: false,
-      stage,
-      error: error instanceof Error ? error.message : String(error),
-    }
+    return { ok: false, stage, error: messageOf(error) }
+  }
+}
+
+// An uploaded photo becomes a candidate the same way, minus the generating
+export const storeUploadedPhoto = async (
+  deps: StoreDeps,
+  { slug, photo }: { slug?: string; photo: File }
+): Promise<PhotoCandidateResult> => {
+  let stage: PhotoStage = 'optimize'
+  try {
+    const bytes = await deps.optimizeImage(
+      new Uint8Array(await photo.arrayBuffer())
+    )
+
+    stage = 'upload'
+    const url = await deps.uploadImage(candidateKey(slug), bytes)
+    return { ok: true, url }
+  } catch (error) {
+    return { ok: false, stage, error: messageOf(error) }
   }
 }
