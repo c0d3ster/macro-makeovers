@@ -92,7 +92,7 @@ export const RecipeForm = ({
       <form onSubmit={save} noValidate>
         <div className={RECIPE_PAGE_LAYOUT}>
           <RecipeHeroEditor
-            slugLocked={Boolean(recipeId)}
+            recipeId={recipeId}
             imageUrl={imageUrl}
           />
           <div className={RECIPE_BODY_GRID}>
