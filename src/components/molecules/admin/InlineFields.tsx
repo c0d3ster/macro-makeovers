@@ -58,6 +58,7 @@ export const InlineInput = ({
   error,
   fieldClassName,
   className = '',
+  onKeyDown,
   ...props
 }: InlineProps & ComponentProps<'input'>): ReactElement => {
   const errorId = useId()
@@ -71,6 +72,12 @@ export const InlineInput = ({
     >
       <input
         {...props}
+        // With this many fields on the page, Enter in one should not save the form. A published
+        // recipe updates right away, so saving stays a deliberate click.
+        onKeyDown={(event) => {
+          if (event.key === 'Enter') event.preventDefault()
+          onKeyDown?.(event)
+        }}
         aria-invalid={Boolean(error)}
         aria-describedby={error ? errorId : undefined}
         className={`${TEXT_FIELD} ${props.type === 'number' ? NO_SPINNERS : ''} ${className}`}
@@ -100,7 +107,7 @@ export const InlineTextarea = ({
         {...props}
         aria-invalid={Boolean(error)}
         aria-describedby={error ? errorId : undefined}
-        className={`${TEXT_FIELD} resize-none field-sizing-content ${className}`}
+        className={`${TEXT_FIELD} field-sizing-content resize-none ${className}`}
       />
     </FieldShell>
   )

@@ -37,13 +37,13 @@ export const ScalePicker = ({
           role='radiogroup'
           aria-label={label}
           className='flex items-center'
-          onMouseLeave={() => setHovered(undefined)}
         >
           {steps.map((step) => (
             <label
               key={step}
               onMouseEnter={() => setHovered(step)}
-              className='flex h-6 min-w-6 cursor-pointer items-center justify-center rounded md:min-w-3 has-focus-visible:ring-2 has-focus-visible:ring-primary'
+              onMouseLeave={() => setHovered(undefined)}
+              className='flex h-6 min-w-6 cursor-pointer items-center justify-center rounded has-focus-visible:ring-2 has-focus-visible:ring-primary md:min-w-3'
             >
               <input
                 type='radio'

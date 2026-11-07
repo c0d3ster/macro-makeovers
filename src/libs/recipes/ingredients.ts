@@ -84,7 +84,7 @@ const sameGroup = (a?: string, b?: string): boolean =>
   a?.trim().toLowerCase() === b?.trim().toLowerCase()
 
 // Groups ingredient lines under their headings, in the order each heading first appears
-export const groupIngredients = <T extends { group?: string }>(
+export const groupIngredients = <T extends RecipeIngredient>(
   ingredients: T[]
 ): IngredientGroup<T>[] => {
   const groups: IngredientGroup<T>[] = []
