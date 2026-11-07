@@ -4,16 +4,16 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { isOwner } from '@/libs/supabase/owner'
 import { services } from '@/services'
 
-import { POST, PUT } from './route'
+import { POST as generate } from '../../../recipe-photos/route'
+import { POST as upload } from '../../../recipe-photos/upload/route'
+import { PUT } from './route'
 
 vi.mock('@/libs/supabase/owner', () => ({ isOwner: vi.fn() }))
 vi.mock('@/libs/Logger', () => ({
   logger: { error: vi.fn(), info: vi.fn(), warn: vi.fn() },
 }))
 vi.mock('@/services', () => ({
-  services: {
-    recipeService: { getRecipeSlug: vi.fn(), setRecipePhoto: vi.fn() },
-  },
+  services: { recipeService: { setRecipePhoto: vi.fn() } },
 }))
 
 // A mutable stand-in for the environment, so a test can leave a setting out
@@ -38,12 +38,10 @@ const choose = (url: string): Promise<Response> =>
     context
   )
 
-const generateRequest = new NextRequest(
-  'http://localhost/api/admin/recipes/recipe-1/image',
-  { method: 'POST' }
-)
+const emptyPost = (path: string): NextRequest =>
+  new NextRequest(`http://localhost/api/admin/${path}`, { method: 'POST' })
 
-describe('recipe photo route', () => {
+describe('recipe photo routes', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     env.OPENAI_API_KEY = 'key'
@@ -54,7 +52,8 @@ describe('recipe photo route', () => {
   it('turns away anyone but the owner', async () => {
     vi.mocked(isOwner).mockResolvedValue(false)
 
-    expect((await POST(generateRequest, context)).status).toBe(403)
+    expect((await generate(emptyPost('recipe-photos'))).status).toBe(403)
+    expect((await upload(emptyPost('recipe-photos/upload'))).status).toBe(403)
     expect((await choose('https://cdn.test/recipes/a.jpg')).status).toBe(403)
     expect(services.recipeService.setRecipePhoto).not.toHaveBeenCalled()
   })
@@ -62,7 +61,7 @@ describe('recipe photo route', () => {
   it('names the missing settings instead of failing silently', async () => {
     env.OPENAI_API_KEY = undefined
 
-    const response = await POST(generateRequest, context)
+    const response = await generate(emptyPost('recipe-photos'))
 
     expect(response.status).toBe(503)
     await expect(response.json()).resolves.toEqual({

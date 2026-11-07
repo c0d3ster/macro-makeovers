@@ -212,10 +212,6 @@ export class RecipeService {
     return status && recipe ? { status, recipe } : undefined
   }
 
-  async getRecipeSlug(id: string): Promise<string | undefined> {
-    return UUID.test(id) ? this.reader().getRecipeSlug(id) : undefined
-  }
-
   // Makes a generated photo the recipe's photo, and refreshes everywhere that shows it. False
   // when the id is unknown.
   async setRecipePhoto(id: string, url: string): Promise<boolean> {

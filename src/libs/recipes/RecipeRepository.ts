@@ -532,15 +532,6 @@ export class RecipeRepository {
     return row?.imageUrl ?? undefined
   }
 
-  getRecipeSlug = async (id: string): Promise<string | undefined> => {
-    const [row] = await this.database
-      .select({ slug: recipes.slug })
-      .from(recipes)
-      .where(eq(recipes.id, id))
-      .limit(1)
-    return row?.slug
-  }
-
   // Sets the photo the owner picked in the editor, replacing any earlier one. Generated photos
   // count as placeholders. Returns the slug, or undefined for an unknown id.
   setRecipeImage = async (

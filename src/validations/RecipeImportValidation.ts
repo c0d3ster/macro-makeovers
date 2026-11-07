@@ -2,7 +2,7 @@ import z from 'zod'
 
 const nonNegative = z.number().min(0)
 const text = z.string().trim().min(1)
-const slug = z
+export const recipeSlugSchema = z
   .string()
   .regex(
     /^[a-z0-9]+(?:-[a-z0-9]+)*$/,
@@ -51,7 +51,7 @@ const noteSchema = z.object({
 // ingredient, so a parsing pass can fill quantity, unit, and name in later.
 export const recipeImportSchema = z
   .object({
-    slug,
+    slug: recipeSlugSchema,
     title: text,
     summary: text,
     servings: z.number().int().positive(),
@@ -60,7 +60,7 @@ export const recipeImportSchema = z
     costTier: z.number().int().min(1).max(5),
     difficulty: z.number().int().min(1).max(5),
     // Slug of the recipe this one is a variant of. The base must already exist.
-    variantOf: slug.optional(),
+    variantOf: recipeSlugSchema.optional(),
     tags: z.array(z.string().trim().toLowerCase().min(1)),
     nutrition: z.array(nutritionSchema).min(1),
     ingredients: z.array(ingredientSchema).min(1),

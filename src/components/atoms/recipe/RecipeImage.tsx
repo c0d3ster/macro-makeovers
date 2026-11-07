@@ -13,6 +13,8 @@ type RecipeImageProps = {
   rounded?: boolean
   // Slowly zoom in while the parent with the `group` class is hovered
   zoomOnHover?: boolean
+  // What the placeholder says while there is no photo
+  placeholderText?: string
 }
 
 // The placeholder photos are 3:2
@@ -34,6 +36,7 @@ export const RecipeImage = ({
   priority = true,
   rounded = true,
   zoomOnHover = false,
+  placeholderText = 'Photo coming soon',
 }: RecipeImageProps): ReactElement => {
   const frame = frameFor(rounded)
   const zoom = zoomOnHover ? ZOOM : ''
@@ -58,7 +61,11 @@ export const RecipeImage = ({
   return (
     <div
       role='img'
-      aria-label={`Photo of ${title} coming soon`}
+      aria-label={
+        placeholderText === 'Photo coming soon'
+          ? `Photo of ${title} coming soon`
+          : placeholderText
+      }
       className={`${frame} flex flex-col items-center justify-center gap-3 border border-header-muted/30 bg-header`}
     >
       <Image
@@ -68,7 +75,7 @@ export const RecipeImage = ({
         height={554}
         className='h-20 w-auto'
       />
-      <span className='text-xs text-header-muted'>Photo coming soon</span>
+      <span className='text-xs text-header-muted'>{placeholderText}</span>
     </div>
   )
 }

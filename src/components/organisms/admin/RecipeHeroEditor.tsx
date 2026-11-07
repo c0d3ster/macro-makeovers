@@ -4,6 +4,8 @@ import type { KeyboardEvent, ReactElement } from 'react'
 
 import { useController, useWatch } from 'react-hook-form'
 
+import type { PhotoResponse } from '@/validations'
+
 import {
   InlineInput,
   InlineTextarea,
@@ -34,6 +36,7 @@ type RecipeHeroEditorProps = {
   // Set once the recipe exists. The slug then locks, because it is the recipe's address.
   recipeId?: string
   imageUrl?: string
+  onChoosePhoto: (url: string) => Promise<PhotoResponse>
 }
 
 // A title is one line of text, however far it wraps
@@ -62,6 +65,7 @@ const difficultySymbol = (isLit: boolean): ReactElement => (
 export const RecipeHeroEditor = ({
   recipeId,
   imageUrl,
+  onChoosePhoto,
 }: RecipeHeroEditorProps): ReactElement => {
   const {
     control,
@@ -192,7 +196,11 @@ export const RecipeHeroEditor = ({
       </div>
 
       <div className={RECIPE_HERO_PHOTO}>
-        <RecipePhotoEditor recipeId={recipeId} imageUrl={imageUrl} />
+        <RecipePhotoEditor
+          imageUrl={imageUrl}
+          onChoose={onChoosePhoto}
+          isSaved={Boolean(recipeId)}
+        />
       </div>
     </header>
   )
