@@ -523,6 +523,15 @@ export class RecipeRepository {
     return row?.status
   }
 
+  getRecipeImageUrl = async (id: string): Promise<string | undefined> => {
+    const [row] = await this.database
+      .select({ imageUrl: recipes.imageUrl })
+      .from(recipes)
+      .where(eq(recipes.id, id))
+      .limit(1)
+    return row?.imageUrl ?? undefined
+  }
+
   private writeRevision = async (tx: Tx, recipeId: string): Promise<void> => {
     await tx.insert(recipeRevisions).values({
       recipeId,

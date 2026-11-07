@@ -4,6 +4,13 @@ import type { RecipeDetail } from '@/libs/recipes'
 
 import { NutritionTable } from './NutritionTable'
 import { RecipeHero } from './RecipeHero'
+import {
+  RECIPE_BODY_GRID,
+  RECIPE_BODY_INGREDIENTS,
+  RECIPE_BODY_NUTRITION,
+  RECIPE_BODY_STEPS,
+  RECIPE_PAGE_LAYOUT,
+} from './recipeLayout'
 import { RecipeNotes } from './RecipeNotes'
 import { ScalableIngredients } from './ScalableIngredients'
 import { StepList } from './StepList'
@@ -19,14 +26,12 @@ export const RecipePageContent = ({
   recipe,
   corner,
 }: RecipePageContentProps): ReactElement => (
-  <main className='mx-auto flex max-w-6xl flex-col gap-12 px-3 py-10 sm:px-6 lg:px-8'>
+  <main className={RECIPE_PAGE_LAYOUT}>
     <RecipeHero recipe={recipe} corner={corner} />
-    {/* Nutrition and steps share the left column. Ingredients sit on the right, level with
-        nutrition and sticky while the steps scroll. On a phone they stack in cooking order:
-        nutrition, ingredients, steps. The right column is the home for later extras
-        (favorite, shopping list, reviews). */}
-    <div className='grid grid-cols-1 gap-y-12 md:grid-cols-[minmax(0,1fr)_18rem] md:gap-x-6 lg:grid-cols-[minmax(0,1fr)_24rem] lg:gap-x-10'>
-      <div className='md:col-start-1 md:row-start-1'>
+    {/* Ingredients stay level with nutrition and sticky while the steps scroll. The right
+        column is the home for later extras (favorite, shopping list, reviews). */}
+    <div className={RECIPE_BODY_GRID}>
+      <div className={RECIPE_BODY_NUTRITION}>
         <NutritionTable
           builds={recipe.nutrition}
           servings={recipe.servings}
@@ -35,13 +40,13 @@ export const RecipePageContent = ({
           analysis={recipe.nutritionAnalysis}
         />
       </div>
-      <div className='md:sticky md:top-24 md:col-start-2 md:row-span-2 md:row-start-1 md:self-start'>
+      <div className={`md:sticky md:top-24 ${RECIPE_BODY_INGREDIENTS}`}>
         <ScalableIngredients
           ingredients={recipe.ingredients}
           baseServings={recipe.servings}
         />
       </div>
-      <div className='md:col-start-1 md:row-start-2'>
+      <div className={RECIPE_BODY_STEPS}>
         <StepList
           steps={recipe.steps}
           prepMinutes={recipe.prepMinutes}

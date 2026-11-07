@@ -9,6 +9,7 @@ import { services } from '@/services'
 
 type EditableRecipeData = {
   status: RecipeStatus
+  imageUrl?: string
   recipe: RecipeImportInput
 }
 
@@ -45,6 +46,7 @@ export const loadEditableRecipe = async (
   // The service already validated the recipe against the import schema
   return {
     status: editable.status,
+    imageUrl: editable.imageUrl,
     recipe: editable.recipe as RecipeImportInput,
   }
 }

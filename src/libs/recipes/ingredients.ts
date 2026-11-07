@@ -3,10 +3,10 @@ export type RecipeIngredient = {
   raw: string
 }
 
-type IngredientGroup = {
+type IngredientGroup<T> = {
   // Undefined for lines the recipe does not file under a heading
   name?: string
-  ingredients: RecipeIngredient[]
+  ingredients: T[]
 }
 
 const NUMBER = String.raw`\d+\s+\d+\/\d+|\d+\/\d+|\d*\.\d+|\d+`
@@ -84,10 +84,10 @@ const sameGroup = (a?: string, b?: string): boolean =>
   a?.trim().toLowerCase() === b?.trim().toLowerCase()
 
 // Groups ingredient lines under their headings, in the order each heading first appears
-export const groupIngredients = (
-  ingredients: RecipeIngredient[]
-): IngredientGroup[] => {
-  const groups: IngredientGroup[] = []
+export const groupIngredients = <T extends { group?: string }>(
+  ingredients: T[]
+): IngredientGroup<T>[] => {
+  const groups: IngredientGroup<T>[] = []
 
   ingredients.forEach((ingredient) => {
     const current = groups.find(({ name }) => sameGroup(name, ingredient.group))

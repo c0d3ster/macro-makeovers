@@ -27,22 +27,18 @@ export const RecipePublishControls = ({
   const isPublished = status === 'published'
 
   return (
-    <div className='flex flex-col items-end gap-3'>
-      <div className='flex items-center gap-3'>
-        <Badge>{isPublished ? 'Published' : 'Draft'}</Badge>
-        {isPublished && (
-          <Link
-            href={`/recipes/${slug}`}
-            className='text-sm text-text-muted underline hover:text-text'
-          >
-            View live
-          </Link>
-        )}
-      </div>
-      <div className='flex flex-wrap items-center justify-end gap-3'>
-        <RecipePublishButton id={id} status={status} />
-        {children}
-      </div>
+    <div className='flex flex-wrap items-center justify-end gap-3'>
+      <Badge>{isPublished ? 'Published' : 'Draft'}</Badge>
+      {isPublished && (
+        <Link
+          href={`/recipes/${slug}`}
+          className='text-sm text-text-muted underline hover:text-text'
+        >
+          View live
+        </Link>
+      )}
+      <RecipePublishButton id={id} status={status} />
+      {children}
     </div>
   )
 }
