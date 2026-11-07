@@ -9,7 +9,7 @@ import {
   RecipePublishControls,
 } from '@/components/molecules'
 import { RecipeForm } from '@/components/organisms'
-import { CleanPageTemplate } from '@/components/templates'
+import { RecipeEditorTemplate } from '@/components/templates'
 import { Env } from '@/libs/Env'
 import { logger } from '@/libs/Logger'
 
@@ -34,15 +34,21 @@ const EditRecipePage = async ({
     return undefined
   })
   if (!editable) notFound()
-  const { recipe, status } = editable
+  const { recipe, status, imageUrl } = editable
 
   return (
-    <CleanPageTemplate
-      activeItem='manage'
-      title={recipe.title}
-      subtitle='Every save keeps a revision, and published recipes update right away.'
-      backLink={<BackLink href='/admin'>Back to recipes</BackLink>}
-      header={
+    <RecipeEditorTemplate
+      title={`Edit ${recipe.title}`}
+      toolbarStart={
+        <>
+          <BackLink href='/admin'>Back to recipes</BackLink>
+          <p>
+            Every save keeps a revision, and published recipes update right
+            away.
+          </p>
+        </>
+      }
+      toolbarEnd={
         <RecipePublishControls id={id} slug={recipe.slug} status={status}>
           <RecipeDeleteButton
             id={id}
@@ -52,8 +58,8 @@ const EditRecipePage = async ({
         </RecipePublishControls>
       }
     >
-      <RecipeForm recipeId={id} initial={recipe} />
-    </CleanPageTemplate>
+      <RecipeForm recipeId={id} initial={recipe} imageUrl={imageUrl} />
+    </RecipeEditorTemplate>
   )
 }
 

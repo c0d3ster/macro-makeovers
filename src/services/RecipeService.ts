@@ -49,6 +49,7 @@ type RecipePreview = {
 type EditableRecipe = {
   id: string
   status: RecipeStatus
+  imageUrl?: string
   recipe: unknown
 }
 
@@ -254,9 +255,10 @@ export class RecipeService {
     if (!UUID.test(id)) return undefined
 
     const repository = this.reader()
-    const [status, snapshot] = await Promise.all([
+    const [status, snapshot, imageUrl] = await Promise.all([
       repository.getRecipeStatus(id),
       repository.getRecipe(id),
+      repository.getRecipeImageUrl(id),
     ])
     if (!status) return undefined
 
@@ -269,6 +271,6 @@ export class RecipeService {
       return undefined
     }
 
-    return { id, status, recipe: parsed.data }
+    return { id, status, imageUrl, recipe: parsed.data }
   }
 }

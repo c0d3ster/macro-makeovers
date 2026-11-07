@@ -10,12 +10,19 @@ import {
   CostTier,
   CountUp,
   DifficultyDots,
-  MacroStrip,
   RecipeImage,
 } from '@/components/atoms'
-import { MacroBar } from '@/components/molecules'
-import { toMacroRatios, toTagPath } from '@/libs/recipes'
+import { RecipeMacroSummary } from '@/components/molecules'
+import { toTagPath } from '@/libs/recipes'
 import { formatMinutes } from '@/utils/formatMinutes'
+
+import {
+  RECIPE_HERO_BODY,
+  RECIPE_HERO_FACTS,
+  RECIPE_HERO_GRID,
+  RECIPE_HERO_PHOTO,
+  RECIPE_HERO_TITLE,
+} from './recipeLayout'
 
 type RecipeHeroProps = {
   recipe: RecipeDetail
@@ -41,9 +48,7 @@ export const RecipeHero = ({
     baseRecipe,
     variants,
   } = recipe
-  const { proteinPct, carbsPct, fatPct } = toMacroRatios(featured)
   const original = nutrition.find(({ kind }) => kind === 'traditional')
-  const originalRatios = original && toMacroRatios(original)
 
   return (
     <header className='flex flex-col gap-5'>
@@ -58,11 +63,11 @@ export const RecipeHero = ({
         )}
       </div>
 
-      <div className='grid gap-x-10 gap-y-5 md:grid-cols-[minmax(0,1fr)_20rem] lg:grid-cols-[minmax(0,1fr)_24rem]'>
-        <h1 className='text-4xl font-bold text-text md:col-start-1 md:row-start-1'>
+      <div className={RECIPE_HERO_GRID}>
+        <h1 className={`text-4xl font-bold text-text ${RECIPE_HERO_TITLE}`}>
           {title}
         </h1>
-        <dl className='flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-text-muted md:col-start-2 md:row-start-1 md:justify-end'>
+        <dl className={RECIPE_HERO_FACTS}>
           <div className='flex items-center gap-2'>
             <dt>Total</dt>
             <dd className='text-text'>{formatMinutes(totalMinutes)}</dd>
@@ -81,7 +86,7 @@ export const RecipeHero = ({
           </div>
         </dl>
 
-        <div className='flex flex-col gap-5 md:col-start-1 md:row-start-2'>
+        <div className={RECIPE_HERO_BODY}>
           <p className='max-w-3xl text-text-muted'>{summary}</p>
 
           <div className='flex max-w-xl flex-col gap-3'>
@@ -103,44 +108,7 @@ export const RecipeHero = ({
                 <span className='text-base text-text-muted'>servings</span>
               </p>
             </div>
-            <MacroBar
-              reveal
-              macros={[
-                {
-                  label: 'Carbs',
-                  tone: 'carbs',
-                  percent: carbsPct,
-                  fromPercent: originalRatios?.carbsPct,
-                  grams: featured.carbsG,
-                },
-                {
-                  label: 'Fat',
-                  tone: 'fat',
-                  percent: fatPct,
-                  fromPercent: originalRatios?.fatPct,
-                  grams: featured.fatG,
-                },
-                {
-                  label: 'Protein',
-                  tone: 'protein',
-                  percent: proteinPct,
-                  fromPercent: originalRatios?.proteinPct,
-                  grams: featured.proteinG,
-                },
-              ]}
-            />
-            {originalRatios && (
-              <MacroStrip
-                large
-                reveal
-                label={`Original recipe calories by macro: ${originalRatios.carbsPct}% carbs, ${originalRatios.fatPct}% fat, ${originalRatios.proteinPct}% protein`}
-                segments={[
-                  { tone: 'carbs', percent: originalRatios.carbsPct },
-                  { tone: 'fat', percent: originalRatios.fatPct },
-                  { tone: 'protein', percent: originalRatios.proteinPct },
-                ]}
-              />
-            )}
+            <RecipeMacroSummary reveal featured={featured} original={original} />
           </div>
 
           {(baseRecipe || variants.length > 0) && (
@@ -193,7 +161,7 @@ export const RecipeHero = ({
           )}
         </div>
 
-        <div className='md:col-start-2 md:row-start-2'>
+        <div className={RECIPE_HERO_PHOTO}>
           <RecipeImage imageUrl={imageUrl} title={title} />
         </div>
       </div>
