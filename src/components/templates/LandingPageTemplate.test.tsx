@@ -55,7 +55,8 @@ describe('LandingPageTemplate', () => {
     )
 
     expect(screen.getByTestId('nav-home')).toBeInTheDocument()
-    expect(screen.getByTestId('nav-contact')).toBeInTheDocument()
+    // Hidden until the contact form's email sending works
+    expect(screen.queryByTestId('nav-contact')).not.toBeInTheDocument()
   })
 
   it('renders SiteHeader before content', () => {
