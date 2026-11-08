@@ -24,15 +24,25 @@ export const uploadToR2 = async (
     region: 'auto',
   })
   const endpoint = `https://${config.accountId}.r2.cloudflarestorage.com/${config.bucket}/${key}`
-  // Sign with aws4fetch, send with the injected fetch
   const signed = await client.sign(endpoint, {
     method: 'PUT',
     headers: { 'Content-Type': 'image/jpeg' },
     body: bytes,
   })
-  const response = await fetchImpl(signed)
+  // Sent as the bytes, not as the signed Request. Its body is a stream, which fetch sends without
+  // a Content-Length, and R2 refuses that with 411 Length Required.
+  const response = await fetchImpl(signed.url, {
+    method: 'PUT',
+    headers: signed.headers,
+    body: bytes,
+  })
   if (!response.ok) {
-    throw new Error(`R2 upload failed with ${response.status}`)
+    // R2 explains a refusal in an XML <Message>, which says far more than the status alone
+    const body = await response.text().catch(() => '')
+    const reason = /<Message>(.*?)<\/Message>/.exec(body)?.[1]
+    throw new Error(
+      `R2 upload failed with ${response.status}${reason ? `: ${reason}` : ''}`
+    )
   }
   return `${config.publicUrl.replace(/\/+$/, '')}/${key}`
 }
