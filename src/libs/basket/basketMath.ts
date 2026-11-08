@@ -209,6 +209,21 @@ export const rankBundles = (
     }))
     .sort((a, b) => b.saving - a.saving)
 
+// The best bundles that don't share a recipe, so a short list shows more of the book
+export const pickDistinctBundles = (
+  ranked: RankedBundle[],
+  count: number
+): RankedBundle[] => {
+  const used = new Set<string>()
+  return ranked
+    .filter(({ slugs }) => {
+      if (slugs.some((slug) => used.has(slug))) return false
+      slugs.forEach((slug) => used.add(slug))
+      return true
+    })
+    .slice(0, count)
+}
+
 export const SECTION_ORDER: StoreSection[] = [
   'produce',
   'meat',
