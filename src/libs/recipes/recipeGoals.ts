@@ -43,6 +43,11 @@ const near = (value: number): MacroTarget => ({ kind: 'near', value })
 // Clean Bulk is a 50 / 25 / 25 split over a whole day, but every recipe is between 34% and 48%
 // carbs, so a dish can never hit 50. The rule scores fat and protein and accepts any carbs at
 // 40 or above, since the side or drink that goes with it adds the rest.
+//
+// Fat Loss is 40 / 25 / 35 over a day, but for one dish the calories, protein and fat are what
+// count. The rule skips carbs so a lean low-carb dish is a fit, and ranks the most protein and
+// least fat first. Carb Cycling Low stops at 30 because the dishes just above that line are
+// balanced meals, not low-carb ones.
 export const GOALS: Goal[] = [
   {
     id: 'balanced',
@@ -53,13 +58,13 @@ export const GOALS: Goal[] = [
   {
     id: 'fat-loss',
     label: 'Fat Loss',
-    note: 'Calorie deficit. Meals up to 550 cal, near 40 / 25 / 35.',
+    note: 'Calorie deficit. Meals up to 550 cal, at least 30% protein and at most 30% fat.',
     fit: {
-      carbs: near(40),
-      fat: near(25),
-      protein: near(35),
+      fat: { kind: 'atMost', value: 30 },
+      protein: { kind: 'atLeast', value: 30 },
       maxCalories: 550,
     },
+    calories: 'asc',
   },
   {
     id: 'body-recomp',
@@ -92,7 +97,7 @@ export const GOALS: Goal[] = [
     id: 'carb-cycling-low',
     label: 'Carb Cycling Low',
     note: 'Lower-carb day, often with fewer total calories. Fewest carbs first.',
-    fit: { carbs: { kind: 'atMost', value: 35 } },
+    fit: { carbs: { kind: 'atMost', value: 30 } },
   },
   {
     id: 'carb-cycling-high',
