@@ -39,4 +39,27 @@ describe('RecipePublishControls', () => {
       '/recipes/test-chili'
     )
   })
+
+  it('links a draft to its preview instead of a live page', () => {
+    render(
+      <RecipePublishControls id='recipe-1' slug='test-chili' status='draft' />
+    )
+
+    expect(screen.getByRole('link', { name: 'Preview' })).toHaveAttribute(
+      'href',
+      '/admin/recipes/recipe-1/preview'
+    )
+  })
+
+  it('keeps the status last, after every action', () => {
+    const { container } = render(
+      <RecipePublishControls id='recipe-1' slug='test-chili' status='published'>
+        <button type='button'>Delete</button>
+      </RecipePublishControls>
+    )
+
+    expect(container.firstElementChild?.lastElementChild).toHaveTextContent(
+      'Published'
+    )
+  })
 })

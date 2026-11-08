@@ -12,12 +12,15 @@ type RecipePublishControlsProps = {
   id: string
   slug: string
   status: RecipeStatus
-  // Extra actions beside the publish button, like delete
+  // Extra actions after the publish button, like delete
   children?: ReactNode
 }
 
-// Status and the publish switch for one recipe. It publishes what is saved, so a recipe with
-// unsaved edits publishes without them.
+const LINK_CLASS = 'text-sm text-text-muted underline hover:text-text'
+
+// The actions for one recipe, with its status always last on the right. A published recipe links
+// to its live page. A draft has no public page yet, so it links to the preview instead. Publishing
+// uses what is saved, so unsaved edits are left out.
 export const RecipePublishControls = ({
   id,
   slug,
@@ -28,17 +31,22 @@ export const RecipePublishControls = ({
 
   return (
     <div className='flex flex-wrap items-center justify-end gap-3'>
-      <Badge>{isPublished ? 'Published' : 'Draft'}</Badge>
-      {isPublished && (
-        <Link
-          href={`/recipes/${slug}`}
-          className='text-sm text-text-muted underline hover:text-text'
-        >
+      {isPublished ? (
+        <Link href={`/recipes/${slug}`} className={LINK_CLASS}>
           View live
+        </Link>
+      ) : (
+        <Link
+          href={`/admin/recipes/${id}/preview`}
+          title='The saved draft as visitors will see it'
+          className={LINK_CLASS}
+        >
+          Preview
         </Link>
       )}
       <RecipePublishButton id={id} status={status} />
       {children}
+      <Badge>{isPublished ? 'Published' : 'Draft'}</Badge>
     </div>
   )
 }
