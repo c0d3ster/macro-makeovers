@@ -1,3 +1,5 @@
+// @vitest-environment node
+// Server-side code: jsdom's File has no arrayBuffer(), which the upload path reads
 import { describe, expect, it, vi } from 'vitest'
 
 import type { PhotoCandidateDeps } from './photoCandidate'
