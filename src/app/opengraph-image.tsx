@@ -1,8 +1,7 @@
 /* eslint-disable react-refresh/only-export-components -- Next requires these route exports beside the component */
+import { ImageResponse } from 'next/og'
 import { readFile } from 'node:fs/promises'
 import { join } from 'node:path'
-
-import { ImageResponse } from 'next/og'
 
 import { Env } from '@/libs/Env'
 
