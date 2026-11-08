@@ -1,11 +1,33 @@
-import type { ReactElement } from 'react'
+import type { ReactElement, ReactNode } from 'react'
 
+import { Children } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
+
+import { DifficultyDots } from '@/components/atoms/recipe'
 
 type ProseProps = {
   children: string
 }
+
+// The content files write difficulty as ●●●○○. Those glyphs come from fallback fonts at uneven
+// sizes, so each run is drawn with the same dots the recipe pages use.
+const DOT_RUN = /([●○]{5})/
+
+const splitDots = (text: string): ReactNode[] =>
+  text.split(DOT_RUN).map((part, index) =>
+    DOT_RUN.test(part) ? (
+      <span key={index} className='mx-0.5 inline-block align-middle'>
+        <DifficultyDots level={part.split('●').length - 1} />
+      </span>
+    ) : (
+      part
+    )
+  )
+
+const withDots = (children: ReactNode): ReactNode =>
+  Children.map(children, (child) =>
+    typeof child === 'string' ? splitDots(child) : child  )
 
 // Long-form markdown for the guide and about pages, at reading size. react-markdown ignores raw
 // HTML, so the content files can't inject markup.
@@ -25,10 +47,13 @@ export const Prose = ({ children }: ProseProps): ReactElement => (
           </h3>
         ),
         p: ({ children: content }): ReactElement => (
-          <p className='mb-4 last:mb-0'>{content}</p>
+          <p className='mb-4 last:mb-0'>{withDots(content)}</p>
         ),
         ul: ({ children: content }): ReactElement => (
           <ul className='mb-4 list-disc space-y-2 pl-6 last:mb-0'>{content}</ul>
+        ),
+        li: ({ children: content }): ReactElement => (
+          <li>{withDots(content)}</li>
         ),
         ol: ({ children: content }): ReactElement => (
           <ol className='mb-4 list-decimal space-y-2 pl-6 last:mb-0'>
@@ -36,7 +61,9 @@ export const Prose = ({ children }: ProseProps): ReactElement => (
           </ol>
         ),
         strong: ({ children: content }): ReactElement => (
-          <strong className='font-semibold text-text'>{content}</strong>
+          <strong className='font-semibold text-text'>
+            {withDots(content)}
+          </strong>
         ),
         table: ({ children: content }): ReactElement => (
           <div className='mb-4 overflow-x-auto rounded-lg border border-text-muted/30 last:mb-0'>
@@ -65,7 +92,7 @@ export const Prose = ({ children }: ProseProps): ReactElement => (
         ),
         code: ({ children: content }): ReactElement => (
           <code className='rounded bg-surface px-1.5 py-0.5 text-[0.9em] text-text'>
-            {content}
+            {withDots(content)}
           </code>
         ),
         a: ({ children: content, href }): ReactElement => (

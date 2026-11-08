@@ -8,7 +8,7 @@ Cost is per serving, from the lowest prices found across several stores for each
 - **$$:** $3 to $4.99
 - **$$$:** $5 to $6.99
 - **$$$$:** $7 to $9.99
-- **$$$$$:** $10 and up. Nothing in this book reaches it yet.
+- **$$$$$:** $10 and up. No recipe reaches it yet.
 
 ### Time
 
@@ -22,7 +22,7 @@ Difficulty is about technique risk, not effort. A long recipe with forgiving ste
 - **2 ●●○○○:** one forgiving method, hard to mess up.
 - **3 ●●●○○:** a few components, or one spot to watch.
 - **4 ●●●●○:** several things to time together, or one technique that can fail.
-- **5 ●●●●●:** a technique where a small mistake ruins it (poached eggs and hollandaise, a thick steak, a soufflé). Nothing in this book is a 5 yet.
+- **5 ●●●●●:** a technique where a small mistake ruins it (poached eggs and hollandaise, a thick steak, a soufflé). No recipe is a 5 yet.
 
 ### Nutrition
 
