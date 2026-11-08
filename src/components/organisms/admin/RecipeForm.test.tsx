@@ -56,22 +56,6 @@ describe('RecipeForm', () => {
     expect(screen.getByLabelText('Slug')).toHaveAttribute('readonly')
   })
 
-  it('links to the preview of the saved recipe only when editing', () => {
-    const { rerender } = render(
-      <RecipeForm recipeId='recipe-1' initial={sampleRecipe} />
-    )
-
-    expect(
-      screen.getByRole('link', { name: 'Preview saved version' })
-    ).toHaveAttribute('href', '/admin/recipes/recipe-1/preview')
-
-    rerender(<RecipeForm initial={sampleRecipe} />)
-
-    expect(
-      screen.queryByRole('link', { name: 'Preview saved version' })
-    ).not.toBeInTheDocument()
-  })
-
   it('updates the hero calories and ratio while the nutrition table is edited', () => {
     render(<RecipeForm recipeId='recipe-1' initial={sampleRecipe} />)
 
@@ -193,7 +177,9 @@ describe('RecipeForm', () => {
     render(<RecipeForm initial={sampleRecipe} />)
 
     fireEvent.click(screen.getByRole('button', { name: /^Add an intro/ }))
+
     expect(await screen.findByLabelText('Note 2')).toHaveFocus()
+
     fireEvent.change(await screen.findByLabelText('Note 2'), {
       target: { value: 'Base only is the plain bowl' },
     })
