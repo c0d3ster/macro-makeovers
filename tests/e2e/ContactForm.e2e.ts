@@ -36,8 +36,8 @@ test.describe('Contact Form', () => {
     })
   })
 
-  test('should display contact form on landing page', async ({ page }) => {
-    await page.goto('/')
+  test('should display contact form on the about page', async ({ page }) => {
+    await page.goto('/about')
 
     // Check if the form elements are visible
     await expect(page.getByLabel('Name')).toBeVisible()
@@ -52,7 +52,7 @@ test.describe('Contact Form', () => {
   test('should show validation errors for empty form submission', async ({
     page,
   }) => {
-    await page.goto('/')
+    await page.goto('/about')
 
     // Try to submit empty form
     await page.getByRole('button', { name: 'Send Message' }).click()
@@ -64,7 +64,7 @@ test.describe('Contact Form', () => {
   })
 
   test('should successfully submit form with valid data', async ({ page }) => {
-    await page.goto('/')
+    await page.goto('/about')
 
     // Fill out the form
     await page.getByLabel('Name').fill('John Doe')
@@ -88,7 +88,7 @@ test.describe('Contact Form', () => {
   })
 
   test('should handle invalid email format', async ({ page }) => {
-    await page.goto('/')
+    await page.goto('/about')
 
     // Fill form with invalid email
     await page.getByLabel('Name').fill('John Doe')
@@ -107,7 +107,7 @@ test.describe('Contact Form', () => {
   })
 
   test('should handle message too short', async ({ page }) => {
-    await page.goto('/')
+    await page.goto('/about')
 
     // Fill form with message that's too short
     await page.getByLabel('Name').fill('John Doe')
