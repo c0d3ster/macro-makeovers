@@ -1,6 +1,5 @@
 import type { ReactElement, ReactNode } from 'react'
 
-import { Children } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 
@@ -14,20 +13,37 @@ type ProseProps = {
 // sizes, so each run is drawn with the same dots the recipe pages use.
 const DOT_RUN = /([●○]{5})/
 
-const splitDots = (text: string): ReactNode[] =>
-  text.split(DOT_RUN).map((part, index) =>
-    DOT_RUN.test(part) ? (
-      <span key={index} className='mx-0.5 inline-block align-middle'>
-        <DifficultyDots level={part.split('●').length - 1} />
-      </span>
-    ) : (
-      part
-    )
-  )
+type DotParts = {
+  nodes: ReactNode[]
+  offset: number
+}
 
-const withDots = (children: ReactNode): ReactNode =>
-  Children.map(children, (child) =>
-    typeof child === 'string' ? splitDots(child) : child  )
+// Each run is keyed by where it starts in the text
+const splitDots = (text: string): ReactNode[] =>
+  text.split(DOT_RUN).reduce<DotParts>(
+    ({ nodes, offset }, part) => ({
+      nodes: [
+        ...nodes,
+        DOT_RUN.test(part) ? (
+          <span key={`dots-${offset}`} className='mx-0.5 inline-block align-middle'>
+            <DifficultyDots level={part.split('●').length - 1} />
+          </span>
+        ) : (
+          part
+        ),
+      ],
+      offset: offset + part.length,
+    }),
+    { nodes: [], offset: 0 }
+  ).nodes
+
+const withDots = (children: ReactNode): ReactNode => {
+  if (typeof children === 'string') return splitDots(children)
+  if (!Array.isArray(children)) return children
+  return children.flatMap((child: ReactNode) =>
+    typeof child === 'string' ? splitDots(child) : [child]
+  )
+}
 
 // Long-form markdown for the guide and about pages, at reading size. react-markdown ignores raw
 // HTML, so the content files can't inject markup.
