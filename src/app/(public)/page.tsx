@@ -41,6 +41,11 @@ const GUIDES = [
     title: 'Reading a recipe',
     blurb: 'What cost, time, difficulty, and the nutrition table mean.',
   },
+  {
+    href: '/about',
+    title: 'Why this exists',
+    blurb: 'Comfort food that keeps its flavor and still fits your macros.',
+  },
 ]
 
 export const metadata: Metadata = {
@@ -100,7 +105,7 @@ const HomePage = async ({
           <GoalLinks />
         </HomeSection>
 
-        <HomeSection title='Guides'>
+        <HomeSection title='Guides and background'>
           <GuideLinks guides={GUIDES} />
         </HomeSection>
       </main>

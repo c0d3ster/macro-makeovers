@@ -76,6 +76,20 @@ describe('computeBasket', () => {
     expect(chicken && describePurchase(chicken)).toBe('1.5 lb')
   })
 
+  it('describes packs, with a plain count for items sold one at a time', () => {
+    const { lines } = computeBasket(
+      [one('pollo-asado-chicken-thigh-bowl')],
+      NO_PANTRY
+    )
+    const purchase = (key: string): string | undefined => {
+      const line = lines.find((candidate) => candidate.key === key)
+      return line && describePurchase(line)
+    }
+
+    expect(purchase('lime')).toBe('5')
+    expect(purchase('cottage')).toBe('1 × 16 oz tub')
+  })
+
   it('scales by batches and counts servings', () => {
     const single = computeBasket([one('spicy-turkey-chili')], NO_PANTRY)
     const double = computeBasket(

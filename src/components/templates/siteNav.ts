@@ -16,7 +16,8 @@ export const SITE_NAV_ITEMS: NavItem[] = [
       href: `/guides/${slug}`,
     })),
   },
-  { id: 'about', label: 'About', href: '/about' },
+  // Phones run out of header room, and the home page links to About
+  { id: 'about', label: 'About', href: '/about', hideOnMobile: true },
 ]
 
 // The signed-in part of the site: same header, its own links. Meal planning and goals will
