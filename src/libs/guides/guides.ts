@@ -1,43 +1,12 @@
 import { readFileSync } from 'node:fs'
 import { join, resolve } from 'node:path'
 
+import type { GuideSlug } from './guideList'
+
 // The guide prose lives in content/guides as plain markdown with no top heading. The site shows
 // each file as its own page, and the printable book stitches them back into its sections, so
 // one edit changes both.
 const GUIDES_DIR = resolve(process.cwd(), 'content/guides')
-
-export type GuideSlug = 'nutrition' | 'shopping' | 'reading-recipes'
-
-export type Guide = {
-  slug: GuideSlug
-  title: string
-  // One sentence for the guide list and the page description
-  description: string
-}
-
-export const GUIDES: Guide[] = [
-  {
-    slug: 'nutrition',
-    title: 'Nutrition guide',
-    description:
-      'How protein, the fat floor, and carbs are set, and the C/F/P ratio for each goal.',
-  },
-  {
-    slug: 'shopping',
-    title: 'Shopping guide',
-    description:
-      'Lean proteins, the cottage cheese and Greek yogurt swaps, and which oil to cook with.',
-  },
-  {
-    slug: 'reading-recipes',
-    title: 'Reading a recipe',
-    description:
-      'What the cost, time, and difficulty marks mean, and how to use the nutrition table.',
-  },
-]
-
-export const findGuide = (slug: string): Guide | undefined =>
-  GUIDES.find((guide) => guide.slug === slug)
 
 const readContentFile = (name: string): string =>
   readFileSync(join(GUIDES_DIR, `${name}.md`), 'utf8').trim()

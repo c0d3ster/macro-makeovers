@@ -3,7 +3,9 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { ThemeToggle, UserMenu } from '@/components/molecules'
+import type { NavLink } from '@/components/molecules'
+
+import { NavDropdown, ThemeToggle, UserMenu } from '@/components/molecules'
 import { Env } from '@/libs/Env'
 import { isSupabaseConfigured } from '@/libs/supabase/client'
 import { useAuth, useOwnerStatus } from '@/providers'
@@ -15,6 +17,8 @@ export type NavItem = {
   hideOnMobile?: boolean
   // Only shown to the site owner
   ownerOnly?: boolean
+  // Sub-pages shown in a menu on wider screens, like the guides
+  children?: NavLink[]
 }
 
 type SiteHeaderProps = {
@@ -90,12 +94,26 @@ export const SiteHeader = ({
           >
             {items.map((item) => {
               const isActive = activeItem === item.id
+              const className = `text-sm font-medium transition-colors ${isActive ? 'text-header-text' : 'text-header-muted hover:text-header-text'}`
+              const tabIndex = isNavHeld ? -1 : undefined
+              if (item.children) {
+                return (
+                  <NavDropdown
+                    key={item.label}
+                    label={item.label}
+                    href={item.href}
+                    items={item.children}
+                    className={className}
+                    tabIndex={tabIndex}
+                  />
+                )
+              }
               return (
                 <Link
                   key={item.label}
                   href={item.href}
-                  tabIndex={isNavHeld ? -1 : undefined}
-                  className={`text-sm font-medium transition-colors ${isActive ? 'text-header-text' : 'text-header-muted hover:text-header-text'} ${item.hideOnMobile ? 'hidden sm:block' : ''}`}
+                  tabIndex={tabIndex}
+                  className={`${className} ${item.hideOnMobile ? 'hidden sm:block' : ''}`}
                 >
                   {item.label}
                 </Link>
