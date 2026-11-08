@@ -13,7 +13,7 @@ type GuideLinksProps = {
 }
 
 export const GuideLinks = ({ guides }: GuideLinksProps): ReactElement => (
-  <ul className='grid grid-cols-1 gap-3 sm:grid-cols-3'>
+  <ul className='grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4'>
     {guides.map(({ href, title, blurb }) => (
       <li key={href}>
         <Link

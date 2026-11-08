@@ -246,15 +246,16 @@ export const groupBySection = (lines: BasketLine[]): BasketSection[] =>
 const roundQuantity = (value: number): string =>
   String(Math.round(value * 100) / 100)
 
-// What to grab, like "2 × 16 oz tub" or "1.5 lb"
+// What to grab, like "2 × 16 oz tub", "1.5 lb", or just "3" for items sold one at a time
 export const describePurchase = ({
   item,
   packs,
   quantity,
-}: BasketLine): string =>
-  isPricedByWeight(item)
-    ? `${roundQuantity(quantity)} lb`
-    : `${packs} × ${item.pack}`
+}: BasketLine): string => {
+  if (isPricedByWeight(item)) return `${roundQuantity(quantity)} lb`
+  if (item.pack.startsWith('each')) return String(packs)
+  return `${packs} × ${item.pack}`
+}
 
 export const formatMoney = (value: number): string => `$${value.toFixed(2)}`
 
