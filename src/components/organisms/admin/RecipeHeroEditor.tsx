@@ -186,13 +186,13 @@ export const RecipeHeroEditor = ({
           </div>
         </div>
 
-        <div className='md:mt-auto'>
-          <TagInput
-            value={tags.field.value}
-            onChange={tags.field.onChange}
-            error={errors.tags?.message}
-          />
-        </div>
+        {/* Right under the rest, unlike the page's tags pinned to the bottom. The photo column
+            here holds the photo tools too, so pinning would leave a large gap above the tags. */}
+        <TagInput
+          value={tags.field.value}
+          onChange={tags.field.onChange}
+          error={errors.tags?.message}
+        />
       </div>
 
       <div className={RECIPE_HERO_PHOTO}>
