@@ -3,9 +3,11 @@ import type { ReactElement } from 'react'
 
 import { permanentRedirect } from 'next/navigation'
 
+import type { BundleLink } from '@/components/organisms'
 import type { RecipeCard } from '@/libs/recipes'
 
 import {
+  BundleLinks,
   GoalLinks,
   GuideLinks,
   HomeHero,
@@ -13,6 +15,7 @@ import {
   RecipeGrid,
 } from '@/components/organisms'
 import { LandingPageTemplate } from '@/components/templates'
+import { pickDistinctBundles, rankBundles } from '@/libs/basket'
 import { Env } from '@/libs/Env'
 import { logger } from '@/libs/Logger'
 import {
@@ -24,6 +27,7 @@ import { services } from '@/services'
 
 const TAGLINE = 'High-protein, lower-fat versions of foods people love'
 const FEATURED_COUNT = 3
+const BUNDLE_COUNT = 3
 
 const GUIDES = [
   {
@@ -67,6 +71,18 @@ const loadRecipeCards = async (): Promise<RecipeCard[] | undefined> => {
   }
 }
 
+// The pairs of published recipes that save the most bought together, none sharing a recipe
+const toBundles = (recipes: RecipeCard[]): BundleLink[] => {
+  const titles = new Map(recipes.map(({ slug, title }) => [slug, title]))
+  return pickDistinctBundles(
+    rankBundles([...titles.keys()], 2, { includePantry: false }),
+    BUNDLE_COUNT
+  ).map(({ slugs, saving }) => ({
+    saving,
+    recipes: slugs.map((slug) => ({ slug, title: titles.get(slug) ?? slug })),
+  }))
+}
+
 const HomePage = async ({
   searchParams,
 }: HomePageProps): Promise<ReactElement> => {
@@ -78,6 +94,7 @@ const HomePage = async ({
 
   const recipes = await loadRecipeCards()
   const featured = recipes && pickFeaturedRecipes(recipes, FEATURED_COUNT)
+  const bundles = recipes ? toBundles(recipes) : []
 
   return (
     <LandingPageTemplate activeItem='home'>
@@ -97,6 +114,16 @@ const HomePage = async ({
             </p>
           )}
         </HomeSection>
+
+        {bundles.length > 0 && (
+          <HomeSection
+            title='Cook these together'
+            intro='Recipes that share ingredients cost less bought in one trip, since the packs round up once.'
+            more={{ href: '/basket', label: 'Your basket' }}
+          >
+            <BundleLinks bundles={bundles} />
+          </HomeSection>
+        )}
 
         <HomeSection
           title='Pick your goal'

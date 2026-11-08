@@ -11,6 +11,7 @@ import {
   costPerServing,
   describePurchase,
   groupBySection,
+  pickDistinctBundles,
   rankBundles,
   SECTION_ORDER,
   suggestAddition,
@@ -157,6 +158,22 @@ describe('bundles', () => {
     expect(ranked.map(({ saving }) => saving)).toEqual(
       ranked.map(({ saving }) => saving).sort((a, b) => b - a)
     )
+  })
+})
+
+describe('pickDistinctBundles', () => {
+  it('skips bundles that reuse a recipe already picked', () => {
+    const ranked = [
+      { slugs: ['a', 'b'], saving: 9 },
+      { slugs: ['a', 'c'], saving: 8 },
+      { slugs: ['c', 'd'], saving: 7 },
+      { slugs: ['e', 'f'], saving: 6 },
+    ]
+
+    expect(pickDistinctBundles(ranked, 2).map(({ slugs }) => slugs)).toEqual([
+      ['a', 'b'],
+      ['c', 'd'],
+    ])
   })
 })
 
