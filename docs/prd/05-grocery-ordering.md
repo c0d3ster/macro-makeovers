@@ -6,22 +6,28 @@ The basket (PRD 08) gives everyone a pooled shopping list, but the groceries sti
 
 ## Goal
 
-From the basket, a paid member taps "Send to cart" and lands in a grocery service's cart or shopping list with the items ready to check out.
+From the basket, a member taps "Send to cart", picks a grocer, and lands in that grocer's cart or shopping list with the items ready to check out.
+
+## Approach: multi-grocer (decided)
+
+The member chooses where to shop instead of us picking one service for everyone. Direct retailer carts (for example Kroger and Walmart) keep checkout totals close to in-store prices, so the basket's cost estimates stay honest. An aggregator (for example Instacart) adds reach and pays the most per order, but its markups and fees push the checkout total above our estimates. Offering both keeps the revenue without forcing anyone onto one service. Which grocers launch first, and which is the default, comes from `docs/grocery-services.md`.
 
 ## Scope
 
 **In**
 
-- "Send to cart" on `/basket`. The shopping list, pantry toggle, check off, and copy as text are free and live in PRD 08.
-- Cart handoff to one grocery service first. Which one is decided from `docs/grocery-services.md`.
-- Mapping each basket price item to a search term or product the service can match.
-- Affiliate disclosure on the page if the handoff earns revenue.
+- "Send to cart" on `/basket`, which opens a grocer picker. The shopping list, pantry toggle, check off, and copy as text are free and live in PRD 08.
+- One adapter per grocer behind a shared interface: input is the basket's pooled items, output is a handoff URL or a cart write plus a list of unmatched lines.
+- Start with two grocers, one direct retailer cart and one aggregator, and add more as adapters.
+- Remember the member's last grocer and store, and preselect it next time.
+- Mapping each basket price item to each grocer's search term or product.
+- Affiliate disclosure on the picker for every grocer that earns revenue.
+- A short note on the picker for grocers that may charge more than in-store prices.
 
 **Out**
 
 - Direct checkout, payments, or delivery handled by us.
-- Several services in v1. Leave room to add a second.
-- Price comparison across services.
+- Live price comparison across grocers.
 
 ## Requirements
 
@@ -29,30 +35,36 @@ From the basket, a paid member taps "Send to cart" and lands in a grocery servic
 2. The handoff sends what the basket would buy: whole packs, pantry items only when the pantry toggle is on, checked-off items left out.
 3. Lines that cannot be matched stay visible in the handoff result, never silently dropped.
 4. Failure shows a clear message, and copy as text from the basket still works.
-5. If the service requires an application, approval is a launch dependency for this PRD only. The free basket ships without it.
-6. Check whether the service's terms allow gating its links behind a paywall, and what disclosure they require.
+5. If a grocer requires an application, approval is a launch dependency for that grocer only. The free basket and the other grocers ship without it.
+6. For each grocer, check whether its terms allow gating its links behind a paywall, allow offering a competitor next to it, and what disclosure they require.
+7. Adding a grocer means adding an adapter and its item mapping, with no change to the basket or the picker.
 
 ## Data
 
-A mapping from basket item key to the service's search term or product id, stored with the basket data. A `cart_handoffs(id, user_id, service, item_count, created_at)` log for metrics.
+- A mapping from basket item key to each grocer's search term, product id, or UPC, stored with the basket data.
+- `member_grocer(user_id, grocer, store_id)` for the remembered choice.
+- A `cart_handoffs(id, user_id, grocer, item_count, unmatched_count, created_at)` log for metrics.
 
 ## Success metrics
 
 - Paid members who use the handoff.
-- Handoff completion, if the service reports it.
+- Handoffs by grocer, and the share of unmatched lines per grocer.
+- Handoff completion, if the grocer reports it.
 - Affiliate revenue per paying member, if applicable.
 - Upgrades that start from the "Send to cart" prompt.
 
 ## Risks and open questions
 
-- Gating versus affiliate revenue. If the service pays per order, a paid gate means fewer orders. Decide with the numbers in `docs/grocery-services.md`.
+- Gating versus affiliate revenue. If a grocer pays per order, a paid gate means fewer orders. Decide with the numbers in `docs/grocery-services.md`. This may differ per grocer.
+- Which grocer is the default. Revenue favors the aggregator, while honest totals favor a direct cart.
 - Developer access may be application-based. Apply early, because approval timing is outside our control.
-- Product matching. Let the service's search handle matching in v1 and avoid building a catalog. PRD 03 makes the item names cleaner.
+- Product matching. Aggregators match from a search term. Direct carts need a product or UPC per item and store, which is more work per grocer. PRD 03 makes the item names cleaner.
+- Maintenance grows with each grocer. Keep the launch set small.
 
 ## Tasks
 
-1. Pick the first service and apply for access.
-2. Item to search term mapping for every basket item.
-3. Handoff integration behind `hasPaidAccess`.
-4. Upgrade prompt on the button for free members.
-5. Disclosure copy and handoff logging.
+1. Pick the launch grocers from the research and apply for access.
+2. Adapter interface and the grocer picker.
+3. First two adapters with item mappings.
+4. Gating, the upgrade prompt, and the remembered grocer.
+5. Disclosure copy, markup notes, and handoff logging.
