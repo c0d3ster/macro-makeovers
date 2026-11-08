@@ -18,8 +18,36 @@ PDF book, rebuilt automatically when a published recipe changes.
   imported straight from a Claude chat.
 - **Photos**: a new recipe with no photo gets a generated placeholder (OpenAI image API), stored
   in Cloudflare R2.
-- **Recipe book**: `pnpm book:pdf` builds the PDF from the published recipes, and a GitHub
-  workflow publishes it to the `recipe-book` release.
+- **Recipe book**: built from the published recipes and published to the `recipe-book` release
+  by a GitHub workflow whenever the book's contents change.
+
+## Roadmap
+
+Next up, roughly in order. Each has a PRD in [docs/prd](docs/prd/README.md) with scope, data, and
+open questions.
+
+1. **Accounts and subscription**: sign-up and the gate for paid features.
+2. **Personalization**: set your goal once and the site highlights the recipes that fit it.
+3. **Ingredient normalization**: one shared ingredient list, needed by the planner and grocery list.
+4. **Meal planner**: build a week of meals that hits your targets.
+5. **Grocery list and ordering**: turn a plan into a shopping list and a cart.
+6. **Reviews**: ratings and notes on recipes.
+
+## How it works
+
+- The hosted database is the source of truth. Recipes come in through the admin page, the Claude
+  connector, or the CLI, and every path goes through one function, `importRecipe` in
+  `src/libs/recipes`, which validates against the shared Zod schema and upserts by slug. New
+  recipes land as drafts.
+- Pages read recipes on the server through loaders that call `RecipeService` directly, so recipe
+  pages build ahead of time. Writes go through GraphQL mutations that only the site owner can call.
+- Drizzle connects as the database owner and bypasses row-level security, so services check access
+  themselves. RLS stays on every table as a backstop.
+- Publishing, unpublishing, or editing a published recipe asks GitHub to rebuild the book, which
+  reads the published recipes straight from the database.
+
+The full flow, including the connector setup and the book build, is in
+[docs/importing-recipes.md](docs/importing-recipes.md).
 
 ## Tech stack
 
@@ -29,20 +57,7 @@ PDF book, rebuilt automatically when a published recipe changes.
 - Cloudflare R2 for photos, Resend for email, Vercel for hosting and analytics
 - Vitest and Playwright for tests
 
-## How it fits together
-
-- Recipe content starts as JSON (`content/recipes/*.json`) or comes in through the admin page or
-  the Claude connector. Every path goes through one function, `importRecipe` in `src/libs/recipes`,
-  which validates against the shared Zod schema and upserts by slug. New recipes land as drafts.
-- Pages read recipes on the server through loaders that call `RecipeService` directly, so recipe
-  pages build ahead of time. Writes go through GraphQL mutations that only the site owner can call.
-- Drizzle connects as the database owner and bypasses row-level security, so services check access
-  themselves. RLS stays on every table as a backstop.
-
-The full flow, including the connector setup and the book build, is in
-[docs/importing-recipes.md](docs/importing-recipes.md).
-
-## Getting started
+## Local development
 
 Needs Node 20+, pnpm (`corepack enable`), and [Docker](https://docs.docker.com/get-docker/) for the
 local Supabase stack.
@@ -51,6 +66,7 @@ local Supabase stack.
 
    ```bash
    pnpm install
+   pnpm exec lefthook install   # lint, type, and commit message checks on commit
    ```
 
 2. **Start the local database:**
@@ -80,9 +96,8 @@ local Supabase stack.
    pnpm recipe:import content/recipes --publish
    ```
 
-   The 14 seed recipes in `content/recipes` give a fresh local database something to show. Leave
-   off `--publish` to import them as drafts. The hosted database is the source of truth, so new and
-   edited recipes go through `/admin` or the Claude connector, not these files.
+   The 14 seed recipes in `content/recipes` give a fresh local database something to show. They
+   are a fixed snapshot and don't need to track the hosted database.
 
 5. **Run it:**
 
@@ -90,55 +105,17 @@ local Supabase stack.
    pnpm dev
    ```
 
-### Google sign-in (local)
+Email and password sign-in works with no extra setup. Google sign-in, the hosted database, and
+Vercel are covered in [docs/deployment.md](docs/deployment.md).
 
-Google is enabled in `supabase/config.toml`, but "Continue with Google" errors until you add
-credentials. Create an OAuth client in Google Cloud Console (Web application) with the redirect URI
-`http://127.0.0.1:54321/auth/v1/callback`, then create `supabase/.env` (git-ignored, never commit
-it) and restart with `pnpm db:stop && pnpm db:start`:
-
-```bash
-SUPABASE_AUTH_EXTERNAL_GOOGLE_CLIENT_ID=<client id>
-SUPABASE_AUTH_EXTERNAL_GOOGLE_SECRET=<client secret>
-```
-
-Email and password sign-in works locally with no extra setup.
-
-## Database
+### Database changes
 
 Migrations are plain SQL in `supabase/migrations`. Create one with `pnpm db:new <name>` and apply
 it with `pnpm db:reset`. Drizzle is used for queries only: after a schema change, run `pnpm db:pull`
-and port the result into `src/models`.
+and port the result into `src/models`. Enable row-level security on every new table, and still
+check access in `src/services`, since Drizzle bypasses it.
 
-Enable row-level security on every new table. Drizzle bypasses it, so every query in
-`src/services` still has to check access itself.
-
-## Deployment
-
-The site runs on Vercel, with environment variables set in the Vercel project. Production uses a
-hosted Supabase project:
-
-```bash
-pnpm exec supabase login
-pnpm exec supabase link --project-ref <project-ref>
-pnpm db:push
-```
-
-- `NEXT_PUBLIC_SUPABASE_URL` is `https://<project-ref>.supabase.co`, and the keys come from
-  Dashboard → Project Settings → API Keys.
-- `DATABASE_URL` uses the transaction pooler (port 6543) at runtime and the direct or session
-  connection (port 5432) for `db:pull`. Set it for the build too, since recipe pages are built
-  ahead of time.
-- `NEXT_PUBLIC_APP_URL` is the public site URL. Share images, the sitemap, and the Claude
-  connector are built from it.
-- For hosted Google sign-in, use `https://<project-ref>.supabase.co/auth/v1/callback` as the
-  redirect URI, enable the Google provider in Supabase, and add your site's `/auth/callback` to
-  the allowed redirect URLs.
-
-To import recipe files into the hosted database, use `pnpm recipe:import:prod <file-or-folder>`,
-which reads `.env.production` and `.env.production.local`.
-
-## Scripts
+### Scripts
 
 | Script                                                    | What it does                                         |
 | --------------------------------------------------------- | ---------------------------------------------------- |
@@ -156,13 +133,13 @@ which reads `.env.production` and `.env.production.local`.
 The book build needs `pandoc` on the PATH and Playwright's Chromium
 (`pnpm exec playwright install chromium`).
 
-## Project structure
+### Project structure
 
 ```
 content/
 ├── recipes/          # Seed recipe JSON for a fresh local database
 └── book/             # Book prose and recipe order
-docs/                 # Product notes, import guide, PRDs
+docs/                 # About, guides, and PRDs
 scripts/              # Recipe import, book build, photo backfill
 supabase/             # Local stack config and SQL migrations
 src/
@@ -178,6 +155,15 @@ src/
 ├── models/           # Drizzle schema
 └── validations/      # Zod schemas, including the recipe import schema
 ```
+
+## Docs
+
+- [About](docs/about.md): why the project exists
+- [Importing recipes](docs/importing-recipes.md): import paths, Claude connector, photos, the book
+- [Deployment](docs/deployment.md): hosted Supabase, Vercel, Google sign-in
+- [PRDs](docs/prd/README.md): what's next and in what order
+- [Nutrition guide](docs/nutrition-guide.md) and [shopping guide](docs/shopping-guide.md): book
+  reference material
 
 ## Contributing
 
