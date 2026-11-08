@@ -6,7 +6,7 @@ import { GOALS } from '@/libs/recipes'
 
 // One card per goal, each opening the recipe list ranked for that goal
 export const GoalLinks = (): ReactElement => (
-  <ul className='grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3'>
+  <ul className='grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4'>
     {GOALS.map(({ id, label, note }) => (
       <li key={id}>
         <Link
