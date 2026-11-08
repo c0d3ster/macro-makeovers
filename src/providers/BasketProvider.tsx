@@ -2,76 +2,44 @@
 
 import type { ReactNode } from 'react'
 
-import { useCallback, useEffect, useMemo, useState } from 'react'
-
-import type { StoredBasket } from '@/libs/basket'
+import { useMemo, useState, useSyncExternalStore } from 'react'
 
 import {
   BASKET_SLUGS,
-  BASKET_STORAGE_KEY,
   EMPTY_BASKET,
-  parseStoredBasket,
   setBatches as withBatches,
 } from '@/libs/basket'
 
 import type { BasketContextValue } from './BasketContext'
 
 import { BasketContext } from './BasketContext'
+import { BasketStore } from './BasketStore'
 
 type BasketProviderProps = {
   children: ReactNode
 }
 
-const readStored = (): StoredBasket => {
-  try {
-    return parseStoredBasket(localStorage.getItem(BASKET_STORAGE_KEY))
-  } catch {
-    // Storage can be blocked (private mode, site data off). The basket still works for the visit.
-    return EMPTY_BASKET
-  }
-}
-
-const writeStored = (basket: StoredBasket): void => {
-  try {
-    localStorage.setItem(BASKET_STORAGE_KEY, JSON.stringify(basket))
-  } catch {
-    // Same as above: keep going without saving
-  }
-}
+const noopSubscribe = (): (() => void) => () => {}
 
 // The basket lives in this browser. Saving it to the account comes with PRD 08's account step.
 export const BasketProvider = ({
   children,
 }: BasketProviderProps): ReactNode => {
-  const [basket, setBasket] = useState<StoredBasket>(EMPTY_BASKET)
-  const [isLoaded, setIsLoaded] = useState(false)
-
-  // Read after mount so the server render and the first client render match
-  useEffect(() => {
-    setBasket(readStored())
-    setIsLoaded(true)
-
-    // Keep tabs in step: a change in one tab shows up in the others
-    const onStorage = (event: StorageEvent): void => {
-      if (event.key === BASKET_STORAGE_KEY)
-        setBasket(parseStoredBasket(event.newValue))
-    }
-    window.addEventListener('storage', onStorage)
-    return () => window.removeEventListener('storage', onStorage)
-  }, [])
-
-  const update = useCallback(
-    (change: (current: StoredBasket) => StoredBasket): void => {
-      setBasket((current) => {
-        const next = change(current)
-        writeStored(next)
-        return next
-      })
-    },
-    []
+  const [store] = useState(() => new BasketStore())
+  const basket = useSyncExternalStore(
+    store.subscribe,
+    store.getSnapshot,
+    store.getServerSnapshot
+  )
+  // False on the server and while hydrating, so counts don't flash 0 then jump
+  const isLoaded = useSyncExternalStore(
+    noopSubscribe,
+    () => true,
+    () => false
   )
 
   const value = useMemo<BasketContextValue>(() => {
+    const { update } = store
     const slugs = new Set(basket.entries.map(({ slug }) => slug))
 
     return {
@@ -112,7 +80,7 @@ export const BasketProvider = ({
         })),
       clear: () => update(() => EMPTY_BASKET),
     }
-  }, [basket, isLoaded, update])
+  }, [basket, isLoaded, store])
 
   return <BasketContext value={value}>{children}</BasketContext>
 }
