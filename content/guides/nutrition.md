@@ -9,7 +9,7 @@
 | Full bulk | 45 / 30 / 25 | A bigger surplus, about 500 calories. Protein grams stay put and the extra calories go mostly to fat, the easiest way to eat a lot. Look for dishes of 600 calories or more. |
 | Carb cycling | Varies | A higher-carb day (45% or more carbs) on heavy training days, a lower-carb day (35% or less) on rest days. |
 
-**Dishes versus the whole day:** these ratios describe a full day of eating. A single dish in this book rarely reaches the carb share of a bulk day, and it doesn't need to. Snacks and drinks, like fruit or a sports drink, are mostly carbs, so they pull the day toward the bulk ratios. A dish near 40 / 30 / 30 with a snack or a pre-workout drink can add up to a 50 / 25 / 25 day. The recipe filters rank dishes by how close they are to each goal and mark the good fits, instead of hiding the rest.
+**Dishes versus the whole day:** these ratios describe a full day of eating. A single dish rarely reaches the carb share of a bulk day, and it doesn't need to. Snacks and drinks, like fruit or a sports drink, are mostly carbs, so they pull the day toward the bulk ratios. A dish near 40 / 30 / 30 with a snack or a pre-workout drink can add up to a 50 / 25 / 25 day. The recipe filters rank dishes by how close they are to each goal and mark the good fits, instead of hiding the rest.
 
 **Serving size:** servings are sized for eating 4-5 times throughout the day. That's often 3 meals plus a shake, drink, or snack (nuts, jerky, a protein bar, fruit) at other times. Protein is used best in moderate doses spread through the day, since one sitting has diminishing returns and a very large meal is hard to eat. A larger dinner with a fast-digesting shake keeps amino acids coming into the night.
 
