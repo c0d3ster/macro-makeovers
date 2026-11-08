@@ -43,7 +43,7 @@ describe('BasketView', () => {
     saveBasket(['spicy-turkey-chili', 'turkey-taco-grillers'])
     renderBasket()
 
-    expect(screen.getByText('at the store')).toBeInTheDocument()
+    expect(screen.getByText('before tax')).toBeInTheDocument()
     expect(screen.getByText(/vs buying separately/)).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: 'Produce' })).toBeInTheDocument()
     expect(

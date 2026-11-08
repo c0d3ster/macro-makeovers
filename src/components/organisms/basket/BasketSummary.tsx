@@ -15,7 +15,7 @@ type BasketSummaryProps = {
 // Below this, the leftover note is noise
 const WASTE_NOTE_MIN = 1
 
-// One line: what the trip costs at the store, what that works out to per serving (prorated,
+// One line: what the trip costs at the store before tax, what that works out to per serving (prorated,
 // the same way recipe pages price it), and what buying together saves
 export const BasketSummary = ({
   totals,
@@ -29,7 +29,7 @@ export const BasketSummary = ({
         <span className='text-2xl font-semibold text-text'>
           {formatMoney(totals.tripCost)}
         </span>{' '}
-        at the store
+        before tax
       </span>
       <span>
         <span className='text-lg font-semibold text-text'>
