@@ -16,7 +16,7 @@ Visitors can sign up free, subscribe to one paid plan, and get the paid features
 - One Stripe subscription plan, monthly. Price set by config, not code.
 - Stripe Checkout for purchase and the Stripe Customer Portal for cancel, card change, and invoices.
 - Webhook-driven subscription state in our database.
-- A single `hasPaidAccess` check used by every paid feature (planner, ordering, book).
+- A single `hasPaidAccess` check used by every paid feature: the meal planner with its leftover suggestions (PRD 04), "Send to cart" ordering (PRD 05), and the book.
 - Book download moved behind that check.
 - Account page shows plan status and a manage billing link.
 
@@ -39,12 +39,12 @@ Visitors can sign up free, subscribe to one paid plan, and get the paid features
 3. Stripe webhooks (`checkout.session.completed`, `customer.subscription.updated`, `customer.subscription.deleted`, `invoice.payment_failed`) update the table. Handlers are idempotent and verify the signature.
 4. `hasPaidAccess` is true for status `active` or `trialing`, and for `past_due` inside a short grace window. Owners always have access.
 5. Paid resolvers return a typed "subscription required" error. The UI turns that into an upgrade prompt, not a crash.
-6. The `recipes.access` column stays. All recipes are `free` for now, so no recipe is gated.
+6. The `recipes.access` column stays. All recipes are `free` for now, so no recipe is gated. Early access to new recipes for members was considered and is excluded for now.
 7. Book download:
    - The repo is public, so the rolling `recipe-book` release is downloadable by anyone today. Stop linking it.
    - Host the PDF in the private R2 bucket (or a private release) and serve it through a signed, short-lived URL from a GraphQL mutation that checks `hasPaidAccess`.
    - Remove or privatize the public release asset before launch.
-8. Pricing page and upgrade prompts list exactly what paid includes.
+8. Pricing page and upgrade prompts list exactly what paid includes, and say plainly that the basket, saving it to an account, favorites, and reviews stay free.
 9. Emails (Resend, already installed): welcome, payment failed, cancellation confirmation.
 
 ## Data

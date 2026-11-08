@@ -6,7 +6,7 @@ Members who like the recipes still have to work out a week of meals that hits th
 
 ## Goal
 
-A paid member builds a weekly plan from the recipes, sees how each meal fits their goal, and gets a merged shopping list.
+A paid member builds a weekly plan from the recipes, sees how each meal fits their goal, and sends the week to the basket (PRD 08) for one shopping list.
 
 ## Scope
 
@@ -18,7 +18,8 @@ A paid member builds a weekly plan from the recipes, sees how each meal fits the
 - Auto-suggest: fill empty slots with recipes that fit the remaining macros. Start simple (filter and rank), not an optimizer.
 - Swap a recipe, duplicate a day, repeat last week.
 - Leftovers: a recipe cooked once can fill several slots (batch cooking is how this book works).
-- Merged ingredient list for the plan, handed to PRD 05.
+- Send the plan to the basket (PRD 08). Each planned recipe becomes a basket entry with its batch count, so the pooled list, costs, and "Send to cart" come from the basket.
+- Leftover-aware suggestions: using the basket's leftover math, suggest recipes that use up what a plan leaves behind (half a tub of cottage cheese, the rest of the cilantro), with short-shelf-life items first.
 - Saved plans, with one active plan per week.
 
 **Out**
@@ -32,7 +33,7 @@ A paid member builds a weekly plan from the recipes, sees how each meal fits the
 1. Paid only. Free members see a preview with sample data and an upgrade prompt. The preview does not need real planner logic.
 2. Totals use per-serving nutrition from the default variant, scaled by servings. Allow choosing another variant where a recipe has one.
 3. A plan works without a profile, with no fit indicators, and nudges the member to set a goal and goal weight.
-4. Servings math is shared with the recipe page scaler.
+4. Servings math is shared with the recipe page scaler, and pricing and leftover math are shared with the basket (`src/libs/basket`).
 5. Mobile first. Planning happens on a phone in a store aisle or a couch.
 6. Plan data is private to the member (RLS on user id).
 
@@ -44,7 +45,8 @@ A paid member builds a weekly plan from the recipes, sees how each meal fits the
 
 - Paid members who create a plan in the first week.
 - Plans per active paid member per month.
-- Plans that reach the grocery list step.
+- Plans sent to the basket.
+- Leftover suggestions added to a plan.
 - Paid retention for planners versus non-planners.
 
 ## Risks and open questions
@@ -59,4 +61,6 @@ A paid member builds a weekly plan from the recipes, sees how each meal fits the
 2. Per-meal fit logic and reference sums with tests.
 3. Plan UI: week grid, add and swap, servings.
 4. Paid gating and the free preview.
-5. Auto-suggest (v2).
+5. Send to basket.
+6. Leftover-aware suggestions.
+7. Auto-suggest (v2).
