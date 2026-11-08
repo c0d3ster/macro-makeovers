@@ -10,12 +10,12 @@ Reach the first paying members with a message that is honest and specific, and l
 
 ## Positioning
 
-Macro-friendly versions of foods people already love, with the macros shown, protein included, so people can eat well without giving up favorites. The "makeover vs traditional" comparison is the hook. The paid plan is the planner, the grocery list and ordering, and the book.
+Macro-friendly versions of foods people already love, with the macros shown, protein included, so people can eat well without giving up favorites. The "makeover vs traditional" comparison is the hook. The basket is free and shows what bundling recipes saves. The paid plan is the planner, ordering ("Send to cart"), and the book.
 
 ## Launch gates (do not advertise before these)
 
 1. PRD 01 shipped: sign-up, subscription, gated book.
-2. At least one paid feature live, either the planner or the grocery list.
+2. The free basket (PRD 08) live, plus at least one paid feature beyond the book, either the planner or ordering.
 3. At least 25 published recipes.
 4. Nutrition disclaimer, privacy policy, terms, and refund policy pages.
 5. Analytics events for the funnel below.

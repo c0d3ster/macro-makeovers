@@ -1,59 +1,58 @@
-# PRD 05: Grocery list and ordering (paid)
+# PRD 05: Grocery ordering (paid)
 
 ## Problem
 
-A plan is only useful if the groceries show up. Members need one clean list and a quick way to buy it.
+The basket (PRD 08) gives everyone a pooled shopping list, but the groceries still have to be bought. Paid members should be able to send the basket to a grocery service and check out there.
 
 ## Goal
 
-From a plan, a paid member gets a merged shopping list grouped by aisle and can send it to a grocery service to check out.
+From the basket, a paid member taps "Send to cart" and lands in a grocery service's cart or shopping list with the items ready to check out.
 
 ## Scope
 
 **In**
 
-- Merged list from a plan: same item combined, quantities summed and unit-converted, grouped by aisle.
-- Check off items, mark pantry items as already owned, add custom items.
-- Copy or share the list as text.
-- Cart handoff to one retailer, starting with Instacart (a shopping list or recipe page link flow).
+- "Send to cart" on `/basket`. The shopping list, pantry toggle, check off, and copy as text are free and live in PRD 08.
+- Cart handoff to one grocery service first. Which one is decided from `docs/grocery-services.md`.
+- Mapping each basket price item to a search term or product the service can match.
+- Affiliate disclosure on the page if the handoff earns revenue.
 
 **Out**
 
 - Direct checkout, payments, or delivery handled by us.
-- Multiple retailers in v1.
-- Price comparison. The existing `docs/cost-estimates.md` stays informational.
+- Several services in v1. Leave room to add a second.
+- Price comparison across services.
 
 ## Requirements
 
-1. Paid only, same gate as the planner.
-2. The list is computed from structured ingredients (PRD 03). Lines that cannot merge stay separate and visible, never silently dropped.
-3. Optional and "to taste" items are shown unchecked and flagged.
-4. Pantry staples (salt, oil, common spices) can be hidden by default, with a toggle.
-5. Cart handoff sends the list to the retailer and returns a link. Failure shows a clear message and the copy option still works.
-6. If the retailer program requires an application, that approval is a launch dependency. Plan the copy and share path so the feature is useful without it.
-7. If the handoff earns affiliate revenue, disclose it on the page.
+1. Paid only, through `hasPaidAccess` (PRD 01). Free members see the button with an upgrade prompt, so the feature is visible.
+2. The handoff sends what the basket would buy: whole packs, pantry items only when the pantry toggle is on, checked-off items left out.
+3. Lines that cannot be matched stay visible in the handoff result, never silently dropped.
+4. Failure shows a clear message, and copy as text from the basket still works.
+5. If the service requires an application, approval is a launch dependency for this PRD only. The free basket ships without it.
+6. Check whether the service's terms allow gating its links behind a paywall, and what disclosure they require.
 
 ## Data
 
-`shopping_lists(id, plan_id, created_at)` and `shopping_list_items(id, list_id, canonical_id, name, quantity, unit, aisle, checked, is_pantry, source_entries[])`. Items can be derived on the fly at first. Persist only the check state and custom items.
+A mapping from basket item key to the service's search term or product id, stored with the basket data. A `cart_handoffs(id, user_id, service, item_count, created_at)` log for metrics.
 
 ## Success metrics
 
-- Plans that produce a list.
-- Lists that use the cart handoff.
-- Cart handoff completion, if the partner reports it.
+- Paid members who use the handoff.
+- Handoff completion, if the service reports it.
 - Affiliate revenue per paying member, if applicable.
+- Upgrades that start from the "Send to cart" prompt.
 
 ## Risks and open questions
 
-- Instacart developer access is application-based. Apply early, because approval timing is outside our control. Check current terms before designing around it.
-- Product matching. Ingredient names such as "chicken thigh, boneless" must map to something orderable. Let the retailer search handle matching in v1 and avoid building a catalog.
-- Package sizes versus recipe amounts (a recipe uses half a can). Decide if the list shows "needed" amounts only. Recommend yes.
+- Gating versus affiliate revenue. If the service pays per order, a paid gate means fewer orders. Decide with the numbers in `docs/grocery-services.md`.
+- Developer access may be application-based. Apply early, because approval timing is outside our control.
+- Product matching. Let the service's search handle matching in v1 and avoid building a catalog. PRD 03 makes the item names cleaner.
 
 ## Tasks
 
-1. Merge and unit conversion logic with tests.
-2. Shopping list UI with check state, pantry toggle, and custom items.
-3. Share and copy formats.
-4. Retailer application and cart handoff integration.
-5. Affiliate disclosure copy, if applicable.
+1. Pick the first service and apply for access.
+2. Item to search term mapping for every basket item.
+3. Handoff integration behind `hasPaidAccess`.
+4. Upgrade prompt on the button for free members.
+5. Disclosure copy and handoff logging.

@@ -2,7 +2,7 @@
 
 ## Problem
 
-Ingredients are stored mostly as free text (`raw`). The implementation plan names parsing quality as the biggest risk. A meal planner can merge grocery lists and a cart can order items only if quantities, units, and names are structured and consistent.
+Ingredients are stored mostly as free text (`raw`). The implementation plan names parsing quality as the biggest risk. The basket (PRD 08) runs on hand-written ingredient lines for now, and those do not follow recipe edits. The basket, the meal planner, and ordering can all stay correct only if quantities, units, and names are structured and consistent.
 
 ## Goal
 
@@ -20,7 +20,9 @@ Every published recipe has structured ingredients that merge cleanly across reci
 
 **Out**
 
-- Product-level mapping to a retailer catalog. That belongs to PRD 05.
+- Product-level mapping to a grocery service. That belongs to PRD 05.
+
+**Follow-on:** once every published recipe is structured, map canonical ingredients to basket price items so basket lines are derived from recipes and the hand-written lines retire (PRD 08).
 - Brand selection.
 
 ## Requirements
