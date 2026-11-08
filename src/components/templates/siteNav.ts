@@ -3,7 +3,6 @@ import type { NavItem } from '@/components/organisms'
 // The public site
 export const SITE_NAV_ITEMS: NavItem[] = [
   { id: 'home', label: 'Home', href: '/', hideOnMobile: true },
-  { id: 'contact', label: 'Contact', href: '/#contact' },
 ]
 
 // The signed-in part of the site: same header, its own links. Meal planning and goals will

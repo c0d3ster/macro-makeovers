@@ -5,6 +5,8 @@ export const Env = createEnv({
   server: {
     DATABASE_URL: z.string().optional(),
     RESEND_API_KEY: z.string().optional(),
+    // The contact form stays hidden until email sending is set up and verified. "true" shows it.
+    CONTACT_FORM_ENABLED: z.enum(['true', 'false']).optional(),
     SUPPORT_EMAIL: z.string().default('support@example.com'),
     // Both optional: without them, publishing a recipe does not trigger a book rebuild
     GITHUB_DISPATCH_TOKEN: z.string().optional(),
@@ -30,6 +32,7 @@ export const Env = createEnv({
   runtimeEnv: {
     DATABASE_URL: process.env.DATABASE_URL,
     RESEND_API_KEY: process.env.RESEND_API_KEY,
+    CONTACT_FORM_ENABLED: process.env.CONTACT_FORM_ENABLED,
     SUPPORT_EMAIL: process.env.SUPPORT_EMAIL,
     GITHUB_DISPATCH_TOKEN: process.env.GITHUB_DISPATCH_TOKEN,
     GITHUB_REPO: process.env.GITHUB_REPO,

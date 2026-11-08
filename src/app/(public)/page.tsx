@@ -39,7 +39,7 @@ const HomePage = async ({
   )
 
   return (
-    <LandingPageTemplate>
+    <LandingPageTemplate activeItem='home'>
       <main className='mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8'>
         {browse ? (
           <>
@@ -66,9 +66,11 @@ const HomePage = async ({
         )}
       </main>
 
-      <div id='contact' className='bg-surface py-16'>
-        <ContactForm />
-      </div>
+      {Env.CONTACT_FORM_ENABLED === 'true' && (
+        <div id='contact' className='bg-surface py-16'>
+          <ContactForm />
+        </div>
+      )}
     </LandingPageTemplate>
   )
 }
