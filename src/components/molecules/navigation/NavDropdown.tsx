@@ -61,14 +61,22 @@ export const NavDropdown = ({
       return
     }
 
+    // Like a native menu button, ArrowDown on the closed trigger opens it on the first item
+    if (!isOpen && event.key === 'ArrowDown') {
+      event.preventDefault()
+      setIsOpen(true)
+      return
+    }
+
     const links = [
       ...(rootRef.current?.querySelectorAll<HTMLElement>('[role="menuitem"]') ??
         []),
     ]
+    // -1 when focus is on the trigger, so ArrowUp wraps to the last item, not the second-to-last
     const current = links.findIndex((link) => link === document.activeElement)
     const target = {
       ArrowDown: (current + 1) % links.length,
-      ArrowUp: (current - 1 + links.length) % links.length,
+      ArrowUp: current <= 0 ? links.length - 1 : current - 1,
       Home: 0,
       End: links.length - 1,
     }[event.key]
