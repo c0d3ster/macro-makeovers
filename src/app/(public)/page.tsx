@@ -5,7 +5,6 @@ import { permanentRedirect } from 'next/navigation'
 
 import type { RecipeCard } from '@/libs/recipes'
 
-import { ContactForm } from '@/components/molecules'
 import {
   GoalLinks,
   GuideLinks,
@@ -105,12 +104,6 @@ const HomePage = async ({
           <GuideLinks guides={GUIDES} />
         </HomeSection>
       </main>
-
-      {Env.CONTACT_FORM_ENABLED === 'true' && (
-        <div id='contact' className='bg-surface py-16'>
-          <ContactForm />
-        </div>
-      )}
     </LandingPageTemplate>
   )
 }
