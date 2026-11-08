@@ -2,7 +2,7 @@
 // can import it without pulling in node:fs.
 export type GuideSlug = 'nutrition' | 'shopping' | 'reading-recipes'
 
-export type Guide = {
+type Guide = {
   slug: GuideSlug
   title: string
   // One sentence for the guide list and the page description
