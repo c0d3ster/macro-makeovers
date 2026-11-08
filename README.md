@@ -4,7 +4,7 @@ High-protein, lower-fat versions of foods people love. Comfort-food staples rebu
 ingredient to keep the flavor while cutting the fat and adding protein, with the original dish's
 numbers next to every recipe so you can see the difference.
 
-Live at [macro-makeovers.vercel.app](https://macro-makeovers.vercel.app). The same recipes also
+Live at [macromakeovers.com](https://macromakeovers.com). The same recipes also
 ship as a printable PDF book, rebuilt automatically when a published recipe changes. The thinking
 behind the book is in [docs/about.md](docs/about.md).
 
