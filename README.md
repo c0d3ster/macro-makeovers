@@ -77,10 +77,12 @@ local Supabase stack.
 4. **Load the seed recipes:**
 
    ```bash
-   pnpm recipe:import
+   pnpm recipe:import content/recipes --publish
    ```
 
-   They import as drafts. Publish them from `/admin` once you're signed in as the owner.
+   The 14 seed recipes in `content/recipes` give a fresh local database something to show. Leave
+   off `--publish` to import them as drafts. The hosted database is the source of truth, so new and
+   edited recipes go through `/admin` or the Claude connector, not these files.
 
 5. **Run it:**
 
@@ -133,8 +135,8 @@ pnpm db:push
   redirect URI, enable the Google provider in Supabase, and add your site's `/auth/callback` to
   the allowed redirect URLs.
 
-Import recipes into the hosted database with `pnpm recipe:import:prod`, which reads
-`.env.production` and `.env.production.local`.
+To import recipe files into the hosted database, use `pnpm recipe:import:prod <file-or-folder>`,
+which reads `.env.production` and `.env.production.local`.
 
 ## Scripts
 
@@ -147,7 +149,7 @@ Import recipes into the hosted database with `pnpm recipe:import:prod`, which re
 | `pnpm codegen`                                            | Regenerate GraphQL types                             |
 | `pnpm db:start` / `db:stop` / `db:reset`                  | Local Supabase stack                                 |
 | `pnpm db:new <name>` / `db:push` / `db:pull` / `db:types` | Migrations, hosted push, Drizzle and Supabase types  |
-| `pnpm recipe:import` / `recipe:import:prod`               | Import `content/recipes` into the local / hosted DB  |
+| `pnpm recipe:import` / `recipe:import:prod`               | Import recipe JSON into the local / hosted DB        |
 | `pnpm book:pdf` / `book:pdf:prod`                         | Build the recipe book PDF from the local / hosted DB |
 | `pnpm photos:backfill` / `photos:backfill:prod`           | Point the seed recipes at their R2 photos            |
 
@@ -158,7 +160,7 @@ The book build needs `pandoc` on the PATH and Playwright's Chromium
 
 ```
 content/
-├── recipes/          # Recipe JSON, imported with pnpm recipe:import
+├── recipes/          # Seed recipe JSON for a fresh local database
 └── book/             # Book prose and recipe order
 docs/                 # Product notes, import guide, PRDs
 scripts/              # Recipe import, book build, photo backfill
