@@ -177,4 +177,41 @@ describe('RecipePhotoEditor', () => {
       'Image generation failed: OpenAI image request failed with 400: Billing limit'
     )
   })
+
+  it('only disables the buttons while a photo is being chosen, with no generating message', async () => {
+    let finish: (value: { ok: true; url: string }) => void = () => {}
+    onChoose.mockImplementation(
+      () => new Promise((resolve) => { finish = resolve })
+    )
+    render(<Harness imageUrl={LIVE} />)
+
+    fireEvent.click(screen.getByRole('button', { name: 'Generate photo' }))
+    fireEvent.click(await screen.findByRole('button', { name: 'Use this photo' }))
+
+    expect(screen.getByRole('button', { name: 'Use this photo' })).toBeDisabled()
+    expect(screen.getByRole('button', { name: 'Generate photo' })).toBeDisabled()
+    expect(screen.queryByText(/this can take a minute/)).not.toBeInTheDocument()
+
+    finish({ ok: true, url: CANDIDATE })
+
+    expect(await screen.findByText('Photo saved.')).toBeInTheDocument()
+  })
+
+  it('says it is generating only while it generates', async () => {
+    let finish: (value: { ok: true; url: string }) => void = () => {}
+    mockGenerate.mockImplementation(
+      () => new Promise((resolve) => { finish = resolve })
+    )
+    render(<Harness imageUrl={LIVE} />)
+
+    fireEvent.click(screen.getByRole('button', { name: 'Generate photo' }))
+
+    expect(
+      await screen.findByRole('button', { name: 'Generating, this can take a minute...' })
+    ).toBeDisabled()
+
+    finish({ ok: true, url: CANDIDATE })
+
+    expect(await screen.findByText('Not saved yet')).toBeInTheDocument()
+  })
 })
