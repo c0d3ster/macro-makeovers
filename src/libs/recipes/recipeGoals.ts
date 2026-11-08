@@ -37,7 +37,7 @@ export type Goal = {
 const near = (value: number): MacroTarget => ({ kind: 'near', value })
 
 // Percentages are shares of calories, rounded the way the recipe cards show them. Recomp and
-// Clean Bulk come from the book (docs/nutrition-guide.md). The rest are working defaults, all
+// Clean Bulk come from the book (content/guides/nutrition.md). The rest are working defaults, all
 // here so tuning one is a one-line edit.
 //
 // Clean Bulk is a 50 / 25 / 25 split over a whole day, but every recipe is between 34% and 48%

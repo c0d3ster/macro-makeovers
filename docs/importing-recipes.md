@@ -116,8 +116,9 @@ The book is built from the published recipes in the database, so a recipe added 
 appears in it with its photo.
 
 - Recipes and the quick reference table are generated (`src/libs/recipes/bookMarkdown.ts`).
-- The intro, reading guide, and shopping and nutrition sections are `content/book/intro.md`,
-  `guide.md`, and `outro.md`.
+- The intro is `content/book/intro.md`. The reading guide, shopping and nutrition sections, and
+  the about text come from `content/guides`, the same files the site shows under `/guides` and
+  `/about`.
 - `content/book/order.json` lists recipe slugs in book order. Recipes not listed follow, A to Z.
   Variants take a letter after their base (10, 10a).
 - Each photo is downloaded from R2 (`R2_PUBLIC_URL`, object `recipes/<slug>.jpg`). A recipe with

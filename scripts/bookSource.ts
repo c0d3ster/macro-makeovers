@@ -5,12 +5,14 @@ import type { BookProse, BookRecipe } from '@/libs/recipes'
 import type { RecipeImport } from '@/validations'
 
 import { db } from '@/libs/DB'
+import { loadBookGuideProse } from '@/libs/guides'
 import { numberBookRecipes } from '@/libs/recipes'
 import { RecipeRepository } from '@/libs/recipes/RecipeRepository'
 import { recipeImportSchema } from '@/validations'
 
 // Where the printable book comes from: the published recipes (database, or a folder of recipe
-// JSON with `--from <folder>`), plus the hand-written prose and recipe order in content/book.
+// JSON with `--from <folder>`), plus the hand-written prose and recipe order in content/book and
+// the guide prose in content/guides.
 const BOOK_DIR = resolve(process.cwd(), 'content/book')
 
 const loadPublishedRecipes = async (
@@ -45,10 +47,10 @@ const loadRecipeFiles = (folder: string): RecipeImport[] =>
 const readBookFile = (name: string): string =>
   readFileSync(join(BOOK_DIR, name), 'utf8').trim()
 
+// The reading guide and closing sections come from content/guides, shared with the site pages
 export const loadBookProse = (): BookProse => ({
   intro: readBookFile('intro.md'),
-  guide: readBookFile('guide.md'),
-  outro: readBookFile('outro.md'),
+  ...loadBookGuideProse(),
 })
 
 // Recipes in the book keep the order listed in content/book/order.json. Newer ones follow A to Z.

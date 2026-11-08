@@ -3,7 +3,8 @@
 High-protein, lower-fat versions of foods people love. Comfort-food staples rebuilt ingredient by
 ingredient to keep the flavor while cutting the fat and adding protein, with the original dish's
 numbers next to every recipe so you can see the difference. Why the project exists is in
-[docs/about.md](docs/about.md).
+[content/guides/about.md](content/guides/about.md), which is also the
+site's About page.
 
 Live at [macromakeovers.com](https://macromakeovers.com). The same recipes also ship as a printable
 PDF book, rebuilt automatically when a published recipe changes.
@@ -158,12 +159,12 @@ src/
 
 ## Docs
 
-- [About](docs/about.md): why the project exists
+- [About](content/guides/about.md): why the project exists
 - [Importing recipes](docs/importing-recipes.md): import paths, Claude connector, photos, the book
 - [Deployment](docs/deployment.md): hosted Supabase, Vercel, Google sign-in
 - [PRDs](docs/prd/README.md): what's next and in what order
-- [Nutrition guide](docs/nutrition-guide.md) and [shopping guide](docs/shopping-guide.md): book
-  reference material
+- [Guides](content/guides): the nutrition, shopping, and recipe reading guides. The site shows
+  them under /guides and the book prints them, so one edit changes both.
 
 ## Contributing
 

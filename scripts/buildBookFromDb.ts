@@ -1,6 +1,7 @@
 // Writes the recipe book as markdown from the published recipes in the database
 // (build/recipes-from-db.md). `pnpm book:pdf` builds the PDF from the same source. Prose (intro,
-// reading guide, shopping and nutrition sections) and the recipe order live in content/book; the
+// reading guide, shopping and nutrition sections) live in content/book and content/guides, and the
+// recipe order in content/book; the
 // recipes and quick reference table are generated. Run with `pnpm book:md:db`, or
 // `pnpm book:md:db --from content/recipes` to render recipe JSON files instead of the database
 // (no connection needed).
