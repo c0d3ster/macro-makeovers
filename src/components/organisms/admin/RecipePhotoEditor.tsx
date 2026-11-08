@@ -17,6 +17,9 @@ import { useRecipeForm } from './recipeFormFields'
 
 type PhotoFailure = Extract<PhotoResponse, { ok: false }>
 
+// What the editor is busy with, so only the button doing the work says so
+type Activity = 'generate' | 'upload' | 'reference' | 'choose'
+
 type RecipePhotoEditorProps = {
   imageUrl?: string
   // Makes a photo the recipe's own. A recipe not saved yet holds it until its first save.
@@ -100,6 +103,7 @@ export const RecipePhotoEditor = ({
   const [error, setError] = useState<string>()
   const [status, setStatus] = useState<string>()
   const [isWorking, startWorking] = useTransition()
+  const [activity, setActivity] = useState<Activity>()
   const shownPhoto = candidate ?? livePhoto
 
   const showCandidate = (result: PhotoResponse, message: string): void => {
@@ -111,14 +115,22 @@ export const RecipePhotoEditor = ({
     setStatus(message)
   }
 
-  const run = (work: () => Promise<void>): void => {
+  // Every button waits while anything runs, so two requests never race
+  const run = (kind: Activity, work: () => Promise<void>): void => {
     setError(undefined)
     setStatus(undefined)
-    startWorking(work)
+    setActivity(kind)
+    startWorking(async () => {
+      try {
+        await work()
+      } finally {
+        setActivity(undefined)
+      }
+    })
   }
 
   const upload = (file: File): void =>
-    run(async () => {
+    run('upload', async () => {
       const prepared = await preparePhoto(file)
       if ('problem' in prepared) {
         setError(prepared.problem)
@@ -134,7 +146,7 @@ export const RecipePhotoEditor = ({
     })
 
   const pickReference = (file: File): void =>
-    run(async () => {
+    run('reference', async () => {
       const prepared = await preparePhoto(file)
       if ('problem' in prepared) {
         setError(prepared.problem)
@@ -152,7 +164,7 @@ export const RecipePhotoEditor = ({
     if (reference) request.set('reference', reference)
     if (useCurrent && shownPhoto) request.set('sourceUrl', shownPhoto)
 
-    run(async () => {
+    run('generate', async () => {
       showCandidate(
         await generateRecipePhoto(request),
         'Here is a new option. The recipe photo has not changed.'
@@ -161,7 +173,7 @@ export const RecipePhotoEditor = ({
   }
 
   const choose = (url: string): void =>
-    run(async () => {
+    run('choose', async () => {
       const result = await onChoose(url)
       if (!result.ok) {
         setError(failureMessage(result))
@@ -265,7 +277,9 @@ export const RecipePhotoEditor = ({
           disabled={isWorking}
           onClick={generate}
         >
-          {isWorking ? 'Working, this can take a minute...' : 'Generate photo'}
+          {activity === 'generate'
+            ? 'Generating, this can take a minute...'
+            : 'Generate photo'}
         </Button>
         <Button
           size='sm'
@@ -273,7 +287,7 @@ export const RecipePhotoEditor = ({
           disabled={isWorking}
           onClick={() => uploadRef.current?.click()}
         >
-          Upload photo
+          {activity === 'upload' ? 'Uploading...' : 'Upload photo'}
         </Button>
         {candidate && (
           <>
