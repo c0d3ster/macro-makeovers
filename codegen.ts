@@ -1,7 +1,7 @@
 import type { CodegenConfig } from '@graphql-codegen/cli'
 
 const config: CodegenConfig = {
-  schema: 'http://localhost:3000/api/graphql',
+  schema: `http://localhost:${process.env.PORT ?? 3000}/api/graphql`,
   documents: ['src/apiClients/**/*.ts'], // all gql`` queries/mutations
   ignoreNoDocuments: true, // Don't fail if no documents found initially
   generates: {
