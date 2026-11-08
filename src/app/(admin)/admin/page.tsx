@@ -66,13 +66,6 @@ const AdminPage = async (): Promise<ReactElement> => {
                 </p>
               </div>
               <div className='flex flex-wrap items-center gap-2'>
-                <Button
-                  href={`/admin/recipes/${id}/preview`}
-                  size='sm'
-                  variant='outline'
-                >
-                  Preview
-                </Button>
                 <RecipePublishButton id={id} status={status} />
                 <RecipeDeleteButton id={id} title={title} />
               </div>
