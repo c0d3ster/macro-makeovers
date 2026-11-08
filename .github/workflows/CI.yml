@@ -136,6 +136,8 @@ jobs:
         env:
           # Build environment
           NODE_ENV: production
+          # The contact form is hidden in production until email works. E2E still covers it.
+          CONTACT_FORM_ENABLED: 'true'
 
       - name: Run E2E tests
         uses: docker://mcr.microsoft.com/playwright:v1.64.1-noble
@@ -145,6 +147,7 @@ jobs:
           COREPACK_ENABLE_DOWNLOAD_PROMPT: '0'
           # Test environment
           NODE_ENV: test
+          CONTACT_FORM_ENABLED: 'true'
 
       - name: Fix test results permissions
         run: |
