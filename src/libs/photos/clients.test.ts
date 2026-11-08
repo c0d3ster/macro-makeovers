@@ -100,14 +100,38 @@ describe('uploadToR2', () => {
     expect(fetchMock).toHaveBeenCalledOnce()
   })
 
+  // A stream body goes out without a Content-Length, which R2 refuses with 411
+  it('sends the signed headers with the bytes themselves as the body', async () => {
+    const fetchMock = vi
+      .fn<typeof fetch>()
+      .mockResolvedValue(new Response(null, { status: 200 }))
+    const bytes = new Uint8Array([1, 2, 3])
+
+    await uploadToR2(config, 'recipes/a.jpg', bytes, fetchMock)
+
+    const [target, init] = fetchMock.mock.calls[0] ?? []
+    const headers = new Headers(init?.headers)
+
+    expect(target).toBe('https://acct.r2.cloudflarestorage.com/photos/recipes/a.jpg')
+    expect(init?.method).toBe('PUT')
+    expect(init?.body).toBe(bytes)
+    expect(headers.get('authorization')).toMatch(/^AWS4-HMAC-SHA256 /)
+    expect(headers.get('content-type')).toBe('image/jpeg')
+  })
+
   it('throws when R2 rejects the upload', async () => {
     const fetchMock = vi
       .fn<typeof fetch>()
-      .mockResolvedValue(new Response(null, { status: 403 }))
+      .mockResolvedValue(
+        new Response(
+          '<Error><Code>AccessDenied</Code><Message>Access Denied</Message></Error>',
+          { status: 403 }
+        )
+      )
 
     await expect(
       uploadToR2(config, 'a.png', new Uint8Array([1]), fetchMock)
-    ).rejects.toThrow('403')
+    ).rejects.toThrow('R2 upload failed with 403: Access Denied')
   })
 })
 
