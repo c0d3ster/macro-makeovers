@@ -80,7 +80,16 @@ describe('evaluateFit', () => {
       reasons(
         evaluateFit(card({ calories: 600, ...shares(50, 25, 25) }), target('fat-loss'))
       )
-    ).toEqual(['Over 550 cal', 'High carbs for this goal', 'Low protein for this goal'])
+    ).toEqual(['Over 550 cal', 'Low protein for this goal'])
+  })
+
+  it('ignores carbs for Fat Loss, so a lean low-carb dish is a fit', () => {
+    expect(
+      evaluateFit(card({ calories: 440, ...shares(24, 27, 49) }), target('fat-loss'))
+    ).toEqual({ isFit: true, reasons: [] })
+    expect(
+      reasons(evaluateFit(card({ calories: 400, ...shares(14, 37, 49) }), target('fat-loss')))
+    ).toEqual(['High fat for this goal'])
   })
 
   it('counts a calorie floor as part of the match, with no ratio window', () => {
@@ -104,10 +113,10 @@ describe('evaluateFit', () => {
 
   it('treats carb cycling days as a ceiling and a floor', () => {
     expect(
-      evaluateFit(card(shares(34, 33, 33)), target('carb-cycling-low')).isFit
+      evaluateFit(card(shares(30, 35, 35)), target('carb-cycling-low')).isFit
     ).toBe(true)
     expect(
-      reasons(evaluateFit(card(shares(36, 31, 33)), target('carb-cycling-low')))
+      reasons(evaluateFit(card(shares(34, 33, 33)), target('carb-cycling-low')))
     ).toEqual(['High carbs for this goal'])
     expect(
       evaluateFit(card(shares(48, 22, 30)), target('carb-cycling-high')).isFit

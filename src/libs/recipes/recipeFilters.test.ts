@@ -291,15 +291,27 @@ describe('goals', () => {
 
   it('puts good fits ahead of closer recipes that break the calorie rule', () => {
     const goalRecipes = [
-      // The exact ratio, but over the 550 calorie ceiling
-      card({ slug: 'heavy', title: 'Heavy', calories: 700, ...shares(40, 25, 35) }),
-      // Inside the ratio window and under the ceiling, if a little further away
+      // More protein and less fat, but over the 550 calorie ceiling
+      card({ slug: 'heavy', title: 'Heavy', calories: 700, ...shares(40, 20, 40) }),
+      // Inside the protein and fat limits and under the ceiling, if not as lean
       card({ slug: 'light', title: 'Light', calories: 500, ...shares(42, 27, 33) }),
     ]
 
     expect(
       slugs(filterRecipes(goalRecipes, parseRecipeFilters({ goal: 'fat-loss' })))
     ).toEqual(['light', 'heavy'])
+  })
+
+  it('ranks Fat Loss fits by the most protein and least fat, whatever the carbs', () => {
+    const lean = [
+      card({ slug: 'chili', title: 'Chili', calories: 500, ...shares(42, 27, 31) }),
+      card({ slug: 'bowl', title: 'Bowl', calories: 440, ...shares(24, 27, 49) }),
+      card({ slug: 'bulgogi', title: 'Bulgogi', calories: 520, ...shares(40, 24, 36) }),
+    ]
+
+    expect(
+      slugs(filterRecipes(lean, parseRecipeFilters({ goal: 'fat-loss' })))
+    ).toEqual(['bowl', 'bulgogi', 'chili'])
   })
 
   it('leans lighter for Recomp and heavier for a bulk when the ratio ties', () => {
