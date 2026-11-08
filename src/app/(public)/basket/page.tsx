@@ -45,7 +45,8 @@ const BasketPage = async (): Promise<ReactElement> => {
         <p className='mb-8 text-text-muted'>
           Cook a few recipes in the same stretch and buy for them in one trip.
           Shared ingredients pool, packs round up once, and the list follows the
-          store.
+          store. Totals are estimated subtotals: your store&apos;s prices will
+          differ, and state and local sales tax is added on top at checkout.
         </p>
         <BasketView recipes={recipes} />
       </main>
