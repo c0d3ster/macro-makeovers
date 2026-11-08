@@ -3,6 +3,7 @@
 import type { ReactElement } from 'react'
 import type { UseFieldArrayReturn } from 'react-hook-form'
 
+import { useState } from 'react'
 import { useFieldArray, useWatch } from 'react-hook-form'
 
 import type { RecipeImportInput } from '@/validations'
@@ -84,6 +85,8 @@ export const RecipeNutritionEditor = ({
   const rows = useWatch({ control, name: 'nutrition' })
   const noteRows = useWatch({ control, name: 'notes' })
   const servings = toNumber(useWatch({ control, name: 'servings' }))
+  // The note just added, which takes the focus as it shows
+  const [addedNote, setAddedNote] = useState<number>()
 
   const builds = rows.map(toNutritionBuild)
   const featured = featuredBuild(builds)
@@ -192,7 +195,10 @@ export const RecipeNutritionEditor = ({
     const placed = notes.fields.flatMap(({ id }, index) =>
       noteRows[index]?.kind === kind ? [{ id, index }] : []
     )
-    const add = (): void => notes.append({ kind, body: '' })
+    const add = (): void => {
+      setAddedNote(notes.fields.length)
+      notes.append({ kind, body: '' }, { shouldFocus: false })
+    }
 
     if (placed.length === 0) {
       return <PlaceholderButton onClick={add}>{empty}</PlaceholderButton>
@@ -204,6 +210,7 @@ export const RecipeNutritionEditor = ({
             key={id}
             index={index}
             onRemove={() => notes.remove(index)}
+            focusOnMount={index === addedNote}
             className={className}
             placeholder={placeholder}
           />
