@@ -2,6 +2,8 @@ import type { ReactElement, ReactNode } from 'react'
 
 import type { RecipeDetail } from '@/libs/recipes'
 
+import { AddToBasketButton } from '@/components/molecules'
+
 import { NutritionTable } from './NutritionTable'
 import { RecipeHero } from './RecipeHero'
 import {
@@ -28,8 +30,9 @@ export const RecipePageContent = ({
 }: RecipePageContentProps): ReactElement => (
   <main className={RECIPE_PAGE_LAYOUT}>
     <RecipeHero recipe={recipe} corner={corner} />
-    {/* Ingredients stay level with nutrition and sticky while the steps scroll. The right
-        column is the home for later extras (favorite, shopping list, reviews). */}
+    {/* Ingredients stay level with nutrition and sticky while the steps scroll, with the
+        basket button under them. The right column is the home for later extras (favorite,
+        reviews). */}
     <div className={RECIPE_BODY_GRID}>
       <div className={RECIPE_BODY_NUTRITION}>
         <NutritionTable
@@ -45,6 +48,9 @@ export const RecipePageContent = ({
           ingredients={recipe.ingredients}
           baseServings={recipe.servings}
         />
+        <div className='mt-4'>
+          <AddToBasketButton slug={recipe.slug} title={recipe.title} />
+        </div>
       </div>
       <div className={RECIPE_BODY_STEPS}>
         <StepList

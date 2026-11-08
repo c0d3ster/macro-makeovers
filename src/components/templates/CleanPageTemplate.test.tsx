@@ -8,6 +8,7 @@ vi.mock('next/navigation', () => ({ usePathname: vi.fn(() => '/') }))
 vi.mock('@/providers', () => ({
   useAuth: vi.fn(() => ({ user: null, isLoaded: true, signOut: vi.fn() })),
   useOwnerStatus: vi.fn(() => 'visitor'),
+  useBasket: vi.fn(() => ({ entries: [], isLoaded: true })),
 }))
 
 describe('CleanPageTemplate', () => {
@@ -174,6 +175,8 @@ describe('CleanPageTemplate', () => {
       'href',
       '/profile'
     )
-    expect(screen.queryByRole('link', { name: 'Contact' })).not.toBeInTheDocument()
+    expect(
+      screen.queryByRole('link', { name: 'Contact' })
+    ).not.toBeInTheDocument()
   })
 })
