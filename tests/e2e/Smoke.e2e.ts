@@ -23,6 +23,7 @@ const CONTENT_PAGES: [string, string][] = [
   ['/guides', 'Guides'],
   ['/guides/nutrition', 'Nutrition guide'],
   ['/about', 'About'],
+  ['/basket', 'Your basket'],
 ]
 
 test.describe('Content pages', () => {
