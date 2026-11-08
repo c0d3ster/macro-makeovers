@@ -8,6 +8,8 @@ import { useState } from 'react'
 import { useDeleteRecipe } from '@/apiClients'
 import { Button } from '@/components/atoms'
 
+import { ConfirmDialog } from './ConfirmDialog'
+
 type RecipeDeleteButtonProps = {
   id: string
   title: string
@@ -19,8 +21,8 @@ type RecipeDeleteButtonProps = {
 const DANGER =
   'border-red-500/70 text-red-500 hover:border-red-500 hover:bg-red-500/10 hover:text-red-500'
 
-// Deleting is permanent, so the first click only asks. The second click deletes the recipe,
-// its ingredients, steps, notes and revision history.
+// Deleting is permanent, so the first click only asks, in a dialog over the page. Confirming
+// deletes the recipe, its ingredients, steps, notes and revision history.
 export const RecipeDeleteButton = ({
   id,
   title,
@@ -49,8 +51,8 @@ export const RecipeDeleteButton = ({
     }
   }
 
-  if (!isAsking) {
-    return (
+  return (
+    <>
       <Button
         size='sm'
         variant='outline'
@@ -62,35 +64,20 @@ export const RecipeDeleteButton = ({
       >
         Delete
       </Button>
-    )
-  }
-
-  return (
-    <div className='flex flex-wrap items-center gap-2'>
-      <span className='text-sm text-text'>
-        Delete &ldquo;{title}&rdquo; for good?
-      </span>
-      <Button
-        size='sm'
-        disabled={isPending}
-        onClick={confirm}
-        className='border border-red-500 bg-red-500 text-white hover:bg-red-600'
-      >
-        {isPending ? 'Deleting...' : 'Yes, delete'}
-      </Button>
-      <Button
-        size='sm'
-        variant='outline'
-        disabled={isPending}
-        onClick={() => setIsAsking(false)}
-      >
-        Cancel
-      </Button>
-      {error && (
-        <span role='alert' className='text-sm text-red-400'>
-          {error}
-        </span>
+      {isAsking && (
+        <ConfirmDialog
+          title='Delete recipe?'
+          confirmLabel='Yes, delete'
+          pendingLabel='Deleting...'
+          isPending={isPending}
+          error={error}
+          onConfirm={() => void confirm()}
+          onCancel={() => setIsAsking(false)}
+        >
+          &ldquo;{title}&rdquo; and its ingredients, steps, notes, and revision
+          history will be deleted for good. This can&apos;t be undone.
+        </ConfirmDialog>
       )}
-    </div>
+    </>
   )
 }

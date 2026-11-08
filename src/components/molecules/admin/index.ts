@@ -1,3 +1,4 @@
+export * from './ConfirmDialog'
 export * from './ImportResultPanel'
 export * from './InlineFields'
 export * from './OAuthConsentCard'
