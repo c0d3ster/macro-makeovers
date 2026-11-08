@@ -38,6 +38,31 @@ export const Prose = ({ children }: ProseProps): ReactElement => (
         strong: ({ children: content }): ReactElement => (
           <strong className='font-semibold text-text'>{content}</strong>
         ),
+        table: ({ children: content }): ReactElement => (
+          <div className='mb-4 overflow-x-auto rounded-lg border border-text-muted/30 last:mb-0'>
+            <table className='w-full text-left text-sm sm:text-base'>
+              {content}
+            </table>
+          </div>
+        ),
+        thead: ({ children: content }): ReactElement => (
+          <thead className='bg-surface text-text'>{content}</thead>
+        ),
+        th: ({ children: content }): ReactElement => (
+          <th className='px-3 py-2 font-semibold whitespace-nowrap'>
+            {content}
+          </th>
+        ),
+        tr: ({ children: content }): ReactElement => (
+          <tr className='border-t border-text-muted/30 first:border-t-0'>
+            {content}
+          </tr>
+        ),
+        td: ({ children: content }): ReactElement => (
+          <td className='px-3 py-2 align-top first:font-semibold first:whitespace-nowrap first:text-text nth-2:whitespace-nowrap'>
+            {content}
+          </td>
+        ),
         code: ({ children: content }): ReactElement => (
           <code className='rounded bg-surface px-1.5 py-0.5 text-[0.9em] text-text'>
             {content}

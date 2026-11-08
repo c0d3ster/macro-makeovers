@@ -14,7 +14,7 @@ export const HomeHero = ({ title, tagline }: HomeHeroProps): ReactElement => (
     <p className='mb-8 text-base text-text-muted sm:text-lg'>
       Every recipe starts from a dish worth eating and gets rebuilt ingredient
       by ingredient: a leaner base, more protein, and the flavor put back with
-      spice and technique. The traditional numbers sit next to the makeover, so
+      spice and technique. The traditional numbers sit below the makeover, so
       you see exactly what changed.
     </p>
     <div className='flex flex-wrap gap-3'>
