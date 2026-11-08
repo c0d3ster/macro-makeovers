@@ -15,6 +15,9 @@ export const metadata: Metadata = {
     template: `%s | ${Env.NEXT_PUBLIC_BRAND_NAME}`,
   },
   description: 'High-protein, lower-fat versions of foods people love.',
+  openGraph: { siteName: Env.NEXT_PUBLIC_BRAND_NAME, type: 'website' },
+  // X falls back to og:image, this makes it the large card instead of a thumbnail
+  twitter: { card: 'summary_large_image' },
 }
 
 // Runs before first paint so a saved or system-preferred light theme never flashes dark
