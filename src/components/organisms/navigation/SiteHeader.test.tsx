@@ -1,6 +1,6 @@
 import type { User } from '@supabase/supabase-js'
 
-import { cleanup, render, screen } from '@testing-library/react'
+import { cleanup, fireEvent, render, screen } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { Env } from '@/libs/Env'
@@ -119,7 +119,12 @@ describe('SiteHeader', () => {
   it('shows owner-only links to the owner only', () => {
     const items: NavItem[] = [
       ...sampleMenuItems,
-      { id: 'manage', label: 'Manage recipes', href: '/admin', ownerOnly: true },
+      {
+        id: 'manage',
+        label: 'Manage recipes',
+        href: '/admin',
+        ownerOnly: true,
+      },
     ]
     const { rerender } = render(<SiteHeader menuItems={items} />)
 
@@ -130,10 +135,9 @@ describe('SiteHeader', () => {
     vi.mocked(useOwnerStatus).mockReturnValue('owner')
     rerender(<SiteHeader menuItems={items} activeItem='manage' />)
 
-    expect(screen.getByRole('link', { name: 'Manage recipes' })).toHaveAttribute(
-      'href',
-      '/admin'
-    )
+    expect(
+      screen.getByRole('link', { name: 'Manage recipes' })
+    ).toHaveAttribute('href', '/admin')
   })
 
   it('keeps the nav out of sight while the owner check is pending', () => {
@@ -168,6 +172,45 @@ describe('SiteHeader', () => {
     render(<SiteHeader menuItems={sampleMenuItems} />)
 
     expect(screen.getByRole('link', { name: 'Home' })).toBeInTheDocument()
+  })
+
+  it('shows sub-pages in a menu on wide screens and a plain link on phones', () => {
+    render(
+      <SiteHeader
+        menuItems={[
+          {
+            id: 'guides',
+            label: 'Guides',
+            href: '/guides',
+            children: [{ label: 'Nutrition guide', href: '/guides/nutrition' }],
+          },
+        ]}
+      />
+    )
+
+    // The phone link goes straight to the section page
+    expect(screen.getByRole('link', { name: 'Guides' })).toHaveAttribute(
+      'href',
+      '/guides'
+    )
+
+    const trigger = screen.getByRole('button', { name: 'Guides' })
+
+    expect(trigger).toHaveAttribute('aria-expanded', 'false')
+
+    fireEvent.click(trigger)
+
+    expect(trigger).toHaveAttribute('aria-expanded', 'true')
+    expect(
+      screen.getByRole('menuitem', { name: 'All guides' })
+    ).toHaveAttribute('href', '/guides')
+    expect(
+      screen.getByRole('menuitem', { name: 'Nutrition guide' })
+    ).toHaveAttribute('href', '/guides/nutrition')
+
+    fireEvent.keyDown(screen.getByRole('menu'), { key: 'Escape' })
+
+    expect(screen.queryByRole('menu')).not.toBeInTheDocument()
   })
 
   it('renders without errors when no menu items provided', () => {

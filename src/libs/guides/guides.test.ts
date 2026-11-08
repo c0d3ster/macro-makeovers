@@ -8,7 +8,7 @@ import {
   loadBookGuideProse,
   readAbout,
   readGuide,
-} from './guides'
+} from '.'
 
 describe('guides', () => {
   it('has a non-empty file for every guide and the about page', () => {

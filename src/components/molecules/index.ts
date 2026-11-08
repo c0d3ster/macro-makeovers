@@ -1,5 +1,6 @@
 export * from './admin'
 export * from './auth'
 export * from './contact'
+export * from './navigation'
 export * from './recipe'
 export * from './theme'
