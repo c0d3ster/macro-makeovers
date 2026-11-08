@@ -121,9 +121,11 @@ export const RecipeStepsEditor = (): ReactElement => {
                       <div
                         className={`mt-1 flex items-baseline text-xs text-text-muted ${hasDuration ? '' : SHOW_ON_ROW_HOVER}`}
                       >
-                        About&nbsp;
+                        About
+                        {/* Padding offsets the field's negative margin, so its box clears the words */}
                         <InlineInput
                           fit
+                          fieldClassName='px-3'
                           label={`Step ${index + 1} minutes`}
                           type='number'
                           step='any'
@@ -134,7 +136,7 @@ export const RecipeStepsEditor = (): ReactElement => {
                             `steps.${index}.durationMinutes`
                           )}
                         />
-                        &nbsp;min
+                        min
                       </div>
                     </div>
                   </li>

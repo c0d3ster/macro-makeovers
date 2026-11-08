@@ -131,7 +131,7 @@ export const RecipeIngredientsEditor = (): ReactElement => {
               {groupLines.map(({ id, index, group }) => (
                 <li
                   key={id}
-                  className='group/editable flex items-start gap-1 py-2 pr-2 pl-4'
+                  className='group/editable flex items-start gap-1 py-2 pr-2 pl-4 text-sm'
                 >
                   <InlineTextarea
                     label={`Ingredient ${index + 1}`}

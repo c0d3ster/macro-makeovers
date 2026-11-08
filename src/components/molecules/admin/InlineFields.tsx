@@ -145,6 +145,8 @@ type MarkdownFieldProps = InlineProps & {
   placeholder?: string
   rows?: number
   className?: string
+  // Take the focus when it first shows, such as a note just added from a placeholder
+  focusOnMount?: boolean
 }
 
 // Markdown shows rendered, as the page will show it, and turns back into its text on click or
@@ -158,10 +160,11 @@ export const MarkdownField = ({
   placeholder,
   rows = 2,
   className = '',
+  focusOnMount = false,
 }: MarkdownFieldProps): ReactElement => {
   const [isEditing, setIsEditing] = useState(false)
   // Set when the rendered text is clicked, so the field that replaces it takes the focus
-  const focusOnMountRef = useRef(false)
+  const focusOnMountRef = useRef(focusOnMount)
 
   if (isEditing || !value.trim() || error) {
     return (
@@ -263,18 +266,22 @@ type RemoveRowButtonProps = {
   onClick: () => void
 }
 
-// Shows while its row, marked `group/editable`, is hovered or focused
+// Shows while its row, marked `group/editable`, is hovered or focused. The wrapper is as tall as
+// one line of an inline field (its line, padding and border), so the X centers on the first line
+// of the field beside it. It takes its line height from the text around it.
 export const RemoveRowButton = ({
   label,
   onClick,
 }: RemoveRowButtonProps): ReactElement => (
-  <button
-    type='button'
-    aria-label={label}
-    title={label}
-    onClick={onClick}
-    className={`flex size-6 shrink-0 cursor-pointer items-center justify-center rounded text-base leading-none text-text-muted hover:text-text focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none ${SHOW_ON_ROW_HOVER}`}
-  >
-    &times;
-  </button>
+  <span className='flex h-[calc(1lh+6px)] shrink-0 items-center'>
+    <button
+      type='button'
+      aria-label={label}
+      title={label}
+      onClick={onClick}
+      className={`flex size-6 cursor-pointer items-center justify-center rounded text-base leading-none text-text-muted hover:text-text focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none ${SHOW_ON_ROW_HOVER}`}
+    >
+      &times;
+    </button>
+  </span>
 )

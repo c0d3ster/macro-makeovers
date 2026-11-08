@@ -3,6 +3,7 @@
 import type { ReactElement } from 'react'
 import type { UseFieldArrayReturn } from 'react-hook-form'
 
+import { useState } from 'react'
 import { useWatch } from 'react-hook-form'
 
 import type { RecipeImportInput } from '@/validations'
@@ -57,6 +58,8 @@ export const RecipeNotesEditor = ({
 }: RecipeNotesEditorProps): ReactElement => {
   const { control } = useRecipeForm()
   const rows = useWatch({ control, name: 'notes' })
+  // The note just added, which takes the focus as it shows
+  const [addedNote, setAddedNote] = useState<number>()
 
   return (
     <section aria-labelledby='notes-heading' className='flex flex-col gap-6'>
@@ -69,7 +72,10 @@ export const RecipeNotesEditor = ({
           const sectionNotes = notes.fields.flatMap(({ id }, index) =>
             rows[index]?.kind === kind ? [{ id, index }] : []
           )
-          const add = (): void => notes.append({ kind, body: '' })
+          const add = (): void => {
+            setAddedNote(notes.fields.length)
+            notes.append({ kind, body: '' }, { shouldFocus: false })
+          }
 
           return (
             <div key={kind} className='flex flex-col gap-3'>
@@ -80,6 +86,7 @@ export const RecipeNotesEditor = ({
                     <RecipeNoteField
                       index={index}
                       onRemove={() => notes.remove(index)}
+                      focusOnMount={index === addedNote}
                       className='rounded-xl bg-surface px-4 py-3 text-text-muted'
                       placeholder={`A ${singular}: ${example}`}
                     />

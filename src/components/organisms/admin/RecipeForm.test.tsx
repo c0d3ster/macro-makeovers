@@ -193,6 +193,7 @@ describe('RecipeForm', () => {
     render(<RecipeForm initial={sampleRecipe} />)
 
     fireEvent.click(screen.getByRole('button', { name: /^Add an intro/ }))
+    expect(await screen.findByLabelText('Note 2')).toHaveFocus()
     fireEvent.change(await screen.findByLabelText('Note 2'), {
       target: { value: 'Base only is the plain bowl' },
     })
