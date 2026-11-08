@@ -149,7 +149,7 @@ export const bundleSavings = (
   return separately - computeBasket(entries, options).tripCost
 }
 
-export type BasketSuggestion = {
+type BasketSuggestion = {
   slug: string
   // How much less the trip costs than buying the added recipe on its own
   saving: number
@@ -174,7 +174,7 @@ export const suggestAddition = (
     .sort((a, b) => b.saving - a.saving)[0]
 }
 
-export type RankedBundle = {
+type RankedBundle = {
   slugs: string[]
   saving: number
 }
@@ -244,7 +244,7 @@ export const SECTION_LABELS: Record<StoreSection, string> = {
   spices: 'Spices and seasonings',
 }
 
-export type BasketSection = {
+type BasketSection = {
   section: StoreSection
   lines: BasketLine[]
 }
