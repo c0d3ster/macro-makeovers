@@ -25,8 +25,19 @@ describe('RecipeDeleteButton', () => {
 
     fireEvent.click(screen.getByRole('button', { name: 'Delete' }))
 
-    expect(screen.getByText(/Delete .Chili. for good\?/)).toBeInTheDocument()
+    expect(
+      screen.getByRole('dialog', { name: 'Delete recipe?' })
+    ).toHaveTextContent('Chili')
     expect(mocks.deleteRecipe).not.toHaveBeenCalled()
+  })
+
+  it('asks in a dialog, leaving the Delete button where it was', () => {
+    render(<RecipeDeleteButton id='recipe-1' title='Chili' />)
+
+    fireEvent.click(screen.getByRole('button', { name: 'Delete' }))
+
+    expect(screen.getByRole('button', { name: 'Delete' })).toBeInTheDocument()
+    expect(screen.getByRole('dialog')).toHaveAttribute('open')
   })
 
   it('goes back to the plain button on cancel', () => {
@@ -35,7 +46,7 @@ describe('RecipeDeleteButton', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Delete' }))
     fireEvent.click(screen.getByRole('button', { name: 'Cancel' }))
 
-    expect(screen.getByRole('button', { name: 'Delete' })).toBeInTheDocument()
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
     expect(mocks.deleteRecipe).not.toHaveBeenCalled()
   })
 
