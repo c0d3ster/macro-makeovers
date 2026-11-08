@@ -1,5 +1,6 @@
 export * from './bookMarkdown'
 export * from './diffRecipe'
+export * from './featuredRecipes'
 export * from './importRecipe'
 export * from './ingredients'
 export * from './macroRatios'
