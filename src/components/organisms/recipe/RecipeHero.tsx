@@ -55,7 +55,7 @@ export const RecipeHero = ({
       {/* The corner is centered on the link's line and out of the flow, so it appearing late
           never moves the page */}
       <div className='relative flex items-center'>
-        <BackLink href='/'>All recipes</BackLink>
+        <BackLink href='/recipes'>All recipes</BackLink>
         {corner && (
           <div className='absolute top-1/2 right-0 -translate-y-1/2'>
             {corner}

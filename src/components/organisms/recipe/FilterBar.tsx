@@ -233,7 +233,7 @@ export const FilterBar = ({
   intro,
   tagGroups,
   unavailable,
-  action = '/',
+  action = '/recipes',
 }: FilterBarProps): ReactElement => {
   const router = useRouter()
   const [isPending, startTransition] = useTransition()
