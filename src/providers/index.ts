@@ -1,5 +1,7 @@
 export { useAuth } from './AuthContext'
 export { AuthProvider } from './AuthProvider'
+export { useBasket } from './BasketContext'
+export { BasketProvider } from './BasketProvider'
 export { ProvidersWrapper } from './ProvidersWrapper'
 export { QueryProvider } from './QueryProvider'
 export { useIsOwner, useOwnerStatus } from './useIsOwner'

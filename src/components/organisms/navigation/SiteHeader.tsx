@@ -5,7 +5,12 @@ import Link from 'next/link'
 
 import type { NavLink } from '@/components/molecules'
 
-import { NavDropdown, ThemeToggle, UserMenu } from '@/components/molecules'
+import {
+  BasketNavLink,
+  NavDropdown,
+  ThemeToggle,
+  UserMenu,
+} from '@/components/molecules'
 import { Env } from '@/libs/Env'
 import { isSupabaseConfigured } from '@/libs/supabase/client'
 import { useAuth, useOwnerStatus } from '@/providers'
@@ -123,6 +128,7 @@ export const SiteHeader = ({
 
           {/* Auth */}
           <div className='flex shrink-0 items-center justify-end gap-3 sm:flex-1 sm:gap-4'>
+            <BasketNavLink />
             <ThemeToggle />
             {authEnabled && <NavAuthSection />}
           </div>

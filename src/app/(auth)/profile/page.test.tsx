@@ -29,6 +29,7 @@ vi.mock('@/libs/supabase/owner', () => ({ isOwner: mocks.isOwner }))
 vi.mock('@/providers', () => ({
   useAuth: () => ({ user: null, isLoaded: true, signOut: vi.fn() }),
   useOwnerStatus: () => 'visitor',
+  useBasket: () => ({ entries: [], isLoaded: true }),
 }))
 
 const signedIn = (metadata: Record<string, unknown> = {}): void => {
@@ -54,7 +55,9 @@ describe('ProfilePage', () => {
     expect(screen.getByText('Sam Cook')).toBeInTheDocument()
     expect(screen.getByText('cook@example.com')).toBeInTheDocument()
     expect(screen.getByText('Member')).toBeInTheDocument()
-    expect(screen.queryByRole('link', { name: /admin/i })).not.toBeInTheDocument()
+    expect(
+      screen.queryByRole('link', { name: /admin/i })
+    ).not.toBeInTheDocument()
   })
 
   it('falls back when the name is missing', async () => {

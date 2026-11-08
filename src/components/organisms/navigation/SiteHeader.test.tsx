@@ -23,6 +23,10 @@ vi.mock('@/providers', () => ({
     signOut: vi.fn(),
   })),
   useOwnerStatus: vi.fn((): 'pending' | 'owner' | 'visitor' => 'visitor'),
+  useBasket: vi.fn(() => ({
+    entries: [{ slug: 'a', batches: 1 }],
+    isLoaded: true,
+  })),
 }))
 
 // Mock window properties to prevent hanging

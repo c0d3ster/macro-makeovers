@@ -4,6 +4,8 @@ import { Fragment } from 'react'
 
 import type { Fit, RecipeCard as RecipeCardData } from '@/libs/recipes'
 
+import { AddToBasketButton } from '@/components/molecules'
+
 import { RecipeCard } from './RecipeCard'
 
 type RecipeGridProps = {
@@ -56,8 +58,17 @@ export const RecipeGrid = ({
             </Divider>
           )}
           {hasGroups && index === fitCount && <Divider>Other recipes</Divider>}
-          <li>
+          {/* The basket button sits over the photo as the card link's sibling, since a button
+              can't go inside a link */}
+          <li className='relative'>
             <RecipeCard recipe={recipe} fit={fits?.[recipe.slug]} />
+            <div className='absolute top-3 right-3'>
+              <AddToBasketButton
+                slug={recipe.slug}
+                title={recipe.title}
+                variant='compact'
+              />
+            </div>
           </li>
         </Fragment>
       ))}
