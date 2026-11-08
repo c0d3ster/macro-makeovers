@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next'
 
+import { GUIDES } from '@/libs/guides'
 import { getBaseUrl } from '@/utils/Env'
 
 type SitemapEntry = MetadataRoute.Sitemap[number]
@@ -11,6 +12,13 @@ const STATIC_PAGES: Pick<
 >[] = [
   { url: '/', changeFrequency: 'daily', priority: 0.7 },
   { url: '/recipes', changeFrequency: 'daily', priority: 0.8 },
+  { url: '/guides', changeFrequency: 'monthly', priority: 0.5 },
+  ...GUIDES.map(({ slug }) => ({
+    url: `/guides/${slug}`,
+    changeFrequency: 'monthly' as const,
+    priority: 0.5,
+  })),
+  { url: '/about', changeFrequency: 'monthly', priority: 0.4 },
 ]
 
 export default function sitemap(): MetadataRoute.Sitemap {

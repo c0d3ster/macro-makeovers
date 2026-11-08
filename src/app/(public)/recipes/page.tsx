@@ -26,9 +26,7 @@ const RecipesPage = async ({
   const browse = await loadRecipeBrowse(filters)
   const intro = (
     <header className='max-w-2xl'>
-      <h1 className='mb-3 text-3xl font-bold text-text sm:text-4xl'>
-        Recipes
-      </h1>
+      <h1 className='mb-3 text-3xl font-bold text-text sm:text-4xl'>Recipes</h1>
       <p className='text-base text-text-muted sm:text-lg'>
         Comfort-food staples rebuilt to keep the flavor while cutting the fat
         and adding protein. Pick a goal to see which dishes fit it best.

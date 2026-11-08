@@ -1,0 +1,56 @@
+import type { ReactElement } from 'react'
+
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
+
+type ProseProps = {
+  children: string
+}
+
+// Long-form markdown for the guide and about pages, at reading size. react-markdown ignores raw
+// HTML, so the content files can't inject markup.
+export const Prose = ({ children }: ProseProps): ReactElement => (
+  <div className='text-base leading-relaxed text-text-muted sm:text-lg'>
+    <ReactMarkdown
+      remarkPlugins={[remarkGfm]}
+      components={{
+        h2: ({ children: content }): ReactElement => (
+          <h2 className='mt-10 mb-3 text-2xl font-bold text-text first:mt-0'>
+            {content}
+          </h2>
+        ),
+        h3: ({ children: content }): ReactElement => (
+          <h3 className='mt-8 mb-2 text-xl font-semibold text-text first:mt-0'>
+            {content}
+          </h3>
+        ),
+        p: ({ children: content }): ReactElement => (
+          <p className='mb-4 last:mb-0'>{content}</p>
+        ),
+        ul: ({ children: content }): ReactElement => (
+          <ul className='mb-4 list-disc space-y-2 pl-6 last:mb-0'>{content}</ul>
+        ),
+        ol: ({ children: content }): ReactElement => (
+          <ol className='mb-4 list-decimal space-y-2 pl-6 last:mb-0'>
+            {content}
+          </ol>
+        ),
+        strong: ({ children: content }): ReactElement => (
+          <strong className='font-semibold text-text'>{content}</strong>
+        ),
+        code: ({ children: content }): ReactElement => (
+          <code className='rounded bg-surface px-1.5 py-0.5 text-[0.9em] text-text'>
+            {content}
+          </code>
+        ),
+        a: ({ children: content, href }): ReactElement => (
+          <a href={href} className='text-primary underline hover:text-text'>
+            {content}
+          </a>
+        ),
+      }}
+    >
+      {children}
+    </ReactMarkdown>
+  </div>
+)
