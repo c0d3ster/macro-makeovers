@@ -1,5 +1,3 @@
-## How to read the recipes
-
 Each recipe heading reads like `$$ · ~40 min · ●●●○○`: cost, time, and difficulty.
 
 ### Cost

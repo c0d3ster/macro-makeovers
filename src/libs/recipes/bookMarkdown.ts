@@ -6,7 +6,8 @@ type Nutrition = RecipeImport['nutrition'][number]
 type Note = RecipeImport['notes'][number]
 
 // The recipe book text that is not recipes: the intro, the "How to read the recipes" guide, and
-// the closing sections. It lives in content/book, so editing those files changes the book.
+// the closing sections. The intro lives in content/book and the rest in content/guides (shared
+// with the site), so editing those files changes the book.
 export type BookProse = {
   intro: string
   guide: string

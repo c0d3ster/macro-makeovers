@@ -19,7 +19,8 @@ import {
 } from './bookSource'
 
 // Builds the printable recipe book (build/macro-makeovers.pdf) from the published recipes in the
-// database (or `--from <folder>` of recipe JSON), the prose in content/book, and the photos from
+// database (or `--from <folder>` of recipe JSON), the prose in content/book and
+// content/guides, and the photos from
 // R2 (R2_PUBLIC_URL). Needs pandoc on the PATH. Run with `pnpm book:pdf`.
 const ROOT = process.cwd()
 const PHOTO_DIR = resolve(ROOT, 'build/photos')
