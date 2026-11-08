@@ -21,7 +21,7 @@ const NotFound = (): ReactElement => (
         The link may be old, or the recipe may have moved. Head back and find
         something good to cook.
       </p>
-      <Button href='/'>Browse recipes</Button>
+      <Button href='/recipes'>Browse recipes</Button>
     </main>
   </LandingPageTemplate>
 )

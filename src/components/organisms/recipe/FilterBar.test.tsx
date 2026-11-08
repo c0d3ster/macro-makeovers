@@ -57,7 +57,7 @@ describe('FilterBar', () => {
     })
     fireEvent.submit(screen.getByRole('search'))
 
-    expect(push).toHaveBeenCalledWith('/?q=chili', { scroll: false })
+    expect(push).toHaveBeenCalledWith('/recipes?q=chili', { scroll: false })
   })
 
   it('offers A to Z first when there is nothing to match', () => {
@@ -102,7 +102,7 @@ describe('FilterBar', () => {
 
     fireEvent.click(screen.getByRole('button', { name: 'Reverse sort order' }))
 
-    expect(push).toHaveBeenCalledWith('/?sort=calories&reverse=1', {
+    expect(push).toHaveBeenCalledWith('/recipes?sort=calories&reverse=1', {
       scroll: false,
     })
   })
@@ -131,7 +131,7 @@ describe('FilterBar', () => {
 
     fireEvent.change(select(/sort/i), { target: { value: 'time' } })
 
-    expect(push).toHaveBeenCalledWith('/?sort=time', { scroll: false })
+    expect(push).toHaveBeenCalledWith('/recipes?sort=time', { scroll: false })
   })
 
   it('lists the goals with Balanced first', () => {
@@ -158,7 +158,7 @@ describe('FilterBar', () => {
 
     fireEvent.change(select(/goal/i), { target: { value: 'fat-loss' } })
 
-    expect(push).toHaveBeenCalledWith('/?goal=fat-loss', { scroll: false })
+    expect(push).toHaveBeenCalledWith('/recipes?goal=fat-loss', { scroll: false })
   })
 
   it('shows the goal, its note, and its targets in the macro dropdowns', () => {
@@ -185,7 +185,7 @@ describe('FilterBar', () => {
 
     fireEvent.change(select(/^fat\b/i), { target: { value: '30' } })
 
-    expect(push).toHaveBeenCalledWith('/?carbs=45&fat=30&protein=30', {
+    expect(push).toHaveBeenCalledWith('/recipes?carbs=45&fat=30&protein=30', {
       scroll: false,
     })
   })
@@ -204,7 +204,7 @@ describe('FilterBar', () => {
 
     fireEvent.change(select(/^fat\b/i), { target: { value: '30' } })
 
-    expect(push).toHaveBeenCalledWith('/?carbs=45&fat=30&protein=30', {
+    expect(push).toHaveBeenCalledWith('/recipes?carbs=45&fat=30&protein=30', {
       scroll: false,
     })
   })
@@ -214,7 +214,7 @@ describe('FilterBar', () => {
 
     fireEvent.click(screen.getByRole('button', { name: 'Cost: up to 3' }))
 
-    expect(push).toHaveBeenLastCalledWith('/?maxCost=3', { scroll: false })
+    expect(push).toHaveBeenLastCalledWith('/recipes?maxCost=3', { scroll: false })
   })
 
   it('limits time from the quick links', () => {
@@ -224,7 +224,7 @@ describe('FilterBar', () => {
       screen.getAllByRole('button', { name: 'Time: up to 45 minutes' })[0]!
     )
 
-    expect(push).toHaveBeenLastCalledWith('/?maxMinutes=45', { scroll: false })
+    expect(push).toHaveBeenLastCalledWith('/recipes?maxMinutes=45', { scroll: false })
   })
 
   it('grays out options that would return nothing', () => {
@@ -245,7 +245,7 @@ describe('FilterBar', () => {
     ).toBeInTheDocument()
     expect(
       screen.getAllByRole('link', { name: 'Clear all' })[0]
-    ).toHaveAttribute('href', '/?q=chili')
+    ).toHaveAttribute('href', '/recipes?q=chili')
   })
 
   it('lists active filters as chips that remove themselves', () => {
@@ -255,7 +255,7 @@ describe('FilterBar', () => {
 
     expect(chips.getByRole('link', { name: 'Remove Up to 45 min' })).toHaveAttribute(
       'href',
-      '/?maxCost=2'
+      '/recipes?maxCost=2'
     )
   })
 

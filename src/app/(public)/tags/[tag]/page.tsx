@@ -51,7 +51,7 @@ const TagPage = async ({
   const intro = (
     <header>
       <Link
-        href='/'
+        href='/recipes'
         className='text-sm text-text-muted underline hover:text-text'
       >
         All recipes
@@ -63,7 +63,7 @@ const TagPage = async ({
   )
 
   return (
-    <LandingPageTemplate>
+    <LandingPageTemplate activeItem='recipes'>
       <main className='mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8'>
         {browse ? (
           <>

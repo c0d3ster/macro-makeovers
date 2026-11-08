@@ -54,7 +54,7 @@ const RecipePage = async ({
   if (!recipe) notFound()
 
   return (
-    <LandingPageTemplate>
+    <LandingPageTemplate activeItem='recipes'>
       <RecipePageContent
         recipe={recipe}
         corner={<OwnerEditLink recipeId={recipe.id} />}

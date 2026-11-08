@@ -1,11 +1,13 @@
 import type { Metadata } from 'next'
 import type { ReactElement } from 'react'
 
+import { permanentRedirect } from 'next/navigation'
+
 import { ContactForm } from '@/components/molecules'
 import { FilterBar, RecipeGrid } from '@/components/organisms'
 import { LandingPageTemplate } from '@/components/templates'
 import { Env } from '@/libs/Env'
-import { parseRecipeFilters } from '@/libs/recipes'
+import { parseRecipeFilters, toSearchParams } from '@/libs/recipes'
 
 import { loadRecipeBrowse } from './loadRecipeBrowse'
 
@@ -25,6 +27,9 @@ const HomePage = async ({
   searchParams,
 }: HomePageProps): Promise<ReactElement> => {
   const filters = parseRecipeFilters(await searchParams)
+  // The browser moved to /recipes. Old shared links like /?goal=fat-loss keep working.
+  const query = toSearchParams(filters).toString()
+  if (query) permanentRedirect(`/recipes?${query}`)
   const browse = await loadRecipeBrowse(filters)
   const intro = (
     <header className='max-w-2xl'>
