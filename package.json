@@ -8,7 +8,7 @@
   "scripts": {
     "dev:spotlight": "pnpm dlx @spotlightjs/spotlight",
     "dev:next": "next dev --turbopack",
-    "dev": "run-p dev:next codegen:watch",
+    "dev": "tsx scripts/dev.ts",
     "build:next": "next build",
     "build": "pnpm run build:next",
     "build:ci": "pnpm run build:next",

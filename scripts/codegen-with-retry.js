@@ -3,6 +3,9 @@
 const { spawn } = require('node:child_process')
 const { setTimeout } = require('node:timers/promises')
 
+// Same port as the dev server, which `pnpm dev` passes in
+const GRAPHQL_URL = `http://localhost:${process.env.PORT ?? 3000}/api/graphql`
+
 async function waitForServer(url, maxAttempts = 30, delay = 1000) {
   console.log(`🔄 Waiting for server at ${url}...`)
 
@@ -40,7 +43,7 @@ async function runCodegen() {
   console.log('🚀 Starting codegen with server check...')
 
   // Wait for server to be ready
-  const serverReady = await waitForServer('http://localhost:3000/api/graphql')
+  const serverReady = await waitForServer(GRAPHQL_URL)
 
   if (!serverReady) {
     console.error('❌ Server is not ready, codegen cannot proceed')
@@ -68,7 +71,7 @@ async function runCodegenWatch() {
   console.log('🚀 Starting codegen watch with server check...')
 
   // Wait for server to be ready
-  const serverReady = await waitForServer('http://localhost:3000/api/graphql')
+  const serverReady = await waitForServer(GRAPHQL_URL)
 
   if (!serverReady) {
     console.error('❌ Server is not ready, codegen cannot proceed')

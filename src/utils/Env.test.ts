@@ -26,8 +26,19 @@ describe('Helpers', () => {
       delete process.env.VERCEL_ENV
       delete process.env.VERCEL_PROJECT_PRODUCTION_URL
       delete process.env.VERCEL_URL
+      delete process.env.PORT
 
       expect(getBaseUrl()).toBe('http://localhost:3000')
+    })
+
+    it('should use PORT for localhost when the dev server moved off 3000', () => {
+      delete process.env.NEXT_PUBLIC_APP_URL
+      delete process.env.VERCEL_ENV
+      delete process.env.VERCEL_PROJECT_PRODUCTION_URL
+      delete process.env.VERCEL_URL
+      process.env.PORT = '3001'
+
+      expect(getBaseUrl()).toBe('http://localhost:3001')
     })
   })
 
