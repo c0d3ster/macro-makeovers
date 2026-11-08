@@ -2,11 +2,11 @@
 
 High-protein, lower-fat versions of foods people love. Comfort-food staples rebuilt ingredient by
 ingredient to keep the flavor while cutting the fat and adding protein, with the original dish's
-numbers next to every recipe so you can see the difference.
+numbers next to every recipe so you can see the difference. Why the project exists is in
+[docs/about.md](docs/about.md).
 
-Live at [macromakeovers.com](https://macromakeovers.com). The same recipes also
-ship as a printable PDF book, rebuilt automatically when a published recipe changes. The thinking
-behind the book is in [docs/about.md](docs/about.md).
+Live at [macromakeovers.com](https://macromakeovers.com). The same recipes also ship as a printable
+PDF book, rebuilt automatically when a published recipe changes.
 
 ## What's in here
 
