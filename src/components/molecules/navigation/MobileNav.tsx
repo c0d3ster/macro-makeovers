@@ -7,7 +7,7 @@ import { useEffect, useId, useRef, useState } from 'react'
 
 import type { NavLink } from './NavDropdown'
 
-export type MobileNavItem = {
+type MobileNavItem = {
   id: string
   label: string
   href: string
