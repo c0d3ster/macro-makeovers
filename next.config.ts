@@ -15,6 +15,11 @@ const R2_HOST = process.env.R2_PUBLIC_URL
 const baseConfig: NextConfig = {
   poweredByHeader: false,
   reactStrictMode: true,
+  experimental: {
+    // The dev MCP server writes browser console output to .next/dev/logs, and on Windows
+    // Turbopack treats each write as a change, rebuilds, and reloads the page in a loop.
+    mcpServer: false,
+  },
   // type-graphql + reflect-metadata break when bundled/minified (invalid GraphQL names like "$").
   serverExternalPackages: [
     '@apollo/server',
