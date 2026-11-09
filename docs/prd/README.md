@@ -5,7 +5,7 @@ PRDs for the post-launch features. Each file is self-contained: problem, scope, 
 ## Business model (decided)
 
 - **Free:** every recipe, filters, servings scaler, accounts, personalization, the basket (pooled shopping list, costs, bundle savings) saved to the account, favorites, and reviews.
-- **Paid, one plan:** meal planning with leftover-aware suggestions, ordering ("Send to cart" from the basket), and the book download. 5 dollars a month.
+- **Paid, one plan:** meal planning with leftover-aware suggestions, ordering ("Send to cart" from the basket), and the book download. 5 dollars a month. Store price comparison is planned for this plan once grocers give written permission (PRD 05).
 - **Excluded for now:** early access to new recipes. Every recipe stays free.
 - **Naming:** the basket is ours, where recipes get bundled and priced. The cart belongs to the grocery service. "Send to cart" is the handoff.
 - **Later, if needed:** a hard copy book tier and a more comprehensive planning tier. Nothing in these PRDs should block that, but none of it is built now.

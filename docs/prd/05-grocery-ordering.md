@@ -27,7 +27,23 @@ The member chooses where to shop instead of us picking one service for everyone.
 **Out**
 
 - Direct checkout, payments, or delivery handled by us.
-- Live price comparison across grocers.
+- Store price comparison (below). Planned as a paid feature, blocked on grocer permission.
+
+**Planned, not built: store price comparison.** The basket's total at the member's nearest stores,
+side by side, so they shop at the cheapest. Members save more than the $5 plan costs if one store
+is about 2 to 5% cheaper on a typical basket. On the current public terms none of the grocers
+allows it (`docs/grocery-services.md`, "Store price comparison"):
+
+- Kroger's Acceptable Use bans comparing prices among retailers, and its terms ban keeping prices
+  past the cache header. Needs a Kroger partnership.
+- Walmart's API is for advertising Walmart.com products. Comparison needs written permission, and
+  per-store prices are unconfirmed.
+- Instacart returns no prices and bars comparing baskets across retailers. Instacart stays "see
+  your total on Instacart", with nearby retailers named but not priced.
+
+Ask Kroger and Walmart in writing. Build only after written permission, and keep it behind
+`hasPaidAccess`. Store totals must use equivalent items at each store (same size and type, any
+brand) and say they're shelf prices before coupons and fees.
 
 ## Requirements
 
@@ -60,6 +76,8 @@ The member chooses where to shop instead of us picking one service for everyone.
 - Developer access may be application-based. Apply early, because approval timing is outside our control.
 - Product matching. Aggregators match from a search term. Direct carts need a product or UPC per item and store, which is more work per grocer. PRD 03 makes the item names cleaner.
 - Maintenance grows with each grocer. Keep the launch set small.
+- Kroger's primary logos are only allowed when the integration isn't monetized. "Send to cart" is
+  paid, so use Kroger's integration logo.
 
 ## Tasks
 
@@ -68,3 +86,4 @@ The member chooses where to shop instead of us picking one service for everyone.
 3. First two adapters with item mappings.
 4. Gating, the upgrade prompt, and the remembered grocer.
 5. Disclosure copy, markup notes, and handoff logging.
+6. Request written permission for store price comparison from Kroger and Walmart.

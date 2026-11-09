@@ -1,6 +1,6 @@
 # Grocery services for "Send to cart"
 
-Research for PRD 05 (grocery ordering) and the basket in PRD 08. Checked 2026-11-08. Every figure below has a source at the bottom. Anything marked **unverified** comes from third-party sites only, or I could not confirm it at all. Meal planning apps, meal kits and market data are in [`meal-planning-market.md`](./meal-planning-market.md).
+Research for PRD 05 (grocery ordering) and the basket in PRD 08. Checked 2026-11-08, terms for store price comparison checked 2026-11-09. Every figure below has a source at the bottom. Anything marked **unverified** comes from third-party sites only, or I could not confirm it at all. Meal planning apps, meal kits and market data are in [`meal-planning-market.md`](./meal-planning-market.md).
 
 ## Recommendation
 
@@ -57,12 +57,49 @@ Our basket shows a trip cost and a per-serving cost built from in-store shelf pr
 
 Shared work: one `GrocerAdapter` interface (input is the pooled basket, output is a URL or a cart write), the picker UI, the fee notes, click logging per grocer, and the disclosure.
 
-**Can we show competitors side by side?** I found no clause in any of the three that forbids offering another grocer next to it.
+**Can we show competitors side by side?** Yes, as cart options without prices. None of the three forbids offering another grocer as a button next to it. Showing each store's price next to the others is a different question, covered in the next section.
 
-- **Instacart:** its developer terms bar showing "priced items from multiple retailers on the same screen". That only matters if we show prices from its stores, which we shouldn't do anyway. Its developer messaging guidelines, which I haven't read, may have button placement rules.
-- **Walmart and Kroger:** I haven't read their affiliate and developer agreements for this (unverified).
+## Store price comparison (terms checked 2026-11-09)
 
-Ask Instacart during the review.
+The idea: a paid feature that shows the basket's total at the user's nearest stores side by side, so they can shop at the cheapest. On the current public terms, none of the three allows it without written permission.
+
+| Grocer | Prices from the API | What the terms say about comparing | Verdict |
+| --- | --- | --- | --- |
+| Kroger | Yes. Products API returns `price` (regular and promo) per `locationId` | Acceptable Use, Products API, prohibited: "Comparing products/prices among other retailers." | Blocked on the public API |
+| Walmart | Unverified. The Affiliate API docs don't render, so per-store price is unconfirmed | API is for affiliates "solely for the purpose of advertising Walmart.com products online", other uses need written permission. No clause bans comparison outright, and its name may sit "adjacent to competitive brands" | Gray. Needs written permission |
+| Instacart | No. No endpoint returns prices or totals | 3.5(k)(iv): no Instacart data to "display priced items from multiple retailers on the same screen". 3.5(l): no "compare ... items from one retailer basket to another retailer basket" | Blocked, and there's no price data anyway |
+
+**Kroger** (Terms of Service, last modified 2019-04-09. Acceptable Use and Branding Guidelines, 2021-04-28):
+
+- Acceptable Use bans comparing products or prices among retailers. It also bans storing data derived from customer searches.
+- Terms 5(e): no building databases or permanent copies of API content, and no caching longer than the cache header allows. A monthly price job that keeps Kroger prices is out. Prices have to be fetched live and cached briefly.
+- Terms 4(a): no "competitive, comparative or any other type of analysis to develop marketing or business strategies ... targeting Kroger customers."
+- Branding: Kroger's primary logos are allowed only for the add-to-cart use "as long as your company does not directly or indirectly monetize the integration." "Send to cart" is in the paid plan, so use the generic Kroger integration logo, not the store logo.
+- Rate limits: 10,000 Products calls and 5,000 Cart calls a day, app-wide. A 25-line basket at one store is about 25 calls, so live comparisons for many users would hit the cap fast.
+- Path to yes: the Partner API, through a partnership request. Official partnerships are "determined on a by-partner basis."
+
+**Walmart** (walmart.io API Terms of Use, last updated 2020-09-30):
+
+- Use is limited to advertising Walmart.com products. Other uses need "express written permission from Walmart."
+- 5,000 calls a day. Commission is 4% on most products and 1% on some categories, within 3 days of the click (these are the API terms' figures, not grocery-specific).
+- No "pulls Internet traffic away from Walmart.com." A comparison that sends a user to Kroger arguably does that.
+- No scraping. No redistributing product information to third parties.
+- The developer.walmart.com license agreement (rev. 2026-04-17) is for Marketplace and Supplier APIs, not the Affiliate API. It's stricter (no "competitive product or service", no end-user access), but it likely doesn't apply here.
+
+**Instacart** (Developer Platform Terms, last updated 2024-07-03):
+
+- Endpoints: Create shopping list page and Create recipe page (both return only a link), and Get nearby retailers (zip in, retailer names, keys and logos out). No prices.
+- No retailer field on the link endpoints, so we can't preselect a store. The user picks one on Instacart.
+- 3.5(e) bans scraping unless authorized in writing.
+- We can use nearby retailers for "available at Raley's and Bashas near you" with no prices.
+
+**What this means.** Store comparison needs written permission: a Kroger partnership, and Walmart's consent to use its prices next to Kroger's. Until then:
+
+- The picker shows each grocer as a cart option with fee notes and no store total.
+- Instacart stays "see your total on Instacart."
+- Our own estimate stays the single basket cost, from the hand-checked prices in `basketData.ts`.
+
+Ask Kroger (partnership request) and Walmart (affilops@wal-mart.com) in writing. Ask Instacart during its production review.
 
 ## Instacart
 
@@ -147,9 +184,9 @@ SideChef is the one to contact if we want H-E-B, Publix or Albertsons without In
 
 ## Open questions
 
-1. Walmart: does the add-to-cart URL with `storeId` fill a pickup grocery cart? Can we get access to the Recipes or Bundle APIs? What does grocery pay?
-2. Kroger: commercial-use terms, quota increases, and whether delivered orders keep in-store prices.
-3. Instacart: can the shopping list page be limited to no-markup retailers? Does "total cart value" include fees? Any rule against showing other grocers next to the button?
+1. Walmart: does the add-to-cart URL with `storeId` fill a pickup grocery cart? Can we get access to the Recipes or Bundle APIs? What does grocery pay? Does the Affiliate API return per-store prices, and will Walmart allow showing them next to Kroger's?
+2. Kroger: quota increases, whether delivered orders keep in-store prices, and whether a partnership allows store price comparison and longer price caching.
+3. Instacart: can the shopping list page be limited to no-markup retailers? Does "total cart value" include fees? Can a partner get store prices or preselect a retailer?
 4. SideChef: multi-recipe support, cost, and which retailers fill a real cart.
 5. Measure drift: once live, compare our estimate with the user's reported checkout total per grocer.
 
@@ -165,6 +202,8 @@ Instacart
 - Conversions and payments: https://docs.instacart.com/developer_platform_api/guide/concepts/launch_activities/conversions_and_payments
 - Developer terms: https://docs.instacart.com/developer_platform_api/guide/terms_and_policies/developer_terms
 - FAQ (merchant choice): https://docs.instacart.com/developer_platform_api/faq
+- Create recipe page: https://docs.instacart.com/developer_platform_api/api/products/create_recipe_page
+- Get nearby retailers: https://docs.instacart.com/developer_platform_api/api/retailers/get_nearby_retailers
 - Affiliate program (5% developer rate): https://company.instacart.com/affiliate
 - No-markup retailers, 2026-09-24: https://company.instacart.com/updates/more-of-your-favorite-grocers-now-have-no-markups-on-instacart
 - Same, trade press: https://theshelbyreport.com/2026/09/24/more-grocers-add-no-markup-pricing-on-instacart/
@@ -177,6 +216,11 @@ Instacart
 - Coverage, 98%: https://assets.contentstack.io/v3/assets/blta100b44b847ff4ca/blt944da72e5712ddc5/6a0c6c2debf71f2e93116226/Instacart_Federal_1_Pager_2026.pdf
 
 Kroger
+- Terms of Service: https://developer.kroger.com/terms
+- Acceptable Use (no price comparison): https://developer.kroger.com/documentation/public/getting-started/acceptable-use
+- Branding Guidelines (logos, monetization): https://developer.kroger.com/documentation/public/getting-started/branding
+- Products API (price per location, 10,000 a day): https://developer.kroger.com/api-products/api/product-api-public
+- Cart API (5,000 a day): https://developer.kroger.com/documentation/api-products/public/cart/overview
 - Pickup FAQ (same prices, coupons): https://www.kroger.com/topic/clicklist
 - Pickup fee (third party): https://www.thetakeout.com/1939429/kroger-curbside-pickup-fee/
 - Ocado closures, delivery partners: https://www.esmmagazine.com/technology/kroger-to-close-three-ocado-cfcs-strengthens-partnership-with-instacart-doordash-uber-eats-300529
@@ -188,6 +232,8 @@ Kroger
 
 Walmart
 - Add to Cart service: https://walmart.io/docs/atc/v1/add-to-cart
+- API Terms of Use (affiliate, 5,000 a day): https://walmart.io/termsandcondition
+- API License Agreement (Marketplace and Supplier): https://developer.walmart.com/us-marketplace/page/terms-and-conditions
 - APIs list (Recipes, Bundle): https://walmart.io/apirefservices
 - No consumer checkout API (third party, July 2026): https://vorplabs.com/agent-tools/walmart-marketplace-api
 - Terms on pickup pricing (tracker, May 2026): https://conductatlas.com/platform/walmart/walmart-terms-of-use/provision/CA-P-016691/pickup-pricing-matches-store-not-other-retailers/
