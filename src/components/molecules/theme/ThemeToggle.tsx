@@ -58,7 +58,7 @@ const MoonIcon = (): ReactElement => (
   </svg>
 )
 
-// One icon button in the header colors. It shows the theme a click switches to.
+// One icon button in the header colors. The icon shows the current theme, the label the switch.
 export const ThemeToggle = (): ReactElement => {
   const theme = useSyncExternalStore(subscribe, readTheme, () => 'dark')
   const next: Theme = theme === 'dark' ? 'light' : 'dark'
@@ -67,10 +67,11 @@ export const ThemeToggle = (): ReactElement => {
     <button
       type='button'
       aria-label={`Switch to ${next} theme`}
+      title={`Switch to ${next} theme`}
       onClick={() => choose(next)}
       className='flex size-9 cursor-pointer items-center justify-center rounded-full text-header-muted transition-colors hover:text-header-text focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none'
     >
-      {next === 'light' ? <SunIcon /> : <MoonIcon />}
+      {theme === 'dark' ? <MoonIcon /> : <SunIcon />}
     </button>
   )
 }

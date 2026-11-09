@@ -44,7 +44,7 @@ const NavAuthSection = () => {
   ) : (
     <Link
       href='/login'
-      className='text-sm whitespace-nowrap text-header-muted hover:text-header-text'
+      className='px-1.5 text-sm whitespace-nowrap text-header-muted hover:text-header-text'
     >
       Sign In
     </Link>
@@ -75,7 +75,8 @@ export const SiteHeader = ({
       <div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
         <div className='flex h-16 items-center justify-between gap-4'>
           {/* Logo */}
-          <div className='flex shrink-0 items-center sm:flex-1'>
+          <div className='-ml-1.5 flex shrink-0 items-center gap-1 sm:ml-0 sm:flex-1'>
+            <MobileNav items={mobileItems} activeItem={activeItem} />
             <Link
               href='/'
               aria-label={Env.NEXT_PUBLIC_BRAND_NAME}
@@ -135,7 +136,6 @@ export const SiteHeader = ({
             <BasketNavLink />
             <ThemeToggle />
             {authEnabled && <NavAuthSection />}
-            <MobileNav items={mobileItems} activeItem={activeItem} />
           </div>
         </div>
       </div>

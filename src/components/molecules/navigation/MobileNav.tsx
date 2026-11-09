@@ -89,7 +89,7 @@ export const MobileNav = ({
         <nav
           id={panelId}
           aria-label='Site'
-          className='absolute inset-x-0 top-full max-h-[calc(100dvh-4rem)] overflow-y-auto border-b border-header-muted/20 bg-header px-4 py-3 shadow-lg'
+          className='absolute inset-x-0 top-full max-h-[calc(100dvh-4rem)] overflow-y-auto border-b border-header-muted/20 bg-header px-2 py-3 shadow-lg'
         >
           <ul className='space-y-1'>
             {items.map(({ id, label, href, children }) => (
