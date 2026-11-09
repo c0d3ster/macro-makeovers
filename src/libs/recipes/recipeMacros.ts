@@ -44,7 +44,7 @@ export const matchesMacroTarget = (
   return Math.abs(percent - target.value) <= MACRO_SPREAD
 }
 
-// Lower is a closer match. Open-ended targets prefer the extreme, so "35% or less" puts
+// Lower is a closer match. Open-ended targets prefer the extreme, so "30% or less" puts
 // the lowest-carb recipes first.
 export const macroDistance = (target: MacroTarget, percent: number): number => {
   if (target.kind === 'atMost') return percent
