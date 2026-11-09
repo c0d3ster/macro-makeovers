@@ -97,7 +97,7 @@ The idea: a paid feature that shows the basket's total at the user's nearest sto
 
 - The picker offers checkout at each grocer, independent of price, with fee notes.
 - Prices from grocer APIs are used only to fill that grocer's cart, never shown next to another grocer's.
-- Any store comparison uses our own hand-checked prices per chain, the way `basketData.ts` was built, labeled with the check date. Those aren't API content, so the API terms don't cover them. No scraping.
+- Any store comparison uses prices from member receipts (PRD 09), the way the owner's receipts already feed `basketData.ts`. Those aren't API content, so the API terms don't cover them. No scraping.
 - Instacart stays "see your total on Instacart."
 
 ## Instacart

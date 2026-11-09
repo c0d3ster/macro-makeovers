@@ -4,8 +4,8 @@ PRDs for the post-launch features. Each file is self-contained: problem, scope, 
 
 ## Business model (decided)
 
-- **Free:** every recipe, filters, servings scaler, accounts, personalization, the basket (pooled shopping list, costs, bundle savings) saved to the account, favorites, and reviews.
-- **Paid, one plan:** meal planning with leftover-aware suggestions, ordering ("Send to cart" from the basket), and the book download. 5 dollars a month. Store price comparison from our own price checks per chain is planned for this plan (PRD 05).
+- **Free:** every recipe, filters, servings scaler, accounts, personalization, the basket (pooled shopping list, costs, bundle savings) saved to the account, favorites, reviews, and sharing receipts to keep prices current.
+- **Paid, one plan:** meal planning with leftover-aware suggestions, ordering ("Send to cart" from the basket), and the book download. 5 dollars a month. Store price comparison, built from member receipts (PRD 09), is planned for this plan (PRD 05).
 - **Excluded for now:** early access to new recipes. Every recipe stays free.
 - **Naming:** the basket is ours, where recipes get bundled and priced. The cart belongs to the grocery service. "Send to cart" is the handoff.
 - **Later, if needed:** a hard copy book tier and a more comprehensive planning tier. Nothing in these PRDs should block that, but none of it is built now.
@@ -21,6 +21,7 @@ PRDs for the post-launch features. Each file is self-contained: problem, scope, 
 | 08  | [Basket](./08-basket.md)                               | none (01 for account saving) | Free hook and the shopping list. Runs on the price data that exists today. |
 | 04  | [Meal planner](./04-meal-planner.md)                   | 01, 02, 03, 08 | Core paid feature. Fills the basket.             |
 | 05  | [Grocery ordering](./05-grocery-ordering.md)           | 01, 08     | Second paid feature. "Send to cart" from the basket. |
+| 09  | [Crowdsourced pricing](./09-crowdsourced-pricing.md)   | 01, 08     | Keeps basket prices current, and feeds the paid store comparison in 05. |
 | 06  | [Favorites and reviews](./06-reviews.md)               | 01         | Free engagement, later. Favorites first, reviews once there is traffic. |
 | 07  | [Launch and advertising](./07-launch.md)               | 01, 08 minimum | Gets paying users. Can overlap with 02 to 05.    |
 

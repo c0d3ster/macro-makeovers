@@ -42,8 +42,8 @@ terms (`docs/grocery-services.md`, "Store price comparison"):
   your total on Instacart", with nearby retailers named but not priced.
 
 Decided: no permission requests for now, revisit when we're bigger. The picker offers checkout at
-each grocer independent of price. If we build the comparison, it uses our own hand-checked prices
-per chain, labeled with the check date, never prices from a grocer API. Keep it behind
+each grocer independent of price. The comparison uses member receipt prices from PRD 09, labeled
+with their date range and coverage, never prices from a grocer API. Keep it behind
 `hasPaidAccess`, compare equivalent items (same size and type, any brand), and say the totals are
 shelf price estimates before coupons and fees.
 
