@@ -6,11 +6,6 @@ import { useSyncExternalStore } from 'react'
 
 type Theme = 'dark' | 'light'
 
-const THEMES: { value: Theme; label: string }[] = [
-  { value: 'dark', label: 'Dark' },
-  { value: 'light', label: 'Light' },
-]
-
 // The root layout sets data-theme before first paint, so the page is the source of truth
 const readTheme = (): Theme =>
   document.documentElement.dataset.theme === 'light' ? 'light' : 'dark'
@@ -33,27 +28,49 @@ const choose = (theme: Theme): void => {
   }
 }
 
-// Sits on the dark header, so it uses the header colors in both themes
+const SunIcon = (): ReactElement => (
+  <svg
+    aria-hidden='true'
+    viewBox='0 0 24 24'
+    className='size-6'
+    fill='none'
+    stroke='currentColor'
+    strokeWidth='1.75'
+    strokeLinecap='round'
+  >
+    <circle cx='12' cy='12' r='4' />
+    <path d='M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4' />
+  </svg>
+)
+
+const MoonIcon = (): ReactElement => (
+  <svg
+    aria-hidden='true'
+    viewBox='0 0 24 24'
+    className='size-6'
+    fill='none'
+    stroke='currentColor'
+    strokeWidth='1.75'
+    strokeLinecap='round'
+    strokeLinejoin='round'
+  >
+    <path d='M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z' />
+  </svg>
+)
+
+// One icon button in the header colors. It shows the theme a click switches to.
 export const ThemeToggle = (): ReactElement => {
   const theme = useSyncExternalStore(subscribe, readTheme, () => 'dark')
+  const next: Theme = theme === 'dark' ? 'light' : 'dark'
 
   return (
-    <div
-      role='group'
-      aria-label='Color theme'
-      className='flex items-center gap-0.5 rounded-full border border-header-muted/40 p-0.5'
+    <button
+      type='button'
+      aria-label={`Switch to ${next} theme`}
+      onClick={() => choose(next)}
+      className='flex size-9 cursor-pointer items-center justify-center rounded-full text-header-muted transition-colors hover:text-header-text focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none'
     >
-      {THEMES.map(({ value, label }) => (
-        <button
-          key={value}
-          type='button'
-          aria-pressed={theme === value}
-          onClick={() => choose(value)}
-          className={`rounded-full px-2 py-0.5 text-xs font-semibold transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none sm:px-2.5 ${theme === value ? 'bg-primary text-on-primary' : 'text-header-muted hover:text-header-text'}`}
-        >
-          {label}
-        </button>
-      ))}
-    </div>
+      {next === 'light' ? <SunIcon /> : <MoonIcon />}
+    </button>
   )
 }

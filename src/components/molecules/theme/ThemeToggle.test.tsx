@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 
 import { ThemeToggle } from './ThemeToggle'
@@ -13,40 +13,35 @@ describe('ThemeToggle', () => {
     delete document.documentElement.dataset.theme
   })
 
-  it('marks the current theme as pressed', () => {
+  it('offers the other theme', () => {
     render(<ThemeToggle />)
 
-    expect(screen.getByRole('button', { name: 'Dark' })).toHaveAttribute(
-      'aria-pressed',
-      'true'
-    )
-    expect(screen.getByRole('button', { name: 'Light' })).toHaveAttribute(
-      'aria-pressed',
-      'false'
-    )
+    expect(
+      screen.getByRole('button', { name: 'Switch to light theme' })
+    ).toBeInTheDocument()
   })
 
   it('switches the page theme and remembers it', async () => {
     render(<ThemeToggle />)
 
-    fireEvent.click(screen.getByRole('button', { name: 'Light' }))
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Switch to light theme' })
+    )
 
     expect(document.documentElement.dataset.theme).toBe('light')
     expect(localStorage.getItem('theme')).toBe('light')
-
-    await waitFor(() =>
-      expect(screen.getByRole('button', { name: 'Light' })).toHaveAttribute(
-        'aria-pressed',
-        'true'
-      )
-    )
+    expect(
+      await screen.findByRole('button', { name: 'Switch to dark theme' })
+    ).toBeInTheDocument()
   })
 
   it('switches back to dark', () => {
     document.documentElement.dataset.theme = 'light'
     render(<ThemeToggle />)
 
-    fireEvent.click(screen.getByRole('button', { name: 'Dark' }))
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Switch to dark theme' })
+    )
 
     expect(document.documentElement.dataset.theme).toBe('dark')
     expect(localStorage.getItem('theme')).toBe('dark')

@@ -7,6 +7,7 @@ import type { NavLink } from '@/components/molecules'
 
 import {
   BasketNavLink,
+  MobileNav,
   NavDropdown,
   ThemeToggle,
   UserMenu,
@@ -19,7 +20,6 @@ export type NavItem = {
   label: string
   href: string
   id: string
-  hideOnMobile?: boolean
   // Only shown to the site owner
   ownerOnly?: boolean
   // Sub-pages shown in a menu on wider screens, like the guides
@@ -65,6 +65,10 @@ export const SiteHeader = ({
   )
   const isNavHeld =
     ownerStatus === 'pending' && menuItems.some(({ ownerOnly }) => ownerOnly)
+  // The phone panel is closed while the check runs, so it can simply wait for a yes
+  const mobileItems = menuItems.filter(
+    ({ ownerOnly }) => !ownerOnly || ownerStatus === 'owner'
+  )
 
   return (
     <header className='fixed inset-x-0 top-0 z-50 border-b border-header-muted/20 bg-header shadow-lg'>
@@ -92,10 +96,10 @@ export const SiteHeader = ({
             </Link>
           </div>
 
-          {/* Navigation */}
+          {/* Navigation, from sm up. Phones use the MobileNav panel. */}
           <nav
             aria-hidden={isNavHeld || undefined}
-            className={`ml-auto flex space-x-3 transition-opacity duration-300 sm:ml-0 sm:space-x-8 ${isNavHeld ? 'pointer-events-none opacity-0' : 'opacity-100'}`}
+            className={`hidden space-x-8 transition-opacity duration-300 sm:flex ${isNavHeld ? 'pointer-events-none opacity-0' : 'opacity-100'}`}
           >
             {items.map((item) => {
               const isActive = activeItem === item.id
@@ -118,7 +122,7 @@ export const SiteHeader = ({
                   key={item.label}
                   href={item.href}
                   tabIndex={tabIndex}
-                  className={`${className} ${item.hideOnMobile ? 'hidden sm:block' : ''}`}
+                  className={className}
                 >
                   {item.label}
                 </Link>
@@ -127,10 +131,11 @@ export const SiteHeader = ({
           </nav>
 
           {/* Auth */}
-          <div className='flex shrink-0 items-center justify-end gap-3 sm:flex-1 sm:gap-4'>
+          <div className='flex shrink-0 items-center justify-end gap-1 sm:flex-1 sm:gap-3'>
             <BasketNavLink />
             <ThemeToggle />
             {authEnabled && <NavAuthSection />}
+            <MobileNav items={mobileItems} activeItem={activeItem} />
           </div>
         </div>
       </div>
