@@ -118,7 +118,7 @@ const HomePage = async ({
         {bundles.length > 0 && (
           <HomeSection
             title='Cook these together'
-            intro='Recipes that share ingredients cost less bought in one trip, since the packs round up once.'
+            intro='Recipes that share ingredients cost less together, with fewer leftovers.'
             more={{ href: '/basket', label: 'Your basket' }}
           >
             <BundleLinks bundles={bundles} />

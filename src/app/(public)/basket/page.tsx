@@ -44,7 +44,7 @@ const BasketPage = async (): Promise<ReactElement> => {
         </h1>
         <p className='mb-8 text-text-muted'>
           Cook a few recipes in the same stretch and buy for them in one trip.
-          Shared ingredients pool, packs round up once, and the list follows the
+          Shared ingredients mean fewer leftovers, and the list follows the
           store. Totals are estimated subtotals: your store&apos;s prices will
           differ, and state and local sales tax is added on top at checkout.
         </p>
