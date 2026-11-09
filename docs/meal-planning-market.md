@@ -43,6 +43,43 @@ Research for the paid plan and the basket. Checked 2026-11-08. App Store ratings
 
 **How they earn from grocery.** None publish it. eMeals and MyFitnessPal likely earn Instacart partner revenue (unverified). Walmart and Kroger integrations at eMeals look like partnerships with unknown terms (unverified).
 
+## eMeals in depth
+
+eMeals has the most grocery handoffs in this list, so it is the closest model for "Send to cart". Checked 2026-11-09.
+
+**Company.** Based in Birmingham, AL. It bought RecipeBox (a free recipe app with about 200k users) in April 2022, and hired two former Shipt executives in 2021 to lead growth. Revenue of about $14.7M appears only on data-broker sites (**unverified**). No subscriber count is public.
+
+**Product.** Users pick a themed plan (Clean Eating, Keto, Low Carb, Low Calorie, Diabetic, Kid Friendly and others) and get a weekly dinner menu plus a shopping list. About $5 a month billed yearly, no free tier after the trial. Walmart+ runs promos with it (60-day trial plus $10 Walmart Cash), but eMeals is not a Walmart+ benefit.
+
+**How the cart handoff works.**
+
+- **Walmart:** the user links their Walmart account. eMeals matches each list item to an in-stock product at the local store, the user can swap items, then one tap fills the cart. A third-party test moved a 4-dinner list to Walmart pickup with no fixes needed. This is the polished path.
+- **Kroger:** per eMeals' own help page, ingredients are added one at a time with a "Next" button. Reviews report an empty cart after sending, and a Kroger view inside the app that is separate from the real Kroger app.
+- **Others:** Instacart, Shipt, Amazon Fresh, Albertsons and Safeway (added 2020), H-E-B, chosen by zip code. The "90% of US zip codes" claim dates from 2018.
+- **Terms:** the partnership terms and revenue are not public.
+
+**Nutrition.** Plan-level, not personal. eMeals' support page says nutrition info covers only Keto, Low Calorie, Low Carb, Clean Eating, Quick and Healthy, Diabetic and Heart Healthy. For other plans, support offers a link to drop recipes into MyFitnessPal. Targets are simple caps: under 500 calories per serving (Low Calorie, Diabetic), 30 to 55g carbs (Diabetic), under 20g net carbs (Low Carb). No protein targets, macro ratios or user goals found.
+
+**Complaints.** Auto-renewal and refunds denied after trials, limited meal swaps, repetitive recipes, plans that don't suit picky eaters, portions that can't be adjusted, and Kroger handoff glitches. Praise centers on convenience and the Walmart handoff.
+
+**What "eMeals with macros" looks like.**
+
+| eMeals | Macro Makeovers |
+| --- | --- |
+| Pick a diet plan | Pick a goal (fat loss, bulk, maintain) and get macro targets |
+| Calorie or carb caps on some plans | C/F/P and protein per serving on every recipe |
+| Fixed weekly menu, few swaps | Choose or swap recipes that fit the goal, scaled to servings |
+| No price until checkout | In-store cost per serving and trip cost up front |
+| One-tap Walmart, clunky Kroger | One-tap Walmart and a real Kroger API cart |
+| Billing complaints | Clear trial, easy cancel, reminder before renewal |
+
+**Takeaways.**
+
+- Their breadth comes from years of partnerships, but only Walmart is polished. Our Walmart URL plus Kroger API plan (see [`grocery-services.md`](./grocery-services.md)) matches their best path and can beat them on Kroger.
+- Personal targets and goal scoring are the moat. eMeals could add a macro filter, but rebuilding themed plans around personal goals is harder. That makes PRD 02 the priority.
+- Recipe count is the biggest gap. About 15 recipes can't carry weekly planning. Grow the library, or position the paid plan as macro-fit makeovers rather than every dinner, every week.
+- Up-front cost only stays an advantage if checkout lands close to the estimate, so keep pickup at no-markup grocers as the default.
+
 ## Meal kits
 
 | Service | Model | Fulfillment | Affiliate (third-party figures, unverified) | Creator or licensing |
@@ -98,7 +135,7 @@ Research for the paid plan and the basket. Checked 2026-11-08. App Store ratings
 
 ## Open questions
 
-1. eMeals: what macro features it has, and how its Walmart and Kroger integrations are built and paid.
+1. eMeals: partnership terms and grocery revenue. Its features and handoff flows are covered above.
 2. Eat This Much: current grocery integrations.
 3. Paprika 4: pricing model.
 4. RP Diet and Carbon: current prices from the official stores.
@@ -112,6 +149,20 @@ Apps
 - eMeals Walmart page: https://emeals.com/grocery-delivery-pickup/walmart-grocery
 - eMeals pricing and complaints (third party): https://mealfan.com/best-meal-planning-services/
 - eMeals Trustpilot: https://nl-be.trustpilot.com/review/www.emeals.com
+- eMeals nutrition coverage: https://support.emeals.com/portal/en/kb/articles/does-emeals-provide-nutritional-information
+- eMeals Low Calorie plan: https://emeals.com/meal-plans/low-calorie/
+- eMeals review (Healthline, 2021): https://healthline.com/nutrition/emeals-review
+- eMeals sending a list to online grocery: https://support.emeals.com/portal/en/kb/articles/how-to-send-your-shopping-list-to-online-grocery
+- eMeals Walmart 1-click: https://support.emeals.com/portal/en/kb/articles/walmart-1-click
+- eMeals Kroger checkout: https://support.emeals.com/portal/en/kb/articles/how-do-you-complete-grocery-check-with-kroger
+- eMeals 90% zip code release (2018): https://emeals.com/press/releases/2018-07-16-online-grocery-fulfillment/
+- eMeals Albertsons and Safeway release (2020): https://emeals.com/press/releases/2020-10-01-emeals-expands-online-grocery-integrations-to-albertsons-and-safeway/
+- eMeals Shipt executives release (2021): https://emeals.com/press/releases/2021-05-05-emeals-appoints-2-former-shipt-executives-to-lead-growth-initiatives/
+- eMeals Walmart+ offer: https://emeals.com/walmartplus
+- eMeals FAQ (grocery partners): https://try.emeals.com/emeals-vs-meal-kits/
+- eMeals acquires RecipeBox: https://mergr.com/transaction/emeals-acquires-recipebox
+- eMeals revenue estimate (third party): https://www.zoominfo.com/c/emeals/347337492
+- eMeals complaint analysis (third party): https://unitq.com/unitq-scorecards/emeals
 - Mealime shutdown notice: https://www.mealime.com/
 - Plan to Eat pricing: https://learn.plantoeat.com/help/how-much-does-plan-to-eat-cost
 - Paprika 3 App Store: https://apps.apple.com/kr/app/id1303222868
