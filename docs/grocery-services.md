@@ -93,13 +93,12 @@ The idea: a paid feature that shows the basket's total at the user's nearest sto
 - 3.5(e) bans scraping unless authorized in writing.
 - We can use nearby retailers for "available at Raley's and Bashas near you" with no prices.
 
-**What this means.** Store comparison needs written permission: a Kroger partnership, and Walmart's consent to use its prices next to Kroger's. Until then:
+**Decision (owner, 2026-11-09).** We won't ask the grocers for permission now. Revisit once we're big enough for a partnership to matter. Until then:
 
-- The picker shows each grocer as a cart option with fee notes and no store total.
+- The picker offers checkout at each grocer, independent of price, with fee notes.
+- Prices from grocer APIs are used only to fill that grocer's cart, never shown next to another grocer's.
+- Any store comparison uses our own hand-checked prices per chain, the way `basketData.ts` was built, labeled with the check date. Those aren't API content, so the API terms don't cover them. No scraping.
 - Instacart stays "see your total on Instacart."
-- Our own estimate stays the single basket cost, from the hand-checked prices in `basketData.ts`.
-
-Ask Kroger (partnership request) and Walmart (affilops@wal-mart.com) in writing. Ask Instacart during its production review.
 
 ## Instacart
 
@@ -184,8 +183,8 @@ SideChef is the one to contact if we want H-E-B, Publix or Albertsons without In
 
 ## Open questions
 
-1. Walmart: does the add-to-cart URL with `storeId` fill a pickup grocery cart? Can we get access to the Recipes or Bundle APIs? What does grocery pay? Does the Affiliate API return per-store prices, and will Walmart allow showing them next to Kroger's?
-2. Kroger: quota increases, whether delivered orders keep in-store prices, and whether a partnership allows store price comparison and longer price caching.
+1. Walmart: does the add-to-cart URL with `storeId` fill a pickup grocery cart? Can we get access to the Recipes or Bundle APIs? What does grocery pay? Does the Affiliate API return per-store prices?
+2. Kroger: quota increases, whether delivered orders keep in-store prices, and and, once we're bigger, whether a partnership allows store price comparison.
 3. Instacart: can the shopping list page be limited to no-markup retailers? Does "total cart value" include fees? Can a partner get store prices or preselect a retailer?
 4. SideChef: multi-recipe support, cost, and which retailers fill a real cart.
 5. Measure drift: once live, compare our estimate with the user's reported checkout total per grocer.

@@ -27,12 +27,12 @@ The member chooses where to shop instead of us picking one service for everyone.
 **Out**
 
 - Direct checkout, payments, or delivery handled by us.
-- Store price comparison (below). Planned as a paid feature, blocked on grocer permission.
+- Store price comparison from grocer APIs (below).
 
-**Planned, not built: store price comparison.** The basket's total at the member's nearest stores,
-side by side, so they shop at the cheapest. Members save more than the $5 plan costs if one store
-is about 2 to 5% cheaper on a typical basket. On the current public terms none of the grocers
-allows it (`docs/grocery-services.md`, "Store price comparison"):
+**Planned, not built: store price comparison.** The basket's estimated total at each chain, side by
+side, so members shop at the cheapest. Members save more than the $5 plan costs if one chain is
+about 2 to 5% cheaper on a typical basket. The grocer APIs can't feed it on their current public
+terms (`docs/grocery-services.md`, "Store price comparison"):
 
 - Kroger's Acceptable Use bans comparing prices among retailers, and its terms ban keeping prices
   past the cache header. Needs a Kroger partnership.
@@ -41,9 +41,11 @@ allows it (`docs/grocery-services.md`, "Store price comparison"):
 - Instacart returns no prices and bars comparing baskets across retailers. Instacart stays "see
   your total on Instacart", with nearby retailers named but not priced.
 
-Ask Kroger and Walmart in writing. Build only after written permission, and keep it behind
-`hasPaidAccess`. Store totals must use equivalent items at each store (same size and type, any
-brand) and say they're shelf prices before coupons and fees.
+Decided: no permission requests for now, revisit when we're bigger. The picker offers checkout at
+each grocer independent of price. If we build the comparison, it uses our own hand-checked prices
+per chain, labeled with the check date, never prices from a grocer API. Keep it behind
+`hasPaidAccess`, compare equivalent items (same size and type, any brand), and say the totals are
+shelf price estimates before coupons and fees.
 
 ## Requirements
 
@@ -86,4 +88,3 @@ brand) and say they're shelf prices before coupons and fees.
 3. First two adapters with item mappings.
 4. Gating, the upgrade prompt, and the remembered grocer.
 5. Disclosure copy, markup notes, and handoff logging.
-6. Request written permission for store price comparison from Kroger and Walmart.
