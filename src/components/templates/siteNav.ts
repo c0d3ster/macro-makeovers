@@ -5,7 +5,7 @@ import { GUIDES } from '@/libs/guides/guideList'
 
 // The public site
 export const SITE_NAV_ITEMS: NavItem[] = [
-  { id: 'home', label: 'Home', href: '/', hideOnMobile: true },
+  { id: 'home', label: 'Home', href: '/' },
   { id: 'recipes', label: 'Recipes', href: '/recipes' },
   {
     id: 'guides',
@@ -16,8 +16,7 @@ export const SITE_NAV_ITEMS: NavItem[] = [
       href: `/guides/${slug}`,
     })),
   },
-  // Phones run out of header room, and the home page links to About
-  { id: 'about', label: 'About', href: '/about', hideOnMobile: true },
+  { id: 'about', label: 'About', href: '/about' },
 ]
 
 // The signed-in part of the site: same header, its own links. Meal planning and goals will

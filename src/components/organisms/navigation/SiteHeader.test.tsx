@@ -1,6 +1,12 @@
 import type { User } from '@supabase/supabase-js'
 
-import { cleanup, fireEvent, render, screen } from '@testing-library/react'
+import {
+  cleanup,
+  fireEvent,
+  render,
+  screen,
+  within,
+} from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { Env } from '@/libs/Env'
@@ -178,7 +184,7 @@ describe('SiteHeader', () => {
     expect(screen.getByRole('link', { name: 'Home' })).toBeInTheDocument()
   })
 
-  it('shows sub-pages in a menu on wide screens and a plain link on phones', () => {
+  it('shows sub-pages in a menu', () => {
     render(
       <SiteHeader
         menuItems={[
@@ -190,12 +196,6 @@ describe('SiteHeader', () => {
           },
         ]}
       />
-    )
-
-    // The phone link goes straight to the section page
-    expect(screen.getByRole('link', { name: 'Guides' })).toHaveAttribute(
-      'href',
-      '/guides'
     )
 
     const trigger = screen.getByRole('button', { name: 'Guides' })
@@ -215,6 +215,78 @@ describe('SiteHeader', () => {
     fireEvent.keyDown(screen.getByRole('menu'), { key: 'Escape' })
 
     expect(screen.queryByRole('menu')).not.toBeInTheDocument()
+  })
+
+  it('drops the links and sub-pages down from the phone menu button', () => {
+    render(
+      <SiteHeader
+        menuItems={[
+          ...sampleMenuItems,
+          {
+            id: 'guides',
+            label: 'Guides',
+            href: '/guides',
+            children: [{ label: 'Nutrition guide', href: '/guides/nutrition' }],
+          },
+        ]}
+        activeItem='home'
+      />
+    )
+
+    const trigger = screen.getByRole('button', { name: 'Menu' })
+
+    expect(trigger).toHaveAttribute('aria-expanded', 'false')
+
+    fireEvent.click(trigger)
+
+    const panel = screen.getByRole('navigation', { name: 'Site' })
+
+    expect(trigger).toHaveAttribute('aria-expanded', 'true')
+    expect(within(panel).getByRole('link', { name: 'Home' })).toHaveAttribute(
+      'aria-current',
+      'page'
+    )
+    expect(
+      within(panel).getByRole('link', { name: 'Nutrition guide' })
+    ).toHaveAttribute('href', '/guides/nutrition')
+
+    fireEvent.click(within(panel).getByRole('link', { name: 'Contact' }))
+
+    expect(
+      screen.queryByRole('navigation', { name: 'Site' })
+    ).not.toBeInTheDocument()
+
+    fireEvent.click(trigger)
+    fireEvent.keyDown(document, { key: 'Escape' })
+
+    expect(trigger).toHaveAttribute('aria-expanded', 'false')
+  })
+
+  it('leaves owner-only links out of the phone menu until the owner is confirmed', () => {
+    vi.mocked(useOwnerStatus).mockReturnValue('pending')
+    render(
+      <SiteHeader
+        menuItems={[
+          ...sampleMenuItems,
+          {
+            id: 'manage',
+            label: 'Manage recipes',
+            href: '/admin',
+            ownerOnly: true,
+          },
+        ]}
+      />
+    )
+
+    fireEvent.click(screen.getByRole('button', { name: 'Menu' }))
+
+    expect(
+      within(screen.getByRole('navigation', { name: 'Site' })).queryByText(
+        'Manage recipes'
+      )
+    ).not.toBeInTheDocument()
+
+    vi.mocked(useOwnerStatus).mockReturnValue('visitor')
   })
 
   it('renders without errors when no menu items provided', () => {
