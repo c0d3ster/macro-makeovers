@@ -22,7 +22,7 @@ Prepared cost per serving runs from $2.65 (Blackened Chicken Alfredo) to $7.37 (
 | 11  | Pollo Asado Chicken Thigh Bowl (skinless), homemade thighs | 4        | 18.69               | 4.67            | 31.73                    | 18.60                  | 50.33               | $$     |
 | 11a | Pollo Asado Chicken Thigh Bowl, Costco precooked build     | 4        | 22.68               | 5.67            | 34.79                    | 3.14                   | 37.93               | $$$    |
 | 12  | Shake 'n Bake Pork Chops (full plate)                      | 4        | 17.30               | 4.33            | 29.57                    | 47.05                  | 76.62               | $$     |
-| 13  | Red Enchilada Casserole                                    | 6        | 20.08               | 3.35            | 28.34                    | 42.59                  | 70.93               | $$     |
+| 13  | Red Enchilada Casserole                                    | 6        | 21.54               | 3.59            | 28.34                    | 42.59                  | 70.93               | $$     |
 
 Bands, per serving: $ under $3, $$ $3 to $4.99, $$$ $5 to $6.99, $$$$ $7 to $9.99, $$$$$ $10 and up. Nothing on the menu reaches $$$$$ yet. The alternate builds are rated on their own. Bulgogi with flank steak (9a) is $$$, one tier below the ribeye build, and Pollo Asado with Costco precooked chicken (11a) is $$$, one tier above the homemade build.
 
@@ -50,7 +50,7 @@ Two stats show what a shopping trip buys beyond a single batch. **Shopping lefto
 | 11  | Pollo Asado Chicken Thigh Bowl (skinless), homemade thighs | 13.52                 | 43%                           | 0.00                      | none                                                    |
 | 11a | Pollo Asado Chicken Thigh Bowl, Costco precooked build     | 12.17                 | 35%                           | 0.00                      | none                                                    |
 | 12  | Shake 'n Bake Pork Chops (full plate)                      | 14.63                 | 49%                           | 0.00                      | none                                                    |
-| 13  | Red Enchilada Casserole                                    | 9.79                  | 35%                           | 0.00                      | none                                                    |
+| 13  | Red Enchilada Casserole                                    | 8.30                  | 29%                           | 0.00                      | none                                                    |
 
 ### Leftover and bundling
 
@@ -609,14 +609,14 @@ Every line shows the amount used, the pack it was priced from and the prorated c
 | Lime                                             | juice of 1 + wedges                    | each               | $0.45 | $0.90      |
 | Chipotles in adobo (La Costena)                  | 1 tbsp sauce                           | 7 oz can           | $1.83 | $0.13      |
 | Mission white corn tortillas, small (6-inch)     | 12 tortillas                           | 30 ct              | $2.48 | $0.99      |
-| Cottage cheese 2%                                | 1.5 cups                               | 16 oz tub          | $3.99 | $2.99      |
-| Oaxaca cheese, Hispanic melting cheese (Cacique) | 4 oz (about 1 cup)                     | 10 oz              | $4.99 | $2.00      |
+| Cottage cheese 2%                                | 1 tub (16 oz)                          | 16 oz tub          | $3.99 | $3.99      |
+| Oaxaca cheese, Hispanic melting cheese (Cacique) | 5 oz (about 1 1/4 cups)                | 10 oz              | $4.99 | $2.50      |
 | Scallions                                        | 4                                      | bunch (\~7)        | $1.67 | $0.95      |
-| _Shopping list subtotal_                         |                                        |                    |       | _$18.54_   |
+| _Shopping list subtotal_                         |                                        |                    |       | _$20.04_   |
 | **Kitchen staples**                              |                                        |                    |       |            |
 | Avocado oil, refined (Chosen Foods)              | 2 tsp                                  | 8.4 fl oz bottle   | $6.97 | $0.28      |
-| Light brown sugar (Great Value)                  | 1 tsp                                  | 2 lb bag           | $1.98 | $0.01      |
-| Cornstarch (Our Brand)                           | 1 tbsp                                 | 16 oz box          | $2.19 | $0.04      |
+| Light brown sugar (Great Value)                  | 2 tsp                                  | 2 lb bag           | $1.98 | $0.02      |
+| Cornstarch (Our Brand)                           | 2 1/2 tbsp                             | 16 oz box          | $2.19 | $0.10      |
 | Chili powder (Great Value)                       | 3 tbsp                                 | 3 oz jar           | $1.08 | $0.31      |
 | Ground cumin (Great Value)                       | 2 tsp                                  | 2.5 oz jar         | $1.37 | $0.08      |
 | Smoked paprika (Great Value)                     | 1 tsp                                  | 2 oz jar           | $2.08 | $0.08      |
@@ -626,11 +626,11 @@ Every line shows the amount used, the pack it was priced from and the prorated c
 | Cayenne (Great Value)                            | 1/2 tsp                                | 2.25 oz jar        | $3.77 | $0.05      |
 | Black pepper (McCormick coarse)                  | 1/2 tsp                                | 3.12 oz jar        | $4.98 | $0.06      |
 | Fairlife fat free milk                           | 2 tbsp                                 | 52 fl oz bottle    | $5.32 | $0.10      |
-| Distilled white vinegar (Great Value)            | 1/2 cup (pickling)                     | 32 fl oz bottle    | $1.76 | $0.22      |
+| Distilled white vinegar (Great Value)            | 1/4 cup (pickling)                     | 32 fl oz bottle    | $1.76 | $0.11      |
 | Granulated sugar (Great Value)                   | 1 tsp (pickling)                       | 4 lb bag           | $2.50 | $0.01      |
-| _Kitchen staples subtotal_                       |                                        |                    |       | _$1.53_    |
-| **Batch total (prorated)**                       |                                        |                    |       | **$20.08** |
-| **Per serving (÷6)**                             |                                        |                    |       | **$3.35**  |
+| _Kitchen staples subtotal_                       |                                        |                    |       | _$1.49_    |
+| **Batch total (prorated)**                       |                                        |                    |       | **$21.54** |
+| **Per serving (÷6)**                             |                                        |                    |       | **$3.59**  |
 | Full packs: shopping list                        |                                        |                    |       | $28.34     |
 | Full packs: kitchen staples                      |                                        |                    |       | $42.59     |
 | **Full-pack cost (not prorated)**                |                                        |                    |       | **$70.93** |

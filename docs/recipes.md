@@ -27,7 +27,7 @@ Per serving, default/featured build for each. Full nutrition, other build option
 | [Southwest Sausage Hash Brown Bake](#10a-southwest-sausage-hash-brown-bake)       | ~600     | 47g     | 41 / 28 / 31 | 4        |
 | [Pollo Asado Chicken Thigh Bowl](#11-pollo-asado-chicken-thigh-bowl) _(skinless)_ | ~670     | 56g     | 40 / 27 / 33 | 4        |
 | [Shake 'n Bake Pork Chops](#12-shake-n-bake-pork-chops) _(full plate)_            | ~675     | 55g     | 34 / 33 / 33 | 4        |
-| [Red Enchilada Casserole](#13-red-enchilada-casserole)                            | ~525     | 46g     | 42 / 25 / 33 | 6        |
+| [Red Enchilada Casserole](#13-red-enchilada-casserole)                            | ~600     | 51g     | 41 / 25 / 34 | 6        |
 
 :::
 
@@ -1181,7 +1181,7 @@ The chop is ~330 cal and 40g protein, the sides ~260 cal, and the sauce ~80 cal.
 
 <a id="13-red-enchilada-casserole"></a>
 
-## 13. Red Enchilada Casserole | $$ · ~110 min · ●●●●○
+## 13. Red Enchilada Casserole | $$ · ~130 min · ●●●●○
 
 Shredded chicken breast poached right in a homemade red sauce, layered with black beans, charred corn, blended cottage cheese, and crisped melting cheese. The traditional version gets its fat from 80/20 beef, tortillas fried in oil, and a heavy hand with cheese and sour cream. Here the sauce doubles as the poaching liquid, the tortillas are warmed instead of fried, and the cheese is measured and mostly sits on top where it crisps. **Fits a 9x13 dish.**
 
@@ -1189,11 +1189,11 @@ Shredded chicken breast poached right in a homemade red sauce, layered with blac
 
 |                           | Calories | Carbs | Fat   | Protein | Ratio C/F/P    |
 | ------------------------- | -------- | ----- | ----- | ------- | -------------- |
-| **Per serving (÷6)**      | ~525     | 57g   | 15g   | 46g     | 42 / 25 / 33   |
-| **Whole batch**           | ~3,140   | 340g  | 89g   | 278g    | —              |
+| **Per serving (÷6)**      | ~600     | 62g   | 17g   | 51g     | 41 / 25 / 34   |
+| **Whole batch**           | ~3,600   | 372g  | 102g  | 306g    | —              |
 | _Traditional per serving_ | _~665_   | _30g_ | _47g_ | _31g_   | _18 / 63 / 19_ |
 
-The traditional row assumes 1.5 lb of 80/20 beef, 12 tortillas fried in about 3 tbsp of oil, canned sauce, 8 oz of cheese, and 1/2 cup of sour cream. The fat savings come from the lean chicken, the dry-warmed tortillas, half the cheese, and cottage cheese in place of sour cream. They go toward protein and the beans and corn, so carbs run higher than the traditional version. Fat lands just under 25%, so there is room to add cheese (see Levers).
+The traditional row assumes 1.5 lb of 80/20 beef, 12 tortillas fried in about 3 tbsp of oil, canned sauce, 8 oz of cheese, and 1/2 cup of sour cream. The fat savings come from the lean chicken, the dry-warmed tortillas, less cheese, and cottage cheese in place of sour cream. They go toward protein and the beans and corn, so carbs run higher than the traditional version. Fat lands around 25%, so there is still a little room for more cheese (see Levers).
 
 ### Ingredients
 
@@ -1213,9 +1213,9 @@ The traditional row assumes 1.5 lb of 80/20 beef, 12 tortillas fried in about 3 
 - 3 tbsp tomato paste
 - 1 can (8oz) tomato sauce, no salt added
 - 2 cups low-sodium chicken broth
-- 1 tsp brown sugar
+- 2 tsp brown sugar
 - Juice of 1 lime
-- 1 tbsp cornstarch + 2 tbsp cold water, for the slurry
+- 2 1/2 tbsp cornstarch + 1/2 cup cold water, for the slurry
 - 1 tbsp adobo sauce from a can of chipotles (optional, adds smoky heat)
 
 **Spice mix**
@@ -1226,20 +1226,20 @@ The traditional row assumes 1.5 lb of 80/20 beef, 12 tortillas fried in about 3 
 **Layers**
 
 - 12 corn tortillas, 6-inch
-- 1.5 cups 2% cottage cheese, blended with 2 tbsp milk
-- 4 oz (about 1 cup) shredded melting cheese: quesadilla cheese, Oaxaca, or asadero (macros land within a few calories of each other)
+- 1 tub (16 oz, about 2 cups) 2% cottage cheese, blended with 2 tbsp milk
+- 5 oz (about 1 1/4 cups) shredded melting cheese: quesadilla cheese, Oaxaca, or asadero (macros land within a few calories of each other)
 
 **To finish**
 
 - 4 scallions, sliced thin
 - Lime wedges
-- About 1/2 cup of the finished sauce, held back and kept warm to spoon over the cheese
+- About 1 cup of the finished sauce, held back and kept warm to spoon over the cheese
 
 **Quick pickled jalapeños (optional)**
 
 - 2 jalapeños, sliced into thin rounds
-- 1/2 cup white or rice vinegar
-- 1/2 cup water
+- 1/4 cup white or rice vinegar
+- 1/4 cup water
 - 1 tsp sugar
 - 1/2 tsp salt
 
@@ -1247,7 +1247,7 @@ The toppings and pickled jalapeños are not counted in the macros. The whole jar
 
 ### Method
 
-**Prep** (~25 min)
+**Prep** (~30 min)
 
 - Preheat the oven to 400°F.
 - Dice the onion, bell pepper, and jalapeño. Mince the garlic.
@@ -1259,21 +1259,21 @@ The toppings and pickled jalapeños are not counted in the macros. The whole jar
 - Slice the scallions and cut the lime wedges.
 - Pickled jalapeños, if making them: stir the vinegar, water, sugar, and salt until dissolved (30 sec in the microwave helps) and pour over the sliced jalapeños in a jar. They need at least 30 min, so they're ready by the time the casserole comes out.
 
-**Cook** (~85 min)
+**Cook** (~100 min)
 
 1. **Sweat the vegetables.** Heat the oil over medium. Cook the onion, bell pepper, and jalapeño 5 to 6 min until soft, adding the garlic for the last 30 sec.
 2. **Bloom the spices.** Stir in the spice mix and tomato paste and cook 1 min, until it darkens and smells toasted. This takes the raw edge off the chili powder.
 3. **Build the sauce.** Add the tomato sauce, broth, brown sugar, and adobo if using. Bring to a bare simmer.
 4. **Poach the chicken.** Nestle the pieces in a single layer in the sauce, mostly submerged. Cover and hold at the lowest heat that keeps a few lazy bubbles breaking, 15 to 20 min, flipping once, until the thickest piece reads **165°F**.
-5. **Rest the chicken, finish the sauce.** Move the chicken to a bowl and rest it 5 min. Meanwhile simmer the sauce uncovered, stir in the slurry, and cook 1 to 2 min until it coats a spoon. Add the lime juice, then taste and adjust the salt. You should have about 3 cups. Set aside 1/2 cup in a small pot to keep warm for the finish.
+5. **Rest the chicken, finish the sauce.** Move the chicken to a bowl and rest it 5 min. Meanwhile simmer the sauce uncovered, stir in the slurry, and cook 1 to 2 min until it coats a spoon. Add the lime juice, then taste and adjust the salt. You should have about 3 1/2 cups. Set aside 1 cup in a small pot to keep warm for the finish.
 6. **Shred and make the filling.** Shred the chicken while still warm, using two forks pulling with the grain, or a hand mixer or stand mixer paddle on low for 20 to 30 sec. Stop when no big chunks remain. Toss with the beans, corn, and 1/2 cup of the sauce. This is the filling. It stays in the bowl and does not go back into the pot.
 7. **Warm the tortillas.** Wrap the stack in a damp towel and microwave 45 to 60 sec. Keep them wrapped until you build.
-8. **Layer.** Spread 1/2 cup of sauce over the bottom of the dish. Dunk each tortilla in the sauce quickly just before laying it down, then build two identical layers and a top layer.
-   - Layers 1 and 2 (identical): 4 tortillas, torn to fill the gaps. Then 1/3 of the filling, half the cottage cheese, 1/2 oz cheese, and about 1/3 cup of sauce spooned over.
-   - Top layer: 4 tortillas, the last 1/3 of the filling, and about 1/3 cup of sauce. No cottage cheese or cheese inside. Hold the last 3 oz of cheese back.
-   - Sauce budget, about 3 cups total: 1/2 cup in the filling, 1/2 cup on the bottom of the dish, about 1/2 cup picked up by the dunking, 1 cup over the three layers, and 1/2 cup held back for the finish. If you run short, thin the sauce with a splash of broth.
+8. **Layer.** Spread 1/2 cup of sauce over the bottom of the dish. Dunk each tortilla in the sauce quickly, then cut or tear it in half and lay the halves with the straight edge against the side of the dish. Halves cover the rectangle far more easily than whole rounds. Build two identical layers and a top layer.
+   - Layers 1 and 2 (identical): 4 tortillas (8 halves), with torn pieces filling any gaps. Then 1/3 of the filling, half the cottage cheese, 1/2 oz cheese, and about 1/3 cup of sauce spooned over.
+   - Top layer: 4 tortillas (8 halves), the last 1/3 of the filling, and about 1/3 cup of sauce. No cottage cheese or cheese inside. Hold the last 4 oz of cheese back.
+   - Sauce budget, about 3 1/2 cups total: 1/2 cup in the filling, 1/2 cup on the bottom of the dish, about 1/2 cup picked up by the dunking, 1 cup over the three layers, and 1 cup held back for the finish. If you run short, thin the sauce with a splash of broth.
 9. **Bake covered.** Tent with foil, keeping it off the surface, and bake at 400°F for 20 min.
-10. **Top and crisp.** Uncover, scatter the remaining 3 oz of cheese, and bake 8 to 10 min until bubbling at the edges. Broil 1 to 2 min, watching the whole time, until the cheese browns in spots. In a Pyrex dish, skip the broiler and run the oven at 425°F for the last few minutes instead.
+10. **Top and crisp.** Uncover, scatter the remaining 4 oz of cheese, and bake 8 to 10 min until bubbling at the edges. Broil 1 to 2 min, watching the whole time, until the cheese browns in spots. In a Pyrex dish, skip the broiler and run the oven at 425°F for the last few minutes instead.
 11. **Rest 10 min** so the layers set, then cut into 6. Spoon the warm reserved sauce over the cheese on each portion and top with scallions and pickled jalapeños, with lime wedges on the side.
 
 ### Shredded chicken
@@ -1320,7 +1320,7 @@ Per serving, from the same base.
 | **2 lb chicken**                                            | ~570     | 57g   | 16g | 55g     | 39 / 24 / 37 |
 | **8 tortillas (two layers of 4)**                           | ~490     | 49g   | 14g | 45g     | 39 / 25 / 36 |
 
-- **More cheese:** each extra ounce adds about 1.5g fat per serving. Fat starts just under 25%, so there is room to spend it here, and 6 oz lands at about 28%. For 5 oz, put the extra ounce on top, where it crisps. For 6 oz, use 1 oz inside each of the two layers (instead of 1/2 oz) and 4 oz on top (instead of 3 oz)
+- **More cheese:** each extra ounce adds about 1.5g fat per serving. Fat starts around 25%, and 6 oz lands at about 27%. For 6 oz, use 1 oz inside each of the two layers instead of 1/2 oz and keep 4 oz on top
 - **Lower carb:** the tortillas, beans, and corn are all carb sources. Dropping to two layers of 4 tortillas cuts about 8g carbs per serving
 - **More protein:** an extra half pound of chicken adds about 9g protein per serving for about 1g fat
 
@@ -1328,9 +1328,9 @@ Per serving, from the same base.
 
 | Meat (1.5 lb raw)            | Calories | Carbs | Fat | Protein | Ratio C/F/P  |
 | ---------------------------- | -------- | ----- | --- | ------- | ------------ |
-| **Chicken breast (default)** | ~525     | 57g   | 15g | 46g     | 42 / 24 / 34 |
-| **Beef eye of round**        | ~540     | 57g   | 17g | 47g     | 40 / 27 / 33 |
-| **Beef chuck, trimmed**      | ~580     | 57g   | 23g | 43g     | 38 / 34 / 28 |
+| **Chicken breast (default)** | ~600     | 62g   | 17g | 51g     | 41 / 25 / 34 |
+| **Beef eye of round**        | ~615     | 62g   | 19g | 52g     | 40 / 27 / 33 |
+| **Beef chuck, trimmed**      | ~655     | 62g   | 25g | 48g     | 37 / 34 / 29 |
 
 Beef braises in the same sauce, covered, at the lowest simmer or in a 300°F oven, 2.5 to 3 hr until it shreds with a fork. Chuck is richer and more traditional but lands above the fat target. Eye of round stays in range and shreds a bit drier, so toss it with extra sauce.
 
