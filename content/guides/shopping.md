@@ -1,5 +1,7 @@
 **Lean proteins:** chicken breast, 93/7 ground turkey/chicken, shrimp, white fish (cod/tilapia/mahi), salmon (the good omega-3 fat, worth spending on), eggs + egg whites, canned tuna.
 
+**Buying by weight:** the net weight on packaged meat usually includes the absorbent pad underneath that soaks up liquid. When you're picking from variable-weight packages, look for about 0.25 lb more than the recipe calls for.
+
 **High-protein sauce/topping bases:** 2% cottage cheese (creamy sauces) and nonfat Greek yogurt (cold applications, sour-cream swap). These two are the sleeper weapons: creamy texture, high protein, low fat.
 
 **Bulk/fiber:** beans, lentils, rice.
