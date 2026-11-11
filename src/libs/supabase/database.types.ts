@@ -111,9 +111,7 @@ export type Database = {
           prep_minutes: number | null
           protein_g: number
           recipe_id: string
-          summary: string | null
-          tags_add: string[]
-          tags_remove: string[]
+          swap: Json
           title: string | null
         }
         ComputedFields: never
@@ -136,9 +134,7 @@ export type Database = {
           prep_minutes?: number | null
           protein_g: number
           recipe_id: string
-          summary?: string | null
-          tags_add?: string[]
-          tags_remove?: string[]
+          swap?: Json
           title?: string | null
         }
         Update: {
@@ -160,9 +156,7 @@ export type Database = {
           prep_minutes?: number | null
           protein_g?: number
           recipe_id?: string
-          summary?: string | null
-          tags_add?: string[]
-          tags_remove?: string[]
+          swap?: Json
           title?: string | null
         }
         Relationships: [

@@ -157,13 +157,25 @@ describe('recipeImportSchema', () => {
     ).toEqual(['builds.0.listed'])
   })
 
-  it('checks build tag changes against the recipe tags', () => {
+  it('checks a swap against the recipe tags', () => {
     expect(
       issuePaths({
         ...sampleRecipe,
-        builds: [base, { ...loaded, tagsAdd: ['chili'], tagsRemove: ['beef'] }],
+        builds: [base, { ...loaded, swap: { beef: 'pork', chili: 'high protein' } }],
       })
-    ).toEqual(['builds.1.tagsRemove', 'builds.1.tagsAdd'])
+    ).toEqual(['builds.1.swap.beef', 'builds.1.swap.chili'])
+  })
+
+  it('keeps a swap and drops an empty one', () => {
+    const result = recipeImportSchema.parse({
+      ...sampleRecipe,
+      builds: [{ ...base, swap: {} }, { ...loaded, swap: { Chili: 'Stew' } }],
+    })
+
+    expect(result.builds.map(({ swap }) => swap)).toEqual([
+      undefined,
+      { chili: 'stew' },
+    ])
   })
 
   it('accepts scoped lines and drops empty scopes', () => {

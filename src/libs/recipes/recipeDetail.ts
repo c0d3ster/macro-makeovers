@@ -94,15 +94,13 @@ export type RecipeBuildRow = Positioned &
     label: string
     isDefault: boolean
     listed: boolean
+    swap: Record<string, string>
     title: string | null
-    summary: string | null
     noteMd: string | null
     costTier: number | null
     difficulty: number | null
     prepMinutes: number | null
     cookMinutes: number | null
-    tagsAdd: string[]
-    tagsRemove: string[]
     imageUrl: string | null
   }
 
@@ -181,15 +179,13 @@ export const toRecipeBuild = (row: RecipeBuildRow): RecipeBuild => ({
   carbsG: row.carbsG,
   fatG: row.fatG,
   proteinG: row.proteinG,
+  swap: row.swap,
   title: row.title ?? undefined,
-  summary: row.summary ?? undefined,
   note: row.noteMd ?? undefined,
   costTier: row.costTier ?? undefined,
   difficulty: row.difficulty ?? undefined,
   prepMinutes: row.prepMinutes ?? undefined,
   cookMinutes: row.cookMinutes ?? undefined,
-  tagsAdd: row.tagsAdd,
-  tagsRemove: row.tagsRemove,
   imageUrl: row.imageUrl ?? undefined,
 })
 

@@ -129,15 +129,15 @@ export const recipeBuilds = pgTable(
       scale: 1,
       mode: 'number',
     }).notNull(),
+    // Tag swaps like { turkey: 'beef' }. The title's word swaps with the tag.
+    swap: jsonb('swap').$type<Record<string, string>>().notNull().default({}),
+    // Only when the swapped title is not the wording wanted
     title: text('title'),
-    summary: text('summary'),
     noteMd: text('note_md'),
     costTier: smallint('cost_tier'),
     difficulty: smallint('difficulty'),
     prepMinutes: integer('prep_minutes'),
     cookMinutes: integer('cook_minutes'),
-    tagsAdd: text('tags_add').array().notNull().default([]),
-    tagsRemove: text('tags_remove').array().notNull().default([]),
     imageUrl: text('image_url'),
     imageIsPlaceholder: boolean('image_is_placeholder')
       .notNull()

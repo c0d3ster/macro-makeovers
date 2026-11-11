@@ -167,8 +167,10 @@ bowl, or with beef. Builds are the rows of the nutrition table, in `builds`, and
 only the traditional comparison rows. Older JSON with makeover rows in `nutrition` still imports,
 with keys made from the labels.
 
-- Each build has its own macros and can override the title, summary, cost tier, difficulty, times,
-  and tags. The default build normally overrides nothing.
+- Each build has its own macros. A `swap` like `{ "turkey": "beef" }` trades the recipe tag and
+  the matching title word, and `title` is there only when the swapped wording is not right. A
+  build can also set its note, cost tier, difficulty, and times. The default build normally sets
+  nothing beyond its macros.
 - Ingredients, steps, and notes set `onlyBuilds` or `skipBuilds` to scope them to some builds.
 - The recipe page switches builds from the nutrition table and keeps the choice in `?build=key`.
   The grid shows each recipe's best build for the active filters and goal.

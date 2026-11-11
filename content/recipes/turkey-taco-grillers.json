@@ -19,12 +19,13 @@
     },
     {
       "key": "beef",
-      "label": "Beef grillers (90/10)",
+      "label": "Lean beef grillers",
       "isDefault": false,
-      "title": "Beef Taco Grillers",
-      "note": "90/10 ground beef in place of the turkey. Adds about 50 calories, 4g fat, and 4g protein per serving, from the meat options table. The same swap works for the rice bowl and the filling.",
-      "tagsAdd": ["beef"],
-      "tagsRemove": ["turkey"],
+      "swap": {
+        "turkey": "beef"
+      },
+      "title": "Lean Beef Taco Grillers",
+      "note": "90/10 ground beef in place of the turkey. Adds about 50 calories, 4g fat, and 4g protein per serving. 93/7 beef works too and lands about 25 calories and 3g fat under these numbers, at a higher price. The same swap works for the rice bowl and the filling.",
       "calories": 750,
       "carbsG": 78,
       "fatG": 25,
@@ -66,7 +67,7 @@
       "skipBuilds": ["beef"]
     },
     {
-      "raw": "1 lb 90/10 ground beef",
+      "raw": "1 lb 90/10 ground beef (or 93/7)",
       "onlyBuilds": ["beef"]
     },
     {

@@ -5,7 +5,7 @@ import type { ReactElement, ReactNode } from 'react'
 import { use, useState } from 'react'
 import { useWatch } from 'react-hook-form'
 
-import { appliesToBuild } from '@/libs/recipes/recipeBuilds'
+import { appliesToBuild, buildTitle } from '@/libs/recipes/recipeBuilds'
 
 import { BuildPreviewContext } from './buildPreview'
 import {
@@ -52,15 +52,6 @@ const Field = ({
   </div>
 )
 
-// "beef, ground beef" becomes ["beef", "ground beef"], and a blank field is no tags
-const toTagList = (value: unknown): string[] | undefined => {
-  const list = (Array.isArray(value) ? value.join(',') : String(value ?? ''))
-    .split(',')
-    .map((tag) => tag.trim().toLowerCase())
-    .filter(Boolean)
-  return list.length > 0 ? list : undefined
-}
-
 // Over half the lines or steps differ from the default build, which reads more like a variant
 const DIVERGENCE_SHARE = 0.5
 
@@ -71,7 +62,6 @@ export const RecipeBuildDetails = ({
   const {
     control,
     register,
-    getValues,
     setValue,
     formState: { errors },
   } = useRecipeForm()
@@ -84,6 +74,29 @@ export const RecipeBuildDetails = ({
   const [draftKey, setDraftKey] = useState(key)
   const rowErrors = errors.builds?.[index]
   const path = `builds.${index}` as const
+  const recipeTitle = useWatch({ control, name: 'title' })
+  const swap = builds[index]?.swap ?? {}
+
+  // One swap pair is all a build needs, typed as two words. The draft holds a half-typed pair.
+  const [savedFrom = '', savedTo = ''] = Object.entries(swap)[0] ?? []
+  const [draft, setDraft] = useState({ from: savedFrom, to: savedTo })
+  const swapFrom = draft.from
+  const swapTo = draft.to
+  const writeSwap = (from: string, to: string): void => {
+    setDraft({ from, to })
+    const cleanFrom = from.trim().toLowerCase()
+    const cleanTo = to.trim().toLowerCase()
+    setValue(
+      `${path}.swap`,
+      cleanFrom && cleanTo ? { [cleanFrom]: cleanTo } : undefined,
+      { shouldDirty: true }
+    )
+  }
+  const swappedTitle = buildTitle(recipeTitle ?? '', { swap })
+  const swapErrors = rowErrors?.swap as Record<string, { message?: string }> | undefined
+  const swapError = swapErrors
+    ? Object.values(swapErrors).find((issue) => issue?.message)?.message
+    : undefined
 
   const defaultKey = builds[featuredIndex(builds)]?.key
   const differs = (rows: { onlyBuilds?: string[]; skipBuilds?: string[] }[]): number =>
@@ -131,13 +144,37 @@ export const RecipeBuildDetails = ({
           />
         </Field>
         <Field
-          label='Title while selected'
-          hint='Blank keeps the recipe title'
-          error={rowErrors?.title?.message}
+          label='Swap a recipe tag'
+          hint='Like turkey, for a recipe tag this build does not use'
+          error={swapError}
         >
           <input
             className={INPUT}
-            placeholder={getValues('title')}
+            value={swapFrom}
+            onChange={(event) => writeSwap(event.target.value, swapTo)}
+            placeholder='turkey'
+          />
+        </Field>
+        <Field
+          label='For this tag'
+          hint='The title word swaps too'
+        >
+          <input
+            className={INPUT}
+            value={swapTo}
+            onChange={(event) => writeSwap(swapFrom, event.target.value)}
+            placeholder='beef'
+          />
+        </Field>
+        <Field
+          label='Title while selected'
+          hint='Blank uses the recipe title with the swap applied'
+          error={rowErrors?.title?.message}
+          wide
+        >
+          <input
+            className={INPUT}
+            placeholder={swappedTitle}
             {...register(`${path}.title`, { setValueAs: optionalText })}
           />
         </Field>
@@ -151,18 +188,6 @@ export const RecipeBuildDetails = ({
             rows={2}
             className={INPUT}
             {...register(`${path}.note`, { setValueAs: optionalText })}
-          />
-        </Field>
-        <Field
-          label='Summary while selected'
-          hint='Blank keeps the recipe summary'
-          error={rowErrors?.summary?.message}
-          wide
-        >
-          <textarea
-            rows={2}
-            className={INPUT}
-            {...register(`${path}.summary`, { setValueAs: optionalText })}
           />
         </Field>
         <Field label='Cost tier (1 to 5)' error={rowErrors?.costTier?.message}>
@@ -197,26 +222,6 @@ export const RecipeBuildDetails = ({
             min={0}
             className={INPUT}
             {...numberField(register, `${path}.cookMinutes`)}
-          />
-        </Field>
-        <Field
-          label='Tags to add'
-          hint='Comma separated'
-          error={rowErrors?.tagsAdd?.message}
-        >
-          <input
-            className={INPUT}
-            {...register(`${path}.tagsAdd`, { setValueAs: toTagList })}
-          />
-        </Field>
-        <Field
-          label='Recipe tags to drop'
-          hint='Comma separated'
-          error={rowErrors?.tagsRemove?.message}
-        >
-          <input
-            className={INPUT}
-            {...register(`${path}.tagsRemove`, { setValueAs: toTagList })}
           />
         </Field>
       </div>

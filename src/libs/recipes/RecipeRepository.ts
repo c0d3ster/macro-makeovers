@@ -122,14 +122,12 @@ const upsertBuilds = async (
       fatG: build.fatG,
       proteinG: build.proteinG,
       title: build.title ?? null,
-      summary: build.summary ?? null,
+      swap: build.swap ?? {},
       noteMd: build.note ?? null,
       costTier: build.costTier ?? null,
       difficulty: build.difficulty ?? null,
       prepMinutes: build.prepMinutes ?? null,
       cookMinutes: build.cookMinutes ?? null,
-      tagsAdd: build.tagsAdd ?? [],
-      tagsRemove: build.tagsRemove ?? [],
     }
     await tx
       .insert(recipeBuilds)
@@ -215,15 +213,13 @@ const readSnapshot = async (
         carbsG: row.carbsG,
         fatG: row.fatG,
         proteinG: row.proteinG,
+        swap: Object.keys(row.swap).length > 0 ? row.swap : undefined,
         title: row.title,
-        summary: row.summary,
         note: row.noteMd,
         costTier: row.costTier,
         difficulty: row.difficulty,
         prepMinutes: row.prepMinutes,
         cookMinutes: row.cookMinutes,
-        tagsAdd: nonEmpty(row.tagsAdd),
-        tagsRemove: nonEmpty(row.tagsRemove),
       })
     ),
     nutrition: nutritionRows.map((row) => ({

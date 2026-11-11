@@ -20,6 +20,7 @@ import {
   RECIPE_HERO_PHOTO,
   RECIPE_HERO_TITLE,
 } from '@/components/organisms/recipe/recipeLayout'
+import { buildTitle } from '@/libs/recipes/recipeBuilds'
 import { formatMinutes } from '@/utils/formatMinutes'
 
 import { usePreviewBuild } from './buildPreview'
@@ -89,6 +90,7 @@ export const RecipeHeroEditor = ({
   const comparisons = useWatch({ control, name: 'nutrition' }) ?? []
 
   const preview = usePreviewBuild()
+  const recipeTitle = useWatch({ control, name: 'title' })
   const previewRow = builds[preview.index] ?? builds[featuredIndex(builds)]
   const featured = previewRow && toBuildMacros(previewRow)
   const original = comparisons[0] && toBuildMacros(comparisons[0])
@@ -100,15 +102,14 @@ export const RecipeHeroEditor = ({
   const overrides = buildPreview
     ? [
         buildPreview.title && `title "${buildPreview.title}"`,
-        buildPreview.summary && 'its own summary',
+        ...Object.entries(buildPreview.swap ?? {}).map(
+          ([from, to]) => `swaps ${from} for ${to}`
+        ),
         buildPreview.costTier && `cost ${'$'.repeat(buildPreview.costTier)}`,
         buildPreview.difficulty && `difficulty ${buildPreview.difficulty}`,
         (buildPreview.prepMinutes !== undefined ||
           buildPreview.cookMinutes !== undefined) &&
           'its own times',
-        buildPreview.tagsAdd?.length && `adds ${buildPreview.tagsAdd.join(', ')}`,
-        buildPreview.tagsRemove?.length &&
-          `drops ${buildPreview.tagsRemove.join(', ')}`,
       ].filter((item): item is string => Boolean(item))
     : []
 
@@ -260,8 +261,10 @@ export const RecipeHeroEditor = ({
             build={{
               key: buildPreview.key,
               label: buildPreview.label,
-              title: buildPreview.title,
-              summary: buildPreview.summary,
+              title: buildTitle(recipeTitle ?? '', {
+                swap: buildPreview.swap ?? {},
+                title: buildPreview.title,
+              }),
               note: buildPreview.note,
             }}
           />

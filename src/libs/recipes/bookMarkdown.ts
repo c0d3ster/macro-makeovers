@@ -1,6 +1,7 @@
 import type { RecipeImport } from '@/validations'
 
 import { formatMacroRatios } from './macroRatios'
+import { buildTitle } from './recipeBuilds'
 
 type Build = RecipeImport['builds'][number]
 type Note = RecipeImport['notes'][number]
@@ -287,9 +288,11 @@ const recipeSection = (book: BookRecipe): string => {
   const intros = nutritionNotes('nutrition_intro')
   const analysis = nutritionNotes('nutrition_analysis')
   // What each build changes, under the table, named the way the build's page title reads
-  const buildNotes = recipe.builds.flatMap(({ label, title, note }) =>
-    note ? [`**${title ?? label}:** ${note}`] : []
-  )
+  const buildNotes = recipe.builds.flatMap(({ label, title, swap, note }) => {
+    if (!note) return []
+    const renamed = title ?? (swap ? buildTitle(recipe.title, { swap }) : undefined)
+    return [`**${renamed && renamed !== recipe.title ? renamed : label}:** ${note}`]
+  })
 
   return [
     `<a id="${anchorFor(book)}"></a>`,

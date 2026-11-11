@@ -60,13 +60,12 @@ A build has grown past a nutrition row: it has its own macros, title, times, tag
 | `is_default`                   | boolean          | Exactly one per recipe, held by a partial unique index.                                                        |
 | `listed`                       | boolean          | Default true. False for components like "Filling only": selectable on the page, never chosen to lead a card.  |
 | `calories`, `carbs_g`, `fat_g`, `protein_g` | numeric | Required. Every build has its own macros.                                                               |
-| `title`                        | text, nullable   | Title while selected. "Beef Taco Grillers".                                                                    |
-| `summary`                      | text, nullable   | Summary while selected, since the recipe summary describes the default.                                        |
+| `swap`                         | jsonb            | Tag swaps, like `{"turkey": "beef"}`. The build's tags trade them, and its title swaps the matching word, so "Turkey Taco Grillers" reads "Beef Taco Grillers". Prose is never swapped: comparisons like "93/7 turkey is cheaper than 93/7 beef" would break. |
+| `title`                        | text, nullable   | Only when the swapped title is not the wording wanted, like "Lean Beef Taco Grillers".                        |
 | `difficulty`                   | smallint, nullable | 1 to 5. Costco pollo asado is easier than marinating thighs.                                                 |
 | `note_md`                      | text, nullable   | One or two lines on what changes, shown under the table.                                                       |
 | `cost_tier`                    | smallint, nullable | 1 to 5. Bulgogi flank is 3 where ribeye is 4.                                                                |
 | `prep_minutes`, `cook_minutes` | int, nullable    | Costco pollo asado drops the marinade prep.                                                                    |
-| `tags_add`, `tags_remove`      | text[]           | Default empty. Effective tags are the recipe's minus `tags_remove` plus `tags_add`.                            |
 | `image_url`                    | text, nullable   | The build's own photo. Null uses the recipe photo.                                                             |
 | `image_is_placeholder`         | boolean          | Same meaning as on `recipes`.                                                                                  |
 
@@ -112,17 +111,16 @@ A top-level `builds` array, with `nutrition` keeping the traditional rows. Old J
   },
   {
     "key": "beef",
-    "label": "Beef grillers (90/10)",
-    "title": "Beef Taco Grillers",
-    "note": "90/10 ground beef in place of turkey. Adds about 30 calories and 3g fat per serving.",
-    "tagsAdd": ["beef"],
-    "tagsRemove": ["turkey"],
-    "calories": 730, "carbsG": 79, "fatG": 24, "proteinG": 49
+    "label": "Lean beef grillers",
+    "swap": { "turkey": "beef" },
+    "title": "Lean Beef Taco Grillers",
+    "note": "90/10 ground beef in place of the turkey.",
+    "calories": 750, "carbsG": 78, "fatG": 25, "proteinG": 53
   }
 ],
 "ingredients": [
   { "raw": "1 lb lean ground turkey (93/7)", "skipBuilds": ["beef"] },
-  { "raw": "1 lb 90/10 ground beef", "onlyBuilds": ["beef"] }
+  { "raw": "1 lb 90/10 ground beef (or 93/7)", "onlyBuilds": ["beef"] }
 ]
 ```
 
@@ -131,7 +129,7 @@ Photos are not in the JSON, the same as the recipe photo today.
 Validation, added to `recipeImportSchema`:
 
 - At least one build, keys unique and slug shaped, exactly one default, and the default is `listed`.
-- `tagsRemove` only names tags the recipe has. `tagsAdd` does not repeat one.
+- A swap trades a tag the recipe has for one it does not.
 - `onlyBuilds` and `skipBuilds` name real keys, and a row does not set both.
 - Every build is left with at least one ingredient and one step.
 

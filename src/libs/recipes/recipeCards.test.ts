@@ -17,15 +17,13 @@ const buildRow = (
   carbsG: 42,
   fatG: 8,
   proteinG: 32,
+  swap: {},
   title: null,
-  summary: null,
   noteMd: null,
   costTier: null,
   difficulty: null,
   prepMinutes: null,
   cookMinutes: null,
-  tagsAdd: [],
-  tagsRemove: [],
   imageUrl: null,
   ...overrides,
 })
@@ -117,19 +115,18 @@ describe('toRecipeCard', () => {
           position: 2,
           key: 'beef',
           label: 'Beef',
-          title: 'Beef Chili',
+          swap: { turkey: 'beef' },
           costTier: 3,
           prepMinutes: 5,
-          tagsAdd: ['beef'],
-          tagsRemove: ['turkey'],
           imageUrl: 'https://example.com/beef.jpg',
         }),
       ],
     })
     const beef = card?.builds.find(({ key }) => key === 'beef')
 
+    // "Test Chili" has no turkey in it, so the swap leaves the title alone
     expect(beef).toMatchObject({
-      title: 'Beef Chili',
+      title: 'Test Chili',
       summary: 'A test recipe',
       costTier: 3,
       totalMinutes: 60,

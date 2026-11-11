@@ -23,16 +23,16 @@ export type RecipeBuild = MacroValues & {
   isDefault: boolean
   // False for components like "Filling only": selectable on the page, never leads a card
   listed: boolean
+  // Tags this build trades, like { turkey: 'beef' }. The title's matching word swaps too.
+  swap: Record<string, string>
+  // Only when the swapped title is not the wording wanted, like "Lean Beef Taco Grillers"
   title?: string
-  summary?: string
   // One or two lines on what changes, shown under the table while selected
   note?: string
   costTier?: number
   difficulty?: number
   prepMinutes?: number
   cookMinutes?: number
-  tagsAdd: string[]
-  tagsRemove: string[]
   imageUrl?: string
 }
 
@@ -84,14 +84,38 @@ export const findBuild = <T extends Pick<RecipeBuild, 'isDefault' | 'key'>>(
   (key ? builds.find((build) => build.key === key) : undefined) ??
   defaultBuild(builds)
 
-// The recipe's tags minus what the build drops, plus what it adds, A to Z
+// The recipe's tags with each swapped one traded for its replacement, A to Z
 export const buildTags = (
   tags: string[],
-  { tagsAdd, tagsRemove }: Pick<RecipeBuild, 'tagsAdd' | 'tagsRemove'>
+  { swap }: Pick<RecipeBuild, 'swap'>
 ): string[] =>
-  [
-    ...new Set([...tags.filter((tag) => !tagsRemove.includes(tag)), ...tagsAdd]),
-  ].sort()
+  [...new Set(tags.map((tag) => swap[tag] ?? tag))].sort()
+
+const escapeRegExp = (text: string): string =>
+  text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+
+// "beef" takes the casing of the word it replaces: "Turkey" becomes "Beef", "TURKEY" "BEEF"
+const matchCase = (word: string, replacement: string): string => {
+  if (word === word.toUpperCase()) return replacement.toUpperCase()
+  if (word.charAt(0) === word.charAt(0).toUpperCase()) {
+    return replacement.replace(/\b\w/g, (letter) => letter.toUpperCase())
+  }
+  return replacement
+}
+
+// The title for a build: its own when set, else the recipe title with each swapped tag's word
+// replaced, so "Turkey Taco Grillers" reads "Beef Taco Grillers". Whole words only.
+export const buildTitle = (
+  title: string,
+  build: Pick<RecipeBuild, 'swap' | 'title'>
+): string =>
+  build.title ??
+  Object.entries(build.swap).reduce(
+    (text, [from, to]) =>
+      text.replace(new RegExp(`\\b${escapeRegExp(from)}\\b`, 'gi'), (word) =>
+        matchCase(word, to)      ),
+    title
+  )
 
 export const resolveBuild = (
   recipe: BuildFallbacks,
@@ -102,8 +126,8 @@ export const resolveBuild = (
 
   return {
     build,
-    title: build.title ?? recipe.title,
-    summary: build.summary ?? recipe.summary,
+    title: buildTitle(recipe.title, build),
+    summary: recipe.summary,
     imageUrl: build.imageUrl ?? recipe.imageUrl,
     costTier: build.costTier ?? recipe.costTier,
     difficulty: build.difficulty ?? recipe.difficulty,

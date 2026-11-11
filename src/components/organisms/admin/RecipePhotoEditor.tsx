@@ -24,8 +24,8 @@ type Activity = 'generate' | 'upload' | 'reference' | 'choose'
 type PhotoBuild = {
   key: string
   label: string
+  // The title the build reads as, with its swap applied
   title?: string
-  summary?: string
   note?: string
 }
 
@@ -187,7 +187,7 @@ export const RecipePhotoEditor = ({
     request.set('slug', fileSlug())
     // A build is generated as it reads on its page, with what it changes as a hint
     request.set('title', build?.title ?? getValues('title'))
-    request.set('summary', build?.summary ?? getValues('summary'))
+    request.set('summary', getValues('summary'))
     request.set(
       'notes',
       [build?.note, notes.trim()].filter(Boolean).join(' ')

@@ -50,15 +50,22 @@ const buildSchema = z.object({
       'False for a component like "Filling only": selectable on the page, never leads a card'
     ),
   ...macroFields,
-  title: text.optional().describe('Title while this build is selected. Falls back to the recipe title.'),
-  summary: text.optional().describe('Summary while this build is selected. Falls back to the recipe summary.'),
+  swap: z
+    .record(tagName, tagName)
+    .optional()
+    .describe(
+      'Tags this build trades, like {"turkey": "beef"}. The recipe tag is dropped for the new one, and the word in the title swaps with it, so "Turkey Taco Grillers" reads "Beef Taco Grillers".'
+    ),
+  title: text
+    .optional()
+    .describe(
+      'Only when the swapped title is not the wording wanted, like "Lean Beef Taco Grillers". Falls back to the recipe title with the swap applied.'
+    ),
   note: text.optional().describe('One or two lines on what this build changes'),
   costTier: tier.optional(),
   difficulty: tier.optional(),
   prepMinutes: minutes.optional(),
   cookMinutes: minutes.optional(),
-  tagsAdd: z.array(tagName).optional().describe('Tags this build adds to the recipe tags'),
-  tagsRemove: z.array(tagName).optional().describe('Recipe tags this build drops'),
 })
 
 // Which builds a row belongs to. Leave both out for every build, and never set both.
@@ -216,14 +223,12 @@ export const recipeImportSchema = z
       ...recipe,
       // Same set of tags in a stable order, so re-imports diff cleanly
       tags: [...new Set(recipe.tags)].sort(),
-      builds: keyed.map(({ tagsAdd, tagsRemove, ...build }, index) => ({
+      builds: keyed.map(({ swap, ...build }, index) => ({
         ...build,
         // With no default flagged, the first build is the featured one
         isDefault: hasDefault ? build.isDefault : index === 0,
-        ...(sortedUnique(tagsAdd) ? { tagsAdd: sortedUnique(tagsAdd) } : {}),
-        ...(sortedUnique(tagsRemove)
-          ? { tagsRemove: sortedUnique(tagsRemove) }
-          : {}),
+        // An empty swap is the same as none, so it is left out and re-imports diff cleanly
+        ...(swap && Object.keys(swap).length > 0 ? { swap } : {}),
       })),
       nutrition: nutrition
         .filter(({ kind }) => kind === 'traditional')
@@ -274,22 +279,20 @@ export const recipeImportSchema = z
       }
     })
 
-    recipe.builds.forEach(({ tagsAdd = [], tagsRemove = [] }, index) => {
-      tagsRemove.forEach((tag) => {
-        if (!recipe.tags.includes(tag)) {
+    recipe.builds.forEach(({ swap = {} }, index) => {
+      Object.entries(swap).forEach(([from, to]) => {
+        if (!recipe.tags.includes(from)) {
           ctx.addIssue({
             code: 'custom',
-            path: ['builds', index, 'tagsRemove'],
-            message: `"${tag}" is not a recipe tag, so there is nothing to remove`,
+            path: ['builds', index, 'swap', from],
+            message: `"${from}" is not a recipe tag, so there is nothing to swap`,
           })
         }
-      })
-      tagsAdd.forEach((tag) => {
-        if (recipe.tags.includes(tag)) {
+        if (recipe.tags.includes(to)) {
           ctx.addIssue({
             code: 'custom',
-            path: ['builds', index, 'tagsAdd'],
-            message: `"${tag}" is already a recipe tag`,
+            path: ['builds', index, 'swap', from],
+            message: `"${to}" is already a recipe tag. Recipe tags describe the default build`,
           })
         }
       })

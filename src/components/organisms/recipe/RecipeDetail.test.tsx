@@ -22,8 +22,7 @@ const makeover: RecipeBuild = {
   proteinG: 39,
   carbsG: 52,
   fatG: 15,
-  tagsAdd: [],
-  tagsRemove: [],
+  swap: {},
 }
 
 const rice: RecipeBuild = {

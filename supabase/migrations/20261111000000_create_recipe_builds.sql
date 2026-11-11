@@ -16,15 +16,16 @@ create table public.recipe_builds (
   fat_g numeric(6, 1) not null check (fat_g >= 0),
   protein_g numeric(6, 1) not null check (protein_g >= 0),
   -- Overrides. Null falls back to the recipe.
+  -- Tag swaps, like {"turkey": "beef"}: the build drops the first tag for the second, and the
+  -- word in the title swaps with it
+  swap jsonb not null default '{}' check (jsonb_typeof(swap) = 'object'),
+  -- Only when the swapped title is not the wording wanted, like "Lean Beef Taco Grillers"
   title text,
-  summary text,
   note_md text,
   cost_tier smallint check (cost_tier between 1 and 5),
   difficulty smallint check (difficulty between 1 and 5),
   prep_minutes integer check (prep_minutes >= 0),
   cook_minutes integer check (cook_minutes >= 0),
-  tags_add text[] not null default '{}',
-  tags_remove text[] not null default '{}',
   -- The build's own photo. Null uses the recipe photo.
   image_url text,
   image_is_placeholder boolean not null default false,
