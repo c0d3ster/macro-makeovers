@@ -61,6 +61,8 @@ A build has grown past a nutrition row: it has its own macros, title, times, tag
 | `listed`                       | boolean          | Default true. False for components like "Filling only": selectable on the page, never chosen to lead a card.  |
 | `calories`, `carbs_g`, `fat_g`, `protein_g` | numeric | Required. Every build has its own macros.                                                               |
 | `title`                        | text, nullable   | Title while selected. "Beef Taco Grillers".                                                                    |
+| `summary`                      | text, nullable   | Summary while selected, since the recipe summary describes the default.                                        |
+| `difficulty`                   | smallint, nullable | 1 to 5. Costco pollo asado is easier than marinating thighs.                                                 |
 | `note_md`                      | text, nullable   | One or two lines on what changes, shown under the table.                                                       |
 | `cost_tier`                    | smallint, nullable | 1 to 5. Bulgogi flank is 3 where ribeye is 4.                                                                |
 | `prep_minutes`, `cook_minutes` | int, nullable    | Costco pollo asado drops the marinade prep.                                                                    |
@@ -72,7 +74,7 @@ The recipe row keeps everything shared: slug, summary, servings, difficulty, sta
 
 ### Scoped lines and steps
 
-`ingredients` and `steps` each get `only_builds` and `skip_builds`, text[] of build keys, both default empty. Empty on both means every build. A row sets one or the other, never both (check constraint).
+`ingredients`, `steps`, and `recipe_notes` each get `only_builds` and `skip_builds`, text[] of build keys, both default empty. Notes include the nutrition intro and analysis, which often differ per build. Empty on both means every build. A row sets one or the other, never both (check constraint).
 
 - **Swap a line:** the turkey line skips `beef`, and a beef line is only for `beef`.
 - **Drop lines and a step:** the marinade lines and the marinade step skip `costco`.

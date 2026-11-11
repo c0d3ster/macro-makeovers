@@ -160,11 +160,29 @@ See the schema in `src/validations/RecipeImportValidation.ts`. Only `raw` is
 required on an ingredient. `durationMinutes` on a step is optional and may be a
 fraction (`0.25` is 15 seconds).
 
+## Builds
+
+A build is a version of a recipe that shares its method: Turkey Taco Grillers as grillers, a rice
+bowl, or with beef. Builds are the rows of the nutrition table, in `builds`, and `nutrition` holds
+only the traditional comparison rows. Older JSON with makeover rows in `nutrition` still imports,
+with keys made from the labels.
+
+- Each build has its own macros and can override the title, summary, cost tier, difficulty, times,
+  and tags. The default build normally overrides nothing.
+- Ingredients, steps, and notes set `onlyBuilds` or `skipBuilds` to scope them to some builds.
+- The recipe page switches builds from the nutrition table and keeps the choice in `?build=key`.
+  The grid shows each recipe's best build for the active filters and goal.
+- Saves match builds by key, so a build keeps its photo across edits. Renaming a key in the
+  editor updates the lines that point at it. Builds are designed in
+  [`prd/09-builds.md`](./prd/09-builds.md).
+
 ## Variants
 
 A variant is a full recipe with its own directions, ingredients, nutrition, and
 `costTier`, linked to the recipe it riffs on with `variantOf` (the base recipe's
-slug). Flank steak bulgogi and the sausage hash brown bake are variants.
+slug). Use one only when the method changes. A swapped ingredient or a different
+serving format is a build. The sausage hash brown bake is a variant. Flank steak bulgogi is one today and
+becomes a build once its macros are confirmed.
 
 - In the book, a number with a letter is a variant of the numbered recipe above it: `10a`
   Southwest Sausage Hash Brown Bake varies `10` Cheesy Hash Brown Bacon Bake. The book build
