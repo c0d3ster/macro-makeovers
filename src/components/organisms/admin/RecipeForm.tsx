@@ -14,7 +14,12 @@ import type {
   RecipeImportInput,
 } from '@/validations'
 
-import { chooseRecipePhoto, useSaveRecipe } from '@/apiClients'
+import {
+  chooseBuildPhoto,
+  chooseRecipePhoto,
+  clearBuildPhoto,
+  useSaveRecipe,
+} from '@/apiClients'
 import { Button } from '@/components/atoms'
 import {
   RECIPE_BODY_GRID,
@@ -25,6 +30,9 @@ import {
 } from '@/components/organisms/recipe/recipeLayout'
 import { recipeImportSchema } from '@/validations'
 
+import type { BuildPreviewValue } from './buildPreview'
+
+import { BuildPreviewContext } from './buildPreview'
 import { RecipeHeroEditor } from './RecipeHeroEditor'
 import { RecipeIngredientsEditor } from './RecipeIngredientsEditor'
 import { RecipeNotesEditor } from './RecipeNotesEditor'
@@ -36,6 +44,8 @@ type RecipeFormProps = {
   recipeId?: string
   initial?: RecipeImportInput
   imageUrl?: string
+  // Each saved build's own photo by key
+  buildImages?: Record<string, string>
 }
 
 const EMPTY_RECIPE: RecipeImportInput = {
@@ -72,6 +82,7 @@ export const RecipeForm = ({
   recipeId,
   initial = EMPTY_RECIPE,
   imageUrl,
+  buildImages: savedBuildImages = {},
 }: RecipeFormProps): ReactElement => {
   const router = useRouter()
   const saveRecipe = useSaveRecipe()
@@ -79,6 +90,25 @@ export const RecipeForm = ({
   const [result, setResult] = useState<SaveRecipeResult>()
   // A photo picked before the first save, attached once the recipe exists
   const [pendingPhoto, setPendingPhoto] = useState<string>()
+  // The recipe photo as it stands, which builds without their own photo fall back to
+  const [recipeImage, setRecipeImage] = useState(imageUrl)
+  // The build the editor previews. Undefined is the featured build.
+  const [previewKey, setPreviewKey] = useState<string>()
+  // Build photos as the editor shows them, saved or waiting
+  const [buildImages, setBuildImages] = useState(savedBuildImages)
+  // Build photos picked for a build the database does not have yet (new or renamed), by key.
+  // They attach after the next save.
+  const [pendingBuildPhotos, setPendingBuildPhotos] = useState<
+    Record<string, string>
+  >({})
+  const [savedBuildKeys, setSavedBuildKeys] = useState(
+    () =>
+      new Set(
+        recipeId
+          ? (initial.builds ?? []).flatMap(({ key }) => (key ? [key] : []))
+          : []
+      )
+  )
 
   const form = useForm<RecipeImportInput, unknown, RecipeImport>({
     resolver: zodResolver(recipeImportSchema),
@@ -91,7 +121,19 @@ export const RecipeForm = ({
     startTransition(async () => {
       const saved = await saveRecipe(recipeId, values)
       setResult(saved)
-      if (!saved.ok || recipeId) return
+      if (!saved.ok) return
+
+      // Every build now exists, so photos waiting on a save attach. One that fails can be
+      // picked again.
+      const waiting = Object.entries(pendingBuildPhotos).filter(([key]) =>
+        values.builds.some((build) => build.key === key)
+      )
+      for (const [key, url] of waiting) {
+        await chooseBuildPhoto(saved.id, key, url)
+      }
+      setPendingBuildPhotos({})
+      setSavedBuildKeys(new Set(values.builds.map(({ key }) => key)))
+      if (recipeId) return
 
       // The recipe exists now, so the editor opens even if the photo fails to attach. Saving
       // here again would try to create it a second time. The photo can be picked again there.
@@ -101,19 +143,75 @@ export const RecipeForm = ({
   })
 
   const choosePhoto = async (url: string): Promise<PhotoResponse> => {
-    if (recipeId) return chooseRecipePhoto(recipeId, url)
+    if (recipeId) {
+      const chosen = await chooseRecipePhoto(recipeId, url)
+      if (chosen.ok) setRecipeImage(chosen.url)
+      return chosen
+    }
     setPendingPhoto(url)
+    setRecipeImage(url)
     return { ok: true, url }
+  }
+
+  // A saved build takes its photo now. A build not saved yet holds it until the next save.
+  const chooseBuildImage = async (
+    key: string,
+    url: string
+  ): Promise<PhotoResponse> => {
+    if (recipeId && savedBuildKeys.has(key)) {
+      const chosen = await chooseBuildPhoto(recipeId, key, url)
+      if (chosen.ok) setBuildImages((images) => ({ ...images, [key]: chosen.url }))
+      return chosen
+    }
+    setPendingBuildPhotos((photos) => ({ ...photos, [key]: url }))
+    setBuildImages((images) => ({ ...images, [key]: url }))
+    return { ok: true, url }
+  }
+
+  const clearBuildImage = async (
+    key: string
+  ): Promise<{ ok: true } | { ok: false; error: string }> => {
+    const drop = <T,>(record: Record<string, T>): Record<string, T> =>
+      Object.fromEntries(Object.entries(record).filter(([item]) => item !== key))
+    if (recipeId && savedBuildKeys.has(key) && !pendingBuildPhotos[key]) {
+      const cleared = await clearBuildPhoto(recipeId, key)
+      if (!cleared.ok) return cleared
+    }
+    setPendingBuildPhotos(drop)
+    setBuildImages(drop)
+    return { ok: true }
+  }
+
+  const preview: BuildPreviewValue = {
+    selectedKey: previewKey,
+    select: setPreviewKey,
+    buildImages,
+    isBuildSaved: (key) => Boolean(recipeId) && savedBuildKeys.has(key),
+    // A renamed build is a new row on save, so its photo waits to be attached under the new key
+    renameKey: (from, to) => {
+      const photo = buildImages[from]
+      if (photo) {
+        setBuildImages(({ [from]: _old, ...rest }) => ({ ...rest, [to]: photo }))
+        setPendingBuildPhotos(({ [from]: _old, ...rest }) => ({
+          ...rest,
+          [to]: photo,
+        }))
+      }
+      if (previewKey === from) setPreviewKey(to)
+    },
   }
 
   return (
     <FormProvider {...form}>
+      <BuildPreviewContext value={preview}>
       <form onSubmit={save} noValidate>
         <div className={RECIPE_PAGE_LAYOUT}>
           <RecipeHeroEditor
             recipeId={recipeId}
-            imageUrl={imageUrl}
+            imageUrl={recipeImage}
             onChoosePhoto={choosePhoto}
+            onChooseBuildPhoto={chooseBuildImage}
+            onClearBuildPhoto={clearBuildImage}
           />
           <div className={RECIPE_BODY_GRID}>
             <div className={RECIPE_BODY_NUTRITION}>
@@ -152,6 +250,7 @@ export const RecipeForm = ({
           </div>
         </div>
       </form>
+      </BuildPreviewContext>
     </FormProvider>
   )
 }

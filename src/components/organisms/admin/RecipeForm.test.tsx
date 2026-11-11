@@ -268,4 +268,86 @@ describe('RecipeForm', () => {
     expect(await screen.findAllByRole('alert')).not.toHaveLength(0)
     expect(mockSave).not.toHaveBeenCalled()
   })
+
+  describe('build preview', () => {
+    const withBuilds = {
+      ...sampleRecipe,
+      builds: [
+        { ...makeover, isDefault: true },
+        {
+          ...makeover,
+          key: 'beef',
+          label: 'Beef',
+          title: 'Beef Chili',
+          calories: 650,
+        },
+      ],
+      ingredients: [
+        { raw: '1 lb turkey', skipBuilds: ['beef'] },
+        { raw: '1 lb beef', onlyBuilds: ['beef'] },
+      ],
+    }
+
+    it('switches the hero and photo to the build from the nutrition table', () => {
+      render(
+        <RecipeForm
+          recipeId='recipe-1'
+          initial={withBuilds}
+          imageUrl='https://images.example.com/chili.jpg'
+        />
+      )
+
+      // The featured build is previewed to start, so only the other offers a switch
+      fireEvent.click(
+        screen.getByRole('button', { name: 'Switch to this build' })
+      )
+
+      expect(screen.getByText(/Previewing the/)).toHaveTextContent('Beef')
+      expect(screen.getByText('650')).toBeInTheDocument()
+      // The build has no photo of its own, so the recipe's shows with a note saying so
+      expect(
+        screen.getByText('No build photo, falling back to the recipe photo')
+      ).toBeInTheDocument()
+      expect(screen.getByTestId('next-image')).toHaveAttribute(
+        'data-src',
+        'https://images.example.com/chili.jpg'
+      )
+      // The turkey line is not in the beef build, so it fades
+      expect(
+        screen.getByLabelText('Ingredient 1').closest('li')
+      ).toHaveClass('opacity-50')
+
+      fireEvent.click(
+        screen.getByRole('button', { name: 'Back to the featured build' })
+      )
+
+      expect(screen.queryByText(/Previewing the/)).toBeNull()
+    })
+
+    it('shows a build photo of its own when it has one', () => {
+      render(
+        <RecipeForm
+          recipeId='recipe-1'
+          initial={withBuilds}
+          imageUrl='https://images.example.com/chili.jpg'
+          buildImages={{ beef: 'https://images.example.com/beef.jpg' }}
+        />
+      )
+
+      fireEvent.click(
+        screen.getByRole('button', { name: 'Switch to this build' })
+      )
+
+      expect(screen.getByTestId('next-image')).toHaveAttribute(
+        'data-src',
+        'https://images.example.com/beef.jpg'
+      )
+      expect(
+        screen.queryByText('No build photo, falling back to the recipe photo')
+      ).toBeNull()
+      expect(
+        screen.getByRole('button', { name: 'Use the recipe photo instead' })
+      ).toBeInTheDocument()
+    })
+  })
 })

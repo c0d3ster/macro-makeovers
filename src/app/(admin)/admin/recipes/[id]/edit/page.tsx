@@ -34,7 +34,7 @@ const EditRecipePage = async ({
     return undefined
   })
   if (!editable) notFound()
-  const { recipe, status, imageUrl } = editable
+  const { recipe, status, imageUrl, buildImages } = editable
 
   return (
     <RecipeEditorTemplate
@@ -58,7 +58,12 @@ const EditRecipePage = async ({
         </RecipePublishControls>
       }
     >
-      <RecipeForm recipeId={id} initial={recipe} imageUrl={imageUrl} />
+      <RecipeForm
+        recipeId={id}
+        initial={recipe}
+        imageUrl={imageUrl}
+        buildImages={buildImages}
+      />
     </RecipeEditorTemplate>
   )
 }

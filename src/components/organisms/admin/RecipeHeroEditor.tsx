@@ -22,6 +22,7 @@ import {
 } from '@/components/organisms/recipe/recipeLayout'
 import { formatMinutes } from '@/utils/formatMinutes'
 
+import { usePreviewBuild } from './buildPreview'
 import {
   featuredIndex,
   numberField,
@@ -37,6 +38,11 @@ type RecipeHeroEditorProps = {
   recipeId?: string
   imageUrl?: string
   onChoosePhoto: (url: string) => Promise<PhotoResponse>
+  // The same for the build being previewed, when it is not the featured one
+  onChooseBuildPhoto: (key: string, url: string) => Promise<PhotoResponse>
+  onClearBuildPhoto: (
+    key: string
+  ) => Promise<{ ok: true } | { ok: false; error: string }>
 }
 
 // A title is one line of text, however far it wraps
@@ -66,6 +72,8 @@ export const RecipeHeroEditor = ({
   recipeId,
   imageUrl,
   onChoosePhoto,
+  onChooseBuildPhoto,
+  onClearBuildPhoto,
 }: RecipeHeroEditorProps): ReactElement => {
   const {
     control,
@@ -80,11 +88,54 @@ export const RecipeHeroEditor = ({
   const builds = useWatch({ control, name: 'builds' }) ?? []
   const comparisons = useWatch({ control, name: 'nutrition' }) ?? []
 
-  const featuredRow = builds[featuredIndex(builds)]
-  const featured = featuredRow && toBuildMacros(featuredRow)
+  const preview = usePreviewBuild()
+  const previewRow = builds[preview.index] ?? builds[featuredIndex(builds)]
+  const featured = previewRow && toBuildMacros(previewRow)
   const original = comparisons[0] && toBuildMacros(comparisons[0])
+  // A build other than the featured one is previewed, so its overrides show here
+  const buildPreview = !preview.isFeatured && previewRow?.key ? previewRow : undefined
+  const totalMinutes =
+    toNumber(buildPreview?.prepMinutes ?? prepMinutes) +
+    toNumber(buildPreview?.cookMinutes ?? cookMinutes)
+  const overrides = buildPreview
+    ? [
+        buildPreview.title && `title "${buildPreview.title}"`,
+        buildPreview.summary && 'its own summary',
+        buildPreview.costTier && `cost ${'$'.repeat(buildPreview.costTier)}`,
+        buildPreview.difficulty && `difficulty ${buildPreview.difficulty}`,
+        (buildPreview.prepMinutes !== undefined ||
+          buildPreview.cookMinutes !== undefined) &&
+          'its own times',
+        buildPreview.tagsAdd?.length && `adds ${buildPreview.tagsAdd.join(', ')}`,
+        buildPreview.tagsRemove?.length &&
+          `drops ${buildPreview.tagsRemove.join(', ')}`,
+      ].filter((item): item is string => Boolean(item))
+    : []
 
   return (
+    <div className='flex flex-col gap-5'>
+      {buildPreview && (
+        <div
+          role='status'
+          className='flex flex-wrap items-center justify-between gap-x-4 gap-y-2 rounded-xl border border-primary/40 bg-primary/10 px-4 py-3 text-sm text-text'
+        >
+          <p>
+            Previewing the <strong>{buildPreview.label || buildPreview.key}</strong> build.{' '}
+            {overrides.length > 0
+              ? `It overrides ${overrides.join(', ')}.`
+              : 'It overrides nothing on the recipe.'}{' '}
+            The fields here edit the whole recipe, and the build&apos;s own are in its
+            Build details. Faded lines and steps are not in this build.
+          </p>
+          <button
+            type='button'
+            onClick={() => preview.select(undefined)}
+            className='cursor-pointer text-primary underline hover:no-underline'
+          >
+            Back to the featured build
+          </button>
+        </div>
+      )}
     <header className={RECIPE_HERO_GRID}>
       <InlineTextarea
         label='Title'
@@ -101,7 +152,7 @@ export const RecipeHeroEditor = ({
         <p className='flex items-center gap-2'>
           Total
           <span className='text-text'>
-            {formatMinutes(toNumber(prepMinutes) + toNumber(cookMinutes))}
+            {formatMinutes(totalMinutes)}
           </span>
         </p>
         <ScalePicker
@@ -197,12 +248,33 @@ export const RecipeHeroEditor = ({
       </div>
 
       <div className={RECIPE_HERO_PHOTO}>
-        <RecipePhotoEditor
-          imageUrl={imageUrl}
-          onChoose={onChoosePhoto}
-          isSaved={Boolean(recipeId)}
-        />
+        {buildPreview?.key ? (
+          <RecipePhotoEditor
+            // A fresh editor per build, so a candidate never carries over to another build
+            key={buildPreview.key}
+            imageUrl={preview.buildImages[buildPreview.key]}
+            fallbackUrl={imageUrl}
+            onChoose={(url) => onChooseBuildPhoto(buildPreview.key ?? '', url)}
+            onClear={() => onClearBuildPhoto(buildPreview.key ?? '')}
+            isSaved={preview.isBuildSaved(buildPreview.key)}
+            build={{
+              key: buildPreview.key,
+              label: buildPreview.label,
+              title: buildPreview.title,
+              summary: buildPreview.summary,
+              note: buildPreview.note,
+            }}
+          />
+        ) : (
+          <RecipePhotoEditor
+            key='recipe'
+            imageUrl={imageUrl}
+            onChoose={onChoosePhoto}
+            isSaved={Boolean(recipeId)}
+          />
+        )}
       </div>
     </header>
+    </div>
   )
 }

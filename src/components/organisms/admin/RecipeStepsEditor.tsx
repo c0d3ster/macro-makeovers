@@ -14,7 +14,9 @@ import {
   RemoveRowButton,
   SHOW_ON_ROW_HOVER,
 } from '@/components/molecules'
+import { appliesToBuild } from '@/libs/recipes/recipeBuilds'
 
+import { OUT_OF_PREVIEW, usePreviewBuild } from './buildPreview'
 import { BuildScopePicker } from './BuildScopePicker'
 import { numberField, useRecipeForm } from './recipeFormFields'
 
@@ -39,6 +41,11 @@ export const RecipeStepsEditor = (): ReactElement => {
   } = useRecipeForm()
   const steps = useFieldArray({ control, name: 'steps' })
   const rows = useWatch({ control, name: 'steps' })
+  const preview = usePreviewBuild()
+  const inPreview = (index: number): boolean => {
+    const row = rows[index]
+    return !preview.hasBuilds || !preview.key || !row || appliesToBuild(row, preview.key)
+  }
   const listMessage = errors.steps?.root?.message ?? errors.steps?.message
 
   const stepsOf = (phase: Phase): { id: string; index: number }[] =>
@@ -96,7 +103,10 @@ export const RecipeStepsEditor = (): ReactElement => {
                 const hasDuration = rows[index]?.durationMinutes !== undefined
 
                 return (
-                  <li key={id} className='group/editable flex gap-4'>
+                  <li
+                    key={id}
+                    className={`group/editable flex gap-4 ${inPreview(index) ? '' : OUT_OF_PREVIEW}`}
+                  >
                     <span
                       aria-hidden='true'
                       className='flex size-8 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-semibold text-on-primary'

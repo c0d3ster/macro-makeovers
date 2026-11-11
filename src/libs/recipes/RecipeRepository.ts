@@ -667,6 +667,39 @@ export class RecipeRepository {
     return row?.slug
   }
 
+  // Each build's own photo by key. Builds without one are left out, since they show the recipe's.
+  getBuildImageUrls = async (id: string): Promise<Record<string, string>> => {
+    const rows = await this.database
+      .select({ key: recipeBuilds.key, imageUrl: recipeBuilds.imageUrl })
+      .from(recipeBuilds)
+      .where(eq(recipeBuilds.recipeId, id))
+    return Object.fromEntries(
+      rows.flatMap(({ key, imageUrl }) => (imageUrl ? [[key, imageUrl]] : []))
+    )
+  }
+
+  // Sets or clears a build's own photo. Returns the recipe's slug, or undefined when the recipe
+  // or the build is not saved.
+  setBuildImage = async (
+    id: string,
+    key: string,
+    url: string | null
+  ): Promise<string | undefined> => {
+    const [build] = await this.database
+      .update(recipeBuilds)
+      .set({ imageUrl: url, imageIsPlaceholder: url !== null })
+      .where(and(eq(recipeBuilds.recipeId, id), eq(recipeBuilds.key, key)))
+      .returning({ id: recipeBuilds.id })
+    if (!build) return undefined
+
+    const [recipe] = await this.database
+      .select({ slug: recipes.slug })
+      .from(recipes)
+      .where(eq(recipes.id, id))
+      .limit(1)
+    return recipe?.slug
+  }
+
   // Each published recipe's photo by slug, for the book
   listPublishedImageUrls = async (): Promise<Map<string, string>> => {
     const rows = await this.database

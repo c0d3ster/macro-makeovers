@@ -47,6 +47,8 @@ type EditableRecipe = {
   id: string
   status: RecipeStatus
   imageUrl?: string
+  // Each build's own photo by key
+  buildImages: Record<string, string>
   recipe: unknown
 }
 
@@ -214,6 +216,22 @@ export class RecipeService {
 
   // Makes a generated photo the recipe's photo, and refreshes everywhere that shows it. False
   // when the id is unknown.
+  // Sets a build's own photo, or clears it with null so the build shows the recipe photo.
+  // False when the recipe or the build is not saved yet.
+  async setBuildPhoto(
+    id: string,
+    key: string,
+    url: string | null
+  ): Promise<boolean> {
+    if (!UUID.test(id)) return false
+
+    const slug = await this.reader().setBuildImage(id, key, url)
+    if (!slug) return false
+
+    refreshPages(slug)
+    return true
+  }
+
   async setRecipePhoto(id: string, url: string): Promise<boolean> {
     if (!UUID.test(id)) return false
 
@@ -231,10 +249,11 @@ export class RecipeService {
     if (!UUID.test(id)) return undefined
 
     const repository = this.reader()
-    const [status, snapshot, imageUrl] = await Promise.all([
+    const [status, snapshot, imageUrl, buildImages] = await Promise.all([
       repository.getRecipeStatus(id),
       repository.getRecipe(id),
       repository.getRecipeImageUrl(id),
+      repository.getBuildImageUrls(id),
     ])
     if (!status) return undefined
 
@@ -247,6 +266,6 @@ export class RecipeService {
       return undefined
     }
 
-    return { id, status, imageUrl, recipe: parsed.data }
+    return { id, status, imageUrl, buildImages, recipe: parsed.data }
   }
 }

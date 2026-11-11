@@ -38,7 +38,14 @@ export const photoRequestSchema = z.object({
   sourceUrl: z.url().optional(),
 })
 
-export const photoChoiceSchema = z.object({ url: z.url() })
+// With a build key, the photo is that build's instead of the recipe's
+export const photoChoiceSchema = z.object({
+  url: z.url(),
+  build: recipeSlugSchema.optional(),
+})
+
+// Clears a build's own photo, so the build shows the recipe photo again
+export const buildPhotoClearSchema = z.object({ build: recipeSlugSchema })
 
 // What the photo routes answer with. A failure names the stage, so the editor can say what broke.
 export const photoResponseSchema = z.discriminatedUnion('ok', [

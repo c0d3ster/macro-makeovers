@@ -16,6 +16,7 @@ import {
 } from '@/components/molecules'
 import { formatMacroRatios } from '@/libs/recipes/macroRatios'
 
+import { usePreviewBuild } from './buildPreview'
 import { RecipeBuildDetails } from './RecipeBuildDetails'
 import {
   featuredIndex,
@@ -78,6 +79,7 @@ export const RecipeNutritionEditor = ({
   } = useRecipeForm()
   const builds = useFieldArray({ control, name: 'builds' })
   const renameBuildKey = useRenameBuildKey()
+  const preview = usePreviewBuild()
   const comparisons = useFieldArray({ control, name: 'nutrition' })
   const buildRows = useWatch({ control, name: 'builds' }) ?? []
   const comparisonRows = useWatch({ control, name: 'nutrition' }) ?? []
@@ -147,6 +149,8 @@ export const RecipeNutritionEditor = ({
   const buildRow = (id: string, index: number): ReactElement => {
     const name = `Build ${index + 1}`
     const isOpen = openBuild === id
+    const isPreviewed = builds.fields.length > 1 && preview.index === index
+    const key = buildRows[index]?.key
     const rowErrors = errors.builds?.[index]
     const hasDetailErrors = Boolean(
       rowErrors &&
@@ -158,8 +162,13 @@ export const RecipeNutritionEditor = ({
 
     return (
       <tbody key={id} className='text-text'>
-        <tr className='group/editable border-t border-text-muted/30'>
-          <th scope='row' className={`${cell} font-normal`}>
+        <tr
+          className={`group/editable border-t border-text-muted/30 ${isPreviewed ? 'bg-primary/10' : ''}`}
+        >
+          <th
+            scope='row'
+            className={`${cell} font-normal ${isPreviewed ? 'shadow-[inset_3px_0_0_0_var(--color-primary)]' : ''}`}
+          >
             <div className='flex flex-col gap-0.5'>
               <InlineInput
                 label={`${name} label`}
@@ -188,6 +197,19 @@ export const RecipeNutritionEditor = ({
                 >
                   {isOpen ? 'Hide build details' : 'Build details'}
                 </button>
+                {builds.fields.length > 1 && (
+                  <button
+                    type='button'
+                    aria-pressed={isPreviewed}
+                    disabled={!key}
+                    onClick={() =>
+                      preview.select(index === featured ? undefined : key)
+                    }
+                    className={`cursor-pointer underline hover:text-text ${isPreviewed ? 'font-medium text-primary no-underline' : ''}`}
+                  >
+                    {isPreviewed ? 'Previewing' : 'Switch to this build'}
+                  </button>
+                )}
               </div>
               {rowErrors?.isDefault?.message && (
                 <p role='alert' className='text-xs text-red-400'>

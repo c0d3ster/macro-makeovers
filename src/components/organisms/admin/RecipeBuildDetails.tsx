@@ -2,11 +2,12 @@
 
 import type { ReactElement, ReactNode } from 'react'
 
-import { useState } from 'react'
+import { use, useState } from 'react'
 import { useWatch } from 'react-hook-form'
 
 import { appliesToBuild } from '@/libs/recipes/recipeBuilds'
 
+import { BuildPreviewContext } from './buildPreview'
 import {
   featuredIndex,
   numberField,
@@ -75,6 +76,7 @@ export const RecipeBuildDetails = ({
     formState: { errors },
   } = useRecipeForm()
   const renameBuildKey = useRenameBuildKey()
+  const { renameKey } = use(BuildPreviewContext)
   const builds = useWatch({ control, name: 'builds' }) ?? []
   const ingredients = useWatch({ control, name: 'ingredients' })
   const steps = useWatch({ control, name: 'steps' })
@@ -100,7 +102,10 @@ export const RecipeBuildDetails = ({
       setDraftKey(key)
       return
     }
-    if (key) renameBuildKey(key, next)
+    if (key) {
+      renameBuildKey(key, next)
+      renameKey(key, next)
+    }
     setValue(`${path}.key`, next, { shouldDirty: true, shouldValidate: true })
   }
 
