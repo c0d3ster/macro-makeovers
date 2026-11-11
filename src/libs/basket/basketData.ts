@@ -3,7 +3,7 @@ import type { BasketItem, BasketRecipe } from './basketTypes'
 // Prices and recipe lines from the cost estimates (docs/cost-estimates.md and
 // docs/basket-data.json). Each price is the lowest found for one pack across several stores.
 // Generated once from basket-data.json. Edit by hand from here, and keep the slug test passing.
-export const PRICES_AS_OF = '2026-10-22'
+export const PRICES_AS_OF = '2026-11-11'
 
 export const BASKET_ITEMS: Record<string, BasketItem> = {
   chicken_breast: {

@@ -14,6 +14,7 @@ import {
   groupBySection,
   pickDistinctBundles,
   rankBundles,
+  recipeShares,
   SECTION_ORDER,
   suggestAddition,
   toShoppingListText,
@@ -216,6 +217,27 @@ describe('compareBundle', () => {
     expect(comparison.leftoverAlone - comparison.leftoverTogether).toBeCloseTo(
       bundleSavings(pair, NO_PANTRY)
     )
+  })
+})
+
+describe('recipeShares', () => {
+  it('splits the pooled trip by use, and each part is cheaper than buying alone', () => {
+    const pair = [one('spicy-turkey-chili'), one('turkey-taco-grillers')]
+    const shares = recipeShares(pair, NO_PANTRY)
+    const together = computeBasket(pair, NO_PANTRY)
+    const paid = pair.reduce((total, { slug }) => {
+      const share = shares.get(slug)
+      const servings = computeBasket([one(slug)], NO_PANTRY).servings
+      return total + (share?.togetherPerServing ?? 0) * servings
+    }, 0)
+
+    expect(paid).toBeCloseTo(together.tripCost)
+
+    pair.forEach(({ slug }) => {
+      const share = shares.get(slug)
+
+      expect(share?.togetherPerServing).toBeLessThan(share?.alonePerServing ?? 0)
+    })
   })
 })
 

@@ -4,9 +4,9 @@ import type { ReactElement } from 'react'
 
 import Link from 'next/link'
 
-import type { BasketEntry } from '@/libs/basket'
+import type { BasketEntry, RecipeShare } from '@/libs/basket'
 
-import { findBasketRecipe, MAX_BATCHES } from '@/libs/basket'
+import { findBasketRecipe, formatMoney, MAX_BATCHES } from '@/libs/basket'
 import { buildHref } from '@/libs/recipes/recipeBuilds'
 import { useBasket } from '@/providers'
 
@@ -17,6 +17,8 @@ import { recipeInfo } from './basketRecipes'
 type BasketRecipeListProps = {
   entries: BasketEntry[]
   recipes: BasketRecipeLookup
+  // Each recipe's checkout cost per serving in this trip, and alone
+  shares: Map<string, RecipeShare>
 }
 
 const BATCH_OPTIONS = Array.from(
@@ -28,6 +30,7 @@ const BATCH_OPTIONS = Array.from(
 export const BasketRecipeList = ({
   entries,
   recipes,
+  shares,
 }: BasketRecipeListProps): ReactElement => {
   const { setBatches, remove } = useBasket()
 
@@ -37,6 +40,9 @@ export const BasketRecipeList = ({
         const { title } = recipeInfo(recipes, slug, build)
         const servings = (findBasketRecipe(slug)?.servings ?? 0) * batches
         const selectId = `batches-${slug}`
+        const share = shares.get(slug)
+        // With one recipe there is nothing to compare against
+        const compares = entries.length > 1 && share
 
         return (
           <li
@@ -50,7 +56,20 @@ export const BasketRecipeList = ({
               >
                 {title}
               </Link>
-              <p className='text-sm text-text-muted'>{servings} servings</p>
+              <p className='text-sm text-text-muted'>
+                {servings} servings
+                {share && (
+                  <>
+                    {' · '}
+                    <span className='font-semibold text-text'>
+                      {formatMoney(share.togetherPerServing)}
+                    </span>
+                    /serving
+                    {compares &&
+                      ` (vs ${formatMoney(share.alonePerServing)} alone)`}
+                  </>
+                )}
+              </p>
             </div>
             <div className='flex items-center gap-4 text-sm'>
               <label

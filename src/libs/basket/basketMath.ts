@@ -272,6 +272,49 @@ export const compareBundle = (
   }
 }
 
+export type RecipeShare = {
+  // This recipe's part of the pooled trip, per serving
+  togetherPerServing: number
+  // This recipe bought on its own trip, per serving
+  alonePerServing: number
+}
+
+// Each recipe's part of the pooled trip at the register, per serving, next to what it costs
+// bought alone. A shared pack is split by how much of it each recipe uses, so the parts add up
+// to the trip.
+export const recipeShares = (
+  entries: BasketEntry[],
+  options: BasketOptions
+): Map<string, RecipeShare> => {
+  const together = computeBasket(entries, options)
+  const paid = new Map<string, number>()
+  together.lines.forEach(({ cost, quantity, usedBy }) =>
+    usedBy.forEach((use) =>
+      paid.set(
+        use.slug,
+        (paid.get(use.slug) ?? 0) +
+          (quantity > 0 ? (cost * use.quantity) / quantity : 0)
+      )
+    )
+  )
+
+  return new Map(
+    entries.flatMap((entry) => {
+      const alone = computeBasket([entry], options)
+      if (alone.servings === 0) return []
+      return [
+        [
+          entry.slug,
+          {
+            togetherPerServing: (paid.get(entry.slug) ?? 0) / alone.servings,
+            alonePerServing: alone.tripCost / alone.servings,
+          },
+        ],
+      ]
+    })
+  )
+}
+
 type BasketSuggestion = {
   slug: string
   // How much less the trip costs than buying the added recipe on its own
