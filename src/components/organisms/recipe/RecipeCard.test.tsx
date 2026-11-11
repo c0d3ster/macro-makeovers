@@ -3,10 +3,12 @@ import { describe, expect, it } from 'vitest'
 
 import type { RecipeCard as RecipeCardData } from '@/libs/recipes'
 
+import { withSingleBuild } from '@/tests/fixtures/recipeCard'
+
 import { RecipeCard } from './RecipeCard'
 import { RecipeGrid } from './RecipeGrid'
 
-const recipe: RecipeCardData = {
+const recipe: RecipeCardData = withSingleBuild({
   slug: 'test-chili',
   title: 'Test Chili',
   summary: 'A test recipe',
@@ -19,7 +21,7 @@ const recipe: RecipeCardData = {
   proteinG: 39,
   carbsG: 52,
   fatG: 15,
-}
+})
 
 describe('RecipeCard', () => {
   it('links to the recipe page', () => {

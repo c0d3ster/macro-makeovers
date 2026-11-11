@@ -1,7 +1,8 @@
-import type { RecipeCard } from './recipeCards'
+import type { CardBuild, RecipeCard } from './recipeCards'
 import type { GoalId } from './recipeGoals'
 import type { MacroTarget } from './recipeMacros'
 
+import { cardForBuild } from './recipeCards'
 import { distanceToTarget, evaluateFit } from './recipeFit'
 import { GOALS, resolveTarget } from './recipeGoals'
 import { parseMacroTarget, recipeMacroPercents } from './recipeMacros'
@@ -241,6 +242,48 @@ const comparatorFor = (
   return (a, b) => direction * SORTERS[sort](a, b) || SORTERS.title(a, b)
 }
 
+// The builds a card can lead with: every listed build, and always the default
+const listedBuilds = (recipe: RecipeCard): CardBuild[] =>
+  recipe.builds.filter(({ listed, isDefault }) => listed || isDefault)
+
+// Each recipe shows one card, for the build that suits the filters best. Builds that fail a
+// hiding filter drop out, and a recipe with none left is hidden. Then a build whose title
+// matches the search wins, then the best fit to a goal or macro targets, then the default.
+// Ties keep the default, then table order.
+export const resolveCardBuild = (
+  recipe: RecipeCard,
+  filters: RecipeFilters,
+  ingredientMatches: ReadonlySet<string> = new Set()
+): RecipeCard | undefined => {
+  const candidates = listedBuilds(recipe)
+    .map((build) => cardForBuild(recipe, build))
+    .filter((card) => matchesFilters(card, filters, ingredientMatches))
+  if (candidates.length === 0) return undefined
+
+  const target = resolveTarget(filters)
+  const ranked = candidates
+    .map((card, order) => ({ card, order }))
+    .sort((a, b) => {
+      const text = textTier(b.card, filters.q) - textTier(a.card, filters.q)
+      if (text) return text
+      if (target) {
+        const fit =
+          Number(evaluateFit(b.card, target).isFit) -
+          Number(evaluateFit(a.card, target).isFit)
+        if (fit) return fit
+        const distance =
+          distanceToTarget(a.card, target) - distanceToTarget(b.card, target)
+        if (distance) return distance
+      }
+      return (
+        Number(b.card.build.isDefault) - Number(a.card.build.isDefault) ||
+        a.order - b.order
+      )
+    })
+
+  return ranked[0]?.card
+}
+
 // ingredientMatches holds slugs whose ingredients matched the search text, so "salmon" finds
 // a recipe that only mentions it in the ingredient list
 export const filterRecipes = (
@@ -249,9 +292,18 @@ export const filterRecipes = (
   ingredientMatches: ReadonlySet<string> = new Set()
 ): RecipeCard[] =>
   recipes
-    .filter((recipe) => matchesFilters(recipe, filters, ingredientMatches))
+    .flatMap((recipe) => {
+      const card = resolveCardBuild(recipe, filters, ingredientMatches)
+      return card ? [card] : []
+    })
     .sort(comparatorFor(filters))
 
-// Every tag in use, A to Z
+// Every tag in use by a build that can lead a card, A to Z
 export const collectTags = (recipes: RecipeCard[]): string[] =>
-  [...new Set(recipes.flatMap(({ tags }) => tags))].sort()
+  [
+    ...new Set(
+      recipes.flatMap((recipe) =>
+        listedBuilds(recipe).flatMap(({ tags }) => tags)
+      )
+    ),
+  ].sort()

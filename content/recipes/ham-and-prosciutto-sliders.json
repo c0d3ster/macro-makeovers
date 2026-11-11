@@ -7,33 +7,34 @@
   "cookMinutes": 10,
   "costTier": 3,
   "difficulty": 1,
-  "nutrition": [
+  "builds": [
     {
-      "kind": "makeover",
+      "key": "classic",
       "label": "Per serving (3)",
+      "isDefault": true,
       "calories": 620,
       "carbsG": 56,
       "fatG": 26,
-      "proteinG": 41,
-      "isDefault": true
+      "proteinG": 41
     },
     {
-      "kind": "makeover",
+      "key": "leaner",
       "label": "Leaner variation, per serving",
+      "isDefault": false,
       "calories": 590,
       "carbsG": 57,
       "fatG": 21,
-      "proteinG": 44,
-      "isDefault": false
-    },
+      "proteinG": 44
+    }
+  ],
+  "nutrition": [
     {
       "kind": "traditional",
       "label": "Traditional per serving (3)",
       "calories": 690,
       "carbsG": 52,
       "fatG": 40,
-      "proteinG": 30,
-      "isDefault": false
+      "proteinG": 30
     }
   ],
   "ingredients": [

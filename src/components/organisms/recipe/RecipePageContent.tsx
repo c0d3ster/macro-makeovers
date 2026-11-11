@@ -1,21 +1,13 @@
 import type { ReactElement, ReactNode } from 'react'
 
+import { Suspense } from 'react'
+
 import type { RecipeDetail } from '@/libs/recipes'
 
-import { AddToBasketButton } from '@/components/molecules'
+import { toRecipeView } from '@/libs/recipes'
 
-import { NutritionTable } from './NutritionTable'
-import { RecipeHero } from './RecipeHero'
-import {
-  RECIPE_BODY_GRID,
-  RECIPE_BODY_INGREDIENTS,
-  RECIPE_BODY_NUTRITION,
-  RECIPE_BODY_STEPS,
-  RECIPE_PAGE_LAYOUT,
-} from './recipeLayout'
-import { RecipeNotes } from './RecipeNotes'
-import { ScalableIngredients } from './ScalableIngredients'
-import { StepList } from './StepList'
+import { RecipeBody } from './RecipeBody'
+import { RecipeBuildSwitcher } from './RecipeBuildSwitcher'
 
 type RecipePageContentProps = {
   recipe: RecipeDetail
@@ -23,43 +15,21 @@ type RecipePageContentProps = {
   corner?: ReactNode
 }
 
-// The body of a recipe page, shared by the public page and the owner's preview of a draft
+// The body of a recipe page, shared by the public page and the owner's preview of a draft.
+// The page stays static: the server renders the default build, and with more than one build
+// the switcher takes over once the URL's ?build= is known.
 export const RecipePageContent = ({
   recipe,
   corner,
-}: RecipePageContentProps): ReactElement => (
-  <main className={RECIPE_PAGE_LAYOUT}>
-    <RecipeHero recipe={recipe} corner={corner} />
-    {/* Ingredients stay level with nutrition and sticky while the steps scroll, with the
-        basket button under them. The right column is the home for later extras (favorite,
-        reviews). */}
-    <div className={RECIPE_BODY_GRID}>
-      <div className={RECIPE_BODY_NUTRITION}>
-        <NutritionTable
-          builds={recipe.nutrition}
-          servings={recipe.servings}
-          featured={recipe.featured}
-          intro={recipe.nutritionIntro}
-          analysis={recipe.nutritionAnalysis}
-        />
-      </div>
-      <div className={`md:sticky md:top-24 ${RECIPE_BODY_INGREDIENTS}`}>
-        <ScalableIngredients
-          ingredients={recipe.ingredients}
-          baseServings={recipe.servings}
-        />
-        <div className='mt-4'>
-          <AddToBasketButton slug={recipe.slug} title={recipe.title} />
-        </div>
-      </div>
-      <div className={RECIPE_BODY_STEPS}>
-        <StepList
-          steps={recipe.steps}
-          prepMinutes={recipe.prepMinutes}
-          cookMinutes={recipe.cookMinutes}
-        />
-      </div>
-    </div>
-    <RecipeNotes notes={recipe.notes} />
-  </main>
-)
+}: RecipePageContentProps): ReactElement => {
+  const fallback = (
+    <RecipeBody recipe={recipe} view={toRecipeView(recipe)} corner={corner} />
+  )
+  if (recipe.builds.length < 2) return fallback
+
+  return (
+    <Suspense fallback={fallback}>
+      <RecipeBuildSwitcher recipe={recipe} corner={corner} />
+    </Suspense>
+  )
+}

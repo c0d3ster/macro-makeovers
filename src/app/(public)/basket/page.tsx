@@ -3,7 +3,7 @@ import type { ReactElement } from 'react'
 
 import type { BasketRecipeLookup } from '@/components/organisms'
 
-import { BasketView } from '@/components/organisms'
+import { basketRecipeKey, BasketView } from '@/components/organisms'
 import { LandingPageTemplate } from '@/components/templates'
 import { BASKET_SLUGS } from '@/libs/basket'
 import { logger } from '@/libs/Logger'
@@ -25,7 +25,15 @@ const loadBasketRecipes = async (): Promise<BasketRecipeLookup> => {
     return Object.fromEntries(
       cards
         .filter(({ slug }) => BASKET_SLUGS.has(slug))
-        .map(({ slug, title, imageUrl }) => [slug, { title, imageUrl }])
+        .flatMap(({ slug, title, imageUrl, builds }) => [
+          [slug, { title, imageUrl }],
+          ...builds
+            .filter(({ isDefault }) => !isDefault)
+            .map((build) => [
+              basketRecipeKey(slug, build.key),
+              { title: build.title, imageUrl: build.imageUrl },
+            ]),
+        ])
     )
   } catch (error) {
     logger.error('Could not load recipes for the basket', { error })

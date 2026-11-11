@@ -40,24 +40,36 @@ export const BasketProvider = ({
 
   const value = useMemo<BasketContextValue>(() => {
     const { update } = store
-    const slugs = new Set(basket.entries.map(({ slug }) => slug))
+    const builds = new Map(
+      basket.entries.map(({ slug, build }) => [slug, build])
+    )
 
     return {
       entries: basket.entries,
       includePantry: basket.includePantry,
       checked: new Set(basket.checked),
       isLoaded,
-      has: (slug) => slugs.has(slug),
-      add: (slug) => {
+      has: (slug, build) =>
+        builds.has(slug) && (build === undefined || builds.get(slug) === build),
+      add: (slug, build) => {
         if (!BASKET_SLUGS.has(slug)) return
-        update((current) =>
-          current.entries.some((entry) => entry.slug === slug)
-            ? current
-            : {
-                ...current,
-                entries: [...current.entries, { slug, batches: 1 }],
-              }
-        )
+        const entry = { slug, ...(build ? { build } : {}) }
+        update((current) => {
+          const existing = current.entries.find((item) => item.slug === slug)
+          if (!existing) {
+            return {
+              ...current,
+              entries: [...current.entries, { ...entry, batches: 1 }],
+            }
+          }
+          if (existing.build === build) return current
+          return {
+            ...current,
+            entries: current.entries.map((item) =>
+              item.slug === slug ? { ...entry, batches: item.batches } : item
+            ),
+          }
+        })
       },
       remove: (slug) =>
         update((current) => ({

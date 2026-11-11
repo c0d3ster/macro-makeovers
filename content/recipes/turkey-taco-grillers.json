@@ -7,42 +7,44 @@
   "cookMinutes": 25,
   "costTier": 2,
   "difficulty": 3,
-  "nutrition": [
+  "builds": [
     {
-      "kind": "makeover",
+      "key": "grillers",
       "label": "Grillers (2 per serving)",
+      "isDefault": true,
       "calories": 700,
       "carbsG": 79,
       "fatG": 21,
-      "proteinG": 49,
-      "isDefault": true
+      "proteinG": 49
     },
     {
-      "kind": "makeover",
+      "key": "rice-bowl",
       "label": "Rice bowl (3/4 cup)",
+      "isDefault": false,
       "calories": 605,
       "carbsG": 71,
       "fatG": 14,
-      "proteinG": 45,
-      "isDefault": false
+      "proteinG": 45
     },
     {
-      "kind": "makeover",
+      "key": "filling",
       "label": "Filling only",
+      "isDefault": false,
+      "listed": false,
       "calories": 290,
       "carbsG": 19,
       "fatG": 8,
-      "proteinG": 35,
-      "isDefault": false
-    },
+      "proteinG": 35
+    }
+  ],
+  "nutrition": [
     {
       "kind": "traditional",
       "label": "Traditional griller",
       "calories": 800,
       "carbsG": 49,
       "fatG": 46,
-      "proteinG": 46,
-      "isDefault": false
+      "proteinG": 46
     }
   ],
   "ingredients": [

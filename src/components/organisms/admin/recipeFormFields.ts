@@ -6,7 +6,7 @@ import type {
 
 import { useFormContext } from 'react-hook-form'
 
-import type { NutritionBuild } from '@/libs/recipes/recipeDetail'
+import type { MacroValues } from '@/libs/recipes/recipeBuilds'
 import type { RecipeImport, RecipeImportInput } from '@/validations'
 
 type RecipeFormContext = UseFormReturn<
@@ -37,14 +37,62 @@ export const numberField = (
 export const toNumber = (value: unknown): number =>
   typeof value === 'number' && Number.isFinite(value) ? value : 0
 
-export const toNutritionBuild = (
-  row: RecipeImportInput['nutrition'][number]
-): NutritionBuild => ({
-  kind: row.kind,
-  label: row.label,
-  isDefault: row.isDefault ?? false,
+type FormBuild = NonNullable<RecipeImportInput['builds']>[number]
+
+// A build row's macros while it is being typed, with blanks read as 0
+export const toBuildMacros = (
+  row: Pick<FormBuild, 'calories' | 'carbsG' | 'fatG' | 'proteinG'>
+): MacroValues => ({
   calories: toNumber(row.calories),
   carbsG: toNumber(row.carbsG),
   fatG: toNumber(row.fatG),
   proteinG: toNumber(row.proteinG),
 })
+
+// The featured build: the one flagged, else the first
+export const featuredIndex = (builds: Pick<FormBuild, 'isDefault'>[]): number => {
+  const flagged = builds.findIndex(({ isDefault }) => isDefault)
+  return flagged === -1 ? 0 : flagged
+}
+
+// A key no other build has, for a build added in the editor
+export const nextBuildKey = (taken: (string | undefined)[]): string => {
+  const keys = new Set(taken)
+  let number = taken.length + 1
+  while (keys.has(`build-${number}`)) number += 1
+  return `build-${number}`
+}
+
+const SCOPED_SECTIONS = ['ingredients', 'steps', 'notes'] as const
+type ScopeList = string[] | undefined
+
+// Renames a build key everywhere a line, step, or note points at it. With no new key the build
+// is gone, so its key is dropped, and a scope left empty goes back to every build.
+export const useRenameBuildKey = (): ((from: string, to?: string) => void) => {
+  const { getValues, setValue } = useRecipeForm()
+
+  return (from, to) => {
+    const swap = (list: ScopeList): ScopeList => {
+      if (!list?.includes(from)) return list
+      const next = list.flatMap((key) => (key === from ? (to ? [to] : []) : [key]))
+      return next.length > 0 ? next : undefined
+    }
+
+    SCOPED_SECTIONS.forEach((section) => {
+      getValues(section).forEach((row, index) => {
+        const onlyBuilds = swap(row.onlyBuilds)
+        const skipBuilds = swap(row.skipBuilds)
+        if (onlyBuilds !== row.onlyBuilds) {
+          setValue(`${section}.${index}.onlyBuilds`, onlyBuilds, {
+            shouldDirty: true,
+          })
+        }
+        if (skipBuilds !== row.skipBuilds) {
+          setValue(`${section}.${index}.skipBuilds`, skipBuilds, {
+            shouldDirty: true,
+          })
+        }
+      })
+    })
+  }
+}

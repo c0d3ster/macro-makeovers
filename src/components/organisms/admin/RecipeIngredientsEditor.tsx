@@ -14,6 +14,7 @@ import {
 } from '@/components/molecules'
 import { groupIngredients } from '@/libs/recipes/ingredients'
 
+import { BuildScopePicker } from './BuildScopePicker'
 import { useRecipeForm } from './recipeFormFields'
 
 type GroupHeadingProps = {
@@ -131,8 +132,9 @@ export const RecipeIngredientsEditor = (): ReactElement => {
               {groupLines.map(({ id, index, group }) => (
                 <li
                   key={id}
-                  className='group/editable flex items-start gap-1 py-2 pr-2 pl-4 text-sm'
+                  className='group/editable flex flex-col gap-1 py-2 pr-2 pl-4 text-sm'
                 >
+                  <div className='flex items-start gap-1'>
                   <InlineTextarea
                     label={`Ingredient ${index + 1}`}
                     error={errors.ingredients?.[index]?.raw?.message}
@@ -147,6 +149,8 @@ export const RecipeIngredientsEditor = (): ReactElement => {
                     label={`Remove ingredient ${index + 1}`}
                     onClick={() => ingredients.remove(index)}
                   />
+                  </div>
+                  <BuildScopePicker section='ingredients' index={index} />
                 </li>
               ))}
               <li className='px-4 py-2'>

@@ -2,9 +2,29 @@ import { describe, expect, it } from 'vitest'
 
 import { sampleRecipe } from '@/tests/fixtures/recipe'
 
+import type { RecipeImportInput } from './RecipeImportValidation'
+
 import { recipeImportSchema } from './RecipeImportValidation'
 
-const [makeover, traditional] = sampleRecipe.nutrition
+type BuildInput = NonNullable<RecipeImportInput['builds']>[number]
+
+const base: BuildInput = {
+  key: 'base',
+  label: 'Base only',
+  calories: 370,
+  carbsG: 42,
+  fatG: 8,
+  proteinG: 32,
+}
+const loaded: BuildInput = { ...base, key: 'loaded', label: 'Loaded' }
+const traditional = {
+  kind: 'traditional' as const,
+  label: 'Traditional',
+  calories: 480,
+  carbsG: 30,
+  fatG: 28,
+  proteinG: 27,
+}
 
 const issuePaths = (input: unknown): string[] => {
   const result = recipeImportSchema.safeParse(input)
@@ -24,10 +44,13 @@ describe('recipeImportSchema', () => {
     expect(result.tags).toEqual(['chili', 'high protein'])
   })
 
-  it('makes the first makeover row the default when none is flagged', () => {
-    const result = recipeImportSchema.parse(sampleRecipe)
+  it('makes the first build the default when none is flagged', () => {
+    const result = recipeImportSchema.parse({
+      ...sampleRecipe,
+      builds: [base, loaded],
+    })
 
-    expect(result.nutrition.map(({ isDefault }) => isDefault)).toEqual([
+    expect(result.builds.map(({ isDefault }) => isDefault)).toEqual([
       true,
       false,
     ])
@@ -36,17 +59,157 @@ describe('recipeImportSchema', () => {
   it('keeps an explicit default', () => {
     const result = recipeImportSchema.parse({
       ...sampleRecipe,
-      nutrition: [makeover, { ...makeover, label: 'Loaded', isDefault: true }],
+      builds: [base, { ...loaded, isDefault: true }],
     })
 
-    expect(result.nutrition.map(({ label }) => label)).toEqual([
-      'Base only',
-      'Loaded',
-    ])
-    expect(result.nutrition.map(({ isDefault }) => isDefault)).toEqual([
+    expect(result.builds.map(({ isDefault }) => isDefault)).toEqual([
       false,
       true,
     ])
+  })
+
+  it('turns old makeover nutrition rows into builds', () => {
+    const { builds: _builds, ...withoutBuilds } = sampleRecipe
+    const result = recipeImportSchema.parse({
+      ...withoutBuilds,
+      nutrition: [
+        {
+          kind: 'makeover',
+          label: 'Base only',
+          isDefault: false,
+          calories: 370,
+          carbsG: 42,
+          fatG: 8,
+          proteinG: 32,
+        },
+        {
+          kind: 'makeover',
+          label: 'Fully loaded',
+          isDefault: true,
+          calories: 500,
+          carbsG: 52,
+          fatG: 15,
+          proteinG: 39,
+        },
+        traditional,
+      ],
+    })
+
+    expect(
+      result.builds.map(({ key, label, isDefault }) => ({
+        key,
+        label,
+        isDefault,
+      }))
+    ).toEqual([
+      { key: 'base-only', label: 'Base only', isDefault: false },
+      { key: 'fully-loaded', label: 'Fully loaded', isDefault: true },
+    ])
+    expect(result.nutrition).toEqual([traditional])
+  })
+
+  it('rejects makeover nutrition rows next to builds', () => {
+    expect(
+      issuePaths({
+        ...sampleRecipe,
+        nutrition: [{ ...traditional, kind: 'makeover' }],
+      })
+    ).toEqual(['nutrition.0.kind'])
+  })
+
+  it('requires a build', () => {
+    expect(issuePaths({ ...sampleRecipe, builds: [] })).toEqual(['builds'])
+  })
+
+  it('makes keys from labels and numbers a collision', () => {
+    const result = recipeImportSchema.parse({
+      ...sampleRecipe,
+      builds: [
+        { ...base, key: undefined, label: 'Rice bowl (3/4 cup)' },
+        { ...base, key: undefined, label: 'Rice bowl 3/4 cup' },
+      ],
+    })
+
+    expect(result.builds.map(({ key }) => key)).toEqual([
+      'rice-bowl-3-4-cup',
+      'rice-bowl-3-4-cup-2',
+    ])
+  })
+
+  it('rejects duplicate keys and two defaults', () => {
+    expect(
+      issuePaths({
+        ...sampleRecipe,
+        builds: [
+          { ...base, isDefault: true },
+          { ...base, isDefault: true },
+        ],
+      })
+    ).toEqual(['builds.1.key', 'builds.1.isDefault'])
+  })
+
+  it('keeps the default build listed', () => {
+    expect(
+      issuePaths({
+        ...sampleRecipe,
+        builds: [{ ...base, isDefault: true, listed: false }, loaded],
+      })
+    ).toEqual(['builds.0.listed'])
+  })
+
+  it('checks build tag changes against the recipe tags', () => {
+    expect(
+      issuePaths({
+        ...sampleRecipe,
+        builds: [base, { ...loaded, tagsAdd: ['chili'], tagsRemove: ['beef'] }],
+      })
+    ).toEqual(['builds.1.tagsRemove', 'builds.1.tagsAdd'])
+  })
+
+  it('accepts scoped lines and drops empty scopes', () => {
+    const result = recipeImportSchema.parse({
+      ...sampleRecipe,
+      builds: [base, loaded],
+      ingredients: [
+        { raw: '1 lb turkey', skipBuilds: ['loaded'] },
+        { raw: 'Toppings', onlyBuilds: ['loaded', 'loaded'] },
+        { raw: 'Salt', onlyBuilds: [] },
+      ],
+    })
+
+    expect(result.ingredients).toEqual([
+      { raw: '1 lb turkey', skipBuilds: ['loaded'] },
+      { raw: 'Toppings', onlyBuilds: ['loaded'] },
+      { raw: 'Salt' },
+    ])
+  })
+
+  it('rejects unknown keys and a row with both scopes', () => {
+    expect(
+      issuePaths({
+        ...sampleRecipe,
+        builds: [base, loaded],
+        steps: [
+          { phase: 'prep', body: 'Chop' },
+          {
+            phase: 'cook',
+            body: 'Sear',
+            onlyBuilds: ['nope'],
+            skipBuilds: ['base'],
+          },
+        ],
+      })
+    ).toEqual(['steps.1.skipBuilds', 'steps.1.onlyBuilds'])
+  })
+
+  it('rejects a build left with no ingredients', () => {
+    expect(
+      issuePaths({
+        ...sampleRecipe,
+        builds: [base, loaded],
+        ingredients: [{ raw: '1 lb turkey', onlyBuilds: ['base'] }],
+      })
+    ).toEqual(['builds.1.key'])
   })
 
   it('accepts fractional step durations', () => {
@@ -72,42 +235,15 @@ describe('recipeImportSchema', () => {
     ])
   })
 
-  it('names the nested field for a bad nutrition row', () => {
-    const nutrition = [{ ...makeover, calories: -5 }, traditional]
-
-    expect(issuePaths({ ...sampleRecipe, nutrition })).toEqual([
-      'nutrition.0.calories',
-    ])
+  it('names the nested field for a bad build', () => {
+    expect(
+      issuePaths({ ...sampleRecipe, builds: [{ ...base, calories: -5 }] })
+    ).toEqual(['builds.0.calories'])
   })
 
   it('rejects a slug that is not kebab-case', () => {
     expect(issuePaths({ ...sampleRecipe, slug: 'Test Chili' })).toEqual([
       'slug',
-    ])
-  })
-
-  it('requires at least one makeover row', () => {
-    expect(issuePaths({ ...sampleRecipe, nutrition: [traditional] })).toEqual([
-      'nutrition',
-    ])
-  })
-
-  it('rejects a traditional row marked as the default', () => {
-    const nutrition = [makeover, { ...traditional, isDefault: true }]
-
-    expect(issuePaths({ ...sampleRecipe, nutrition })).toEqual([
-      'nutrition.1.isDefault',
-    ])
-  })
-
-  it('rejects two default rows', () => {
-    const nutrition = [
-      { ...makeover, isDefault: true },
-      { ...makeover, label: 'Other', isDefault: true },
-    ]
-
-    expect(issuePaths({ ...sampleRecipe, nutrition })).toEqual([
-      'nutrition.1.isDefault',
     ])
   })
 

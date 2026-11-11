@@ -48,17 +48,19 @@ const EMPTY_RECIPE: RecipeImportInput = {
   costTier: 2,
   difficulty: 2,
   tags: [],
-  nutrition: [
+  builds: [
     {
-      kind: 'makeover',
+      key: 'makeover',
       label: 'Makeover',
       isDefault: true,
+      listed: true,
       calories: 0,
       carbsG: 0,
       fatG: 0,
       proteinG: 0,
     },
   ],
+  nutrition: [],
   ingredients: [{ raw: '' }],
   steps: [{ phase: 'prep', body: '' }],
   notes: [],

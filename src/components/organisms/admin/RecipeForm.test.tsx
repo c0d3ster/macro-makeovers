@@ -15,7 +15,7 @@ vi.mock('@/apiClients', async () => ({
 }))
 
 const makeover = {
-  kind: 'makeover',
+  key: 'base',
   label: 'Base',
   isDefault: false,
   calories: 400,
@@ -59,7 +59,7 @@ describe('RecipeForm', () => {
   it('updates the hero calories and ratio while the nutrition table is edited', () => {
     render(<RecipeForm recipeId='recipe-1' initial={sampleRecipe} />)
 
-    fireEvent.change(screen.getByLabelText('Nutrition row 1 calories'), {
+    fireEvent.change(screen.getByLabelText('Build 1 calories'), {
       target: { value: '512' },
     })
 
@@ -67,15 +67,15 @@ describe('RecipeForm', () => {
     expect(screen.getByText('~2,048')).toBeInTheDocument()
   })
 
-  it('keeps one featured row, and moves it when another is picked', async () => {
+  it('keeps one featured build, and moves it when another is picked', async () => {
     mockSave.mockResolvedValue({ ok: false, error: 'stop' })
     render(
       <RecipeForm
         initial={{
           ...sampleRecipe,
-          nutrition: [
+          builds: [
             { ...makeover, label: 'Base', isDefault: true },
-            { ...makeover, label: 'Loaded', isDefault: false },
+            { ...makeover, key: 'loaded', label: 'Loaded', isDefault: false },
           ],
         }}
       />
@@ -87,7 +87,7 @@ describe('RecipeForm', () => {
 
     await waitFor(() => expect(mockSave).toHaveBeenCalled())
 
-    expect(mockSave.mock.calls[0]?.[1].nutrition).toEqual([
+    expect(mockSave.mock.calls[0]?.[1].builds).toEqual([
       expect.objectContaining({ label: 'Base', isDefault: false }),
       expect.objectContaining({ label: 'Loaded', isDefault: true }),
     ])

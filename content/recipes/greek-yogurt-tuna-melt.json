@@ -7,51 +7,53 @@
   "cookMinutes": 10,
   "costTier": 2,
   "difficulty": 2,
-  "nutrition": [
+  "builds": [
     {
-      "kind": "makeover",
+      "key": "hoagie",
       "label": "Melt on hoagie roll (default)",
+      "isDefault": true,
       "calories": 485,
       "carbsG": 51,
       "fatG": 13,
-      "proteinG": 41,
-      "isDefault": true
+      "proteinG": 41
     },
     {
-      "kind": "makeover",
+      "key": "sourdough",
       "label": "Melt on sourdough",
+      "isDefault": false,
       "calories": 415,
       "carbsG": 42,
       "fatG": 10,
-      "proteinG": 40,
-      "isDefault": false
+      "proteinG": 40
     },
     {
-      "kind": "makeover",
+      "key": "cold",
       "label": "Cold sandwich, whole wheat",
+      "isDefault": false,
       "calories": 345,
       "carbsG": 39,
       "fatG": 5,
-      "proteinG": 36,
-      "isDefault": false
+      "proteinG": 36
     },
     {
-      "kind": "makeover",
+      "key": "salad",
       "label": "Salad only (1 serving)",
+      "isDefault": false,
+      "listed": false,
       "calories": 185,
       "carbsG": 11,
       "fatG": 3,
-      "proteinG": 28,
-      "isDefault": false
-    },
+      "proteinG": 28
+    }
+  ],
+  "nutrition": [
     {
       "kind": "traditional",
       "label": "Traditional melt (mayo, hoagie)",
       "calories": 655,
       "carbsG": 48,
       "fatG": 38,
-      "proteinG": 30,
-      "isDefault": false
+      "proteinG": 30
     }
   ],
   "ingredients": [

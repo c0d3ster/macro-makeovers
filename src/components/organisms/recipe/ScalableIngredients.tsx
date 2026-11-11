@@ -6,18 +6,22 @@ import { useState } from 'react'
 
 import type { RecipeIngredient } from '@/libs/recipes/ingredients'
 
-import { Markdown } from '@/components/atoms'
+import { BuildMarker, Markdown } from '@/components/atoms'
 import { ServingsStepper } from '@/components/molecules/recipe'
 import { groupIngredients, scaleIngredient } from '@/libs/recipes/ingredients'
+import { isScoped } from '@/libs/recipes/recipeBuilds'
 
 type ScalableIngredientsProps = {
   ingredients: RecipeIngredient[]
   baseServings: number
+  // Flags lines only some builds have, on a recipe with more than one build
+  markScoped?: boolean
 }
 
 export const ScalableIngredients = ({
   ingredients,
   baseServings,
+  markScoped = false,
 }: ScalableIngredientsProps): ReactElement => {
   const [servings, setServings] = useState<number>(baseServings)
   const factor = servings / baseServings
@@ -62,9 +66,15 @@ export const ScalableIngredients = ({
             <ul
               className={`flex flex-col divide-y divide-text-muted/30 ${name ? 'border-t border-text-muted/30' : ''}`}
             >
-              {lines.map(({ raw }) => (
-                <li key={raw} className='px-4 py-2.5 text-sm text-text'>
-                  <Markdown>{scaleIngredient(raw, factor)}</Markdown>
+              {lines.map((line) => (
+                <li
+                  key={line.raw}
+                  className='flex items-start justify-between gap-3 px-4 py-2.5 text-sm text-text'
+                >
+                  <div className='min-w-0'>
+                    <Markdown>{scaleIngredient(line.raw, factor)}</Markdown>
+                  </div>
+                  {markScoped && isScoped(line) && <BuildMarker />}
                 </li>
               ))}
             </ul>

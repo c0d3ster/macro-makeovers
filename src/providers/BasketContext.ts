@@ -10,8 +10,10 @@ export type BasketContextValue = {
   checked: Set<string>
   // False until the saved basket is read, so counts don't flash 0 then jump
   isLoaded: boolean
-  has: (slug: string) => boolean
-  add: (slug: string) => void
+  // With a build, true only when that build is the one in the basket. Missing means default.
+  has: (slug: string, build?: string) => boolean
+  // Builds of one recipe are mutually exclusive, so adding another build replaces it
+  add: (slug: string, build?: string) => void
   remove: (slug: string) => void
   setBatches: (slug: string, batches: number) => void
   setIncludePantry: (include: boolean) => void

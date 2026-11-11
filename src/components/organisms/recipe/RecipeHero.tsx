@@ -2,7 +2,7 @@ import type { ReactElement, ReactNode } from 'react'
 
 import Link from 'next/link'
 
-import type { RecipeDetail } from '@/libs/recipes'
+import type { RecipeDetail, RecipeView } from '@/libs/recipes'
 
 import {
   BackLink,
@@ -26,29 +26,29 @@ import {
 
 type RecipeHeroProps = {
   recipe: RecipeDetail
+  // The build being shown, which sets the title, facts, macros, tags, and photo
+  view: RecipeView
   // Sits at the right end of the back link row, such as the owner's edit link
   corner?: ReactNode
 }
 
 export const RecipeHero = ({
   recipe,
+  view,
   corner,
 }: RecipeHeroProps): ReactElement => {
+  const { servings, comparisons, baseRecipe, variants } = recipe
   const {
     title,
     summary,
-    servings,
     imageUrl,
     totalMinutes,
     costTier,
     difficulty,
     tags,
-    featured,
-    nutrition,
-    baseRecipe,
-    variants,
-  } = recipe
-  const original = nutrition.find(({ kind }) => kind === 'traditional')
+    build,
+  } = view
+  const original = comparisons[0]
 
   return (
     <header className='flex flex-col gap-5'>
@@ -93,7 +93,7 @@ export const RecipeHero = ({
             <div className='flex flex-wrap items-baseline justify-between gap-x-8 gap-y-1'>
               <p className='flex items-baseline gap-2'>
                 <CountUp
-                  value={featured.calories}
+                  value={build.calories}
                   className='text-4xl leading-none font-semibold'
                 />
                 <span className='text-base text-text-muted'>
@@ -108,7 +108,7 @@ export const RecipeHero = ({
                 <span className='text-base text-text-muted'>servings</span>
               </p>
             </div>
-            <RecipeMacroSummary reveal featured={featured} original={original} />
+            <RecipeMacroSummary reveal featured={build} original={original} />
           </div>
 
           {(baseRecipe || variants.length > 0) && (

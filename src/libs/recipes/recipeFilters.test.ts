@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
+import { withSingleBuild } from '@/tests/fixtures/recipeCard'
+
 import type { RecipeCard } from './recipeCards'
 
 import {
@@ -11,7 +13,8 @@ import {
   parseRecipeFilters,
 } from './recipeFilters'
 
-const card = (overrides: Partial<RecipeCard>): RecipeCard => ({
+const card = (overrides: Partial<RecipeCard>): RecipeCard =>
+  withSingleBuild({
   slug: 'a',
   title: 'A',
   summary: 'A summary',
@@ -25,7 +28,7 @@ const card = (overrides: Partial<RecipeCard>): RecipeCard => ({
   carbsG: 50,
   fatG: 15,
   ...overrides,
-})
+  })
 
 // Grams that give these shares of macro calories on a 1000 calorie base
 const shares = (
@@ -431,5 +434,78 @@ describe('collectTags', () => {
       'Mexican',
       'Pasta',
     ])
+  })
+})
+
+describe('build resolution', () => {
+  const face = card({
+    slug: 'tacos',
+    title: 'Turkey Tacos',
+    tags: ['turkey'],
+    calories: 700,
+    ...shares(45, 27, 28),
+  })
+  const [standard] = face.builds
+  if (!standard) throw new Error('The test card has no build')
+  const tacos = {
+    ...face,
+    builds: [
+      { ...standard, key: 'grillers', label: 'Grillers' },
+      {
+        ...standard,
+        key: 'beef',
+        label: 'Beef grillers',
+        isDefault: false,
+        title: 'Beef Tacos',
+        tags: ['beef'],
+        calories: 730,
+      },
+      {
+        ...standard,
+        key: 'bowl',
+        label: 'Rice bowl',
+        isDefault: false,
+        calories: 600,
+        ...shares(30, 25, 45),
+      },
+      {
+        ...standard,
+        key: 'filling',
+        label: 'Filling only',
+        isDefault: false,
+        listed: false,
+        calories: 290,
+        ...shares(25, 25, 50),
+      },
+    ],
+  }
+  const shown = (params: Record<string, string>): string[] =>
+    filterRecipes([tacos], parseRecipeFilters(params)).map(
+      ({ title, build }) => `${title} ${build.key}`
+    )
+
+  it('leads with the default build without filters', () => {
+    expect(shown({})).toEqual(['Turkey Tacos grillers'])
+  })
+
+  it('picks the build that passes a tag filter', () => {
+    expect(shown({ meat: 'beef' })).toEqual(['Beef Tacos beef'])
+  })
+
+  it('picks the build under a calorie cap and hides the recipe when none fits', () => {
+    expect(shown({ maxCalories: '650' })).toEqual(['Turkey Tacos bowl'])
+    expect(shown({ maxCalories: '400' })).toEqual([])
+  })
+
+  it('prefers a build whose title matches the search', () => {
+    expect(shown({ q: 'beef tacos' })).toEqual(['Beef Tacos beef'])
+  })
+
+  it('picks the best fit for macro targets and never an unlisted build', () => {
+    expect(shown({ protein: 'ge45' })).toEqual(['Turkey Tacos bowl'])
+  })
+
+  it('counts tags from every listed build', () => {
+    expect(collectTags([tacos])).toEqual(['beef', 'turkey'])
   })
 })

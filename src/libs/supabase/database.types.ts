@@ -39,12 +39,14 @@ export type Database = {
           category: string | null
           group_name: string | null
           id: string
+          only_builds: string[]
           name: string | null
           note: string | null
           position: number
           quantity: number | null
           raw_text: string
           recipe_id: string
+          skip_builds: string[]
           search: unknown
           unit: string | null
         }
@@ -53,12 +55,14 @@ export type Database = {
           category?: string | null
           group_name?: string | null
           id?: string
+          only_builds?: string[]
           name?: string | null
           note?: string | null
           position: number
           quantity?: number | null
           raw_text: string
           recipe_id: string
+          skip_builds?: string[]
           search?: never
           unit?: string | null
         }
@@ -66,12 +70,14 @@ export type Database = {
           category?: string | null
           group_name?: string | null
           id?: string
+          only_builds?: string[]
           name?: string | null
           note?: string | null
           position?: number
           quantity?: number | null
           raw_text?: string
           recipe_id?: string
+          skip_builds?: string[]
           search?: never
           unit?: string | null
         }
@@ -85,28 +91,118 @@ export type Database = {
           },
         ]
       }
+      recipe_builds: {
+        Row: {
+          calories: number
+          carbs_g: number
+          cook_minutes: number | null
+          cost_tier: number | null
+          difficulty: number | null
+          fat_g: number
+          id: string
+          image_is_placeholder: boolean
+          image_url: string | null
+          is_default: boolean
+          key: string
+          label: string
+          listed: boolean
+          note_md: string | null
+          position: number
+          prep_minutes: number | null
+          protein_g: number
+          recipe_id: string
+          summary: string | null
+          tags_add: string[]
+          tags_remove: string[]
+          title: string | null
+        }
+        ComputedFields: never
+        Insert: {
+          calories: number
+          carbs_g: number
+          cook_minutes?: number | null
+          cost_tier?: number | null
+          difficulty?: number | null
+          fat_g: number
+          id?: string
+          image_is_placeholder?: boolean
+          image_url?: string | null
+          is_default?: boolean
+          key: string
+          label: string
+          listed?: boolean
+          note_md?: string | null
+          position?: number
+          prep_minutes?: number | null
+          protein_g: number
+          recipe_id: string
+          summary?: string | null
+          tags_add?: string[]
+          tags_remove?: string[]
+          title?: string | null
+        }
+        Update: {
+          calories?: number
+          carbs_g?: number
+          cook_minutes?: number | null
+          cost_tier?: number | null
+          difficulty?: number | null
+          fat_g?: number
+          id?: string
+          image_is_placeholder?: boolean
+          image_url?: string | null
+          is_default?: boolean
+          key?: string
+          label?: string
+          listed?: boolean
+          note_md?: string | null
+          position?: number
+          prep_minutes?: number | null
+          protein_g?: number
+          recipe_id?: string
+          summary?: string | null
+          tags_add?: string[]
+          tags_remove?: string[]
+          title?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'recipe_builds_recipe_id_fkey'
+            columns: ['recipe_id']
+            isOneToOne: false
+            referencedRelation: 'recipes'
+            referencedColumns: ['id']
+          },
+        ]
+      }
       recipe_notes: {
         Row: {
           body_md: string
           id: string
+          only_builds: string[]
           kind: Database['public']['Enums']['note_kind']
           position: number
           recipe_id: string
+          skip_builds: string[]
         }
         ComputedFields: never
         Insert: {
           body_md: string
           id?: string
+          only_builds?: string[]
           kind: Database['public']['Enums']['note_kind']
           position: number
           recipe_id: string
+          skip_builds?: string[]
         }
         Update: {
           body_md?: string
           id?: string
+          only_builds?: string[]
           kind?: Database['public']['Enums']['note_kind']
           position?: number
           recipe_id?: string
+          skip_builds?: string[]
         }
         Relationships: [
           {
@@ -124,7 +220,6 @@ export type Database = {
           carbs_g: number
           fat_g: number
           id: string
-          is_default: boolean
           kind: Database['public']['Enums']['nutrition_kind']
           label: string
           position: number
@@ -137,7 +232,6 @@ export type Database = {
           carbs_g: number
           fat_g: number
           id?: string
-          is_default?: boolean
           kind: Database['public']['Enums']['nutrition_kind']
           label: string
           position?: number
@@ -149,7 +243,6 @@ export type Database = {
           carbs_g?: number
           fat_g?: number
           id?: string
-          is_default?: boolean
           kind?: Database['public']['Enums']['nutrition_kind']
           label?: string
           position?: number
@@ -304,26 +397,32 @@ export type Database = {
           body_md: string
           duration_minutes: number | null
           id: string
+          only_builds: string[]
           phase: Database['public']['Enums']['step_phase']
           position: number
           recipe_id: string
+          skip_builds: string[]
         }
         ComputedFields: never
         Insert: {
           body_md: string
           duration_minutes?: number | null
           id?: string
+          only_builds?: string[]
           phase: Database['public']['Enums']['step_phase']
           position: number
           recipe_id: string
+          skip_builds?: string[]
         }
         Update: {
           body_md?: string
           duration_minutes?: number | null
           id?: string
+          only_builds?: string[]
           phase?: Database['public']['Enums']['step_phase']
           position?: number
           recipe_id?: string
+          skip_builds?: string[]
         }
         Relationships: [
           {

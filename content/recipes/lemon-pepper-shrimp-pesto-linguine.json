@@ -7,24 +7,25 @@
   "cookMinutes": 40,
   "costTier": 3,
   "difficulty": 3,
-  "nutrition": [
+  "builds": [
     {
-      "kind": "makeover",
+      "key": "makeover",
       "label": "Per serving",
+      "isDefault": true,
       "calories": 530,
       "carbsG": 60,
       "fatG": 15,
-      "proteinG": 40,
-      "isDefault": true
-    },
+      "proteinG": 40
+    }
+  ],
+  "nutrition": [
     {
       "kind": "traditional",
       "label": "Traditional (regular pesto, shrimp seared in butter)",
       "calories": 610,
       "carbsG": 60,
       "fatG": 24,
-      "proteinG": 39,
-      "isDefault": false
+      "proteinG": 39
     }
   ],
   "ingredients": [

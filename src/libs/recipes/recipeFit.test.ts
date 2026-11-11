@@ -1,11 +1,14 @@
 import { describe, expect, it } from 'vitest'
 
+import { withSingleBuild } from '@/tests/fixtures/recipeCard'
+
 import type { RecipeCard } from './recipeCards'
 
 import { distanceToTarget, evaluateFit } from './recipeFit'
 import { resolveTarget } from './recipeGoals'
 
-const card = (overrides: Partial<RecipeCard>): RecipeCard => ({
+const card = (overrides: Partial<RecipeCard>): RecipeCard =>
+  withSingleBuild({
   slug: 'a',
   title: 'A',
   summary: 'A summary',
@@ -19,7 +22,7 @@ const card = (overrides: Partial<RecipeCard>): RecipeCard => ({
   carbsG: 0,
   fatG: 0,
   ...overrides,
-})
+  })
 
 // Grams that give these shares of macro calories on a 1000 calorie base
 const shares = (

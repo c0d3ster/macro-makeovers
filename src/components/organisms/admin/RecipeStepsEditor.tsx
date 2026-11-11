@@ -15,6 +15,7 @@ import {
   SHOW_ON_ROW_HOVER,
 } from '@/components/molecules'
 
+import { BuildScopePicker } from './BuildScopePicker'
 import { numberField, useRecipeForm } from './recipeFormFields'
 
 type Phase = RecipeImportInput['steps'][number]['phase']
@@ -137,6 +138,9 @@ export const RecipeStepsEditor = (): ReactElement => {
                           )}
                         />
                         min
+                      </div>
+                      <div className='mt-1'>
+                        <BuildScopePicker section='steps' index={index} />
                       </div>
                     </div>
                   </li>

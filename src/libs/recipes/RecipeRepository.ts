@@ -1,13 +1,14 @@
 import type { SQL } from 'drizzle-orm'
 import type { NodePgDatabase } from 'drizzle-orm/node-postgres'
 
-import { and, asc, desc, eq, inArray, isNull, sql } from 'drizzle-orm'
+import { and, asc, desc, eq, inArray, isNull, notInArray, sql } from 'drizzle-orm'
 
 import type { schemas } from '@/models'
 import type { RecipeImport } from '@/validations'
 
 import {
   ingredients,
+  recipeBuilds,
   recipeNotes,
   recipeNutrition,
   recipeRevisions,
@@ -61,6 +62,85 @@ const withoutNulls = <T extends Record<string, unknown>>(value: T): T =>
     Object.entries(value).filter(([, entry]) => entry != null)
   ) as T
 
+// Empty lists are left out of the import shape, the same as a missing field
+const nonEmpty = (values: string[]): string[] | undefined =>
+  values.length > 0 ? values : undefined
+
+const readScope = ({
+  onlyBuilds,
+  skipBuilds,
+}: {
+  onlyBuilds: string[]
+  skipBuilds: string[]
+}): { onlyBuilds?: string[]; skipBuilds?: string[] } => ({
+  onlyBuilds: nonEmpty(onlyBuilds),
+  skipBuilds: nonEmpty(skipBuilds),
+})
+
+const writeScope = ({
+  onlyBuilds,
+  skipBuilds,
+}: {
+  onlyBuilds?: string[]
+  skipBuilds?: string[]
+}): { onlyBuilds: string[]; skipBuilds: string[] } => ({
+  onlyBuilds: onlyBuilds ?? [],
+  skipBuilds: skipBuilds ?? [],
+})
+
+// Builds are matched by key instead of replaced, so a build keeps its id and its photo across
+// edits. A build whose key is gone is deleted. Defaults are cleared first so the one-default
+// index never sees two at once.
+const upsertBuilds = async (
+  tx: Tx,
+  recipeId: string,
+  builds: RecipeImport['builds']
+): Promise<void> => {
+  const keys = builds.map(({ key }) => key)
+  await tx
+    .delete(recipeBuilds)
+    .where(
+      and(
+        eq(recipeBuilds.recipeId, recipeId),
+        notInArray(recipeBuilds.key, keys)
+      )
+    )
+  await tx
+    .update(recipeBuilds)
+    .set({ isDefault: false })
+    .where(eq(recipeBuilds.recipeId, recipeId))
+
+  // One at a time: inside a transaction every query shares one connection
+  for (const [position, build] of builds.entries()) {
+    const fields = {
+      label: build.label,
+      position,
+      isDefault: build.isDefault,
+      listed: build.listed,
+      calories: build.calories,
+      carbsG: build.carbsG,
+      fatG: build.fatG,
+      proteinG: build.proteinG,
+      title: build.title ?? null,
+      summary: build.summary ?? null,
+      noteMd: build.note ?? null,
+      costTier: build.costTier ?? null,
+      difficulty: build.difficulty ?? null,
+      prepMinutes: build.prepMinutes ?? null,
+      cookMinutes: build.cookMinutes ?? null,
+      tagsAdd: build.tagsAdd ?? [],
+      tagsRemove: build.tagsRemove ?? [],
+    }
+    await tx
+      .insert(recipeBuilds)
+      .values({ recipeId, key: build.key, ...fields })
+      .onConflictDoUpdate({
+        target: [recipeBuilds.recipeId, recipeBuilds.key],
+        set: fields,
+      })
+  }
+}
+
 // The recipe in import shape. Children come back in the order they were imported in, and
 // tags sorted by name, so a re-import of unchanged JSON diffs clean.
 const readSnapshot = async (
@@ -88,6 +168,11 @@ const readSnapshot = async (
     .from(recipeTags)
     .innerJoin(tags, eq(tags.id, recipeTags.tagId))
     .where(eq(recipeTags.recipeId, recipeId))
+  const buildRows = await reader
+    .select()
+    .from(recipeBuilds)
+    .where(eq(recipeBuilds.recipeId, recipeId))
+    .orderBy(asc(recipeBuilds.position))
   const nutritionRows = await reader
     .select()
     .from(recipeNutrition)
@@ -120,10 +205,30 @@ const readSnapshot = async (
     variantOf: base?.slug,
     difficulty: recipe.difficulty,
     tags: tagRows.map(({ name }) => name).sort(),
+    builds: buildRows.map((row) =>
+      withoutNulls({
+        key: row.key,
+        label: row.label,
+        isDefault: row.isDefault,
+        listed: row.listed,
+        calories: row.calories,
+        carbsG: row.carbsG,
+        fatG: row.fatG,
+        proteinG: row.proteinG,
+        title: row.title,
+        summary: row.summary,
+        note: row.noteMd,
+        costTier: row.costTier,
+        difficulty: row.difficulty,
+        prepMinutes: row.prepMinutes,
+        cookMinutes: row.cookMinutes,
+        tagsAdd: nonEmpty(row.tagsAdd),
+        tagsRemove: nonEmpty(row.tagsRemove),
+      })
+    ),
     nutrition: nutritionRows.map((row) => ({
       kind: row.kind,
       label: row.label,
-      isDefault: row.isDefault,
       calories: row.calories,
       carbsG: row.carbsG,
       fatG: row.fatG,
@@ -137,6 +242,7 @@ const readSnapshot = async (
         unit: row.unit,
         name: row.name,
         note: row.note,
+        ...readScope(row),
       })
     ),
     steps: stepRows.map((row) =>
@@ -144,9 +250,12 @@ const readSnapshot = async (
         phase: row.phase,
         body: row.bodyMd,
         durationMinutes: row.durationMinutes,
+        ...readScope(row),
       })
     ),
-    notes: noteRows.map((row) => ({ kind: row.kind, body: row.bodyMd })),
+    notes: noteRows.map((row) =>
+      withoutNulls({ kind: row.kind, body: row.bodyMd, ...readScope(row) })
+    ),
   }) as RecipeImport
 }
 
@@ -198,7 +307,8 @@ const resolveBaseId = async (
   return base.id
 }
 
-// Replaces everything hanging off a recipe with what the import says. Runs inside the
+// Replaces everything hanging off a recipe with what the import says, except builds, which
+// are upserted by key. Runs inside the
 // create or update transaction, so the old rows only go if the new ones land.
 const replaceChildren = async (
   tx: Tx,
@@ -211,20 +321,23 @@ const replaceChildren = async (
   await tx.delete(recipeNotes).where(eq(recipeNotes.recipeId, recipeId))
   await tx.delete(recipeTags).where(eq(recipeTags.recipeId, recipeId))
 
+  await upsertBuilds(tx, recipeId, recipe.builds)
+
   // Position is the index in the import, so order survives the round trip
-  await tx.insert(recipeNutrition).values(
-    recipe.nutrition.map((row, position) => ({
-      recipeId,
-      position,
-      kind: row.kind,
-      label: row.label,
-      isDefault: row.isDefault,
-      calories: row.calories,
-      carbsG: row.carbsG,
-      fatG: row.fatG,
-      proteinG: row.proteinG,
-    }))
-  )
+  if (recipe.nutrition.length > 0) {
+    await tx.insert(recipeNutrition).values(
+      recipe.nutrition.map((row, position) => ({
+        recipeId,
+        position,
+        kind: row.kind,
+        label: row.label,
+        calories: row.calories,
+        carbsG: row.carbsG,
+        fatG: row.fatG,
+        proteinG: row.proteinG,
+      }))
+    )
+  }
   await tx.insert(ingredients).values(
     recipe.ingredients.map((row, position) => ({
       recipeId,
@@ -235,6 +348,7 @@ const replaceChildren = async (
       unit: row.unit ?? null,
       name: row.name ?? null,
       note: row.note ?? null,
+      ...writeScope(row),
     }))
   )
   await tx.insert(steps).values(
@@ -244,6 +358,7 @@ const replaceChildren = async (
       phase: row.phase,
       bodyMd: row.body,
       durationMinutes: row.durationMinutes ?? null,
+      ...writeScope(row),
     }))
   )
   if (recipe.notes.length > 0) {
@@ -253,6 +368,7 @@ const replaceChildren = async (
         position,
         kind: row.kind,
         bodyMd: row.body,
+        ...writeScope(row),
       }))
     )
   }
@@ -368,7 +484,11 @@ export class RecipeRepository {
     const rows = await this.database.query.recipes.findMany({
       where: and(eq(recipes.status, 'published'), isNull(recipes.variantOf)),
       orderBy: asc(recipes.title),
-      with: { nutrition: true, recipeTags: { with: { tag: true } } },
+      with: {
+        builds: true,
+        nutrition: true,
+        recipeTags: { with: { tag: true } },
+      },
     })
 
     return rows.flatMap((row) => {
@@ -395,6 +515,7 @@ export class RecipeRepository {
     const row = await this.database.query.recipes.findFirst({
       where,
       with: {
+        builds: true,
         nutrition: true,
         ingredients: true,
         steps: true,

@@ -31,13 +31,14 @@ const toEntries = (value: unknown): BasketEntry[] => {
   const seen = new Set<string>()
   return value.flatMap((entry: unknown): BasketEntry[] => {
     if (!isRecord(entry)) return []
-    const { slug, batches } = entry
+    const { slug, build, batches } = entry
     if (typeof slug !== 'string' || !BASKET_SLUGS.has(slug) || seen.has(slug))
       return []
     seen.add(slug)
     return [
       {
         slug,
+        ...(typeof build === 'string' && build ? { build } : {}),
         batches: typeof batches === 'number' ? clampBatches(batches) : 1,
       },
     ]
@@ -70,5 +71,5 @@ export const setBatches = (
   batches: number
 ): BasketEntry[] =>
   entries.map((entry) =>
-    entry.slug === slug ? { slug, batches: clampBatches(batches) } : entry
+    entry.slug === slug ? { ...entry, batches: clampBatches(batches) } : entry
   )

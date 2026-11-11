@@ -31,5 +31,8 @@ export type BasketRecipe = {
 // A recipe in the basket and how many batches of it
 export type BasketEntry = {
   slug: string
+  // The recipe build's key. Missing means the default build. Price lines are the recipe's
+  // until a build has lines of its own.
+  build?: string
   batches: number
 }

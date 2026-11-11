@@ -7,33 +7,34 @@
   "cookMinutes": 45,
   "costTier": 2,
   "difficulty": 2,
-  "nutrition": [
+  "builds": [
     {
-      "kind": "makeover",
+      "key": "skinless",
       "label": "Skinless",
+      "isDefault": true,
       "calories": 670,
       "carbsG": 67,
       "fatG": 20,
-      "proteinG": 56,
-      "isDefault": true
+      "proteinG": 56
     },
     {
-      "kind": "makeover",
+      "key": "skin-on",
       "label": "Skin-on",
+      "isDefault": false,
       "calories": 740,
       "carbsG": 67,
       "fatG": 27,
-      "proteinG": 57,
-      "isDefault": false
-    },
+      "proteinG": 57
+    }
+  ],
+  "nutrition": [
     {
       "kind": "traditional",
       "label": "Traditional",
       "calories": 865,
       "carbsG": 74,
       "fatG": 42,
-      "proteinG": 49,
-      "isDefault": false
+      "proteinG": 49
     }
   ],
   "ingredients": [

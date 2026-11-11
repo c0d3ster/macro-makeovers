@@ -11,16 +11,17 @@ export const sampleRecipe: RecipeImportInput = {
   costTier: 2,
   difficulty: 2,
   tags: ['Chili', 'high protein', 'chili'],
-  nutrition: [
+  builds: [
     {
-      kind: 'makeover',
+      key: 'base',
       label: 'Base only',
       calories: 370,
       carbsG: 42,
       fatG: 8,
       proteinG: 32,
-      isDefault: false,
     },
+  ],
+  nutrition: [
     {
       kind: 'traditional',
       label: 'Traditional',
@@ -28,7 +29,6 @@ export const sampleRecipe: RecipeImportInput = {
       carbsG: 30,
       fatG: 28,
       proteinG: 27,
-      isDefault: false,
     },
   ],
   ingredients: [

@@ -120,9 +120,8 @@ describe('parseRecipesMarkdown (docs/recipes.md)', () => {
 
   it('features the build the quick reference lists', () => {
     const labels = (slug: string): string[] =>
-      bySlug(slug)
-        .nutrition
-.filter(({ isDefault }) => isDefault)
+      (bySlug(slug).nutrition ?? [])
+        .filter(({ isDefault }) => isDefault)
         .map(({ label }) => label)
 
     expect(labels('spicy-turkey-chili')).toEqual(['Fully loaded'])
@@ -133,7 +132,7 @@ describe('parseRecipesMarkdown (docs/recipes.md)', () => {
   })
 
   it('drops the per-slider row as a duplicate unit view', () => {
-    const labels = bySlug('ham-and-prosciutto-sliders').nutrition.map(
+    const labels = (bySlug('ham-and-prosciutto-sliders').nutrition ?? []).map(
       ({ label }) => label
     )
 

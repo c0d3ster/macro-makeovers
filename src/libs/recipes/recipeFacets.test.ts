@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
+import { withSingleBuild } from '@/tests/fixtures/recipeCard'
+
 import type { RecipeCard } from './recipeCards'
 
 import {
@@ -11,7 +13,8 @@ import {
 } from './recipeFacets'
 import { parseRecipeFilters } from './recipeFilters'
 
-const card = (overrides: Partial<RecipeCard>): RecipeCard => ({
+const card = (overrides: Partial<RecipeCard>): RecipeCard =>
+  withSingleBuild({
   slug: 'a',
   title: 'A',
   summary: 'A summary',
@@ -25,7 +28,7 @@ const card = (overrides: Partial<RecipeCard>): RecipeCard => ({
   carbsG: 100,
   fatG: 22,
   ...overrides,
-})
+  })
 
 const recipes = [
   card({

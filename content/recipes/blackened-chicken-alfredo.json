@@ -7,24 +7,25 @@
   "cookMinutes": 25,
   "costTier": 1,
   "difficulty": 4,
-  "nutrition": [
+  "builds": [
     {
-      "kind": "makeover",
+      "key": "makeover",
       "label": "Per serving",
+      "isDefault": true,
       "calories": 625,
       "carbsG": 63,
       "fatG": 18,
-      "proteinG": 52,
-      "isDefault": true
-    },
+      "proteinG": 52
+    }
+  ],
+  "nutrition": [
     {
       "kind": "traditional",
       "label": "Traditional per serving",
       "calories": 805,
       "carbsG": 48,
       "fatG": 55,
-      "proteinG": 30,
-      "isDefault": false
+      "proteinG": 30
     }
   ],
   "ingredients": [

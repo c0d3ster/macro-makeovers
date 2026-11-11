@@ -20,14 +20,14 @@ import {
   RECIPE_HERO_PHOTO,
   RECIPE_HERO_TITLE,
 } from '@/components/organisms/recipe/recipeLayout'
-import { featuredBuild } from '@/libs/recipes/recipeDetail'
 import { formatMinutes } from '@/utils/formatMinutes'
 
 import {
+  featuredIndex,
   numberField,
   optionalText,
+  toBuildMacros,
   toNumber,
-  toNutritionBuild,
   useRecipeForm,
 } from './recipeFormFields'
 import { RecipePhotoEditor } from './RecipePhotoEditor'
@@ -77,11 +77,12 @@ export const RecipeHeroEditor = ({
   const tags = useController({ control, name: 'tags' })
   const prepMinutes = useWatch({ control, name: 'prepMinutes' })
   const cookMinutes = useWatch({ control, name: 'cookMinutes' })
-  const rows = useWatch({ control, name: 'nutrition' })
+  const builds = useWatch({ control, name: 'builds' }) ?? []
+  const comparisons = useWatch({ control, name: 'nutrition' }) ?? []
 
-  const builds = rows.map(toNutritionBuild)
-  const featured = featuredBuild(builds)
-  const original = builds.find(({ kind }) => kind === 'traditional')
+  const featuredRow = builds[featuredIndex(builds)]
+  const featured = featuredRow && toBuildMacros(featuredRow)
+  const original = comparisons[0] && toBuildMacros(comparisons[0])
 
   return (
     <header className={RECIPE_HERO_GRID}>

@@ -6,6 +6,7 @@ import { useWatch } from 'react-hook-form'
 
 import { MarkdownField, RemoveRowButton } from '@/components/molecules'
 
+import { BuildScopePicker } from './BuildScopePicker'
 import { useRecipeForm } from './recipeFormFields'
 
 type RecipeNoteFieldProps = {
@@ -54,6 +55,9 @@ export const RecipeNoteField = ({
             onClick={onRemove}
           />
         </div>
+      </div>
+      <div className='mt-1'>
+        <BuildScopePicker section='notes' index={index} />
       </div>
     </div>
   )

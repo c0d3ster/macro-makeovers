@@ -1,6 +1,13 @@
 import type { RecipeIngredient } from './ingredients'
+import type {
+  BuildScope,
+  MacroValues,
+  RecipeBuild,
+  ResolvedBuild,
+} from './recipeBuilds'
 
-export type NutritionKind = 'makeover' | 'traditional'
+import { defaultBuild, findBuild, resolveBuild, scopeToBuild } from './recipeBuilds'
+
 export type StepPhase = 'prep' | 'cook'
 export type NoteKind =
   | 'make_or_break'
@@ -10,24 +17,24 @@ export type NoteKind =
   | 'nutrition_intro'
   | 'nutrition_analysis'
 
-export type NutritionBuild = {
-  kind: NutritionKind
+// A traditional version, shown under the builds for comparison
+export type ComparisonRow = MacroValues & {
   label: string
-  isDefault: boolean
-  calories: number
-  proteinG: number
-  carbsG: number
-  fatG: number
 }
 
-export type RecipeStep = {
+export type RecipeStep = BuildScope & {
   phase: StepPhase
   body: string
   durationMinutes?: number
 }
 
-export type RecipeNote = {
+export type RecipeNote = BuildScope & {
   kind: NoteKind
+  body: string
+}
+
+// A paragraph around the nutrition table, which some builds may not show
+export type ScopedText = BuildScope & {
   body: string
 }
 
@@ -50,22 +57,54 @@ export type RecipeDetail = {
   costTier: number
   difficulty: number
   tags: string[]
-  // Every build in the book's order, makeover and traditional alike
-  nutrition: NutritionBuild[]
-  // The makeover the page leads with
-  featured: NutritionBuild
+  // Every build in table order
+  builds: RecipeBuild[]
+  // The build the page leads with
+  featured: RecipeBuild
+  // Traditional versions for comparison
+  comparisons: ComparisonRow[]
   ingredients: RecipeIngredient[]
   steps: RecipeStep[]
   // Paragraphs shown around the nutrition table: a line above it, analysis blocks below it
-  nutritionIntro: string[]
-  nutritionAnalysis: string[]
+  nutritionIntro: ScopedText[]
+  nutritionAnalysis: ScopedText[]
   notes: RecipeNote[]
   // Set when this recipe is a variant of another
   baseRecipe?: RelatedRecipe
   variants: RelatedRecipe[]
 }
 
+// The page as one build reads it: the recipe's fields with the build's overrides applied, and
+// only the lines, steps, and notes that build sees
+export type RecipeView = ResolvedBuild & {
+  ingredients: RecipeIngredient[]
+  steps: RecipeStep[]
+  notes: RecipeNote[]
+  nutritionIntro: string[]
+  nutritionAnalysis: string[]
+}
+
 type Positioned = { position: number }
+type ScopeColumns = { onlyBuilds: string[]; skipBuilds: string[] }
+
+// A recipe build as the database returns it
+export type RecipeBuildRow = Positioned &
+  MacroValues & {
+    key: string
+    label: string
+    isDefault: boolean
+    listed: boolean
+    title: string | null
+    summary: string | null
+    noteMd: string | null
+    costTier: number | null
+    difficulty: number | null
+    prepMinutes: number | null
+    cookMinutes: number | null
+    tagsAdd: string[]
+    tagsRemove: string[]
+    imageUrl: string | null
+  }
 
 // A published recipe as the database returns it, with every child attached
 export type RecipeDetailRow = {
@@ -79,28 +118,28 @@ export type RecipeDetailRow = {
   costTier: number
   difficulty: number
   imageUrl: string | null
-  nutrition: (Positioned & {
-    kind: NutritionKind
-    label: string
-    isDefault: boolean
-    calories: number
-    carbsG: number
-    fatG: number
-    proteinG: number
-  })[]
-  ingredients: (Positioned & {
-    groupName: string | null
-    rawText: string
-  })[]
-  steps: (Positioned & {
-    phase: StepPhase
-    bodyMd: string
-    durationMinutes: number | null
-  })[]
-  notes: (Positioned & {
-    kind: NoteKind
-    bodyMd: string
-  })[]
+  builds: RecipeBuildRow[]
+  nutrition: (Positioned &
+    MacroValues & {
+      kind: 'makeover' | 'traditional'
+      label: string
+    })[]
+  ingredients: (Positioned &
+    ScopeColumns & {
+      groupName: string | null
+      rawText: string
+    })[]
+  steps: (Positioned &
+    ScopeColumns & {
+      phase: StepPhase
+      bodyMd: string
+      durationMinutes: number | null
+    })[]
+  notes: (Positioned &
+    ScopeColumns & {
+      kind: NoteKind
+      bodyMd: string
+    })[]
   recipeTags: { tag: { name: string } }[]
 }
 
@@ -127,38 +166,49 @@ const META_DESCRIPTION_LIMIT = 160
 const byPosition = (a: Positioned, b: Positioned): number =>
   a.position - b.position
 
-// The default makeover, else the first makeover, else nothing. Same rule the grid card uses,
-// so a recipe leads with the same numbers on both pages.
-export const featuredBuild = (
-  builds: NutritionBuild[]
-): NutritionBuild | undefined => {
-  const makeovers = builds.filter(({ kind }) => kind === 'makeover')
-  return makeovers.find(({ isDefault }) => isDefault) ?? makeovers[0]
-}
+// Empty scope columns are left off, so an unscoped row looks the same as before builds
+const toScope = ({ onlyBuilds, skipBuilds }: ScopeColumns): BuildScope => ({
+  ...(onlyBuilds.length > 0 ? { onlyBuilds } : {}),
+  ...(skipBuilds.length > 0 ? { skipBuilds } : {}),
+})
+
+export const toRecipeBuild = (row: RecipeBuildRow): RecipeBuild => ({
+  key: row.key,
+  label: row.label,
+  isDefault: row.isDefault,
+  listed: row.listed,
+  calories: row.calories,
+  carbsG: row.carbsG,
+  fatG: row.fatG,
+  proteinG: row.proteinG,
+  title: row.title ?? undefined,
+  summary: row.summary ?? undefined,
+  note: row.noteMd ?? undefined,
+  costTier: row.costTier ?? undefined,
+  difficulty: row.difficulty ?? undefined,
+  prepMinutes: row.prepMinutes ?? undefined,
+  cookMinutes: row.cookMinutes ?? undefined,
+  tagsAdd: row.tagsAdd,
+  tagsRemove: row.tagsRemove,
+  imageUrl: row.imageUrl ?? undefined,
+})
+
+export const toRecipeBuilds = (rows: RecipeBuildRow[]): RecipeBuild[] =>
+  [...rows].sort(byPosition).map(toRecipeBuild)
 
 export const toRecipeDetail = (
   row: RecipeDetailRow,
   { baseRecipe, variants }: RelatedRecipes
 ): RecipeDetail | undefined => {
-  const nutrition = [...row.nutrition]
-    .sort(byPosition)
-    .map(({ kind, label, isDefault, calories, proteinG, carbsG, fatG }) => ({
-      kind,
-      label,
-      isDefault,
-      calories,
-      proteinG,
-      carbsG,
-      fatG,
-    }))
-  const featured = featuredBuild(nutrition)
+  const builds = toRecipeBuilds(row.builds)
+  const featured = defaultBuild(builds)
   if (!featured) return undefined
 
-  const nutritionNotes = (kind: NoteKind): string[] =>
+  const nutritionNotes = (kind: NoteKind): ScopedText[] =>
     row.notes
       .filter((note) => note.kind === kind)
       .sort(byPosition)
-      .map(({ bodyMd }) => bodyMd)
+      .map((note) => ({ body: note.bodyMd, ...toScope(note) }))
 
   return {
     id: row.id,
@@ -173,21 +223,31 @@ export const toRecipeDetail = (
     costTier: row.costTier,
     difficulty: row.difficulty,
     tags: row.recipeTags.map(({ tag }) => tag.name).sort(),
-    nutrition,
+    builds,
     featured,
-    ingredients: [...row.ingredients]
+    comparisons: [...row.nutrition]
+      .filter(({ kind }) => kind === 'traditional')
       .sort(byPosition)
-      .map(({ groupName, rawText }) => ({
-        group: groupName ?? undefined,
-        raw: rawText,
+      .map(({ label, calories, carbsG, fatG, proteinG }) => ({
+        label,
+        calories,
+        carbsG,
+        fatG,
+        proteinG,
       })),
-    steps: [...row.steps]
-      .sort(byPosition)
-      .map(({ phase, bodyMd, durationMinutes }) => ({
-        phase,
-        body: bodyMd,
-        durationMinutes: durationMinutes ?? undefined,
-      })),
+    ingredients: [...row.ingredients].sort(byPosition).map((ingredient) => ({
+      ...(ingredient.groupName ? { group: ingredient.groupName } : {}),
+      raw: ingredient.rawText,
+      ...toScope(ingredient),
+    })),
+    steps: [...row.steps].sort(byPosition).map((step) => ({
+      phase: step.phase,
+      body: step.bodyMd,
+      ...(step.durationMinutes !== null
+        ? { durationMinutes: step.durationMinutes }
+        : {}),
+      ...toScope(step),
+    })),
     nutritionIntro: nutritionNotes('nutrition_intro'),
     nutritionAnalysis: nutritionNotes('nutrition_analysis'),
     notes: [...row.notes]
@@ -197,9 +257,28 @@ export const toRecipeDetail = (
           NOTE_ORDER.indexOf(a.kind) - NOTE_ORDER.indexOf(b.kind) ||
           byPosition(a, b)
       )
-      .map(({ kind, bodyMd }) => ({ kind, body: bodyMd })),
+      .map((note) => ({ kind: note.kind, body: note.bodyMd, ...toScope(note) })),
     baseRecipe,
     variants,
+  }
+}
+
+// The recipe as one build reads it. An unknown or missing key reads as the default build.
+export const toRecipeView = (
+  recipe: RecipeDetail,
+  key?: string | null
+): RecipeView => {
+  const build = findBuild(recipe.builds, key) ?? recipe.featured
+  const bodies = (rows: ScopedText[]): string[] =>
+    scopeToBuild(rows, build.key).map(({ body }) => body)
+
+  return {
+    ...resolveBuild(recipe, build),
+    ingredients: scopeToBuild(recipe.ingredients, build.key),
+    steps: scopeToBuild(recipe.steps, build.key),
+    notes: scopeToBuild(recipe.notes, build.key),
+    nutritionIntro: bodies(recipe.nutritionIntro),
+    nutritionAnalysis: bodies(recipe.nutritionAnalysis),
   }
 }
 

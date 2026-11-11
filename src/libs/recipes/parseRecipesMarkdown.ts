@@ -1,6 +1,6 @@
 import type { RecipeImportInput } from '@/validations'
 
-type Nutrition = RecipeImportInput['nutrition'][number]
+type Nutrition = NonNullable<RecipeImportInput['nutrition']>[number]
 type Ingredient = RecipeImportInput['ingredients'][number]
 type Step = RecipeImportInput['steps'][number]
 type Note = RecipeImportInput['notes'][number]

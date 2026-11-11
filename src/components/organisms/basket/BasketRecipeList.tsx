@@ -7,6 +7,7 @@ import Link from 'next/link'
 import type { BasketEntry } from '@/libs/basket'
 
 import { findBasketRecipe, MAX_BATCHES } from '@/libs/basket'
+import { buildHref } from '@/libs/recipes/recipeBuilds'
 import { useBasket } from '@/providers'
 
 import type { BasketRecipeLookup } from './basketRecipes'
@@ -32,8 +33,8 @@ export const BasketRecipeList = ({
 
   return (
     <ul className='divide-y divide-text-muted/15 rounded-xl bg-surface'>
-      {entries.map(({ slug, batches }) => {
-        const { title } = recipeInfo(recipes, slug)
+      {entries.map(({ slug, build, batches }) => {
+        const { title } = recipeInfo(recipes, slug, build)
         const servings = (findBasketRecipe(slug)?.servings ?? 0) * batches
         const selectId = `batches-${slug}`
 
@@ -44,7 +45,7 @@ export const BasketRecipeList = ({
           >
             <div className='min-w-0'>
               <Link
-                href={`/recipes/${slug}`}
+                href={buildHref(slug, build ? { key: build, isDefault: false } : undefined)}
                 className='font-medium text-text hover:text-primary'
               >
                 {title}
