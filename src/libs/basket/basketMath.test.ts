@@ -91,6 +91,33 @@ describe('computeBasket', () => {
     expect(purchase('cottage')).toBe('1 × 16 oz tub')
   })
 
+  it('prices each recipe from the smallest pack that covers it', () => {
+    const tacos = computeBasket([one('turkey-taco-grillers')], NO_PANTRY)
+    const cheddar = tacos.lines.find(({ key }) => key === 'cheddar')
+
+    // 4 oz of the 8 oz block at $3.98
+    expect(cheddar?.proratedCost).toBeCloseTo(1.99, 2)
+    expect(cheddar && describePurchase(cheddar)).toBe('1 × 8 oz block')
+  })
+
+  it('buys the cheapest mix of sizes for pooled recipes', () => {
+    // 12.5 oz of cheddar across four recipes: one 16 oz block beats two 8 oz blocks
+    const { lines } = computeBasket(
+      [
+        one('spicy-turkey-chili'),
+        one('turkey-taco-grillers'),
+        one('ham-and-prosciutto-sliders'),
+        one('cheesy-hash-brown-bacon-bake'),
+      ],
+      NO_PANTRY
+    )
+    const cheddar = lines.find(({ key }) => key === 'cheddar')
+
+    expect(cheddar?.quantity).toBeCloseTo(12.5)
+    expect(cheddar?.cost).toBeCloseTo(7.29, 2)
+    expect(cheddar && describePurchase(cheddar)).toBe('1 × 16 oz block')
+  })
+
   it('scales by batches and counts servings', () => {
     const single = computeBasket([one('spicy-turkey-chili')], NO_PANTRY)
     const double = computeBasket(

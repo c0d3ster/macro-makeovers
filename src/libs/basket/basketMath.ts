@@ -2,6 +2,7 @@ import type {
   BasketEntry,
   BasketItem,
   BasketRecipe,
+  PackSize,
   StoreSection,
 } from './basketTypes'
 
@@ -25,6 +26,8 @@ export type BasketLine = {
   quantity: number
   // Packs to buy. Fractional for items priced by weight.
   packs: number
+  // The packs by size, largest first, for items that come in more than one
+  purchases: { size: PackSize; count: number }[]
   // What the packs cost at the register
   cost: number
   // The share of that cost the recipes use
@@ -57,12 +60,73 @@ export const findBasketRecipe = (slug: string): BasketRecipe | undefined =>
 
 const isPricedByWeight = ({ pack }: BasketItem): boolean => pack === 'per lb'
 
-// Whole packs, rounded up, except items priced by weight. The rounding step drops float noise
-// so 2.0000001 packs stays 2.
-const packsFor = (item: BasketItem, quantity: number): number => {
-  const exact = quantity / item.packQuantity
-  if (isPricedByWeight(item)) return exact
-  return Math.ceil(Math.round(exact * 1e6) / 1e6)
+// The rounding step drops float noise so 2.0000001 packs stays 2
+const packsOf = (quantity: number, size: PackSize): number =>
+  Math.ceil(Math.round((quantity / size.packQuantity) * 1e6) / 1e6)
+
+// Every size an item is sold in, smallest first
+const sizesOf = (item: BasketItem): PackSize[] =>
+  [
+    { pack: item.pack, packQuantity: item.packQuantity, price: item.price },
+    ...(item.sizes ?? []),
+  ].sort((a, b) => a.packQuantity - b.packQuantity)
+
+const unitPrice = ({ price, packQuantity }: PackSize): number =>
+  price / packQuantity
+
+// What one recipe's use costs: its share of the smallest size that covers it, so a recipe
+// using 4 oz of cheese is priced from the 8 oz block, not the 16 oz one. A use bigger than every
+// size is priced at the best unit price, since it takes several packs anyway.
+const proratedFor = (item: BasketItem, quantity: number): number => {
+  const sizes = sizesOf(item)
+  const fits = sizes.find(({ packQuantity }) => packQuantity >= quantity - 1e-9)
+  const size =
+    fits ??
+    [...sizes].sort((a, b) => unitPrice(a) - unitPrice(b))[0] ??
+    sizes[0]
+  return size ? (quantity / size.packQuantity) * size.price : 0
+}
+
+type Purchase = { cost: number; purchases: { size: PackSize; count: number }[] }
+
+// The cheapest mix of sizes that covers the quantity, fewer packs on a tie. Items come in one to
+// three sizes, so trying every count of each larger size is quick.
+const cheapestPurchase = (sizes: PackSize[], quantity: number): Purchase => {
+  const [smallest, ...larger] = sizes
+  if (!smallest) return { cost: 0, purchases: [] }
+  if (larger.length === 0) {
+    const count = packsOf(quantity, smallest)
+    return {
+      cost: count * smallest.price,
+      purchases: count > 0 ? [{ size: smallest, count }] : [],
+    }
+  }
+  const largest = larger.at(-1)
+  const rest = [smallest, ...larger.slice(0, -1)]
+  if (!largest) return cheapestPurchase(rest, quantity)
+
+  const options = Array.from(
+    { length: packsOf(quantity, largest) + 1 },
+    (_, count): Purchase => {
+      const remainder = Math.max(0, quantity - count * largest.packQuantity)
+      const others = cheapestPurchase(rest, remainder)
+      return {
+        cost: count * largest.price + others.cost,
+        purchases: [
+          ...(count > 0 ? [{ size: largest, count }] : []),
+          ...others.purchases,
+        ],
+      }
+    }
+  )
+  const packCount = ({ purchases }: Purchase): number =>
+    purchases.reduce((total, { count }) => total + count, 0)
+  return options.reduce((best, option) =>
+    option.cost < best.cost - 1e-9 ||
+    (Math.abs(option.cost - best.cost) < 1e-9 && packCount(option) < packCount(best))
+      ? option
+      : best
+  )
 }
 
 const sum = (values: number[]): number =>
@@ -95,18 +159,36 @@ export const computeBasket = (
     const item = BASKET_ITEMS[key]
     if (!item) return []
     const quantity = sum(usedBy.map((use) => use.quantity))
-    const packs = packsFor(item, quantity)
+    if (isPricedByWeight(item)) {
+      const weight = quantity / item.packQuantity
+      return [
+        {
+          key,
+          item,
+          quantity,
+          packs: weight,
+          purchases: [],
+          cost: weight * item.price,
+          proratedCost: weight * item.price,
+          leftoverQuantity: 0,
+          usedBy,
+        },
+      ]
+    }
+    const { cost, purchases } = cheapestPurchase(sizesOf(item), quantity)
+    const bought = sum(
+      purchases.map(({ size, count }) => size.packQuantity * count)
+    )
     return [
       {
         key,
         item,
         quantity,
-        packs,
-        cost: packs * item.price,
-        proratedCost: (quantity / item.packQuantity) * item.price,
-        leftoverQuantity: isPricedByWeight(item)
-          ? 0
-          : packs * item.packQuantity - quantity,
+        packs: sum(purchases.map(({ count }) => count)),
+        purchases,
+        cost,
+        proratedCost: sum(usedBy.map((use) => proratedFor(item, use.quantity))),
+        leftoverQuantity: bought - quantity,
         usedBy,
       },
     ]
@@ -114,17 +196,19 @@ export const computeBasket = (
 
   const tripCost = sum(lines.map(({ cost }) => cost))
   const proratedCost = sum(lines.map((line) => line.proratedCost))
+  // Pooled recipes can buy a bigger pack for less than their shares of smaller ones, so a line
+  // can cost less than it is prorated at. That is a saving, not a negative leftover.
+  const leftoverOf = ({ cost, proratedCost: used }: BasketLine): number =>
+    Math.max(0, cost - used)
 
   return {
     lines,
     servings,
     tripCost,
     proratedCost,
-    leftoverCost: tripCost - proratedCost,
+    leftoverCost: sum(lines.map(leftoverOf)),
     perishableLeftoverCost: sum(
-      lines
-        .filter(({ item }) => item.perishable)
-        .map(({ cost, proratedCost: used }) => cost - used)
+      lines.filter(({ item }) => item.perishable).map(leftoverOf)
     ),
   }
 }
@@ -261,15 +345,19 @@ export const groupBySection = (lines: BasketLine[]): BasketSection[] =>
 const roundQuantity = (value: number): string =>
   String(Math.round(value * 100) / 100)
 
-// What to grab, like "2 × 16 oz tub", "1.5 lb", or just "3" for items sold one at a time
+// What to grab, like "2 × 16 oz tub", "1 × 16 oz block + 1 × 8 oz block", "1.5 lb", or just
+// "3" for items sold one at a time
 export const describePurchase = ({
   item,
   packs,
+  purchases,
   quantity,
 }: BasketLine): string => {
   if (isPricedByWeight(item)) return `${roundQuantity(quantity)} lb`
   if (item.pack.startsWith('each')) return String(packs)
-  return `${packs} × ${item.pack}`
+  return purchases
+    .map(({ size, count }) => `${count} × ${size.pack}`)
+    .join(' + ')
 }
 
 export const formatMoney = (value: number): string => `$${value.toFixed(2)}`

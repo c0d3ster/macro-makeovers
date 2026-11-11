@@ -87,11 +87,12 @@ export const BASKET_ITEMS: Record<string, BasketItem> = {
     perishable: false,
   },
   bacon: {
-    name: 'Thick cut bacon (Our Brand)',
-    pack: '16 oz pack (~14 slices)',
-    packQuantity: 14,
+    name: 'Thick cut bacon',
+    pack: '12 oz pack (~11 slices)',
+    packQuantity: 11,
     unit: 'slice',
-    price: 4.49,
+    price: 4.44,
+    sizes: [{ pack: '16 oz pack (~14 slices)', packQuantity: 14, price: 4.49 }],
     section: 'meat',
     pantry: false,
     perishable: false,
@@ -178,10 +179,11 @@ export const BASKET_ITEMS: Record<string, BasketItem> = {
   },
   cheddar: {
     name: 'Tillamook Extra Sharp White Cheddar',
-    pack: '16 oz block',
-    packQuantity: 16,
+    pack: '8 oz block',
+    packQuantity: 8,
     unit: 'oz',
-    price: 7.29,
+    price: 3.98,
+    sizes: [{ pack: '16 oz block', packQuantity: 16, price: 7.29 }],
     section: 'dairy',
     pantry: false,
     perishable: false,
@@ -267,11 +269,12 @@ export const BASKET_ITEMS: Record<string, BasketItem> = {
     perishable: false,
   },
   flour: {
-    name: 'All-purpose flour (Our Brand)',
-    pack: '5 lb bag',
-    packQuantity: 80,
+    name: 'All-purpose flour',
+    pack: '2 lb bag',
+    packQuantity: 32,
     unit: 'oz',
-    price: 2.5,
+    price: 1.47,
+    sizes: [{ pack: '5 lb bag', packQuantity: 80, price: 2.5 }],
     section: 'pantry',
     pantry: true,
     perishable: false,
@@ -1000,7 +1003,7 @@ export const BASKET_RECIPES: BasketRecipe[] = [
   {
     slug: 'spicy-turkey-chili',
     servings: 5,
-    perServingCost: 2.81,
+    perServingCost: 2.83,
     lines: {
       turkey: 1,
       onion: 1,
@@ -1032,7 +1035,7 @@ export const BASKET_RECIPES: BasketRecipe[] = [
   {
     slug: 'turkey-taco-grillers',
     servings: 4,
-    perServingCost: 3.59,
+    perServingCost: 3.63,
     lines: {
       turkey: 1,
       garlic: 2,
@@ -1062,7 +1065,7 @@ export const BASKET_RECIPES: BasketRecipe[] = [
   {
     slug: 'ham-and-prosciutto-sliders',
     servings: 4,
-    perServingCost: 5.03,
+    perServingCost: 5.07,
     lines: {
       rolls: 12,
       ham: 18,
@@ -1095,7 +1098,7 @@ export const BASKET_RECIPES: BasketRecipe[] = [
   {
     slug: 'cheesy-chicken-and-broccoli-rice-bake',
     servings: 5,
-    perServingCost: 2.92,
+    perServingCost: 2.97,
     lines: {
       chicken_breast: 1.5,
       broccoli: 0.6,
@@ -1139,7 +1142,7 @@ export const BASKET_RECIPES: BasketRecipe[] = [
   {
     slug: 'kickin-fried-chicken',
     servings: 5,
-    perServingCost: 3.26,
+    perServingCost: 3.27,
     lines: {
       chicken_breast: 1.5,
       flour: 2.25,
@@ -1188,7 +1191,7 @@ export const BASKET_RECIPES: BasketRecipe[] = [
   {
     slug: 'cheesy-hash-brown-bacon-bake',
     servings: 4,
-    perServingCost: 4.69,
+    perServingCost: 4.75,
     lines: {
       hashbrowns: 1,
       avo_oil: 0.5,

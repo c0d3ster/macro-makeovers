@@ -13,11 +13,12 @@ the pricing:
 
 ## Shape of `basket-data.json`
 
-| Key       | Contents                                                                                                                                                           |
-| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `stores`  | Store codes used by `items[].store`                                                                                                                                |
-| `items`   | One per priced product: `pack` label, `packQuantity` in `unit`, `price` for one pack, `store` it was lowest at, `pantry` (staple most kitchens hold), `perishable` |
-| `recipes` | `id` and `slug` (matches `content/recipes`), `servings`, `perServingCost`, and `lines`: item `key` to quantity in that item's `unit`                               |
+| Key             | Contents                                                                                                                                                           |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `stores`        | Store codes used by `items[].store`                                                                                                                                |
+| `items`         | One per priced product: `pack` label, `packQuantity` in `unit`, `price` for one pack, `store` it was lowest at, `pantry` (staple most kitchens hold), `perishable` |
+| `items[].sizes` | Optional larger sizes of the same product, each with `pack`, `packQuantity`, `price`, and `store`. The item's own pack is the smallest.                            |
+| `recipes`       | `id` and `slug` (matches `content/recipes`), `servings`, `perServingCost`, and `lines`: item `key` to quantity in that item's `unit`                               |
 
 Alternate builds are their own entry with `variantOf` set to the base recipe's
 slug, matching the `variant_of` link in the database. `9a` is bulgogi with flank
@@ -32,6 +33,10 @@ Worth keeping when the real shopping list is built:
 - Quantities from every selected recipe are summed per item, then **rounded up
   to whole packs once**. That is why buying recipes together costs less than
   buying each alone.
+- Each recipe's share is priced from the **smallest size that covers what it
+  uses**, so 4 oz of cheddar is costed from the 8 oz block. A trip buys the
+  **cheapest mix of sizes** for the pooled amount, so four recipes needing
+  12.5 oz of cheddar buy one 16 oz block instead of two 8 oz ones.
 - Items sold `per lb` are priced by exact weight, not by pack.
 - Prices are the lowest found across stores, so a single-store basket costs
   more than the total. Treat costs as relative.

@@ -102,14 +102,22 @@
     },
     {
       "key": "bacon",
-      "name": "Thick cut bacon (Our Brand)",
-      "pack": "16 oz pack (~14 slices)",
-      "packQuantity": 14,
+      "name": "Thick cut bacon",
+      "pack": "12 oz pack (~11 slices)",
+      "packQuantity": 11,
       "unit": "slice",
-      "price": 4.49,
-      "store": "M",
+      "price": 4.44,
+      "store": "W",
       "pantry": false,
-      "perishable": false
+      "perishable": false,
+      "sizes": [
+        {
+          "pack": "16 oz pack (~14 slices)",
+          "packQuantity": 14,
+          "price": 4.49,
+          "store": "M"
+        }
+      ]
     },
     {
       "key": "pouch",
@@ -202,13 +210,21 @@
     {
       "key": "cheddar",
       "name": "Tillamook Extra Sharp White Cheddar",
-      "pack": "16 oz block",
-      "packQuantity": 16,
+      "pack": "8 oz block",
+      "packQuantity": 8,
       "unit": "oz",
-      "price": 7.29,
-      "store": "H",
+      "price": 3.98,
+      "store": "W",
       "pantry": false,
-      "perishable": false
+      "perishable": false,
+      "sizes": [
+        {
+          "pack": "16 oz block",
+          "packQuantity": 16,
+          "price": 7.29,
+          "store": "H"
+        }
+      ]
     },
     {
       "key": "parm",
@@ -300,14 +316,22 @@
     },
     {
       "key": "flour",
-      "name": "All-purpose flour (Our Brand)",
-      "pack": "5 lb bag",
-      "packQuantity": 80,
+      "name": "All-purpose flour",
+      "pack": "2 lb bag",
+      "packQuantity": 32,
       "unit": "oz",
-      "price": 2.5,
-      "store": "M",
+      "price": 1.47,
+      "store": "W",
       "pantry": true,
-      "perishable": false
+      "perishable": false,
+      "sizes": [
+        {
+          "pack": "5 lb bag",
+          "packQuantity": 80,
+          "price": 2.5,
+          "store": "M"
+        }
+      ]
     },
     {
       "key": "cornstarch",
@@ -1139,7 +1163,7 @@
       "slug": "spicy-turkey-chili",
       "title": "Spicy Turkey Chili (fully loaded)",
       "servings": 5,
-      "perServingCost": 2.81,
+      "perServingCost": 2.83,
       "lines": {
         "turkey": 1,
         "onion": 1,
@@ -1173,7 +1197,7 @@
       "slug": "turkey-taco-grillers",
       "title": "Turkey Taco Grillers",
       "servings": 4,
-      "perServingCost": 3.59,
+      "perServingCost": 3.63,
       "lines": {
         "turkey": 1,
         "garlic": 2,
@@ -1205,7 +1229,7 @@
       "slug": "ham-and-prosciutto-sliders",
       "title": "Ham & Prosciutto Sliders",
       "servings": 4,
-      "perServingCost": 5.03,
+      "perServingCost": 5.07,
       "lines": {
         "rolls": 12,
         "ham": 18,
@@ -1242,7 +1266,7 @@
       "slug": "cheesy-chicken-and-broccoli-rice-bake",
       "title": "Cheesy Chicken and Broccoli Rice Bake",
       "servings": 5,
-      "perServingCost": 2.92,
+      "perServingCost": 2.97,
       "lines": {
         "chicken_breast": 1.5,
         "broccoli": 0.6,
@@ -1290,7 +1314,7 @@
       "slug": "kickin-fried-chicken",
       "title": "Kickin' Fried Chicken (full plate)",
       "servings": 5,
-      "perServingCost": 3.26,
+      "perServingCost": 3.27,
       "lines": {
         "chicken_breast": 1.5,
         "flour": 2.25,
@@ -1343,7 +1367,7 @@
       "slug": "cheesy-hash-brown-bacon-bake",
       "title": "Cheesy Hash Brown Bacon Bake",
       "servings": 4,
-      "perServingCost": 4.69,
+      "perServingCost": 4.75,
       "lines": {
         "hashbrowns": 1,
         "avo_oil": 0.5,

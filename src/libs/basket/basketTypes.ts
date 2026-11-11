@@ -2,6 +2,13 @@
 export type StoreSection =
   'produce' | 'meat' | 'dairy' | 'bakery' | 'frozen' | 'pantry' | 'spices'
 
+// One size a product is sold in
+export type PackSize = {
+  pack: string
+  packQuantity: number
+  price: number
+}
+
 // One product as it is sold
 export type BasketItem = {
   name: string
@@ -17,6 +24,9 @@ export type BasketItem = {
   pantry: boolean
   // Spoils fast once opened, so a leftover is likely wasted
   perishable: boolean
+  // Larger sizes of the same product. The pack above is the smallest. A recipe is priced from
+  // the smallest size that covers what it uses, and a trip buys the cheapest mix of sizes.
+  sizes?: PackSize[]
 }
 
 // What one batch of a recipe uses, by item key, in each item's unit
