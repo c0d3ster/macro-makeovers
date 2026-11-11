@@ -16,7 +16,7 @@ A build is a lightweight alternate version of a recipe that shares its method. P
 
 |                         | Build                                                  | Variant                                     |
 | ----------------------- | ------------------------------------------------------ | ------------------------------------------- |
-| What it is              | A row of the recipe, with a few overrides              | A full recipe linked with `variantOf`       |
+| What it is              | A row in `recipe_builds`, with optional overrides       | A full recipe linked with `variantOf`       |
 | Steps and notes         | Shared, and a step can be limited to some builds       | Its own                                     |
 | Ingredients             | Shared, and a line can be limited to some builds       | Its own                                     |
 | Page                    | Same page, `?build=<key>`                              | Its own page and slug                       |
@@ -29,7 +29,7 @@ Rule of thumb: if it is the same dish cooked the same way, with some lines or st
 
 **In**
 
-- Build overrides on each makeover nutrition row: a URL key, an optional title, tag changes, optional cost tier and times, a short note, and whether the build can lead a card.
+- A `recipe_builds` table: each build has its own macros and a URL key, plus optional title, tag changes, cost tier, times, note, and photo, and whether it can lead a card.
 - Ingredient lines and steps that belong to some builds only, or that some builds skip.
 - Recipe page: makeover rows in the nutrition table are selectable. The selection drives the hero title, macro bar, cost, tags, ingredients, whole batch row, and "Add to basket".
 - `?build=<key>` on recipe URLs, so a build can be linked and shared.
@@ -46,79 +46,109 @@ Rule of thumb: if it is the same dish cooked the same way, with some lines or st
 
 ## Data
 
-Builds extend `recipe_nutrition`. The table already holds one row per build (`NutritionBuild` in code), so this adds columns instead of a new table. Traditional rows ignore every new column.
+A build has grown past a nutrition row: it has its own macros, title, times, tags, picture, and scoped lines and steps. So it gets its own table, and `recipe_nutrition` goes back to holding only the traditional comparison rows. Every override is nullable and falls back to the recipe, so a build stores only what differs.
 
-| Column            | Type            | Notes                                                                                                   |
-| ----------------- | --------------- | ------------------------------------------------------------------------------------------------------- |
-| `key`             | text            | URL key, unique per recipe. Defaults to a kebab of the label on import. `turkey`, `beef`, `rice-bowl`.  |
-| `title`           | text, nullable  | Full title while this build is selected. Null keeps the recipe title. "Beef Taco Grillers".             |
-| `note_md`         | text, nullable  | One or two lines on what changes, shown under the table when selected.                                  |
-| `tags_add`        | text[]          | Tags this build adds to the recipe's own. `{beef}`.                                                     |
-| `tags_remove`     | text[]          | Recipe tags this build drops. `{turkey}`.                                                               |
-| `cost_tier`       | int, nullable   | 1 to 5. Null keeps the recipe tier. Bulgogi flank is 3 where ribeye is 4.                               |
-| `prep_minutes`, `cook_minutes` | int, nullable | Null keeps the recipe times. Costco pollo asado drops the marinade prep and cooks in about 8 min. |
-| `listed`          | boolean         | Default true. False for components like "Filling only" or "Chicken only": selectable on the page, never chosen to lead a card. |
+### `recipe_builds`
 
-`ingredients` and `steps` each get two text[] columns, `only_builds` and `skip_builds`, holding build keys. A line or step with neither shows for every build. `only_builds` shows it for those builds alone, and `skip_builds` hides it for those builds. A line can set one or the other, not both.
+| Column                         | Type             | Notes                                                                                                          |
+| ------------------------------ | ---------------- | -------------------------------------------------------------------------------------------------------------- |
+| `id`                           | uuid             | Primary key.                                                                                                   |
+| `recipe_id`                    | uuid             | The recipe, cascade on delete.                                                                                 |
+| `key`                          | text             | URL key, unique per recipe. Defaults to a kebab of the label on import. `grillers`, `beef`, `costco`.         |
+| `label`                        | text             | The nutrition table row. "Beef grillers (90/10)".                                                              |
+| `position`                     | int              | Table order.                                                                                                   |
+| `is_default`                   | boolean          | Exactly one per recipe, held by a partial unique index.                                                        |
+| `listed`                       | boolean          | Default true. False for components like "Filling only": selectable on the page, never chosen to lead a card.  |
+| `calories`, `carbs_g`, `fat_g`, `protein_g` | numeric | Required. Every build has its own macros.                                                               |
+| `title`                        | text, nullable   | Title while selected. "Beef Taco Grillers".                                                                    |
+| `note_md`                      | text, nullable   | One or two lines on what changes, shown under the table.                                                       |
+| `cost_tier`                    | smallint, nullable | 1 to 5. Bulgogi flank is 3 where ribeye is 4.                                                                |
+| `prep_minutes`, `cook_minutes` | int, nullable    | Costco pollo asado drops the marinade prep.                                                                    |
+| `tags_add`, `tags_remove`      | text[]           | Default empty. Effective tags are the recipe's minus `tags_remove` plus `tags_add`.                            |
+| `image_url`                    | text, nullable   | The build's own photo. Null uses the recipe photo.                                                             |
+| `image_is_placeholder`         | boolean          | Same meaning as on `recipes`.                                                                                  |
 
-That covers every case without copying the recipe:
+The recipe row keeps everything shared: slug, summary, servings, difficulty, status, access, the recipe photo, and the recipe-level title, times, cost, and tags that the default build inherits. The default build normally sets no overrides at all.
+
+### Scoped lines and steps
+
+`ingredients` and `steps` each get `only_builds` and `skip_builds`, text[] of build keys, both default empty. Empty on both means every build. A row sets one or the other, never both (check constraint).
 
 - **Swap a line:** the turkey line skips `beef`, and a beef line is only for `beef`.
 - **Drop lines and a step:** the marinade lines and the marinade step skip `costco`.
-- **Add a step:** the Costco sear becomes its own step, only for `costco`, instead of a note inside the skinless step. Skinless and skin-on get their own cook steps the same way.
+- **Add a step:** the Costco sear is its own step, only for `costco`. Skinless and skin-on get their own cook steps the same way.
 
-Scoping by key, not by position, means reordering lines in the editor never breaks a build.
+Steps are never edited per build, only included or left out. That keeps every step's text in one place and keeps the book readable.
 
-A build's effective tags are the recipe tags minus `tags_remove` plus `tags_add`. The recipe's own tags describe the default build only, so Turkey Taco Grillers drops its `beef` tag and the beef build adds it.
+Keys, not build ids, because saving a recipe deletes and reinserts its ingredients and steps, and keys are what the import JSON and the URL already use. Validation checks every key names a real build.
+
+### Saving
+
+Ingredients, steps, notes, and nutrition keep the current delete and reinsert. Builds are upserted by `(recipe_id, key)` instead, so a build keeps its id and its photo across edits. A build whose key is gone from the save is deleted, and its photo goes with it. Renaming a key in the editor sends the old key with the new one, and the save rewrites the matching `only_builds` and `skip_builds` entries in the same transaction. Revisions snapshot builds with the rest of the recipe.
+
+### Pictures
+
+- The hero, the grid card, and the basket show the resolved build's photo, else the recipe photo.
+- The share image and page metadata stay on the recipe photo.
+- The admin photo editor gets a build picker. Placeholder generation for a build prompts from its title and note, and a build without a photo is fine.
+
+### Migration
+
+Each makeover `recipe_nutrition` row moves into `recipe_builds` with its macros, label, position, and default flag, and a key from its label. Then makeover rows are deleted from `recipe_nutrition`, its `is_default` column is dropped, and `kind` is left as `traditional` only.
 
 ### Import JSON
 
-Builds stay in the `nutrition` array, so a recipe with no build fields imports exactly as today.
+A top-level `builds` array, with `nutrition` keeping the traditional rows. Old JSON with makeover rows in `nutrition` still imports: the schema turns them into builds, so the seed files and the connector keep working while they are updated.
 
 ```json
-{
-  "kind": "makeover",
-  "key": "beef",
-  "label": "Beef grillers (90/10)",
-  "title": "Beef Taco Grillers",
-  "note": "90/10 ground beef in place of turkey. Adds about 30 calories and 3g fat per serving.",
-  "tagsAdd": ["beef"],
-  "tagsRemove": ["turkey"],
-  "calories": 730,
-  "carbsG": 79,
-  "fatG": 24,
-  "proteinG": 49
-}
-```
-
-```json
+"builds": [
+  {
+    "key": "grillers",
+    "label": "Grillers (2 per serving)",
+    "isDefault": true,
+    "calories": 700, "carbsG": 79, "fatG": 21, "proteinG": 49
+  },
+  {
+    "key": "beef",
+    "label": "Beef grillers (90/10)",
+    "title": "Beef Taco Grillers",
+    "note": "90/10 ground beef in place of turkey. Adds about 30 calories and 3g fat per serving.",
+    "tagsAdd": ["beef"],
+    "tagsRemove": ["turkey"],
+    "calories": 730, "carbsG": 79, "fatG": 24, "proteinG": 49
+  }
+],
 "ingredients": [
   { "raw": "1 lb lean ground turkey (93/7)", "skipBuilds": ["beef"] },
   { "raw": "1 lb 90/10 ground beef", "onlyBuilds": ["beef"] }
 ]
 ```
 
+Photos are not in the JSON, the same as the recipe photo today.
+
 Validation, added to `recipeImportSchema`:
 
-- Keys are unique within a recipe and are slug shaped.
+- At least one build, keys unique and slug shaped, exactly one default, and the default is `listed`.
 - `tagsRemove` only names tags the recipe has. `tagsAdd` does not repeat one.
-- `onlyBuilds` and `skipBuilds` name real makeover keys, and a line or step does not set both.
+- `onlyBuilds` and `skipBuilds` name real keys, and a row does not set both.
 - Every build is left with at least one ingredient and one step.
-- The default build must be `listed`. At least one listed makeover row exists.
-- Build fields on a traditional row are rejected.
+
+### Keeping builds from turning into variants
+
+The fields are all optional, so a build costs nothing until it differs. The risk is a build that scopes most of the recipe. The editor shows a soft warning when a build skips or adds more than about half the steps or ingredients: "This build differs a lot. Consider a variant." It is a nudge, not a rule.
 
 ## Requirements
 
 ### Resolving a build
 
 1. One pure function in `src/libs/recipes`, `resolveBuild(recipe, build)`, returns the effective view: title, macros, tags, cost tier, times, the ingredients and steps that apply, and note. The page, the grid card, the book, and the basket all go through it, so a build reads the same everywhere.
-2. Recipe loaders return every build with its overrides. `RecipeCard` gains a `builds` list (key, title, macros, tags, cost tier, listed) so the grid can resolve without another query.
+2. Recipe loaders return every build with its overrides. `RecipeCard` gains a `builds` list (key, title, macros, tags, cost tier, times, image, listed) so the grid can resolve without another query.
 
 ### Recipe page
 
 3. Makeover rows in the nutrition table are buttons in one group, with `aria-pressed` on the selected row. The selected row gets a brand-colored left edge and a tinted background. Traditional rows stay italic and are not selectable. With one makeover row the table looks and behaves as today.
 4. A short hint above the table, "Tap a build to switch", shows only when there are two or more makeover rows.
-5. Selecting a build updates, without a navigation or a scroll jump: the hero title, macro ratio bar and numbers, cost tier, times, tag chips, ingredient lines, steps, the whole batch row, and the build note under the table. Lines and steps scoped to the build get a small marker so the difference is easy to spot. Other notes do not change.
+5. Selecting a build updates, without a navigation or a scroll jump: the hero title and photo, macro ratio bar and numbers, cost tier, times, tag chips, ingredient lines, steps, the whole batch row, and the build note under the table. Lines and steps scoped to the build get a small marker so the difference is easy to spot. Other notes do not change.
 6. The selection writes `?build=<key>` with a history replace, so back still leaves the page. The default build writes no param. An unknown key falls back to the default without an error, matching how filters treat hand-edited links.
 7. The page stays statically generated and revalidated as today. The server renders the default build. A client boundary reads `?build` and swaps the view. Metadata, the canonical URL, and the share image stay on the recipe.
 8. "Add to basket" adds the selected build.
@@ -131,7 +161,7 @@ Validation, added to `recipeImportSchema`:
    - With a goal or macro targets set, pick the best fit among the rest, using the same fit then distance ranking the grid already uses. Ties go to the default.
    - Otherwise pick the default if it survived, else the first survivor in table order.
 10. Text search matches any build's title too, and resolves to that build: "beef taco" leads with Beef Taco Grillers.
-11. The card shows the resolved build's title, macros, and cost, and links to `/recipes/<slug>?build=<key>` (no param for the default). A card showing a non-default build says which in one short line under the title, for example "Rice bowl build".
+11. The card shows the resolved build's title, photo, macros, and cost, and links to `/recipes/<slug>?build=<key>` (no param for the default). A card showing a non-default build says which in one short line under the title, for example "Rice bowl build".
 12. Sorting uses the resolved build's numbers. Facet counts and "unavailable" options use effective tags across listed builds, so the `beef` meat option stays available because of the beef build.
 13. Fit badges and PRD 02's "fits my goal" use the resolved build. This replaces PRD 02 requirement 8, which used the default only.
 
@@ -142,7 +172,7 @@ Validation, added to `recipeImportSchema`:
 
 ### Authoring and the book
 
-16. The admin nutrition editor adds the build fields to each makeover row, behind a "Build details" disclosure so simple recipes stay simple. Each ingredient line and step gets a small "Builds" picker (all, only these, all but these), hidden while the recipe has one makeover row.
+16. The admin editor gets a Builds section replacing the makeover rows of the nutrition editor: macros up front, overrides behind a "Build details" disclosure so simple recipes stay simple. Each ingredient line and step gets a small "Builds" picker (all, only these, all but these), hidden while the recipe has one makeover row.
 17. `get_recipe_schema`, `validate_recipe`, and `import_recipe` on the Claude connector follow the schema. `docs/claude-project-knowledge.md` gets the builds versus variants rule.
 18. The book keeps one table per recipe and prints the default build's lines and steps. Under the ingredients, each other build with scoped lines or steps gets one short line, written from its note: "**Beef Taco Grillers:** 1 lb 90/10 ground beef in place of the turkey." Build-only steps print inline, labeled with the build. Recipe numbering ignores builds.
 19. Macro display follows the site rules everywhere a build shows: C/F/P order, `formatMacroRatios` and `toMacroRatios`, protein given full weight.
@@ -178,11 +208,11 @@ Every other recipe has one makeover row and needs nothing.
 
 ## Tasks
 
-1. Migration: new `recipe_nutrition` columns and `only_builds` and `skip_builds` on `ingredients` and `steps`. Regenerate types.
-2. Import schema, validation, `importRecipe`, `diffRecipe`, and the repository read and write paths.
+1. Migration: `recipe_builds` with RLS following the parent recipe, makeover rows moved out of `recipe_nutrition`, and `only_builds` and `skip_builds` on `ingredients` and `steps`. Regenerate types and port the Drizzle models.
+2. Import schema with the old-shape fallback, validation, `importRecipe`, `diffRecipe`, revisions, and the repository read and write paths, with builds upserted by key.
 3. `resolveBuild` and build resolution for the grid, with tests (filters, goals, search, sorting, facets).
 4. Recipe page: selectable nutrition table, client build state from `?build`, hero, ingredients, steps, and note following it.
 5. Grid card: resolved build, link with the build key, non-default label.
 6. Basket: entries with a build, price lines by build, stored basket migration.
-7. Admin editor and Claude connector.
+7. Admin Builds section, build photos in the photo editor, and the Claude connector.
 8. Book output, then the seed data changes, the Pollo Asado split, and the bulgogi variant retirement on the hosted database.
