@@ -91,10 +91,12 @@ from (
   where kind = 'makeover'
 ) makeovers;
 
-delete from public.recipe_nutrition where kind = 'makeover';
-
-drop index public.recipe_nutrition_one_default_idx;
-alter table public.recipe_nutrition drop column is_default;
+-- The makeover rows and is_default stay for now, so the code already deployed keeps working
+-- until the code that reads recipe_builds is live. The app now reads only the traditional rows
+-- from recipe_nutrition. Remove the rest in a later migration, once this code is deployed:
+--   delete from public.recipe_nutrition where kind = 'makeover';
+--   drop index public.recipe_nutrition_one_default_idx;
+--   alter table public.recipe_nutrition drop column is_default;
 
 alter table public.recipe_builds enable row level security;
 

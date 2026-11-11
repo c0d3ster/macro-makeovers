@@ -171,10 +171,16 @@ const readSnapshot = async (
     .from(recipeBuilds)
     .where(eq(recipeBuilds.recipeId, recipeId))
     .orderBy(asc(recipeBuilds.position))
+  // Builds hold the makeover macros now. Makeover rows left from before builds are skipped.
   const nutritionRows = await reader
     .select()
     .from(recipeNutrition)
-    .where(eq(recipeNutrition.recipeId, recipeId))
+    .where(
+      and(
+        eq(recipeNutrition.recipeId, recipeId),
+        eq(recipeNutrition.kind, 'traditional')
+      )
+    )
     .orderBy(asc(recipeNutrition.position))
   const ingredientRows = await reader
     .select()
