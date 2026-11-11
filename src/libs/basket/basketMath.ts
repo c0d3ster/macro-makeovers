@@ -60,7 +60,7 @@ export const findBasketRecipe = (slug: string): BasketRecipe | undefined =>
 
 // A recipe at the servings it is written for
 // What one batch of a recipe uses for a build: the recipe's lines with the build's changes
-export const linesFor = (
+const linesFor = (
   recipe: BasketRecipe,
   build?: string
 ): Record<string, number> => {
