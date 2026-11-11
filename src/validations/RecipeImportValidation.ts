@@ -352,4 +352,3 @@ export const recipeImportSchema = z
 
 export type RecipeImport = z.infer<typeof recipeImportSchema>
 export type RecipeImportInput = z.input<typeof recipeImportSchema>
-export type RecipeBuildImport = RecipeImport['builds'][number]

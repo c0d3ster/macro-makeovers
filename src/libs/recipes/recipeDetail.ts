@@ -170,7 +170,7 @@ const toScope = ({ onlyBuilds, skipBuilds }: ScopeColumns): BuildScope => ({
   ...(skipBuilds.length > 0 ? { skipBuilds } : {}),
 })
 
-export const toRecipeBuild = (row: RecipeBuildRow): RecipeBuild => ({
+const toRecipeBuild = (row: RecipeBuildRow): RecipeBuild => ({
   key: row.key,
   label: row.label,
   isDefault: row.isDefault,

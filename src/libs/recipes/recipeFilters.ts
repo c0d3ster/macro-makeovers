@@ -250,7 +250,7 @@ const listedBuilds = (recipe: RecipeCard): CardBuild[] =>
 // hiding filter drop out, and a recipe with none left is hidden. Then a build whose title
 // matches the search wins, then the best fit to a goal or macro targets, then the default.
 // Ties keep the default, then table order.
-export const resolveCardBuild = (
+const resolveCardBuild = (
   recipe: RecipeCard,
   filters: RecipeFilters,
   ingredientMatches: ReadonlySet<string> = new Set()

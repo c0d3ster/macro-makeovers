@@ -22,7 +22,8 @@ const renderBasket = (): void => {
 const saveBasket = (slugs: string[]): void =>
   localStorage.setItem(
     BASKET_STORAGE_KEY,
-    JSON.stringify({ entries: slugs.map((slug) => ({ slug, servings: 4 })) })
+    // No servings saved reads as each recipe's own
+    JSON.stringify({ entries: slugs.map((slug) => ({ slug })) })
   )
 
 describe('BasketView', () => {
@@ -44,7 +45,10 @@ describe('BasketView', () => {
     renderBasket()
 
     expect(screen.getByText('before tax')).toBeInTheDocument()
-    expect(screen.getByText(/vs buying separately/)).toBeInTheDocument()
+    // Bundling saves something, so the trip is set against the recipes as they normally cost
+    expect(
+      screen.getByRole('columnheader', { name: 'Normally' })
+    ).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: 'Produce' })).toBeInTheDocument()
     expect(
       screen.getByRole('checkbox', { name: /Ground turkey 93\/7/ })
@@ -61,6 +65,8 @@ describe('BasketView', () => {
 
     fireEvent.click(screen.getByRole('button', { name: 'Add it' }))
 
-    expect(screen.getAllByRole('combobox')).toHaveLength(2)
+    expect(
+      screen.getAllByRole('button', { name: /^More servings of/ })
+    ).toHaveLength(2)
   })
 })
