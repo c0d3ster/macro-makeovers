@@ -1,14 +1,13 @@
 import type { ReactElement } from 'react'
 
-import type { BasketTotals, BundleComparison } from '@/libs/basket'
+import type { BasketTotals, TripComparison } from '@/libs/basket'
 
 import { formatMoney } from '@/libs/basket'
 
 type BasketSummaryProps = {
   totals: BasketTotals
-  saving: number
-  // Together against separately, shown once the basket has two or more recipes
-  comparison?: BundleComparison
+  // This trip against every recipe as written
+  comparison: TripComparison
   // Short-shelf-life items with the most left over, for the waste note
   perishableNames: string[]
 }
@@ -46,11 +45,10 @@ const ComparisonRow = ({
   </tr>
 )
 
-// The trip total first, since it is what people check. With two or more recipes, a small
-// table sets the trip and its leftovers against buying each recipe on its own.
+// The trip total first, since it is what people check. When bundling or cooking more saves
+// anything, a small table sets the trip and its leftovers against every recipe as written.
 export const BasketSummary = ({
   totals,
-  saving,
   comparison,
   perishableNames,
 }: BasketSummaryProps): ReactElement => (
@@ -62,24 +60,25 @@ export const BasketSummary = ({
         </span>{' '}
         before tax
       </span>
-      {saving >= 0.01 && (
+      {comparison.saving >= 0.01 && (
         <span>
           saves{' '}
-          <span className='font-semibold text-text'>{formatMoney(saving)}</span>{' '}
-          vs buying separately
+          <span className='font-semibold text-text'>
+            {formatMoney(comparison.saving)}
+          </span>
         </span>
       )}
     </p>
-    {comparison && saving >= 0.01 && (
+    {comparison.saving >= 0.01 && (
       <table className='mt-3 w-full text-sm'>
         <thead>
           <tr className='text-xs tracking-wide uppercase'>
             <td />
             <th scope='col' className='pl-6 text-right font-normal'>
-              Together
+              This trip
             </th>
             <th scope='col' className='pl-6 text-right font-normal'>
-              Separately
+              As written
             </th>
           </tr>
         </thead>
@@ -87,12 +86,12 @@ export const BasketSummary = ({
           <ComparisonRow
             label='At the register'
             together={totals.tripCost}
-            separately={totals.tripCost + saving}
+            separately={comparison.writtenCost}
           />
           <ComparisonRow
             label='Left over for later'
-            together={comparison.leftoverTogether}
-            separately={comparison.leftoverAlone}
+            together={totals.leftoverCost}
+            separately={comparison.writtenLeftover}
           />
         </tbody>
       </table>

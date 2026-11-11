@@ -283,12 +283,52 @@ export const compareBundle = (
 export type RecipeShare = {
   // This recipe's part of the pooled trip, per serving
   togetherPerServing: number
-  // This recipe bought on its own trip, per serving
-  alonePerServing: number
+  // The recipe as written: bought on its own trip at the servings it is written for
+  writtenPerServing: number
 }
 
-// Each recipe's part of the pooled trip at the register, per serving, next to what it costs
-// bought alone. A recipe starts at its own trip's price and takes its part of what pooling saves
+// A recipe as written, bought on its own trip at its own servings, and scaled at that price to
+// the servings in the basket. Doubling a recipe compares against buying it twice as written.
+const asWritten = (
+  entry: BasketEntry,
+  options: BasketOptions
+): { cost: number; leftover: number; perServing: number } => {
+  const recipe = findBasketRecipe(entry.slug)
+  if (!recipe) return { cost: 0, leftover: 0, perServing: 0 }
+  const written = computeBasket([recipeEntry(entry.slug)], options)
+  const scale = entry.servings / recipe.servings
+  return {
+    cost: written.tripCost * scale,
+    leftover: written.leftoverCost * scale,
+    perServing: written.tripCost / recipe.servings,
+  }
+}
+
+export type TripComparison = {
+  // Every recipe as written, and what that leaves over
+  writtenCost: number
+  writtenLeftover: number
+  // What this trip saves against that: bundling and scaling together
+  saving: number
+}
+
+// This trip against buying each recipe as written. One saving covers both what pooling shares
+// and what cooking more than the recipe's servings fills.
+export const compareToWritten = (
+  entries: BasketEntry[],
+  options: BasketOptions
+): TripComparison => {
+  const written = entries.map((entry) => asWritten(entry, options))
+  const writtenCost = sum(written.map(({ cost }) => cost))
+  return {
+    writtenCost,
+    writtenLeftover: sum(written.map(({ leftover }) => leftover)),
+    saving: writtenCost - computeBasket(entries, options).tripCost,
+  }
+}
+
+// Each recipe's part of the pooled trip at the register, per serving, next to the recipe as
+// written. A recipe starts at its own trip's price and takes its part of what pooling saves
 // on each item it shares, split by what each recipe would pay for that item alone. So no recipe
 // looks dearer for being bundled, and the parts add up to the trip.
 export const recipeShares = (
@@ -323,7 +363,7 @@ export const recipeShares = (
           {
             togetherPerServing:
               (totals.tripCost - (saved[index] ?? 0)) / totals.servings,
-            alonePerServing: totals.tripCost / totals.servings,
+            writtenPerServing: asWritten(entry, options).perServing,
           },
         ],
       ]

@@ -5,8 +5,7 @@ import type { ReactElement } from 'react'
 import Link from 'next/link'
 
 import {
-  bundleSavings,
-  compareBundle,
+  compareToWritten,
   computeBasket,
   formatMoney,
   PRICES_AS_OF,
@@ -67,7 +66,6 @@ export const BasketView = ({ recipes }: BasketViewProps): ReactElement => {
 
   const options = { includePantry }
   const totals = computeBasket(entries, options)
-  const saving = bundleSavings(entries, options)
   const suggestion = suggestAddition(entries, options)
   const perishableNames = totals.lines
     .filter(
@@ -102,10 +100,7 @@ export const BasketView = ({ recipes }: BasketViewProps): ReactElement => {
         />
         <BasketSummary
           totals={totals}
-          saving={saving}
-          comparison={
-            entries.length > 1 ? compareBundle(entries, options) : undefined
-          }
+          comparison={compareToWritten(entries, options)}
           perishableNames={perishableNames}
         />
         {suggestion && (

@@ -36,8 +36,10 @@ export const BasketRecipeList = ({
       {entries.map(({ slug, build, servings }) => {
         const { title } = recipeInfo(recipes, slug, build)
         const share = shares.get(slug)
-        // With one recipe there is nothing to compare against
-        const compares = entries.length > 1 && share
+        // Bundling or cooking more moved the price off the recipe as written
+        const compares =
+          share &&
+          Math.abs(share.togetherPerServing - share.writtenPerServing) >= 0.01
 
         return (
           <li
@@ -59,7 +61,7 @@ export const BasketRecipeList = ({
                     </span>
                     /serving
                     {compares &&
-                      ` (vs ${formatMoney(share.alonePerServing)} alone)`}
+                      ` (vs ${formatMoney(share.writtenPerServing)} as written)`}
                   </>
                 )}
               </p>

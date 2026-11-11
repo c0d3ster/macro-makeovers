@@ -8,6 +8,7 @@ import { BASKET_ITEMS, BASKET_RECIPES } from './basketData'
 import {
   bundleSavings,
   compareBundle,
+  compareToWritten,
   computeBasket,
   costPerServing,
   describePurchase,
@@ -238,6 +239,29 @@ describe('servings', () => {
   })
 })
 
+describe('compareToWritten', () => {
+  it('counts cooking more as a saving against the recipe as written', () => {
+    const tacos = recipeEntry('turkey-taco-grillers')
+    const doubled = { ...tacos, servings: tacos.servings * 2 }
+    const written = computeBasket([tacos], NO_PANTRY).tripCost
+
+    const comparison = compareToWritten([doubled], NO_PANTRY)
+
+    // Doubled tacos compare against buying the recipe twice as written
+    expect(comparison.writtenCost).toBeCloseTo(written * 2)
+    expect(comparison.saving).toBeCloseTo(
+      written * 2 - computeBasket([doubled], NO_PANTRY).tripCost
+    )
+    expect(comparison.saving).toBeGreaterThan(0)
+  })
+
+  it('saves nothing for one recipe as written', () => {
+    expect(
+      compareToWritten([recipeEntry('spicy-turkey-chili')], NO_PANTRY).saving
+    ).toBeCloseTo(0)
+  })
+})
+
 describe('recipeShares', () => {
   it('splits the pooled trip so the parts add up and none costs more than alone', () => {
     const pair = [one('spicy-turkey-chili'), one('turkey-taco-grillers')]
@@ -254,7 +278,7 @@ describe('recipeShares', () => {
     pair.forEach(({ slug }) => {
       const share = shares.get(slug)
 
-      expect(share?.togetherPerServing).toBeLessThan(share?.alonePerServing ?? 0)
+      expect(share?.togetherPerServing).toBeLessThan(share?.writtenPerServing ?? 0)
     })
   })
 })
