@@ -10,7 +10,7 @@ Most recipes already come in more than one build: Turkey Taco Grillers as grille
 
 ## Goal
 
-A build is a lightweight alternate version of a recipe that shares its steps. People click a row in the nutrition table to switch builds, and the page (title, macros, tags, cost, ingredient swaps, basket) follows. Browse and filtering pick the build that fits, so each recipe competes on its best build, not only its default.
+A build is a lightweight alternate version of a recipe that shares its method. People click a row in the nutrition table to switch builds, and the page (title, macros, tags, cost, ingredients, steps, basket) follows. Browse and filtering pick the build that fits, so each recipe competes on its best build, not only its default.
 
 ## Builds versus variants
 
