@@ -103,29 +103,26 @@ describe('computeBasket', () => {
   })
 
   it('skips a smaller pack that costs nearly as much as a bigger one', () => {
-    const bulgogi = computeBasket([one('beef-bulgogi')], { includePantry: true })
-    const soy = bulgogi.lines.find(({ key }) => key === 'soy')
+    const bake = computeBasket([one('cheesy-hash-brown-bacon-bake')], NO_PANTRY)
+    const bacon = bake.lines.find(({ key }) => key === 'bacon')
 
-    // 2.67 fl oz: the 5 fl oz is $2.98 and the 10 fl oz $2.99, so the 10 fl oz prices it
-    expect(soy?.proratedCost).toBeCloseTo((2.67 / 10) * 2.99, 2)
+    // 2 slices: the 12 oz pack is $4.44 and the 16 oz $4.49, so the 16 oz prices them
+    expect(bacon?.proratedCost).toBeCloseTo((2 / 14) * 4.49, 2)
+    // The register still buys whichever pack is cheaper
+    expect(bacon?.cost).toBeCloseTo(4.44, 2)
   })
 
-    it('buys the cheapest mix of sizes for pooled recipes', () => {
-    // 12.5 oz of cheddar across four recipes: one 16 oz block beats two 8 oz blocks
+  it('buys the cheapest mix of sizes for pooled recipes', () => {
+    // 6 oz of cottage cheese across the chili and tacos: the 2-cup pack beats two single cups
     const { lines } = computeBasket(
-      [
-        one('spicy-turkey-chili'),
-        one('turkey-taco-grillers'),
-        one('ham-and-prosciutto-sliders'),
-        one('cheesy-hash-brown-bacon-bake'),
-      ],
+      [one('spicy-turkey-chili'), one('turkey-taco-grillers')],
       NO_PANTRY
     )
-    const cheddar = lines.find(({ key }) => key === 'cheddar')
+    const cottage = lines.find(({ key }) => key === 'cottage')
 
-    expect(cheddar?.quantity).toBeCloseTo(12.5)
-    expect(cheddar?.cost).toBeCloseTo(7.29, 2)
-    expect(cheddar && describePurchase(cheddar)).toBe('1 × 16 oz block')
+    expect(cottage?.quantity).toBeCloseTo(6)
+    expect(cottage?.cost).toBeCloseTo(2.24, 2)
+    expect(cottage && describePurchase(cottage)).toBe('1 × 2 × 5.3 oz cups')
   })
 
   it('scales by batches and counts servings', () => {

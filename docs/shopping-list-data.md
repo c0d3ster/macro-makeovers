@@ -35,10 +35,11 @@ Worth keeping when the real shopping list is built:
   buying each alone.
 - Each recipe's share is priced from the **smallest size that covers what it
   uses**, so 4 oz of cheddar is costed from the 8 oz block. A bigger size wins
-  when it costs at most 10% more, so the 10 fl oz soy sauce prices the bulgogi,
-  not the 5 fl oz at one cent less. A trip buys the
-  **cheapest mix of sizes** for the pooled amount, so four recipes needing
-  12.5 oz of cheddar buy one 16 oz block instead of two 8 oz ones.
+  when it costs at most 10% more, so the 16 oz bacon prices the hash brown bake,
+  not the 12 oz at 5 cents less. A trip buys the
+  **cheapest mix of sizes** for the pooled amount, so the chili and tacos,
+  needing 6 oz of cottage cheese between them, buy the 2-cup pack instead of two
+  single cups.
 - Items sold `per lb` are priced by exact weight, not by pack.
 - Prices are the lowest found across stores, so a single-store basket costs
   more than the total. Treat costs as relative.
