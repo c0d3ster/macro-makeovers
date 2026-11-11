@@ -97,7 +97,7 @@ local Supabase stack.
    pnpm recipe:import content/recipes --publish
    ```
 
-   The 14 seed recipes in `content/recipes` give a fresh local database something to show. They
+   The 15 seed recipes in `content/recipes` give a fresh local database something to show. They
    are a fixed snapshot and don't need to track the hosted database.
 
 5. **Run it:**

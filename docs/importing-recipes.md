@@ -22,7 +22,7 @@ Drizzle transaction (`RecipeRepository`). Either every table is written or none 
 | `importRecipe` (GraphQL) | The write path for the admin page and the Claude connector  |
 | `/admin/import`          | Paste the JSON an agent produced (owner only), calls it     |
 | `/api/mcp`               | Claude connector: validate and import from a chat, calls it |
-| `pnpm recipe:import`     | Files on disk, including the 14 seed recipes                |
+| `pnpm recipe:import`     | Files on disk, including the 15 seed recipes                |
 
 The mutation takes the recipe as JSON, plus `overwrite` and `dryRun`, and returns a
 status, any field issues, and the field-level changes. Only the site owner can call it.
@@ -75,7 +75,7 @@ dashboard to cut it off.
 
 ## Seed recipes
 
-The 14 seed recipes live in `content/recipes/*.json` and are already in the database. The database
+The 15 seed recipes live in `content/recipes/*.json` and are already in the database. The database
 is the source of truth, so new and edited recipes go through the admin or the Claude connector,
 not a markdown file.
 

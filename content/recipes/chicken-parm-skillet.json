@@ -1,0 +1,227 @@
+{
+  "slug": "chicken-parm-skillet",
+  "title": "Chicken Parm Skillet",
+  "summary": "Chicken parm without the deep-fried breading. A parmesan crust crisps in the air fryer, spinach wilts into the marinara as the base, and the mozzarella on top is where the fat budget goes. Skip the pasta on a low-carb day, or serve it over spaghetti when you have carbs to spend.",
+  "servings": 4,
+  "prepMinutes": 15,
+  "cookMinutes": 30,
+  "costTier": 2,
+  "difficulty": 2,
+  "nutrition": [
+    {
+      "kind": "makeover",
+      "label": "Per serving, no pasta",
+      "calories": 400,
+      "carbsG": 14,
+      "fatG": 16,
+      "proteinG": 47,
+      "isDefault": true
+    },
+    {
+      "kind": "makeover",
+      "label": "With 1 oz dry pasta (2 cups sauce)",
+      "calories": 515,
+      "carbsG": 36,
+      "fatG": 18,
+      "proteinG": 51,
+      "isDefault": false
+    },
+    {
+      "kind": "makeover",
+      "label": "With 2 oz dry pasta (2.5 cups sauce)",
+      "calories": 630,
+      "carbsG": 59,
+      "fatG": 19,
+      "proteinG": 55,
+      "isDefault": false
+    },
+    {
+      "kind": "makeover",
+      "label": "With 3 oz dry pasta (3 cups sauce)",
+      "calories": 745,
+      "carbsG": 81,
+      "fatG": 21,
+      "proteinG": 59,
+      "isDefault": false
+    },
+    {
+      "kind": "traditional",
+      "label": "Home-style fried chicken parm with 3 oz dry pasta and 3/4 cup sauce",
+      "calories": 980,
+      "carbsG": 94,
+      "fatG": 39,
+      "proteinG": 67,
+      "isDefault": false
+    }
+  ],
+  "ingredients": [
+    {
+      "group": "Chicken",
+      "raw": "1.5 lb chicken breast (4 breasts, about 6 oz each)"
+    },
+    {
+      "group": "Chicken",
+      "raw": "1 egg, beaten with 1 tbsp water"
+    },
+    {
+      "group": "Chicken",
+      "raw": "40g grated parmesan (a heaping 1/3 cup)"
+    },
+    {
+      "group": "Chicken",
+      "raw": "1/2 cup panko"
+    },
+    {
+      "group": "Chicken",
+      "raw": "1 tsp Italian seasoning"
+    },
+    {
+      "group": "Chicken",
+      "raw": "2 tsp avocado oil, sprayed on the chicken (about 4 to 5 seconds per side across the batch)"
+    },
+    {
+      "group": "Chicken",
+      "raw": "Salt, pepper"
+    },
+    {
+      "group": "Skillet",
+      "raw": "10 oz baby spinach"
+    },
+    {
+      "group": "Skillet",
+      "raw": "1 tsp olive oil"
+    },
+    {
+      "group": "Skillet",
+      "raw": "2 cloves garlic, minced"
+    },
+    {
+      "group": "Skillet",
+      "raw": "1.5 cups Filippo Berio Marinara (made with Italian tomatoes). Use 2 cups with 1 oz pasta per serving, 2.5 cups with 2 oz, and 3 cups with 3 oz"
+    },
+    {
+      "group": "Skillet",
+      "raw": "8 slices Galbani fresh mozzarella log, pre-sliced (2 per breast, about 1/2 oz each, 4 oz total)"
+    },
+    {
+      "group": "Skillet",
+      "raw": "Fresh basil, to finish"
+    },
+    {
+      "group": "Optional pasta",
+      "raw": "1 oz dry spaghetti or spaghetti rigati per serving (4 oz for the pan), 2 oz per serving (8 oz, half a box), or 3 oz per serving (12 oz, three quarters of a box)"
+    }
+  ],
+  "steps": [
+    {
+      "phase": "prep",
+      "body": "Pound each breast to an even 1/2 to 3/4 inch. Pat very dry."
+    },
+    {
+      "phase": "prep",
+      "body": "Toast the panko dry in a pan over medium heat, 2 to 3 min, until light golden. Let it cool."
+    },
+    {
+      "phase": "prep",
+      "body": "Mix the cooled panko, parmesan, and Italian seasoning on a plate. Beat the egg with the water in a shallow dish."
+    },
+    {
+      "phase": "prep",
+      "body": "If using pasta, boil it 1 to 2 min under the package time so it stays al dente, then drain."
+    },
+    {
+      "phase": "prep",
+      "body": "Mince the garlic. Take 8 slices from the pre-sliced mozzarella log and pat them dry with a paper towel."
+    },
+    {
+      "phase": "cook",
+      "body": "Preheat the air fryer to 400°F."
+    },
+    {
+      "phase": "cook",
+      "body": "Season the chicken with salt and pepper, dip in the egg, then press the parmesan mix on firmly on both sides. Let the breasts sit 5 min so the crust sets."
+    },
+    {
+      "phase": "cook",
+      "body": "Chicken into the air fryer. Single layer, don't crowd it, both sides sprayed with the avocado oil. Air fry at 400°F, 12 to 16 min, flipping halfway, until golden and 165°F inside. No air fryer: wire rack over a sheet pan, 425°F oven, 18-22 min, flip halfway."
+    },
+    {
+      "phase": "cook",
+      "body": "While the chicken cooks, warm the olive oil in a large oven-safe skillet (cast iron is ideal) over medium. Add the garlic for 30 seconds, pour in the marinara, and bring it to a simmer. Add the spinach a big handful at a time, stirring each into the sauce until wilted, then simmer 2 to 3 min and keep it on low."
+    },
+    {
+      "phase": "cook",
+      "body": "When the chicken is done, lay 2 slices of mozzarella on each breast and air fry 1 to 2 min more, until melted. Oven: nestle the breasts on top of the spinach sauce in the cast iron, lay on the mozzarella, and broil 1 to 2 min, about 6 inches from the element, until melted and spotted. Keep the sauce around the chicken, not over the crust, and serve right away, since the bottom of the crust softens the longer it sits in the sauce."
+    },
+    {
+      "phase": "cook",
+      "body": "Serve straight from the skillet, or spoon the spinach and sauce onto plates and set the breasts on top or alongside, never sauce over the crust. Finish with basil, and serve over the pasta if using."
+    }
+  ],
+  "notes": [
+    {
+      "kind": "tip",
+      "body": "Air fryer first, with an oven fallback. On the oven route the cast iron finishes under the broiler, with the chicken sitting on the sauce."
+    },
+    {
+      "kind": "tip",
+      "body": "**Leftovers:** store the chicken and the sauce in separate containers, or the crust soaks through. To reheat, re-crisp the chicken in the air fryer at 375°F for 3 to 4 min (or a 400°F oven, 6 to 8 min), warm the sauce on the stove, and put them together on the plate."
+    },
+    {
+      "kind": "nutrition_intro",
+      "body": "The default is the low-carb-day build. The pasta rows scale the sauce with the pasta: 2 cups with 1 oz dry per serving (4 oz for the pan), 2.5 cups with 2 oz (8 oz, half a box), and 3 cups with 3 oz (12 oz, three quarters of a box), which is 3/4 cup per serving. The traditional row is a home-style fried cutlet with the same 3 oz of dry pasta and 3/4 cup of sauce per serving. The sauce sets a lot of the fat here. Filippo Berio keeps it lean at 3.5g fat per 1/2 cup, and richer jars like Mezzetta and Rao's push the fat share to about 41%."
+    },
+    {
+      "kind": "nutrition_analysis",
+      "body": "The fat comes out of the frying and the cheese pile, not the ingredients. The crust crisps in the air fryer with just 2 tsp of oil, and each breast gets one ounce of full-fat fresh mozzarella over an Italian-tomato marinara, so it still eats like chicken parm at under half the fat."
+    },
+    {
+      "kind": "make_or_break",
+      "body": "Pat the chicken **very dry** before the egg, or the crust slides off"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "Even thickness. Pound the breasts so they cook through in the time it takes the crust to brown"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Toast the panko first** for color and deeper crunch, since the air fryer alone won't brown it in the time the chicken needs to cook through"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Spray the crust.** Dry panko only browns with oil on it"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Don't crowd the air fryer basket.** Steam kills crisping as fast as no oil does"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Never cook the breaded chicken on bare foil.** The crust bonds to it. Use the basket or a sprayed rack, or parchment"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "Sauce **under or beside** the chicken, not on it, so the crust stays crisp"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Pat the fresh mozzarella dry.** It weeps water, which thins the sauce and softens the crust"
+    },
+    {
+      "kind": "fixes",
+      "body": "**Pale or dusty crust:** spray a little more oil, and make sure the panko was pressed on firmly\n\n**Crust browns before the chicken is cooked:** pound it thinner, or drop to 375°F and add a few minutes\n\n**Dry chicken:** pound thinner, and pull at 160°F, since it carries over\n\n**Watery sauce:** simmer 2 more minutes\n\n**Watery top:** blot the mozzarella slices before they go on"
+    },
+    {
+      "kind": "levers",
+      "body": "**Sauce options (per 1/2 cup, from retailer label listings, so check the jar)**\n\n| Sauce | Calories | Carbs | Fat | Italian tomatoes | Pan ratio C/F/P |\n| --- | --- | --- | --- | --- | --- |\n| Filippo Berio (default) | 60 | 6g | 3.5g | Yes | 14 / 38 / 48 |\n| Bertolli Organic | 70 | 11g | 1.5g | Not stated, likely US | 18 / 34 / 48 |\n| Rao's Homemade | 100 | 6g | 7g | Yes | 13 / 41 / 46 |\n| Carbone Marinara | 90 | 6g | 7g | Yes | 14 / 41 / 45 |\n| Mezzetta Spicy | 100 | 9g | 8g | Mixed, Italian and California | 15 / 41 / 44 |\n\nThe pan ratios are for the no-pasta build with 1.5 cups of sauce. Mezzetta Spicy is the one with built-in heat. With a milder sauce, add chili flakes."
+    }
+  ],
+  "tags": [
+    "air fryer",
+    "carb cycling",
+    "chicken",
+    "low carb",
+    "oven",
+    "skillet"
+  ]
+}
