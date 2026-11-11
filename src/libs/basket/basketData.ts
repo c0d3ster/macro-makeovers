@@ -36,6 +36,26 @@ export const BASKET_ITEMS: Record<string, BasketItem> = {
     pantry: false,
     perishable: false,
   },
+  ground_beef: {
+    name: 'Ground beef 90/10',
+    pack: '1 lb pack',
+    packQuantity: 1,
+    unit: 'lb',
+    price: 6.88,
+    section: 'meat',
+    pantry: false,
+    perishable: false,
+  },
+  pollo_asado: {
+    name: 'Precooked pollo asado (Costco)',
+    pack: '2 lb bag',
+    packQuantity: 2,
+    unit: 'lb',
+    price: 15,
+    section: 'meat',
+    pantry: false,
+    perishable: true,
+  },
   ribeye: {
     name: 'Heritage ribeye steak strips',
     pack: '12 oz pack',
@@ -1075,6 +1095,10 @@ export const BASKET_RECIPES: BasketRecipe[] = [
       lime: 0.5714,
       cilantro: 0.1886,
     },
+    builds: {
+      // 90/10 beef in place of the turkey
+      beef: { perServingCost: 4.04, lines: { turkey: 0, ground_beef: 1 } },
+    },
   },
   {
     slug: 'ham-and-prosciutto-sliders',
@@ -1252,6 +1276,27 @@ export const BASKET_RECIPES: BasketRecipe[] = [
       red_onion: 0.4,
       habanero: 0.6,
       cucumber: 0.2,
+    },
+    builds: {
+      // The precooked chicken replaces the thighs, the marinade, and the searing oil. Cumin
+      // and a lime stay for the beans and the rice.
+      costco: {
+        perServingCost: 5.62,
+        lines: {
+          chicken_thigh: 0,
+          pollo_asado: 1.5,
+          oj: 0,
+          lime: 3.2,
+          garlic: 0,
+          achiote: 0,
+          adobo: 0,
+          cumin: 0.5,
+          oregano: 0,
+          chili_powder: 0,
+          pepper: 0,
+          avo_oil: 0,
+        },
+      },
     },
   },
   {

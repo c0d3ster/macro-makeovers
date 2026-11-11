@@ -1,4 +1,4 @@
-import { existsSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { describe, expect, it } from 'vitest'
 
@@ -25,6 +25,10 @@ import {
 const one = (slug: string): BasketEntry => recipeEntry(slug)
 const NO_PANTRY = { includePantry: false }
 
+const builds = BASKET_RECIPES.flatMap(({ slug, builds: priced = {} }) =>
+  Object.entries(priced).map(([key, build]) => ({ slug, key, build }))
+)
+
 describe('basket data', () => {
   it('matches a recipe for every basket entry', () => {
     BASKET_RECIPES.forEach(({ slug }) =>
@@ -50,7 +54,49 @@ describe('basket data', () => {
   })
 })
 
+describe('basket build data', () => {
+  it('prices builds the recipe has', () => {
+    builds.forEach(({ slug, key }) => {
+      const recipe = JSON.parse(
+        readFileSync(resolve(process.cwd(), 'content/recipes', `${slug}.json`), 'utf8')
+      ) as { builds: { key: string }[] }
+
+      expect(recipe.builds.map((build) => build.key), slug).toContain(key)
+    })
+  })
+
+  it('prices every item a build adds', () => {
+    builds.forEach(({ slug, key, build }) =>
+      Object.keys(build.lines).forEach((item) =>
+        expect(BASKET_ITEMS[item], `${slug} ${key}: ${item}`).toBeDefined()
+      )
+    )
+  })
+
+  it('reproduces each build cost estimate per serving, to the cent', () => {
+    builds.forEach(({ slug, key, build }) =>
+      expect(
+        costPerServing([{ ...one(slug), build: key }]),
+        `${slug} ${key}`
+      ).toBeCloseTo(build.perServingCost, 2)
+    )
+  })
+})
+
 describe('computeBasket', () => {
+  it('shops for the build in the basket', () => {
+    const keys = (build?: string): string[] =>
+      computeBasket([{ ...one('turkey-taco-grillers'), build }], NO_PANTRY).lines.map(
+        ({ key }) => key
+      )
+
+    expect(keys()).toContain('turkey')
+    expect(keys('beef')).toContain('ground_beef')
+    expect(keys('beef')).not.toContain('turkey')
+    // A build with no lines of its own shops like the recipe
+    expect(keys('rice-bowl')).toEqual(keys())
+  })
+
   it('rounds up to whole packs once across recipes', () => {
     // Both recipes use part of a 16 oz tub of cottage cheese
     const chili = computeBasket([one('spicy-turkey-chili')], NO_PANTRY)
@@ -240,6 +286,12 @@ describe('servings', () => {
 })
 
 describe('compareToWritten', () => {
+  it('compares a build against the same build as written', () => {
+    const costco = { ...one('pollo-asado-chicken-thigh-bowl'), build: 'costco' }
+
+    expect(compareToWritten([costco], NO_PANTRY).saving).toBeCloseTo(0, 6)
+  })
+
   it('counts cooking more as a saving against the recipe as written', () => {
     const tacos = recipeEntry('turkey-taco-grillers')
     const doubled = { ...tacos, servings: tacos.servings * 2 }

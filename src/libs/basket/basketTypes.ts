@@ -29,6 +29,14 @@ export type BasketItem = {
   sizes?: PackSize[]
 }
 
+// A build that shops differently from its recipe, like beef in place of turkey
+export type BasketBuild = {
+  // The build's cost estimate per serving, prorated like the recipe's
+  perServingCost: number
+  // Changes to the recipe's lines, by item key. 0 drops a line the build doesn't use.
+  lines: Record<string, number>
+}
+
 // What one batch of a recipe uses, by item key, in each item's unit
 export type BasketRecipe = {
   slug: string
@@ -36,13 +44,15 @@ export type BasketRecipe = {
   // The cost estimate per serving, prorated by what the recipe uses
   perServingCost: number
   lines: Record<string, number>
+  // Builds by key whose shopping differs. A build not listed shops like the recipe.
+  builds?: Record<string, BasketBuild>
 }
 
 // A recipe in the basket and how many servings of it to cook
 export type BasketEntry = {
   slug: string
-  // The recipe build's key. Missing means the default build. Price lines are the recipe's
-  // until a build has lines of its own.
+  // The recipe build's key. Missing means the default build. A build without lines of its own
+  // shops like the recipe.
   build?: string
   // Scales the recipe's ingredients the way the recipe page's servings stepper does
   servings: number
