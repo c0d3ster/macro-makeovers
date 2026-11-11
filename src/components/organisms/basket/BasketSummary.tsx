@@ -78,7 +78,7 @@ export const BasketSummary = ({
               This trip
             </th>
             <th scope='col' className='pl-6 text-right font-normal'>
-              As written
+              Normally
             </th>
           </tr>
         </thead>
