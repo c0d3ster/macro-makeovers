@@ -119,13 +119,17 @@ export const BASKET_ITEMS: Record<string, BasketItem> = {
   },
   cottage: {
     name: 'Cottage cheese 2%',
-    pack: '16 oz tub',
-    packQuantity: 16,
+    pack: '5.3 oz cup',
+    packQuantity: 5.3,
     unit: 'oz',
-    price: 3.99,
+    price: 1.58,
     section: 'dairy',
     pantry: false,
     perishable: false,
+    sizes: [
+      { pack: '2 × 5.3 oz cups', packQuantity: 10.6, price: 2.24 },
+      { pack: '16 oz tub', packQuantity: 16, price: 3.99 },
+    ],
   },
   yogurt: {
     name: 'Greek yogurt, nonfat plain (Fage)',
@@ -138,14 +142,15 @@ export const BASKET_ITEMS: Record<string, BasketItem> = {
     perishable: false,
   },
   butter: {
-    name: 'Butter (Our Brand salted sticks)',
-    pack: '1 lb (32 tbsp)',
-    packQuantity: 32,
+    name: 'Butter, salted sticks',
+    pack: '8 oz (16 tbsp)',
+    packQuantity: 16,
     unit: 'tbsp',
-    price: 3.19,
+    price: 1.94,
     section: 'dairy',
     pantry: true,
     perishable: false,
+    sizes: [{ pack: '1 lb (32 tbsp)', packQuantity: 32, price: 3.19 }],
   },
   milk: {
     name: 'Fairlife fat free milk',
@@ -158,14 +163,18 @@ export const BASKET_ITEMS: Record<string, BasketItem> = {
     perishable: false,
   },
   eggs: {
-    name: 'Eggs, large (Our Brand)',
-    pack: '18 ct',
-    packQuantity: 18,
+    name: 'Eggs, large',
+    pack: '6 ct',
+    packQuantity: 6,
     unit: 'each',
-    price: 2.79,
+    price: 0.96,
     section: 'dairy',
     pantry: false,
     perishable: false,
+    sizes: [
+      { pack: '12 ct', packQuantity: 12, price: 1.97 },
+      { pack: '18 ct', packQuantity: 18, price: 2.79 },
+    ],
   },
   eggwhites: {
     name: 'Liquid egg whites (Our Brand)',
@@ -189,14 +198,15 @@ export const BASKET_ITEMS: Record<string, BasketItem> = {
     perishable: false,
   },
   parm: {
-    name: 'Parmesan wedge',
-    pack: '8 oz wedge',
-    packQuantity: 8,
+    name: 'Parmesan, grated',
+    pack: '5 oz tub',
+    packQuantity: 5,
     unit: 'oz',
-    price: 5.99,
+    price: 3.29,
     section: 'dairy',
     pantry: false,
     perishable: false,
+    sizes: [{ pack: '8 oz wedge', packQuantity: 8, price: 5.99 }],
   },
   provolone: {
     name: 'Provolone slices (Great Value)',
@@ -219,14 +229,15 @@ export const BASKET_ITEMS: Record<string, BasketItem> = {
     perishable: false,
   },
   sour_cream: {
-    name: 'Sour cream (Great Value)',
-    pack: '16 oz tub',
-    packQuantity: 16,
+    name: 'Sour cream',
+    pack: '8 oz tub',
+    packQuantity: 8,
     unit: 'oz',
-    price: 1.84,
+    price: 1.23,
     section: 'dairy',
     pantry: false,
     perishable: false,
+    sizes: [{ pack: '16 oz tub', packQuantity: 16, price: 1.84 }],
   },
   rolls: {
     name: "King's Hawaiian rolls",
@@ -259,11 +270,11 @@ export const BASKET_ITEMS: Record<string, BasketItem> = {
     perishable: false,
   },
   panko: {
-    name: 'Panko',
-    pack: '4 cup bag (~8 oz)',
+    name: 'Panko (Great Value)',
+    pack: '8 oz',
     packQuantity: 8,
     unit: 'oz',
-    price: 2.5,
+    price: 1.92,
     section: 'pantry',
     pantry: false,
     perishable: false,
@@ -280,14 +291,15 @@ export const BASKET_ITEMS: Record<string, BasketItem> = {
     perishable: false,
   },
   cornstarch: {
-    name: 'Cornstarch (Our Brand)',
-    pack: '16 oz box',
-    packQuantity: 16,
+    name: 'Cornstarch',
+    pack: '6.5 oz',
+    packQuantity: 6.5,
     unit: 'oz',
-    price: 2.19,
+    price: 1.58,
     section: 'pantry',
     pantry: true,
     perishable: false,
+    sizes: [{ pack: '16 oz box', packQuantity: 16, price: 2.19 }],
   },
   brown_rice: {
     name: 'Brown rice (Great Value)',
@@ -380,14 +392,15 @@ export const BASKET_ITEMS: Record<string, BasketItem> = {
     perishable: false,
   },
   broth: {
-    name: 'Chicken broth (Great Value)',
-    pack: '32 fl oz carton',
-    packQuantity: 32,
+    name: 'Chicken broth',
+    pack: '14.5 fl oz can',
+    packQuantity: 14.5,
     unit: 'floz',
-    price: 1.5,
+    price: 0.75,
     section: 'pantry',
     pantry: false,
     perishable: false,
+    sizes: [{ pack: '32 fl oz carton', packQuantity: 32, price: 1.5 }],
   },
   corn: {
     name: 'Sweet corn (Great Value)',
@@ -410,14 +423,15 @@ export const BASKET_ITEMS: Record<string, BasketItem> = {
     perishable: false,
   },
   olive_oil: {
-    name: 'Extra virgin olive oil (Great Value)',
-    pack: '17 fl oz bottle',
-    packQuantity: 17,
+    name: 'Extra virgin olive oil',
+    pack: '8.5 fl oz bottle',
+    packQuantity: 8.5,
     unit: 'floz',
-    price: 6.12,
+    price: 5.98,
     section: 'pantry',
     pantry: true,
     perishable: false,
+    sizes: [{ pack: '17 fl oz bottle', packQuantity: 17, price: 6.12 }],
   },
   sesame_oil: {
     name: 'Toasted sesame oil (Kikkoman)',
@@ -431,13 +445,17 @@ export const BASKET_ITEMS: Record<string, BasketItem> = {
   },
   soy: {
     name: 'Soy sauce, less sodium (Kikkoman)',
-    pack: '15 fl oz',
-    packQuantity: 15,
+    pack: '5 fl oz',
+    packQuantity: 5,
     unit: 'floz',
-    price: 3.77,
+    price: 2.98,
     section: 'pantry',
     pantry: true,
     perishable: false,
+    sizes: [
+      { pack: '10 fl oz', packQuantity: 10, price: 2.99 },
+      { pack: '15 fl oz', packQuantity: 15, price: 3.77 },
+    ],
   },
   worcest: {
     name: 'Worcestershire (Our Brand)',
@@ -521,10 +539,10 @@ export const BASKET_ITEMS: Record<string, BasketItem> = {
   },
   habanero: {
     name: 'Habanero',
-    pack: '2 oz pack (~5 peppers)',
-    packQuantity: 5,
+    pack: 'each',
+    packQuantity: 1,
     unit: 'each',
-    price: 1.99,
+    price: 0.24,
     section: 'produce',
     pantry: false,
     perishable: true,
@@ -760,14 +778,15 @@ export const BASKET_ITEMS: Record<string, BasketItem> = {
     perishable: false,
   },
   pine_nuts: {
-    name: "Pine nuts (Ava's)",
-    pack: '4 oz tub',
-    packQuantity: 4,
+    name: 'Pine nuts',
+    pack: '2 oz bag',
+    packQuantity: 2,
     unit: 'oz',
-    price: 9.99,
+    price: 4.73,
     section: 'pantry',
     pantry: false,
     perishable: false,
+    sizes: [{ pack: '4 oz tub', packQuantity: 4, price: 9.99 }],
   },
   yogurt5: {
     name: 'Greek yogurt, full-fat 5% (Fage Total)',
@@ -810,24 +829,25 @@ export const BASKET_ITEMS: Record<string, BasketItem> = {
     perishable: false,
   },
   quesadilla: {
-    name: 'Oaxaca cheese, Hispanic melting cheese (Cacique)',
-    pack: '10 oz',
-    packQuantity: 10,
+    name: 'Oaxaca cheese, shredded (Hill Country Fare)',
+    pack: '8 oz bag',
+    packQuantity: 8,
     unit: 'oz',
-    price: 4.99,
+    price: 2.05,
     section: 'dairy',
     pantry: false,
     perishable: false,
   },
   vinegar: {
-    name: 'Distilled white vinegar (Great Value)',
-    pack: '32 fl oz bottle',
-    packQuantity: 32,
+    name: 'Distilled white vinegar',
+    pack: '16 fl oz bottle',
+    packQuantity: 16,
     unit: 'floz',
-    price: 1.76,
+    price: 0.98,
     section: 'pantry',
     pantry: true,
     perishable: false,
+    sizes: [{ pack: '32 fl oz bottle', packQuantity: 32, price: 1.76 }],
   },
   sugar: {
     name: 'Granulated sugar (Great Value)',
@@ -870,11 +890,11 @@ export const BASKET_ITEMS: Record<string, BasketItem> = {
     perishable: false,
   },
   sweet_paprika: {
-    name: 'Paprika (McCormick)',
-    pack: '2.12 oz jar',
-    packQuantity: 26.1313,
+    name: 'Paprika (Great Value)',
+    pack: '2.5 oz jar',
+    packQuantity: 30.8153,
     unit: 'tsp',
-    price: 2.5,
+    price: 1.08,
     section: 'spices',
     pantry: true,
     perishable: false,
@@ -985,7 +1005,7 @@ export const BASKET_RECIPES: BasketRecipe[] = [
   {
     slug: 'blackened-chicken-alfredo',
     servings: 6,
-    perServingCost: 2.65,
+    perServingCost: 2.58,
     lines: {
       chicken_breast: 1.5,
       pasta: 16,
@@ -1003,7 +1023,7 @@ export const BASKET_RECIPES: BasketRecipe[] = [
   {
     slug: 'spicy-turkey-chili',
     servings: 5,
-    perServingCost: 2.83,
+    perServingCost: 2.88,
     lines: {
       turkey: 1,
       onion: 1,
@@ -1035,7 +1055,7 @@ export const BASKET_RECIPES: BasketRecipe[] = [
   {
     slug: 'turkey-taco-grillers',
     servings: 4,
-    perServingCost: 3.63,
+    perServingCost: 3.67,
     lines: {
       turkey: 1,
       garlic: 2,
@@ -1098,7 +1118,7 @@ export const BASKET_RECIPES: BasketRecipe[] = [
   {
     slug: 'cheesy-chicken-and-broccoli-rice-bake',
     servings: 5,
-    perServingCost: 2.97,
+    perServingCost: 2.9,
     lines: {
       chicken_breast: 1.5,
       broccoli: 0.6,
@@ -1122,7 +1142,7 @@ export const BASKET_RECIPES: BasketRecipe[] = [
   {
     slug: 'lemon-pepper-shrimp-pesto-linguine',
     servings: 6,
-    perServingCost: 5.9,
+    perServingCost: 5.85,
     lines: {
       basil: 2.1,
       pine_nuts: 1.06,
@@ -1142,7 +1162,7 @@ export const BASKET_RECIPES: BasketRecipe[] = [
   {
     slug: 'kickin-fried-chicken',
     servings: 5,
-    perServingCost: 3.27,
+    perServingCost: 3.19,
     lines: {
       chicken_breast: 1.5,
       flour: 2.25,
@@ -1171,7 +1191,7 @@ export const BASKET_RECIPES: BasketRecipe[] = [
   {
     slug: 'beef-bulgogi',
     servings: 4,
-    perServingCost: 7.37,
+    perServingCost: 7.4,
     lines: {
       ribeye: 24,
       soy: 2.67,
@@ -1191,7 +1211,7 @@ export const BASKET_RECIPES: BasketRecipe[] = [
   {
     slug: 'cheesy-hash-brown-bacon-bake',
     servings: 4,
-    perServingCost: 4.75,
+    perServingCost: 4.64,
     lines: {
       hashbrowns: 1,
       avo_oil: 0.5,
@@ -1215,7 +1235,7 @@ export const BASKET_RECIPES: BasketRecipe[] = [
   {
     slug: 'pollo-asado-chicken-thigh-bowl',
     servings: 4,
-    perServingCost: 4.67,
+    perServingCost: 4.59,
     lines: {
       chicken_thigh: 1.5,
       oj: 1.5,
@@ -1243,7 +1263,7 @@ export const BASKET_RECIPES: BasketRecipe[] = [
   {
     slug: 'shake-n-bake-pork-chops',
     servings: 4,
-    perServingCost: 4.33,
+    perServingCost: 4.29,
     lines: {
       pork_chops: 1.5,
       flour: 1.5,
@@ -1273,7 +1293,7 @@ export const BASKET_RECIPES: BasketRecipe[] = [
   {
     slug: 'red-enchilada-casserole',
     servings: 6,
-    perServingCost: 3.35,
+    perServingCost: 3.19,
     lines: {
       chicken_breast: 1.5,
       black_beans: 1,

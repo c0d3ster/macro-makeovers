@@ -34,7 +34,9 @@ Worth keeping when the real shopping list is built:
   to whole packs once**. That is why buying recipes together costs less than
   buying each alone.
 - Each recipe's share is priced from the **smallest size that covers what it
-  uses**, so 4 oz of cheddar is costed from the 8 oz block. A trip buys the
+  uses**, so 4 oz of cheddar is costed from the 8 oz block. A bigger size wins
+  when it costs at most 10% more, so the 10 fl oz soy sauce prices the bulgogi,
+  not the 5 fl oz at one cent less. A trip buys the
   **cheapest mix of sizes** for the pooled amount, so four recipes needing
   12.5 oz of cheddar buy one 16 oz block instead of two 8 oz ones.
 - Items sold `per lb` are priced by exact weight, not by pack.

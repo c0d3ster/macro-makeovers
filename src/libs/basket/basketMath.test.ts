@@ -88,7 +88,8 @@ describe('computeBasket', () => {
     }
 
     expect(purchase('lime')).toBe('5')
-    expect(purchase('cottage')).toBe('1 × 16 oz tub')
+    // 6 oz of cottage cheese: the 2-cup pack is the cheapest way to cover it
+    expect(purchase('cottage')).toBe('1 × 2 × 5.3 oz cups')
   })
 
   it('prices each recipe from the smallest pack that covers it', () => {
@@ -100,7 +101,15 @@ describe('computeBasket', () => {
     expect(cheddar && describePurchase(cheddar)).toBe('1 × 8 oz block')
   })
 
-  it('buys the cheapest mix of sizes for pooled recipes', () => {
+  it('skips a smaller pack that costs nearly as much as a bigger one', () => {
+    const bulgogi = computeBasket([one('beef-bulgogi')], { includePantry: true })
+    const soy = bulgogi.lines.find(({ key }) => key === 'soy')
+
+    // 2.67 fl oz: the 5 fl oz is $2.98 and the 10 fl oz $2.99, so the 10 fl oz prices it
+    expect(soy?.proratedCost).toBeCloseTo((2.67 / 10) * 2.99, 2)
+  })
+
+    it('buys the cheapest mix of sizes for pooled recipes', () => {
     // 12.5 oz of cheddar across four recipes: one 16 oz block beats two 8 oz blocks
     const { lines } = computeBasket(
       [
@@ -126,7 +135,9 @@ describe('computeBasket', () => {
     )
 
     expect(double.servings).toBe(single.servings * 2)
-    expect(double.proratedCost).toBeCloseTo(single.proratedCost * 2)
+    // Never more than twice the cost. A doubled amount can be priced from a bigger, cheaper pack.
+    expect(double.proratedCost).toBeLessThanOrEqual(single.proratedCost * 2 + 1e-9)
+    expect(double.proratedCost).toBeGreaterThan(single.proratedCost * 1.5)
   })
 
   it('leaves pantry staples out unless asked', () => {

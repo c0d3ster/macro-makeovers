@@ -74,11 +74,21 @@ const sizesOf = (item: BasketItem): PackSize[] =>
 const unitPrice = ({ price, packQuantity }: PackSize): number =>
   price / packQuantity
 
+const BIGGER_PACK_MARGIN = 1.1
+
 // What one recipe's use costs: its share of the smallest size that covers it, so a recipe
-// using 4 oz of cheese is priced from the 8 oz block, not the 16 oz one. A use bigger than every
+// using 4 oz of cheese is priced from the 8 oz block, not the 16 oz one. A smaller size only
+// counts when every bigger one costs more than 10% more. A use bigger than every
 // size is priced at the best unit price, since it takes several packs anyway.
 const proratedFor = (item: BasketItem, quantity: number): number => {
-  const sizes = sizesOf(item)
+  // A bigger size that costs at most 10% more wins: a few cents more for a lot more is the
+  // better buy, and a smaller size priced near the bigger one only inflates the per-ounce cost
+  const sizes = sizesOf(item).filter(
+    (size, index, all) =>
+      !all
+        .slice(index + 1)
+        .some((bigger) => bigger.price <= size.price * BIGGER_PACK_MARGIN)
+  )
   const fits = sizes.find(({ packQuantity }) => packQuantity >= quantity - 1e-9)
   const size =
     fits ??

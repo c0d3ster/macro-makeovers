@@ -144,13 +144,27 @@
     {
       "key": "cottage",
       "name": "Cottage cheese 2%",
-      "pack": "16 oz tub",
-      "packQuantity": 16,
+      "pack": "5.3 oz cup",
+      "packQuantity": 5.3,
       "unit": "oz",
-      "price": 3.99,
-      "store": "U",
+      "price": 1.58,
+      "store": "W",
       "pantry": false,
-      "perishable": false
+      "perishable": false,
+      "sizes": [
+        {
+          "pack": "2 × 5.3 oz cups",
+          "packQuantity": 10.6,
+          "price": 2.24,
+          "store": "W"
+        },
+        {
+          "pack": "16 oz tub",
+          "packQuantity": 16,
+          "price": 3.99,
+          "store": "U"
+        }
+      ]
     },
     {
       "key": "yogurt",
@@ -165,14 +179,22 @@
     },
     {
       "key": "butter",
-      "name": "Butter (Our Brand salted sticks)",
-      "pack": "1 lb (32 tbsp)",
-      "packQuantity": 32,
+      "name": "Butter, salted sticks",
+      "pack": "8 oz (16 tbsp)",
+      "packQuantity": 16,
       "unit": "tbsp",
-      "price": 3.19,
-      "store": "M",
+      "price": 1.94,
+      "store": "W",
       "pantry": true,
-      "perishable": false
+      "perishable": false,
+      "sizes": [
+        {
+          "pack": "1 lb (32 tbsp)",
+          "packQuantity": 32,
+          "price": 3.19,
+          "store": "M"
+        }
+      ]
     },
     {
       "key": "milk",
@@ -187,14 +209,28 @@
     },
     {
       "key": "eggs",
-      "name": "Eggs, large (Our Brand)",
-      "pack": "18 ct",
-      "packQuantity": 18,
+      "name": "Eggs, large",
+      "pack": "6 ct",
+      "packQuantity": 6,
       "unit": "each",
-      "price": 2.79,
-      "store": "M",
+      "price": 0.96,
+      "store": "W",
       "pantry": false,
-      "perishable": false
+      "perishable": false,
+      "sizes": [
+        {
+          "pack": "12 ct",
+          "packQuantity": 12,
+          "price": 1.97,
+          "store": "W"
+        },
+        {
+          "pack": "18 ct",
+          "packQuantity": 18,
+          "price": 2.79,
+          "store": "M"
+        }
+      ]
     },
     {
       "key": "eggwhites",
@@ -228,14 +264,22 @@
     },
     {
       "key": "parm",
-      "name": "Parmesan wedge",
-      "pack": "8 oz wedge",
-      "packQuantity": 8,
+      "name": "Parmesan, grated",
+      "pack": "5 oz tub",
+      "packQuantity": 5,
       "unit": "oz",
-      "price": 5.99,
-      "store": "U",
+      "price": 3.29,
+      "store": "H",
       "pantry": false,
-      "perishable": false
+      "perishable": false,
+      "sizes": [
+        {
+          "pack": "8 oz wedge",
+          "packQuantity": 8,
+          "price": 5.99,
+          "store": "U"
+        }
+      ]
     },
     {
       "key": "provolone",
@@ -261,14 +305,22 @@
     },
     {
       "key": "sour_cream",
-      "name": "Sour cream (Great Value)",
-      "pack": "16 oz tub",
-      "packQuantity": 16,
+      "name": "Sour cream",
+      "pack": "8 oz tub",
+      "packQuantity": 8,
       "unit": "oz",
-      "price": 1.84,
-      "store": "W",
+      "price": 1.23,
+      "store": "H",
       "pantry": false,
-      "perishable": false
+      "perishable": false,
+      "sizes": [
+        {
+          "pack": "16 oz tub",
+          "packQuantity": 16,
+          "price": 1.84,
+          "store": "W"
+        }
+      ]
     },
     {
       "key": "rolls",
@@ -305,12 +357,12 @@
     },
     {
       "key": "panko",
-      "name": "Panko",
-      "pack": "4 cup bag (~8 oz)",
+      "name": "Panko (Great Value)",
+      "pack": "8 oz",
       "packQuantity": 8,
       "unit": "oz",
-      "price": 2.5,
-      "store": "U",
+      "price": 1.92,
+      "store": "W",
       "pantry": false,
       "perishable": false
     },
@@ -335,14 +387,22 @@
     },
     {
       "key": "cornstarch",
-      "name": "Cornstarch (Our Brand)",
-      "pack": "16 oz box",
-      "packQuantity": 16,
+      "name": "Cornstarch",
+      "pack": "6.5 oz",
+      "packQuantity": 6.5,
       "unit": "oz",
-      "price": 2.19,
-      "store": "M",
+      "price": 1.58,
+      "store": "H",
       "pantry": true,
-      "perishable": false
+      "perishable": false,
+      "sizes": [
+        {
+          "pack": "16 oz box",
+          "packQuantity": 16,
+          "price": 2.19,
+          "store": "M"
+        }
+      ]
     },
     {
       "key": "brown_rice",
@@ -445,14 +505,22 @@
     },
     {
       "key": "broth",
-      "name": "Chicken broth (Great Value)",
-      "pack": "32 fl oz carton",
-      "packQuantity": 32,
+      "name": "Chicken broth",
+      "pack": "14.5 fl oz can",
+      "packQuantity": 14.5,
       "unit": "floz",
-      "price": 1.5,
-      "store": "W",
+      "price": 0.75,
+      "store": "H",
       "pantry": false,
-      "perishable": false
+      "perishable": false,
+      "sizes": [
+        {
+          "pack": "32 fl oz carton",
+          "packQuantity": 32,
+          "price": 1.5,
+          "store": "W"
+        }
+      ]
     },
     {
       "key": "corn",
@@ -478,14 +546,22 @@
     },
     {
       "key": "olive_oil",
-      "name": "Extra virgin olive oil (Great Value)",
-      "pack": "17 fl oz bottle",
-      "packQuantity": 17,
+      "name": "Extra virgin olive oil",
+      "pack": "8.5 fl oz bottle",
+      "packQuantity": 8.5,
       "unit": "floz",
-      "price": 6.12,
-      "store": "W",
+      "price": 5.98,
+      "store": "H",
       "pantry": true,
-      "perishable": false
+      "perishable": false,
+      "sizes": [
+        {
+          "pack": "17 fl oz bottle",
+          "packQuantity": 17,
+          "price": 6.12,
+          "store": "W"
+        }
+      ]
     },
     {
       "key": "sesame_oil",
@@ -501,13 +577,27 @@
     {
       "key": "soy",
       "name": "Soy sauce, less sodium (Kikkoman)",
-      "pack": "15 fl oz",
-      "packQuantity": 15,
+      "pack": "5 fl oz",
+      "packQuantity": 5,
       "unit": "floz",
-      "price": 3.77,
-      "store": "W",
+      "price": 2.98,
+      "store": "H",
       "pantry": true,
-      "perishable": false
+      "perishable": false,
+      "sizes": [
+        {
+          "pack": "10 fl oz",
+          "packQuantity": 10,
+          "price": 2.99,
+          "store": "K"
+        },
+        {
+          "pack": "15 fl oz",
+          "packQuantity": 15,
+          "price": 3.77,
+          "store": "W"
+        }
+      ]
     },
     {
       "key": "worcest",
@@ -600,11 +690,11 @@
     {
       "key": "habanero",
       "name": "Habanero",
-      "pack": "2 oz pack (~5 peppers)",
-      "packQuantity": 5,
+      "pack": "each",
+      "packQuantity": 1,
       "unit": "each",
-      "price": 1.99,
-      "store": "U",
+      "price": 0.24,
+      "store": "H",
       "pantry": false,
       "perishable": true
     },
@@ -874,14 +964,22 @@
     },
     {
       "key": "pine_nuts",
-      "name": "Pine nuts (Ava's)",
-      "pack": "4 oz tub",
-      "packQuantity": 4,
+      "name": "Pine nuts",
+      "pack": "2 oz bag",
+      "packQuantity": 2,
       "unit": "oz",
-      "price": 9.99,
-      "store": "M",
+      "price": 4.73,
+      "store": "W",
       "pantry": false,
-      "perishable": false
+      "perishable": false,
+      "sizes": [
+        {
+          "pack": "4 oz tub",
+          "packQuantity": 4,
+          "price": 9.99,
+          "store": "M"
+        }
+      ]
     },
     {
       "key": "yogurt5",
@@ -929,25 +1027,33 @@
     },
     {
       "key": "quesadilla",
-      "name": "Oaxaca cheese, Hispanic melting cheese (Cacique)",
-      "pack": "10 oz",
-      "packQuantity": 10,
+      "name": "Oaxaca cheese, shredded (Hill Country Fare)",
+      "pack": "8 oz bag",
+      "packQuantity": 8,
       "unit": "oz",
-      "price": 4.99,
+      "price": 2.05,
       "store": "H",
       "pantry": false,
       "perishable": false
     },
     {
       "key": "vinegar",
-      "name": "Distilled white vinegar (Great Value)",
-      "pack": "32 fl oz bottle",
-      "packQuantity": 32,
+      "name": "Distilled white vinegar",
+      "pack": "16 fl oz bottle",
+      "packQuantity": 16,
       "unit": "floz",
-      "price": 1.76,
-      "store": "W",
+      "price": 0.98,
+      "store": "H",
       "pantry": true,
-      "perishable": false
+      "perishable": false,
+      "sizes": [
+        {
+          "pack": "32 fl oz bottle",
+          "packQuantity": 32,
+          "price": 1.76,
+          "store": "W"
+        }
+      ]
     },
     {
       "key": "sugar",
@@ -995,11 +1101,11 @@
     },
     {
       "key": "sweet_paprika",
-      "name": "Paprika (McCormick)",
-      "pack": "2.12 oz jar",
-      "packQuantity": 26.1313,
+      "name": "Paprika (Great Value)",
+      "pack": "2.5 oz jar",
+      "packQuantity": 30.8153,
       "unit": "tsp",
-      "price": 2.5,
+      "price": 1.08,
       "store": "W",
       "pantry": true,
       "perishable": false
@@ -1143,7 +1249,7 @@
       "slug": "blackened-chicken-alfredo",
       "title": "Blackened Chicken Alfredo",
       "servings": 6,
-      "perServingCost": 2.65,
+      "perServingCost": 2.58,
       "lines": {
         "chicken_breast": 1.5,
         "pasta": 16,
@@ -1163,7 +1269,7 @@
       "slug": "spicy-turkey-chili",
       "title": "Spicy Turkey Chili (fully loaded)",
       "servings": 5,
-      "perServingCost": 2.83,
+      "perServingCost": 2.88,
       "lines": {
         "turkey": 1,
         "onion": 1,
@@ -1197,7 +1303,7 @@
       "slug": "turkey-taco-grillers",
       "title": "Turkey Taco Grillers",
       "servings": 4,
-      "perServingCost": 3.63,
+      "perServingCost": 3.67,
       "lines": {
         "turkey": 1,
         "garlic": 2,
@@ -1266,7 +1372,7 @@
       "slug": "cheesy-chicken-and-broccoli-rice-bake",
       "title": "Cheesy Chicken and Broccoli Rice Bake",
       "servings": 5,
-      "perServingCost": 2.97,
+      "perServingCost": 2.9,
       "lines": {
         "chicken_breast": 1.5,
         "broccoli": 0.6,
@@ -1292,7 +1398,7 @@
       "slug": "lemon-pepper-shrimp-pesto-linguine",
       "title": "Lemon Pepper Shrimp Pesto Linguine",
       "servings": 6,
-      "perServingCost": 5.9,
+      "perServingCost": 5.85,
       "lines": {
         "basil": 2.1,
         "pine_nuts": 1.06,
@@ -1314,7 +1420,7 @@
       "slug": "kickin-fried-chicken",
       "title": "Kickin' Fried Chicken (full plate)",
       "servings": 5,
-      "perServingCost": 3.27,
+      "perServingCost": 3.19,
       "lines": {
         "chicken_breast": 1.5,
         "flour": 2.25,
@@ -1345,7 +1451,7 @@
       "slug": "beef-bulgogi",
       "title": "Beef Bulgogi (over black rice)",
       "servings": 4,
-      "perServingCost": 7.37,
+      "perServingCost": 7.4,
       "lines": {
         "ribeye": 24,
         "soy": 2.67,
@@ -1367,7 +1473,7 @@
       "slug": "cheesy-hash-brown-bacon-bake",
       "title": "Cheesy Hash Brown Bacon Bake",
       "servings": 4,
-      "perServingCost": 4.75,
+      "perServingCost": 4.64,
       "lines": {
         "hashbrowns": 1,
         "avo_oil": 0.5,
@@ -1393,7 +1499,7 @@
       "slug": "pollo-asado-chicken-thigh-bowl",
       "title": "Pollo Asado Chicken Thigh Bowl (skinless)",
       "servings": 4,
-      "perServingCost": 4.67,
+      "perServingCost": 4.59,
       "lines": {
         "chicken_thigh": 1.5,
         "oj": 1.5,
@@ -1423,7 +1529,7 @@
       "slug": "shake-n-bake-pork-chops",
       "title": "Shake 'n Bake Pork Chops (full plate)",
       "servings": 4,
-      "perServingCost": 4.33,
+      "perServingCost": 4.29,
       "lines": {
         "pork_chops": 1.5,
         "flour": 1.5,
@@ -1455,7 +1561,7 @@
       "slug": "red-enchilada-casserole",
       "title": "Red Enchilada Casserole",
       "servings": 6,
-      "perServingCost": 3.35,
+      "perServingCost": 3.19,
       "lines": {
         "chicken_breast": 1.5,
         "black_beans": 1,
