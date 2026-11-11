@@ -58,6 +58,12 @@ const RECIPES_BY_SLUG = new Map(
 export const findBasketRecipe = (slug: string): BasketRecipe | undefined =>
   RECIPES_BY_SLUG.get(slug)
 
+// A recipe at the servings it is written for
+export const recipeEntry = (slug: string): BasketEntry => ({
+  slug,
+  servings: findBasketRecipe(slug)?.servings ?? 1,
+})
+
 const isPricedByWeight = ({ pack }: BasketItem): boolean => pack === 'per lb'
 
 // The rounding step drops float noise so 2.0000001 packs stays 2
@@ -151,16 +157,18 @@ export const computeBasket = (
   const pooled = new Map<string, ItemUse[]>()
   let servings = 0
 
-  entries.forEach(({ slug, batches }) => {
+  entries.forEach(({ slug, servings: wanted }) => {
     const recipe = findBasketRecipe(slug)
     if (!recipe) return
-    servings += recipe.servings * batches
+    // 6 servings of a 4 serving recipe needs half again of every ingredient
+    const scale = wanted / recipe.servings
+    servings += wanted
     Object.entries(recipe.lines).forEach(([key, quantity]) => {
       const item = BASKET_ITEMS[key]
       if (!item || (item.pantry && !includePantry)) return
       pooled.set(key, [
         ...(pooled.get(key) ?? []),
-        { slug, quantity: quantity * batches },
+        { slug, quantity: quantity * scale },
       ])
     })
   })
@@ -280,34 +288,42 @@ export type RecipeShare = {
 }
 
 // Each recipe's part of the pooled trip at the register, per serving, next to what it costs
-// bought alone. A shared pack is split by how much of it each recipe uses, so the parts add up
-// to the trip.
+// bought alone. A recipe starts at its own trip's price and takes its part of what pooling saves
+// on each item it shares, split by what each recipe would pay for that item alone. So no recipe
+// looks dearer for being bundled, and the parts add up to the trip.
 export const recipeShares = (
   entries: BasketEntry[],
   options: BasketOptions
 ): Map<string, RecipeShare> => {
   const together = computeBasket(entries, options)
-  const paid = new Map<string, number>()
-  together.lines.forEach(({ cost, quantity, usedBy }) =>
-    usedBy.forEach((use) =>
-      paid.set(
-        use.slug,
-        (paid.get(use.slug) ?? 0) +
-          (quantity > 0 ? (cost * use.quantity) / quantity : 0)
-      )
-    )
-  )
+  const alone = entries.map((entry) => ({
+    entry,
+    totals: computeBasket([entry], options),
+  }))
+  const aloneItemCost = (index: number, key: string): number =>
+    alone[index]?.totals.lines.find((line) => line.key === key)?.cost ?? 0
+
+  const saved = alone.map(() => 0)
+  together.lines.forEach(({ key, cost }) => {
+    const separate = alone.map((_, index) => aloneItemCost(index, key))
+    const separateTotal = sum(separate)
+    const itemSaving = separateTotal - cost
+    if (itemSaving <= 0 || separateTotal <= 0) return
+    separate.forEach((paid, index) => {
+      saved[index] = (saved[index] ?? 0) + itemSaving * (paid / separateTotal)
+    })
+  })
 
   return new Map(
-    entries.flatMap((entry) => {
-      const alone = computeBasket([entry], options)
-      if (alone.servings === 0) return []
+    alone.flatMap(({ entry, totals }, index) => {
+      if (totals.servings === 0) return []
       return [
         [
           entry.slug,
           {
-            togetherPerServing: (paid.get(entry.slug) ?? 0) / alone.servings,
-            alonePerServing: alone.tripCost / alone.servings,
+            togetherPerServing:
+              (totals.tripCost - (saved[index] ?? 0)) / totals.servings,
+            alonePerServing: totals.tripCost / totals.servings,
           },
         ],
       ]
@@ -331,7 +347,7 @@ export const suggestAddition = (
 
   return BASKET_RECIPES.filter(({ slug }) => !inBasket.has(slug))
     .map(({ slug }) => {
-      const added = { slug, batches: 1 }
+      const added = recipeEntry(slug)
       const alone = computeBasket([added], options).tripCost
       const together = computeBasket([...entries, added], options).tripCost
       return { slug, saving: current + alone - together }
@@ -368,7 +384,7 @@ export const rankBundles = (
     size
   )
     .map((group) => {
-      const entries = group.map((slug) => ({ slug, batches: 1 }))
+      const entries = group.map(recipeEntry)
       return {
         slugs: group,
         saving: bundleSavings(entries, options),

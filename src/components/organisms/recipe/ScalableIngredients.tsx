@@ -7,6 +7,7 @@ import { useState } from 'react'
 import type { RecipeIngredient } from '@/libs/recipes/ingredients'
 
 import { BuildMarker, Markdown } from '@/components/atoms'
+import { AddToBasketButton } from '@/components/molecules/basket'
 import { ServingsStepper } from '@/components/molecules/recipe'
 import { groupIngredients, scaleIngredient } from '@/libs/recipes/ingredients'
 import { isScoped } from '@/libs/recipes/recipeBuilds'
@@ -16,17 +17,21 @@ type ScalableIngredientsProps = {
   baseServings: number
   // Flags lines only some builds have, on a recipe with more than one build
   markScoped?: boolean
+  // Adds the recipe to the basket at the servings shown here
+  basket?: { slug: string; title: string; build?: string }
 }
 
 export const ScalableIngredients = ({
   ingredients,
   baseServings,
   markScoped = false,
+  basket,
 }: ScalableIngredientsProps): ReactElement => {
   const [servings, setServings] = useState<number>(baseServings)
   const factor = servings / baseServings
 
   return (
+    <>
     <section
       aria-labelledby='ingredients-heading'
       className='flex flex-col rounded-xl bg-surface py-4'
@@ -82,5 +87,11 @@ export const ScalableIngredients = ({
         ))}
       </div>
     </section>
+      {basket && (
+        <div className='mt-4'>
+          <AddToBasketButton {...basket} servings={servings} />
+        </div>
+      )}
+    </>
   )
 }

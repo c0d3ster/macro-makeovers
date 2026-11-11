@@ -22,7 +22,7 @@ const renderBasket = (): void => {
 const saveBasket = (slugs: string[]): void =>
   localStorage.setItem(
     BASKET_STORAGE_KEY,
-    JSON.stringify({ entries: slugs.map((slug) => ({ slug, batches: 1 })) })
+    JSON.stringify({ entries: slugs.map((slug) => ({ slug, servings: 4 })) })
   )
 
 describe('BasketView', () => {

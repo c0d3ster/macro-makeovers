@@ -38,11 +38,12 @@ export type BasketRecipe = {
   lines: Record<string, number>
 }
 
-// A recipe in the basket and how many batches of it
+// A recipe in the basket and how many servings of it to cook
 export type BasketEntry = {
   slug: string
   // The recipe build's key. Missing means the default build. Price lines are the recipe's
   // until a build has lines of its own.
   build?: string
-  batches: number
+  // Scales the recipe's ingredients the way the recipe page's servings stepper does
+  servings: number
 }

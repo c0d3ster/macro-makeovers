@@ -2,8 +2,6 @@ import type { ReactElement, ReactNode } from 'react'
 
 import type { RecipeDetail, RecipeView } from '@/libs/recipes'
 
-import { AddToBasketButton } from '@/components/molecules'
-
 import { NutritionTable } from './NutritionTable'
 import { RecipeHero } from './RecipeHero'
 import {
@@ -58,14 +56,12 @@ export const RecipeBody = ({
             ingredients={view.ingredients}
             baseServings={recipe.servings}
             markScoped={markScoped}
+            basket={{
+              slug: recipe.slug,
+              title: view.title,
+              build: view.build.isDefault ? undefined : view.build.key,
+            }}
           />
-          <div className='mt-4'>
-            <AddToBasketButton
-              slug={recipe.slug}
-              title={view.title}
-              build={view.build.isDefault ? undefined : view.build.key}
-            />
-          </div>
         </div>
         <div className={RECIPE_BODY_STEPS}>
           <StepList

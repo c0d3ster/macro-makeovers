@@ -14,13 +14,14 @@ import {
   groupBySection,
   pickDistinctBundles,
   rankBundles,
+  recipeEntry,
   recipeShares,
   SECTION_ORDER,
   suggestAddition,
   toShoppingListText,
 } from './basketMath'
 
-const one = (slug: string): BasketEntry => ({ slug, batches: 1 })
+const one = (slug: string): BasketEntry => recipeEntry(slug)
 const NO_PANTRY = { includePantry: false }
 
 describe('basket data', () => {
@@ -126,10 +127,10 @@ describe('computeBasket', () => {
     expect(cottage && describePurchase(cottage)).toBe('1 × 2 × 5.3 oz cups')
   })
 
-  it('scales by batches and counts servings', () => {
+  it('scales by servings and counts them', () => {
     const single = computeBasket([one('spicy-turkey-chili')], NO_PANTRY)
     const double = computeBasket(
-      [{ slug: 'spicy-turkey-chili', batches: 2 }],
+      [{ slug: 'spicy-turkey-chili', servings: single.servings * 2 }],
       NO_PANTRY
     )
 
@@ -220,8 +221,25 @@ describe('compareBundle', () => {
   })
 })
 
+describe('servings', () => {
+  it('can lower the cost per serving by filling packs already bought', () => {
+    // Doubled tacos fill the cheddar, cottage cheese, and corn they open. One extra serving
+    // needs a second turkey tray, so it costs more per serving.
+    const perServing = (servings: number): number => {
+      const totals = computeBasket(
+        [{ slug: 'turkey-taco-grillers', servings }],
+        NO_PANTRY
+      )
+      return totals.tripCost / totals.servings
+    }
+
+    expect(perServing(8)).toBeLessThan(perServing(4))
+    expect(perServing(5)).toBeGreaterThan(perServing(4))
+  })
+})
+
 describe('recipeShares', () => {
-  it('splits the pooled trip by use, and each part is cheaper than buying alone', () => {
+  it('splits the pooled trip so the parts add up and none costs more than alone', () => {
     const pair = [one('spicy-turkey-chili'), one('turkey-taco-grillers')]
     const shares = recipeShares(pair, NO_PANTRY)
     const together = computeBasket(pair, NO_PANTRY)
