@@ -59,6 +59,18 @@ export const findBasketRecipe = (slug: string): BasketRecipe | undefined =>
   RECIPES_BY_SLUG.get(slug)
 
 // A recipe at the servings it is written for
+// What one batch of a recipe uses for a build: the recipe's lines with the build's changes
+export const linesFor = (
+  recipe: BasketRecipe,
+  build?: string
+): Record<string, number> => {
+  const changes = build ? recipe.builds?.[build]?.lines : undefined
+  if (!changes) return recipe.lines
+  return Object.fromEntries(
+    Object.entries({ ...recipe.lines, ...changes }).filter(([, quantity]) => quantity > 0)
+  )
+}
+
 export const recipeEntry = (slug: string): BasketEntry => ({
   slug,
   servings: findBasketRecipe(slug)?.servings ?? 1,
@@ -157,13 +169,13 @@ export const computeBasket = (
   const pooled = new Map<string, ItemUse[]>()
   let servings = 0
 
-  entries.forEach(({ slug, servings: wanted }) => {
+  entries.forEach(({ slug, build, servings: wanted }) => {
     const recipe = findBasketRecipe(slug)
     if (!recipe) return
     // 6 servings of a 4 serving recipe needs half again of every ingredient
     const scale = wanted / recipe.servings
     servings += wanted
-    Object.entries(recipe.lines).forEach(([key, quantity]) => {
+    Object.entries(linesFor(recipe, build)).forEach(([key, quantity]) => {
       const item = BASKET_ITEMS[key]
       if (!item || (item.pantry && !includePantry)) return
       pooled.set(key, [
@@ -295,7 +307,11 @@ const asWritten = (
 ): { cost: number; leftover: number; perServing: number } => {
   const recipe = findBasketRecipe(entry.slug)
   if (!recipe) return { cost: 0, leftover: 0, perServing: 0 }
-  const written = computeBasket([recipeEntry(entry.slug)], options)
+  // The same build as written, so a beef build compares against beef bought as written
+  const written = computeBasket(
+    [{ ...recipeEntry(entry.slug), ...(entry.build ? { build: entry.build } : {}) }],
+    options
+  )
   const scale = entry.servings / recipe.servings
   return {
     cost: written.tripCost * scale,

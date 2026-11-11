@@ -21,7 +21,7 @@ Prepared cost per serving runs from $2.74 (Blackened Chicken Alfredo) to $7.72 (
 | 9a  | Beef Bulgogi (over black rice), flank steak build          | 4        | 22.37               | 5.59            | 25.05                    | 21.99                  | 47.04               | $$$    |
 | 10  | Cheesy Hash Brown Bacon Bake                               | 4        | 18.53               | 4.63            | 26.43                    | 22.09                  | 48.52               | $$     |
 | 11  | Pollo Asado Chicken Thigh Bowl (skinless), homemade thighs | 4        | 18.45               | 4.61            | 29.98                    | 17.21                  | 47.19               | $$     |
-| 11a | Pollo Asado Chicken Thigh Bowl, Costco precooked build     | 4        | 22.44               | 5.61            | 33.04                    | 1.75                   | 34.79               | $$$    |
+| 11a | Pollo Asado Chicken Thigh Bowl, Costco precooked build     | 4        | 22.47               | 5.62            | 33.04                    | 1.75                   | 34.79               | $$$    |
 | 12  | Shake 'n Bake Pork Chops (full plate)                      | 4        | 17.48               | 4.37            | 22.35                    | 41.96                  | 64.31               | $$     |
 | 13  | Red Enchilada Casserole                                    | 6        | 20.06               | 3.34            | 26.85                    | 40.93                  | 67.78               | $$     |
 
@@ -560,9 +560,9 @@ Every line shows the amount used, the pack it was priced from and the prorated c
 | **Full-pack cost (not prorated)**                                                         |                                                           |                         |        | **$47.19** |
 | **Alternate build: Costco precooked pollo asado instead of thighs and marinade**          |                                                           |                         |        |            |
 | Precooked pollo asado (Costco)                                                            | 1.5 lb (3/4 of a bag)                                     | 2 lb bag                | $15.00 | $11.25     |
-| _Thighs, orange juice, marinade lime, garlic, achiote, adobo and marinade spices removed_ |                                                           |                         |        | _-$7.26_   |
-| **Alternate batch total (prorated)**                                                      |                                                           |                         |        | **$22.44** |
-| **Alternate per serving (÷4)**                                                            |                                                           |                         |        | **$5.61**  |
+| _Thighs, orange juice, marinade lime, garlic, achiote, adobo, marinade spices and searing oil removed (1/2 tsp cumin stays for the beans)_ |                                                           |                         |        | _-$7.23_   |
+| **Alternate batch total (prorated)**                                                      |                                                           |                         |        | **$22.47** |
+| **Alternate per serving (÷4)**                                                            |                                                           |                         |        | **$5.62**  |
 | Alternate full-pack cost (not prorated)                                                   |                                                           |                         |        | $34.79     |
 
 ### 12. Shake 'n Bake Pork Chops, full plate (4 servings)
