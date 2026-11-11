@@ -186,13 +186,26 @@ const groupHeading = (group: string): string => {
 
 const ingredientsSection = (recipe: RecipeImport): string => {
   const { ingredients, notes } = recipe
+  // A group whose lines all carry the same scope says it once, on its heading
+  const groupScope = (group: string | undefined): string => {
+    if (!group) return ''
+    const labels = ingredients
+      .filter((ingredient) => ingredient.group === group)
+      .map((ingredient) => scopeLabel(recipe, ingredient))
+    const [first = ''] = labels
+    return labels.every((label) => label === first) ? first : ''
+  }
   const lines = ingredients.flatMap((ingredient, index) => {
     const previous = ingredients[index - 1]
+    const shared = groupScope(ingredient.group)
     const heading =
       ingredient.group && ingredient.group !== previous?.group
-        ? [`${index === 0 ? '' : '\n'}${groupHeading(ingredient.group)}\n`]
+        ? [
+            `${index === 0 ? '' : '\n'}${groupHeading(ingredient.group)}${shared}\n`,
+          ]
         : []
-    return [...heading, `- ${ingredient.raw}${scopeLabel(recipe, ingredient)}`]
+    const own = shared ? '' : scopeLabel(recipe, ingredient)
+    return [...heading, `- ${ingredient.raw}${own}`]
   })
   const tips = notes
     .filter(({ kind }) => kind === 'tip')

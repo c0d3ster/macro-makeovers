@@ -201,10 +201,10 @@ Every other recipe has one makeover row and needs nothing.
 
 ## Risks and open questions
 
-- **Unverified numbers.** The beef griller numbers come from the recipe's own tip (about +30 calories and +3g fat), and its meat table disagrees slightly (+50 and +4g, with +4g protein). Confirm before the beef build ships, since filtering will now act on them.
+- **Beef numbers.** Settled: the beef build adds the meat table's 90/10 beef minus turkey difference (+50 calories, -1g carbs, +4g fat, +4g protein) to the griller. The tip and table caption said +30 and 3g, and now match the table.
 - **Combinations.** Meat and format multiply (two meats times three formats is six rows). The flat list keeps the table readable and lets the author list only verified builds. If combinations become common, add axes later: each build tagged with an axis value, and the table grouped by axis.
 - **Shared links render the default first.** The static page paints the default build, then switches on the client. Check how this Next.js version handles reading search params under a static page (`node_modules/next/dist/docs/`) before building, and keep the swap inside one client boundary so the title and table change together.
-- **Costco macros.** The recipe says Costco runs within about 5 calories of skinless. Confirm the carbs, fat, and protein before it gets its own row, since filters will act on them.
+- **Costco macros.** Settled: the tracked numbers are Costco's. Working back from the bowl total, its chicken share is about 230 calories, 9g fat, and 35g protein, and 6 oz raw skinless thigh with the oil and marinade comes to about 225, 8g, and 34g. Homemade skinless and Costco share the numbers, and Costco stays a build for its cost, prep, and steps.
 - **Renaming a key.** Lines and steps point at build keys, so renaming one in the editor has to update them in the same save. Validation catches any it misses.
 - **Title wins over search?** A search for "turkey" should probably keep leading with the turkey build even when a goal prefers the rice bowl. Proposal: text match on a build title beats fit.
 

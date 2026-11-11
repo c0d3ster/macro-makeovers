@@ -18,6 +18,19 @@
       "proteinG": 49
     },
     {
+      "key": "beef",
+      "label": "Beef grillers (90/10)",
+      "isDefault": false,
+      "title": "Beef Taco Grillers",
+      "note": "90/10 ground beef in place of the turkey. Adds about 50 calories, 4g fat, and 4g protein per serving, from the meat options table. The same swap works for the rice bowl and the filling.",
+      "tagsAdd": ["beef"],
+      "tagsRemove": ["turkey"],
+      "calories": 750,
+      "carbsG": 78,
+      "fatG": 25,
+      "proteinG": 53
+    },
+    {
       "key": "rice-bowl",
       "label": "Rice bowl (3/4 cup)",
       "isDefault": false,
@@ -49,7 +62,12 @@
   ],
   "ingredients": [
     {
-      "raw": "1 lb lean ground turkey (93/7), or 90/10 ground beef"
+      "raw": "1 lb lean ground turkey (93/7)",
+      "skipBuilds": ["beef"]
+    },
+    {
+      "raw": "1 lb 90/10 ground beef",
+      "onlyBuilds": ["beef"]
     },
     {
       "raw": "2 cloves garlic, minced"
@@ -117,11 +135,11 @@
     },
     {
       "kind": "nutrition_analysis",
-      "body": "The griller is the go-to build: two crispy cheese-griddled tortillas loaded up. Griller numbers reflect turkey with cheese split inside and out (see below); beef will run close but hasn't been independently verified. The rice bowl skips the tortilla but the pico topping carries similar carbs. The filling alone is lean and protein-forward, a full can of black beans pushes it to 35g protein per serving. Build details below."
+      "body": "The griller is the go-to build: two crispy cheese-griddled tortillas loaded up. Griller numbers reflect turkey with cheese split inside and out (see below); the beef build adds the meat table's difference for 90/10 beef. The rice bowl skips the tortilla but the pico topping carries similar carbs. The filling alone is lean and protein-forward, a full can of black beans pushes it to 35g protein per serving. Build details below."
     },
     {
       "kind": "tip",
-      "body": "Turkey or beef? 93/7 turkey is the default here: cheaper and easier to find than 93/7 beef, with nearly identical macros. 90/10 beef is the easy-to-find fallback if you'd rather use beef; it adds ~30 cal and ~3g fat per serving. Meat comparison is at the bottom."
+      "body": "Turkey or beef? 93/7 turkey is the default here: cheaper and easier to find than 93/7 beef, with nearly identical macros. 90/10 beef is the easy-to-find fallback if you'd rather use beef; it adds ~50 cal, 4g fat, and 4g protein per serving. Meat comparison is at the bottom."
     },
     {
       "kind": "levers",
@@ -153,15 +171,8 @@
     },
     {
       "kind": "levers",
-      "body": "**Meat options (filling only, per serving)**\n\n| Meat                  | Calories | Carbs | Fat | Protein | Ratio C/F/P  |\n| --------------------- | -------- | ----- | --- | ------- | ------------ |\n| 93/7 turkey (default) | ~265     | 20g   | 7g  | 31g     | 29 / 25 / 46 |\n| 93/7 beef             | ~290     | 19g   | 8g  | 35g     | 26 / 26 / 48 |\n| 90/10 beef            | ~315     | 19g   | 11g | 35g     | 24 / 32 / 44 |\n\n93/7 turkey is the default: cheaper and easier to find than 93/7 beef, with nearly identical macros. 93/7 beef edges it out slightly on protein if you can find it. 90/10 beef is the easiest to find of the three and only adds ~30 cal / 3g fat per serving."
+      "body": "**Meat options (filling only, per serving)**\n\n| Meat                  | Calories | Carbs | Fat | Protein | Ratio C/F/P  |\n| --------------------- | -------- | ----- | --- | ------- | ------------ |\n| 93/7 turkey (default) | ~265     | 20g   | 7g  | 31g     | 29 / 25 / 46 |\n| 93/7 beef             | ~290     | 19g   | 8g  | 35g     | 26 / 26 / 48 |\n| 90/10 beef            | ~315     | 19g   | 11g | 35g     | 24 / 32 / 44 |\n\n93/7 turkey is the default: cheaper and easier to find than 93/7 beef, with nearly identical macros. 93/7 beef edges it out slightly on protein if you can find it. 90/10 beef is the easiest to find of the three and only adds ~50 cal, 4g fat, and 4g protein per serving."
     }
   ],
-  "tags": [
-    "turkey",
-    "beef",
-    "bowl",
-    "stovetop",
-    "high protein",
-    "batch friendly"
-  ]
+  "tags": ["turkey", "bowl", "stovetop", "high protein", "batch friendly"]
 }
