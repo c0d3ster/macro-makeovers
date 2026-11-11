@@ -219,7 +219,7 @@ export const RecipePhotoEditor = ({
       )
     })
 
-  const useRecipePhoto = (): void =>
+  const fallBackToRecipePhoto = (): void =>
     run('choose', async () => {
       const result = await onClear?.()
       if (result && !result.ok) {
@@ -350,7 +350,7 @@ export const RecipePhotoEditor = ({
             size='sm'
             variant='outline'
             disabled={isWorking}
-            onClick={useRecipePhoto}
+            onClick={fallBackToRecipePhoto}
           >
             Use the recipe photo instead
           </Button>
