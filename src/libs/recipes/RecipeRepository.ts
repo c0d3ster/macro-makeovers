@@ -20,6 +20,7 @@ import {
 
 import type { RecipeCard } from './recipeCards'
 import type { RecipeDetail } from './recipeDetail'
+import type { IngredientMatch } from './recipeFilters'
 import type { RecipeStatus } from './recipeStatus'
 
 import { toRecipeCard } from './recipeCards'
@@ -555,9 +556,13 @@ export class RecipeRepository {
 
   // Slugs of published recipes with an ingredient matching the search text. Uses the generated
   // tsvector on ingredients.raw_text, so "chicken thigh" also finds "chicken thighs".
-  findPublishedSlugsByIngredient = async (text: string): Promise<string[]> => {
+  findPublishedIngredientMatches = async (text: string): Promise<IngredientMatch[]> => {
     const rows = await this.database
-      .selectDistinct({ slug: recipes.slug })
+      .selectDistinct({
+        slug: recipes.slug,
+        onlyBuilds: ingredients.onlyBuilds,
+        skipBuilds: ingredients.skipBuilds,
+      })
       .from(ingredients)
       .innerJoin(recipes, eq(recipes.id, ingredients.recipeId))
       .where(
@@ -566,7 +571,11 @@ export class RecipeRepository {
           sql`"ingredients"."search" @@ websearch_to_tsquery('english', ${text})`
         )
       )
-    return rows.map(({ slug }) => slug)
+    return rows.map(({ slug, onlyBuilds, skipBuilds }) => ({
+      slug,
+      ...(onlyBuilds.length > 0 ? { onlyBuilds } : {}),
+      ...(skipBuilds.length > 0 ? { skipBuilds } : {}),
+    }))
   }
 
   // Drafts and published recipes together, newest edit first. Owner only.
@@ -704,9 +713,17 @@ export class RecipeRepository {
 
   // Each published recipe's photo by slug, for the book
   listPublishedImageUrls = async (): Promise<Map<string, string>> => {
+    // The default build's own photo first, the same photo the recipe page leads with
     const rows = await this.database
-      .select({ slug: recipes.slug, imageUrl: recipes.imageUrl })
+      .select({
+        slug: recipes.slug,
+        imageUrl: sql<string | null>`coalesce(${recipeBuilds.imageUrl}, ${recipes.imageUrl})`,
+      })
       .from(recipes)
+      .leftJoin(
+        recipeBuilds,
+        and(eq(recipeBuilds.recipeId, recipes.id), eq(recipeBuilds.isDefault, true))
+      )
       .where(eq(recipes.status, 'published'))
     const urls = new Map<string, string>()
     rows.forEach(({ slug, imageUrl }) => {

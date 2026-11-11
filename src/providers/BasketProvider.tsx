@@ -50,8 +50,8 @@ export const BasketProvider = ({
       includePantry: basket.includePantry,
       checked: new Set(basket.checked),
       isLoaded,
-      has: (slug, build) =>
-        builds.has(slug) && (build === undefined || builds.get(slug) === build),
+      has: (slug, build) => builds.has(slug) && builds.get(slug) === build,
+      hasRecipe: (slug) => builds.has(slug),
       servingsOf: (slug) =>
         basket.entries.find((entry) => entry.slug === slug)?.servings,
       add: (slug, build, servings) => {

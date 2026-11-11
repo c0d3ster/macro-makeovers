@@ -1,5 +1,6 @@
 import type {
   Fit,
+  IngredientMatches,
   RecipeCard,
   RecipeFilters,
   TagGroups,
@@ -13,6 +14,7 @@ import {
   findUnavailableOptions,
   groupTags,
   resolveTarget,
+  toIngredientMatches,
 } from '@/libs/recipes'
 import { services } from '@/services'
 
@@ -28,9 +30,9 @@ type RecipeBrowse = {
   unavailable: UnavailableOptions
 }
 
-// Slugs of published recipes with an ingredient matching the search text
-const searchIngredients = async (search: string): Promise<Set<string>> =>
-  new Set(await services.recipeService.getRecipeSlugsByIngredient(search))
+// Ingredient lines of published recipes matching the search text
+const searchIngredients = async (search: string): Promise<IngredientMatches> =>
+  toIngredientMatches(await services.recipeService.getIngredientMatches(search))
 
 // Shared by the home grid and the tag pages. Returns undefined when recipes can't be loaded,
 // so the page can show an empty state instead of failing the whole site.
@@ -43,9 +45,9 @@ export const loadRecipeBrowse = async (
     const ingredientMatches = filters.q
       ? await searchIngredients(filters.q).catch((error) => {
           logger.error('Could not search ingredients', { error })
-          return new Set<string>()
+          return new Map()
         })
-      : new Set<string>()
+      : new Map()
     const tagGroups = groupTags(all)
     const visible = filterRecipes(all, filters, ingredientMatches)
     const target = resolveTarget(filters)

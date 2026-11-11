@@ -5,6 +5,7 @@ import { revalidatePath } from 'next/cache'
 import type { ImportRecipeResult } from '@/graphql/schema'
 import type {
   ImportResult,
+  IngredientMatch,
   RecipeCard,
   RecipeDetail,
   RecipeStatus,
@@ -157,10 +158,10 @@ export class RecipeService {
     return this.reader().listPublishedSlugs()
   }
 
-  async getRecipeSlugsByIngredient(search: string): Promise<string[]> {
+  async getIngredientMatches(search: string): Promise<IngredientMatch[]> {
     const text = search.trim().slice(0, MAX_SEARCH_LENGTH)
     if (!text) return []
-    return this.reader().findPublishedSlugsByIngredient(text)
+    return this.reader().findPublishedIngredientMatches(text)
   }
 
   // Owner reads. They include drafts, so the caller (the admin loaders) checks the owner first.

@@ -6,6 +6,7 @@ import { use, useState } from 'react'
 import { useWatch } from 'react-hook-form'
 
 import { appliesToBuild, buildTitle } from '@/libs/recipes/recipeBuilds'
+import { recipeSlugSchema } from '@/validations'
 
 import { BuildPreviewContext } from './buildPreview'
 import {
@@ -78,19 +79,25 @@ export const RecipeBuildDetails = ({
   const swap = builds[index]?.swap ?? {}
 
   // One swap pair is all a build needs, typed as two words. The draft holds a half-typed pair.
+  // Pairs past the first, from an import, are kept as they are.
   const [savedFrom = '', savedTo = ''] = Object.entries(swap)[0] ?? []
   const [draft, setDraft] = useState({ from: savedFrom, to: savedTo })
+  // The tag the shown pair last wrote, so editing it replaces that pair and no other
+  const [shownFrom, setShownFrom] = useState(savedFrom)
   const swapFrom = draft.from
   const swapTo = draft.to
   const writeSwap = (from: string, to: string): void => {
     setDraft({ from, to })
     const cleanFrom = from.trim().toLowerCase()
     const cleanTo = to.trim().toLowerCase()
-    setValue(
-      `${path}.swap`,
-      cleanFrom && cleanTo ? { [cleanFrom]: cleanTo } : undefined,
-      { shouldDirty: true }
+    const others = Object.fromEntries(
+      Object.entries(swap).filter(([tag]) => tag !== shownFrom && tag !== cleanFrom)
     )
+    const next = cleanFrom && cleanTo ? { [cleanFrom]: cleanTo, ...others } : others
+    setShownFrom(cleanFrom && cleanTo ? cleanFrom : '')
+    setValue(`${path}.swap`, Object.keys(next).length > 0 ? next : undefined, {
+      shouldDirty: true,
+    })
   }
   const swappedTitle = buildTitle(recipeTitle ?? '', { swap })
   const swapErrors = rowErrors?.swap as Record<string, { message?: string }> | undefined
@@ -109,10 +116,21 @@ export const RecipeBuildDetails = ({
     differs(steps) > steps.length * DIVERGENCE_SHARE
 
   // Renamed on blur, so the lines that point at this build follow the new key once
+  const [keyError, setKeyError] = useState<string>()
   const commitKey = (): void => {
     const next = draftKey.trim()
+    setKeyError(undefined)
     if (!next || next === key) {
       setDraftKey(key)
+      return
+    }
+    // A rejected key never reaches the lines or photos, so they keep pointing at this build
+    if (!recipeSlugSchema.safeParse(next).success) {
+      setKeyError('Use lowercase words separated by hyphens')
+      return
+    }
+    if (builds.some((build, other) => other !== index && build.key === next)) {
+      setKeyError(`Another build already uses the key "${next}"`)
       return
     }
     if (key) {
@@ -133,7 +151,7 @@ export const RecipeBuildDetails = ({
         <Field
           label='Key'
           hint={`Used in the link: ?build=${key || 'key'}`}
-          error={rowErrors?.key?.message}
+          error={keyError ?? rowErrors?.key?.message}
         >
           <input
             className={INPUT}

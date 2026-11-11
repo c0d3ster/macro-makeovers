@@ -96,6 +96,11 @@ export const RecipeHeroEditor = ({
   const original = comparisons[0] && toBuildMacros(comparisons[0])
   // A build other than the featured one is previewed, so its overrides show here
   const buildPreview = !preview.isFeatured && previewRow?.key ? previewRow : undefined
+  // The photo editor follows the photo the page shows: a featured build with its own photo
+  // edits that photo, and clearing it goes back to the recipe photo
+  const photoBuild =
+    buildPreview ??
+    (previewRow?.key && preview.buildImages[previewRow.key] ? previewRow : undefined)
   const totalMinutes =
     toNumber(buildPreview?.prepMinutes ?? prepMinutes) +
     toNumber(buildPreview?.cookMinutes ?? cookMinutes)
@@ -249,23 +254,23 @@ export const RecipeHeroEditor = ({
       </div>
 
       <div className={RECIPE_HERO_PHOTO}>
-        {buildPreview?.key ? (
+        {photoBuild?.key ? (
           <RecipePhotoEditor
             // A fresh editor per build, so a candidate never carries over to another build
-            key={buildPreview.key}
-            imageUrl={preview.buildImages[buildPreview.key]}
+            key={photoBuild.key}
+            imageUrl={preview.buildImages[photoBuild.key]}
             fallbackUrl={imageUrl}
-            onChoose={(url) => onChooseBuildPhoto(buildPreview.key ?? '', url)}
-            onClear={() => onClearBuildPhoto(buildPreview.key ?? '')}
-            isSaved={preview.isBuildSaved(buildPreview.key)}
+            onChoose={(url) => onChooseBuildPhoto(photoBuild.key ?? '', url)}
+            onClear={() => onClearBuildPhoto(photoBuild.key ?? '')}
+            isSaved={preview.isBuildSaved(photoBuild.key)}
             build={{
-              key: buildPreview.key,
-              label: buildPreview.label,
+              key: photoBuild.key,
+              label: photoBuild.label,
               title: buildTitle(recipeTitle ?? '', {
-                swap: buildPreview.swap ?? {},
-                title: buildPreview.title,
+                swap: photoBuild.swap ?? {},
+                title: photoBuild.title,
               }),
-              note: buildPreview.note,
+              note: photoBuild.note,
             }}
           />
         ) : (

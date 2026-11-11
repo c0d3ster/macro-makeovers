@@ -1,5 +1,9 @@
 import type { RecipeCard } from './recipeCards'
-import type { RecipeFilters, TagFacet } from './recipeFilters'
+import type {
+  IngredientMatches,
+  RecipeFilters,
+  TagFacet,
+} from './recipeFilters'
 import type { MacroTarget } from './recipeMacros'
 
 import { collectTags, defaultSort, filterRecipes } from './recipeFilters'
@@ -194,7 +198,7 @@ export const describeFilters = (filters: RecipeFilters): FilterChip[] => {
 export const findUnavailableOptions = (
   recipes: RecipeCard[],
   filters: RecipeFilters,
-  ingredientMatches: ReadonlySet<string>,
+  ingredientMatches: IngredientMatches,
   tagGroups: TagGroups
 ): UnavailableOptions => {
   const current = toSearchParams(filters)

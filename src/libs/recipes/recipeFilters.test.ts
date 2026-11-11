@@ -214,7 +214,7 @@ describe('filterRecipes', () => {
     const filters = { ...base, q: 'salmon' }
 
     expect(filterRecipes(recipes, filters)).toEqual([])
-    expect(slugs(filterRecipes(recipes, filters, new Set(['chili'])))).toEqual([
+    expect(slugs(filterRecipes(recipes, filters, new Map([['chili', [{}]]])))).toEqual([
       'chili',
     ])
   })
@@ -499,6 +499,13 @@ describe('build resolution', () => {
 
   it('prefers a build whose title matches the search', () => {
     expect(shown({ q: 'beef tacos' })).toEqual(['Beef Tacos beef'])
+  })
+
+  it('leads with a build that has the matched ingredient line', () => {
+    const matches = new Map([['tacos', [{ onlyBuilds: ['bowl'] }]]])
+    const found = filterRecipes([tacos], parseRecipeFilters({ q: 'rice' }), matches)
+
+    expect(found.map(({ build }) => build.key)).toEqual(['bowl'])
   })
 
   it('picks the best fit for macro targets and never an unlisted build', () => {

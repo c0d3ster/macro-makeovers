@@ -10,8 +10,10 @@ export type BasketContextValue = {
   checked: Set<string>
   // False until the saved basket is read, so counts don't flash 0 then jump
   isLoaded: boolean
-  // With a build, true only when that build is the one in the basket. Missing means default.
+  // True only when this build is the one in the basket. Missing means the default build.
   has: (slug: string, build?: string) => boolean
+  // True when any build of the recipe is in the basket
+  hasRecipe: (slug: string) => boolean
   // The servings in the basket for a recipe, if it is there
   servingsOf: (slug: string) => number | undefined
   // Builds of one recipe are mutually exclusive, so adding another build replaces it. Servings
@@ -33,6 +35,7 @@ export const BasketContext = createContext<BasketContextValue>({
   checked: new Set(),
   isLoaded: false,
   has: () => false,
+  hasRecipe: () => false,
   servingsOf: () => undefined,
   add: noop,
   remove: noop,

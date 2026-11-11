@@ -29,11 +29,11 @@ export const AddToBasketButton = ({
   servings,
   variant = 'full',
 }: AddToBasketButtonProps): ReactElement | null => {
-  const { has, servingsOf, add, remove, isLoaded } = useBasket()
+  const { has, hasRecipe, servingsOf, add, remove, isLoaded } = useBasket()
   if (!BASKET_SLUGS.has(slug)) return null
   const inBasket = has(slug, build)
   // Another build of this recipe is in the basket, and adding this one swaps it
-  const otherBuild = !inBasket && has(slug)
+  const otherBuild = !inBasket && hasRecipe(slug)
 
   if (variant === 'compact') {
     return (

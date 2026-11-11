@@ -161,7 +161,7 @@ describe('findUnavailableOptions', () => {
     const unavailable = findUnavailableOptions(
       recipes,
       filters,
-      new Set(),
+      new Map(),
       groups
     )
 
@@ -175,7 +175,7 @@ describe('findUnavailableOptions', () => {
     const unavailable = findUnavailableOptions(
       recipes,
       filters,
-      new Set(),
+      new Map(),
       groups
     )
 
@@ -187,7 +187,7 @@ describe('findUnavailableOptions', () => {
     const unavailable = findUnavailableOptions(
       recipes,
       parseRecipeFilters({ carbs: '40' }),
-      new Set(),
+      new Map(),
       groups
     )
 
@@ -200,7 +200,7 @@ describe('findUnavailableOptions', () => {
     const unavailable = findUnavailableOptions(
       [card({ tags: [] })],
       parseRecipeFilters({}),
-      new Set(),
+      new Map(),
       groupTags([])
     )
 

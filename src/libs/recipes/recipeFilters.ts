@@ -1,7 +1,9 @@
+import type { BuildScope } from './recipeBuilds'
 import type { CardBuild, RecipeCard } from './recipeCards'
 import type { GoalId } from './recipeGoals'
 import type { MacroTarget } from './recipeMacros'
 
+import { appliesToBuild } from './recipeBuilds'
 import { cardForBuild } from './recipeCards'
 import { distanceToTarget, evaluateFit } from './recipeFit'
 import { GOALS, resolveTarget } from './recipeGoals'
@@ -158,14 +160,34 @@ const withinLimits = (
   (maxCostTier === undefined || recipe.costTier <= maxCostTier) &&
   (maxDifficulty === undefined || recipe.difficulty <= maxDifficulty)
 
+// An ingredient line that matched the search, with the builds it belongs to
+export type IngredientMatch = BuildScope & { slug: string }
+
+// The matched lines by recipe slug, so a build only matches through its own lines
+export type IngredientMatches = ReadonlyMap<string, readonly BuildScope[]>
+
+export const toIngredientMatches = (rows: IngredientMatch[]): IngredientMatches =>
+  rows.reduce((matches, { slug, ...scope }) => {
+    matches.set(slug, [...(matches.get(slug) ?? []), scope])
+    return matches
+  }, new Map<string, BuildScope[]>())
+
+const matchesIngredients = (
+  recipe: RecipeCard,
+  ingredientMatches: IngredientMatches
+): boolean =>
+  (ingredientMatches.get(recipe.slug) ?? []).some((scope) =>
+    appliesToBuild(scope, recipe.build.key)
+  )
+
 const matchesFilters = (
   recipe: RecipeCard,
   filters: FilterFields,
-  ingredientMatches: ReadonlySet<string>
+  ingredientMatches: IngredientMatches
 ): boolean => {
   const { q, tag, meat, method, dish, goodFor } = filters
 
-  if (q && !matchesText(recipe, q) && !ingredientMatches.has(recipe.slug)) {
+  if (q && !matchesText(recipe, q) && !matchesIngredients(recipe, ingredientMatches)) {
     return false
   }
 
@@ -253,7 +275,7 @@ const listedBuilds = (recipe: RecipeCard): CardBuild[] =>
 const resolveCardBuild = (
   recipe: RecipeCard,
   filters: RecipeFilters,
-  ingredientMatches: ReadonlySet<string> = new Set()
+  ingredientMatches: IngredientMatches = new Map()
 ): RecipeCard | undefined => {
   const candidates = listedBuilds(recipe)
     .map((build) => cardForBuild(recipe, build))
@@ -284,12 +306,12 @@ const resolveCardBuild = (
   return ranked[0]?.card
 }
 
-// ingredientMatches holds slugs whose ingredients matched the search text, so "salmon" finds
-// a recipe that only mentions it in the ingredient list
+// ingredientMatches holds the lines that matched the search text, so "salmon" finds a recipe
+// that only mentions it in the ingredient list, led by a build that has that line
 export const filterRecipes = (
   recipes: RecipeCard[],
   filters: RecipeFilters,
-  ingredientMatches: ReadonlySet<string> = new Set()
+  ingredientMatches: IngredientMatches = new Map()
 ): RecipeCard[] =>
   recipes
     .flatMap((recipe) => {

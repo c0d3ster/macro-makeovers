@@ -67,7 +67,8 @@ const SCOPED_SECTIONS = ['ingredients', 'steps', 'notes'] as const
 type ScopeList = string[] | undefined
 
 // Renames a build key everywhere a line, step, or note points at it. With no new key the build
-// is gone, so its key is dropped, and a scope left empty goes back to every build.
+// is gone: a row only that build had goes with it, and a skip list left empty goes back to every
+// build.
 export const useRenameBuildKey = (): ((from: string, to?: string) => void) => {
   const { getValues, setValue } = useRecipeForm()
 
@@ -79,7 +80,16 @@ export const useRenameBuildKey = (): ((from: string, to?: string) => void) => {
     }
 
     SCOPED_SECTIONS.forEach((section) => {
-      getValues(section).forEach((row, index) => {
+      // A row only the deleted build had would otherwise turn into a row every build has
+      if (!to) {
+        const rows = getValues(section)
+        const kept = rows.filter(
+          (row) => !(row.onlyBuilds?.length && !swap(row.onlyBuilds))
+        ) as typeof rows
+        if (kept.length < rows.length) setValue(section, kept, { shouldDirty: true })
+      }
+      const rows = getValues(section)
+      rows.forEach((row, index) => {
         const onlyBuilds = swap(row.onlyBuilds)
         const skipBuilds = swap(row.skipBuilds)
         if (onlyBuilds !== row.onlyBuilds) {

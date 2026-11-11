@@ -57,38 +57,54 @@ alter table public.recipe_notes
   add constraint recipe_notes_build_scope_check
     check (cardinality(only_builds) = 0 or cardinality(skip_builds) = 0);
 
--- Move every makeover row into a build. Keys come from the label, with the position added
--- when two labels in one recipe would collide. A recipe with no default flagged gets its
--- first makeover as the default, the same rule the app already used.
+-- Move every makeover row into a build. Keys come from the label, numbered when two labels in
+-- one recipe would collide. A numbered key that still matches another label's key ("Bowl",
+-- "Bowl", "Bowl 1") also gets the row's place in the recipe. A recipe with no default flagged
+-- gets its first makeover as the default, the same rule the app already used.
 insert into public.recipe_builds (
   recipe_id, key, label, position, is_default, calories, carbs_g, fat_g, protein_g
 )
 select
   recipe_id,
   case
-    when count(*) over (partition by recipe_id, base_key) > 1
-      then base_key || '-' || (row_number() over (partition by recipe_id, base_key order by position))
-    else base_key
+    when count(*) over (partition by recipe_id, candidate) > 1 then candidate || '-' || place
+    else candidate
   end,
   label,
-  row_number() over (partition by recipe_id order by position) - 1,
-  case
-    when bool_or(is_default) over (partition by recipe_id) then is_default
-    else row_number() over (partition by recipe_id order by position) = 1
-  end,
+  place - 1,
+  is_default,
   calories,
   carbs_g,
   fat_g,
   protein_g
 from (
   select
-    n.*,
-    coalesce(
-      nullif(trim(both '-' from regexp_replace(lower(label), '[^a-z0-9]+', '-', 'g')), ''),
-      'build'
-    ) as base_key
-  from public.recipe_nutrition n
-  where kind = 'makeover'
+    recipe_id,
+    label,
+    row_number() over (partition by recipe_id order by position) as place,
+    case
+      when bool_or(is_default) over (partition by recipe_id) then is_default
+      else row_number() over (partition by recipe_id order by position) = 1
+    end as is_default,
+    case
+      when count(*) over (partition by recipe_id, base_key) > 1
+        then base_key || '-' || (row_number() over (partition by recipe_id, base_key order by position))
+      else base_key
+    end as candidate,
+    calories,
+    carbs_g,
+    fat_g,
+    protein_g
+  from (
+    select
+      n.*,
+      coalesce(
+        nullif(trim(both '-' from regexp_replace(lower(label), '[^a-z0-9]+', '-', 'g')), ''),
+        'build'
+      ) as base_key
+    from public.recipe_nutrition n
+    where kind = 'makeover'
+  ) labelled
 ) makeovers;
 
 -- The makeover rows and is_default stay for now, so the code already deployed keeps working

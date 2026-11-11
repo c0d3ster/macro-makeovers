@@ -116,6 +116,42 @@ export const RecipeForm = ({
   })
   const notes = useFieldArray({ control: form.control, name: 'notes' })
 
+  // Build photos that failed to attach after the last save, kept queued for a retry
+  const [failedBuildPhotos, setFailedBuildPhotos] = useState<string[]>([])
+
+  // Attaches queued build photos to builds the database now has. Only the photos that attach
+  // leave the queue, so one picked while saving, or one that failed, stays for the next try.
+  const attachBuildPhotos = async (
+    id: string,
+    waiting: [string, string][]
+  ): Promise<void> => {
+    const attached: [string, string][] = []
+    const failed: string[] = []
+    for (const [key, url] of waiting) {
+      const chosen = await chooseBuildPhoto(id, key, url)
+      if (chosen.ok) attached.push([key, url])
+      else failed.push(key)
+    }
+    setPendingBuildPhotos((current) =>
+      Object.fromEntries(
+        Object.entries(current).filter(
+          ([key, url]) => !attached.some(([doneKey, doneUrl]) => doneKey === key && doneUrl === url)
+        )
+      )
+    )
+    setFailedBuildPhotos(failed)
+  }
+
+  const retryBuildPhotos = (): void => {
+    if (!recipeId) return
+    startTransition(async () => {
+      await attachBuildPhotos(
+        recipeId,
+        Object.entries(pendingBuildPhotos).filter(([key]) => failedBuildPhotos.includes(key))
+      )
+    })
+  }
+
   const save = form.handleSubmit((values) => {
     setResult(undefined)
     startTransition(async () => {
@@ -123,15 +159,11 @@ export const RecipeForm = ({
       setResult(saved)
       if (!saved.ok) return
 
-      // Every build now exists, so photos waiting on a save attach. One that fails can be
-      // picked again.
+      // Every build now exists, so photos waiting on a save attach
       const waiting = Object.entries(pendingBuildPhotos).filter(([key]) =>
         values.builds.some((build) => build.key === key)
       )
-      for (const [key, url] of waiting) {
-        await chooseBuildPhoto(saved.id, key, url)
-      }
-      setPendingBuildPhotos({})
+      await attachBuildPhotos(saved.id, waiting)
       setSavedBuildKeys(new Set(values.builds.map(({ key }) => key)))
       if (recipeId) return
 
@@ -236,6 +268,23 @@ export const RecipeForm = ({
               <p role='status' className='text-sm text-text'>
                 {result.summary}
               </p>
+            )}
+            {failedBuildPhotos.length > 0 && (
+              <div role='alert' className='flex items-center gap-3 text-sm text-red-400'>
+                <p>
+                  The photo for {failedBuildPhotos.join(', ')} did not attach.
+                </p>
+                {recipeId && (
+                  <button
+                    type='button'
+                    onClick={retryBuildPhotos}
+                    disabled={isPending}
+                    className='cursor-pointer underline hover:no-underline'
+                  >
+                    Retry
+                  </button>
+                )}
+              </div>
             )}
             {result && !result.ok && (
               <div role='alert' className='text-sm text-red-400'>
