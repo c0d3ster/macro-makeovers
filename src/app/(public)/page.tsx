@@ -77,8 +77,9 @@ const toBundles = (recipes: RecipeCard[]): BundleLink[] => {
   return pickDistinctBundles(
     rankBundles([...titles.keys()], 2, { includePantry: false }),
     BUNDLE_COUNT
-  ).map(({ slugs, saving }) => ({
+  ).map(({ slugs, saving, comparison }) => ({
     saving,
+    comparison,
     recipes: slugs.map((slug) => ({ slug, title: titles.get(slug) ?? slug })),
   }))
 }

@@ -6,6 +6,7 @@ import Link from 'next/link'
 
 import {
   bundleSavings,
+  compareBundle,
   computeBasket,
   costPerServing,
   formatMoney,
@@ -99,6 +100,9 @@ export const BasketView = ({ recipes }: BasketViewProps): ReactElement => {
           totals={totals}
           perServing={costPerServing(entries)}
           saving={saving}
+          comparison={
+            entries.length > 1 ? compareBundle(entries, options) : undefined
+          }
           perishableNames={perishableNames}
         />
         {suggestion && (

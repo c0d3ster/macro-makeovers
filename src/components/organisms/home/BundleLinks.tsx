@@ -2,12 +2,15 @@ import type { ReactElement } from 'react'
 
 import Link from 'next/link'
 
+import type { BundleComparison } from '@/libs/basket'
+
 import { AddBundleButton } from '@/components/molecules'
 import { formatMoney } from '@/libs/basket'
 
 export type BundleLink = {
   recipes: { slug: string; title: string }[]
   saving: number
+  comparison: BundleComparison
 }
 
 type BundleLinksProps = {
@@ -17,7 +20,7 @@ type BundleLinksProps = {
 // Pairs of recipes that share the most packs, each with what buying together saves
 export const BundleLinks = ({ bundles }: BundleLinksProps): ReactElement => (
   <ul className='grid grid-cols-1 gap-3 md:grid-cols-3'>
-    {bundles.map(({ recipes, saving }) => (
+    {bundles.map(({ recipes, saving, comparison }) => (
       <li
         key={recipes.map(({ slug }) => slug).join('+')}
         className='flex flex-col gap-3 rounded-xl bg-surface p-4'
@@ -36,9 +39,14 @@ export const BundleLinks = ({ bundles }: BundleLinksProps): ReactElement => (
           ))}
         </p>
         <p className='text-sm text-text-muted'>
-          Saves{' '}
-          <span className='font-semibold text-text'>{formatMoney(saving)}</span>{' '}
-          over buying each on its own
+          <span className='font-semibold text-text'>
+            {formatMoney(comparison.togetherPerServing)}
+          </span>{' '}
+          a serving together, against{' '}
+          {formatMoney(comparison.alonePerServing)} bought separately. Saves{' '}
+          <span className='font-semibold text-text'>{formatMoney(saving)}</span>
+          , with {formatMoney(comparison.leftoverTogether)} left over instead of{' '}
+          {formatMoney(comparison.leftoverAlone)}.
         </p>
         <div className='mt-auto'>
           <AddBundleButton slugs={recipes.map(({ slug }) => slug)} />

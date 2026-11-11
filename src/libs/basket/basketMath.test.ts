@@ -7,6 +7,7 @@ import type { BasketEntry } from './basketTypes'
 import { BASKET_ITEMS, BASKET_RECIPES } from './basketData'
 import {
   bundleSavings,
+  compareBundle,
   computeBasket,
   costPerServing,
   describePurchase,
@@ -195,6 +196,28 @@ describe('bundles', () => {
     expect(ranked).toHaveLength(3)
     expect(ranked.map(({ saving }) => saving)).toEqual(
       ranked.map(({ saving }) => saving).sort((a, b) => b - a)
+    )
+  })
+})
+
+describe('compareBundle', () => {
+  it('prices a serving together and alone at the register, with the leftovers of each', () => {
+    const pair = [one('spicy-turkey-chili'), one('turkey-taco-grillers')]
+    const together = computeBasket(pair, NO_PANTRY)
+    const alone =
+      computeBasket([one('spicy-turkey-chili')], NO_PANTRY).tripCost +
+      computeBasket([one('turkey-taco-grillers')], NO_PANTRY).tripCost
+    const comparison = compareBundle(pair, NO_PANTRY)
+
+    expect(comparison.togetherPerServing).toBeCloseTo(
+      together.tripCost / together.servings
+    )
+    expect(comparison.alonePerServing).toBeCloseTo(alone / together.servings)
+    expect(comparison.togetherPerServing).toBeLessThan(comparison.alonePerServing)
+    expect(comparison.leftoverTogether).toBeLessThan(comparison.leftoverAlone)
+    // Shares of what is used add up, so the saving is exactly the leftovers avoided
+    expect(comparison.leftoverAlone - comparison.leftoverTogether).toBeCloseTo(
+      bundleSavings(pair, NO_PANTRY)
     )
   })
 })

@@ -1,6 +1,6 @@
 import type { ReactElement } from 'react'
 
-import type { BasketTotals } from '@/libs/basket'
+import type { BasketTotals, BundleComparison } from '@/libs/basket'
 
 import { formatMoney } from '@/libs/basket'
 
@@ -8,6 +8,8 @@ type BasketSummaryProps = {
   totals: BasketTotals
   perServing: number
   saving: number
+  // Alone against together, shown once the basket has two or more recipes
+  comparison?: BundleComparison
   // Short-shelf-life items with the most left over, for the waste note
   perishableNames: string[]
 }
@@ -21,6 +23,7 @@ export const BasketSummary = ({
   totals,
   perServing,
   saving,
+  comparison,
   perishableNames,
 }: BasketSummaryProps): ReactElement => (
   <div className='rounded-xl border border-text-muted/20 p-4'>
@@ -45,6 +48,22 @@ export const BasketSummary = ({
         </span>
       )}
     </p>
+    {comparison && saving >= 0.01 && (
+      <p className='mt-2 text-sm text-text-muted'>
+        At the register that is{' '}
+        <span className='font-semibold text-text'>
+          {formatMoney(comparison.togetherPerServing)}
+        </span>{' '}
+        a serving together, against{' '}
+        {formatMoney(comparison.alonePerServing)} buying each recipe on its own
+        trip. About{' '}
+        <span className='font-semibold text-text'>
+          {formatMoney(comparison.leftoverTogether)}
+        </span>{' '}
+        is left over for later, instead of{' '}
+        {formatMoney(comparison.leftoverAlone)}.
+      </p>
+    )}
     {totals.perishableLeftoverCost >= WASTE_NOTE_MIN && (
       <p className='mt-2 text-sm text-text-muted'>
         About {formatMoney(totals.perishableLeftoverCost)} of{' '}

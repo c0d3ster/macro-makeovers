@@ -243,6 +243,35 @@ export const bundleSavings = (
   return separately - computeBasket(entries, options).tripCost
 }
 
+export type BundleComparison = {
+  // Checkout cost per serving: one pooled trip, and each recipe bought on its own trip
+  togetherPerServing: number
+  alonePerServing: number
+  // What is bought but not used: by the pooled trip, and by the separate trips together. The
+  // gap is the saving, so this shows how much waste is left, not a second saving.
+  leftoverTogether: number
+  leftoverAlone: number
+}
+
+// The same recipes bought together and bought one at a time, per serving at the register.
+// Per serving keeps bundles of different sizes comparable.
+export const compareBundle = (
+  entries: BasketEntry[],
+  options: BasketOptions
+): BundleComparison => {
+  const together = computeBasket(entries, options)
+  const alone = entries.map((entry) => computeBasket([entry], options))
+  const perServing = (cost: number): number =>
+    together.servings > 0 ? cost / together.servings : 0
+
+  return {
+    togetherPerServing: perServing(together.tripCost),
+    alonePerServing: perServing(sum(alone.map(({ tripCost }) => tripCost))),
+    leftoverTogether: together.leftoverCost,
+    leftoverAlone: sum(alone.map(({ leftoverCost }) => leftoverCost)),
+  }
+}
+
 type BasketSuggestion = {
   slug: string
   // How much less the trip costs than buying the added recipe on its own
@@ -271,6 +300,7 @@ export const suggestAddition = (
 type RankedBundle = {
   slugs: string[]
   saving: number
+  comparison: BundleComparison
 }
 
 const combinations = (slugs: string[], size: number): string[][] => {
@@ -294,20 +324,21 @@ export const rankBundles = (
     slugs.filter((slug) => BASKET_SLUGS.has(slug)),
     size
   )
-    .map((group) => ({
-      slugs: group,
-      saving: bundleSavings(
-        group.map((slug) => ({ slug, batches: 1 })),
-        options
-      ),
-    }))
+    .map((group) => {
+      const entries = group.map((slug) => ({ slug, batches: 1 }))
+      return {
+        slugs: group,
+        saving: bundleSavings(entries, options),
+        comparison: compareBundle(entries, options),
+      }
+    })
     .sort((a, b) => b.saving - a.saving)
 
 // The best bundles that don't share a recipe, so a short list shows more of the book
-export const pickDistinctBundles = (
-  ranked: RankedBundle[],
+export const pickDistinctBundles = <T extends Pick<RankedBundle, 'slugs'>>(
+  ranked: T[],
   count: number
-): RankedBundle[] => {
+): T[] => {
   const used = new Set<string>()
   return ranked
     .filter(({ slugs }) => {
