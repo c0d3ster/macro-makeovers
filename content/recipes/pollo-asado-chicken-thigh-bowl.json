@@ -21,7 +21,7 @@
       "key": "costco",
       "label": "Costco precooked",
       "isDefault": false,
-      "note": "Costco's precooked pollo asado in place of the thighs and marinade. These are the tracked numbers. Homemade skinless runs within about 5 calories, so the two share them.",
+      "note": "Costco's precooked pollo asado in place of the thighs and marinade.",
       "costTier": 3,
       "difficulty": 1,
       "prepMinutes": 10,
