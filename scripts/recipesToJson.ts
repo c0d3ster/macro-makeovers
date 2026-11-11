@@ -145,7 +145,7 @@ const main = (): void => {
     console.log(
       `${recipe.slug.padEnd(40)} ${recipe.ingredients.length} ingredients, ` +
         `${recipe.steps.length} steps, ${recipe.notes.length} notes, ` +
-        `${recipe.nutrition.length} nutrition rows`
+        `${recipe.nutrition?.length ?? 0} nutrition rows`
     )
   })
 

@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
+import { withSingleBuild } from '@/tests/fixtures/recipeCard'
+
 import type { RecipeCard } from './recipeCards'
 
 import { fatCut, pickFeaturedRecipes } from './featuredRecipes'
@@ -8,7 +10,8 @@ const card = (
   slug: string,
   fatG: number,
   originalFatG?: number
-): RecipeCard => ({
+): RecipeCard =>
+  withSingleBuild({
   slug,
   title: slug,
   summary: '',
@@ -25,7 +28,7 @@ const card = (
     originalFatG === undefined
       ? undefined
       : { proteinG: 20, carbsG: 40, fatG: originalFatG },
-})
+  })
 
 describe('fatCut', () => {
   it('is the fat saved per serving', () => {

@@ -13,7 +13,10 @@ import {
   RemoveRowButton,
 } from '@/components/molecules'
 import { groupIngredients } from '@/libs/recipes/ingredients'
+import { appliesToBuild } from '@/libs/recipes/recipeBuilds'
 
+import { OUT_OF_PREVIEW, usePreviewBuild } from './buildPreview'
+import { BuildScopePicker } from './BuildScopePicker'
 import { useRecipeForm } from './recipeFormFields'
 
 type GroupHeadingProps = {
@@ -60,6 +63,11 @@ export const RecipeIngredientsEditor = (): ReactElement => {
   } = useRecipeForm()
   const ingredients = useFieldArray({ control, name: 'ingredients' })
   const rows = useWatch({ control, name: 'ingredients' })
+  const preview = usePreviewBuild()
+  const inPreview = (index: number): boolean => {
+    const row = rows[index]
+    return !preview.hasBuilds || !preview.key || !row || appliesToBuild(row, preview.key)
+  }
 
   const lines = ingredients.fields.map(({ id, group, raw }, index) => ({
     id,
@@ -131,8 +139,9 @@ export const RecipeIngredientsEditor = (): ReactElement => {
               {groupLines.map(({ id, index, group }) => (
                 <li
                   key={id}
-                  className='group/editable flex items-start gap-1 py-2 pr-2 pl-4 text-sm'
+                  className={`group/editable flex flex-col gap-1 py-2 pr-2 pl-4 text-sm ${inPreview(index) ? '' : OUT_OF_PREVIEW}`}
                 >
+                  <div className='flex items-start gap-1'>
                   <InlineTextarea
                     label={`Ingredient ${index + 1}`}
                     error={errors.ingredients?.[index]?.raw?.message}
@@ -147,6 +156,8 @@ export const RecipeIngredientsEditor = (): ReactElement => {
                     label={`Remove ingredient ${index + 1}`}
                     onClick={() => ingredients.remove(index)}
                   />
+                  </div>
+                  <BuildScopePicker section='ingredients' index={index} />
                 </li>
               ))}
               <li className='px-4 py-2'>

@@ -5,11 +5,11 @@ import type { ReactElement } from 'react'
 import Link from 'next/link'
 
 import {
-  bundleSavings,
+  compareToWritten,
   computeBasket,
-  costPerServing,
   formatMoney,
   PRICES_AS_OF,
+  recipeShares,
   suggestAddition,
 } from '@/libs/basket'
 import { useBasket } from '@/providers'
@@ -66,7 +66,6 @@ export const BasketView = ({ recipes }: BasketViewProps): ReactElement => {
 
   const options = { includePantry }
   const totals = computeBasket(entries, options)
-  const saving = bundleSavings(entries, options)
   const suggestion = suggestAddition(entries, options)
   const perishableNames = totals.lines
     .filter(
@@ -94,11 +93,14 @@ export const BasketView = ({ recipes }: BasketViewProps): ReactElement => {
             Clear basket
           </button>
         </div>
-        <BasketRecipeList entries={entries} recipes={recipes} />
+        <BasketRecipeList
+          entries={entries}
+          recipes={recipes}
+          shares={recipeShares(entries, options)}
+        />
         <BasketSummary
           totals={totals}
-          perServing={costPerServing(entries)}
-          saving={saving}
+          comparison={compareToWritten(entries, options)}
           perishableNames={perishableNames}
         />
         {suggestion && (
@@ -132,10 +134,10 @@ export const BasketView = ({ recipes }: BasketViewProps): ReactElement => {
       <SendToCart />
 
       <p className='text-sm text-text-muted'>
-        Costs are estimates from the lowest prices found across several stores
-        on {formatDate(PRICES_AS_OF)}. The store total buys whole packs, and the
-        per-serving cost counts only what the recipes use, the same way each
-        recipe page prices it.
+        Costs are estimates from the lowest prices found at national chains and
+        Martin&apos;s on {formatDate(PRICES_AS_OF)}. The total buys whole packs,
+        and each recipe&apos;s cost per serving here is its share of those
+        packs. Recipe pages count only what a recipe uses, so they read lower.
       </p>
     </div>
   )

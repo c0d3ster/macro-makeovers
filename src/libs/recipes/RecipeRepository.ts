@@ -1,13 +1,14 @@
 import type { SQL } from 'drizzle-orm'
 import type { NodePgDatabase } from 'drizzle-orm/node-postgres'
 
-import { and, asc, desc, eq, inArray, isNull, sql } from 'drizzle-orm'
+import { and, asc, desc, eq, inArray, isNull, notInArray, sql } from 'drizzle-orm'
 
 import type { schemas } from '@/models'
 import type { RecipeImport } from '@/validations'
 
 import {
   ingredients,
+  recipeBuilds,
   recipeNotes,
   recipeNutrition,
   recipeRevisions,
@@ -19,6 +20,7 @@ import {
 
 import type { RecipeCard } from './recipeCards'
 import type { RecipeDetail } from './recipeDetail'
+import type { IngredientMatch } from './recipeFilters'
 import type { RecipeStatus } from './recipeStatus'
 
 import { toRecipeCard } from './recipeCards'
@@ -61,6 +63,83 @@ const withoutNulls = <T extends Record<string, unknown>>(value: T): T =>
     Object.entries(value).filter(([, entry]) => entry != null)
   ) as T
 
+// Empty lists are left out of the import shape, the same as a missing field
+const nonEmpty = (values: string[]): string[] | undefined =>
+  values.length > 0 ? values : undefined
+
+const readScope = ({
+  onlyBuilds,
+  skipBuilds,
+}: {
+  onlyBuilds: string[]
+  skipBuilds: string[]
+}): { onlyBuilds?: string[]; skipBuilds?: string[] } => ({
+  onlyBuilds: nonEmpty(onlyBuilds),
+  skipBuilds: nonEmpty(skipBuilds),
+})
+
+const writeScope = ({
+  onlyBuilds,
+  skipBuilds,
+}: {
+  onlyBuilds?: string[]
+  skipBuilds?: string[]
+}): { onlyBuilds: string[]; skipBuilds: string[] } => ({
+  onlyBuilds: onlyBuilds ?? [],
+  skipBuilds: skipBuilds ?? [],
+})
+
+// Builds are matched by key instead of replaced, so a build keeps its id and its photo across
+// edits. A build whose key is gone is deleted. Defaults are cleared first so the one-default
+// index never sees two at once.
+const upsertBuilds = async (
+  tx: Tx,
+  recipeId: string,
+  builds: RecipeImport['builds']
+): Promise<void> => {
+  const keys = builds.map(({ key }) => key)
+  await tx
+    .delete(recipeBuilds)
+    .where(
+      and(
+        eq(recipeBuilds.recipeId, recipeId),
+        notInArray(recipeBuilds.key, keys)
+      )
+    )
+  await tx
+    .update(recipeBuilds)
+    .set({ isDefault: false })
+    .where(eq(recipeBuilds.recipeId, recipeId))
+
+  // One at a time: inside a transaction every query shares one connection
+  for (const [position, build] of builds.entries()) {
+    const fields = {
+      label: build.label,
+      position,
+      isDefault: build.isDefault,
+      listed: build.listed,
+      calories: build.calories,
+      carbsG: build.carbsG,
+      fatG: build.fatG,
+      proteinG: build.proteinG,
+      title: build.title ?? null,
+      swap: build.swap ?? {},
+      noteMd: build.note ?? null,
+      costTier: build.costTier ?? null,
+      difficulty: build.difficulty ?? null,
+      prepMinutes: build.prepMinutes ?? null,
+      cookMinutes: build.cookMinutes ?? null,
+    }
+    await tx
+      .insert(recipeBuilds)
+      .values({ recipeId, key: build.key, ...fields })
+      .onConflictDoUpdate({
+        target: [recipeBuilds.recipeId, recipeBuilds.key],
+        set: fields,
+      })
+  }
+}
+
 // The recipe in import shape. Children come back in the order they were imported in, and
 // tags sorted by name, so a re-import of unchanged JSON diffs clean.
 const readSnapshot = async (
@@ -88,10 +167,21 @@ const readSnapshot = async (
     .from(recipeTags)
     .innerJoin(tags, eq(tags.id, recipeTags.tagId))
     .where(eq(recipeTags.recipeId, recipeId))
+  const buildRows = await reader
+    .select()
+    .from(recipeBuilds)
+    .where(eq(recipeBuilds.recipeId, recipeId))
+    .orderBy(asc(recipeBuilds.position))
+  // Builds hold the makeover macros now. Makeover rows left from before builds are skipped.
   const nutritionRows = await reader
     .select()
     .from(recipeNutrition)
-    .where(eq(recipeNutrition.recipeId, recipeId))
+    .where(
+      and(
+        eq(recipeNutrition.recipeId, recipeId),
+        eq(recipeNutrition.kind, 'traditional')
+      )
+    )
     .orderBy(asc(recipeNutrition.position))
   const ingredientRows = await reader
     .select()
@@ -120,10 +210,28 @@ const readSnapshot = async (
     variantOf: base?.slug,
     difficulty: recipe.difficulty,
     tags: tagRows.map(({ name }) => name).sort(),
+    builds: buildRows.map((row) =>
+      withoutNulls({
+        key: row.key,
+        label: row.label,
+        isDefault: row.isDefault,
+        listed: row.listed,
+        calories: row.calories,
+        carbsG: row.carbsG,
+        fatG: row.fatG,
+        proteinG: row.proteinG,
+        swap: Object.keys(row.swap).length > 0 ? row.swap : undefined,
+        title: row.title,
+        note: row.noteMd,
+        costTier: row.costTier,
+        difficulty: row.difficulty,
+        prepMinutes: row.prepMinutes,
+        cookMinutes: row.cookMinutes,
+      })
+    ),
     nutrition: nutritionRows.map((row) => ({
       kind: row.kind,
       label: row.label,
-      isDefault: row.isDefault,
       calories: row.calories,
       carbsG: row.carbsG,
       fatG: row.fatG,
@@ -137,6 +245,7 @@ const readSnapshot = async (
         unit: row.unit,
         name: row.name,
         note: row.note,
+        ...readScope(row),
       })
     ),
     steps: stepRows.map((row) =>
@@ -144,9 +253,12 @@ const readSnapshot = async (
         phase: row.phase,
         body: row.bodyMd,
         durationMinutes: row.durationMinutes,
+        ...readScope(row),
       })
     ),
-    notes: noteRows.map((row) => ({ kind: row.kind, body: row.bodyMd })),
+    notes: noteRows.map((row) =>
+      withoutNulls({ kind: row.kind, body: row.bodyMd, ...readScope(row) })
+    ),
   }) as RecipeImport
 }
 
@@ -198,7 +310,8 @@ const resolveBaseId = async (
   return base.id
 }
 
-// Replaces everything hanging off a recipe with what the import says. Runs inside the
+// Replaces everything hanging off a recipe with what the import says, except builds, which
+// are upserted by key. Runs inside the
 // create or update transaction, so the old rows only go if the new ones land.
 const replaceChildren = async (
   tx: Tx,
@@ -211,20 +324,23 @@ const replaceChildren = async (
   await tx.delete(recipeNotes).where(eq(recipeNotes.recipeId, recipeId))
   await tx.delete(recipeTags).where(eq(recipeTags.recipeId, recipeId))
 
+  await upsertBuilds(tx, recipeId, recipe.builds)
+
   // Position is the index in the import, so order survives the round trip
-  await tx.insert(recipeNutrition).values(
-    recipe.nutrition.map((row, position) => ({
-      recipeId,
-      position,
-      kind: row.kind,
-      label: row.label,
-      isDefault: row.isDefault,
-      calories: row.calories,
-      carbsG: row.carbsG,
-      fatG: row.fatG,
-      proteinG: row.proteinG,
-    }))
-  )
+  if (recipe.nutrition.length > 0) {
+    await tx.insert(recipeNutrition).values(
+      recipe.nutrition.map((row, position) => ({
+        recipeId,
+        position,
+        kind: row.kind,
+        label: row.label,
+        calories: row.calories,
+        carbsG: row.carbsG,
+        fatG: row.fatG,
+        proteinG: row.proteinG,
+      }))
+    )
+  }
   await tx.insert(ingredients).values(
     recipe.ingredients.map((row, position) => ({
       recipeId,
@@ -235,6 +351,7 @@ const replaceChildren = async (
       unit: row.unit ?? null,
       name: row.name ?? null,
       note: row.note ?? null,
+      ...writeScope(row),
     }))
   )
   await tx.insert(steps).values(
@@ -244,6 +361,7 @@ const replaceChildren = async (
       phase: row.phase,
       bodyMd: row.body,
       durationMinutes: row.durationMinutes ?? null,
+      ...writeScope(row),
     }))
   )
   if (recipe.notes.length > 0) {
@@ -253,6 +371,7 @@ const replaceChildren = async (
         position,
         kind: row.kind,
         bodyMd: row.body,
+        ...writeScope(row),
       }))
     )
   }
@@ -368,7 +487,11 @@ export class RecipeRepository {
     const rows = await this.database.query.recipes.findMany({
       where: and(eq(recipes.status, 'published'), isNull(recipes.variantOf)),
       orderBy: asc(recipes.title),
-      with: { nutrition: true, recipeTags: { with: { tag: true } } },
+      with: {
+        builds: true,
+        nutrition: true,
+        recipeTags: { with: { tag: true } },
+      },
     })
 
     return rows.flatMap((row) => {
@@ -395,6 +518,7 @@ export class RecipeRepository {
     const row = await this.database.query.recipes.findFirst({
       where,
       with: {
+        builds: true,
         nutrition: true,
         ingredients: true,
         steps: true,
@@ -432,9 +556,13 @@ export class RecipeRepository {
 
   // Slugs of published recipes with an ingredient matching the search text. Uses the generated
   // tsvector on ingredients.raw_text, so "chicken thigh" also finds "chicken thighs".
-  findPublishedSlugsByIngredient = async (text: string): Promise<string[]> => {
+  findPublishedIngredientMatches = async (text: string): Promise<IngredientMatch[]> => {
     const rows = await this.database
-      .selectDistinct({ slug: recipes.slug })
+      .selectDistinct({
+        slug: recipes.slug,
+        onlyBuilds: ingredients.onlyBuilds,
+        skipBuilds: ingredients.skipBuilds,
+      })
       .from(ingredients)
       .innerJoin(recipes, eq(recipes.id, ingredients.recipeId))
       .where(
@@ -443,7 +571,11 @@ export class RecipeRepository {
           sql`"ingredients"."search" @@ websearch_to_tsquery('english', ${text})`
         )
       )
-    return rows.map(({ slug }) => slug)
+    return rows.map(({ slug, onlyBuilds, skipBuilds }) => ({
+      slug,
+      ...(onlyBuilds.length > 0 ? { onlyBuilds } : {}),
+      ...(skipBuilds.length > 0 ? { skipBuilds } : {}),
+    }))
   }
 
   // Drafts and published recipes together, newest edit first. Owner only.
@@ -546,11 +678,52 @@ export class RecipeRepository {
     return row?.slug
   }
 
+  // Each build's own photo by key. Builds without one are left out, since they show the recipe's.
+  getBuildImageUrls = async (id: string): Promise<Record<string, string>> => {
+    const rows = await this.database
+      .select({ key: recipeBuilds.key, imageUrl: recipeBuilds.imageUrl })
+      .from(recipeBuilds)
+      .where(eq(recipeBuilds.recipeId, id))
+    return Object.fromEntries(
+      rows.flatMap(({ key, imageUrl }) => (imageUrl ? [[key, imageUrl]] : []))
+    )
+  }
+
+  // Sets or clears a build's own photo. Returns the recipe's slug, or undefined when the recipe
+  // or the build is not saved.
+  setBuildImage = async (
+    id: string,
+    key: string,
+    url: string | null
+  ): Promise<string | undefined> => {
+    const [build] = await this.database
+      .update(recipeBuilds)
+      .set({ imageUrl: url, imageIsPlaceholder: url !== null })
+      .where(and(eq(recipeBuilds.recipeId, id), eq(recipeBuilds.key, key)))
+      .returning({ id: recipeBuilds.id })
+    if (!build) return undefined
+
+    const [recipe] = await this.database
+      .select({ slug: recipes.slug })
+      .from(recipes)
+      .where(eq(recipes.id, id))
+      .limit(1)
+    return recipe?.slug
+  }
+
   // Each published recipe's photo by slug, for the book
   listPublishedImageUrls = async (): Promise<Map<string, string>> => {
+    // The default build's own photo first, the same photo the recipe page leads with
     const rows = await this.database
-      .select({ slug: recipes.slug, imageUrl: recipes.imageUrl })
+      .select({
+        slug: recipes.slug,
+        imageUrl: sql<string | null>`coalesce(${recipeBuilds.imageUrl}, ${recipes.imageUrl})`,
+      })
       .from(recipes)
+      .leftJoin(
+        recipeBuilds,
+        and(eq(recipeBuilds.recipeId, recipes.id), eq(recipeBuilds.isDefault, true))
+      )
       .where(eq(recipes.status, 'published'))
     const urls = new Map<string, string>()
     rows.forEach(({ slug, imageUrl }) => {

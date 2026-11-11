@@ -7,33 +7,34 @@
   "cookMinutes": 10,
   "costTier": 3,
   "difficulty": 1,
-  "nutrition": [
+  "builds": [
     {
-      "kind": "makeover",
+      "key": "classic",
       "label": "Per serving (3)",
+      "isDefault": true,
       "calories": 620,
       "carbsG": 56,
       "fatG": 26,
-      "proteinG": 41,
-      "isDefault": true
+      "proteinG": 41
     },
     {
-      "kind": "makeover",
+      "key": "leaner",
       "label": "Leaner variation, per serving",
+      "isDefault": false,
       "calories": 590,
       "carbsG": 57,
       "fatG": 21,
-      "proteinG": 44,
-      "isDefault": false
-    },
+      "proteinG": 44
+    }
+  ],
+  "nutrition": [
     {
       "kind": "traditional",
       "label": "Traditional per serving (3)",
       "calories": 690,
       "carbsG": 52,
       "fatG": 40,
-      "proteinG": 30,
-      "isDefault": false
+      "proteinG": 30
     }
   ],
   "ingredients": [
@@ -41,16 +42,38 @@
       "raw": "12 Hawaiian rolls (1 pack)"
     },
     {
-      "raw": "18 oz (2 packs) lower sodium honey ham, 1.5 oz per slider"
+      "raw": "18 oz (2 packs) lower sodium honey ham, 1.5 oz per slider",
+      "skipBuilds": ["leaner"]
     },
     {
-      "raw": "~6 slices prosciutto (1 pack covers it), half a slice per slider"
+      "raw": "9 oz (1 pack) lower sodium honey ham, 0.75 oz per slider",
+      "onlyBuilds": ["leaner"]
+    },
+    {
+      "raw": "9 oz deli chicken breast, 0.75 oz per slider",
+      "onlyBuilds": ["leaner"]
+    },
+    {
+      "raw": "~6 slices prosciutto (1 pack covers it), half a slice per slider",
+      "skipBuilds": ["leaner"]
+    },
+    {
+      "raw": "~3 slices prosciutto, a quarter slice per slider",
+      "onlyBuilds": ["leaner"]
     },
     {
       "raw": "12 slices sharp aged white cheddar (~4 oz total), one thin slice per slider, ~1/3 oz"
     },
     {
       "raw": "1 avocado"
+    },
+    {
+      "raw": "1/2 cup 2% cottage cheese",
+      "onlyBuilds": ["leaner"]
+    },
+    {
+      "raw": "Garlic powder, salt, and a squeeze of lime, for the sauce",
+      "onlyBuilds": ["leaner"]
     },
     {
       "raw": "1/2 onion, sliced"
@@ -70,15 +93,33 @@
     },
     {
       "phase": "prep",
-      "body": "Halve the prosciutto slices (half a slice per slider)."
+      "body": "Halve the prosciutto slices (half a slice per slider).",
+      "skipBuilds": ["leaner"]
     },
     {
       "phase": "prep",
-      "body": "Slice the avocado, but don't add it yet, since heat turns it bitter and brown."
+      "body": "Quarter the prosciutto slices (a quarter slice per slider).",
+      "onlyBuilds": ["leaner"]
+    },
+    {
+      "phase": "prep",
+      "body": "Slice the avocado, but don't add it yet, since heat turns it bitter and brown.",
+      "skipBuilds": ["leaner"]
+    },
+    {
+      "phase": "prep",
+      "body": "Halve the avocado. Slice one half, and blend the other into the cottage cheese with garlic powder, salt, and lime so it reads as a creamy sauce. Don't add either yet, since heat turns avocado bitter and brown.",
+      "onlyBuilds": ["leaner"]
     },
     {
       "phase": "cook",
-      "body": "Layer the ham, prosciutto, cheddar, onion, and jalapeño in the rolls."
+      "body": "Layer the ham, prosciutto, cheddar, onion, and jalapeño in the rolls.",
+      "skipBuilds": ["leaner"]
+    },
+    {
+      "phase": "cook",
+      "body": "Layer the ham, chicken, prosciutto, cheddar, onion, and jalapeño in the rolls.",
+      "onlyBuilds": ["leaner"]
     },
     {
       "phase": "cook",
@@ -86,13 +127,25 @@
     },
     {
       "phase": "cook",
-      "body": "**Add the avocado after baking**, sliced or mashed.\n\n> **Leaner variation (~590 cal, saves ~5g fat, adds ~3g protein, ~15% less sodium per serving):** three swaps stacked: halve the avocado and blend the other half into 1/2 cup 2% cottage cheese (garlic powder, salt, lime) so it reads as a creamy sauce; split the meat 9 oz ham / 9 oz deli chicken breast; and drop the prosciutto from 6 slices to 3."
+      "body": "**Add the avocado after baking**, sliced or mashed.",
+      "skipBuilds": ["leaner"]
+    },
+    {
+      "phase": "cook",
+      "body": "**Add the avocado and the cottage cheese sauce after baking.**",
+      "onlyBuilds": ["leaner"]
     }
   ],
   "notes": [
     {
       "kind": "nutrition_analysis",
-      "body": "Strong protein, but 26g fat is a third of a 75g day in one meal. Plan a leaner day around it. Leaner variation is below."
+      "body": "Strong protein, but 26g fat is a third of a 75g day in one meal. Plan a leaner day around it, or pick the leaner build in the table.",
+      "skipBuilds": ["leaner"]
+    },
+    {
+      "kind": "nutrition_analysis",
+      "body": "Three swaps stacked: split the meat between ham and deli chicken, cut the prosciutto in half, and blend half the avocado into cottage cheese as a sauce. That saves ~5g fat, adds ~3g protein, and cuts sodium ~15% per serving.",
+      "onlyBuilds": ["leaner"]
     },
     {
       "kind": "make_or_break",

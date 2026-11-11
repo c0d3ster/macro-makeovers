@@ -30,7 +30,7 @@ vi.mock('@/providers', () => ({
   })),
   useOwnerStatus: vi.fn((): 'pending' | 'owner' | 'visitor' => 'visitor'),
   useBasket: vi.fn(() => ({
-    entries: [{ slug: 'a', batches: 1 }],
+    entries: [{ slug: 'a', servings: 4 }],
     isLoaded: true,
   })),
 }))

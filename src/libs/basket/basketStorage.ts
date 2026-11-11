@@ -1,6 +1,6 @@
 import type { BasketEntry } from './basketTypes'
 
-import { BASKET_SLUGS } from './basketMath'
+import { BASKET_SLUGS, findBasketRecipe } from './basketMath'
 
 // The basket as the browser keeps it between visits
 export type StoredBasket = {
@@ -11,7 +11,9 @@ export type StoredBasket = {
 }
 
 export const BASKET_STORAGE_KEY = 'macro-makeovers-basket-v1'
-export const MAX_BATCHES = 3
+// Same range as the recipe page's servings stepper
+export const MIN_SERVINGS = 1
+export const MAX_SERVINGS = 24
 
 export const EMPTY_BASKET: StoredBasket = {
   entries: [],
@@ -22,23 +24,27 @@ export const EMPTY_BASKET: StoredBasket = {
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   typeof value === 'object' && value !== null && !Array.isArray(value)
 
-const clampBatches = (value: number): number =>
-  Math.min(MAX_BATCHES, Math.max(1, Math.round(value)))
+const clampServings = (value: number): number =>
+  Math.min(MAX_SERVINGS, Math.max(MIN_SERVINGS, Math.round(value)))
 
-// Keeps entries for recipes that still have basket data, one per slug, with sane batch counts
+// Keeps entries for recipes that still have basket data, one per slug, with sane servings
 const toEntries = (value: unknown): BasketEntry[] => {
   if (!Array.isArray(value)) return []
   const seen = new Set<string>()
   return value.flatMap((entry: unknown): BasketEntry[] => {
     if (!isRecord(entry)) return []
-    const { slug, batches } = entry
+    const { slug, build, servings } = entry
     if (typeof slug !== 'string' || !BASKET_SLUGS.has(slug) || seen.has(slug))
       return []
     seen.add(slug)
     return [
       {
         slug,
-        batches: typeof batches === 'number' ? clampBatches(batches) : 1,
+        ...(typeof build === 'string' && build ? { build } : {}),
+        servings:
+          typeof servings === 'number'
+            ? clampServings(servings)
+            : (findBasketRecipe(slug)?.servings ?? MIN_SERVINGS),
       },
     ]
   })
@@ -64,11 +70,11 @@ export const parseStoredBasket = (raw: string | null): StoredBasket => {
   }
 }
 
-export const setBatches = (
+export const setServings = (
   entries: BasketEntry[],
   slug: string,
-  batches: number
+  servings: number
 ): BasketEntry[] =>
   entries.map((entry) =>
-    entry.slug === slug ? { slug, batches: clampBatches(batches) } : entry
+    entry.slug === slug ? { ...entry, servings: clampServings(servings) } : entry
   )

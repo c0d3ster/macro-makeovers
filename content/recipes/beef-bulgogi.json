@@ -7,24 +7,25 @@
   "cookMinutes": 40,
   "costTier": 4,
   "difficulty": 2,
-  "nutrition": [
+  "builds": [
     {
-      "kind": "makeover",
+      "key": "makeover",
       "label": "Per serving",
+      "isDefault": true,
       "calories": 520,
       "carbsG": 51,
       "fatG": 14,
-      "proteinG": 46,
-      "isDefault": true
-    },
+      "proteinG": 46
+    }
+  ],
+  "nutrition": [
     {
       "kind": "traditional",
       "label": "Traditional per serving (sirloin, standard marinade, white rice)",
       "calories": 525,
       "carbsG": 39,
       "fatG": 23,
-      "proteinG": 41,
-      "isDefault": false
+      "proteinG": 41
     }
   ],
   "ingredients": [

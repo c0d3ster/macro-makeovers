@@ -1,8 +1,32 @@
 import { describe, expect, it } from 'vitest'
 
 import type { RecipeCardRow } from './recipeCards'
+import type { RecipeBuildRow } from './recipeDetail'
 
 import { toCardSummary, toRecipeCard } from './recipeCards'
+
+const buildRow = (
+  overrides: Partial<RecipeBuildRow> = {}
+): RecipeBuildRow => ({
+  position: 0,
+  key: 'base',
+  label: 'Base only',
+  isDefault: false,
+  listed: true,
+  calories: 370,
+  carbsG: 42,
+  fatG: 8,
+  proteinG: 32,
+  swap: {},
+  title: null,
+  noteMd: null,
+  costTier: null,
+  difficulty: null,
+  prepMinutes: null,
+  cookMinutes: null,
+  imageUrl: null,
+  ...overrides,
+})
 
 const row: RecipeCardRow = {
   slug: 'test-chili',
@@ -14,26 +38,22 @@ const row: RecipeCardRow = {
   costTier: 1,
   difficulty: 2,
   imageUrl: null,
-  nutrition: [
-    {
-      kind: 'makeover',
-      isDefault: false,
-      calories: 370,
-      carbsG: 42,
-      fatG: 8,
-      proteinG: 32,
-    },
-    {
-      kind: 'makeover',
+  builds: [
+    buildRow(),
+    buildRow({
+      position: 1,
+      key: 'loaded',
+      label: 'Fully loaded',
       isDefault: true,
       calories: 500,
       carbsG: 52,
       fatG: 15,
       proteinG: 39,
-    },
+    }),
+  ],
+  nutrition: [
     {
       kind: 'traditional',
-      isDefault: false,
       calories: 480,
       carbsG: 30,
       fatG: 28,
@@ -44,12 +64,13 @@ const row: RecipeCardRow = {
 }
 
 describe('toRecipeCard', () => {
-  it('uses the default makeover row for the macros', () => {
+  it('uses the default build for the macros', () => {
     expect(toRecipeCard(row)).toMatchObject({
       calories: 500,
       proteinG: 39,
       carbsG: 52,
       fatG: 15,
+      build: { key: 'loaded', isDefault: true },
     })
   })
 
@@ -62,12 +83,7 @@ describe('toRecipeCard', () => {
   })
 
   it('has no original macros without a traditional row', () => {
-    const makeoverOnly: RecipeCardRow = {
-      ...row,
-      nutrition: row.nutrition.filter(({ kind }) => kind === 'makeover'),
-    }
-
-    expect(toRecipeCard(makeoverOnly)?.original).toBeUndefined()
+    expect(toRecipeCard({ ...row, nutrition: [] })?.original).toBeUndefined()
   })
 
   it('adds prep and cook time and sorts the tags', () => {
@@ -77,25 +93,48 @@ describe('toRecipeCard', () => {
     })
   })
 
-  it('falls back to the first makeover row when none is flagged', () => {
+  it('falls back to the first build when none is flagged', () => {
     const unflagged: RecipeCardRow = {
       ...row,
-      nutrition: row.nutrition.map((item) => ({
-        ...item,
-        isDefault: false,
-      })),
+      builds: row.builds.map((item) => ({ ...item, isDefault: false })),
     }
 
     expect(toRecipeCard(unflagged)?.calories).toBe(370)
   })
 
-  it('never uses the traditional row as the featured build', () => {
-    const onlyTraditional: RecipeCardRow = {
-      ...row,
-      nutrition: row.nutrition.filter(({ kind }) => kind === 'traditional'),
-    }
+  it('has no card without a build', () => {
+    expect(toRecipeCard({ ...row, builds: [] })).toBeUndefined()
+  })
 
-    expect(toRecipeCard(onlyTraditional)).toBeUndefined()
+  it('applies each build override to its card build, falling back to the recipe', () => {
+    const card = toRecipeCard({
+      ...row,
+      builds: [
+        ...row.builds,
+        buildRow({
+          position: 2,
+          key: 'beef',
+          label: 'Beef',
+          swap: { turkey: 'beef' },
+          costTier: 3,
+          prepMinutes: 5,
+          imageUrl: 'https://example.com/beef.jpg',
+        }),
+      ],
+    })
+    const beef = card?.builds.find(({ key }) => key === 'beef')
+
+    // "Test Chili" has no turkey in it, so the swap leaves the title alone
+    expect(beef).toMatchObject({
+      title: 'Test Chili',
+      summary: 'A test recipe',
+      costTier: 3,
+      totalMinutes: 60,
+      difficulty: 2,
+      tags: ['beef', 'chili'],
+      imageUrl: 'https://example.com/beef.jpg',
+    })
+    expect(card?.title).toBe('Test Chili')
   })
 })
 

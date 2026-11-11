@@ -6,6 +6,8 @@ import { useWatch } from 'react-hook-form'
 
 import { MarkdownField, RemoveRowButton } from '@/components/molecules'
 
+import { OUT_OF_PREVIEW, useInPreview } from './buildPreview'
+import { BuildScopePicker } from './BuildScopePicker'
 import { useRecipeForm } from './recipeFormFields'
 
 type RecipeNoteFieldProps = {
@@ -33,9 +35,12 @@ export const RecipeNoteField = ({
     formState: { errors },
   } = useRecipeForm()
   const body = useWatch({ control, name: `notes.${index}.body` })
+  const inPreview = useInPreview('notes', index)
 
   return (
-    <div className={`group/editable ${className}`}>
+    <div
+      className={`group/editable ${className} ${inPreview ? '' : OUT_OF_PREVIEW}`}
+    >
       <div className='relative'>
         <MarkdownField
           label={`Note ${index + 1}`}
@@ -54,6 +59,9 @@ export const RecipeNoteField = ({
             onClick={onRemove}
           />
         </div>
+      </div>
+      <div className='mt-1'>
+        <BuildScopePicker section='notes' index={index} />
       </div>
     </div>
   )

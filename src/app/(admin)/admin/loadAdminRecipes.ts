@@ -10,6 +10,8 @@ import { services } from '@/services'
 type EditableRecipeData = {
   status: RecipeStatus
   imageUrl?: string
+  // Each build's own photo by key
+  buildImages: Record<string, string>
   recipe: RecipeImportInput
 }
 
@@ -47,6 +49,7 @@ export const loadEditableRecipe = async (
   return {
     status: editable.status,
     imageUrl: editable.imageUrl,
+    buildImages: editable.buildImages,
     recipe: editable.recipe as RecipeImportInput,
   }
 }

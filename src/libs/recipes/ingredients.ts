@@ -1,4 +1,6 @@
-export type RecipeIngredient = {
+import type { BuildScope } from './recipeBuilds'
+
+export type RecipeIngredient = BuildScope & {
   group?: string
   raw: string
 }

@@ -7,7 +7,8 @@ import { useMemo, useState, useSyncExternalStore } from 'react'
 import {
   BASKET_SLUGS,
   EMPTY_BASKET,
-  setBatches as withBatches,
+  recipeEntry,
+  setServings as withServings,
 } from '@/libs/basket'
 
 import type { BasketContextValue } from './BasketContext'
@@ -40,34 +41,52 @@ export const BasketProvider = ({
 
   const value = useMemo<BasketContextValue>(() => {
     const { update } = store
-    const slugs = new Set(basket.entries.map(({ slug }) => slug))
+    const builds = new Map(
+      basket.entries.map(({ slug, build }) => [slug, build])
+    )
 
     return {
       entries: basket.entries,
       includePantry: basket.includePantry,
       checked: new Set(basket.checked),
       isLoaded,
-      has: (slug) => slugs.has(slug),
-      add: (slug) => {
+      has: (slug, build) => builds.has(slug) && builds.get(slug) === build,
+      hasRecipe: (slug) => builds.has(slug),
+      servingsOf: (slug) =>
+        basket.entries.find((entry) => entry.slug === slug)?.servings,
+      add: (slug, build, servings) => {
         if (!BASKET_SLUGS.has(slug)) return
-        update((current) =>
-          current.entries.some((entry) => entry.slug === slug)
-            ? current
-            : {
-                ...current,
-                entries: [...current.entries, { slug, batches: 1 }],
-              }
-        )
+        const entry = {
+          ...recipeEntry(slug),
+          ...(build ? { build } : {}),
+          ...(servings ? { servings } : {}),
+        }
+        update((current) => {
+          const existing = current.entries.find((item) => item.slug === slug)
+          if (!existing) {
+            return { ...current, entries: [...current.entries, entry] }
+          }
+          // Same build at the same servings is already there
+          if (existing.build === build && existing.servings === entry.servings) {
+            return current
+          }
+          return {
+            ...current,
+            entries: current.entries.map((item) =>
+              item.slug === slug ? entry : item
+            ),
+          }
+        })
       },
       remove: (slug) =>
         update((current) => ({
           ...current,
           entries: current.entries.filter((entry) => entry.slug !== slug),
         })),
-      setBatches: (slug, batches) =>
+      setServings: (slug, servings) =>
         update((current) => ({
           ...current,
-          entries: withBatches(current.entries, slug, batches),
+          entries: withServings(current.entries, slug, servings),
         })),
       setIncludePantry: (include) =>
         update((current) => ({ ...current, includePantry: include })),

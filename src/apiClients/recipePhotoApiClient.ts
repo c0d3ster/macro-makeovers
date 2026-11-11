@@ -52,3 +52,43 @@ export const chooseRecipePhoto = (
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ url }),
   })
+
+// Makes a candidate one saved build's photo instead of the recipe's
+export const chooseBuildPhoto = (
+  recipeId: string,
+  build: string,
+  url: string
+): Promise<PhotoResponse> =>
+  sendPhotoRequest(`/api/admin/recipes/${recipeId}/image`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ url, build }),
+  })
+
+// Clears a build's own photo, so it shows the recipe photo again
+export const clearBuildPhoto = async (
+  recipeId: string,
+  build: string
+): Promise<{ ok: true } | { ok: false; error: string }> => {
+  try {
+    const response = await fetch(`/api/admin/recipes/${recipeId}/image`, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ build }),
+    })
+    if (response.ok) return { ok: true }
+    const parsed = photoResponseSchema.safeParse(await response.json().catch(() => null))
+    return {
+      ok: false,
+      error:
+        parsed.success && !parsed.data.ok
+          ? parsed.data.error
+          : `The server did not finish the request (${response.status}). Try again.`,
+    }
+  } catch {
+    return {
+      ok: false,
+      error: 'Could not reach the server. Check your connection and try again.',
+    }
+  }
+}

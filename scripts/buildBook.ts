@@ -125,16 +125,18 @@ const addPhotos = (markdown: string, photos: Map<string, string>): string =>
 <img class="photo" src="${pathToFileURL(image).href}" alt="">`
   })
 
-type Row = RecipeImport['nutrition'][number]
+type Row = Pick<
+  RecipeImport['builds'][number],
+  'calories' | 'carbsG' | 'fatG' | 'proteinG'
+>
 type Stats = { servings: number; featured: Row; original?: Row }
 
-// Per-serving default row (and the traditional one) for each recipe, in book order, which is the
-// same order as the headings.
+// Per-serving default build (and the traditional row) for each recipe, in book order, which is
+// the same order as the headings.
 const statsFor = (recipes: BookRecipe[]): Stats[] =>
-  recipes.map(({ recipe: { nutrition, servings } }) => {
-    const featured =
-      nutrition.find(({ isDefault }) => isDefault) ?? nutrition[0]
-    if (!featured) throw new Error('A recipe has no nutrition row')
+  recipes.map(({ recipe: { builds, nutrition, servings } }) => {
+    const featured = builds.find(({ isDefault }) => isDefault) ?? builds[0]
+    if (!featured) throw new Error('A recipe has no build')
     return {
       servings,
       featured,

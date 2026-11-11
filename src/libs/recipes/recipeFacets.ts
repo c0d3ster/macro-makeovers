@@ -1,8 +1,12 @@
 import type { RecipeCard } from './recipeCards'
-import type { RecipeFilters, TagFacet } from './recipeFilters'
+import type {
+  IngredientMatches,
+  RecipeFilters,
+  TagFacet,
+} from './recipeFilters'
 import type { MacroTarget } from './recipeMacros'
 
-import { defaultSort, filterRecipes } from './recipeFilters'
+import { collectTags, defaultSort, filterRecipes } from './recipeFilters'
 import { GOALS } from './recipeGoals'
 import { formatMacroTarget } from './recipeMacros'
 
@@ -25,11 +29,10 @@ const TAG_GROUPS: Record<TagFacet, string[]> = {
 
 export type TagGroups = Record<TagFacet, string[]>
 
-// The group entries that at least one recipe actually carries
+// The group entries that at least one recipe build actually carries
 export const groupTags = (recipes: RecipeCard[]): TagGroups => {
-  const inUse = new Set(
-    recipes.flatMap(({ tags }) => tags.map((tag) => tag.toLowerCase()))
-  )
+  // Every listed build counts, so the beef build keeps Beef available on a turkey recipe
+  const inUse = new Set(collectTags(recipes).map((tag) => tag.toLowerCase()))
   const pick = (facet: TagFacet): string[] =>
     TAG_GROUPS[facet].filter((name) => inUse.has(name))
 
@@ -195,7 +198,7 @@ export const describeFilters = (filters: RecipeFilters): FilterChip[] => {
 export const findUnavailableOptions = (
   recipes: RecipeCard[],
   filters: RecipeFilters,
-  ingredientMatches: ReadonlySet<string>,
+  ingredientMatches: IngredientMatches,
   tagGroups: TagGroups
 ): UnavailableOptions => {
   const current = toSearchParams(filters)

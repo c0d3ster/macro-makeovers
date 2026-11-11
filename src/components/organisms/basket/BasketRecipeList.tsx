@@ -4,9 +4,11 @@ import type { ReactElement } from 'react'
 
 import Link from 'next/link'
 
-import type { BasketEntry } from '@/libs/basket'
+import type { BasketEntry, RecipeShare } from '@/libs/basket'
 
-import { findBasketRecipe, MAX_BATCHES } from '@/libs/basket'
+import { ServingsStepper } from '@/components/molecules/recipe'
+import { formatMoney } from '@/libs/basket'
+import { buildHref } from '@/libs/recipes/recipeBuilds'
 import { useBasket } from '@/providers'
 
 import type { BasketRecipeLookup } from './basketRecipes'
@@ -16,26 +18,28 @@ import { recipeInfo } from './basketRecipes'
 type BasketRecipeListProps = {
   entries: BasketEntry[]
   recipes: BasketRecipeLookup
+  // Each recipe's checkout cost per serving in this trip, and alone
+  shares: Map<string, RecipeShare>
 }
 
-const BATCH_OPTIONS = Array.from(
-  { length: MAX_BATCHES },
-  (_, index) => index + 1
-)
-
-// The recipes in this trip, each with how many batches to cook and a remove button
+// The recipes in this trip, each with how many servings to cook and a remove button. The cost
+// per serving follows the stepper, so filling packs you are already buying shows as a saving.
 export const BasketRecipeList = ({
   entries,
   recipes,
+  shares,
 }: BasketRecipeListProps): ReactElement => {
-  const { setBatches, remove } = useBasket()
+  const { setServings, remove } = useBasket()
 
   return (
     <ul className='divide-y divide-text-muted/15 rounded-xl bg-surface'>
-      {entries.map(({ slug, batches }) => {
-        const { title } = recipeInfo(recipes, slug)
-        const servings = (findBasketRecipe(slug)?.servings ?? 0) * batches
-        const selectId = `batches-${slug}`
+      {entries.map(({ slug, build, servings }) => {
+        const { title } = recipeInfo(recipes, slug, build)
+        const share = shares.get(slug)
+        // Bundling or cooking more moved the price off what the recipe normally costs
+        const compares =
+          share &&
+          Math.abs(share.togetherPerServing - share.writtenPerServing) >= 0.01
 
         return (
           <li
@@ -44,34 +48,30 @@ export const BasketRecipeList = ({
           >
             <div className='min-w-0'>
               <Link
-                href={`/recipes/${slug}`}
+                href={buildHref(slug, build ? { key: build, isDefault: false } : undefined)}
                 className='font-medium text-text hover:text-primary'
               >
                 {title}
               </Link>
-              <p className='text-sm text-text-muted'>{servings} servings</p>
+              <p className='text-sm text-text-muted'>
+                {share && (
+                  <>
+                    <span className='font-semibold text-text'>
+                      {formatMoney(share.togetherPerServing)}
+                    </span>
+                    /serving
+                    {compares &&
+                      ` (normally ${formatMoney(share.writtenPerServing)})`}
+                  </>
+                )}
+              </p>
             </div>
             <div className='flex items-center gap-4 text-sm'>
-              <label
-                htmlFor={selectId}
-                className='flex items-center gap-2 text-text-muted'
-              >
-                Batches
-                <select
-                  id={selectId}
-                  value={batches}
-                  onChange={(event) =>
-                    setBatches(slug, Number(event.target.value))
-                  }
-                  className='rounded-md border border-text-muted/30 bg-background px-2 py-1 text-text'
-                >
-                  {BATCH_OPTIONS.map((option) => (
-                    <option key={option} value={option}>
-                      {option}
-                    </option>
-                  ))}
-                </select>
-              </label>
+              <ServingsStepper
+                servings={servings}
+                onChange={(next) => setServings(slug, next)}
+                recipe={title}
+              />
               <button
                 type='button'
                 onClick={() => remove(slug)}

@@ -1,11 +1,12 @@
 import type { ReactElement } from 'react'
 
-const MIN_SERVINGS = 1
-const MAX_SERVINGS = 24
+import { MAX_SERVINGS, MIN_SERVINGS } from '@/libs/basket/basketStorage'
 
 type ServingsStepperProps = {
   servings: number
   onChange: (servings: number) => void
+  // Names the recipe on the buttons, for pages with more than one stepper
+  recipe?: string
 }
 
 const stepButton =
@@ -29,11 +30,12 @@ const StepIcon = ({ plus }: { plus: boolean }): ReactElement => (
 export const ServingsStepper = ({
   servings,
   onChange,
+  recipe,
 }: ServingsStepperProps): ReactElement => (
   <div className='flex items-center gap-3'>
     <button
       type='button'
-      aria-label='Fewer servings'
+      aria-label={recipe ? `Fewer servings of ${recipe}` : 'Fewer servings'}
       className={stepButton}
       disabled={servings <= MIN_SERVINGS}
       onClick={() => onChange(servings - 1)}
@@ -51,7 +53,7 @@ export const ServingsStepper = ({
     </output>
     <button
       type='button'
-      aria-label='More servings'
+      aria-label={recipe ? `More servings of ${recipe}` : 'More servings'}
       className={stepButton}
       disabled={servings >= MAX_SERVINGS}
       onClick={() => onChange(servings + 1)}

@@ -1,7 +1,11 @@
-import { fireEvent, render, screen } from '@testing-library/react'
-import { describe, expect, it } from 'vitest'
+import type { ReactElement } from 'react'
 
-import type { NutritionBuild, RecipeDetail } from '@/libs/recipes'
+import { fireEvent, render, screen } from '@testing-library/react'
+import { describe, expect, it, vi } from 'vitest'
+
+import type { ComparisonRow, RecipeBuild, RecipeDetail } from '@/libs/recipes'
+
+import { toRecipeView } from '@/libs/recipes'
 
 import { NutritionTable } from './NutritionTable'
 import { RecipeHero } from './RecipeHero'
@@ -9,20 +13,29 @@ import { RecipeNotes } from './RecipeNotes'
 import { ScalableIngredients } from './ScalableIngredients'
 import { StepList } from './StepList'
 
-const makeover: NutritionBuild = {
-  kind: 'makeover',
+const makeover: RecipeBuild = {
+  key: 'standard',
   label: 'Per serving',
   isDefault: true,
+  listed: true,
   calories: 500,
   proteinG: 39,
   carbsG: 52,
   fatG: 15,
+  swap: {},
 }
 
-const traditional: NutritionBuild = {
-  kind: 'traditional',
-  label: 'Traditional per serving',
+const rice: RecipeBuild = {
+  ...makeover,
+  key: 'rice',
+  label: 'Rice bowl',
   isDefault: false,
+  note: 'Over rice instead',
+  calories: 400,
+}
+
+const traditional: ComparisonRow = {
+  label: 'Traditional per serving',
   calories: 480,
   proteinG: 27,
   carbsG: 30,
@@ -83,9 +96,10 @@ describe('NutritionTable', () => {
   it('lists every build with the whole batch before the traditional row', () => {
     render(
       <NutritionTable
-        builds={[traditional, makeover]}
+        builds={[makeover]}
+        comparisons={[traditional]}
         servings={5}
-        featured={makeover}
+        selected={makeover}
       />
     )
 
@@ -98,7 +112,12 @@ describe('NutritionTable', () => {
 
   it('orders the columns carbs, fat, protein', () => {
     render(
-      <NutritionTable builds={[makeover]} servings={5} featured={makeover} />
+      <NutritionTable
+        builds={[makeover]}
+        comparisons={[]}
+        servings={5}
+        selected={makeover}
+      />
     )
 
     expect(
@@ -109,7 +128,12 @@ describe('NutritionTable', () => {
 
   it('multiplies the featured build for the whole batch', () => {
     render(
-      <NutritionTable builds={[makeover]} servings={5} featured={makeover} />
+      <NutritionTable
+        builds={[makeover]}
+        comparisons={[]}
+        servings={5}
+        selected={makeover}
+      />
     )
 
     expect(screen.getByText('~2,500')).toBeInTheDocument()
@@ -118,7 +142,12 @@ describe('NutritionTable', () => {
 
   it('has a solid background so the page pattern does not show through', () => {
     const { container } = render(
-      <NutritionTable builds={[makeover]} servings={5} featured={makeover} />
+      <NutritionTable
+        builds={[makeover]}
+        comparisons={[]}
+        servings={5}
+        selected={makeover}
+      />
     )
 
     expect(container.querySelector('table')?.parentElement).toHaveClass(
@@ -126,9 +155,53 @@ describe('NutritionTable', () => {
     )
   })
 
+  it('has no build buttons with a single build', () => {
+    render(
+      <NutritionTable
+        builds={[makeover]}
+        comparisons={[]}
+        servings={5}
+        selected={makeover}
+      />
+    )
+
+    expect(screen.queryByRole('button')).toBeNull()
+    expect(screen.queryByText('Tap a build to switch')).toBeNull()
+  })
+
+  it('switches builds from the table and follows the selection', () => {
+    const onSelect = vi.fn()
+    render(
+      <NutritionTable
+        builds={[makeover, rice]}
+        comparisons={[]}
+        servings={5}
+        selected={rice}
+        onSelect={onSelect}
+      />
+    )
+
+    expect(screen.getByRole('button', { name: 'Rice bowl' })).toHaveAttribute(
+      'aria-pressed',
+      'true'
+    )
+    expect(screen.getByText('Over rice instead')).toBeInTheDocument()
+    // The whole batch multiplies the selected build
+    expect(screen.getByText('~2,000')).toBeInTheDocument()
+
+    fireEvent.click(screen.getByRole('button', { name: 'Per serving' }))
+
+    expect(onSelect).toHaveBeenCalledWith('standard')
+  })
+
   it('does not scroll sideways', () => {
     const { container } = render(
-      <NutritionTable builds={[makeover]} servings={5} featured={makeover} />
+      <NutritionTable
+        builds={[makeover]}
+        comparisons={[]}
+        servings={5}
+        selected={makeover}
+      />
     )
 
     expect(container.querySelector('.overflow-x-auto')).toBeNull()
@@ -224,8 +297,9 @@ describe('RecipeHero', () => {
     costTier: 2,
     difficulty: 3,
     tags: [],
-    nutrition: [makeover],
+    builds: [makeover],
     featured: makeover,
+    comparisons: [],
     ingredients: [],
     steps: [],
     nutritionIntro: [],
@@ -234,8 +308,12 @@ describe('RecipeHero', () => {
     variants: [],
   }
 
+  const Hero = ({ value }: { value: RecipeDetail }): ReactElement => (
+    <RecipeHero recipe={value} view={toRecipeView(value)} />
+  )
+
   it('labels cost and difficulty beside the title', () => {
-    render(<RecipeHero recipe={recipe} />)
+    render(<Hero value={recipe} />)
 
     expect(screen.getByText('Total')).toBeInTheDocument()
     expect(screen.getByText('50 min')).toBeInTheDocument()
@@ -248,7 +326,7 @@ describe('RecipeHero', () => {
   })
 
   it('shows the servings beside the calories', () => {
-    render(<RecipeHero recipe={recipe} />)
+    render(<Hero value={recipe} />)
 
     expect(screen.getByText('5')).toBeInTheDocument()
     expect(screen.getByText('servings')).toBeInTheDocument()
@@ -256,7 +334,7 @@ describe('RecipeHero', () => {
   })
 
   it('sizes each macro segment by its share of calories', () => {
-    render(<RecipeHero recipe={recipe} />)
+    render(<Hero value={recipe} />)
 
     // 52g carbs, 15g fat, 39g protein -> 42 / 27 / 31
     const widths = ['Carbs', 'Fat', 'Protein'].map((label) =>
@@ -270,7 +348,7 @@ describe('RecipeHero', () => {
 
   it('shows the original recipe ratio under the macros', () => {
     render(
-      <RecipeHero recipe={{ ...recipe, nutrition: [makeover, traditional] }} />
+      <Hero value={{ ...recipe, comparisons: [traditional] }} />
     )
 
     const strip = screen.getByRole('img', {
@@ -282,7 +360,7 @@ describe('RecipeHero', () => {
 
   it('animates the pills from the original split when there is one', () => {
     const { container } = render(
-      <RecipeHero recipe={{ ...recipe, nutrition: [makeover, traditional] }} />
+      <Hero value={{ ...recipe, comparisons: [traditional] }} />
     )
 
     const pills = container.querySelectorAll('.macro-reveal-pill')
@@ -297,7 +375,7 @@ describe('RecipeHero', () => {
   })
 
   it('grows the pills from nothing without a traditional build', () => {
-    const { container } = render(<RecipeHero recipe={recipe} />)
+    const { container } = render(<Hero value={recipe} />)
 
     expect(
       container.querySelectorAll('.macro-reveal-pill-from-zero')
@@ -306,13 +384,26 @@ describe('RecipeHero', () => {
   })
 
   it('leaves the strip out without a traditional build', () => {
-    render(<RecipeHero recipe={recipe} />)
+    render(<Hero value={recipe} />)
 
     expect(screen.queryByRole('img', { name: /original/i })).toBeNull()
   })
 
+  it('shows the selected build', () => {
+    const value = {
+      ...recipe,
+      builds: [makeover, { ...rice, title: 'Rice Bowl Chili' }],
+    }
+    render(<RecipeHero recipe={value} view={toRecipeView(value, 'rice')} />)
+
+    expect(
+      screen.getByRole('heading', { level: 1, name: 'Rice Bowl Chili' })
+    ).toBeInTheDocument()
+    expect(screen.getByText('400')).toBeInTheDocument()
+  })
+
   it('holds a place for the photo until there is one', () => {
-    render(<RecipeHero recipe={recipe} />)
+    render(<Hero value={recipe} />)
 
     expect(
       screen.getByRole('img', { name: 'Photo of Test Chili coming soon' })
@@ -321,8 +412,8 @@ describe('RecipeHero', () => {
 
   it('sends the photo through the image optimizer', () => {
     render(
-      <RecipeHero
-        recipe={{ ...recipe, imageUrl: 'https://images.example.com/recipes/spicy-turkey-chili.jpg' }}
+      <Hero
+        value={{ ...recipe, imageUrl: 'https://images.example.com/recipes/spicy-turkey-chili.jpg' }}
       />
     )
 
@@ -334,8 +425,8 @@ describe('RecipeHero', () => {
 
   it('shows the photo once there is one', () => {
     render(
-      <RecipeHero
-        recipe={{ ...recipe, imageUrl: 'https://images.example.com/recipes/spicy-turkey-chili.jpg' }}
+      <Hero
+        value={{ ...recipe, imageUrl: 'https://images.example.com/recipes/spicy-turkey-chili.jpg' }}
       />
     )
 

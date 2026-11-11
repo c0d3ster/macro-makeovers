@@ -2,19 +2,23 @@ import type { ReactElement } from 'react'
 
 import type { RecipeStep } from '@/libs/recipes'
 
-import { Markdown } from '@/components/atoms'
+import { BuildMarker, Markdown } from '@/components/atoms'
+import { isScoped } from '@/libs/recipes/recipeBuilds'
 import { formatMinutes } from '@/utils/formatMinutes'
 
 type StepListProps = {
   steps: RecipeStep[]
   prepMinutes: number
   cookMinutes: number
+  // Flags steps only some builds have, on a recipe with more than one build
+  markScoped?: boolean
 }
 
 export const StepList = ({
   steps,
   prepMinutes,
   cookMinutes,
+  markScoped = false,
 }: StepListProps): ReactElement => {
   const phases: {
     phase: RecipeStep['phase']
@@ -47,7 +51,8 @@ export const StepList = ({
               </span>
             </h3>
             <ol className='flex flex-col gap-4'>
-              {phaseSteps.map(({ body, durationMinutes }) => {
+              {phaseSteps.map((step) => {
+                const { body, durationMinutes } = step
                 number += 1
                 return (
                   <li key={body} className='flex gap-4'>
@@ -58,6 +63,11 @@ export const StepList = ({
                       {number}
                     </span>
                     <div className='min-w-0 pt-1 text-text-muted'>
+                      {markScoped && isScoped(step) && (
+                        <div className='mb-1'>
+                          <BuildMarker />
+                        </div>
+                      )}
                       <Markdown>{body}</Markdown>
                       {durationMinutes !== undefined && (
                         <p className='mt-1 text-xs text-text-muted'>

@@ -58,7 +58,7 @@ describe('AddToBasketButton', () => {
   it('picks up a basket saved on an earlier visit', () => {
     localStorage.setItem(
       BASKET_STORAGE_KEY,
-      JSON.stringify({ entries: [{ slug: 'spicy-turkey-chili', batches: 1 }] })
+      JSON.stringify({ entries: [{ slug: 'spicy-turkey-chili', servings: 4 }] })
     )
     renderWithBasket('spicy-turkey-chili')
 

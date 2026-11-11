@@ -7,33 +7,35 @@
   "cookMinutes": 25,
   "costTier": 2,
   "difficulty": 4,
-  "nutrition": [
+  "builds": [
     {
-      "kind": "makeover",
+      "key": "plate",
       "label": "Plate (chicken + sides + ranch)",
+      "isDefault": true,
       "calories": 605,
       "carbsG": 73,
       "fatG": 15,
-      "proteinG": 45,
-      "isDefault": true
+      "proteinG": 45
     },
     {
-      "kind": "makeover",
+      "key": "chicken",
       "label": "Chicken only",
+      "isDefault": false,
+      "listed": false,
       "calories": 255,
       "carbsG": 16,
       "fatG": 6,
-      "proteinG": 33,
-      "isDefault": false
-    },
+      "proteinG": 33
+    }
+  ],
+  "nutrition": [
     {
       "kind": "traditional",
       "label": "Traditional per serving, plate",
       "calories": 895,
       "carbsG": 62,
       "fatG": 58,
-      "proteinG": 35,
-      "isDefault": false
+      "proteinG": 35
     }
   ],
   "ingredients": [

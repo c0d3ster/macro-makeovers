@@ -14,8 +14,8 @@ type AddBundleButtonProps = {
 export const AddBundleButton = ({
   slugs,
 }: AddBundleButtonProps): ReactElement => {
-  const { has, add, isLoaded } = useBasket()
-  const allIn = slugs.every((slug) => has(slug))
+  const { hasRecipe, add, isLoaded } = useBasket()
+  const allIn = slugs.every((slug) => hasRecipe(slug))
 
   if (allIn) {
     return (

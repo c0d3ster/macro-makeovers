@@ -15,13 +15,17 @@ import {
   RemoveRowButton,
 } from '@/components/molecules'
 import { formatMacroRatios } from '@/libs/recipes/macroRatios'
-import { featuredBuild } from '@/libs/recipes/recipeDetail'
 
+import { usePreviewBuild } from './buildPreview'
+import { RecipeBuildDetails } from './RecipeBuildDetails'
 import {
+  featuredIndex,
+  nextBuildKey,
   numberField,
+  toBuildMacros,
   toNumber,
-  toNutritionBuild,
   useRecipeForm,
+  useRenameBuildKey,
 } from './recipeFormFields'
 import { RecipeNoteField } from './RecipeNoteField'
 
@@ -30,8 +34,8 @@ type RecipeNutritionEditorProps = {
   notes: UseFieldArrayReturn<RecipeImportInput, 'notes'>
 }
 
-type NutritionKind = RecipeImportInput['nutrition'][number]['kind']
 type NutritionNoteKind = 'nutrition_intro' | 'nutrition_analysis'
+type Section = 'builds' | 'nutrition'
 
 // The page's cell padding, less the field's own, so the numbers sit where the page puts them
 const cell = 'px-2 py-2 align-top sm:px-3'
@@ -59,19 +63,11 @@ const NUTRITION_NOTES: Record<
   },
 }
 
-const emptyRow = (kind: NutritionKind): RecipeImportInput['nutrition'][number] => ({
-  kind,
-  label: kind === 'traditional' ? 'Traditional' : '',
-  isDefault: false,
-  calories: 0,
-  carbsG: 0,
-  fatG: 0,
-  proteinG: 0,
-})
+const ZERO_MACROS = { calories: 0, carbsG: 0, fatG: 0, proteinG: 0 }
 
-// The page's nutrition table with its numbers as fields, in the same row order: makeovers, the
+// The page's nutrition table with its numbers as fields, in the same row order: builds, the
 // whole batch, then the traditional comparison. Ratios and the batch row update while typing.
-// A row stays the kind it was added as.
+// Each build opens its details for the fields it can override.
 export const RecipeNutritionEditor = ({
   notes,
 }: RecipeNutritionEditorProps): ReactElement => {
@@ -81,68 +77,40 @@ export const RecipeNutritionEditor = ({
     setValue,
     formState: { errors },
   } = useRecipeForm()
-  const nutrition = useFieldArray({ control, name: 'nutrition' })
-  const rows = useWatch({ control, name: 'nutrition' })
+  const builds = useFieldArray({ control, name: 'builds' })
+  const renameBuildKey = useRenameBuildKey()
+  const preview = usePreviewBuild()
+  const comparisons = useFieldArray({ control, name: 'nutrition' })
+  const buildRows = useWatch({ control, name: 'builds' }) ?? []
+  const comparisonRows = useWatch({ control, name: 'nutrition' }) ?? []
   const noteRows = useWatch({ control, name: 'notes' })
   const servings = toNumber(useWatch({ control, name: 'servings' }))
   // The note just added, which takes the focus as it shows
   const [addedNote, setAddedNote] = useState<number>()
+  // The build whose details are open
+  const [openBuild, setOpenBuild] = useState<string>()
 
-  const builds = rows.map(toNutritionBuild)
-  const featured = featuredBuild(builds)
-  const featuredIndex = featured ? builds.indexOf(featured) : -1
-  const listMessage =
-    errors.nutrition?.root?.message ?? errors.nutrition?.message
+  const featured = featuredIndex(buildRows)
+  const featuredRow = buildRows[featured]
+  const featuredMacros = featuredRow ? toBuildMacros(featuredRow) : ZERO_MACROS
+  const listMessage = errors.builds?.root?.message ?? errors.builds?.message
 
-  // Exactly one row leads the recipe, so picking one clears the others
+  // Exactly one build leads the recipe, so picking one clears the others
   const feature = (index: number): void => {
-    nutrition.fields.forEach((_, other) => {
-      setValue(`nutrition.${other}.isDefault`, other === index, {
+    builds.fields.forEach((_, other) => {
+      setValue(`builds.${other}.isDefault`, other === index, {
         shouldDirty: true,
       })
     })
   }
 
-  const renderRow = (id: string, index: number): ReactElement | null => {
-    const build = builds[index]
-    if (!build) return null
-    const isMakeover = build.kind === 'makeover'
-    const name = `Nutrition row ${index + 1}`
+  const macroCells = (section: Section, index: number, name: string): ReactElement => {
+    const sectionErrors =
+      section === 'builds' ? errors.builds?.[index] : errors.nutrition?.[index]
+    const row = section === 'builds' ? buildRows[index] : comparisonRows[index]
 
     return (
-      <tr
-        key={id}
-        className={`group/editable border-t border-text-muted/30 ${isMakeover ? '' : 'text-text-muted italic'}`}
-      >
-        <th scope='row' className={`${cell} font-normal`}>
-          <div className='flex flex-col gap-0.5'>
-            <InlineInput
-              label={`${name} label`}
-              error={errors.nutrition?.[index]?.label?.message}
-              placeholder={isMakeover ? 'Build name' : 'Traditional'}
-              className={isMakeover ? 'font-semibold' : ''}
-              {...register(`nutrition.${index}.label`)}
-            />
-            {isMakeover && (
-              <label
-                className={`flex w-fit cursor-pointer items-center gap-1 text-xs text-text-muted ${featuredIndex === index ? '' : 'opacity-0 group-focus-within/editable:opacity-100 group-hover/editable:opacity-100 pointer-coarse:opacity-100'}`}
-              >
-                <input
-                  type='radio'
-                  name='featured-build'
-                  checked={featuredIndex === index}
-                  onChange={() => feature(index)}
-                />
-                Featured
-              </label>
-            )}
-            {errors.nutrition?.[index]?.isDefault?.message && (
-              <p role='alert' className='text-xs text-red-400 not-italic'>
-                {errors.nutrition[index].isDefault.message}
-              </p>
-            )}
-          </div>
-        </th>
+      <>
         <td className={cell}>
           <span className='flex items-baseline'>
             ~
@@ -151,8 +119,8 @@ export const RecipeNutritionEditor = ({
               label={`${name} calories`}
               type='number'
               step='any'
-              error={errors.nutrition?.[index]?.calories?.message}
-              {...numberField(register, `nutrition.${index}.calories`)}
+              error={sectionErrors?.calories?.message}
+              {...numberField(register, `${section}.${index}.calories`)}
             />
           </span>
         </td>
@@ -164,30 +132,116 @@ export const RecipeNutritionEditor = ({
                 label={`${name} ${title.toLowerCase()} grams`}
                 type='number'
                 step='any'
-                error={errors.nutrition?.[index]?.[field]?.message}
-                {...numberField(register, `nutrition.${index}.${field}`)}
+                error={sectionErrors?.[field]?.message}
+                {...numberField(register, `${section}.${index}.${field}`)}
               />
               g
             </span>
           </td>
         ))}
         <td className={`${cell} pt-2.5 whitespace-nowrap`}>
-          {formatMacroRatios(build)}
+          {row ? formatMacroRatios(toBuildMacros(row)) : '-'}
         </td>
-        <td className='py-2 pr-1 align-top'>
-          <RemoveRowButton
-            label={`Remove nutrition row ${index + 1}`}
-            onClick={() => nutrition.remove(index)}
-          />
-        </td>
-      </tr>
+      </>
     )
   }
 
-  const rowsOfKind = (kind: NutritionKind): (ReactElement | null)[] =>
-    nutrition.fields.flatMap(({ id }, index) =>
-      builds[index]?.kind === kind ? [renderRow(id, index)] : []
+  const buildRow = (id: string, index: number): ReactElement => {
+    const name = `Build ${index + 1}`
+    const isOpen = openBuild === id
+    const isPreviewed = builds.fields.length > 1 && preview.index === index
+    const key = buildRows[index]?.key
+    const rowErrors = errors.builds?.[index]
+    const hasDetailErrors = Boolean(
+      rowErrors &&
+        Object.keys(rowErrors).some(
+          (field) =>
+            !['label', 'calories', 'carbsG', 'fatG', 'proteinG'].includes(field)
+        )
     )
+
+    return (
+      <tbody key={id} className='text-text'>
+        <tr
+          className={`group/editable border-t border-text-muted/30 ${isPreviewed ? 'bg-primary/10' : ''}`}
+        >
+          <th
+            scope='row'
+            className={`${cell} font-normal ${isPreviewed ? 'shadow-[inset_3px_0_0_0_var(--color-primary)]' : ''}`}
+          >
+            <div className='flex flex-col gap-0.5'>
+              <InlineInput
+                label={`${name} label`}
+                error={rowErrors?.label?.message}
+                placeholder='Build name'
+                className='font-semibold'
+                {...register(`builds.${index}.label`)}
+              />
+              <div className='flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-text-muted'>
+                <label
+                  className={`flex w-fit cursor-pointer items-center gap-1 ${featured === index ? '' : 'opacity-0 group-focus-within/editable:opacity-100 group-hover/editable:opacity-100 pointer-coarse:opacity-100'}`}
+                >
+                  <input
+                    type='radio'
+                    name='featured-build'
+                    checked={featured === index}
+                    onChange={() => feature(index)}
+                  />
+                  Featured
+                </label>
+                <button
+                  type='button'
+                  aria-expanded={isOpen}
+                  onClick={() => setOpenBuild(isOpen ? undefined : id)}
+                  className={`cursor-pointer underline hover:text-text ${hasDetailErrors ? 'text-red-400' : ''}`}
+                >
+                  {isOpen ? 'Hide build details' : 'Build details'}
+                </button>
+                {builds.fields.length > 1 && (
+                  <button
+                    type='button'
+                    aria-pressed={isPreviewed}
+                    disabled={!key}
+                    onClick={() =>
+                      preview.select(index === featured ? undefined : key)
+                    }
+                    className={`cursor-pointer underline hover:text-text ${isPreviewed ? 'font-medium text-primary no-underline' : ''}`}
+                  >
+                    {isPreviewed ? 'Previewing' : 'Switch to this build'}
+                  </button>
+                )}
+              </div>
+              {rowErrors?.isDefault?.message && (
+                <p role='alert' className='text-xs text-red-400'>
+                  {rowErrors.isDefault.message}
+                </p>
+              )}
+            </div>
+          </th>
+          {macroCells('builds', index, name)}
+          <td className='py-2 pr-1 align-top'>
+            {builds.fields.length > 1 && (
+              <RemoveRowButton
+                label={`Remove build ${index + 1}`}
+                onClick={() => {
+                  const key = buildRows[index]?.key
+                  if (key) renameBuildKey(key)
+                  builds.remove(index)
+                }}
+              />
+            )}
+          </td>
+        </tr>
+        {isOpen && (
+          <tr>
+            <td colSpan={7} className='bg-surface/50 p-3'>
+              <RecipeBuildDetails index={index} />
+            </td>
+          </tr>
+        )}
+      </tbody>
+    )
+  }
 
   // A nutrition note in its place, or a placeholder in its shape while there is none
   const nutritionNotes = (kind: NutritionNoteKind): ReactElement => {
@@ -264,36 +318,71 @@ export const RecipeNutritionEditor = ({
               <td />
             </tr>
           </thead>
+          {builds.fields.map(({ id }, index) => buildRow(id, index))}
           <tbody className='text-text'>
-            {rowsOfKind('makeover')}
-            {featured && (
-              <tr className='border-t border-text-muted/30'>
-                <th scope='row' className={`${cell} font-semibold`}>
-                  Whole batch (&times;{servings})
-                </th>
-                <td className={cell}>
-                  ~{(featured.calories * servings).toLocaleString('en-US')}
+            <tr className='border-t border-text-muted/30'>
+              <th scope='row' className={`${cell} font-semibold`}>
+                Whole batch (&times;{servings})
+              </th>
+              <td className={cell}>
+                ~{(featuredMacros.calories * servings).toLocaleString('en-US')}
+              </td>
+              {MACRO_FIELDS.map(({ field }) => (
+                <td key={field} className={cell}>
+                  {Math.round(featuredMacros[field] * servings * 10) / 10}g
                 </td>
-                {MACRO_FIELDS.map(({ field }) => (
-                  <td key={field} className={cell}>
-                    {Math.round(featured[field] * servings * 10) / 10}g
-                  </td>
-                ))}
-                <td className={cell}>-</td>
-                <td />
+              ))}
+              <td className={cell}>-</td>
+              <td />
+            </tr>
+            {comparisons.fields.map(({ id }, index) => (
+              <tr
+                key={id}
+                className='group/editable border-t border-text-muted/30 text-text-muted italic'
+              >
+                <th scope='row' className={`${cell} font-normal`}>
+                  <InlineInput
+                    label={`Traditional row ${index + 1} label`}
+                    error={errors.nutrition?.[index]?.label?.message}
+                    placeholder='Traditional'
+                    {...register(`nutrition.${index}.label`)}
+                  />
+                </th>
+                {macroCells('nutrition', index, `Traditional row ${index + 1}`)}
+                <td className='py-2 pr-1 align-top'>
+                  <RemoveRowButton
+                    label={`Remove traditional row ${index + 1}`}
+                    onClick={() => comparisons.remove(index)}
+                  />
+                </td>
               </tr>
-            )}
-            {rowsOfKind('traditional')}
+            ))}
           </tbody>
         </table>
       </div>
 
       <div className='flex flex-wrap gap-4'>
-        <AddRowButton onClick={() => nutrition.append(emptyRow('makeover'))}>
-          Add makeover row
+        <AddRowButton
+          onClick={() =>
+            builds.append({
+              key: nextBuildKey(buildRows.map(({ key }) => key)),
+              label: '',
+              isDefault: false,
+              listed: true,
+              ...ZERO_MACROS,
+            })
+          }
+        >
+          Add build
         </AddRowButton>
         <AddRowButton
-          onClick={() => nutrition.append(emptyRow('traditional'))}
+          onClick={() =>
+            comparisons.append({
+              kind: 'traditional',
+              label: 'Traditional',
+              ...ZERO_MACROS,
+            })
+          }
         >
           Add traditional row
         </AddRowButton>

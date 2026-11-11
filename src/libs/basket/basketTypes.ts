@@ -2,6 +2,13 @@
 export type StoreSection =
   'produce' | 'meat' | 'dairy' | 'bakery' | 'frozen' | 'pantry' | 'spices'
 
+// One size a product is sold in
+export type PackSize = {
+  pack: string
+  packQuantity: number
+  price: number
+}
+
 // One product as it is sold
 export type BasketItem = {
   name: string
@@ -17,6 +24,9 @@ export type BasketItem = {
   pantry: boolean
   // Spoils fast once opened, so a leftover is likely wasted
   perishable: boolean
+  // Larger sizes of the same product. The pack above is the smallest. A recipe is priced from
+  // the smallest size that covers what it uses, and a trip buys the cheapest mix of sizes.
+  sizes?: PackSize[]
 }
 
 // What one batch of a recipe uses, by item key, in each item's unit
@@ -28,8 +38,12 @@ export type BasketRecipe = {
   lines: Record<string, number>
 }
 
-// A recipe in the basket and how many batches of it
+// A recipe in the basket and how many servings of it to cook
 export type BasketEntry = {
   slug: string
-  batches: number
+  // The recipe build's key. Missing means the default build. Price lines are the recipe's
+  // until a build has lines of its own.
+  build?: string
+  // Scales the recipe's ingredients the way the recipe page's servings stepper does
+  servings: number
 }

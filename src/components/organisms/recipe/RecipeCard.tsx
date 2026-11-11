@@ -12,7 +12,7 @@ import {
   RecipeImage,
 } from '@/components/atoms'
 import { MacroBar } from '@/components/molecules'
-import { toMacroRatios } from '@/libs/recipes'
+import { cardHref, toMacroRatios } from '@/libs/recipes'
 import { formatMinutes } from '@/utils/formatMinutes'
 
 const MAX_TAGS = 3
@@ -29,7 +29,6 @@ type RecipeCardProps = {
 
 export const RecipeCard = ({ recipe, fit }: RecipeCardProps): ReactElement => {
   const {
-    slug,
     title,
     summary,
     imageUrl,
@@ -43,6 +42,7 @@ export const RecipeCard = ({ recipe, fit }: RecipeCardProps): ReactElement => {
     carbsG,
     fatG,
     original,
+    build,
   } = recipe
   const { proteinPct, carbsPct, fatPct } = toMacroRatios({
     proteinG,
@@ -54,7 +54,7 @@ export const RecipeCard = ({ recipe, fit }: RecipeCardProps): ReactElement => {
 
   return (
     <Link
-      href={`/recipes/${slug}`}
+      href={cardHref(recipe)}
       className={`group flex h-full flex-col overflow-hidden rounded-xl bg-surface transition-colors hover:bg-surface/80 focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none ${
         fit?.isFit ? 'outline-2 outline-primary' : ''
       } ${fit && !fit.isFit ? 'opacity-90' : ''}`}
@@ -100,6 +100,11 @@ export const RecipeCard = ({ recipe, fit }: RecipeCardProps): ReactElement => {
           <h3 className='text-lg font-semibold text-text group-hover:text-primary'>
             {title}
           </h3>
+          {!build.isDefault && (
+            <p className='text-xs font-medium text-primary'>
+              Build: {build.label}
+            </p>
+          )}
           <p className='line-clamp-4 text-sm text-text-muted'>{summary}</p>
         </div>
 

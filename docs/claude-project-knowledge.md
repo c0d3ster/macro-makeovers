@@ -20,9 +20,23 @@ returned diff and only retry with overwrite once the user agrees.
 - `slug` is lowercase words joined by hyphens, like `blackened-chicken-alfredo`.
 - `costTier` and `difficulty` are whole numbers from 1 to 5. `servings`, `prepMinutes`, and
   `cookMinutes` are whole numbers.
-- `nutrition` is per serving. Include at least one `makeover` row, and one `traditional` row for the
-  comparison when there is a fair one. Mark exactly one makeover row `isDefault: true`. Each row has
-  `calories`, `carbsG`, `fatG`, and `proteinG`. Do not add whole-batch rows.
+- `builds` are the versions of the recipe, one per nutrition table row, per serving. Include at
+  least one. Each has a `key` (lowercase words joined by hyphens, like `rice-bowl`), a `label`, and
+  `calories`, `carbsG`, `fatG`, and `proteinG`. Mark exactly one `isDefault: true`. Set
+  `listed: false` on a part that is not a meal, like "Filling only".
+- A build that trades one main ingredient sets `swap`, like `{ "turkey": "beef" }`. The recipe
+  tag `turkey` becomes `beef`, and the word in the title swaps with it, so "Turkey Taco Grillers"
+  reads "Beef Taco Grillers". Recipe `tags` describe the default build, so the build's new tag
+  must not already be one. Set `title` only when the swapped title is not the wording wanted,
+  like "Lean Beef Taco Grillers".
+- A build can also set `note` (one or two lines on what it changes), `costTier`, `difficulty`,
+  `prepMinutes`, and `cookMinutes`. Leave any of them out to keep the recipe's value. The summary
+  and other prose stay the recipe's. Text only some builds need goes in a note scoped to them.
+- `nutrition` holds only the `traditional` comparison rows, per serving, when there is a fair one.
+  Do not add whole-batch rows.
+- An ingredient, step, or note that only some builds use sets `onlyBuilds` or `skipBuilds` to a
+  list of build keys, never both. To swap a line, the default's line skips the build and the
+  build's line is only for it. A build that needs its own step gets one with `onlyBuilds`.
 - Macros read carbs, fat, protein, in that order. Keep protein prominent in the summary and notes.
 - `ingredients` need only `raw` (the line as written). `group` is an optional heading like
   `Sauce`. `quantity`, `unit`, `name`, and `note` are optional and can be filled when they are
@@ -38,6 +52,9 @@ returned diff and only retry with overwrite once the user agrees.
 - `tags` are lowercase words (`oven`, `quick`, `high protein`). Unknown tags are created.
 - `variantOf` is the slug of the base recipe when this one is a full variation of it. The base must
   already exist, and a variant cannot itself be a base.
+- Build or variant: if it is the same dish cooked the same way, with some lines or steps added,
+  dropped, or swapped, it is a build. If it is a different dish with its own method, it is a
+  variant.
 - Bodies and summaries support light markdown (bold, lists, blockquotes). Do not use em dashes.
 
 ## Example

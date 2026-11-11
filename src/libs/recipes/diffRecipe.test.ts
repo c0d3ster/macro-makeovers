@@ -23,12 +23,12 @@ describe('diffRecipes', () => {
   })
 
   it('reports a nested change at the exact field', () => {
-    const nutrition = base.nutrition.map((row, index) =>
+    const builds = base.builds.map((row, index) =>
       index === 0 ? { ...row, proteinG: 40 } : row
     )
 
-    expect(diffRecipes(base, { ...base, nutrition })).toEqual([
-      { path: 'nutrition[0].proteinG', before: 32, after: 40 },
+    expect(diffRecipes(base, { ...base, builds })).toEqual([
+      { path: 'builds[0].proteinG', before: 32, after: 40 },
     ])
   })
 

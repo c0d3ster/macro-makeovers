@@ -12,6 +12,7 @@ import {
   smallint,
   text,
   timestamp,
+  uniqueIndex,
   uuid,
 } from 'drizzle-orm/pg-core'
 
@@ -64,9 +65,9 @@ export const recipeNutrition = pgTable(
     recipeId: uuid('recipe_id')
       .notNull()
       .references(() => recipes.id, { onDelete: 'cascade' }),
+    // Traditional comparison rows only. Makeover macros live on recipe_builds.
     kind: nutritionKindEnum('kind').notNull(),
     label: text('label').notNull(),
-    isDefault: boolean('is_default').notNull().default(false),
     calories: numeric('calories', {
       precision: 7,
       scale: 1,
@@ -93,6 +94,61 @@ export const recipeNutrition = pgTable(
   (table) => [index('recipe_nutrition_recipe_idx').on(table.recipeId)]
 )
 
+// One version of a recipe that shares its method. Overrides are null to fall back to the recipe.
+export const recipeBuilds = pgTable(
+  'recipe_builds',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    recipeId: uuid('recipe_id')
+      .notNull()
+      .references(() => recipes.id, { onDelete: 'cascade' }),
+    // URL key, unique per recipe. Lines, steps, and notes point at builds by key.
+    key: text('key').notNull(),
+    label: text('label').notNull(),
+    position: integer('position').notNull().default(0),
+    isDefault: boolean('is_default').notNull().default(false),
+    // False for components like "Filling only": selectable on the page, never leads a card
+    listed: boolean('listed').notNull().default(true),
+    calories: numeric('calories', {
+      precision: 7,
+      scale: 1,
+      mode: 'number',
+    }).notNull(),
+    carbsG: numeric('carbs_g', {
+      precision: 6,
+      scale: 1,
+      mode: 'number',
+    }).notNull(),
+    fatG: numeric('fat_g', {
+      precision: 6,
+      scale: 1,
+      mode: 'number',
+    }).notNull(),
+    proteinG: numeric('protein_g', {
+      precision: 6,
+      scale: 1,
+      mode: 'number',
+    }).notNull(),
+    // Tag swaps like { turkey: 'beef' }. The title's word swaps with the tag.
+    swap: jsonb('swap').$type<Record<string, string>>().notNull().default({}),
+    // Only when the swapped title is not the wording wanted
+    title: text('title'),
+    noteMd: text('note_md'),
+    costTier: smallint('cost_tier'),
+    difficulty: smallint('difficulty'),
+    prepMinutes: integer('prep_minutes'),
+    cookMinutes: integer('cook_minutes'),
+    imageUrl: text('image_url'),
+    imageIsPlaceholder: boolean('image_is_placeholder')
+      .notNull()
+      .default(false),
+  },
+  (table) => [
+    uniqueIndex('recipe_builds_recipe_id_key_key').on(table.recipeId, table.key),
+    index('recipe_builds_recipe_idx').on(table.recipeId, table.position),
+  ]
+)
+
 export const ingredients = pgTable(
   'ingredients',
   {
@@ -108,6 +164,9 @@ export const ingredients = pgTable(
     name: text('name'),
     note: text('note'),
     category: text('category'),
+    // Build keys this row belongs to, or skips. Empty on both means every build.
+    onlyBuilds: text('only_builds').array().notNull().default([]),
+    skipBuilds: text('skip_builds').array().notNull().default([]),
   },
   (table) => [
     index('ingredients_recipe_idx').on(table.recipeId, table.position),
@@ -129,6 +188,9 @@ export const steps = pgTable(
       scale: 2,
       mode: 'number',
     }),
+    // Build keys this row belongs to, or skips. Empty on both means every build.
+    onlyBuilds: text('only_builds').array().notNull().default([]),
+    skipBuilds: text('skip_builds').array().notNull().default([]),
   },
   (table) => [index('steps_recipe_idx').on(table.recipeId, table.position)]
 )
@@ -143,6 +205,9 @@ export const recipeNotes = pgTable(
     kind: noteKindEnum('kind').notNull(),
     position: integer('position').notNull(),
     bodyMd: text('body_md').notNull(),
+    // Build keys this row belongs to, or skips. Empty on both means every build.
+    onlyBuilds: text('only_builds').array().notNull().default([]),
+    skipBuilds: text('skip_builds').array().notNull().default([]),
   },
   (table) => [
     index('recipe_notes_recipe_idx').on(table.recipeId, table.position),
@@ -201,6 +266,7 @@ export const recipesRelations = relations(recipes, ({ one, many }) => ({
     relationName: 'variants',
   }),
   variants: many(recipes, { relationName: 'variants' }),
+  builds: many(recipeBuilds),
   nutrition: many(recipeNutrition),
   ingredients: many(ingredients),
   steps: many(steps),
@@ -217,6 +283,13 @@ export const recipeNutritionRelations = relations(
     }),
   })
 )
+
+export const recipeBuildsRelations = relations(recipeBuilds, ({ one }) => ({
+  recipe: one(recipes, {
+    fields: [recipeBuilds.recipeId],
+    references: [recipes.id],
+  }),
+}))
 
 export const ingredientsRelations = relations(ingredients, ({ one }) => ({
   recipe: one(recipes, {

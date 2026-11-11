@@ -66,6 +66,7 @@ export const RecipeGrid = ({
               <AddToBasketButton
                 slug={recipe.slug}
                 title={recipe.title}
+                build={recipe.build.isDefault ? undefined : recipe.build.key}
                 variant='compact'
               />
             </div>

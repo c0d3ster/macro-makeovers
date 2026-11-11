@@ -1,9 +1,11 @@
 import type { RecipeImport } from '@/validations'
 
 import { formatMacroRatios } from './macroRatios'
+import { buildTitle } from './recipeBuilds'
 
-type Nutrition = RecipeImport['nutrition'][number]
+type Build = RecipeImport['builds'][number]
 type Note = RecipeImport['notes'][number]
+type Scope = { onlyBuilds?: string[]; skipBuilds?: string[] }
 
 // The recipe book text that is not recipes: the intro, the "How to read the recipes" guide, and
 // the closing sections. The intro lives in content/book and the rest in content/guides (shared
@@ -84,10 +86,25 @@ export const numberBookRecipes = (
 const anchorFor = ({ recipe, number }: BookRecipe): string =>
   `${number}-${recipe.slug}`
 
-const featuredRow = ({ nutrition }: RecipeImport): Nutrition => {
-  const row = nutrition.find(({ isDefault }) => isDefault) ?? nutrition[0]
-  if (!row) throw new Error('A recipe has no nutrition row')
+const featuredRow = ({ builds }: RecipeImport): Build => {
+  const row = builds.find(({ isDefault }) => isDefault) ?? builds[0]
+  if (!row) throw new Error('A recipe has no build')
   return row
+}
+
+// The book prints every line and step, and says which builds a scoped one is for:
+// "(Beef grillers only)" or "(skip for Costco)"
+const scopeLabel = (
+  { builds }: RecipeImport,
+  { onlyBuilds, skipBuilds }: Scope
+): string => {
+  const labels = (keys: string[]): string =>
+    keys
+      .map((key) => builds.find((build) => build.key === key)?.label ?? key)
+      .join(' or ')
+  if (onlyBuilds?.length) return ` _(${labels(onlyBuilds)} only)_`
+  if (skipBuilds?.length) return ` _(skip for ${labels(skipBuilds)})_`
+  return ''
 }
 
 const formatCalories = (calories: number): string =>
@@ -123,9 +140,13 @@ const quickReference = (recipes: BookRecipe[]): string => {
   ].join('\n\n')
 }
 
-const nutritionTable = ({ nutrition, servings }: RecipeImport): string => {
-  const rows = nutrition.map((row) => {
-    const traditional = row.kind === 'traditional'
+const nutritionTable = ({
+  builds,
+  nutrition,
+  servings,
+}: RecipeImport): string => {
+  const rows = [...builds, ...nutrition].map((row) => {
+    const traditional = 'kind' in row && row.kind === 'traditional'
     const label = DIVIDED_LABEL.test(row.label)
       ? `${row.label} (÷${servings})`
       : row.label
@@ -164,18 +185,32 @@ const groupHeading = (group: string): string => {
     : `**${group}**`
 }
 
-const ingredientsSection = ({ ingredients, notes }: RecipeImport): string => {
+const ingredientsSection = (recipe: RecipeImport): string => {
+  const { ingredients, notes } = recipe
+  // A group whose lines all carry the same scope says it once, on its heading
+  const groupScope = (group: string | undefined): string => {
+    if (!group) return ''
+    const labels = ingredients
+      .filter((ingredient) => ingredient.group === group)
+      .map((ingredient) => scopeLabel(recipe, ingredient))
+    const [first = ''] = labels
+    return labels.every((label) => label === first) ? first : ''
+  }
   const lines = ingredients.flatMap((ingredient, index) => {
     const previous = ingredients[index - 1]
+    const shared = groupScope(ingredient.group)
     const heading =
       ingredient.group && ingredient.group !== previous?.group
-        ? [`${index === 0 ? '' : '\n'}${groupHeading(ingredient.group)}\n`]
+        ? [
+            `${index === 0 ? '' : '\n'}${groupHeading(ingredient.group)}${shared}\n`,
+          ]
         : []
-    return [...heading, `- ${ingredient.raw}`]
+    const own = shared ? '' : scopeLabel(recipe, ingredient)
+    return [...heading, `- ${ingredient.raw}${own}`]
   })
   const tips = notes
     .filter(({ kind }) => kind === 'tip')
-    .map(({ body }) => toQuote(body))
+    .map((note) => toQuote(`${note.body}${scopeLabel(recipe, note)}`))
   return ['### Ingredients', lines.join('\n'), ...tips].join('\n\n')
 }
 
@@ -188,9 +223,10 @@ const timedMethod = (recipe: RecipeImport): string => {
     const own = recipe.steps.filter((step) => step.phase === name)
     if (own.length === 0) return []
     const body = own
-      .map((step, index) =>
-        name === 'prep' ? `- ${step.body}` : `${index + 1}. ${step.body}`
-      )
+      .map((step, index) => {
+        const body = `${step.body}${scopeLabel(recipe, step)}`
+        return name === 'prep' ? `- ${body}` : `${index + 1}. ${body}`
+      })
       .join('\n')
     return [`**${label}** (~${minutes} min)`, body]
   }
@@ -203,7 +239,8 @@ const timedMethod = (recipe: RecipeImport): string => {
 
 // The sections after the method, in the order the notes were stored: a heading with bullets,
 // or a section of its own (toppings, an options table) that was kept whole as one lever.
-const trailingSections = ({ notes }: RecipeImport): string[] => {
+const trailingSections = (recipe: RecipeImport): string[] => {
+  const { notes } = recipe
   const sections: string[] = []
   let currentKind: Note['kind'] | undefined
   let bullets: string[] = []
@@ -217,17 +254,19 @@ const trailingSections = ({ notes }: RecipeImport): string[] => {
     currentKind = undefined
   }
 
-  notes.forEach(({ kind, body }) => {
+  notes.forEach((note) => {
+    const { kind, body } = note
+    const scope = scopeLabel(recipe, note)
     const own = /^\*\*([^*\n]+)\*\*\n\n([\s\S]*)$/.exec(body)
     if (kind === 'levers' && own?.[1]) {
       flush()
-      sections.push(`### ${own[1]}\n\n${own[2] ?? ''}`)
+      sections.push(`### ${own[1]}${scope}\n\n${own[2] ?? ''}`)
       return
     }
     if (!NOTE_HEADINGS[kind]) return
     if (kind !== currentKind) flush()
     currentKind = kind
-    bullets.push(`- ${body}`)
+    bullets.push(`- ${body}${scope}`)
   })
   flush()
 
@@ -242,12 +281,18 @@ const recipeSection = (book: BookRecipe): string => {
     `~${recipe.prepMinutes + recipe.cookMinutes} min`,
     stars(recipe.difficulty, '●') + stars(5 - recipe.difficulty, '○'),
   ].join(' · ')
-  const intros = recipe.notes
-    .filter(({ kind }) => kind === 'nutrition_intro')
-    .map(({ body }) => body)
-  const analysis = recipe.notes
-    .filter(({ kind }) => kind === 'nutrition_analysis')
-    .map(({ body }) => body)
+  const nutritionNotes = (kind: Note['kind']): string[] =>
+    recipe.notes
+      .filter((note) => note.kind === kind)
+      .map((note) => `${note.body}${scopeLabel(recipe, note)}`)
+  const intros = nutritionNotes('nutrition_intro')
+  const analysis = nutritionNotes('nutrition_analysis')
+  // What each build changes, under the table, named the way the build's page title reads
+  const buildNotes = recipe.builds.flatMap(({ label, title, swap, note }) => {
+    if (!note) return []
+    const renamed = title ?? (swap ? buildTitle(recipe.title, { swap }) : undefined)
+    return [`**${renamed && renamed !== recipe.title ? renamed : label}:** ${note}`]
+  })
 
   return [
     `<a id="${anchorFor(book)}"></a>`,
@@ -256,6 +301,7 @@ const recipeSection = (book: BookRecipe): string => {
     '### Nutrition',
     ...intros,
     nutritionTable(recipe),
+    ...buildNotes,
     ...analysis,
     ingredientsSection(recipe),
     timedMethod(recipe),

@@ -1,93 +1,125 @@
 {
   "slug": "pollo-asado-chicken-thigh-bowl",
   "title": "Pollo Asado Chicken Thigh Bowl",
-  "summary": "Citrus-achiote thighs seared hard for char, over brown rice with black beans, mango habanero salsa, cotija, and blended cottage cheese. Two builds: skinless and skin-on.",
+  "summary": "Citrus-achiote thighs seared hard for char, over brown rice with black beans, mango habanero salsa, cotija, and blended cottage cheese. Three builds: skinless, skin-on, and Costco precooked.",
   "servings": 4,
   "prepMinutes": 15,
   "cookMinutes": 45,
   "costTier": 2,
   "difficulty": 2,
-  "nutrition": [
+  "builds": [
     {
-      "kind": "makeover",
+      "key": "skinless",
       "label": "Skinless",
+      "isDefault": true,
       "calories": 670,
       "carbsG": 67,
       "fatG": 20,
-      "proteinG": 56,
-      "isDefault": true
+      "proteinG": 56
     },
     {
-      "kind": "makeover",
+      "key": "costco",
+      "label": "Costco precooked",
+      "isDefault": false,
+      "note": "Costco's precooked pollo asado in place of the thighs and marinade.",
+      "costTier": 3,
+      "difficulty": 1,
+      "prepMinutes": 10,
+      "calories": 670,
+      "carbsG": 67,
+      "fatG": 20,
+      "proteinG": 56
+    },
+    {
+      "key": "skin-on",
       "label": "Skin-on",
+      "isDefault": false,
       "calories": 740,
       "carbsG": 67,
       "fatG": 27,
-      "proteinG": 57,
-      "isDefault": false
-    },
+      "proteinG": 57
+    }
+  ],
+  "nutrition": [
     {
       "kind": "traditional",
       "label": "Traditional",
       "calories": 865,
       "carbsG": 74,
       "fatG": 42,
-      "proteinG": 49,
-      "isDefault": false
+      "proteinG": 49
     }
   ],
   "ingredients": [
     {
-      "group": "Chicken (pick one)",
-      "raw": "Skinless: 1.5 lb boneless skinless thighs (or 1.5 lb precooked Costco pollo asado, 3/4 of a bag, for an easy option that skips the marinade and oil and runs within ~5 cal of skinless)"
+      "group": "Chicken",
+      "raw": "1.5 lb boneless skinless thighs",
+      "onlyBuilds": ["skinless"]
     },
     {
-      "group": "Chicken (pick one)",
-      "raw": "Skin-on: 1.5 lb boneless skin-on thighs"
+      "group": "Chicken",
+      "raw": "1.5 lb boneless skin-on thighs",
+      "onlyBuilds": ["skin-on"]
     },
     {
-      "group": "Marinade (homemade builds only)",
-      "raw": "3 tbsp orange juice"
+      "group": "Chicken",
+      "raw": "1.5 lb precooked Costco pollo asado (3/4 of a 2 lb bag)",
+      "onlyBuilds": ["costco"]
     },
     {
-      "group": "Marinade (homemade builds only)",
-      "raw": "2 tbsp lime juice"
+      "group": "Chicken",
+      "raw": "1 tsp avocado oil, for searing",
+      "onlyBuilds": ["skinless"]
     },
     {
-      "group": "Marinade (homemade builds only)",
-      "raw": "6 garlic cloves, minced"
+      "group": "Marinade",
+      "raw": "3 tbsp orange juice",
+      "skipBuilds": ["costco"]
     },
     {
-      "group": "Marinade (homemade builds only)",
-      "raw": "1 tbsp achiote paste (or 1 tbsp sweet paprika + 1/4 tsp turmeric)"
+      "group": "Marinade",
+      "raw": "2 tbsp lime juice",
+      "skipBuilds": ["costco"]
     },
     {
-      "group": "Marinade (homemade builds only)",
-      "raw": "1 tbsp adobo sauce from a can of chipotles (optional, adds smoky heat)"
+      "group": "Marinade",
+      "raw": "6 garlic cloves, minced",
+      "skipBuilds": ["costco"]
     },
     {
-      "group": "Marinade (homemade builds only)",
-      "raw": "2 tsp cumin"
+      "group": "Marinade",
+      "raw": "1 tbsp achiote paste (or 1 tbsp sweet paprika + 1/4 tsp turmeric)",
+      "skipBuilds": ["costco"]
     },
     {
-      "group": "Marinade (homemade builds only)",
-      "raw": "2 tsp oregano"
+      "group": "Marinade",
+      "raw": "1 tbsp adobo sauce from a can of chipotles (optional, adds smoky heat)",
+      "skipBuilds": ["costco"]
     },
     {
-      "group": "Marinade (homemade builds only)",
-      "raw": "1 tsp chili powder"
+      "group": "Marinade",
+      "raw": "2 tsp cumin",
+      "skipBuilds": ["costco"]
     },
     {
-      "group": "Marinade (homemade builds only)",
-      "raw": "1/2 tsp salt"
+      "group": "Marinade",
+      "raw": "2 tsp oregano",
+      "skipBuilds": ["costco"]
     },
     {
-      "group": "Marinade (homemade builds only)",
-      "raw": "1/2 tsp black pepper"
+      "group": "Marinade",
+      "raw": "1 tsp chili powder",
+      "skipBuilds": ["costco"]
     },
     {
-      "group": "Marinade (homemade builds only)",
-      "raw": "1 tsp avocado oil (skinless only)"
+      "group": "Marinade",
+      "raw": "1/2 tsp salt",
+      "skipBuilds": ["costco"]
+    },
+    {
+      "group": "Marinade",
+      "raw": "1/2 tsp black pepper",
+      "skipBuilds": ["costco"]
     },
     {
       "group": "Bowl",
@@ -141,7 +173,8 @@
   "steps": [
     {
       "phase": "prep",
-      "body": "Whisk the marinade and coat the thighs. Refrigerate 2 to 4 hr, never past 6. The citrus turns the texture mushy."
+      "body": "Whisk the marinade and coat the thighs. Refrigerate 2 to 4 hr, never past 6. The citrus turns the texture mushy.",
+      "skipBuilds": ["costco"]
     },
     {
       "phase": "prep",
@@ -161,7 +194,21 @@
     },
     {
       "phase": "cook",
-      "body": "Cook the chicken for your build:\n\n**Skinless** (~20 min)\n\n- Pull the thighs from the marinade and let the excess drip off. Sear in a ripping hot cast iron pan, 5 to 6 min per side, in batches, until charred and 175°F.\n- Rest 5 min, then chop.\n- _Costco option (~8 min):_ sear the precooked chicken in a very hot dry cast iron pan, 2 to 3 min per side, until the edges char. Finish with a squeeze of lime.\n\n**Skin-on** (~30 min)\n\n- Pat the skin completely dry after marinating. Place skin-side down in a cold-to-medium dry pan and render 6 to 8 min until deep golden.\n- Pour off all but about 1 tsp of fat. Flip and cook 6 to 8 min more until 175°F, or finish in a 400°F oven.\n- Rest 5 min, then slice and plate skin-side up."
+      "body": "Pull the thighs from the marinade and let the excess drip off. Sear in a ripping hot cast iron pan, 5 to 6 min per side, in batches, until charred and 175°F. Rest 5 min, then chop.",
+      "durationMinutes": 20,
+      "onlyBuilds": ["skinless"]
+    },
+    {
+      "phase": "cook",
+      "body": "Pat the skin completely dry after marinating. Place skin-side down in a cold-to-medium dry pan and render 6 to 8 min until deep golden. Pour off all but about 1 tsp of fat, flip, and cook 6 to 8 min more until 175°F, or finish in a 400°F oven. Rest 5 min, then slice and plate skin-side up.",
+      "durationMinutes": 30,
+      "onlyBuilds": ["skin-on"]
+    },
+    {
+      "phase": "cook",
+      "body": "Sear the precooked chicken in a very hot dry cast iron pan, 2 to 3 min per side, until the edges char. Finish with a squeeze of lime, then chop.",
+      "durationMinutes": 8,
+      "onlyBuilds": ["costco"]
     },
     {
       "phase": "cook",
@@ -175,7 +222,7 @@
   "notes": [
     {
       "kind": "nutrition_analysis",
-      "body": "Every build uses 6 oz of chicken and 1 oz of cotija per bowl. Homemade is 6 oz raw. The traditional row assumes skin-on thighs, white rice, an oil-heavy marinade, sour cream, and the same cotija."
+      "body": "Every build uses 6 oz of chicken and 1 oz of cotija per bowl. Homemade is 6 oz raw, and Costco is 6 oz as packaged. The traditional row assumes skin-on thighs, white rice, an oil-heavy marinade, sour cream, and the same cotija."
     },
     {
       "kind": "nutrition_analysis",
@@ -187,15 +234,18 @@
     },
     {
       "kind": "make_or_break",
-      "body": "**Marinate 2 to 4 hours, not overnight.** Past 6 hr the acid breaks the meat down"
+      "body": "**Marinate 2 to 4 hours, not overnight.** Past 6 hr the acid breaks the meat down",
+      "skipBuilds": ["costco"]
     },
     {
       "kind": "make_or_break",
-      "body": "**Let the excess marinade drip off before searing.** Wet chicken steams and won't char"
+      "body": "**Let the excess marinade drip off before searing.** Wet chicken steams and won't char",
+      "skipBuilds": ["costco"]
     },
     {
       "kind": "make_or_break",
-      "body": "**Skin-on: dry the skin, render it first, pour off the fat.** The skin-on numbers assume you do. Leave it all in and add about 3g fat per bowl"
+      "body": "**Skin-on: dry the skin, render it first, pour off the fat.** The skin-on numbers assume you do. Leave it all in and add about 3g fat per bowl",
+      "onlyBuilds": ["skin-on"]
     },
     {
       "kind": "make_or_break",
@@ -223,7 +273,8 @@
     },
     {
       "kind": "fixes",
-      "body": "**Chicken mushy:** it marinated too long. Stay inside 2 to 4 hr"
+      "body": "**Chicken mushy:** it marinated too long. Stay inside 2 to 4 hr",
+      "skipBuilds": ["costco"]
     },
     {
       "kind": "fixes",
@@ -235,7 +286,8 @@
     },
     {
       "kind": "fixes",
-      "body": "**Chicken dry:** pull at 175°F and rest before cutting"
+      "body": "**Chicken dry:** pull at 175°F and rest before cutting",
+      "skipBuilds": ["costco"]
     }
   ],
   "tags": [

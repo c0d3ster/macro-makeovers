@@ -12,6 +12,10 @@ import { BasketIcon } from './BasketIcon'
 type AddToBasketButtonProps = {
   slug: string
   title: string
+  // The build to add. Missing means the default build.
+  build?: string
+  // Servings to add, like the recipe page's stepper. Missing means the recipe's own.
+  servings?: number
   // 'full' for the recipe page, 'compact' for the round button on a card photo
   variant?: 'full' | 'compact'
 }
@@ -21,11 +25,15 @@ type AddToBasketButtonProps = {
 export const AddToBasketButton = ({
   slug,
   title,
+  build,
+  servings,
   variant = 'full',
 }: AddToBasketButtonProps): ReactElement | null => {
-  const { has, add, remove, isLoaded } = useBasket()
+  const { has, hasRecipe, servingsOf, add, remove, isLoaded } = useBasket()
   if (!BASKET_SLUGS.has(slug)) return null
-  const inBasket = has(slug)
+  const inBasket = has(slug, build)
+  // Another build of this recipe is in the basket, and adding this one swaps it
+  const otherBuild = !inBasket && hasRecipe(slug)
 
   if (variant === 'compact') {
     return (
@@ -38,7 +46,7 @@ export const AddToBasketButton = ({
             : `Add ${title} to the basket`
         }
         disabled={!isLoaded}
-        onClick={() => (inBasket ? remove(slug) : add(slug))}
+        onClick={() => (inBasket ? remove(slug) : add(slug, build))}
         className={`flex size-10 cursor-pointer items-center justify-center rounded-full shadow-md transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none disabled:opacity-0 ${
           inBasket
             ? 'bg-primary text-on-primary'
@@ -66,13 +74,34 @@ export const AddToBasketButton = ({
   }
 
   if (inBasket) {
+    const inBasketServings = servingsOf(slug)
+    // The page's stepper moved off what the basket holds, so offer to match it
+    const canUpdate =
+      servings !== undefined &&
+      inBasketServings !== undefined &&
+      servings !== inBasketServings
+
     return (
       <div className='flex flex-wrap items-center justify-between gap-2 rounded-xl border border-primary/40 px-4 py-3 text-sm'>
         <span className='flex items-center gap-2 font-medium text-text'>
           <BasketIcon />
           In your basket
+          {inBasketServings !== undefined && (
+            <span className='font-normal text-text-muted'>
+              ({inBasketServings} servings)
+            </span>
+          )}
         </span>
         <span className='flex gap-3'>
+          {canUpdate && (
+            <button
+              type='button'
+              onClick={() => add(slug, build, servings)}
+              className='cursor-pointer text-primary underline hover:no-underline'
+            >
+              Change to {servings}
+            </button>
+          )}
           <Link href='/basket' className='text-primary underline'>
             View basket
           </Link>
@@ -92,11 +121,11 @@ export const AddToBasketButton = ({
     <button
       type='button'
       disabled={!isLoaded}
-      onClick={() => add(slug)}
+      onClick={() => add(slug, build, servings)}
       className='flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-primary px-4 py-3 text-sm font-medium text-on-primary transition-colors hover:bg-primary/90 focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:outline-none disabled:opacity-50'
     >
       <BasketIcon />
-      Add to basket
+      {otherBuild ? 'Swap this build into the basket' : 'Add to basket'}
     </button>
   )
 }

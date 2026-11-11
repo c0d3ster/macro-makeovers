@@ -20,11 +20,27 @@ type PhotoFailure = Extract<PhotoResponse, { ok: false }>
 // What the editor is busy with, so only the button doing the work says so
 type Activity = 'generate' | 'upload' | 'reference' | 'choose'
 
+// The build whose photo this edits, instead of the recipe's
+type PhotoBuild = {
+  key: string
+  label: string
+  // The title the build reads as, with its swap applied
+  title?: string
+  note?: string
+}
+
 type RecipePhotoEditorProps = {
+  // The photo being edited: the recipe's, or the build's own
   imageUrl?: string
-  // Makes a photo the recipe's own. A recipe not saved yet holds it until its first save.
+  // Makes a photo the recipe's own, or the build's. Something not saved yet holds it until the
+  // next save.
   onChoose: (url: string) => Promise<PhotoResponse>
   isSaved: boolean
+  build?: PhotoBuild
+  // The recipe photo, shown while a build has none of its own
+  fallbackUrl?: string
+  // Drops the build's own photo, so it shows the recipe photo again
+  onClear?: () => Promise<{ ok: true } | { ok: false; error: string }>
 }
 
 const STAGE_LABELS: Record<PhotoFailure['stage'], string> = {
@@ -89,9 +105,14 @@ export const RecipePhotoEditor = ({
   imageUrl,
   onChoose,
   isSaved,
+  build,
+  fallbackUrl,
+  onClear,
 }: RecipePhotoEditorProps): ReactElement => {
   const { control, getValues } = useRecipeForm()
-  const title = useWatch({ control, name: 'title' })
+  const recipeTitle = useWatch({ control, name: 'title' })
+  const title = build?.title ?? recipeTitle
+  const subject = build ? 'build photo' : 'recipe photo'
   const uploadRef = useRef<HTMLInputElement>(null)
   const referenceRef = useRef<HTMLInputElement>(null)
 
@@ -104,7 +125,13 @@ export const RecipePhotoEditor = ({
   const [status, setStatus] = useState<string>()
   const [isWorking, startWorking] = useTransition()
   const [activity, setActivity] = useState<Activity>()
-  const shownPhoto = candidate ?? livePhoto
+  const ownPhoto = candidate ?? livePhoto
+  // A build with no photo of its own shows the recipe's, as its page does
+  const isFallback = Boolean(build && !ownPhoto && fallbackUrl)
+  const shownPhoto = ownPhoto ?? (build ? fallbackUrl : undefined)
+  // Stored files are named by slug, so a build's get its key on the end
+  const fileSlug = (): string =>
+    build ? `${getValues('slug')}-${build.key}` : getValues('slug')
 
   const showCandidate = (result: PhotoResponse, message: string): void => {
     if (!result.ok) {
@@ -138,7 +165,7 @@ export const RecipePhotoEditor = ({
       }
       const request = new FormData()
       request.set('photo', prepared.file)
-      request.set('slug', getValues('slug'))
+      request.set('slug', fileSlug())
       showCandidate(
         await uploadRecipePhoto(request),
         'Uploaded. Use it, or generate from it with the photo below.'
@@ -157,17 +184,21 @@ export const RecipePhotoEditor = ({
 
   const generate = (): void => {
     const request = new FormData()
-    request.set('slug', getValues('slug'))
-    request.set('title', getValues('title'))
+    request.set('slug', fileSlug())
+    // A build is generated as it reads on its page, with what it changes as a hint
+    request.set('title', build?.title ?? getValues('title'))
     request.set('summary', getValues('summary'))
-    request.set('notes', notes)
+    request.set(
+      'notes',
+      [build?.note, notes.trim()].filter(Boolean).join(' ')
+    )
     if (reference) request.set('reference', reference)
     if (useCurrent && shownPhoto) request.set('sourceUrl', shownPhoto)
 
     run('generate', async () => {
       showCandidate(
         await generateRecipePhoto(request),
-        'Here is a new option. The recipe photo has not changed.'
+        `Here is a new option. The ${subject} has not changed.`
       )
     })
   }
@@ -182,8 +213,22 @@ export const RecipePhotoEditor = ({
       setLivePhoto(result.url)
       setCandidate(undefined)
       setStatus(
-        isSaved ? 'Photo saved.' : 'This photo will be saved with the recipe.'
+        isSaved
+          ? 'Photo saved.'
+          : 'This photo will be saved with the recipe.'
       )
+    })
+
+  const fallBackToRecipePhoto = (): void =>
+    run('choose', async () => {
+      const result = await onClear?.()
+      if (result && !result.ok) {
+        setError(result.error)
+        return
+      }
+      setLivePhoto(undefined)
+      setCandidate(undefined)
+      setStatus('This build shows the recipe photo again.')
     })
 
   const discard = (): void => {
@@ -209,6 +254,11 @@ export const RecipePhotoEditor = ({
               Not saved yet
             </span>
           )}
+          {isFallback && (
+            <span className='absolute top-2 left-2 rounded-full bg-background px-2.5 py-0.5 text-xs text-text'>
+              No build photo, falling back to the recipe photo
+            </span>
+          )}
         </div>
       ) : (
         <button
@@ -219,7 +269,11 @@ export const RecipePhotoEditor = ({
         >
           <RecipeImage
             title={title}
-            placeholderText='Import photo or generate below'
+            placeholderText={
+              build
+                ? 'No build or recipe photo yet. Import or generate below'
+                : 'Import photo or generate below'
+            }
           />
         </button>
       )}
@@ -264,7 +318,9 @@ export const RecipePhotoEditor = ({
               checked={useCurrent}
               onChange={(event) => setUseCurrent(event.target.checked)}
             />
-            Use the current photo as a reference
+            {isFallback
+              ? 'Use the recipe photo as a reference'
+              : 'Use the current photo as a reference'}
           </label>
         )}
         <p className='text-xs'>References go to the image model and are not stored.</p>
@@ -289,10 +345,20 @@ export const RecipePhotoEditor = ({
         >
           {activity === 'upload' ? 'Uploading...' : 'Upload photo'}
         </Button>
+        {build && livePhoto && !candidate && onClear && (
+          <Button
+            size='sm'
+            variant='outline'
+            disabled={isWorking}
+            onClick={fallBackToRecipePhoto}
+          >
+            Use the recipe photo instead
+          </Button>
+        )}
         {candidate && (
           <>
             <Button size='sm' disabled={isWorking} onClick={() => choose(candidate)}>
-              Use this photo
+              {build ? `Use for ${build.label || 'this build'}` : 'Use this photo'}
             </Button>
             <Button
               size='sm'
