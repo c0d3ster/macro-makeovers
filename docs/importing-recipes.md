@@ -210,5 +210,5 @@ loads `.env.production` and `.env.production.local` instead of `.env` and
   `.env.production.local`. It carries the database password, so never put it in a
   file that is committed.
 
-Run `supabase db push --linked` first so the hosted database has the latest
+Run `pnpm db:push` first so the hosted database has the latest
 migrations, and start with `--dry-run`.
