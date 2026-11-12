@@ -49,9 +49,10 @@ that reaches them through the Supabase API.
 
 ## Importing from Claude (MCP connector)
 
-`/api/mcp` is a remote MCP server with three tools: `get_recipe_schema`, `validate_recipe`
-(dry run, writes nothing), and `import_recipe`. Each call runs the `importRecipe` mutation
-in-process. Supabase Auth is the OAuth server, and the route accepts only tokens that
+`/api/mcp` is a remote MCP server with four tools: `get_recipe_schema`, `get_recipe` (a saved
+recipe in import shape, by slug), `validate_recipe` (dry run, writes nothing), and
+`import_recipe`. Each call runs the matching GraphQL operation in-process: `recipeForImport` for
+`get_recipe`, `importRecipe` for the rest. Supabase Auth is the OAuth server, and the route accepts only tokens that
 Supabase issued through it to the site owner.
 
 One-time setup:

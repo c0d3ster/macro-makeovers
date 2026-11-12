@@ -655,6 +655,16 @@ export class RecipeRepository {
     return row?.status
   }
 
+  // When the recipe was last saved, so a reader can tell whether it changed since
+  getRecipeUpdatedAt = async (id: string): Promise<Date | undefined> => {
+    const [row] = await this.database
+      .select({ updatedAt: recipes.updatedAt })
+      .from(recipes)
+      .where(eq(recipes.id, id))
+      .limit(1)
+    return row?.updatedAt
+  }
+
   getRecipeImageUrl = async (id: string): Promise<string | undefined> => {
     const [row] = await this.database
       .select({ imageUrl: recipes.imageUrl })

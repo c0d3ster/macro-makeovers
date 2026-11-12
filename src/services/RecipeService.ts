@@ -44,6 +44,14 @@ type RecipePreview = {
   recipe: RecipeDetail
 }
 
+type RecipeForImport = {
+  id: string
+  slug: string
+  status: RecipeStatus
+  updatedAt: Date
+  recipe: unknown
+}
+
 type EditableRecipe = {
   id: string
   status: RecipeStatus
@@ -242,6 +250,28 @@ export class RecipeService {
     refreshPages(slug)
     await this.rebuildBookIfPublished(id)
     return true
+  }
+
+  // The stored recipe in import shape by slug, with when it was last saved, for tools that edit
+  // a recipe and import it back. Undefined for an unknown slug. The caller checks the owner first.
+  async getRecipeForImport(slug: string): Promise<RecipeForImport | undefined> {
+    const repository = this.reader()
+    const id = await repository.getRecipeIdBySlug(slug)
+    if (!id) return undefined
+
+    const [editable, updatedAt] = await Promise.all([
+      this.getEditableRecipe(id),
+      repository.getRecipeUpdatedAt(id),
+    ])
+    if (!editable || !updatedAt) return undefined
+
+    return {
+      id,
+      slug,
+      status: editable.status,
+      updatedAt,
+      recipe: editable.recipe,
+    }
   }
 
   // The stored recipe in import shape for the editor, or undefined when the id is unknown or

@@ -1,5 +1,5 @@
 import { GraphQLError } from 'graphql'
-import { Arg, Ctx, ID, Mutation, Resolver } from 'type-graphql'
+import { Arg, Ctx, ID, Mutation, Query, Resolver } from 'type-graphql'
 
 import type { GraphQLContext } from '@/graphql/context'
 import type { RecipeService } from '@/services'
@@ -9,6 +9,7 @@ import {
   ImportRecipeResult,
   JsonScalar,
   PublishStatus,
+  RecipeForImport,
 } from '@/graphql/schema'
 import { logger } from '@/libs/Logger'
 
@@ -38,6 +39,21 @@ const toAdminRecipe = ({
 @Resolver()
 export class RecipeResolver {
   constructor(private recipeService: RecipeService) {}
+
+  @Query(() => RecipeForImport, {
+    nullable: true,
+    description:
+      'A saved recipe in import shape by slug, drafts included. Null for an unknown slug. Owner only.',
+  })
+  async recipeForImport(
+    @Arg('slug', () => String) slug: string,
+    @Ctx() ctx: GraphQLContext
+  ): Promise<RecipeForImport | null> {
+    await requireOwner(ctx, 'read recipes for editing')
+
+    const found = await this.recipeService.getRecipeForImport(slug)
+    return found ? { ...found, updatedAt: found.updatedAt.toISOString() } : null
+  }
 
   @Mutation(() => AdminRecipe, {
     description: 'Publishes or unpublishes a recipe. Owner only.',
