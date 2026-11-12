@@ -176,7 +176,7 @@ export const RecipeBuildDetails = ({
         </Field>
         <Field
           label='For this tag'
-          hint='The title word swaps too'
+          hint='The title and summary words swap too'
         >
           <input
             className={INPUT}

@@ -31,8 +31,6 @@ export const RecipeBody = ({
   onSelectBuild,
   corner,
 }: RecipeBodyProps): ReactElement => {
-  const markScoped = recipe.builds.length > 1
-
   return (
     <main className={RECIPE_PAGE_LAYOUT}>
       <RecipeHero recipe={recipe} view={view} corner={corner} />
@@ -56,7 +54,6 @@ export const RecipeBody = ({
             ingredients={view.ingredients}
             components={view.components}
             baseServings={recipe.servings}
-            markScoped={markScoped}
             basket={{
               slug: recipe.slug,
               title: view.title,
@@ -69,7 +66,6 @@ export const RecipeBody = ({
             steps={view.steps}
             prepMinutes={view.prepMinutes}
             cookMinutes={view.cookMinutes}
-            markScoped={markScoped}
           />
         </div>
       </div>

@@ -25,7 +25,7 @@ export type RecipeBuild = MacroValues & {
   isDefault: boolean
   // False for components like "Filling only": selectable on the page, never leads a card
   listed: boolean
-  // Tags this build trades, like { turkey: 'beef' }. The title's matching word swaps too.
+  // Tags this build trades, like { turkey: 'beef' }. The title's and summary's words swap too.
   swap: Record<string, string>
   // Only when the swapped title is not the wording wanted, like "Lean Beef Taco Grillers"
   title?: string
@@ -72,10 +72,6 @@ export const scopeToBuild = <T extends BuildScope>(
   key: string
 ): T[] => rows.filter((row) => appliesToBuild(row, key))
 
-// A row only some builds see, so the page can mark it
-export const isScoped = ({ onlyBuilds, skipBuilds }: BuildScope): boolean =>
-  Boolean(onlyBuilds?.length || skipBuilds?.length)
-
 // The flagged default, else the first build
 export const defaultBuild = <T extends Pick<RecipeBuild, 'isDefault'>>(
   builds: T[]
@@ -93,8 +89,7 @@ export const findBuild = <T extends Pick<RecipeBuild, 'isDefault' | 'key'>>(
 export const buildTags = (
   tags: string[],
   { swap }: Pick<RecipeBuild, 'swap'>
-): string[] =>
-  [...new Set(tags.map((tag) => swap[tag] ?? tag))].sort()
+): string[] => [...new Set(tags.map((tag) => swap[tag] ?? tag))].sort()
 
 const escapeRegExp = (text: string): string =>
   text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
@@ -108,19 +103,28 @@ const matchCase = (word: string, replacement: string): string => {
   return replacement
 }
 
+// Text with each swapped tag's word replaced, whole words only
+const swapWords = (text: string, swap: Record<string, string>): string =>
+  Object.entries(swap).reduce(
+    (swapped, [from, to]) => {
+      const pattern = new RegExp(`\\b${escapeRegExp(from)}\\b`, 'gi')
+      return swapped.replace(pattern, (word) => matchCase(word, to))
+    },
+    text
+  )
+
 // The title for a build: its own when set, else the recipe title with each swapped tag's word
-// replaced, so "Turkey Taco Grillers" reads "Beef Taco Grillers". Whole words only.
+// replaced, so "Turkey Taco Grillers" reads "Beef Taco Grillers"
 export const buildTitle = (
   title: string,
   build: Pick<RecipeBuild, 'swap' | 'title'>
-): string =>
-  build.title ??
-  Object.entries(build.swap).reduce(
-    (text, [from, to]) =>
-      text.replace(new RegExp(`\\b${escapeRegExp(from)}\\b`, 'gi'), (word) =>
-        matchCase(word, to)      ),
-    title
-  )
+): string => build.title ?? swapWords(title, build.swap)
+
+// The summary for a build, with each swapped tag's word replaced the same way as the title
+export const buildSummary = (
+  summary: string,
+  { swap }: Pick<RecipeBuild, 'swap'>
+): string => swapWords(summary, swap)
 
 export const resolveBuild = (
   recipe: BuildFallbacks,
@@ -132,7 +136,7 @@ export const resolveBuild = (
   return {
     build,
     title: buildTitle(recipe.title, build),
-    summary: recipe.summary,
+    summary: buildSummary(recipe.summary, build),
     imageUrl: build.imageUrl ?? recipe.imageUrl,
     costTier: build.costTier ?? recipe.costTier,
     difficulty: build.difficulty ?? recipe.difficulty,
