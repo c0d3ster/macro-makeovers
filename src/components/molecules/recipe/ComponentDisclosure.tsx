@@ -4,7 +4,7 @@ import Link from 'next/link'
 
 import type { RecipeComponent } from '@/libs/recipes/recipeDetail'
 
-import { BuildMarker, Markdown } from '@/components/atoms'
+import { Markdown } from '@/components/atoms'
 import { groupIngredients, scaleIngredient } from '@/libs/recipes/ingredients'
 import { buildHref } from '@/libs/recipes/recipeBuilds'
 
@@ -12,8 +12,6 @@ type ComponentDisclosureProps = {
   component: RecipeComponent
   // The dish's scale from its stepper. The component prints as written at the dish's own servings.
   factor: number
-  // Flags a component only some of the dish's builds use
-  marked?: boolean
 }
 
 // A side or sauce inside the dish's ingredient card. Closed it reads as one line with how much
@@ -22,7 +20,6 @@ type ComponentDisclosureProps = {
 export const ComponentDisclosure = ({
   component,
   factor,
-  marked = false,
 }: ComponentDisclosureProps): ReactElement => {
   const { slug, title, linked, amount, note, servingsPerServing, build } =
     component
@@ -42,7 +39,6 @@ export const ComponentDisclosure = ({
           </span>
         </span>
         <span className='flex shrink-0 items-center gap-2'>
-          {marked && <BuildMarker />}
           <svg
             aria-hidden='true'
             viewBox='0 0 16 16'

@@ -97,7 +97,6 @@ export const ScalableIngredients = ({
             ].join(':')}
             component={component}
             factor={factor}
-            marked={markScoped && isScoped(component)}
           />
         ))}
       </div>
