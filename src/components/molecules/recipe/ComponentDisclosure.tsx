@@ -4,7 +4,7 @@ import Link from 'next/link'
 
 import type { RecipeComponent } from '@/libs/recipes/recipeDetail'
 
-import { Markdown } from '@/components/atoms'
+import { Markdown, SpiceLevel } from '@/components/atoms'
 import { groupIngredients, scaleIngredient } from '@/libs/recipes/ingredients'
 import { buildHref } from '@/libs/recipes/recipeBuilds'
 
@@ -21,8 +21,16 @@ export const ComponentDisclosure = ({
   component,
   factor,
 }: ComponentDisclosureProps): ReactElement => {
-  const { slug, title, linked, amount, note, servingsPerServing, build } =
-    component
+  const {
+    slug,
+    title,
+    linked,
+    amount,
+    note,
+    servingsPerServing,
+    spiceLevel,
+    build,
+  } = component
   const calories = Math.round(build.calories * servingsPerServing)
 
   return (
@@ -32,10 +40,13 @@ export const ComponentDisclosure = ({
           <span className='text-xs font-semibold tracking-wide text-primary uppercase'>
             {title}
           </span>
-          <span className='text-sm text-text-muted'>
-            {[amount, `~${calories} cal per serving`]
-              .filter(Boolean)
-              .join(' · ')}
+          <span className='flex flex-wrap items-center gap-x-2 text-sm text-text-muted'>
+            <span>
+              {[amount, `~${calories} cal per serving`]
+                .filter(Boolean)
+                .join(' · ')}
+            </span>
+            {spiceLevel !== undefined && <SpiceLevel level={spiceLevel} />}
           </span>
         </span>
         <span className='flex shrink-0 items-center gap-2'>

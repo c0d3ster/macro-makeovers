@@ -202,6 +202,11 @@ export const recipeImportSchema = z
       .describe(
         'What the dish is on a menu. Sides and sauces show as compact cards in their own section.'
       ),
+    spiceLevel: tier
+      .optional()
+      .describe(
+        'Heat for a typical eater: 1 mild, 2 medium, 3 hot, 4 very hot, 5 extra hot. Leave out when the dish is not spicy.'
+      ),
     // Slug of the recipe this one is a variant of. The base must already exist.
     variantOf: recipeSlugSchema.optional(),
     tags: z.array(tagName),

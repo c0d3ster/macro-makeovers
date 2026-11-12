@@ -22,6 +22,7 @@ export const withSingleBuild = (fields: CardFields): RecipeCard => {
     costTier: fields.costTier,
     difficulty: fields.difficulty,
     course,
+    spiceLevel: fields.spiceLevel,
     tags: fields.tags,
     calories: fields.calories,
     carbsG: fields.carbsG,

@@ -223,6 +223,7 @@ const readSnapshot = async (
     variantOf: base?.slug,
     difficulty: recipe.difficulty,
     course: recipe.course,
+    spiceLevel: recipe.spiceLevel,
     tags: tagRows.map(({ name }) => name).sort(),
     builds: buildRows.map((row) =>
       withoutNulls({
@@ -527,6 +528,7 @@ const variantFields = (recipe: RecipeImport, variantOf: string | null) => ({
   costTier: recipe.costTier,
   difficulty: recipe.difficulty,
   course: recipe.course,
+  spiceLevel: recipe.spiceLevel ?? null,
   variantOf,
 })
 
@@ -667,7 +669,13 @@ export class RecipeRepository {
         components: {
           with: {
             component: {
-              columns: { slug: true, title: true, status: true, servings: true },
+              columns: {
+                slug: true,
+                title: true,
+                status: true,
+                servings: true,
+                spiceLevel: true,
+              },
               with: { builds: true, ingredients: true, steps: true },
             },
           },

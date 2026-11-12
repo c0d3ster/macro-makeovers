@@ -10,6 +10,7 @@ import {
   DifficultyDots,
   MacroStrip,
   RecipeImage,
+  SpiceLevel,
 } from '@/components/atoms'
 import { MacroBar } from '@/components/molecules'
 import { cardHref, toMacroRatios } from '@/libs/recipes'
@@ -36,6 +37,7 @@ export const RecipeCard = ({ recipe, fit }: RecipeCardProps): ReactElement => {
     totalMinutes,
     costTier,
     difficulty,
+    spiceLevel,
     tags,
     calories,
     proteinG,
@@ -157,6 +159,7 @@ export const RecipeCard = ({ recipe, fit }: RecipeCardProps): ReactElement => {
           <span>{formatMinutes(totalMinutes)}</span>
           <CostTier tier={costTier} />
           <DifficultyDots level={difficulty} />
+          {spiceLevel !== undefined && <SpiceLevel level={spiceLevel} />}
         </div>
 
         {tags.length > 0 && (

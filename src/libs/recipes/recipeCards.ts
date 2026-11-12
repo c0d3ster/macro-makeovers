@@ -16,6 +16,8 @@ type CardFace = MacroValues & {
   difficulty: number
   // Which section the card shows in
   course: RecipeCourse
+  // 1 to 5, missing when the dish is not spicy
+  spiceLevel?: number
   tags: string[]
 }
 
@@ -51,6 +53,7 @@ export type RecipeCardRow = {
   costTier: number
   difficulty: number
   course: RecipeCourse
+  spiceLevel: number | null
   imageUrl: string | null
   builds: RecipeBuildRow[]
   nutrition: NutritionRow[]
@@ -70,6 +73,7 @@ const faceOf = (build: CardBuild): CardFace => ({
   costTier: build.costTier,
   difficulty: build.difficulty,
   course: build.course,
+  spiceLevel: build.spiceLevel,
   tags: build.tags,
   calories: build.calories,
   carbsG: build.carbsG,
@@ -95,6 +99,7 @@ export const toRecipeCard = (row: RecipeCardRow): RecipeCard | undefined => {
     imageUrl: row.imageUrl ?? undefined,
     costTier: row.costTier,
     difficulty: row.difficulty,
+    spiceLevel: row.spiceLevel ?? undefined,
     prepMinutes: row.prepMinutes,
     cookMinutes: row.cookMinutes,
     course: row.course,
@@ -114,6 +119,7 @@ export const toRecipeCard = (row: RecipeCardRow): RecipeCard | undefined => {
       costTier: resolved.costTier,
       difficulty: resolved.difficulty,
       course: resolved.course,
+      spiceLevel: resolved.spiceLevel,
       tags: resolved.tags,
       calories: build.calories,
       carbsG: build.carbsG,

@@ -4,7 +4,7 @@ import Link from 'next/link'
 
 import type { RecipeCard as RecipeCardData } from '@/libs/recipes'
 
-import { MacroDonut, RecipeImage } from '@/components/atoms'
+import { MacroDonut, RecipeImage, SpiceLevel } from '@/components/atoms'
 import { cardHref, toMacroRatios } from '@/libs/recipes'
 
 const COURSE_LABELS: Partial<Record<RecipeCardData['course'], string>> = {
@@ -42,6 +42,7 @@ export const CompactRecipeCard = ({
     fatG,
     proteinG,
     build,
+    spiceLevel,
     usedInCount,
   } = recipe
   const { carbsPct, fatPct, proteinPct } = toMacroRatios({
@@ -105,15 +106,18 @@ export const CompactRecipeCard = ({
             ))}
           </ul>
         </div>
-        <p className='text-xs text-text-muted'>
-          {[
-            courseLabel,
-            usedInCount > 0 &&
-              `Used in ${usedInCount} ${usedInCount === 1 ? 'recipe' : 'recipes'}`,
-          ]
-            .filter(Boolean)
-            .join(' · ')}
-        </p>
+        <div className='flex flex-wrap items-center gap-x-2 text-xs text-text-muted'>
+          <span>
+            {[
+              courseLabel,
+              usedInCount > 0 &&
+                `Used in ${usedInCount} ${usedInCount === 1 ? 'recipe' : 'recipes'}`,
+            ]
+              .filter(Boolean)
+              .join(' · ')}
+          </span>
+          {spiceLevel !== undefined && <SpiceLevel level={spiceLevel} />}
+        </div>
       </div>
     </Link>
   )

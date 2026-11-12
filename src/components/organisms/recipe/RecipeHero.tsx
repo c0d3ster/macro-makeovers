@@ -11,6 +11,7 @@ import {
   CountUp,
   DifficultyDots,
   RecipeImage,
+  SpiceLevel,
 } from '@/components/atoms'
 import { RecipeMacroSummary } from '@/components/molecules'
 import { isSideCourse, SIDES_SECTION_ID, toTagPath } from '@/libs/recipes'
@@ -54,6 +55,7 @@ export const RecipeHero = ({
     totalMinutes,
     costTier,
     difficulty,
+    spiceLevel,
     tags,
     course,
     build,
@@ -100,6 +102,14 @@ export const RecipeHero = ({
               <DifficultyDots level={difficulty} />
             </dd>
           </div>
+          {spiceLevel !== undefined && (
+            <div className='flex items-center gap-2'>
+              <dt>Heat</dt>
+              <dd>
+                <SpiceLevel level={spiceLevel} />
+              </dd>
+            </div>
+          )}
         </dl>
 
         <div className={RECIPE_HERO_BODY}>

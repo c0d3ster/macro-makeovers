@@ -39,6 +39,7 @@ const row: RecipeCardRow = {
   costTier: 1,
   difficulty: 2,
   course: 'main',
+  spiceLevel: null,
   imageUrl: null,
   builds: [
     buildRow(),

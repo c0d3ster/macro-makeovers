@@ -52,6 +52,9 @@
   --color-carbs: rgb(117 132 205);
   --color-fat: rgb(214 168 82);
   --color-protein: rgb(112 164 124);
+  /* Heat chilis: a chili red that reads on both themes, with a muted green stem */
+  --color-spice: rgb(201 82 58);
+  --color-spice-stem: rgb(104 140 96);
 }
 
 /* Recipe page macro reveal. The pills grow from the original recipe's split to the makeover's

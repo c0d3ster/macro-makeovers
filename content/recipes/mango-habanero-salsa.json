@@ -10,6 +10,7 @@
   "costTier": 1,
   "difficulty": 1,
   "course": "sauce",
+  "spiceLevel": 3,
   "tags": ["no cook", "make ahead"],
   "builds": [
     {
