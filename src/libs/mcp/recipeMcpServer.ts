@@ -32,6 +32,18 @@ const IMPORT_RECIPE = `
   }
 `
 
+const GET_RECIPE = `
+  query RecipeForImport($slug: String!) {
+    recipeForImport(slug: $slug) {
+      id
+      slug
+      status
+      updatedAt
+      recipe
+    }
+  }
+`
+
 const recipeArgument = z
   .record(z.string(), z.unknown())
   .describe(
@@ -63,6 +75,28 @@ const runImport = async (
   return reply(JSON.stringify(data?.importRecipe ?? null, null, 2))
 }
 
+// Reads a saved recipe through the same GraphQL schema, so the owner check is the one the
+// admin uses
+const runGetRecipe = async (
+  caller: McpCaller,
+  slug: string
+): Promise<CallToolResult> => {
+  const { data, errors } = await graphql({
+    schema: await createSchema(),
+    source: GET_RECIPE,
+    variableValues: { slug },
+    contextValue: createTokenContext(caller.req, caller),
+  })
+
+  if (errors?.length) {
+    return reply(errors.map(({ message }) => message).join('\n'), true)
+  }
+  const found = data?.recipeForImport
+  if (!found) return reply(`No recipe has the slug "${slug}".`, true)
+
+  return reply(JSON.stringify(found, null, 2))
+}
+
 // A new server per request, because the transport is stateless
 export const createRecipeMcpServer = (caller: McpCaller): McpServer => {
   const server = new McpServer({ name: 'macro-makeovers', version: '1.0.0' })
@@ -76,6 +110,21 @@ export const createRecipeMcpServer = (caller: McpCaller): McpServer => {
     },
     async () =>
       reply(JSON.stringify(z.toJSONSchema(recipeImportSchema, { io: 'input' })))
+  )
+
+  server.registerTool(
+    'get_recipe',
+    {
+      description:
+        'Returns a saved recipe by slug in import shape, drafts included, with its id, status, and updatedAt. Edit the recipe field and send it back through validate_recipe and import_recipe. The import replaces the whole recipe, so call get_recipe again right before importing and check updatedAt to make sure nobody saved it in between.',
+      inputSchema: {
+        slug: z
+          .string()
+          .describe('The recipe slug, like "turkey-taco-grillers"'),
+      },
+      annotations: { readOnlyHint: true },
+    },
+    async ({ slug }) => runGetRecipe(caller, slug)
   )
 
   server.registerTool(

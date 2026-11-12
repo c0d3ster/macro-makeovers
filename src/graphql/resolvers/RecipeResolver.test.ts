@@ -167,3 +167,47 @@ describe('RecipeResolver.deleteRecipe', () => {
     })
   })
 })
+
+describe('RecipeResolver.recipeForImport', () => {
+  const saved = {
+    id: 'recipe-1',
+    slug: 'blackened-chicken-alfredo',
+    status: 'published' as const,
+    updatedAt: new Date('2026-11-11T22:26:33.000Z'),
+    recipe: { slug: 'blackened-chicken-alfredo' },
+  }
+  const setupRead = (isOwner: boolean, found: typeof saved | null = saved) => {
+    const getRecipeForImport = vi.fn().mockResolvedValue(found ?? undefined)
+    const resolver = new RecipeResolver({
+      getRecipeForImport,
+    } as unknown as RecipeService)
+    const ctx = {
+      isOwner: vi.fn().mockResolvedValue(isOwner),
+    } as unknown as GraphQLContext
+    return { getRecipeForImport, resolver, ctx }
+  }
+
+  // Drafts come back too, so this stays owner only
+  it('refuses anyone who is not the owner and reads nothing', async () => {
+    const { getRecipeForImport, resolver, ctx } = setupRead(false)
+
+    await expect(resolver.recipeForImport('x', ctx)).rejects.toMatchObject({
+      extensions: { code: 'FORBIDDEN' },
+    })
+    expect(getRecipeForImport).not.toHaveBeenCalled()
+  })
+
+  it('returns the recipe with its last save as an ISO timestamp', async () => {
+    const { resolver, ctx } = setupRead(true)
+
+    await expect(
+      resolver.recipeForImport('blackened-chicken-alfredo', ctx)
+    ).resolves.toEqual({ ...saved, updatedAt: '2026-11-11T22:26:33.000Z' })
+  })
+
+  it('returns null for an unknown slug', async () => {
+    const { resolver, ctx } = setupRead(true, null)
+
+    await expect(resolver.recipeForImport('nope', ctx)).resolves.toBeNull()
+  })
+})

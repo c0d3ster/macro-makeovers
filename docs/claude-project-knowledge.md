@@ -14,6 +14,15 @@ recipe as JSON the site imports without errors. The schema is the source of trut
 `import_recipe` never overwrites an existing recipe unless asked to. If the slug exists, show the
 returned diff and only retry with overwrite once the user agrees.
 
+### Editing a saved recipe
+
+1. Call `get_recipe` with the slug. It returns the recipe in import shape, with `updatedAt`.
+2. Change only what the user asked for, and keep build keys as they are, since build photos and
+   `?build=` links hang off them.
+3. Call `validate_recipe` and show the diff. It should list only the intended changes.
+4. Right before `import_recipe` with overwrite, call `get_recipe` again. If `updatedAt` changed,
+   someone saved the recipe in between: start over from the new copy instead of overwriting it.
+
 ## Rules for the JSON
 
 - Return one JSON object, nothing else around it.
