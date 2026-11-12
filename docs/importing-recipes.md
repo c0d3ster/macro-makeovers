@@ -193,6 +193,10 @@ that is a main.
   recipe's ingredients as a row that opens to the component's ingredients and steps, scaled with
   the recipe's servings stepper, with a link to its own page. The component's page lists the
   published recipes that use it.
+- `servingSize` ("1/2 cup") and `makes` ("2.5 cups") are optional on any recipe. The page then
+  reads "40 cals per 1/2 cup" and "5 servings · 2.5 cups", and the book adds them to the servings
+  line. A side or sauce page links back to the Sides and sauces section and lists the recipes
+  that use it under its macros.
 - A component link can set `amount` ("1/2 cup per bowl"), `servingsPerServing` (component servings
   in one serving of the recipe, for the calories it adds), `build` (the component build to show),
   `note`, and `onlyBuilds` or `skipBuilds`. One component can be listed twice for different builds

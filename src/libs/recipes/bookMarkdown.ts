@@ -351,6 +351,12 @@ const trailingSections = (recipe: RecipeImport): string[] => {
   return sections
 }
 
+// " (2.5 cups, 1/2 cup each)" when the recipe says what it makes or what a serving is
+const servingDetail = ({ makes, servingSize }: RecipeImport): string => {
+  const parts = [makes, servingSize && `${servingSize} each`].filter(Boolean)
+  return parts.length > 0 ? ` (${parts.join(', ')})` : ''
+}
+
 const recipeSection = (book: BookRecipe): string => {
   const { recipe, number, components = [] } = book
   const stars = (count: number, mark: string): string => mark.repeat(count)
@@ -375,7 +381,7 @@ const recipeSection = (book: BookRecipe): string => {
   return [
     `<a id="${anchorFor(book)}"></a>`,
     `## ${number}. ${recipe.title} | ${meta}`,
-    `${recipe.summary} **Makes ~${recipe.servings} servings.**`,
+    `${recipe.summary} **Makes ~${recipe.servings} servings${servingDetail(recipe)}.**`,
     '### Nutrition',
     ...intros,
     nutritionTable(recipe),

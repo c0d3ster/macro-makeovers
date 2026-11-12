@@ -187,6 +187,12 @@ export const recipeImportSchema = z
     title: text,
     summary: text,
     servings: z.number().int().positive(),
+    servingSize: text
+      .optional()
+      .describe('What one serving is, like "1/2 cup". The page reads "40 cals per 1/2 cup".'),
+    makes: text
+      .optional()
+      .describe('What the whole batch makes, like "2.5 cups". Shown beside the servings.'),
     prepMinutes: minutes,
     cookMinutes: minutes,
     costTier: tier,

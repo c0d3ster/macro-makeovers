@@ -47,6 +47,9 @@ export const recipes = pgTable('recipes', {
   access: recipeAccessEnum('access').notNull().default('free'),
   // What the dish is on a menu. A build can override it.
   course: recipeCourseEnum('course').notNull().default('main'),
+  // What one serving is ("1/2 cup") and what the batch makes ("2.5 cups"). Optional.
+  servingSize: text('serving_size'),
+  makes: text('makes'),
   imageUrl: text('image_url'),
   // True when imageUrl is an AI-generated stand-in rather than a real photo
   imageIsPlaceholder: boolean('image_is_placeholder').notNull().default(false),

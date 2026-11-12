@@ -385,7 +385,9 @@ export type Database = {
           id: string
           image_is_placeholder: boolean
           image_url: string | null
+          makes: string | null
           prep_minutes: number
+          serving_size: string | null
           search: unknown
           servings: number
           slug: string
@@ -406,8 +408,10 @@ export type Database = {
           id?: string
           image_is_placeholder?: boolean
           image_url?: string | null
+          makes?: string | null
           prep_minutes: number
           search?: never
+          serving_size?: string | null
           servings: number
           slug: string
           status?: Database['public']['Enums']['recipe_status']
@@ -426,7 +430,9 @@ export type Database = {
           id?: string
           image_is_placeholder?: boolean
           image_url?: string | null
+          makes?: string | null
           prep_minutes?: number
+          serving_size?: string | null
           search?: never
           servings?: number
           slug?: string

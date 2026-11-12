@@ -71,6 +71,9 @@ export type RecipeDetail = {
   // The recipe's own photo (an R2 URL), if it has one
   imageUrl?: string
   servings: number
+  // What one serving is ("1/2 cup") and what the batch makes ("2.5 cups"), when the recipe says
+  servingSize?: string
+  makes?: string
   prepMinutes: number
   cookMinutes: number
   totalMinutes: number
@@ -169,6 +172,8 @@ export type RecipeDetailRow = {
   title: string
   summary: string
   servings: number
+  servingSize?: string | null
+  makes?: string | null
   prepMinutes: number
   cookMinutes: number
   costTier: number
@@ -330,6 +335,8 @@ export const toRecipeDetail = (
     summary: row.summary,
     imageUrl: row.imageUrl ?? undefined,
     servings: row.servings,
+    ...(row.servingSize ? { servingSize: row.servingSize } : {}),
+    ...(row.makes ? { makes: row.makes } : {}),
     prepMinutes: row.prepMinutes,
     cookMinutes: row.cookMinutes,
     totalMinutes: row.prepMinutes + row.cookMinutes,

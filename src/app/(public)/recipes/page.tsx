@@ -9,7 +9,11 @@ import {
 } from '@/components/organisms'
 import { LandingPageTemplate } from '@/components/templates'
 import { Env } from '@/libs/Env'
-import { parseRecipeFilters, toSearchParams } from '@/libs/recipes'
+import {
+  parseRecipeFilters,
+  SIDES_SECTION_ID,
+  toSearchParams,
+} from '@/libs/recipes'
 
 import { loadRecipeBrowse } from '../loadRecipeBrowse'
 
@@ -60,6 +64,7 @@ const RecipesPage = async ({
             />
             {isUnfiltered && browse.sides.length > 0 && (
               <HomeSection
+                id={SIDES_SECTION_ID}
                 title='Sides and sauces'
                 intro='Each dish that uses one shows it inline, so you can make it without leaving the page.'
               >

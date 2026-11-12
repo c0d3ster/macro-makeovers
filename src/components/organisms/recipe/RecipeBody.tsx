@@ -14,7 +14,6 @@ import {
 import { RecipeNotes } from './RecipeNotes'
 import { ScalableIngredients } from './ScalableIngredients'
 import { StepList } from './StepList'
-import { UsedInRecipes } from './UsedInRecipes'
 
 type RecipeBodyProps = {
   recipe: RecipeDetail
@@ -75,7 +74,6 @@ export const RecipeBody = ({
         </div>
       </div>
       <RecipeNotes notes={view.notes} />
-      <UsedInRecipes recipes={recipe.usedIn} />
     </main>
   )
 }

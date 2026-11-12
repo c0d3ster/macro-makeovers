@@ -42,7 +42,7 @@ export const RecipeComponentsEditor = (): ReactElement => {
     >
       <div className='flex flex-wrap items-center justify-between gap-3'>
         <h2 id='components-heading' className='text-xl font-semibold text-text'>
-          Course and components
+          Course, serving size, and components
         </h2>
         <label className='flex items-center gap-2 text-sm text-text-muted'>
           Course
@@ -55,9 +55,32 @@ export const RecipeComponentsEditor = (): ReactElement => {
           </select>
         </label>
       </div>
+      <div className='grid grid-cols-1 gap-3 text-sm sm:grid-cols-2'>
+        <div className='flex flex-col gap-1 text-text-muted'>
+          <span aria-hidden='true'>Serving size</span>
+          <InlineInput
+            label='Serving size'
+            placeholder='1/2 cup'
+            error={errors.servingSize?.message}
+            className='text-text'
+            {...register('servingSize', { setValueAs: optionalText })}
+          />
+        </div>
+        <div className='flex flex-col gap-1 text-text-muted'>
+          <span aria-hidden='true'>The batch makes</span>
+          <InlineInput
+            label='The batch makes'
+            placeholder='2.5 cups'
+            error={errors.makes?.message}
+            className='text-text'
+            {...register('makes', { setValueAs: optionalText })}
+          />
+        </div>
+      </div>
       <p className='text-sm text-text-muted'>
-        Sides and sauces show as compact cards in their own section. List the ones this recipe
-        uses by slug, and they show inline in its ingredients.
+        Both are optional. The page reads &quot;cals per 1/2 cup&quot; and &quot;5 servings ·
+        2.5 cups&quot;. Sides and sauces show as compact cards in their own section. List the ones
+        this recipe uses by slug, and they show inline in its ingredients.
       </p>
 
       {components.fields.length > 0 && (

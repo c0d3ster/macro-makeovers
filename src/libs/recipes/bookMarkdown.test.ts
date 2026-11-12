@@ -41,6 +41,13 @@ describe('numberBookRecipes with components', () => {
     ])
   })
 
+  it('says what a sauce makes and what a serving is', () => {
+    const sauce = { ...lonely, servingSize: '1/2 cup', makes: '2.5 cups' }
+    const markdown = renderBookMarkdown(numberBookRecipes([sauce], []), prose)
+
+    expect(markdown).toContain('**Makes ~4 servings (2.5 cups, 1/2 cup each).**')
+  })
+
   it('lists the component lines and steps in the dish', () => {
     const markdown = renderBookMarkdown(numberBookRecipes([salsa, bowl], []), prose)
 

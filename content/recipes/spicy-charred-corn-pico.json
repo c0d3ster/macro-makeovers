@@ -3,6 +3,8 @@
   "title": "Spicy Charred Corn Pico",
   "summary": "Charred corn salsa with crunch, freshness, and heat for almost no fat. Charring the corn is what gives it depth.",
   "servings": 7,
+  "servingSize": "1/2 cup",
+  "makes": "3.5 cups",
   "prepMinutes": 10,
   "cookMinutes": 5,
   "costTier": 1,
@@ -60,10 +62,6 @@
     }
   ],
   "notes": [
-    {
-      "kind": "nutrition_intro",
-      "body": "Makes about 3.5 cups. A serving is 1/2 cup, and the whole batch is about 330 cal, 58g carbs, 3g fat, and 9g protein."
-    },
     {
       "kind": "make_or_break",
       "body": "**Char the corn first.** It's what gives the pico its depth"

@@ -61,6 +61,8 @@ returned diff and only retry with overwrite once the user agrees.
 - `tags` are lowercase words (`oven`, `quick`, `high protein`). Unknown tags are created.
 - `course` is `breakfast`, `appetizer`, `main` (the default), `side`, or `sauce`. A build sets its
   own `course` only when it is a different course, like a side salad whose chicken build is a main.
+- `servingSize` ("1/2 cup") and `makes` ("2.5 cups") are optional. Set them on sides and sauces,
+  where "a serving" says little on its own.
 - A salsa, sauce, or side that more than one dish could use is its own recipe with `course`
   `sauce` or `side`, and the dish lists it in `components` by slug instead of copying its lines:
   `{ "slug": "mango-habanero-salsa", "amount": "1/2 cup per bowl", "servingsPerServing": 1 }`.

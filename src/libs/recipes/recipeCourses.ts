@@ -24,6 +24,12 @@ export const DISH_COURSES: readonly RecipeCourse[] = [
 // The courses the Sides & Sauces section shows, as compact cards
 export const SIDE_COURSES: readonly RecipeCourse[] = ['side', 'sauce']
 
+// The anchor of the Sides & Sauces section on /recipes, where a side or sauce page links back to
+export const SIDES_SECTION_ID = 'sides-and-sauces'
+
+export const isSideCourse = (course: RecipeCourse): boolean =>
+  SIDE_COURSES.includes(course)
+
 // The builds a card can lead with: every listed build, and always the default
 const canLead = ({ listed, isDefault }: CardBuild): boolean =>
   listed || isDefault

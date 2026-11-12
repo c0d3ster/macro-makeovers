@@ -6,7 +6,11 @@
 create type public.recipe_course as enum ('breakfast', 'appetizer', 'main', 'side', 'sauce');
 
 alter table public.recipes
-  add column course public.recipe_course not null default 'main';
+  add column course public.recipe_course not null default 'main',
+  -- What one serving is, like "1/2 cup", and what the batch makes, like "2.5 cups". Optional, and
+  -- mostly for sides and sauces, where "a serving" says little on its own.
+  add column serving_size text,
+  add column makes text;
 
 -- Null falls back to the recipe's course
 alter table public.recipe_builds

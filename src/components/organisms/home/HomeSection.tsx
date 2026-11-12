@@ -4,6 +4,8 @@ import Link from 'next/link'
 
 type HomeSectionProps = {
   title: string
+  // An anchor, so a link can land on the section
+  id?: string
   // One line under the title
   intro?: string
   // A quiet "see all" link beside the title
@@ -13,11 +15,12 @@ type HomeSectionProps = {
 
 export const HomeSection = ({
   title,
+  id,
   intro,
   more,
   children,
 }: HomeSectionProps): ReactElement => (
-  <section className='mt-16'>
+  <section id={id} className='mt-16 scroll-mt-24'>
     <div className='mb-5 flex flex-wrap items-end justify-between gap-2'>
       <div>
         <h2 className='text-2xl font-bold text-text'>{title}</h2>

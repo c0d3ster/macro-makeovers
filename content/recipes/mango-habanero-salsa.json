@@ -3,6 +3,8 @@
   "title": "Mango Habanero Salsa",
   "summary": "Sweet mango, cool cucumber, and habanero heat with lime and cilantro. Almost no fat, and it carries a lean bowl.",
   "servings": 5,
+  "servingSize": "1/2 cup",
+  "makes": "2.5 cups",
   "prepMinutes": 15,
   "cookMinutes": 0,
   "costTier": 1,
@@ -51,10 +53,6 @@
     }
   ],
   "notes": [
-    {
-      "kind": "nutrition_intro",
-      "body": "Makes about 2.5 cups. A serving is 1/2 cup."
-    },
     {
       "kind": "make_or_break",
       "body": "**Let the salsa sit.** The onion mellows and the habanero heat spreads evenly"
