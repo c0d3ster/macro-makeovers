@@ -10,11 +10,6 @@ type MacroStripProps = {
   large?: boolean
   // Drops in from under the bar above it while that bar morphs
   reveal?: boolean
-  // Faded under a macro bar. Full strength where it is the only macro graphic, as on a compact card.
-  faded?: boolean
-  // Minimum widths that line the segments up with the MacroBar pills. Off where there is no bar
-  // to line up with and little room, as on a compact card.
-  aligned?: boolean
 }
 
 // Written out in full so Tailwind can see every class
@@ -31,18 +26,16 @@ export const MacroStrip = ({
   label,
   large = false,
   reveal = false,
-  faded = true,
-  aligned = true,
 }: MacroStripProps): ReactElement => (
   <div
     role='img'
     aria-label={label}
-    className={`flex w-full gap-2 ${faded ? 'opacity-20' : ''} ${large ? 'h-1.5' : 'h-1'} ${reveal ? 'macro-reveal-strip' : ''}`}
+    className={`flex w-full gap-2 opacity-20 ${large ? 'h-1.5' : 'h-1'} ${reveal ? 'macro-reveal-strip' : ''}`}
   >
     {segments.map(({ tone, percent }) => (
       <div
         key={tone}
-        className={`rounded-full ${aligned ? (large ? 'min-w-22' : 'min-w-14') : ''} ${TONES[tone]}`}
+        className={`rounded-full ${large ? 'min-w-22' : 'min-w-14'} ${TONES[tone]}`}
         style={{ flexGrow: percent, flexBasis: 0 }}
       />
     ))}

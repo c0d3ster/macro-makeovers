@@ -4,8 +4,8 @@ import Link from 'next/link'
 
 import type { RecipeCard as RecipeCardData } from '@/libs/recipes'
 
-import { MacroStrip, RecipeImage } from '@/components/atoms'
-import { cardHref, formatMacroRatios, toMacroRatios } from '@/libs/recipes'
+import { MacroDonut, RecipeImage } from '@/components/atoms'
+import { cardHref, toMacroRatios } from '@/libs/recipes'
 
 const COURSE_LABELS: Partial<Record<RecipeCardData['course'], string>> = {
   side: 'Side',
@@ -15,12 +15,21 @@ const COURSE_LABELS: Partial<Record<RecipeCardData['course'], string>> = {
 // The thumbnail is 6rem wide at every breakpoint
 const THUMB_SIZES = '96px'
 
+// Written out in full so Tailwind can see every class
+const DOTS = {
+  carbs: 'bg-carbs',
+  fat: 'bg-fat',
+  protein: 'bg-protein',
+} as const
+
 type CompactRecipeCardProps = {
   recipe: RecipeCardData
 }
 
-// A side or sauce in a short row: a small photo, the name, and the macros per serving. No summary
-// or tags, so a whole section of them takes about the room of one row of full cards.
+// A side or sauce in a short row: a small photo, the name, and the macros per serving as a donut
+// with grams and shares beside it, in carbs, fat, protein order. Sides and sauces are rarely
+// protein-heavy, so no single macro leads. No summary or tags, so a whole section of them takes
+// about the room of one row of full cards.
 export const CompactRecipeCard = ({
   recipe,
 }: CompactRecipeCardProps): ReactElement => {
@@ -41,6 +50,11 @@ export const CompactRecipeCard = ({
     proteinG,
   })
   const courseLabel = COURSE_LABELS[course]
+  const macros = [
+    { tone: 'carbs', label: 'Carbs', grams: carbsG, percent: carbsPct },
+    { tone: 'fat', label: 'Fat', grams: fatG, percent: fatPct },
+    { tone: 'protein', label: 'Protein', grams: proteinG, percent: proteinPct },
+  ] as const
 
   return (
     <Link
@@ -67,26 +81,30 @@ export const CompactRecipeCard = ({
             Build: {build.label}
           </p>
         )}
-        <p className='flex flex-wrap items-baseline gap-x-3 text-sm text-text-muted'>
-          <span>
-            <span className='font-semibold text-text'>{calories}</span> cal
-          </span>
-          <span>
-            <span className='font-semibold text-text'>{proteinG}g</span>{' '}
-            protein
-          </span>
-          <span>C/F/P {formatMacroRatios({ carbsG, fatG, proteinG })}</span>
-        </p>
-        <MacroStrip
-          faded={false}
-          aligned={false}
-          label={`Calories by macro: ${carbsPct}% carbs, ${fatPct}% fat, ${proteinPct}% protein`}
-          segments={[
-            { tone: 'carbs', percent: carbsPct },
-            { tone: 'fat', percent: fatPct },
-            { tone: 'protein', percent: proteinPct },
-          ]}
-        />
+        <div className='flex items-center gap-3'>
+          <MacroDonut
+            calories={calories}
+            carbsG={carbsG}
+            fatG={fatG}
+            proteinG={proteinG}
+          />
+          <ul className='flex flex-col gap-0.5 text-sm text-text-muted'>
+            {macros.map(({ tone, label, grams, percent }) => (
+              <li key={tone} className='flex items-center gap-1.5'>
+                <span
+                  aria-hidden='true'
+                  className={`size-2 shrink-0 rounded-full ${DOTS[tone]}`}
+                />
+                <span className='w-10 font-semibold text-text tabular-nums'>
+                  {grams}g
+                </span>
+                <span>
+                  {label} ({percent}%)
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
         <p className='text-xs text-text-muted'>
           {[
             courseLabel,
