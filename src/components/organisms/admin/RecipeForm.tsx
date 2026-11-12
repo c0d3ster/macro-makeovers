@@ -33,6 +33,7 @@ import { recipeImportSchema } from '@/validations'
 import type { BuildPreviewValue } from './buildPreview'
 
 import { BuildPreviewContext } from './buildPreview'
+import { RecipeComponentsEditor } from './RecipeComponentsEditor'
 import { RecipeHeroEditor } from './RecipeHeroEditor'
 import { RecipeIngredientsEditor } from './RecipeIngredientsEditor'
 import { RecipeNotesEditor } from './RecipeNotesEditor'
@@ -57,6 +58,7 @@ const EMPTY_RECIPE: RecipeImportInput = {
   cookMinutes: 30,
   costTier: 2,
   difficulty: 2,
+  course: 'main',
   tags: [],
   builds: [
     {
@@ -74,6 +76,7 @@ const EMPTY_RECIPE: RecipeImportInput = {
   ingredients: [{ raw: '' }],
   steps: [{ phase: 'prep', body: '' }],
   notes: [],
+  components: [],
 }
 
 // The recipe page with its content as fields, laid out on the same grid, so writing a recipe
@@ -257,6 +260,7 @@ export const RecipeForm = ({
             </div>
           </div>
           <RecipeNotesEditor notes={notes} />
+          <RecipeComponentsEditor />
         </div>
 
         <div className='sticky bottom-0 z-20 border-t border-text-muted/20 bg-background'>

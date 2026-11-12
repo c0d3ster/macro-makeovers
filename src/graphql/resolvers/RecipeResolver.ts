@@ -99,6 +99,12 @@ export class RecipeResolver {
         { extensions: { code: 'BAD_USER_INPUT' } }
       )
     }
+    if (result.status === 'in_use') {
+      throw new GraphQLError(
+        `Take it out of these recipes first: ${result.titles.join(', ')}.`,
+        { extensions: { code: 'BAD_USER_INPUT' } }
+      )
+    }
     return id
   }
 

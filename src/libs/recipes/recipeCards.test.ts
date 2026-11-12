@@ -24,6 +24,7 @@ const buildRow = (
   difficulty: null,
   prepMinutes: null,
   cookMinutes: null,
+  course: null,
   imageUrl: null,
   ...overrides,
 })
@@ -37,6 +38,7 @@ const row: RecipeCardRow = {
   cookMinutes: 55,
   costTier: 1,
   difficulty: 2,
+  course: 'main',
   imageUrl: null,
   builds: [
     buildRow(),

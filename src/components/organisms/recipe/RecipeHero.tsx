@@ -13,7 +13,7 @@ import {
   RecipeImage,
 } from '@/components/atoms'
 import { RecipeMacroSummary } from '@/components/molecules'
-import { toTagPath } from '@/libs/recipes'
+import { isSideCourse, SIDES_SECTION_ID, toTagPath } from '@/libs/recipes'
 import { formatMinutes } from '@/utils/formatMinutes'
 
 import {
@@ -23,6 +23,7 @@ import {
   RECIPE_HERO_PHOTO,
   RECIPE_HERO_TITLE,
 } from './recipeLayout'
+import { UsedInRecipes } from './UsedInRecipes'
 
 type RecipeHeroProps = {
   recipe: RecipeDetail
@@ -37,7 +38,15 @@ export const RecipeHero = ({
   view,
   corner,
 }: RecipeHeroProps): ReactElement => {
-  const { servings, comparisons, baseRecipe, variants } = recipe
+  const {
+    servings,
+    servingSize,
+    makes,
+    comparisons,
+    baseRecipe,
+    variants,
+    usedIn,
+  } = recipe
   const {
     title,
     summary,
@@ -46,6 +55,7 @@ export const RecipeHero = ({
     costTier,
     difficulty,
     tags,
+    course,
     build,
   } = view
   const original = comparisons[0]
@@ -55,7 +65,13 @@ export const RecipeHero = ({
       {/* The corner is centered on the link's line and out of the flow, so it appearing late
           never moves the page */}
       <div className='relative flex items-center'>
-        <BackLink href='/recipes'>All recipes</BackLink>
+        {isSideCourse(course) ? (
+          <BackLink href={`/recipes#${SIDES_SECTION_ID}`}>
+            Sides and sauces
+          </BackLink>
+        ) : (
+          <BackLink href='/recipes'>All recipes</BackLink>
+        )}
         {corner && (
           <div className='absolute top-1/2 right-0 -translate-y-1/2'>
             {corner}
@@ -97,7 +113,7 @@ export const RecipeHero = ({
                   className='text-4xl leading-none font-semibold'
                 />
                 <span className='text-base text-text-muted'>
-                  cals per serving
+                  cals per {servingSize ?? 'serving'}
                 </span>
               </p>
               <p className='flex items-baseline gap-2'>
@@ -105,11 +121,15 @@ export const RecipeHero = ({
                   value={servings}
                   className='text-2xl leading-none font-semibold'
                 />
-                <span className='text-base text-text-muted'>servings</span>
+                <span className='text-base text-text-muted'>
+                  servings{makes && ` · ${makes}`}
+                </span>
               </p>
             </div>
             <RecipeMacroSummary reveal featured={build} original={original} />
           </div>
+
+          <UsedInRecipes recipes={usedIn} />
 
           {(baseRecipe || variants.length > 0) && (
             <p className='text-sm text-text-muted'>

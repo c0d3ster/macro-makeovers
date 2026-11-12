@@ -5,14 +5,20 @@ import type { ReactElement } from 'react'
 import { useState } from 'react'
 
 import type { RecipeIngredient } from '@/libs/recipes/ingredients'
+import type { RecipeComponent } from '@/libs/recipes/recipeDetail'
 
 import { Markdown } from '@/components/atoms'
 import { AddToBasketButton } from '@/components/molecules/basket'
-import { ServingsStepper } from '@/components/molecules/recipe'
+import {
+  ComponentDisclosure,
+  ServingsStepper,
+} from '@/components/molecules/recipe'
 import { groupIngredients, scaleIngredient } from '@/libs/recipes/ingredients'
 
 type ScalableIngredientsProps = {
   ingredients: RecipeIngredient[]
+  // Sides and sauces the dish uses, shown after its own lines and scaled with them
+  components?: RecipeComponent[]
   baseServings: number
   // Adds the recipe to the basket at the servings shown here
   basket?: { slug: string; title: string; build?: string }
@@ -20,6 +26,7 @@ type ScalableIngredientsProps = {
 
 export const ScalableIngredients = ({
   ingredients,
+  components = [],
   baseServings,
   basket,
 }: ScalableIngredientsProps): ReactElement => {
@@ -79,6 +86,18 @@ export const ScalableIngredients = ({
               ))}
             </ul>
           </div>
+        ))}
+        {/* One component can be listed twice for different builds, so its scope is in the key */}
+        {components.map((component) => (
+          <ComponentDisclosure
+            key={[
+              component.slug,
+              ...(component.onlyBuilds ?? []),
+              ...(component.skipBuilds ?? []).map((key) => `-${key}`),
+            ].join(':')}
+            component={component}
+            factor={factor}
+          />
         ))}
       </div>
     </section>

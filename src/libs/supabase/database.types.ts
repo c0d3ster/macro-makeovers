@@ -96,6 +96,7 @@ export type Database = {
           calories: number
           carbs_g: number
           cook_minutes: number | null
+          course: Database['public']['Enums']['recipe_course'] | null
           cost_tier: number | null
           difficulty: number | null
           fat_g: number
@@ -119,6 +120,7 @@ export type Database = {
           calories: number
           carbs_g: number
           cook_minutes?: number | null
+          course?: Database['public']['Enums']['recipe_course'] | null
           cost_tier?: number | null
           difficulty?: number | null
           fat_g: number
@@ -141,6 +143,7 @@ export type Database = {
           calories?: number
           carbs_g?: number
           cook_minutes?: number | null
+          course?: Database['public']['Enums']['recipe_course'] | null
           cost_tier?: number | null
           difficulty?: number | null
           fat_g?: number
@@ -162,6 +165,60 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: 'recipe_builds_recipe_id_fkey'
+            columns: ['recipe_id']
+            isOneToOne: false
+            referencedRelation: 'recipes'
+            referencedColumns: ['id']
+          },
+        ]
+      }
+      recipe_components: {
+        Row: {
+          amount: string | null
+          component_build: string | null
+          component_id: string
+          id: string
+          note_md: string | null
+          only_builds: string[]
+          position: number
+          recipe_id: string
+          servings_per_serving: number
+          skip_builds: string[]
+        }
+        Insert: {
+          amount?: string | null
+          component_build?: string | null
+          component_id: string
+          id?: string
+          note_md?: string | null
+          only_builds?: string[]
+          position: number
+          recipe_id: string
+          servings_per_serving?: number
+          skip_builds?: string[]
+        }
+        Update: {
+          amount?: string | null
+          component_build?: string | null
+          component_id?: string
+          id?: string
+          note_md?: string | null
+          only_builds?: string[]
+          position?: number
+          recipe_id?: string
+          servings_per_serving?: number
+          skip_builds?: string[]
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'recipe_components_component_id_fkey'
+            columns: ['component_id']
+            isOneToOne: false
+            referencedRelation: 'recipes'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'recipe_components_recipe_id_fkey'
             columns: ['recipe_id']
             isOneToOne: false
             referencedRelation: 'recipes'
@@ -321,13 +378,16 @@ export type Database = {
         Row: {
           access: Database['public']['Enums']['recipe_access']
           cook_minutes: number
+          course: Database['public']['Enums']['recipe_course']
           cost_tier: number
           created_at: string
           difficulty: number
           id: string
           image_is_placeholder: boolean
           image_url: string | null
+          makes: string | null
           prep_minutes: number
+          serving_size: string | null
           search: unknown
           servings: number
           slug: string
@@ -341,14 +401,17 @@ export type Database = {
         Insert: {
           access?: Database['public']['Enums']['recipe_access']
           cook_minutes: number
+          course?: Database['public']['Enums']['recipe_course']
           cost_tier: number
           created_at?: string
           difficulty: number
           id?: string
           image_is_placeholder?: boolean
           image_url?: string | null
+          makes?: string | null
           prep_minutes: number
           search?: never
+          serving_size?: string | null
           servings: number
           slug: string
           status?: Database['public']['Enums']['recipe_status']
@@ -360,13 +423,16 @@ export type Database = {
         Update: {
           access?: Database['public']['Enums']['recipe_access']
           cook_minutes?: number
+          course?: Database['public']['Enums']['recipe_course']
           cost_tier?: number
           created_at?: string
           difficulty?: number
           id?: string
           image_is_placeholder?: boolean
           image_url?: string | null
+          makes?: string | null
           prep_minutes?: number
+          serving_size?: string | null
           search?: never
           servings?: number
           slug?: string
@@ -501,6 +567,7 @@ export type Database = {
         | 'nutrition_analysis'
       nutrition_kind: 'makeover' | 'traditional'
       recipe_access: 'free' | 'premium'
+      recipe_course: 'breakfast' | 'appetizer' | 'main' | 'side' | 'sauce'
       recipe_status: 'draft' | 'published'
       step_phase: 'prep' | 'cook'
       tag_kind: 'category' | 'method' | 'attribute'
@@ -642,6 +709,7 @@ export const Constants = {
       ],
       nutrition_kind: ['makeover', 'traditional'],
       recipe_access: ['free', 'premium'],
+      recipe_course: ['breakfast', 'appetizer', 'main', 'side', 'sauce'],
       recipe_status: ['draft', 'published'],
       step_phase: ['prep', 'cook'],
       tag_kind: ['category', 'method', 'attribute'],

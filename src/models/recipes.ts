@@ -20,6 +20,7 @@ import {
   noteKindEnum,
   nutritionKindEnum,
   recipeAccessEnum,
+  recipeCourseEnum,
   recipeStatusEnum,
   stepPhaseEnum,
   tagKindEnum,
@@ -44,6 +45,11 @@ export const recipes = pgTable('recipes', {
   difficulty: smallint('difficulty').notNull(),
   status: recipeStatusEnum('status').notNull().default('draft'),
   access: recipeAccessEnum('access').notNull().default('free'),
+  // What the dish is on a menu. A build can override it.
+  course: recipeCourseEnum('course').notNull().default('main'),
+  // What one serving is ("1/2 cup") and what the batch makes ("2.5 cups"). Optional.
+  servingSize: text('serving_size'),
+  makes: text('makes'),
   imageUrl: text('image_url'),
   // True when imageUrl is an AI-generated stand-in rather than a real photo
   imageIsPlaceholder: boolean('image_is_placeholder').notNull().default(false),
@@ -138,6 +144,8 @@ export const recipeBuilds = pgTable(
     difficulty: smallint('difficulty'),
     prepMinutes: integer('prep_minutes'),
     cookMinutes: integer('cook_minutes'),
+    // Null falls back to the recipe's course
+    course: recipeCourseEnum('course'),
     imageUrl: text('image_url'),
     imageIsPlaceholder: boolean('image_is_placeholder')
       .notNull()
@@ -146,6 +154,42 @@ export const recipeBuilds = pgTable(
   (table) => [
     uniqueIndex('recipe_builds_recipe_id_key_key').on(table.recipeId, table.key),
     index('recipe_builds_recipe_idx').on(table.recipeId, table.position),
+  ]
+)
+
+// A recipe another recipe uses, like a salsa on a bowl. One level deep, enforced on import.
+export const recipeComponents = pgTable(
+  'recipe_components',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    recipeId: uuid('recipe_id')
+      .notNull()
+      .references(() => recipes.id, { onDelete: 'cascade' }),
+    // A recipe still in use cannot be deleted
+    componentId: uuid('component_id')
+      .notNull()
+      .references(() => recipes.id, { onDelete: 'restrict' }),
+    position: integer('position').notNull(),
+    // How much the dish uses, as the page prints it: "1/2 cup per bowl"
+    amount: text('amount'),
+    noteMd: text('note_md'),
+    // Component servings in one dish serving, for what a serving of the dish carries from it
+    servingsPerServing: numeric('servings_per_serving', {
+      precision: 6,
+      scale: 2,
+      mode: 'number',
+    })
+      .notNull()
+      .default(1),
+    // The component's build to show, by key. Null uses its default build.
+    componentBuild: text('component_build'),
+    // Build keys of the dish this row belongs to, or skips. Empty on both means every build.
+    onlyBuilds: text('only_builds').array().notNull().default([]),
+    skipBuilds: text('skip_builds').array().notNull().default([]),
+  },
+  (table) => [
+    index('recipe_components_recipe_idx').on(table.recipeId, table.position),
+    index('recipe_components_component_idx').on(table.componentId),
   ]
 )
 
@@ -267,6 +311,9 @@ export const recipesRelations = relations(recipes, ({ one, many }) => ({
   }),
   variants: many(recipes, { relationName: 'variants' }),
   builds: many(recipeBuilds),
+  // What this recipe uses, and the recipes that use it
+  components: many(recipeComponents, { relationName: 'components' }),
+  usedIn: many(recipeComponents, { relationName: 'usedIn' }),
   nutrition: many(recipeNutrition),
   ingredients: many(ingredients),
   steps: many(steps),
@@ -290,6 +337,22 @@ export const recipeBuildsRelations = relations(recipeBuilds, ({ one }) => ({
     references: [recipes.id],
   }),
 }))
+
+export const recipeComponentsRelations = relations(
+  recipeComponents,
+  ({ one }) => ({
+    recipe: one(recipes, {
+      fields: [recipeComponents.recipeId],
+      references: [recipes.id],
+      relationName: 'components',
+    }),
+    component: one(recipes, {
+      fields: [recipeComponents.componentId],
+      references: [recipes.id],
+      relationName: 'usedIn',
+    }),
+  })
+)
 
 export const ingredientsRelations = relations(ingredients, ({ one }) => ({
   recipe: one(recipes, {

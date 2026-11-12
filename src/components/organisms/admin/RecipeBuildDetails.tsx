@@ -6,6 +6,7 @@ import { use, useState } from 'react'
 import { useWatch } from 'react-hook-form'
 
 import { appliesToBuild, buildTitle } from '@/libs/recipes/recipeBuilds'
+import { RECIPE_COURSES } from '@/libs/recipes/recipeCourses'
 import { recipeSlugSchema } from '@/validations'
 
 import { BuildPreviewContext } from './buildPreview'
@@ -207,6 +208,23 @@ export const RecipeBuildDetails = ({
             className={INPUT}
             {...register(`${path}.note`, { setValueAs: optionalText })}
           />
+        </Field>
+        <Field
+          label='Course'
+          hint='Only when this build is a different course, like a side salad made a main'
+          error={rowErrors?.course?.message}
+        >
+          <select
+            className={INPUT}
+            {...register(`${path}.course`, { setValueAs: optionalText })}
+          >
+            <option value=''>Same as the recipe</option>
+            {RECIPE_COURSES.map((course) => (
+              <option key={course} value={course}>
+                {course.charAt(0).toUpperCase() + course.slice(1)}
+              </option>
+            ))}
+          </select>
         </Field>
         <Field label='Cost tier (1 to 5)' error={rowErrors?.costTier?.message}>
           <input

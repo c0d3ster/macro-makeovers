@@ -1,10 +1,19 @@
 import type { Metadata } from 'next'
 import type { ReactElement } from 'react'
 
-import { FilterBar, RecipeGrid } from '@/components/organisms'
+import {
+  CompactRecipeGrid,
+  FilterBar,
+  HomeSection,
+  RecipeGrid,
+} from '@/components/organisms'
 import { LandingPageTemplate } from '@/components/templates'
 import { Env } from '@/libs/Env'
-import { parseRecipeFilters } from '@/libs/recipes'
+import {
+  parseRecipeFilters,
+  SIDES_SECTION_ID,
+  toSearchParams,
+} from '@/libs/recipes'
 
 import { loadRecipeBrowse } from '../loadRecipeBrowse'
 
@@ -24,6 +33,8 @@ const RecipesPage = async ({
 }: RecipesPageProps): Promise<ReactElement> => {
   const filters = parseRecipeFilters(await searchParams)
   const browse = await loadRecipeBrowse(filters)
+  // Sides and sauces are not filtered, so they show only on the unfiltered list
+  const isUnfiltered = toSearchParams(filters).toString() === ''
   const intro = (
     <header className='max-w-2xl'>
       <h1 className='mb-3 text-3xl font-bold text-text sm:text-4xl'>Recipes</h1>
@@ -51,6 +62,15 @@ const RecipesPage = async ({
               showDividers={filters.sort === 'match'}
               isFiltered={browse.all.length > 0}
             />
+            {isUnfiltered && browse.sides.length > 0 && (
+              <HomeSection
+                id={SIDES_SECTION_ID}
+                title='Sides and sauces'
+                intro='Each dish that uses one shows it inline, so you can make it without leaving the page.'
+              >
+                <CompactRecipeGrid recipes={browse.sides} />
+              </HomeSection>
+            )}
           </>
         ) : (
           <>

@@ -1,3 +1,5 @@
+export * from './CompactRecipeCard'
+export * from './CompactRecipeGrid'
 export * from './FilterBar'
 export * from './NutritionTable'
 export * from './RecipeCard'

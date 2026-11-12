@@ -1,10 +1,11 @@
 import type { RecipeImport } from '@/validations'
 
 import { formatMacroRatios } from './macroRatios'
-import { buildTitle } from './recipeBuilds'
+import { appliesToBuild, buildTitle } from './recipeBuilds'
 
 type Build = RecipeImport['builds'][number]
 type Note = RecipeImport['notes'][number]
+type ComponentLink = RecipeImport['components'][number]
 type Scope = { onlyBuilds?: string[]; skipBuilds?: string[] }
 
 // The recipe book text that is not recipes: the intro, the "How to read the recipes" guide, and
@@ -16,10 +17,19 @@ export type BookProse = {
   outro: string
 }
 
+// A side or sauce printed inside the dish that uses it, with the links that say how much. A dish
+// can list one component twice for builds that use different amounts, and it prints once.
+export type BookComponent = {
+  links: ComponentLink[]
+  recipe: RecipeImport
+}
+
 export type BookRecipe = {
   recipe: RecipeImport
   // "10", or "10a" for a variant
   number: string
+  // Sides and sauces the recipe uses, printed inline
+  components?: BookComponent[]
 }
 
 const NUMBER_WORDS = [
@@ -56,11 +66,25 @@ const NOTE_HEADINGS: Partial<Record<Note['kind'], string>> = {
 const DIVIDED_LABEL = /^per (?:serving|plate)$/i
 
 // Book order: recipes the book already lists keep their place, anything newer follows A to Z.
-// A variant sits right after its base and shares its number with a letter (10, 10a).
+// A variant sits right after its base and shares its number with a letter (10, 10a). A side or
+// sauce a dish uses prints inside that dish instead of on its own.
 export const numberBookRecipes = (
-  recipes: RecipeImport[],
+  allRecipes: RecipeImport[],
   knownOrder: string[]
 ): BookRecipe[] => {
+  const bySlug = new Map(allRecipes.map((recipe) => [recipe.slug, recipe]))
+  const inlined = new Set(
+    allRecipes.flatMap(({ components }) =>
+      components.flatMap(({ slug }) => (bySlug.has(slug) ? [slug] : []))
+    )
+  )
+  const recipes = allRecipes.filter(({ slug }) => !inlined.has(slug))
+  const withComponents = (recipe: RecipeImport): BookComponent[] =>
+    [...new Set(recipe.components.map(({ slug }) => slug))].flatMap((slug) => {
+      const component = bySlug.get(slug)
+      const links = recipe.components.filter((link) => link.slug === slug)
+      return component ? [{ links, recipe: component }] : []
+    })
   const rank = (slug: string): number => {
     const index = knownOrder.indexOf(slug)
     return index === -1 ? Number.MAX_SAFE_INTEGER : index
@@ -74,10 +98,11 @@ export const numberBookRecipes = (
     const number = String(index + 1)
     const variants = sorted.filter(({ variantOf }) => variantOf === base.slug)
     return [
-      { recipe: base, number },
+      { recipe: base, number, components: withComponents(base) },
       ...variants.map((recipe, variantIndex) => ({
         recipe,
         number: `${number}${String.fromCharCode(97 + variantIndex)}`,
+        components: withComponents(recipe),
       })),
     ]
   })
@@ -185,7 +210,40 @@ const groupHeading = (group: string): string => {
     : `**${group}**`
 }
 
-const ingredientsSection = (recipe: RecipeImport): string => {
+// The component build the dish uses: the one its first link names, else the component's default
+const componentBuildKey = ({ links, recipe }: BookComponent): string =>
+  links[0]?.build ?? featuredRow(recipe).key
+
+// "**Corn Pico** (1/2 cup per griller _(Grillers only)_; 3/4 cup per bowl _(Rice bowl only)_)"
+const componentHeading = (
+  recipe: RecipeImport,
+  { links, recipe: component }: BookComponent
+): string => {
+  const amounts = links.flatMap((link) => {
+    const scope = scopeLabel(recipe, link)
+    if (link.amount) return [`${link.amount}${scope}`]
+    return scope ? [scope.trim()] : []
+  })
+  return `**${component.title}**${amounts.length > 0 ? ` (${amounts.join('; ')})` : ''}`
+}
+
+// Each component's lines under its own heading, after the dish's own
+const componentIngredients = (
+  recipe: RecipeImport,
+  components: BookComponent[]
+): string[] =>
+  components.map((component) => {
+    const key = componentBuildKey(component)
+    const lines = component.recipe.ingredients
+      .filter((line) => appliesToBuild(line, key))
+      .map((line) => `- ${line.raw}`)
+    return [`${componentHeading(recipe, component)}\n`, ...lines].join('\n')
+  })
+
+const ingredientsSection = (
+  recipe: RecipeImport,
+  components: BookComponent[] = []
+): string => {
   const { ingredients, notes } = recipe
   // A group whose lines all carry the same scope says it once, on its heading
   const groupScope = (group: string | undefined): string => {
@@ -211,10 +269,18 @@ const ingredientsSection = (recipe: RecipeImport): string => {
   const tips = notes
     .filter(({ kind }) => kind === 'tip')
     .map((note) => toQuote(`${note.body}${scopeLabel(recipe, note)}`))
-  return ['### Ingredients', lines.join('\n'), ...tips].join('\n\n')
+  return [
+    '### Ingredients',
+    lines.join('\n'),
+    ...componentIngredients(recipe, components),
+    ...tips,
+  ].join('\n\n')
 }
 
-const timedMethod = (recipe: RecipeImport): string => {
+const timedMethod = (
+  recipe: RecipeImport,
+  components: BookComponent[] = []
+): string => {
   const block = (
     name: 'prep' | 'cook',
     label: string,
@@ -230,8 +296,20 @@ const timedMethod = (recipe: RecipeImport): string => {
       .join('\n')
     return [`**${label}** (~${minutes} min)`, body]
   }
+  // Each component's steps, as bullets under its name, before the dish's own
+  const componentSteps = components.flatMap((component) => {
+    const key = componentBuildKey(component)
+    const steps = component.recipe.steps
+      .filter((step) => appliesToBuild(step, key))
+      .map((step) => `- ${step.body}`)
+    // The amounts are on the ingredients heading already
+    return steps.length > 0
+      ? [`**${component.recipe.title}**`, steps.join('\n')]
+      : []
+  })
   return [
     '### Method',
+    ...componentSteps,
     ...block('prep', 'Prep', recipe.prepMinutes),
     ...block('cook', 'Cook', recipe.cookMinutes),
   ].join('\n\n')
@@ -273,8 +351,14 @@ const trailingSections = (recipe: RecipeImport): string[] => {
   return sections
 }
 
+// " (2.5 cups, 1/2 cup each)" when the recipe says what it makes or what a serving is
+const servingDetail = ({ makes, servingSize }: RecipeImport): string => {
+  const parts = [makes, servingSize && `${servingSize} each`].filter(Boolean)
+  return parts.length > 0 ? ` (${parts.join(', ')})` : ''
+}
+
 const recipeSection = (book: BookRecipe): string => {
-  const { recipe, number } = book
+  const { recipe, number, components = [] } = book
   const stars = (count: number, mark: string): string => mark.repeat(count)
   const meta = [
     '$'.repeat(recipe.costTier),
@@ -297,14 +381,14 @@ const recipeSection = (book: BookRecipe): string => {
   return [
     `<a id="${anchorFor(book)}"></a>`,
     `## ${number}. ${recipe.title} | ${meta}`,
-    `${recipe.summary} **Makes ~${recipe.servings} servings.**`,
+    `${recipe.summary} **Makes ~${recipe.servings} servings${servingDetail(recipe)}.**`,
     '### Nutrition',
     ...intros,
     nutritionTable(recipe),
     ...buildNotes,
     ...analysis,
-    ingredientsSection(recipe),
-    timedMethod(recipe),
+    ingredientsSection(recipe, components),
+    timedMethod(recipe, components),
     ...trailingSections(recipe),
   ].join('\n\n')
 }

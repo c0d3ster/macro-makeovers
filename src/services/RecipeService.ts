@@ -61,11 +61,17 @@ type EditableRecipe = {
   recipe: unknown
 }
 
-// Public pages and the admin list cache recipes, so a write refreshes them. A failure here
-// must not turn a saved recipe into an error.
-const refreshPages = (slug: string): void => {
+// Public pages and the admin list cache recipes, so a write refreshes them, along with the pages
+// of dishes that show this recipe inline as a side or sauce. A failure here must not turn a saved
+// recipe into an error.
+const refreshPages = async (
+  repository: RecipeRepository,
+  slug: string
+): Promise<void> => {
   try {
     revalidateRecipePages(slug)
+    const parents = await repository.listParentSlugs(slug)
+    parents.forEach((parent) => revalidatePath(`/recipes/${parent}`))
     revalidatePath('/admin')
     // The editor shows the title and status too
     revalidatePath('/admin/recipes/[id]/edit', 'page')
@@ -123,7 +129,7 @@ export class RecipeService {
       !dryRun &&
       (result.status === 'created' || result.status === 'updated')
     ) {
-      refreshPages(result.slug)
+      await refreshPages(repository, result.slug)
     }
 
     // A new recipe lands as a draft, so only edits to an existing one can change the book
@@ -188,7 +194,7 @@ export class RecipeService {
 
     const before = await this.reader().getRecipeStatus(id)
     const recipe = await this.reader().updateRecipeStatus(id, status)
-    if (recipe) refreshPages(recipe.slug)
+    if (recipe) await refreshPages(this.reader(), recipe.slug)
     // Publishing and unpublishing both change the book. Saving a draft as a draft does not.
     if (recipe && (before === 'published' || status === 'published')) {
       await triggerBookRebuild()
@@ -204,7 +210,7 @@ export class RecipeService {
     const before = await this.reader().getRecipeStatus(id)
     const result = await this.reader().deleteRecipe(id)
     if (result.status === 'deleted') {
-      refreshPages(result.slug)
+      await refreshPages(this.reader(), result.slug)
       if (before === 'published') await triggerBookRebuild()
     }
     return result
@@ -237,7 +243,7 @@ export class RecipeService {
     const slug = await this.reader().setBuildImage(id, key, url)
     if (!slug) return false
 
-    refreshPages(slug)
+    await refreshPages(this.reader(), slug)
     return true
   }
 
@@ -247,7 +253,7 @@ export class RecipeService {
     const slug = await this.reader().setRecipeImage(id, url)
     if (!slug) return false
 
-    refreshPages(slug)
+    await refreshPages(this.reader(), slug)
     await this.rebuildBookIfPublished(id)
     return true
   }

@@ -1,6 +1,7 @@
 import z from 'zod'
 
 import { appliesToBuild } from '@/libs/recipes/recipeBuilds'
+import { RECIPE_COURSES } from '@/libs/recipes/recipeCourses'
 
 const nonNegative = z.number().min(0)
 const text = z.string().trim().min(1)
@@ -14,6 +15,7 @@ export const recipeSlugSchema = z
     'Use lowercase words separated by hyphens'
   )
 const buildKeySchema = recipeSlugSchema
+const courseSchema = z.enum(RECIPE_COURSES)
 
 const macroFields = {
   calories: nonNegative,
@@ -66,6 +68,11 @@ const buildSchema = z.object({
   difficulty: tier.optional(),
   prepMinutes: minutes.optional(),
   cookMinutes: minutes.optional(),
+  course: courseSchema
+    .optional()
+    .describe(
+      'Only when this build is a different course, like a side salad that becomes a main with chicken. Falls back to the recipe course.'
+    ),
 })
 
 // Which builds a row belongs to. Leave both out for every build, and never set both.
@@ -108,6 +115,28 @@ const noteSchema = z.object({
     'nutrition_analysis',
   ]),
   body: text,
+  ...buildScope,
+})
+
+const componentSchema = z.object({
+  slug: recipeSlugSchema.describe(
+    'Slug of the side or sauce this recipe uses. It must already exist and cannot use components itself.'
+  ),
+  amount: text
+    .optional()
+    .describe('How much this recipe uses, as the page prints it: "1/2 cup per bowl"'),
+  servingsPerServing: z
+    .number()
+    .positive()
+    .max(99)
+    .default(1)
+    .describe(
+      "The component's servings in one serving of this recipe, for the calories it adds per serving. The component's ingredients print as written at this recipe's servings and scale with them."
+    ),
+  build: buildKeySchema
+    .optional()
+    .describe("The component's build to show, by key. Its default build when missing."),
+  note: text.optional(),
   ...buildScope,
 })
 
@@ -158,10 +187,21 @@ export const recipeImportSchema = z
     title: text,
     summary: text,
     servings: z.number().int().positive(),
+    servingSize: text
+      .optional()
+      .describe('What one serving is, like "1/2 cup". The page reads "40 cals per 1/2 cup".'),
+    makes: text
+      .optional()
+      .describe('What the whole batch makes, like "2.5 cups". Shown beside the servings.'),
     prepMinutes: minutes,
     cookMinutes: minutes,
     costTier: tier,
     difficulty: tier,
+    course: courseSchema
+      .default('main')
+      .describe(
+        'What the dish is on a menu. Sides and sauces show as compact cards in their own section.'
+      ),
     // Slug of the recipe this one is a variant of. The base must already exist.
     variantOf: recipeSlugSchema.optional(),
     tags: z.array(tagName),
@@ -171,6 +211,8 @@ export const recipeImportSchema = z
     ingredients: z.array(ingredientSchema).min(1),
     steps: z.array(stepSchema).min(1),
     notes: z.array(noteSchema),
+    // Sides and sauces this recipe uses, shown inline in its ingredients
+    components: z.array(componentSchema).default([]),
   })
   .superRefine((recipe, ctx) => {
     if (recipe.variantOf === recipe.slug) {
@@ -243,6 +285,7 @@ export const recipeImportSchema = z
       ingredients: recipe.ingredients.map(normalizeScope),
       steps: recipe.steps.map(normalizeScope),
       notes: recipe.notes.map(normalizeScope),
+      components: recipe.components.map(normalizeScope),
     }
   })
   .superRefine((recipe, ctx) => {
@@ -299,7 +342,7 @@ export const recipeImportSchema = z
     })
 
     const checkScope = (
-      section: 'ingredients' | 'steps' | 'notes',
+      section: 'ingredients' | 'steps' | 'notes' | 'components',
       rows: Scoped[]
     ): void => {
       rows.forEach(({ onlyBuilds, skipBuilds }, index) => {
@@ -331,6 +374,34 @@ export const recipeImportSchema = z
     checkScope('ingredients', recipe.ingredients)
     checkScope('steps', recipe.steps)
     checkScope('notes', recipe.notes)
+    checkScope('components', recipe.components)
+
+    const componentSlugs = recipe.components.map(({ slug }) => slug)
+    componentSlugs.forEach((slug, index) => {
+      if (slug === recipe.slug) {
+        ctx.addIssue({
+          code: 'custom',
+          path: ['components', index, 'slug'],
+          message: 'A recipe cannot use itself',
+        })
+      }
+    })
+
+    // One component can be listed twice for different builds, never twice for the same build
+    recipe.builds.forEach(({ key }) => {
+      const seen = new Set<string>()
+      recipe.components.forEach((component, index) => {
+        if (!appliesToBuild(component, key)) return
+        if (seen.has(component.slug)) {
+          ctx.addIssue({
+            code: 'custom',
+            path: ['components', index, 'slug'],
+            message: `"${component.slug}" is already listed for the build "${key}"`,
+          })
+        }
+        seen.add(component.slug)
+      })
+    })
 
     recipe.builds.forEach(({ key }, index) => {
       if (!recipe.ingredients.some((row) => appliesToBuild(row, key))) {

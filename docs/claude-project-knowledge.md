@@ -59,6 +59,17 @@ returned diff and only retry with overwrite once the user agrees.
   - `tip`: a short aside shown under the ingredients
   - `nutrition_intro` and `nutrition_analysis`: text before and after the nutrition table
 - `tags` are lowercase words (`oven`, `quick`, `high protein`). Unknown tags are created.
+- `course` is `breakfast`, `appetizer`, `main` (the default), `side`, or `sauce`. A build sets its
+  own `course` only when it is a different course, like a side salad whose chicken build is a main.
+- `servingSize` ("1/2 cup") and `makes` ("2.5 cups") are optional. Set them on sides and sauces,
+  where "a serving" says little on its own.
+- A salsa, sauce, or side that more than one dish could use is its own recipe with `course`
+  `sauce` or `side`, and the dish lists it in `components` by slug instead of copying its lines:
+  `{ "slug": "mango-habanero-salsa", "amount": "1/2 cup per bowl", "servingsPerServing": 1 }`.
+  `servingsPerServing` is the component's servings in one serving of the dish. Scope a component
+  to some builds with `onlyBuilds` or `skipBuilds`, and list it twice when two builds use different
+  amounts. The component must already exist, and cannot use components itself. The dish's build
+  macros still include the component.
 - `variantOf` is the slug of the base recipe when this one is a full variation of it. The base must
   already exist, and a variant cannot itself be a base.
 - Build or variant: if it is the same dish cooked the same way, with some lines or steps added,

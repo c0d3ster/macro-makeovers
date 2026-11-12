@@ -140,34 +140,6 @@
     {
       "group": "Bowl",
       "raw": "Lime wedges"
-    },
-    {
-      "group": "Mango habanero salsa (~2.5 cups, 1/2 cup per bowl)",
-      "raw": "1.5 cups firm ripe mango, small dice"
-    },
-    {
-      "group": "Mango habanero salsa (~2.5 cups, 1/2 cup per bowl)",
-      "raw": "1/2 red onion, finely diced"
-    },
-    {
-      "group": "Mango habanero salsa (~2.5 cups, 1/2 cup per bowl)",
-      "raw": "1/2 to 1 habanero, seeds and ribs removed, minced very fine"
-    },
-    {
-      "group": "Mango habanero salsa (~2.5 cups, 1/2 cup per bowl)",
-      "raw": "1/2 cup seeded cucumber, diced"
-    },
-    {
-      "group": "Mango habanero salsa (~2.5 cups, 1/2 cup per bowl)",
-      "raw": "Juice of 1.5 limes"
-    },
-    {
-      "group": "Mango habanero salsa (~2.5 cups, 1/2 cup per bowl)",
-      "raw": "Handful cilantro"
-    },
-    {
-      "group": "Mango habanero salsa (~2.5 cups, 1/2 cup per bowl)",
-      "raw": "Salt to taste, only after the cotija is on"
     }
   ],
   "steps": [
@@ -178,7 +150,7 @@
     },
     {
       "phase": "prep",
-      "body": "Toss the salsa together, starting with half the habanero. Let it sit at least 15 min, then taste. Wear gloves."
+      "body": "Make the mango habanero salsa so it has at least 15 min to sit."
     },
     {
       "phase": "prep",
@@ -260,10 +232,6 @@
       "body": "**Hold the salt until the end.** Cotija, beans, and the chicken seasoning already carry plenty"
     },
     {
-      "kind": "make_or_break",
-      "body": "**Let the salsa sit.** The onion mellows and the habanero heat spreads evenly"
-    },
-    {
       "kind": "fixes",
       "body": "**No char:** the pan wasn't hot enough or the chicken was wet. Heat longer and pat off more marinade"
     },
@@ -297,5 +265,12 @@
     "stovetop",
     "high protein",
     "batch friendly"
+  ],
+  "components": [
+    {
+      "slug": "mango-habanero-salsa",
+      "amount": "1/2 cup per bowl",
+      "servingsPerServing": 1
+    }
   ]
 }

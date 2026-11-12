@@ -7,7 +7,7 @@ import { useWatch } from 'react-hook-form'
 
 import { useRecipeForm } from './recipeFormFields'
 
-type ScopedSection = 'ingredients' | 'steps' | 'notes'
+type ScopedSection = 'ingredients' | 'steps' | 'notes' | 'components'
 
 type BuildScopePickerProps = {
   section: ScopedSection

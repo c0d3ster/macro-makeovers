@@ -1,0 +1,74 @@
+{
+  "slug": "spicy-charred-corn-pico",
+  "title": "Spicy Charred Corn Pico",
+  "summary": "Charred corn salsa with crunch, freshness, and heat for almost no fat. Charring the corn is what gives it depth.",
+  "servings": 7,
+  "servingSize": "1/2 cup",
+  "makes": "3.5 cups",
+  "prepMinutes": 10,
+  "cookMinutes": 5,
+  "costTier": 1,
+  "difficulty": 1,
+  "course": "sauce",
+  "tags": ["stovetop", "make ahead"],
+  "builds": [
+    {
+      "key": "pico",
+      "label": "Per 1/2 cup",
+      "isDefault": true,
+      "calories": 47,
+      "carbsG": 8.3,
+      "fatG": 0.4,
+      "proteinG": 1.3
+    }
+  ],
+  "nutrition": [],
+  "ingredients": [
+    {
+      "raw": "1.5 cups corn (charred in a dry hot pan or grilled, off the cob or thawed frozen)"
+    },
+    {
+      "raw": "1/2 red onion, finely diced"
+    },
+    {
+      "raw": "1 jalapeño (or serrano for more heat), minced"
+    },
+    {
+      "raw": "1 cup cherry tomatoes, quartered"
+    },
+    {
+      "raw": "Juice of 1 lime"
+    },
+    {
+      "raw": "Handful cilantro, chopped"
+    },
+    {
+      "raw": "Salt to taste"
+    }
+  ],
+  "steps": [
+    {
+      "phase": "prep",
+      "body": "Dice the red onion and mince the jalapeño. Quarter the tomatoes, juice the lime, and chop the cilantro."
+    },
+    {
+      "phase": "cook",
+      "body": "Char the corn in a dry hot pan (or grill it) until spotted dark in places.",
+      "durationMinutes": 5
+    },
+    {
+      "phase": "cook",
+      "body": "Toss the charred corn, onion, jalapeño, tomatoes, lime juice, and cilantro together and season with salt. Let it sit at least 10 min."
+    }
+  ],
+  "notes": [
+    {
+      "kind": "make_or_break",
+      "body": "**Char the corn first.** It's what gives the pico its depth"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Let it sit.** Ten minutes is enough for the lime and salt to pull the flavors together"
+    }
+  ]
+}

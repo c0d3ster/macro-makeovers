@@ -266,3 +266,61 @@ describe('recipeImportSchema', () => {
     expect(issuePaths({ ...sampleRecipe, steps: [] })).toEqual(['steps'])
   })
 })
+
+describe('recipeImportSchema courses and components', () => {
+  const twoBuilds = { ...sampleRecipe, builds: [base, loaded] }
+  const pico = { slug: 'corn-pico', amount: '1/2 cup' }
+
+  it('defaults to a main with no components', () => {
+    const parsed = recipeImportSchema.parse(sampleRecipe)
+
+    expect(parsed.course).toBe('main')
+    expect(parsed.components).toEqual([])
+  })
+
+  it('accepts a build with its own course', () => {
+    const parsed = recipeImportSchema.parse({
+      ...twoBuilds,
+      course: 'side',
+      builds: [base, { ...loaded, course: 'main' }],
+    })
+
+    expect(parsed.builds[1]?.course).toBe('main')
+  })
+
+  it('fills in one serving per serving for a component', () => {
+    const parsed = recipeImportSchema.parse({ ...sampleRecipe, components: [pico] })
+
+    expect(parsed.components).toEqual([{ ...pico, servingsPerServing: 1 }])
+  })
+
+  it('lists one component twice for different builds', () => {
+    expect(
+      issuePaths({
+        ...twoBuilds,
+        components: [
+          { ...pico, onlyBuilds: ['base'] },
+          { ...pico, amount: '3/4 cup', onlyBuilds: ['loaded'] },
+        ],
+      })
+    ).toEqual([])
+  })
+
+  it('rejects one component twice for the same build', () => {
+    expect(
+      issuePaths({ ...twoBuilds, components: [pico, { ...pico, onlyBuilds: ['loaded'] }] })
+    ).toEqual(['components.1.slug'])
+  })
+
+  it('rejects a recipe that uses itself', () => {
+    expect(
+      issuePaths({ ...sampleRecipe, components: [{ slug: sampleRecipe.slug }] })
+    ).toEqual(['components.0.slug'])
+  })
+
+  it('rejects a component scoped to an unknown build', () => {
+    expect(
+      issuePaths({ ...sampleRecipe, components: [{ ...pico, onlyBuilds: ['nope'] }] })
+    ).toEqual(['components.0.onlyBuilds'])
+  })
+})
