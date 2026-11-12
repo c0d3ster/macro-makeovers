@@ -1,4 +1,4 @@
-Each recipe heading reads like `$$ · ~40 min · ●●●○○`: cost, time, and difficulty.
+Each recipe heading reads like `$$ · ~40 min · ●●●○○`: cost, time, and difficulty. A spicy recipe adds its heat in chilis, like `🌶🌶`.
 
 ### Cost
 
@@ -23,6 +23,16 @@ Difficulty is about technique risk, not effort. A long recipe with forgiving ste
 - **3 ●●●○○:** a few components, or one spot to watch.
 - **4 ●●●●○:** several things to time together, or one technique that can fail.
 - **5 ●●●●●:** a technique where a small mistake ruins it (poached eggs and hollandaise, a thick steak, a soufflé). No recipe is a 5 yet.
+
+### Heat
+
+Heat is rated for a typical eater, and only spicy recipes get chilis. Most recipes have a dial for more, like jalapeño seeds or extra cayenne, and the rating is for the amounts as written.
+
+- **1 🌶:** mild. A little warmth most people won't notice.
+- **2 🌶🌶:** medium. Clearly spicy, like a jalapeño-forward dish.
+- **3 🌶🌶🌶:** hot. Real heat from habanero or a heavy hand of cayenne.
+- **4 🌶🌶🌶🌶:** very hot. For people who go looking for heat.
+- **5 🌶🌶🌶🌶🌶:** extra hot. The top of an Indian restaurant's scale.
 
 ### Nutrition
 

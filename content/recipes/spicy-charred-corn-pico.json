@@ -10,6 +10,7 @@
   "costTier": 1,
   "difficulty": 1,
   "course": "sauce",
+  "spiceLevel": 1,
   "tags": ["stovetop", "make ahead"],
   "builds": [
     {

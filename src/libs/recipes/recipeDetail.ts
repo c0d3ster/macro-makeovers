@@ -58,6 +58,8 @@ export type RecipeComponent = BuildScope & {
   servingsPerServing: number
   // The servings the component's own recipe makes
   servings: number
+  // 1 to 5, missing when the component is not spicy
+  spiceLevel?: number
   build: Pick<RecipeBuild, 'key' | 'label' | 'isDefault'> & MacroValues
   ingredients: RecipeIngredient[]
   steps: RecipeStep[]
@@ -80,6 +82,8 @@ export type RecipeDetail = {
   costTier: number
   difficulty: number
   course: RecipeCourse
+  // 1 to 5, missing when the dish is not spicy
+  spiceLevel?: number
   tags: string[]
   // Every build in table order
   builds: RecipeBuild[]
@@ -159,6 +163,7 @@ export type RecipeComponentRow = Positioned &
       title: string
       status: 'draft' | 'published'
       servings: number
+      spiceLevel: number | null
       builds: RecipeBuildRow[]
       ingredients: IngredientRow[]
       steps: StepRow[]
@@ -179,6 +184,7 @@ export type RecipeDetailRow = {
   costTier: number
   difficulty: number
   course: RecipeCourse
+  spiceLevel: number | null
   imageUrl: string | null
   builds: RecipeBuildRow[]
   nutrition: (Positioned &
@@ -291,6 +297,7 @@ const toRecipeComponent = (
     ...(row.noteMd ? { note: row.noteMd } : {}),
     servingsPerServing: row.servingsPerServing,
     servings: component.servings,
+    ...(component.spiceLevel ? { spiceLevel: component.spiceLevel } : {}),
     build: {
       key: build.key,
       label: build.label,
@@ -343,6 +350,7 @@ export const toRecipeDetail = (
     costTier: row.costTier,
     difficulty: row.difficulty,
     course: row.course,
+    spiceLevel: row.spiceLevel ?? undefined,
     tags: row.recipeTags.map(({ tag }) => tag.name).sort(),
     builds,
     featured,

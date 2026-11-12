@@ -29,6 +29,7 @@ import {
   formatMacroTarget,
   GOALS,
   hasBestMatch,
+  HEAT_FILTER_LABELS,
   MACRO_VALUES,
   searchParamsWithout,
   toSearchParams,
@@ -57,6 +58,7 @@ type Draft = {
   maxMinutes: string
   maxCost: string
   maxDifficulty: string
+  heat: string
   carbs: string
   fat: string
   protein: string
@@ -99,6 +101,7 @@ const toDraft = (filters: RecipeFilters): Draft => {
     maxMinutes: get('maxMinutes'),
     maxCost: get('maxCost'),
     maxDifficulty: get('maxDifficulty'),
+    heat: get('heat'),
     ...macroDraft(goal ? goal.fit : filters),
     meat: get('meat'),
     method: get('method'),
@@ -127,6 +130,7 @@ const SORT_LABELS = {
   carbs: ['Highest carbs', 'Lowest carbs'],
   fat: ['Lowest fat', 'Highest fat'],
   protein: ['Highest protein', 'Lowest protein'],
+  heat: ['Hottest', 'Mildest'],
 } as const
 
 type SortKey = keyof typeof SORT_LABELS
@@ -138,6 +142,7 @@ const OTHER_SORTS: SortKey[] = [
   'carbs',
   'fat',
   'protein',
+  'heat',
 ]
 
 const FilterIcon = (): ReactElement => (
@@ -244,6 +249,7 @@ export const FilterBar = ({
     () =>
       [
         filters.maxCalories,
+        filters.heat,
         filters.meat,
         filters.method,
         filters.dish,
@@ -628,6 +634,19 @@ export const FilterBar = ({
                 )}
                 value={draft.maxCalories}
                 onChange={(maxCalories) => update({ maxCalories })}
+              />
+              <FilterSelect
+                label='Heat'
+                inlineFromLg
+                options={withOff(
+                  'heat',
+                  FACET_VALUES.heat.map((value) => ({
+                    value,
+                    label: HEAT_FILTER_LABELS[value],
+                  }))
+                )}
+                value={draft.heat}
+                onChange={(heat) => update({ heat })}
               />
               <FilterSelect
                 label='Meat'

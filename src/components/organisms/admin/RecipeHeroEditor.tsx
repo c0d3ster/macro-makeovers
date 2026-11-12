@@ -6,6 +6,7 @@ import { useController, useWatch } from 'react-hook-form'
 
 import type { PhotoResponse } from '@/validations'
 
+import { ChiliIcon } from '@/components/atoms'
 import {
   InlineInput,
   InlineTextarea,
@@ -67,6 +68,10 @@ const difficultySymbol = (isLit: boolean): ReactElement => (
   />
 )
 
+const spiceSymbol = (isLit: boolean): ReactElement => (
+  <ChiliIcon isDimmed={!isLit} />
+)
+
 // The top of the recipe page with its text as fields. Calories and the macro bar are worked out
 // from the nutrition table below, and update while it is edited.
 export const RecipeHeroEditor = ({
@@ -83,6 +88,7 @@ export const RecipeHeroEditor = ({
   } = useRecipeForm()
   const cost = useController({ control, name: 'costTier' })
   const difficulty = useController({ control, name: 'difficulty' })
+  const spice = useController({ control, name: 'spiceLevel' })
   const tags = useController({ control, name: 'tags' })
   const prepMinutes = useWatch({ control, name: 'prepMinutes' })
   const cookMinutes = useWatch({ control, name: 'cookMinutes' })
@@ -174,6 +180,14 @@ export const RecipeHeroEditor = ({
           onChange={difficulty.field.onChange}
           renderSymbol={difficultySymbol}
           error={errors.difficulty?.message}
+        />
+        <ScalePicker
+          label='Heat'
+          value={spice.field.value}
+          onChange={spice.field.onChange}
+          onClear={() => spice.field.onChange(undefined)}
+          renderSymbol={spiceSymbol}
+          error={errors.spiceLevel?.message}
         />
       </div>
 

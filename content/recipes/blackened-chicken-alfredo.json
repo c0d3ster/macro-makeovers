@@ -7,6 +7,7 @@
   "cookMinutes": 25,
   "costTier": 1,
   "difficulty": 4,
+  "spiceLevel": 1,
   "builds": [
     {
       "key": "makeover",

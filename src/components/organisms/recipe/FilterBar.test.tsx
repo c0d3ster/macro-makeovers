@@ -94,6 +94,7 @@ describe('FilterBar', () => {
       'Highest carbs',
       'Lowest fat',
       'Highest protein',
+      'Hottest',
     ])
   })
 
