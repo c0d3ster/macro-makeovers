@@ -29,6 +29,8 @@ returned diff and only retry with overwrite once the user agrees.
 - `slug` is lowercase words joined by hyphens, like `blackened-chicken-alfredo`.
 - `costTier` and `difficulty` are whole numbers from 1 to 5. `servings`, `prepMinutes`, and
   `cookMinutes` are whole numbers.
+- `spiceLevel` is optional, 1 to 5, for a typical eater: 1 mild, 2 medium, 3 hot, 4 very hot,
+  5 extra hot. Leave it out when the dish is not spicy. It is set on the recipe, not on builds.
 - `builds` are the versions of the recipe, one per nutrition table row, per serving. Include at
   least one. Each has a `key` (lowercase words joined by hyphens, like `rice-bowl`), a `label`, and
   `calories`, `carbsG`, `fatG`, and `proteinG`. Mark exactly one `isDefault: true`. Set

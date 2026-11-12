@@ -162,6 +162,11 @@ export const recipeImportSchema = z
     cookMinutes: minutes,
     costTier: tier,
     difficulty: tier,
+    spiceLevel: tier
+      .optional()
+      .describe(
+        'Heat for a typical eater: 1 mild, 2 medium, 3 hot, 4 very hot, 5 extra hot. Leave out when the dish is not spicy.'
+      ),
     // Slug of the recipe this one is a variant of. The base must already exist.
     variantOf: recipeSlugSchema.optional(),
     tags: z.array(tagName),

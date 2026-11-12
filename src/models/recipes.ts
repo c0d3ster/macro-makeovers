@@ -42,6 +42,8 @@ export const recipes = pgTable('recipes', {
   cookMinutes: integer('cook_minutes').notNull(),
   costTier: smallint('cost_tier').notNull(),
   difficulty: smallint('difficulty').notNull(),
+  // 1 to 5. Null means not spicy.
+  spiceLevel: smallint('spice_level'),
   status: recipeStatusEnum('status').notNull().default('draft'),
   access: recipeAccessEnum('access').notNull().default('free'),
   imageUrl: text('image_url'),

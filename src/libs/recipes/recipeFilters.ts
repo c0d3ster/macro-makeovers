@@ -18,7 +18,32 @@ const RECIPE_SORTS = [
   'carbs',
   'fat',
   'protein',
+  'heat',
 ] as const
+
+// The heat filter's choices. "none" is no chilis at all, "le" is that level or milder (unrated
+// counts as zero), and "ge" is that level or hotter.
+export const HEAT_FILTERS = ['none', 'le1', 'le2', 'ge1', 'ge3'] as const
+export type HeatFilter = (typeof HEAT_FILTERS)[number]
+
+export const HEAT_FILTER_LABELS: Record<HeatFilter, string> = {
+  none: 'No heat',
+  le1: 'Mild at most',
+  le2: 'Medium at most',
+  ge1: 'Spicy only',
+  ge3: 'Hot and up',
+}
+
+const HEAT_BOUNDS: Record<HeatFilter, { min: number; max: number }> = {
+  none: { min: 0, max: 0 },
+  le1: { min: 0, max: 1 },
+  le2: { min: 0, max: 2 },
+  ge1: { min: 1, max: Number.POSITIVE_INFINITY },
+  ge3: { min: 3, max: Number.POSITIVE_INFINITY },
+}
+
+export const toHeatFilter = (value: string | undefined): HeatFilter | undefined =>
+  HEAT_FILTERS.find((filter) => filter === value)
 
 // Tag groups with their own picker. Each holds one tag name per recipe filter.
 export const TAG_FACETS = ['meat', 'method', 'dish', 'goodFor'] as const
@@ -39,6 +64,7 @@ export type RecipeFilters = {
   maxMinutes?: number
   maxCostTier?: number
   maxDifficulty?: number
+  heat?: HeatFilter
   // Macro targets set by hand. They rank and tag recipes, and never hide any.
   carbs?: MacroTarget
   fat?: MacroTarget
@@ -106,6 +132,7 @@ export const parseRecipeFilters = (params: SearchParams): RecipeFilters => {
     maxMinutes: toLimit(params.maxMinutes),
     maxCostTier: toLimit(params.maxCost, COST_TIER_RANGE),
     maxDifficulty: toLimit(params.maxDifficulty, DIFFICULTY_RANGE),
+    heat: toHeatFilter(firstValue(params.heat)),
     carbs: parseMacroTarget(firstValue(params.carbs)),
     fat: parseMacroTarget(firstValue(params.fat)),
     protein: parseMacroTarget(firstValue(params.protein)),
@@ -151,14 +178,20 @@ const matchesText = (recipe: RecipeCard, q: string): boolean => {
 const hasTag = (recipe: RecipeCard, name: string | undefined): boolean =>
   !name || recipe.tags.some((tag) => tag.toLowerCase() === name)
 
+const withinHeat = (
+  level: number,
+  { min, max }: { min: number; max: number }
+): boolean => level >= min && level <= max
+
 const withinLimits = (
   recipe: RecipeCard,
-  { maxCalories, maxMinutes, maxCostTier, maxDifficulty }: FilterFields
+  { maxCalories, maxMinutes, maxCostTier, maxDifficulty, heat }: FilterFields
 ): boolean =>
   (maxCalories === undefined || recipe.calories <= maxCalories) &&
   (maxMinutes === undefined || recipe.totalMinutes <= maxMinutes) &&
   (maxCostTier === undefined || recipe.costTier <= maxCostTier) &&
-  (maxDifficulty === undefined || recipe.difficulty <= maxDifficulty)
+  (maxDifficulty === undefined || recipe.difficulty <= maxDifficulty) &&
+  (heat === undefined || withinHeat(recipe.spiceLevel ?? 0, HEAT_BOUNDS[heat]))
 
 // An ingredient line that matched the search, with the builds it belongs to
 export type IngredientMatch = BuildScope & { slug: string }
@@ -205,6 +238,8 @@ const SORTERS: Record<
   calories: (a, b) => a.calories - b.calories,
   time: (a, b) => a.totalMinutes - b.totalMinutes,
   cost: (a, b) => a.costTier - b.costTier,
+  // Hottest first, with recipes that are not spicy last
+  heat: (a, b) => (b.spiceLevel ?? 0) - (a.spiceLevel ?? 0),
   // Macro sorts use the same rounded shares as the cards. Fat runs lowest first, and carbs and
   // protein run highest first, which is what each is most often sorted for.
   carbs: (a, b) => recipeMacroPercents(b).carbs - recipeMacroPercents(a).carbs,

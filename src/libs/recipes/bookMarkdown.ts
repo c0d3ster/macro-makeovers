@@ -2,6 +2,7 @@ import type { RecipeImport } from '@/validations'
 
 import { formatMacroRatios } from './macroRatios'
 import { buildTitle } from './recipeBuilds'
+import { CHILI_MARK } from './spiceLevels'
 
 type Build = RecipeImport['builds'][number]
 type Note = RecipeImport['notes'][number]
@@ -280,6 +281,8 @@ const recipeSection = (book: BookRecipe): string => {
     '$'.repeat(recipe.costTier),
     `~${recipe.prepMinutes + recipe.cookMinutes} min`,
     stars(recipe.difficulty, '●') + stars(5 - recipe.difficulty, '○'),
+    // Heat only shows on a spicy recipe
+    ...(recipe.spiceLevel ? [stars(recipe.spiceLevel, CHILI_MARK)] : []),
   ].join(' · ')
   const nutritionNotes = (kind: Note['kind']): string[] =>
     recipe.notes

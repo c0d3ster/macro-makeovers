@@ -39,6 +39,7 @@ const row: RecipeDetailRow = {
   cookMinutes: 55,
   costTier: 2,
   difficulty: 3,
+  spiceLevel: 2,
   imageUrl: null,
   builds: [
     buildRow({
@@ -120,6 +121,13 @@ const row: RecipeDetailRow = {
 
 describe('toRecipeDetail', () => {
   const detail = toRecipeDetail(row, { variants: [] })
+
+  it('carries the spice level, and leaves it off a recipe that is not spicy', () => {
+    expect(detail?.spiceLevel).toBe(2)
+    expect(
+      toRecipeDetail({ ...row, spiceLevel: null }, { variants: [] })?.spiceLevel
+    ).toBeUndefined()
+  })
 
   it('orders children by position', () => {
     expect(detail?.builds.map(({ key }) => key)).toEqual(['standard', 'beef'])

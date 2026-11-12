@@ -426,6 +426,56 @@ describe('macro sorts and reversing', () => {
   })
 })
 
+describe('heat', () => {
+  const heat = [
+    card({ slug: 'plain', title: 'Plain' }),
+    card({ slug: 'mild', title: 'Mild', spiceLevel: 1 }),
+    card({ slug: 'medium', title: 'Medium', spiceLevel: 2 }),
+    card({ slug: 'hot', title: 'Hot', spiceLevel: 3 }),
+    card({ slug: 'fire', title: 'Fire', spiceLevel: 5 }),
+  ]
+  const found = (params: Record<string, string>): string[] =>
+    slugs(filterRecipes(heat, parseRecipeFilters(params))).sort()
+
+  it('keeps only recipes with no chilis for no heat', () => {
+    expect(found({ heat: 'none' })).toEqual(['plain'])
+  })
+
+  it('counts a recipe that is not spicy as milder than any level', () => {
+    expect(found({ heat: 'le1' })).toEqual(['mild', 'plain'])
+    expect(found({ heat: 'le2' })).toEqual(['medium', 'mild', 'plain'])
+  })
+
+  it('keeps only spicy recipes from a minimum up', () => {
+    expect(found({ heat: 'ge1' })).toEqual(['fire', 'hot', 'medium', 'mild'])
+    expect(found({ heat: 'ge3' })).toEqual(['fire', 'hot'])
+  })
+
+  it('ignores an unknown heat value', () => {
+    expect(parseRecipeFilters({ heat: 'ge9' }).heat).toBeUndefined()
+  })
+
+  it('sorts hottest first, with recipes that are not spicy last', () => {
+    const sorted = (params: Record<string, string>): string[] =>
+      slugs(filterRecipes(heat, parseRecipeFilters(params)))
+
+    expect(sorted({ sort: 'heat' })).toEqual([
+      'fire',
+      'hot',
+      'medium',
+      'mild',
+      'plain',
+    ])
+    expect(sorted({ sort: 'heat', reverse: '1' })).toEqual([
+      'plain',
+      'mild',
+      'medium',
+      'hot',
+      'fire',
+    ])
+  })
+})
+
 describe('collectTags', () => {
   it('returns each tag once, A to Z', () => {
     expect(collectTags(recipes)).toEqual([

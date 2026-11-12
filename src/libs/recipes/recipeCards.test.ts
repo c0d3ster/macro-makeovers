@@ -37,6 +37,7 @@ const row: RecipeCardRow = {
   cookMinutes: 55,
   costTier: 1,
   difficulty: 2,
+  spiceLevel: null,
   imageUrl: null,
   builds: [
     buildRow(),

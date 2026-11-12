@@ -7,6 +7,7 @@
   "cookMinutes": 25,
   "costTier": 2,
   "difficulty": 4,
+  "spiceLevel": 3,
   "builds": [
     {
       "key": "plate-chicken-sides-ranch",

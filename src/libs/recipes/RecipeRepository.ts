@@ -209,6 +209,7 @@ const readSnapshot = async (
     costTier: recipe.costTier,
     variantOf: base?.slug,
     difficulty: recipe.difficulty,
+    spiceLevel: recipe.spiceLevel,
     tags: tagRows.map(({ name }) => name).sort(),
     builds: buildRows.map((row) =>
       withoutNulls({
@@ -401,6 +402,7 @@ const variantFields = (recipe: RecipeImport, variantOf: string | null) => ({
   cookMinutes: recipe.cookMinutes,
   costTier: recipe.costTier,
   difficulty: recipe.difficulty,
+  spiceLevel: recipe.spiceLevel ?? null,
   variantOf,
 })
 

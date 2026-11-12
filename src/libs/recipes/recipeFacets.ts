@@ -6,7 +6,14 @@ import type {
 } from './recipeFilters'
 import type { MacroTarget } from './recipeMacros'
 
-import { collectTags, defaultSort, filterRecipes } from './recipeFilters'
+import {
+  collectTags,
+  defaultSort,
+  filterRecipes,
+  HEAT_FILTER_LABELS,
+  HEAT_FILTERS,
+  toHeatFilter,
+} from './recipeFilters'
 import { GOALS } from './recipeGoals'
 import { formatMacroTarget } from './recipeMacros'
 
@@ -51,6 +58,7 @@ export type FacetKey =
   | 'maxMinutes'
   | 'maxCost'
   | 'maxDifficulty'
+  | 'heat'
   | TagFacet
 
 export type UnavailableOptions = Partial<Record<FacetKey, string[]>>
@@ -61,6 +69,7 @@ export const FACET_VALUES = {
   maxMinutes: ['30', '45', '60', '90'],
   maxCost: ['1', '2', '3', '4', '5'],
   maxDifficulty: ['1', '2', '3', '4', '5'],
+  heat: [...HEAT_FILTERS],
 }
 
 // The macro dropdowns' choices: "35" is near 35, "le35" is 35 or less, "ge45" is 45 or more
@@ -81,6 +90,7 @@ const APPLIERS: Record<
     ...filters,
     maxDifficulty: Number(value),
   }),
+  heat: (filters, value) => ({ ...filters, heat: toHeatFilter(value) }),
   meat: (filters, value) => ({ ...filters, meat: value }),
   method: (filters, value) => ({ ...filters, method: value }),
   dish: (filters, value) => ({ ...filters, dish: value }),
@@ -106,6 +116,7 @@ export const toSearchParams = (filters: RecipeFilters): URLSearchParams => {
     ['maxMinutes', numberParam(filters.maxMinutes)],
     ['maxCost', numberParam(filters.maxCostTier)],
     ['maxDifficulty', numberParam(filters.maxDifficulty)],
+    ['heat', filters.heat],
     ['goal', filters.goal],
     // A goal supplies its own targets, so hand-set macros only travel without one
     ['carbs', filters.goal ? undefined : targetParam(filters.carbs)],
@@ -179,6 +190,9 @@ export const describeFilters = (filters: RecipeFilters): FilterChip[] => {
     add('maxDifficulty', `Difficulty up to ${filters.maxDifficulty}`, [
       'maxDifficulty',
     ])
+  }
+  if (filters.heat !== undefined) {
+    add('heat', HEAT_FILTER_LABELS[filters.heat], ['heat'])
   }
   const tags: [TagFacet, string | undefined][] = [
     ['meat', filters.meat],

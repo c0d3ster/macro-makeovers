@@ -9,7 +9,14 @@ import type { BookRecipe } from '@/libs/recipes'
 import type { RecipeImport } from '@/validations'
 
 import { closeDb } from '@/libs/DB'
-import { renderBookMarkdown, toMacroRatios } from '@/libs/recipes'
+import {
+  CHILI_MARK,
+  CHILI_POD_PATH,
+  CHILI_STEM_PATH,
+  renderBookMarkdown,
+  spiceLabel,
+  toMacroRatios,
+} from '@/libs/recipes'
 
 import { photoKeyFor, RECIPE_HEADING } from './bookPhotos'
 import {
@@ -55,6 +62,8 @@ const STYLES = `
   hr { display: none; }
   .recipe-start, #how-to-read-the-recipes { break-before: page; }
   h2.recipe-start { display: flex; justify-content: space-between; align-items: center; gap: 12pt; margin-top: 0; }
+  .heat { display: inline-flex; vertical-align: -0.15em; }
+  .heat .chili { width: 1em; height: 1em; margin: 0 -0.05em; }
   .pill { flex: none; font-size: 9pt; font-weight: normal; padding: 4pt 10pt; border-radius: 12pt; background: #efeedd; border: 1px solid #d8d6bc; color: #444; }
   .hero { display: flex; gap: 0.25in; align-items: stretch; margin: 0.1in 0 0.14in; break-inside: avoid; }
   .hero-text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 9pt; }
@@ -170,6 +179,15 @@ const statsHtml = ({ servings, featured, original }: Stats): string => {
   )
 }
 
+// Heat runs (in the heading pills and the reading guide) as drawn chilis, so the PDF never
+// depends on an emoji font
+const CHILI_SVG = `<svg class="chili" viewBox="0 0 24 24" aria-hidden="true"><path d="${CHILI_POD_PATH}" fill="#c9523a"/><path d="${CHILI_STEM_PATH}" fill="none" stroke="#688c60" stroke-width="1.8" stroke-linecap="round"/></svg>`
+const withChilis = (html: string): string =>
+  html.replace(new RegExp(`(?:${CHILI_MARK})+`, 'gu'), (run) => {
+    const level = [...run].length
+    return `<span class="heat" title="${spiceLabel(level)} heat">${CHILI_SVG.repeat(level)}</span>`
+  })
+
 // Pandoc renders the heading as plain text. Split the "| $$ · ~35 min · ●●●○○" tail into a pill,
 // mark the heading so each recipe starts on a new page, and build the two-column opener like the
 // recipe page: the intro and stats on the left, the photo on the right. The servings count lives in
@@ -230,7 +248,7 @@ const renderHtml = (markdown: string, stats: Stats[]): string => {
   return `<!doctype html>
 <html lang="en">
 <head><meta charset="utf-8"><title>Macro Makeovers</title><style>${STYLES}</style></head>
-<body>${columnIngredients(layoutRecipes(body, stats))}</body>
+<body>${withChilis(columnIngredients(layoutRecipes(body, stats)))}</body>
 </html>`
 }
 

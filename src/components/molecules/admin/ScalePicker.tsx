@@ -11,6 +11,8 @@ type ScalePickerProps = {
   // Draws one step of the scale, lit or dimmed
   renderSymbol: (isLit: boolean) => ReactNode
   max?: number
+  // For an optional rating: adds a "None" step before the scale that clears the value
+  onClear?: () => void
   error?: string
 }
 
@@ -22,6 +24,7 @@ export const ScalePicker = ({
   onChange,
   renderSymbol,
   max = 5,
+  onClear,
   error,
 }: ScalePickerProps): ReactElement => {
   const name = useId()
@@ -38,6 +41,19 @@ export const ScalePicker = ({
           aria-label={label}
           className='flex items-center'
         >
+          {onClear && (
+            <label className='mr-1 flex h-6 cursor-pointer items-center rounded px-1 text-xs has-checked:text-text has-focus-visible:ring-2 has-focus-visible:ring-primary'>
+              <input
+                type='radio'
+                name={name}
+                aria-label={`${label} none`}
+                checked={value === undefined}
+                onChange={onClear}
+                className='sr-only'
+              />
+              None
+            </label>
+          )}
           {steps.map((step) => (
             <label
               key={step}

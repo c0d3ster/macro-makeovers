@@ -56,6 +56,8 @@ export type RecipeDetail = {
   totalMinutes: number
   costTier: number
   difficulty: number
+  // 1 to 5, missing when the dish is not spicy
+  spiceLevel?: number
   tags: string[]
   // Every build in table order
   builds: RecipeBuild[]
@@ -115,6 +117,7 @@ export type RecipeDetailRow = {
   cookMinutes: number
   costTier: number
   difficulty: number
+  spiceLevel: number | null
   imageUrl: string | null
   builds: RecipeBuildRow[]
   nutrition: (Positioned &
@@ -218,6 +221,7 @@ export const toRecipeDetail = (
     totalMinutes: row.prepMinutes + row.cookMinutes,
     costTier: row.costTier,
     difficulty: row.difficulty,
+    spiceLevel: row.spiceLevel ?? undefined,
     tags: row.recipeTags.map(({ tag }) => tag.name).sort(),
     builds,
     featured,

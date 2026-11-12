@@ -43,6 +43,8 @@ export type BuildFallbacks = {
   imageUrl?: string
   costTier: number
   difficulty: number
+  // 1 to 5, missing when the dish is not spicy. Set on the recipe only, so every build shares it.
+  spiceLevel?: number
   prepMinutes: number
   cookMinutes: number
   tags: string[]
@@ -131,6 +133,7 @@ export const resolveBuild = (
     imageUrl: build.imageUrl ?? recipe.imageUrl,
     costTier: build.costTier ?? recipe.costTier,
     difficulty: build.difficulty ?? recipe.difficulty,
+    spiceLevel: recipe.spiceLevel,
     prepMinutes,
     cookMinutes,
     totalMinutes: prepMinutes + cookMinutes,

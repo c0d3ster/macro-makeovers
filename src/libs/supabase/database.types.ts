@@ -331,6 +331,7 @@ export type Database = {
           search: unknown
           servings: number
           slug: string
+          spice_level: number | null
           status: Database['public']['Enums']['recipe_status']
           summary: string
           title: string
@@ -351,6 +352,7 @@ export type Database = {
           search?: never
           servings: number
           slug: string
+          spice_level?: number | null
           status?: Database['public']['Enums']['recipe_status']
           summary: string
           title: string
@@ -370,6 +372,7 @@ export type Database = {
           search?: never
           servings?: number
           slug?: string
+          spice_level?: number | null
           status?: Database['public']['Enums']['recipe_status']
           summary?: string
           title?: string

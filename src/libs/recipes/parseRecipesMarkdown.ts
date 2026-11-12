@@ -1,5 +1,7 @@
 import type { RecipeImportInput } from '@/validations'
 
+import { CHILI_MARK } from './spiceLevels'
+
 type Nutrition = NonNullable<RecipeImportInput['nutrition']>[number]
 type Ingredient = RecipeImportInput['ingredients'][number]
 type Step = RecipeImportInput['steps'][number]
@@ -336,6 +338,9 @@ const parseRecipe = (
     cookMinutes: method.cookMinutes,
     costTier: (meta.match(/\$/g) ?? []).length,
     difficulty: (meta.match(/●/g) ?? []).length,
+    ...(meta.includes(CHILI_MARK)
+      ? { spiceLevel: meta.split(CHILI_MARK).length - 1 }
+      : {}),
     nutrition: parseNutrition(
       sectionByPrefix(sections, 'nutrition'),
       quick,

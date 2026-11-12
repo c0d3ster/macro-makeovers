@@ -3,15 +3,36 @@ import type { ReactElement, ReactNode } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 
-import { DifficultyDots } from '@/components/atoms/recipe'
+import { DifficultyDots, SpiceLevel } from '@/components/atoms/recipe'
+import { CHILI_MARK } from '@/libs/recipes/spiceLevels'
 
 type ProseProps = {
   children: string
 }
 
-// The content files write difficulty as ●●●○○. Those glyphs come from fallback fonts at uneven
-// sizes, so each run is drawn with the same dots the recipe pages use.
-const DOT_RUN = /([●○]{5})/
+// The content files write difficulty as ●●●○○ and heat as 🌶🌶. Those glyphs come from fallback
+// fonts at uneven sizes, so each run is drawn with the same marks the recipe pages use.
+const DOT_RUN = /^[●○]{5}$/
+const CHILI_RUN = new RegExp(`^(?:${CHILI_MARK})+$`, 'u')
+const MARK_RUN = new RegExp(`([●○]{5}|(?:${CHILI_MARK})+)`, 'u')
+
+const markFor = (part: string, offset: number): ReactNode => {
+  if (DOT_RUN.test(part)) {
+    return (
+      <span key={`dots-${offset}`} className='mx-0.5 inline-block align-middle'>
+        <DifficultyDots level={part.split('●').length - 1} />
+      </span>
+    )
+  }
+  if (CHILI_RUN.test(part)) {
+    return (
+      <span key={`heat-${offset}`} className='mx-0.5 inline-block align-middle'>
+        <SpiceLevel level={[...part].length} />
+      </span>
+    )
+  }
+  return part
+}
 
 type DotParts = {
   nodes: ReactNode[]
@@ -20,18 +41,9 @@ type DotParts = {
 
 // Each run is keyed by where it starts in the text
 const splitDots = (text: string): ReactNode[] =>
-  text.split(DOT_RUN).reduce<DotParts>(
+  text.split(MARK_RUN).reduce<DotParts>(
     ({ nodes, offset }, part) => ({
-      nodes: [
-        ...nodes,
-        DOT_RUN.test(part) ? (
-          <span key={`dots-${offset}`} className='mx-0.5 inline-block align-middle'>
-            <DifficultyDots level={part.split('●').length - 1} />
-          </span>
-        ) : (
-          part
-        ),
-      ],
+      nodes: [...nodes, markFor(part, offset)],
       offset: offset + part.length,
     }),
     { nodes: [], offset: 0 }
