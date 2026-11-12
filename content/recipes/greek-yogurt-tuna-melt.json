@@ -1,6 +1,6 @@
 {
   "slug": "greek-yogurt-tuna-melt",
-  "title": "Greek Yogurt Tuna Melt",
+  "title": "Broiled Tuna Melt",
   "summary": "Mayo swapped for nonfat Greek yogurt: roughly 10g less fat per tablespoon replaced, plus protein instead of none. Cold application, so yogurt is right here (cottage cheese is for hot sauces). The salad batches ahead for leftover lunches and doubles as an omega-3 source. One serving of the salad goes on each melt.",
   "servings": 4,
   "prepMinutes": 10,
@@ -9,7 +9,7 @@
   "difficulty": 2,
   "builds": [
     {
-      "key": "hoagie",
+      "key": "melt-on-hoagie-roll-default",
       "label": "Melt on hoagie roll (default)",
       "isDefault": true,
       "calories": 485,
@@ -18,7 +18,7 @@
       "proteinG": 41
     },
     {
-      "key": "sourdough",
+      "key": "melt-on-sourdough",
       "label": "Melt on sourdough",
       "isDefault": false,
       "calories": 415,
@@ -27,7 +27,7 @@
       "proteinG": 40
     },
     {
-      "key": "cold",
+      "key": "cold-sandwich-whole-wheat",
       "label": "Cold sandwich, whole wheat",
       "isDefault": false,
       "calories": 345,
@@ -36,7 +36,7 @@
       "proteinG": 36
     },
     {
-      "key": "salad",
+      "key": "salad-only-1-serving",
       "label": "Salad only (1 serving)",
       "isDefault": false,
       "listed": false,
@@ -82,20 +82,24 @@
       "raw": "Juice of 1/2 lemon"
     },
     {
-      "group": "Per sandwich (pick a build)",
-      "raw": "Hoagie melt (default): 1 hoagie roll + 1 slice provolone (~0.75 oz), cut in half and overlapped + ~1/2 tsp olive oil to brush the top (2 tsp covers the batch of 4)"
+      "group": "Per sandwich",
+      "raw": "1 hoagie roll + 1 slice provolone (~0.75 oz), cut in half and overlapped + ~1/2 tsp olive oil to brush the top (2 tsp covers the batch of 4)",
+      "onlyBuilds": ["melt-on-hoagie-roll-default"]
     },
     {
-      "group": "Per sandwich (pick a build)",
-      "raw": "Sourdough melt: 2 slices sourdough + 1 slice provolone (~0.75 oz), half on each slice"
+      "group": "Per sandwich",
+      "raw": "2 slices sourdough + 1 slice provolone (~0.75 oz), half on each slice",
+      "onlyBuilds": ["melt-on-sourdough"]
     },
     {
-      "group": "Per sandwich (pick a build)",
-      "raw": "Cold: 2 slices whole wheat, no cheese"
+      "group": "Per sandwich",
+      "raw": "2 slices whole wheat, no cheese",
+      "onlyBuilds": ["cold-sandwich-whole-wheat"]
     },
     {
-      "group": "Per sandwich (pick a build)",
-      "raw": "Plus 1 serving tuna salad"
+      "group": "Per sandwich",
+      "raw": "1 serving tuna salad",
+      "skipBuilds": ["salad-only-1-serving"]
     },
     {
       "group": "Spice mix (for the salad)",
@@ -113,7 +117,8 @@
     },
     {
       "phase": "prep",
-      "body": "Cut the provolone in half if building the hoagie melt."
+      "body": "Cut the provolone slices in half.",
+      "onlyBuilds": ["melt-on-hoagie-roll-default"]
     },
     {
       "phase": "cook",
@@ -121,11 +126,23 @@
     },
     {
       "phase": "cook",
-      "body": "**Build it in the roll.** Split the hoagie along one side but keep it hinged, not flattened open. Lightly brush just the top of the roll with olive oil. That's the surface facing the element, and lean bread scorches there before the cheese crisps; the oil browns it evenly instead. Fill with tuna salad. Lay the two halved provolone pieces over the top with an overlap down the middle, where the filling is deepest."
+      "body": "**Build it in the roll.** Split the hoagie along one side but keep it hinged, not flattened open. Lightly brush just the top of the roll with olive oil. That's the surface facing the element, and lean bread scorches there before the cheese crisps; the oil browns it evenly instead. Fill with tuna salad. Lay the two halved provolone pieces over the top with an overlap down the middle, where the filling is deepest.",
+      "onlyBuilds": ["melt-on-hoagie-roll-default"]
     },
     {
       "phase": "cook",
-      "body": "**Broil** a few inches from the element until the cheese bubbles, then browns and crisps. Watch it the whole time; it goes from melted to burnt fast.\n\n_Sourdough version:_ broil it open-faced across both slices — tuna salad plus half the cheese on one slice, the other half of the cheese on the second slice — then close them together after they come out. No oil brush needed; sourdough browns more forgivingly than a lean hoagie roll."
+      "body": "**Broil** a few inches from the element until the cheese bubbles, then browns and crisps. Watch it the whole time; it goes from melted to burnt fast.",
+      "onlyBuilds": ["melt-on-hoagie-roll-default"]
+    },
+    {
+      "phase": "cook",
+      "onlyBuilds": ["melt-on-sourdough"],
+      "body": "**Broil it open-faced** across both slices: tuna salad plus half the cheese on one slice, the other half of the cheese on the second slice. Broil a few inches from the element until the cheese bubbles and browns, watching it the whole time, then close them together. No oil brush needed; sourdough browns more forgivingly than a lean hoagie roll."
+    },
+    {
+      "phase": "cook",
+      "onlyBuilds": ["cold-sandwich-whole-wheat"],
+      "body": "Spread a serving of the tuna salad on one slice of whole wheat and close the sandwich. No broiling."
     }
   ],
   "notes": [
@@ -139,11 +156,13 @@
     },
     {
       "kind": "make_or_break",
-      "body": "**Broiler heat is what crisps the cheese.** Direct top heat browns and crisps the surface; melting it any other way just leaves it soft. Keeping the hoagie hinged instead of flattened means less surface to cover, so a single slice halved and overlapped runs the length of the roll with a double layer through the middle"
+      "body": "**Broiler heat is what crisps the cheese.** Direct top heat browns and crisps the surface; melting it any other way just leaves it soft. Keeping the hoagie hinged instead of flattened means less surface to cover, so a single slice halved and overlapped runs the length of the roll with a double layer through the middle",
+      "onlyBuilds": ["melt-on-hoagie-roll-default", "melt-on-sourdough"]
     },
     {
       "kind": "make_or_break",
-      "body": "**A light oil brush keeps the roll from burning.** Lean hoagie bread scorches under the broiler before the cheese crisps; ~1/2 tsp olive oil brushed on just the top browns it evenly and conducts heat so the two finish together. Sourdough browns more forgivingly and doesn't need it"
+      "body": "**A light oil brush keeps the roll from burning.** Lean hoagie bread scorches under the broiler before the cheese crisps; ~1/2 tsp olive oil brushed on just the top browns it evenly and conducts heat so the two finish together. Sourdough browns more forgivingly and doesn't need it",
+      "onlyBuilds": ["melt-on-hoagie-roll-default", "melt-on-sourdough"]
     },
     {
       "kind": "make_or_break",

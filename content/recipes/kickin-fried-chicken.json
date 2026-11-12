@@ -9,7 +9,7 @@
   "difficulty": 4,
   "builds": [
     {
-      "key": "plate",
+      "key": "plate-chicken-sides-ranch",
       "label": "Plate (chicken + sides + ranch)",
       "isDefault": true,
       "calories": 605,
@@ -18,14 +18,13 @@
       "proteinG": 45
     },
     {
-      "key": "chicken",
-      "label": "Chicken only",
+      "key": "chicken-only",
+      "label": "Chicken + ranch",
       "isDefault": false,
-      "listed": false,
-      "calories": 255,
-      "carbsG": 16,
+      "calories": 270,
+      "carbsG": 18,
       "fatG": 6,
-      "proteinG": 33
+      "proteinG": 35
     }
   ],
   "nutrition": [
@@ -61,47 +60,58 @@
     },
     {
       "group": "Mashed potatoes & gravy",
-      "raw": "2 lb Yukon gold potatoes (5–6 medium), scrubbed, skin on, diced"
+      "raw": "2 lb Yukon gold potatoes (5–6 medium), scrubbed, skin on, diced",
+      "onlyBuilds": ["plate-chicken-sides-ranch"]
     },
     {
       "group": "Mashed potatoes & gravy",
-      "raw": "4 cloves garlic, minced"
+      "raw": "4 cloves garlic, minced",
+      "onlyBuilds": ["plate-chicken-sides-ranch"]
     },
     {
       "group": "Mashed potatoes & gravy",
-      "raw": "1/2 onion, diced"
+      "raw": "1/2 onion, diced",
+      "onlyBuilds": ["plate-chicken-sides-ranch"]
     },
     {
       "group": "Mashed potatoes & gravy",
-      "raw": "1/2 cup warm milk (skim is fine since the richness comes from the butter and yogurt, not the milk; 2% works too for a touch more)"
+      "raw": "1/2 cup warm milk (skim is fine since the richness comes from the butter and yogurt, not the milk; 2% works too for a touch more)",
+      "onlyBuilds": ["plate-chicken-sides-ranch"]
     },
     {
       "group": "Mashed potatoes & gravy",
-      "raw": "1/3 cup nonfat Greek yogurt"
+      "raw": "1/3 cup nonfat Greek yogurt",
+      "onlyBuilds": ["plate-chicken-sides-ranch"]
     },
     {
       "group": "Mashed potatoes & gravy",
-      "raw": "4 tbsp butter (2 tsp for the corn, 1 tsp for the garlic, 1 tsp for the onion, the rest for the mash)"
+      "raw": "4 tbsp butter (2 tsp for the corn, 1 tsp for the garlic, 1 tsp for the onion, the rest for the mash)",
+      "onlyBuilds": ["plate-chicken-sides-ranch"]
     },
     {
       "group": "Mashed potatoes & gravy",
-      "raw": "2 tbsp cornstarch (for the gravy slurry)"
+      "raw": "2 tbsp cornstarch (for the gravy slurry)",
+      "onlyBuilds": ["plate-chicken-sides-ranch"]
     },
     {
       "group": "Mashed potatoes & gravy",
-      "raw": "1.5 cups low-sodium chicken broth"
+      "raw": "1.5 cups low-sodium chicken broth",
+      "onlyBuilds": ["plate-chicken-sides-ranch"]
     },
     {
       "group": "Mashed potatoes & gravy",
-      "raw": "Salt, pepper"
+      "raw": "Salt, pepper",
+      "onlyBuilds": ["plate-chicken-sides-ranch"]
     },
     {
       "group": "Corn",
-      "raw": "1 can (15oz) corn, drained"
+      "raw": "1 can (15oz) corn, drained",
+      "onlyBuilds": ["plate-chicken-sides-ranch"]
     },
     {
       "group": "Corn",
-      "raw": "Salt"
+      "raw": "Salt",
+      "onlyBuilds": ["plate-chicken-sides-ranch"]
     },
     {
       "group": "Kickin' ranch",
@@ -113,7 +123,13 @@
     },
     {
       "group": "Kickin' ranch",
-      "raw": "1/3 of the cooked garlic (set aside from the potatoes prep), mashed"
+      "raw": "1/3 of the cooked garlic (set aside from the potatoes prep), mashed",
+      "onlyBuilds": ["plate-chicken-sides-ranch"]
+    },
+    {
+      "group": "Kickin' ranch",
+      "raw": "1 clove garlic, minced",
+      "onlyBuilds": ["chicken-only"]
     },
     {
       "group": "Kickin' ranch",
@@ -135,15 +151,23 @@
   "steps": [
     {
       "phase": "prep",
-      "body": "Dice the potatoes, skin on."
+      "body": "Dice the potatoes, skin on.",
+      "onlyBuilds": ["plate-chicken-sides-ranch"]
     },
     {
       "phase": "prep",
-      "body": "Mince the garlic, dice the onion."
+      "body": "Mince the garlic, dice the onion.",
+      "onlyBuilds": ["plate-chicken-sides-ranch"]
     },
     {
       "phase": "prep",
-      "body": "Grab two bowls. Mix the full spice blend (paprika, cayenne, cumin, garlic powder, onion powder, salt, pepper) in one of them. Set aside 1/2 tsp for the gravy and 1/2 tsp for the ranch, then split what's left between the two bowls."
+      "body": "Grab two bowls. Mix the full spice blend (paprika, cayenne, cumin, garlic powder, onion powder, salt, pepper) in one of them. Set aside 1/2 tsp for the gravy and 1/2 tsp for the ranch, then split what's left between the two bowls.",
+      "onlyBuilds": ["plate-chicken-sides-ranch"]
+    },
+    {
+      "phase": "prep",
+      "onlyBuilds": ["chicken-only"],
+      "body": "Grab two bowls. Mix the full spice blend (paprika, cayenne, cumin, garlic powder, onion powder, salt, pepper) in one of them. Set aside 1/2 tsp for the ranch, then split what's left between the two bowls."
     },
     {
       "phase": "prep",
@@ -159,7 +183,8 @@
     },
     {
       "phase": "prep",
-      "body": "Drain the corn."
+      "body": "Drain the corn.",
+      "onlyBuilds": ["plate-chicken-sides-ranch"]
     },
     {
       "phase": "prep",
@@ -167,15 +192,23 @@
     },
     {
       "phase": "cook",
-      "body": "Potatoes on first. Boil the diced potatoes, 18-20 min until fork-tender. This is the longest step, so start it before anything else."
+      "body": "Potatoes on first. Boil the diced potatoes, 18-20 min until fork-tender. This is the longest step, so start it before anything else.",
+      "onlyBuilds": ["plate-chicken-sides-ranch"]
     },
     {
       "phase": "cook",
-      "body": "While the potatoes boil, cook the garlic and onion. Garlic in 1 tsp butter, 1-2 min until fragrant, then remove all the garlic from the pan so it doesn't sit and burn. Set aside 1/3 of the garlic for the ranch. Add the onion and another 1 tsp butter to the pan, cook 3-4 min until softened."
+      "body": "While the potatoes boil, cook the garlic and onion. Garlic in 1 tsp butter, 1-2 min until fragrant, then remove all the garlic from the pan so it doesn't sit and burn. Set aside 1/3 of the garlic for the ranch. Add the onion and another 1 tsp butter to the pan, cook 3-4 min until softened.",
+      "onlyBuilds": ["plate-chicken-sides-ranch"]
     },
     {
       "phase": "cook",
-      "body": "Make the ranch now. Whisk everything together, including the garlic set aside above. It tastes better chilled, so refrigerate until the meal is complete."
+      "body": "Make the ranch now. Whisk everything together, including the garlic set aside above. It tastes better chilled, so refrigerate until the meal is complete.",
+      "onlyBuilds": ["plate-chicken-sides-ranch"]
+    },
+    {
+      "phase": "cook",
+      "onlyBuilds": ["chicken-only"],
+      "body": "Make the ranch now. Soften the garlic in a dry pan over medium heat, 1-2 min, then whisk it into everything else with the 1/2 tsp of spice blend. Refrigerate until the chicken is done."
     },
     {
       "phase": "cook",
@@ -183,29 +216,30 @@
     },
     {
       "phase": "cook",
-      "body": "While the chicken cooks, finish the potatoes and gravy. Drain the potatoes, mash with warm milk, Greek yogurt, the remaining butter, and the cooked onion and garlic. Separately, whisk the cornstarch into a splash of cold broth for the gravy slurry, then stir into the rest of the simmering broth until thickened. Season with salt, pepper, and the reserved spice blend."
+      "body": "While the chicken cooks, finish the potatoes and gravy. Drain the potatoes, mash with warm milk, Greek yogurt, the remaining butter, and the cooked onion and garlic. Separately, whisk the cornstarch into a splash of cold broth for the gravy slurry, then stir into the rest of the simmering broth until thickened. Season with salt, pepper, and the reserved spice blend.",
+      "onlyBuilds": ["plate-chicken-sides-ranch"]
     },
     {
       "phase": "cook",
-      "body": "Corn goes on last. Heat the drained corn with the reserved 2 tsp butter (or a spray of oil) and a pinch of salt, 3-5 min."
+      "body": "Corn goes on last. Heat the drained corn with the reserved 2 tsp butter (or a spray of oil) and a pinch of salt, 3-5 min.",
+      "onlyBuilds": ["plate-chicken-sides-ranch"]
     },
     {
       "phase": "cook",
-      "body": "Everything should land together: chicken out, potatoes mashed, gravy thickened, corn hot. Plate and serve."
+      "body": "Everything should land together: chicken out, potatoes mashed, gravy thickened, corn hot. Plate and serve.",
+      "onlyBuilds": ["plate-chicken-sides-ranch"]
+    },
+    {
+      "phase": "cook",
+      "onlyBuilds": ["chicken-only"],
+      "body": "Rest the chicken 2 to 3 min so the crust sets, then serve with the ranch."
     }
   ],
   "notes": [
     {
       "kind": "nutrition_analysis",
-      "body": "Nearly 4x the fat on the traditional plate for less protein. The gap is driven almost entirely by the deep-fried chicken and the butter/cream gravy. Skin-on potatoes add a couple extra grams of fiber and a touch more carbs and micronutrients over peeled, calories barely move."
-    },
-    {
-      "kind": "make_or_break",
-      "body": "**Garlic goes in first, onion after.** Cooking the garlic briefly on its own before setting a portion aside is what keeps the ranch's garlic bright and punchy, while the portion that keeps cooking with the onion mellows out for the potatoes"
-    },
-    {
-      "kind": "make_or_break",
-      "body": "**Finely dice the chives and dill, and go light on the dill especially.** It's potent and easy to overdo; start with less than feels right and add more to taste"
+      "body": "Nearly 4x the fat on the traditional plate for less protein. The gap is driven almost entirely by the deep-fried chicken and the butter/cream gravy. Skin-on potatoes add a couple extra grams of fiber and a touch more carbs and micronutrients over peeled, calories barely move.",
+      "onlyBuilds": ["plate-chicken-sides-ranch"]
     },
     {
       "kind": "make_or_break",
@@ -221,31 +255,11 @@
     },
     {
       "kind": "make_or_break",
-      "body": "**Season both the flour and the panko**, not just one layer, so the heat carries through the whole crust, not just the base"
-    },
-    {
-      "kind": "make_or_break",
       "body": "**Rest the breaded chicken 5–10 min before cooking** so the triple coat sets and doesn't shed in the basket"
     },
     {
       "kind": "make_or_break",
-      "body": "**Paprika is the color engine, cayenne is the heat dial.** Paprika is what gets the crust visibly red, cayenne barely shifts the color, so adjust heat without worrying about losing the look"
-    },
-    {
-      "kind": "make_or_break",
-      "body": "**Sweet paprika, not smoked, for a true red crust.** Smoked paprika (used elsewhere in the book) leans brownish-red from the smoking process; sweet/Hungarian paprika is the brighter, redder pigment"
-    },
-    {
-      "kind": "make_or_break",
       "body": "**Don't crowd the air fryer basket.** Steam kills crisping as fast as no oil does"
-    },
-    {
-      "kind": "make_or_break",
-      "body": "**Yukon golds over russets for the potatoes.** They're creamier and need less butter to feel rich. Skin on adds fiber and texture, and dicing cuts the boil time down since more surface area hits the water"
-    },
-    {
-      "kind": "make_or_break",
-      "body": "**Cornstarch slurry, not a flour roux, for the gravy.** It thickens the same without the fat"
     },
     {
       "kind": "fixes",
@@ -257,12 +271,45 @@
     },
     {
       "kind": "fixes",
-      "body": "**Gravy too thin:** simmer longer or add a touch more cornstarch slurry"
+      "body": "**Gravy too thin:** simmer longer or add a touch more cornstarch slurry",
+      "onlyBuilds": ["plate-chicken-sides-ranch"]
     },
     {
       "kind": "fixes",
-      "body": "**Gravy too thick:** thin with more broth"
+      "body": "**Gravy too thick:** thin with more broth",
+      "onlyBuilds": ["plate-chicken-sides-ranch"]
+    },
+    {
+      "kind": "tip",
+      "body": "**Garlic goes in first, onion after.** Cooking the garlic briefly on its own before setting a portion aside is what keeps the ranch's garlic bright and punchy, while the portion that keeps cooking with the onion mellows out for the potatoes",
+      "onlyBuilds": ["plate-chicken-sides-ranch"]
+    },
+    {
+      "kind": "levers",
+      "body": "**Cornstarch slurry, not a flour roux, for the gravy.** It thickens the same without the fat",
+      "onlyBuilds": ["plate-chicken-sides-ranch"]
+    },
+    {
+      "kind": "tip",
+      "body": "**Finely dice the chives and dill, and go light on the dill especially.** It's potent and easy to overdo; start with less than feels right and add more to taste"
+    },
+    {
+      "kind": "tip",
+      "body": "**Season both the flour and the panko**, not just one layer, so the heat carries through the whole crust, not just the base"
+    },
+    {
+      "kind": "tip",
+      "body": "**Paprika is the color engine, cayenne is the heat dial.** Paprika is what gets the crust visibly red, cayenne barely shifts the color, so adjust heat without worrying about losing the look"
+    },
+    {
+      "kind": "tip",
+      "body": "**Sweet paprika, not smoked, for a true red crust.** Smoked paprika (used elsewhere in the book) leans brownish-red from the smoking process; sweet/Hungarian paprika is the brighter, redder pigment"
+    },
+    {
+      "kind": "tip",
+      "body": "**Yukon golds over russets for the potatoes.** They're creamier and need less butter to feel rich. Skin on adds fiber and texture, and dicing cuts the boil time down since more surface area hits the water",
+      "onlyBuilds": ["plate-chicken-sides-ranch"]
     }
   ],
-  "tags": ["chicken", "air fryer", "high protein", "comfort food"]
+  "tags": ["chicken", "air fryer", "high protein", "comfort food", "oven"]
 }
