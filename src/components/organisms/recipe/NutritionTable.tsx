@@ -63,7 +63,12 @@ export const NutritionTable = ({
           Nutrition
         </h2>
         {canSwitch && (
-          <p className='text-sm text-text-muted'>Tap a build to switch</p>
+          // "Tap" on touch screens, "Click" with a mouse or trackpad, whatever the width
+          <p className='text-sm text-text-muted'>
+            <span className='pointer-coarse:hidden'>Click</span>
+            <span className='hidden pointer-coarse:inline'>Tap</span> a build to
+            switch
+          </p>
         )}
       </div>
 

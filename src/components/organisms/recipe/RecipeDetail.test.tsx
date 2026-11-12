@@ -166,7 +166,7 @@ describe('NutritionTable', () => {
     )
 
     expect(screen.queryByRole('button')).toBeNull()
-    expect(screen.queryByText('Tap a build to switch')).toBeNull()
+    expect(screen.queryByText(/a build to switch/)).toBeNull()
   })
 
   it('switches builds from the table and follows the selection', () => {

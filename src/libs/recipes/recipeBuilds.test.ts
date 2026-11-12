@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { buildTags, buildTitle } from './recipeBuilds'
+import { buildSummary, buildTags, buildTitle } from './recipeBuilds'
 
 describe('buildTitle', () => {
   it('swaps the tag word and keeps its casing', () => {
@@ -30,6 +30,22 @@ describe('buildTitle', () => {
   it('keeps the recipe title with no swap', () => {
     expect(buildTitle('Turkey Taco Grillers', { swap: {} })).toBe(
       'Turkey Taco Grillers'
+    )
+  })
+})
+
+describe('buildSummary', () => {
+  it('swaps the tag word, keeping its case', () => {
+    expect(
+      buildSummary('Shredded chicken in a red sauce. Chicken stays juicy.', {
+        swap: { chicken: 'beef' },
+      })
+    ).toBe('Shredded beef in a red sauce. Beef stays juicy.')
+  })
+
+  it('keeps the recipe summary with no swap', () => {
+    expect(buildSummary('Shredded chicken.', { swap: {} })).toBe(
+      'Shredded chicken.'
     )
   })
 })
