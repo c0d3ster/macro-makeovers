@@ -306,7 +306,7 @@ const toRecipeComponent = (
   }
 }
 
-export const toRecipeComponents = (
+const toRecipeComponents = (
   rows: RecipeComponentRow[]
 ): RecipeComponent[] =>
   [...rows].sort(byPosition).flatMap((row) => {
