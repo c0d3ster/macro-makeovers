@@ -1,21 +1,47 @@
 {
   "slug": "red-enchilada-casserole",
   "title": "Red Enchilada Casserole",
-  "summary": "Shredded chicken breast poached right in a homemade red sauce, layered with black beans, charred corn, blended cottage cheese, and crisped melting cheese. The traditional version gets its fat from 80/20 beef, tortillas fried in oil, and a heavy hand with cheese and sour cream. Here the sauce doubles as the poaching liquid, the tortillas are warmed instead of fried, and the cheese is measured and mostly sits on top where it crisps. Fits a 9x13 dish.",
+  "summary": "Shredded chicken breast poached right in a homemade red sauce, layered with black beans, charred corn, blended cottage cheese, and crisped melting cheese. The traditional version gets its fat from 80/20 beef, tortillas fried in oil, and a heavy hand with cheese and sour cream. Here the sauce doubles as the poaching liquid, the tortillas are warmed instead of fried, and the cheese is measured and mostly sits on top where it crisps. The beef builds braise eye of round or chuck in the same sauce. Fits a 9x13 dish.",
   "servings": 6,
-  "prepMinutes": 25,
-  "cookMinutes": 85,
+  "prepMinutes": 30,
+  "cookMinutes": 100,
   "costTier": 2,
   "difficulty": 4,
   "builds": [
     {
-      "key": "makeover",
-      "label": "Per serving",
+      "key": "chicken",
+      "label": "Chicken breast",
       "isDefault": true,
-      "calories": 525,
-      "carbsG": 57,
-      "fatG": 15,
-      "proteinG": 46
+      "calories": 600,
+      "carbsG": 62,
+      "fatG": 17,
+      "proteinG": 51
+    },
+    {
+      "key": "beef-eye-of-round",
+      "label": "Beef eye of round",
+      "swap": {
+        "chicken": "beef"
+      },
+      "note": "Eye of round braised 2.5 to 3 hr in the same sauce in place of the chicken. Adds about 15 calories and 2g fat per serving and stays in the fat range. It shreds a bit drier, so the filling gets extra sauce.",
+      "cookMinutes": 250,
+      "calories": 615,
+      "carbsG": 62,
+      "fatG": 19,
+      "proteinG": 52
+    },
+    {
+      "key": "beef-chuck",
+      "label": "Beef chuck, trimmed",
+      "swap": {
+        "chicken": "beef"
+      },
+      "note": "Trimmed chuck braised 2.5 to 3 hr in the same sauce. Richer and closer to the traditional, but fat lands at 34%, above the target. Adds about 55 calories and 8g fat per serving for 3g less protein.",
+      "cookMinutes": 250,
+      "calories": 655,
+      "carbsG": 62,
+      "fatG": 25,
+      "proteinG": 48
     }
   ],
   "nutrition": [
@@ -30,15 +56,26 @@
   ],
   "ingredients": [
     {
-      "group": "Chicken and filling",
-      "raw": "1.5 lb boneless skinless chicken breast"
+      "group": "Meat and filling",
+      "raw": "1.5 lb boneless skinless chicken breast",
+      "onlyBuilds": ["chicken"]
     },
     {
-      "group": "Chicken and filling",
+      "group": "Meat and filling",
+      "raw": "1.5 lb beef eye of round",
+      "onlyBuilds": ["beef-eye-of-round"]
+    },
+    {
+      "group": "Meat and filling",
+      "raw": "1.5 lb beef chuck, trimmed of thick fat",
+      "onlyBuilds": ["beef-chuck"]
+    },
+    {
+      "group": "Meat and filling",
       "raw": "1 can (15oz) low-sodium black beans, drained"
     },
     {
-      "group": "Chicken and filling",
+      "group": "Meat and filling",
       "raw": "1 can (15oz) yellow sweet kernel corn, no salt added, drained"
     },
     {
@@ -75,7 +112,7 @@
     },
     {
       "group": "Red sauce",
-      "raw": "1 tsp brown sugar"
+      "raw": "2 tsp brown sugar"
     },
     {
       "group": "Red sauce",
@@ -83,7 +120,7 @@
     },
     {
       "group": "Red sauce",
-      "raw": "1 tbsp cornstarch + 2 tbsp cold water, for the slurry"
+      "raw": "2 1/2 tbsp cornstarch + 1/2 cup cold water, for the slurry"
     },
     {
       "group": "Red sauce",
@@ -91,7 +128,11 @@
     },
     {
       "group": "Spice mix",
-      "raw": "Chili powder 3 tbsp, cumin 2 tsp, smoked paprika 1 tsp, oregano 1 tsp, garlic powder 1 tsp, onion powder 1 tsp, cayenne 1/2 tsp, black pepper 1/2 tsp"
+      "raw": "Chili powder 2 tbsp, cumin 2 tsp, smoked paprika 1 tsp, oregano 1 tsp, garlic powder 1 tsp, onion powder 1 tsp, cayenne 1/2 tsp, black pepper 1/2 tsp"
+    },
+    {
+      "group": "Spice mix",
+      "raw": "Sweet paprika 1 tbsp, kept separate from the mix (it goes in with the liquids)"
     },
     {
       "group": "Spice mix",
@@ -103,11 +144,11 @@
     },
     {
       "group": "Layers",
-      "raw": "1.5 cups 2% cottage cheese, blended with 2 tbsp milk"
+      "raw": "1 tub (16 oz, about 2 cups) 2% cottage cheese, blended with 2 tbsp milk"
     },
     {
       "group": "Layers",
-      "raw": "4 oz (about 1 cup) shredded melting cheese: quesadilla cheese, Oaxaca, or asadero (macros land within a few calories of each other)"
+      "raw": "5 oz (about 1 1/4 cups) shredded melting cheese: quesadilla cheese, Oaxaca, or asadero (macros land within a few calories of each other)"
     },
     {
       "group": "To finish",
@@ -119,7 +160,7 @@
     },
     {
       "group": "To finish",
-      "raw": "About 1/2 cup of the finished sauce, held back and kept warm to spoon over the cheese"
+      "raw": "About 1 cup of the finished sauce, held back and kept warm to spoon over the cheese"
     },
     {
       "group": "Quick pickled jalapeños (optional)",
@@ -127,11 +168,11 @@
     },
     {
       "group": "Quick pickled jalapeños (optional)",
-      "raw": "1/2 cup white or rice vinegar"
+      "raw": "1/4 cup white or rice vinegar"
     },
     {
       "group": "Quick pickled jalapeños (optional)",
-      "raw": "1/2 cup water"
+      "raw": "1/4 cup water"
     },
     {
       "group": "Quick pickled jalapeños (optional)",
@@ -145,7 +186,13 @@
   "steps": [
     {
       "phase": "prep",
-      "body": "Preheat the oven to 400°F."
+      "body": "Preheat the oven to 400°F.",
+      "onlyBuilds": ["chicken"]
+    },
+    {
+      "phase": "prep",
+      "body": "If braising in the oven, preheat it to 300°F.",
+      "skipBuilds": ["chicken"]
     },
     {
       "phase": "prep",
@@ -153,7 +200,7 @@
     },
     {
       "phase": "prep",
-      "body": "Mix the spice mix in a bowl."
+      "body": "Mix the spice mix in a bowl. Keep the sweet paprika on the side."
     },
     {
       "phase": "prep",
@@ -161,7 +208,13 @@
     },
     {
       "phase": "prep",
-      "body": "Cut any thick chicken breast in half horizontally so the pieces are an even 1 inch or a bit under. Season with salt and pepper."
+      "body": "Cut any thick chicken breast in half horizontally so the pieces are an even 1 inch or a bit under. Season with salt and pepper.",
+      "onlyBuilds": ["chicken"]
+    },
+    {
+      "phase": "prep",
+      "body": "Cut the beef into 2 to 3 inch chunks, trimming any thick fat or silverskin. Season with salt and pepper.",
+      "skipBuilds": ["chicken"]
     },
     {
       "phase": "prep",
@@ -189,19 +242,42 @@
     },
     {
       "phase": "cook",
-      "body": "**Build the sauce.** Add the tomato sauce, broth, brown sugar, and adobo if using. Bring to a bare simmer."
+      "body": "**Build the sauce.** Add the tomato sauce, broth, sweet paprika, brown sugar, and adobo if using. Stir until the paprika dissolves, then bring to a bare simmer. Paprika scorches fast in a dry pan, so it goes in with the liquid to stay red instead of turning brown."
     },
     {
       "phase": "cook",
-      "body": "**Poach the chicken.** Nestle the pieces in a single layer in the sauce, mostly submerged. Cover and hold at the lowest heat that keeps a few lazy bubbles breaking, 15 to 20 min, flipping once, until the thickest piece reads **165°F**."
+      "body": "**Poach the chicken.** Nestle the pieces in a single layer in the sauce, mostly submerged. Cover and hold at the lowest heat that keeps a few lazy bubbles breaking, 15 to 20 min, flipping once, until the thickest piece reads **165°F**.",
+      "onlyBuilds": ["chicken"]
     },
     {
       "phase": "cook",
-      "body": "**Rest the chicken, finish the sauce.** Move the chicken to a bowl and rest it 5 min. Meanwhile simmer the sauce uncovered, stir in the slurry, and cook 1 to 2 min until it coats a spoon. Add the lime juice, then taste and adjust the salt. You should have about 3 cups. Set aside 1/2 cup in a small pot to keep warm for the finish."
+      "body": "**Braise the beef.** Nestle the chunks in the sauce, mostly submerged. Cover and hold at the lowest simmer on the stove, or move the covered pot to the 300°F oven, 2.5 to 3 hr, turning the pieces every 45 min, until they shred easily with a fork. If the sauce gets thick before the beef is tender, loosen it with a splash of broth or water.",
+      "skipBuilds": ["chicken"]
     },
     {
       "phase": "cook",
-      "body": "**Shred and make the filling.** Shred the chicken while still warm, using two forks pulling with the grain, or a hand mixer or stand mixer paddle on low for 20 to 30 sec. Stop when no big chunks remain. Toss with the beans, corn, and 1/2 cup of the sauce. This is the filling. It stays in the bowl and does not go back into the pot."
+      "body": "**Rest the chicken, finish the sauce.** Move the chicken to a bowl and rest it 5 min. Meanwhile simmer the sauce uncovered, stir in the slurry, and cook 1 to 2 min until it coats a spoon. Add the lime juice, then taste and adjust the salt. You should have about 3 1/2 cups. Set aside 1 cup in a small pot to keep warm for the finish.",
+      "onlyBuilds": ["chicken"]
+    },
+    {
+      "phase": "cook",
+      "body": "**Pull the beef, finish the sauce.** Move the beef to a bowl and heat the oven to 400°F. Skim any fat off the sauce, then simmer it uncovered, stir in the slurry, and cook 1 to 2 min until it coats a spoon. Add the lime juice, then taste and adjust the salt. You should have about 3 1/2 cups. Add broth if you are short. Set aside 1 cup in a small pot to keep warm for the finish.",
+      "skipBuilds": ["chicken"]
+    },
+    {
+      "phase": "cook",
+      "body": "**Shred and make the filling.** Shred the chicken while still warm, using two forks pulling with the grain, or a hand mixer or stand mixer paddle on low for 20 to 30 sec. Stop when no big chunks remain. Toss with the beans, corn, and 1/2 cup of the sauce. This is the filling. It stays in the bowl and does not go back into the pot.",
+      "onlyBuilds": ["chicken"]
+    },
+    {
+      "phase": "cook",
+      "body": "**Shred and make the filling.** Shred the beef while still warm with two forks, pulling out any fat or gristle. Toss with the beans, corn, and 1/2 cup of the sauce. This is the filling. It stays in the bowl and does not go back into the pot.",
+      "onlyBuilds": ["beef-chuck"]
+    },
+    {
+      "phase": "cook",
+      "body": "**Shred and make the filling.** Shred the beef while still warm with two forks, pulling out any gristle. Toss with the beans, corn, and 1/2 cup of the sauce, plus 1/4 cup from the reserved finishing sauce, since eye of round shreds drier. This is the filling. It stays in the bowl and does not go back into the pot.",
+      "onlyBuilds": ["beef-eye-of-round"]
     },
     {
       "phase": "cook",
@@ -209,7 +285,7 @@
     },
     {
       "phase": "cook",
-      "body": "**Layer.** Spread 1/2 cup of sauce over the bottom of the dish. Dunk each tortilla in the sauce quickly just before laying it down, then build two identical layers and a top layer.\n   - Layers 1 and 2 (identical): 4 tortillas, torn to fill the gaps. Then 1/3 of the filling, half the cottage cheese, 1/2 oz cheese, and about 1/3 cup of sauce spooned over.\n   - Top layer: 4 tortillas, the last 1/3 of the filling, and about 1/3 cup of sauce. No cottage cheese or cheese inside. Hold the last 3 oz of cheese back.\n   - Sauce budget, about 3 cups total: 1/2 cup in the filling, 1/2 cup on the bottom of the dish, about 1/2 cup picked up by the dunking, 1 cup over the three layers, and 1/2 cup held back for the finish. If you run short, thin the sauce with a splash of broth."
+      "body": "**Layer.** Spread 1/2 cup of sauce over the bottom of the dish. Dunk each tortilla in the sauce quickly, then cut or tear it in half and lay the halves with the straight edge against the side of the dish. Halves cover the rectangle far more easily than whole rounds. Build two identical layers and a top layer.\n   - Layers 1 and 2 (identical): 4 tortillas (8 halves), with torn pieces filling any gaps. Then 1/3 of the filling, half the cottage cheese, 1/2 oz cheese, and about 1/3 cup of sauce spooned over.\n   - Top layer: 4 tortillas (8 halves), the last 1/3 of the filling, and about 1/3 cup of sauce. No cottage cheese or cheese inside. Hold the last 4 oz of cheese back.\n   - Sauce budget, about 3 1/2 cups total: 1/2 cup in the filling, 1/2 cup on the bottom of the dish, about 1/2 cup picked up by the dunking, 1 cup over the three layers, and 1 cup held back for the finish. If you run short, thin the sauce with a splash of broth."
     },
     {
       "phase": "cook",
@@ -217,7 +293,7 @@
     },
     {
       "phase": "cook",
-      "body": "**Top and crisp.** Uncover, scatter the remaining 3 oz of cheese, and bake 8 to 10 min until bubbling at the edges. Broil 1 to 2 min, watching the whole time, until the cheese browns in spots. In a Pyrex dish, skip the broiler and run the oven at 425°F for the last few minutes instead."
+      "body": "**Top and crisp.** Uncover, scatter the remaining 4 oz of cheese, and bake 8 to 10 min until bubbling at the edges. Broil 1 to 2 min, watching the whole time, until the cheese browns in spots. In a Pyrex dish, skip the broiler and run the oven at 425°F for the last few minutes instead."
     },
     {
       "phase": "cook",
@@ -227,27 +303,25 @@
   "notes": [
     {
       "kind": "nutrition_analysis",
-      "body": "The traditional row assumes 1.5 lb of 80/20 beef, 12 tortillas fried in about 3 tbsp of oil, canned sauce, 8 oz of cheese, and 1/2 cup of sour cream. The fat savings come from the lean chicken, the dry-warmed tortillas, half the cheese, and cottage cheese in place of sour cream. They go toward protein and the beans and corn, so carbs run higher than the traditional version. Fat lands just under 25%, so there is room to add cheese (see Levers)."
+      "body": "The traditional row assumes 1.5 lb of 80/20 beef, 12 tortillas fried in about 3 tbsp of oil, canned sauce, 8 oz of cheese, and 1/2 cup of sour cream. The fat savings come from the lean meat, the dry-warmed tortillas, less cheese, and cottage cheese in place of sour cream. They go toward protein and the beans and corn, so carbs run higher than the traditional version. Fat lands around 25% with chicken, 27% with eye of round, and 34% with chuck. The toppings and pickled jalapeños are not counted (the whole jar of pickles is about 25 cal)."
     },
     {
       "kind": "tip",
-      "body": "The toppings and pickled jalapeños are not counted in the macros. The whole jar of pickles is about 25 cal."
+      "body": "**Shredded chicken**\n\n- **Even pieces, bare simmer.** Thick ends overcook while thin ends dry out, and a hard boil turns the breast stringy\n- **Pull at 165°F.** Past that point the breast loses moisture it won't get back\n- **Shred warm and sauce it right away.** Cold breast crumbles into dry shards, and warm shreds soak up the sauce that keeps them juicy through the bake. A hand mixer on low does 1.5 lb in under a minute",
+      "onlyBuilds": ["chicken"]
     },
     {
-      "kind": "levers",
-      "body": "**Shredded chicken**\n\n- **Cut thick breasts in half horizontally.** Even pieces finish together. Thick ends overcook while thin ends dry out otherwise\n- **Bare simmer, never a boil.** A hard boil tightens the fibers and the chicken goes stringy and dry instead of tender\n- **Pull at 165°F and rest 5 min.** Past that point the breast loses moisture it won't get back. The rest lets the juices settle so they stay in the meat\n- **Shred while warm.** Cold breast crumbles into dry shards instead of pulling into strands\n- **Pull with the grain.** Two forks work, but a hand mixer on low in a bowl does 1.5 lb in under a minute\n- **Dress it with sauce right away.** The shreds soak up moisture while warm, and that is what keeps them juicy through the 30 min bake"
-    },
-    {
-      "kind": "make_or_break",
-      "body": "**Poach in the sauce.** The chicken seasons the sauce and the sauce seasons the chicken, with no separate cooking step or extra fat"
-    },
-    {
-      "kind": "make_or_break",
-      "body": "**Bloom the spices and tomato paste.** Raw chili powder tastes gritty. A minute in the hot oil turns it deep and smoky"
+      "kind": "tip",
+      "body": "**Shredded beef**\n\n- **Lowest simmer, covered.** A hard boil dries the outside before the inside goes tender\n- **Go by the fork, not the clock.** It is done when a chunk falls apart with no pull. Undercooked beef shreds into tough strings\n- **Shred warm and sauce it right away.** The collagen sets as it cools, and warm shreds soak up the sauce",
+      "skipBuilds": ["chicken"]
     },
     {
       "kind": "make_or_break",
-      "body": "**Smoked paprika and the optional adobo** cover the depth that fatty beef gives a traditional enchilada"
+      "body": "**Cook the meat in the sauce.** The meat seasons the sauce and the sauce seasons the meat, with no separate cooking step or extra fat"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Bloom the spice mix, but not the sweet paprika.** A minute in the hot oil takes the gritty edge off the chili powder. Sweet paprika scorches brown and bitter in a dry pan, so it goes in with the liquids to keep the sauce red"
     },
     {
       "kind": "make_or_break",
@@ -255,31 +329,17 @@
     },
     {
       "kind": "make_or_break",
-      "body": "**Cottage cheese goes in cold and stays between the layers.** It bakes under the sauce and cheese, so it never sees direct heat and stays smooth"
-    },
-    {
-      "kind": "make_or_break",
-      "body": "**Hold the top cheese until after the covered bake.** It sticks to the foil and steams instead of crisping"
-    },
-    {
-      "kind": "make_or_break",
-      "body": "**Sauce goes over the cheese after the bake, not before.** In the oven it steams the cheese instead of letting it crisp"
-    },
-    {
-      "kind": "make_or_break",
-      "body": "**Drain the beans and corn well.** Wet filling thins the sauce and makes the middle layer soggy"
-    },
-    {
-      "kind": "make_or_break",
-      "body": "**Rest before cutting.** Straight out of the oven the layers slide apart"
+      "body": "**Top cheese after the covered bake, finishing sauce after that.** Under foil or under sauce the cheese steams instead of crisping"
     },
     {
       "kind": "fixes",
-      "body": "**Chicken dry:** the sauce boiled or it went past 165°F. Toss the shreds with more sauce or a splash of broth"
+      "body": "**Chicken dry or stringy:** it boiled or went past 165°F. Toss the shreds with more sauce or a splash of broth, and hold a bare simmer next time",
+      "onlyBuilds": ["chicken"]
     },
     {
       "kind": "fixes",
-      "body": "**Chicken stringy and tough:** it was boiled. Keep the heat at a bare simmer next time"
+      "body": "**Beef tough or dry:** tough means it needs more time, so keep braising and check every 20 min. Dry means it ran too hot or uncovered, so toss the shreds with more sauce",
+      "skipBuilds": ["chicken"]
     },
     {
       "kind": "fixes",
@@ -287,27 +347,16 @@
     },
     {
       "kind": "fixes",
-      "body": "**Tortillas cracking:** they weren't warmed enough or skipped the sauce dunk"
+      "body": "**Sauce brown instead of red:** the spices scorched in the bloom or the paprika went in too early. Keep the bloom to 1 min over medium and add the paprika with the liquids"
     },
     {
       "kind": "fixes",
-      "body": "**Sauce too sharp:** a pinch more brown sugar, or simmer another minute"
-    },
-    {
-      "kind": "fixes",
-      "body": "**Too salty:** squeeze more lime. Next time rinse the beans and use low-sodium broth"
-    },
-    {
-      "kind": "fixes",
-      "body": "**Cottage cheese grainy:** it wasn't blended long enough. Any grain shows in the layers"
-    },
-    {
-      "kind": "fixes",
-      "body": "**Top not crisping:** the cheese was crowded or the oven was low. Finish under the broiler or at 425°F, watching closely"
+      "body": "**Sauce too sharp or salty:** a pinch more brown sugar for sharp, more lime for salty"
     },
     {
       "kind": "levers",
-      "body": "**More cheese:** each extra ounce adds about 1.5g fat per serving. Fat starts just under 25%, so there is room to spend it here, and 6 oz lands at about 28%. For 5 oz, put the extra ounce on top, where it crisps. For 6 oz, use 1 oz inside each of the two layers (instead of 1/2 oz) and 4 oz on top (instead of 3 oz)"
+      "body": "**More cheese:** each extra ounce adds about 1.5g fat per serving. With chicken, 6 oz lands at about 27% fat. For 6 oz, use 1 oz inside each of the two layers instead of 1/2 oz and keep 4 oz on top",
+      "skipBuilds": ["beef-chuck"]
     },
     {
       "kind": "levers",
@@ -315,19 +364,16 @@
     },
     {
       "kind": "levers",
-      "body": "**More protein:** an extra half pound of chicken adds about 9g protein per serving for about 1g fat"
-    },
-    {
-      "kind": "levers",
-      "body": "**Meat options**\n\n| Meat (1.5 lb raw)            | Calories | Carbs | Fat | Protein | Ratio C/F/P  |\n| ---------------------------- | -------- | ----- | --- | ------- | ------------ |\n| **Chicken breast (default)** | ~525     | 57g   | 15g | 46g     | 42 / 24 / 34 |\n| **Beef eye of round**        | ~540     | 57g   | 17g | 47g     | 40 / 27 / 33 |\n| **Beef chuck, trimmed**      | ~580     | 57g   | 23g | 43g     | 37 / 34 / 28 |\n\nBeef braises in the same sauce, covered, at the lowest simmer or in a 300°F oven, 2.5 to 3 hr until it shreds with a fork. Chuck is richer and more traditional but lands above the fat target. Eye of round stays in range and shreds a bit drier, so toss it with extra sauce."
+      "body": "**More protein:** an extra half pound of chicken adds about 9g protein per serving for about 1g fat",
+      "onlyBuilds": ["chicken"]
     }
   ],
   "tags": [
     "bake",
-    "chicken",
-    "oven",
-    "high protein",
     "batch friendly",
-    "freezer friendly"
+    "chicken",
+    "freezer friendly",
+    "high protein",
+    "oven"
   ]
 }
