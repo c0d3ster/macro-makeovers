@@ -101,10 +101,10 @@ const matchCase = (word: string, replacement: string): string => {
 // Text with each swapped tag's word replaced, whole words only
 const swapWords = (text: string, swap: Record<string, string>): string =>
   Object.entries(swap).reduce(
-    (swapped, [from, to]) =>
-      swapped.replace(new RegExp(`\\b${escapeRegExp(from)}\\b`, 'gi'), (word) =>
-        matchCase(word, to)
-      ),
+    (swapped, [from, to]) => {
+      const pattern = new RegExp(`\\b${escapeRegExp(from)}\\b`, 'gi')
+      return swapped.replace(pattern, (word) => matchCase(word, to))
+    },
     text
   )
 
