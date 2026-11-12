@@ -54,7 +54,7 @@ const buildSchema = z.object({
     .record(tagName, tagName)
     .optional()
     .describe(
-      'Tags this build trades, like {"turkey": "beef"}. The recipe tag is dropped for the new one, and the word in the title swaps with it, so "Turkey Taco Grillers" reads "Beef Taco Grillers".'
+      'Tags this build trades, like {"turkey": "beef"}. The recipe tag is dropped for the new one, and the word in the title and summary swaps with it, so "Turkey Taco Grillers" reads "Beef Taco Grillers".'
     ),
   title: text
     .optional()
