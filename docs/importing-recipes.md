@@ -22,7 +22,7 @@ Drizzle transaction (`RecipeRepository`). Either every table is written or none 
 | `importRecipe` (GraphQL) | The write path for the admin page and the Claude connector  |
 | `/admin/import`          | Paste the JSON an agent produced (owner only), calls it     |
 | `/api/mcp`               | Claude connector: validate and import from a chat, calls it |
-| `pnpm recipe:import`     | Files on disk, including the 14 seed recipes                |
+| `pnpm recipe:import`     | Files on disk, including the 16 seed recipes                |
 
 The mutation takes the recipe as JSON, plus `overwrite` and `dryRun`, and returns a
 status, any field issues, and the field-level changes. Only the site owner can call it.
@@ -76,7 +76,7 @@ dashboard to cut it off.
 
 ## Seed recipes
 
-The 14 seed recipes live in `content/recipes/*.json` and are already in the database. The database
+The 16 seed recipes (14 dishes and 2 sauces) live in `content/recipes/*.json` and are already in the database. The database
 is the source of truth, so new and edited recipes go through the admin or the Claude connector,
 not a markdown file.
 
@@ -90,8 +90,8 @@ pnpm recipe:import:prod content/recipes        # same, against the hosted databa
 `docs/recipes.md` is the original book the seeds were parsed from (`pnpm recipe:parse`). It stays
 for that parser and its tests. Nothing in the book build reads it.
 
-Not every part of the original book maps onto a field. Toppings, option tables, and the corn pico
-in the taco recipe are kept whole as `levers` notes, and per-batch and per-slider nutrition rows
+Not every part of the original book maps onto a field. Toppings and option tables are kept whole as
+`levers` notes, and per-batch and per-slider nutrition rows
 are skipped because they derive from the per-serving rows.
 
 For the Claude web project, paste [claude-project-knowledge.md](./claude-project-knowledge.md)
@@ -178,6 +178,32 @@ with keys made from the labels.
 - Saves match builds by key, so a build keeps its photo across edits. Renaming a key in the
   editor updates the lines that point at it. Builds are designed in
   [`prd/09-builds.md`](./prd/09-builds.md).
+
+## Courses and components
+
+`course` says what a dish is on a menu: `breakfast`, `appetizer`, `main` (the default), `side`, or
+`sauce`. A build can set its own `course`, so a Greek salad can be a side with a chicken build
+that is a main.
+
+- The main grid, filters, goal matching, and the home page's featured recipes show breakfasts,
+  appetizers, and mains. Sides and sauces show as compact cards in a Sides and sauces section on
+  the home page and the unfiltered recipe list. A recipe shows at most once per section, led by
+  its best build for that section's courses.
+- `components` lists the sides and sauces a recipe uses, by slug. Each shows inline in the
+  recipe's ingredients as a row that opens to the component's ingredients and steps, scaled with
+  the recipe's servings stepper, with a link to its own page. The component's page lists the
+  published recipes that use it.
+- A component link can set `amount` ("1/2 cup per bowl"), `servingsPerServing` (component servings
+  in one serving of the recipe, for the calories it adds), `build` (the component build to show),
+  `note`, and `onlyBuilds` or `skipBuilds`. One component can be listed twice for different builds
+  when they use different amounts, like the corn pico on the taco grillers and the rice bowl.
+- A build's macros still include its components. The component's own build holds its macros per
+  serving, for its page and card.
+- Components are one level deep: a component cannot use components, and a recipe others use cannot
+  take any. A component has to exist first, and `pnpm recipe:import` imports them ahead of the
+  recipes that use them. A recipe still in use cannot be deleted.
+- In the book, a component prints inside each recipe that uses it, under its own heading in the
+  ingredients and the method. A side or sauce no published recipe uses prints on its own.
 
 ## Variants
 

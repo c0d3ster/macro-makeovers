@@ -13,6 +13,13 @@ export const userRoleEnum = pgEnum('user_role', [
 // Recipe enums. Values mirror the Postgres enums in supabase/migrations.
 export const recipeStatusEnum = pgEnum('recipe_status', ['draft', 'published'])
 export const recipeAccessEnum = pgEnum('recipe_access', ['free', 'premium'])
+export const recipeCourseEnum = pgEnum('recipe_course', [
+  'breakfast',
+  'appetizer',
+  'main',
+  'side',
+  'sauce',
+])
 export const nutritionKindEnum = pgEnum('nutrition_kind', [
   'makeover',
   'traditional',

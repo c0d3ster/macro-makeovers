@@ -296,6 +296,7 @@ describe('RecipeHero', () => {
     totalMinutes: 50,
     costTier: 2,
     difficulty: 3,
+    course: 'main',
     tags: [],
     builds: [makeover],
     featured: makeover,
@@ -305,7 +306,9 @@ describe('RecipeHero', () => {
     nutritionIntro: [],
     nutritionAnalysis: [],
     notes: [],
+    components: [],
     variants: [],
+    usedIn: [],
   }
 
   const Hero = ({ value }: { value: RecipeDetail }): ReactElement => (

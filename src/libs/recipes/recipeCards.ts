@@ -1,4 +1,5 @@
 import type { MacroValues, RecipeBuild } from './recipeBuilds'
+import type { RecipeCourse } from './recipeCourses'
 import type { RecipeBuildRow } from './recipeDetail'
 
 import { buildHref, defaultBuild, resolveBuild } from './recipeBuilds'
@@ -13,6 +14,8 @@ type CardFace = MacroValues & {
   totalMinutes: number
   costTier: number
   difficulty: number
+  // Which section the card shows in
+  course: RecipeCourse
   tags: string[]
 }
 
@@ -29,6 +32,8 @@ export type RecipeCard = CardFace & {
   builds: CardBuild[]
   // The traditional version's macros, when the recipe has one
   original?: { proteinG: number; carbsG: number; fatG: number }
+  // Published dishes that use this recipe as a side or sauce
+  usedInCount: number
 }
 
 type NutritionRow = MacroValues & {
@@ -45,10 +50,12 @@ export type RecipeCardRow = {
   cookMinutes: number
   costTier: number
   difficulty: number
+  course: RecipeCourse
   imageUrl: string | null
   builds: RecipeBuildRow[]
   nutrition: NutritionRow[]
   recipeTags: { tag: { name: string } }[]
+  usedInCount?: number
 }
 
 // A card shows the summary's first sentence so it ends on a full stop instead of an ellipsis
@@ -62,6 +69,7 @@ const faceOf = (build: CardBuild): CardFace => ({
   totalMinutes: build.totalMinutes,
   costTier: build.costTier,
   difficulty: build.difficulty,
+  course: build.course,
   tags: build.tags,
   calories: build.calories,
   carbsG: build.carbsG,
@@ -89,6 +97,7 @@ export const toRecipeCard = (row: RecipeCardRow): RecipeCard | undefined => {
     difficulty: row.difficulty,
     prepMinutes: row.prepMinutes,
     cookMinutes: row.cookMinutes,
+    course: row.course,
     tags: row.recipeTags.map(({ tag }) => tag.name).sort(),
   }
   const builds = toRecipeBuilds(row.builds).map((build): CardBuild => {
@@ -104,6 +113,7 @@ export const toRecipeCard = (row: RecipeCardRow): RecipeCard | undefined => {
       totalMinutes: resolved.totalMinutes,
       costTier: resolved.costTier,
       difficulty: resolved.difficulty,
+      course: resolved.course,
       tags: resolved.tags,
       calories: build.calories,
       carbsG: build.carbsG,
@@ -127,6 +137,7 @@ export const toRecipeCard = (row: RecipeCardRow): RecipeCard | undefined => {
         carbsG: traditional.carbsG,
         fatG: traditional.fatG,
       },
+      usedInCount: row.usedInCount ?? 0,
     },
     featured
   )

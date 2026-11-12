@@ -14,6 +14,7 @@ import {
 import { RecipeNotes } from './RecipeNotes'
 import { ScalableIngredients } from './ScalableIngredients'
 import { StepList } from './StepList'
+import { UsedInRecipes } from './UsedInRecipes'
 
 type RecipeBodyProps = {
   recipe: RecipeDetail
@@ -54,6 +55,7 @@ export const RecipeBody = ({
         <div className={`md:sticky md:top-24 ${RECIPE_BODY_INGREDIENTS}`}>
           <ScalableIngredients
             ingredients={view.ingredients}
+            components={view.components}
             baseServings={recipe.servings}
             markScoped={markScoped}
             basket={{
@@ -73,6 +75,7 @@ export const RecipeBody = ({
         </div>
       </div>
       <RecipeNotes notes={view.notes} />
+      <UsedInRecipes recipes={recipe.usedIn} />
     </main>
   )
 }

@@ -5,6 +5,7 @@ import type {
   RecipeBuild,
   ResolvedBuild,
 } from './recipeBuilds'
+import type { RecipeCourse } from './recipeCourses'
 
 import { defaultBuild, findBuild, resolveBuild, scopeToBuild } from './recipeBuilds'
 
@@ -43,6 +44,25 @@ export type RelatedRecipe = {
   title: string
 }
 
+// A side or sauce the recipe uses, shown inline in its ingredients. Its lines and steps are the
+// ones its chosen build sees. The scope says which of the dish's builds use it.
+export type RecipeComponent = BuildScope & {
+  slug: string
+  title: string
+  // False while the component is a draft: it still shows inline, with no link to its page
+  linked: boolean
+  // "1/2 cup per bowl"
+  amount?: string
+  note?: string
+  // Component servings per dish serving
+  servingsPerServing: number
+  // The servings the component's own recipe makes
+  servings: number
+  build: Pick<RecipeBuild, 'key' | 'label' | 'isDefault'> & MacroValues
+  ingredients: RecipeIngredient[]
+  steps: RecipeStep[]
+}
+
 export type RecipeDetail = {
   id: string
   slug: string
@@ -56,6 +76,7 @@ export type RecipeDetail = {
   totalMinutes: number
   costTier: number
   difficulty: number
+  course: RecipeCourse
   tags: string[]
   // Every build in table order
   builds: RecipeBuild[]
@@ -69,9 +90,13 @@ export type RecipeDetail = {
   nutritionIntro: ScopedText[]
   nutritionAnalysis: ScopedText[]
   notes: RecipeNote[]
+  // Sides and sauces this recipe uses, in order
+  components: RecipeComponent[]
   // Set when this recipe is a variant of another
   baseRecipe?: RelatedRecipe
   variants: RelatedRecipe[]
+  // Published dishes that use this recipe as a side or sauce
+  usedIn: RelatedRecipe[]
 }
 
 // The page as one build reads it: the recipe's fields with the build's overrides applied, and
@@ -80,6 +105,7 @@ export type RecipeView = ResolvedBuild & {
   ingredients: RecipeIngredient[]
   steps: RecipeStep[]
   notes: RecipeNote[]
+  components: RecipeComponent[]
   nutritionIntro: string[]
   nutritionAnalysis: string[]
 }
@@ -101,7 +127,39 @@ export type RecipeBuildRow = Positioned &
     difficulty: number | null
     prepMinutes: number | null
     cookMinutes: number | null
+    course: RecipeCourse | null
     imageUrl: string | null
+  }
+
+type IngredientRow = Positioned &
+  ScopeColumns & {
+    groupName: string | null
+    rawText: string
+  }
+
+type StepRow = Positioned &
+  ScopeColumns & {
+    phase: StepPhase
+    bodyMd: string
+    durationMinutes: number | null
+  }
+
+// A component link as the database returns it, with the component's recipe attached
+export type RecipeComponentRow = Positioned &
+  ScopeColumns & {
+    amount: string | null
+    noteMd: string | null
+    servingsPerServing: number
+    componentBuild: string | null
+    component: {
+      slug: string
+      title: string
+      status: 'draft' | 'published'
+      servings: number
+      builds: RecipeBuildRow[]
+      ingredients: IngredientRow[]
+      steps: StepRow[]
+    }
   }
 
 // A published recipe as the database returns it, with every child attached
@@ -115,6 +173,7 @@ export type RecipeDetailRow = {
   cookMinutes: number
   costTier: number
   difficulty: number
+  course: RecipeCourse
   imageUrl: string | null
   builds: RecipeBuildRow[]
   nutrition: (Positioned &
@@ -122,17 +181,9 @@ export type RecipeDetailRow = {
       kind: 'makeover' | 'traditional'
       label: string
     })[]
-  ingredients: (Positioned &
-    ScopeColumns & {
-      groupName: string | null
-      rawText: string
-    })[]
-  steps: (Positioned &
-    ScopeColumns & {
-      phase: StepPhase
-      bodyMd: string
-      durationMinutes: number | null
-    })[]
+  ingredients: IngredientRow[]
+  steps: StepRow[]
+  components?: RecipeComponentRow[]
   notes: (Positioned &
     ScopeColumns & {
       kind: NoteKind
@@ -144,6 +195,7 @@ export type RecipeDetailRow = {
 type RelatedRecipes = {
   baseRecipe?: RelatedRecipe
   variants: RelatedRecipe[]
+  usedIn?: RelatedRecipe[]
 }
 
 // The order the sections read in on the page
@@ -186,15 +238,80 @@ const toRecipeBuild = (row: RecipeBuildRow): RecipeBuild => ({
   difficulty: row.difficulty ?? undefined,
   prepMinutes: row.prepMinutes ?? undefined,
   cookMinutes: row.cookMinutes ?? undefined,
+  ...(row.course ? { course: row.course } : {}),
   imageUrl: row.imageUrl ?? undefined,
 })
 
 export const toRecipeBuilds = (rows: RecipeBuildRow[]): RecipeBuild[] =>
   [...rows].sort(byPosition).map(toRecipeBuild)
 
+const toIngredients = (rows: IngredientRow[]): RecipeIngredient[] =>
+  [...rows].sort(byPosition).map((ingredient) => ({
+    ...(ingredient.groupName ? { group: ingredient.groupName } : {}),
+    raw: ingredient.rawText,
+    ...toScope(ingredient),
+  }))
+
+const toSteps = (rows: StepRow[]): RecipeStep[] =>
+  [...rows].sort(byPosition).map((step) => ({
+    phase: step.phase,
+    body: step.bodyMd,
+    ...(step.durationMinutes !== null
+      ? { durationMinutes: step.durationMinutes }
+      : {}),
+    ...toScope(step),
+  }))
+
+// Lines and steps the chosen build sees, with their scope dropped: on the dish's page it would
+// read as the dish's own builds
+const unscoped = <T extends BuildScope>({
+  onlyBuilds: _only,
+  skipBuilds: _skip,
+  ...row
+}: T): Omit<T, keyof BuildScope> => row
+
+// A component with no build has nothing to show, so it is left out
+const toRecipeComponent = (
+  row: RecipeComponentRow
+): RecipeComponent | undefined => {
+  const { component } = row
+  const build = findBuild(toRecipeBuilds(component.builds), row.componentBuild)
+  if (!build) return undefined
+
+  return {
+    slug: component.slug,
+    title: component.title,
+    linked: component.status === 'published',
+    ...(row.amount ? { amount: row.amount } : {}),
+    ...(row.noteMd ? { note: row.noteMd } : {}),
+    servingsPerServing: row.servingsPerServing,
+    servings: component.servings,
+    build: {
+      key: build.key,
+      label: build.label,
+      isDefault: build.isDefault,
+      calories: build.calories,
+      carbsG: build.carbsG,
+      fatG: build.fatG,
+      proteinG: build.proteinG,
+    },
+    ingredients: scopeToBuild(toIngredients(component.ingredients), build.key).map(unscoped),
+    steps: scopeToBuild(toSteps(component.steps), build.key).map(unscoped),
+    ...toScope(row),
+  }
+}
+
+export const toRecipeComponents = (
+  rows: RecipeComponentRow[]
+): RecipeComponent[] =>
+  [...rows].sort(byPosition).flatMap((row) => {
+    const component = toRecipeComponent(row)
+    return component ? [component] : []
+  })
+
 export const toRecipeDetail = (
   row: RecipeDetailRow,
-  { baseRecipe, variants }: RelatedRecipes
+  { baseRecipe, variants, usedIn = [] }: RelatedRecipes
 ): RecipeDetail | undefined => {
   const builds = toRecipeBuilds(row.builds)
   const featured = defaultBuild(builds)
@@ -218,6 +335,7 @@ export const toRecipeDetail = (
     totalMinutes: row.prepMinutes + row.cookMinutes,
     costTier: row.costTier,
     difficulty: row.difficulty,
+    course: row.course,
     tags: row.recipeTags.map(({ tag }) => tag.name).sort(),
     builds,
     featured,
@@ -231,19 +349,8 @@ export const toRecipeDetail = (
         fatG,
         proteinG,
       })),
-    ingredients: [...row.ingredients].sort(byPosition).map((ingredient) => ({
-      ...(ingredient.groupName ? { group: ingredient.groupName } : {}),
-      raw: ingredient.rawText,
-      ...toScope(ingredient),
-    })),
-    steps: [...row.steps].sort(byPosition).map((step) => ({
-      phase: step.phase,
-      body: step.bodyMd,
-      ...(step.durationMinutes !== null
-        ? { durationMinutes: step.durationMinutes }
-        : {}),
-      ...toScope(step),
-    })),
+    ingredients: toIngredients(row.ingredients),
+    steps: toSteps(row.steps),
     nutritionIntro: nutritionNotes('nutrition_intro'),
     nutritionAnalysis: nutritionNotes('nutrition_analysis'),
     notes: [...row.notes]
@@ -254,8 +361,10 @@ export const toRecipeDetail = (
           byPosition(a, b)
       )
       .map((note) => ({ kind: note.kind, body: note.bodyMd, ...toScope(note) })),
+    components: toRecipeComponents(row.components ?? []),
     baseRecipe,
     variants,
+    usedIn,
   }
 }
 
@@ -273,6 +382,7 @@ export const toRecipeView = (
     ingredients: scopeToBuild(recipe.ingredients, build.key),
     steps: scopeToBuild(recipe.steps, build.key),
     notes: scopeToBuild(recipe.notes, build.key),
+    components: scopeToBuild(recipe.components, build.key),
     nutritionIntro: bodies(recipe.nutritionIntro),
     nutritionAnalysis: bodies(recipe.nutritionAnalysis),
   }

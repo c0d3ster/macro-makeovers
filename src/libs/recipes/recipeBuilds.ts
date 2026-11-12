@@ -3,6 +3,8 @@
 // Everything here is pure, so the page, the grid, the book, and the basket read a build the
 // same way.
 
+import type { RecipeCourse } from './recipeCourses'
+
 // Which builds a row belongs to. Both missing means every build, and only one is ever set.
 export type BuildScope = {
   onlyBuilds?: string[]
@@ -33,6 +35,8 @@ export type RecipeBuild = MacroValues & {
   difficulty?: number
   prepMinutes?: number
   cookMinutes?: number
+  // Only when this build is a different course, like a salad that becomes a main with chicken
+  course?: RecipeCourse
   imageUrl?: string
 }
 
@@ -45,6 +49,7 @@ export type BuildFallbacks = {
   difficulty: number
   prepMinutes: number
   cookMinutes: number
+  course: RecipeCourse
   tags: string[]
 }
 
@@ -134,6 +139,7 @@ export const resolveBuild = (
     prepMinutes,
     cookMinutes,
     totalMinutes: prepMinutes + cookMinutes,
+    course: build.course ?? recipe.course,
     tags: buildTags(recipe.tags, build),
   }
 }

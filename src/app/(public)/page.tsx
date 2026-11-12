@@ -8,6 +8,7 @@ import type { RecipeCard } from '@/libs/recipes'
 
 import {
   BundleLinks,
+  CompactRecipeGrid,
   GoalLinks,
   GuideLinks,
   HomeHero,
@@ -19,8 +20,11 @@ import { pickDistinctBundles, rankBundles } from '@/libs/basket'
 import { Env } from '@/libs/Env'
 import { logger } from '@/libs/Logger'
 import {
+  cardsForCourses,
+  DISH_COURSES,
   parseRecipeFilters,
   pickFeaturedRecipes,
+  SIDE_COURSES,
   toSearchParams,
 } from '@/libs/recipes'
 import { services } from '@/services'
@@ -93,7 +97,9 @@ const HomePage = async ({
   ).toString()
   if (query) permanentRedirect(`/recipes?${query}`)
 
-  const recipes = await loadRecipeCards()
+  const cards = await loadRecipeCards()
+  const recipes = cards && cardsForCourses(cards, DISH_COURSES)
+  const sides = cards ? cardsForCourses(cards, SIDE_COURSES) : []
   const featured = recipes && pickFeaturedRecipes(recipes, FEATURED_COUNT)
   const bundles = recipes ? toBundles(recipes) : []
 
@@ -115,6 +121,16 @@ const HomePage = async ({
             </p>
           )}
         </HomeSection>
+
+        {sides.length > 0 && (
+          <HomeSection
+            title='Sides and sauces'
+            intro='The salsas and sides the dishes use, each with its own macros.'
+            more={{ href: '/recipes', label: 'All recipes' }}
+          >
+            <CompactRecipeGrid recipes={sides} />
+          </HomeSection>
+        )}
 
         {bundles.length > 0 && (
           <HomeSection

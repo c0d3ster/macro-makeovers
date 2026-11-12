@@ -39,6 +39,18 @@ const readJson = (file: string): unknown =>
 const isVariant = (input: unknown): boolean =>
   typeof input === 'object' && input !== null && 'variantOf' in input
 
+// A recipe that uses sides or sauces needs them to exist first
+const usesComponents = (input: unknown): boolean =>
+  typeof input === 'object' &&
+  input !== null &&
+  'components' in input &&
+  Array.isArray(input.components) &&
+  input.components.length > 0
+
+// Sides and sauces first, then dishes that use them, then variants
+const importRank = (input: unknown): number =>
+  Number(usesComponents(input)) + 2 * Number(isVariant(input))
+
 const formatValue = (value: unknown): string =>
   value === undefined ? '(none)' : JSON.stringify(value)
 
@@ -97,13 +109,13 @@ const main = async (): Promise<void> => {
     process.exit(1)
   }
 
-  // A variant needs its base to exist first, so bases go in ahead of variants
+  // A variant needs its base to exist first, and a dish its sides and sauces
   const inputs = files
     .map((file) => ({
       file,
       input: readJson(file),
     }))
-    .sort((a, b) => Number(isVariant(a.input)) - Number(isVariant(b.input)))
+    .sort((a, b) => importRank(a.input) - importRank(b.input))
 
   let failed = 0
   const publishable: string[] = []

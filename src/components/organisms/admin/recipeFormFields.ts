@@ -63,7 +63,7 @@ export const nextBuildKey = (taken: (string | undefined)[]): string => {
   return `build-${number}`
 }
 
-const SCOPED_SECTIONS = ['ingredients', 'steps', 'notes'] as const
+const SCOPED_SECTIONS = ['ingredients', 'steps', 'notes', 'components'] as const
 type ScopeList = string[] | undefined
 
 // Renames a build key everywhere a line, step, or note points at it. With no new key the build
@@ -82,13 +82,14 @@ export const useRenameBuildKey = (): ((from: string, to?: string) => void) => {
     SCOPED_SECTIONS.forEach((section) => {
       // A row only the deleted build had would otherwise turn into a row every build has
       if (!to) {
-        const rows = getValues(section)
+        // Components are optional in the form, so the list can be missing
+        const rows = getValues(section) ?? []
         const kept = rows.filter(
           (row) => !(row.onlyBuilds?.length && !swap(row.onlyBuilds))
         ) as typeof rows
         if (kept.length < rows.length) setValue(section, kept, { shouldDirty: true })
       }
-      const rows = getValues(section)
+      const rows = getValues(section) ?? []
       rows.forEach((row, index) => {
         const onlyBuilds = swap(row.onlyBuilds)
         const skipBuilds = swap(row.skipBuilds)

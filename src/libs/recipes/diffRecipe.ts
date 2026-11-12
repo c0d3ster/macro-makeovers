@@ -17,12 +17,13 @@ const ROW_LISTS = [
   'ingredients',
   'steps',
   'notes',
+  'components',
 ] as const
 type RowList = (typeof ROW_LISTS)[number]
 
 // The text that names a row, so an edited row pairs with its old self instead of reading as a
 // removal and an addition. Builds also carry a label, which survives a key rename.
-const ROW_TEXT = ['label', 'raw', 'body', 'key'] as const
+const ROW_TEXT = ['label', 'raw', 'body', 'key', 'slug'] as const
 
 // Below this share of words in common, two rows are different rows
 const MIN_SIMILARITY = 0.3

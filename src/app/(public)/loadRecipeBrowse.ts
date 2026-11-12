@@ -9,18 +9,23 @@ import type {
 
 import { logger } from '@/libs/Logger'
 import {
+  cardsForCourses,
+  DISH_COURSES,
   evaluateFit,
   filterRecipes,
   findUnavailableOptions,
   groupTags,
   resolveTarget,
+  SIDE_COURSES,
   toIngredientMatches,
 } from '@/libs/recipes'
 import { services } from '@/services'
 
 type RecipeBrowse = {
-  // Every published recipe, for building the tag list
+  // Every published dish (breakfasts, appetizers, mains), for building the tag list
   all: RecipeCard[]
+  // Sides and sauces, shown apart as compact cards and left out of filters and goal matching
+  sides: RecipeCard[]
   // The recipes left after applying the filters
   visible: RecipeCard[]
   tagGroups: TagGroups
@@ -40,7 +45,8 @@ export const loadRecipeBrowse = async (
   filters: RecipeFilters
 ): Promise<RecipeBrowse | undefined> => {
   try {
-    const all = await services.recipeService.getRecipeCards()
+    const cards = await services.recipeService.getRecipeCards()
+    const all = cardsForCourses(cards, DISH_COURSES)
     // A failed ingredient search still leaves title, summary, and tag search working
     const ingredientMatches = filters.q
       ? await searchIngredients(filters.q).catch((error) => {
@@ -54,6 +60,7 @@ export const loadRecipeBrowse = async (
 
     return {
       all,
+      sides: cardsForCourses(cards, SIDE_COURSES),
       visible,
       tagGroups,
       fits: target

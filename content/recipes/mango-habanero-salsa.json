@@ -1,0 +1,71 @@
+{
+  "slug": "mango-habanero-salsa",
+  "title": "Mango Habanero Salsa",
+  "summary": "Sweet mango, cool cucumber, and habanero heat with lime and cilantro. Almost no fat, and it carries a lean bowl.",
+  "servings": 5,
+  "prepMinutes": 15,
+  "cookMinutes": 0,
+  "costTier": 1,
+  "difficulty": 1,
+  "course": "sauce",
+  "tags": ["no cook", "make ahead"],
+  "builds": [
+    {
+      "key": "salsa",
+      "label": "Per 1/2 cup",
+      "isDefault": true,
+      "calories": 40,
+      "carbsG": 10,
+      "fatG": 0.2,
+      "proteinG": 0.6
+    }
+  ],
+  "nutrition": [],
+  "ingredients": [
+    {
+      "raw": "1.5 cups firm ripe mango, small dice"
+    },
+    {
+      "raw": "1/2 red onion, finely diced"
+    },
+    {
+      "raw": "1/2 to 1 habanero, seeds and ribs removed, minced very fine"
+    },
+    {
+      "raw": "1/2 cup seeded cucumber, diced"
+    },
+    {
+      "raw": "Juice of 1.5 limes"
+    },
+    {
+      "raw": "Handful cilantro"
+    },
+    {
+      "raw": "Salt to taste"
+    }
+  ],
+  "steps": [
+    {
+      "phase": "prep",
+      "body": "Toss the salsa together, starting with half the habanero. Let it sit at least 15 min, then taste. Wear gloves."
+    }
+  ],
+  "notes": [
+    {
+      "kind": "nutrition_intro",
+      "body": "Makes about 2.5 cups. A serving is 1/2 cup."
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Let the salsa sit.** The onion mellows and the habanero heat spreads evenly"
+    },
+    {
+      "kind": "make_or_break",
+      "body": "**Start with half the habanero.** Heat varies a lot from pepper to pepper, and you can add more after it sits"
+    },
+    {
+      "kind": "fixes",
+      "body": "**Too hot:** add more mango and lime"
+    }
+  ]
+}

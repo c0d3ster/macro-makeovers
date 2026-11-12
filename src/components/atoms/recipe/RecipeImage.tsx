@@ -15,6 +15,8 @@ type RecipeImageProps = {
   zoomOnHover?: boolean
   // What the placeholder says while there is no photo
   placeholderText?: string
+  // A thumbnail: the placeholder shows a small logo and no text
+  thumbnail?: boolean
 }
 
 // The placeholder photos are 3:2
@@ -37,6 +39,7 @@ export const RecipeImage = ({
   rounded = true,
   zoomOnHover = false,
   placeholderText = 'Photo coming soon',
+  thumbnail = false,
 }: RecipeImageProps): ReactElement => {
   const frame = frameFor(rounded)
   const zoom = zoomOnHover ? ZOOM : ''
@@ -73,9 +76,11 @@ export const RecipeImage = ({
         alt=''
         width={411}
         height={554}
-        className='h-20 w-auto'
+        className={thumbnail ? 'h-8 w-auto' : 'h-20 w-auto'}
       />
-      <span className='text-xs text-header-muted'>{placeholderText}</span>
+      {!thumbnail && (
+        <span className='text-xs text-header-muted'>{placeholderText}</span>
+      )}
     </div>
   )
 }

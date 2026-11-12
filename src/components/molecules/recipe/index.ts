@@ -1,3 +1,4 @@
+export * from './ComponentDisclosure'
 export * from './FilterSelect'
 export * from './MacroBar'
 export * from './OwnerEditLink'

@@ -2,6 +2,7 @@ import type { SQL } from 'drizzle-orm'
 import type { NodePgDatabase } from 'drizzle-orm/node-postgres'
 
 import { and, asc, desc, eq, inArray, isNull, notInArray, sql } from 'drizzle-orm'
+import { alias } from 'drizzle-orm/pg-core'
 
 import type { schemas } from '@/models'
 import type { RecipeImport } from '@/validations'
@@ -9,6 +10,7 @@ import type { RecipeImport } from '@/validations'
 import {
   ingredients,
   recipeBuilds,
+  recipeComponents,
   recipeNotes,
   recipeNutrition,
   recipeRevisions,
@@ -40,6 +42,8 @@ export type DeleteRecipeResult =
   | { status: 'deleted'; slug: string }
   | { status: 'not_found' }
   | { status: 'has_variants'; titles: string[] }
+  // Other recipes use it as a side or sauce
+  | { status: 'in_use'; titles: string[] }
 
 export type AdminRecipe = {
   id: string
@@ -129,6 +133,7 @@ const upsertBuilds = async (
       difficulty: build.difficulty ?? null,
       prepMinutes: build.prepMinutes ?? null,
       cookMinutes: build.cookMinutes ?? null,
+      course: build.course ?? null,
     }
     await tx
       .insert(recipeBuilds)
@@ -198,6 +203,12 @@ const readSnapshot = async (
     .from(recipeNotes)
     .where(eq(recipeNotes.recipeId, recipeId))
     .orderBy(asc(recipeNotes.position))
+  const componentRows = await reader
+    .select({ slug: recipes.slug, row: recipeComponents })
+    .from(recipeComponents)
+    .innerJoin(recipes, eq(recipes.id, recipeComponents.componentId))
+    .where(eq(recipeComponents.recipeId, recipeId))
+    .orderBy(asc(recipeComponents.position))
 
   return withoutNulls({
     slug: recipe.slug,
@@ -209,6 +220,7 @@ const readSnapshot = async (
     costTier: recipe.costTier,
     variantOf: base?.slug,
     difficulty: recipe.difficulty,
+    course: recipe.course,
     tags: tagRows.map(({ name }) => name).sort(),
     builds: buildRows.map((row) =>
       withoutNulls({
@@ -227,6 +239,7 @@ const readSnapshot = async (
         difficulty: row.difficulty,
         prepMinutes: row.prepMinutes,
         cookMinutes: row.cookMinutes,
+        course: row.course,
       })
     ),
     nutrition: nutritionRows.map((row) => ({
@@ -258,6 +271,16 @@ const readSnapshot = async (
     ),
     notes: noteRows.map((row) =>
       withoutNulls({ kind: row.kind, body: row.bodyMd, ...readScope(row) })
+    ),
+    components: componentRows.map(({ slug, row }) =>
+      withoutNulls({
+        slug,
+        amount: row.amount,
+        servingsPerServing: row.servingsPerServing,
+        build: row.componentBuild,
+        note: row.noteMd,
+        ...readScope(row),
+      })
     ),
   }) as RecipeImport
 }
@@ -310,14 +333,97 @@ const resolveBaseId = async (
   return base.id
 }
 
+type ComponentLink = RecipeImport['components'][number] & {
+  componentId: string
+}
+
+// Every component has to exist, use no components itself, and have the build it names. A recipe
+// that others already use cannot take components of its own. Components are one level deep.
+const resolveComponents = async (
+  tx: Reader,
+  { slug, components }: RecipeImport
+): Promise<ComponentLink[]> => {
+  if (components.length === 0) return []
+
+  const [self] = await tx
+    .select({ id: recipes.id })
+    .from(recipes)
+    .where(eq(recipes.slug, slug))
+    .limit(1)
+  if (self) {
+    const [parent] = await tx
+      .select({ title: recipes.title })
+      .from(recipeComponents)
+      .innerJoin(recipes, eq(recipes.id, recipeComponents.recipeId))
+      .where(eq(recipeComponents.componentId, self.id))
+      .limit(1)
+    if (parent) {
+      throw new RecipeRuleError(
+        'components',
+        `"${parent.title}" uses this recipe, so it cannot use components itself`
+      )
+    }
+  }
+
+  const links: ComponentLink[] = []
+  // One at a time: inside a transaction every query shares one connection
+  for (const [index, component] of components.entries()) {
+    const path = `components[${index}]`
+    const [row] = await tx
+      .select({ id: recipes.id })
+      .from(recipes)
+      .where(eq(recipes.slug, component.slug))
+      .limit(1)
+    if (!row) {
+      throw new RecipeRuleError(
+        `${path}.slug`,
+        `Recipe "${component.slug}" does not exist. Import it first`
+      )
+    }
+    const [nested] = await tx
+      .select({ id: recipeComponents.componentId })
+      .from(recipeComponents)
+      .where(eq(recipeComponents.recipeId, row.id))
+      .limit(1)
+    if (nested) {
+      throw new RecipeRuleError(
+        `${path}.slug`,
+        `"${component.slug}" uses components itself, and components are one level deep`
+      )
+    }
+    if (component.build) {
+      const [build] = await tx
+        .select({ key: recipeBuilds.key })
+        .from(recipeBuilds)
+        .where(
+          and(
+            eq(recipeBuilds.recipeId, row.id),
+            eq(recipeBuilds.key, component.build)
+          )
+        )
+        .limit(1)
+      if (!build) {
+        throw new RecipeRuleError(
+          `${path}.build`,
+          `"${component.slug}" has no build with the key "${component.build}"`
+        )
+      }
+    }
+    links.push({ ...component, componentId: row.id })
+  }
+  return links
+}
+
 // Replaces everything hanging off a recipe with what the import says, except builds, which
 // are upserted by key. Runs inside the
 // create or update transaction, so the old rows only go if the new ones land.
 const replaceChildren = async (
   tx: Tx,
   recipeId: string,
-  recipe: RecipeImport
+  recipe: RecipeImport,
+  components: ComponentLink[]
 ): Promise<void> => {
+  await tx.delete(recipeComponents).where(eq(recipeComponents.recipeId, recipeId))
   await tx.delete(recipeNutrition).where(eq(recipeNutrition.recipeId, recipeId))
   await tx.delete(ingredients).where(eq(ingredients.recipeId, recipeId))
   await tx.delete(steps).where(eq(steps.recipeId, recipeId))
@@ -376,6 +482,21 @@ const replaceChildren = async (
     )
   }
 
+  if (components.length > 0) {
+    await tx.insert(recipeComponents).values(
+      components.map((row, position) => ({
+        recipeId,
+        componentId: row.componentId,
+        position,
+        amount: row.amount ?? null,
+        noteMd: row.note ?? null,
+        servingsPerServing: row.servingsPerServing,
+        componentBuild: row.build ?? null,
+        ...writeScope(row),
+      }))
+    )
+  }
+
   // Unknown tags are created as attribute tags
   const tagNames = [...new Set(recipe.tags)]
   if (tagNames.length > 0) {
@@ -401,6 +522,7 @@ const variantFields = (recipe: RecipeImport, variantOf: string | null) => ({
   cookMinutes: recipe.cookMinutes,
   costTier: recipe.costTier,
   difficulty: recipe.difficulty,
+  course: recipe.course,
   variantOf,
 })
 
@@ -433,6 +555,7 @@ export class RecipeRepository {
   // such as variant links. Nothing is written. Create and update enforce the same rules.
   validateRecipe = async (recipe: RecipeImport): Promise<void> => {
     await resolveBaseId(this.database, recipe)
+    await resolveComponents(this.database, recipe)
   }
 
   // A new recipe lands as a draft
@@ -440,13 +563,14 @@ export class RecipeRepository {
     this.database
       .transaction(async (tx) => {
         const variantOf = await resolveBaseId(tx, recipe)
+        const components = await resolveComponents(tx, recipe)
         const [row] = await tx
           .insert(recipes)
           .values({ slug: recipe.slug, ...variantFields(recipe, variantOf) })
           .returning({ id: recipes.id })
         if (!row) throw new Error(`Could not save "${recipe.slug}".`)
 
-        await replaceChildren(tx, row.id, recipe)
+        await replaceChildren(tx, row.id, recipe, components)
         await this.writeRevision(tx, row.id)
         return row.id
       })
@@ -466,6 +590,7 @@ export class RecipeRepository {
   updateRecipe = (id: string, recipe: RecipeImport): Promise<string> =>
     this.database.transaction(async (tx) => {
       const variantOf = await resolveBaseId(tx, recipe)
+      const components = await resolveComponents(tx, recipe)
       const [row] = await tx
         .update(recipes)
         .set(variantFields(recipe, variantOf))
@@ -473,7 +598,7 @@ export class RecipeRepository {
         .returning({ id: recipes.id })
       if (!row) throw new Error(`Recipe ${id} no longer exists.`)
 
-      await replaceChildren(tx, row.id, recipe)
+      await replaceChildren(tx, row.id, recipe, components)
       await this.writeRevision(tx, row.id)
       return row.id
     })
@@ -491,11 +616,22 @@ export class RecipeRepository {
         builds: true,
         nutrition: true,
         recipeTags: { with: { tag: true } },
+        // The published dishes that use it, counted on a side or sauce card
+        usedIn: {
+          columns: {},
+          with: { recipe: { columns: { slug: true, status: true } } },
+        },
       },
     })
 
     return rows.flatMap((row) => {
-      const card = toRecipeCard(row)
+      // A dish can list one component twice for different builds, and counts once
+      const users = new Set(
+        row.usedIn.flatMap(({ recipe }) =>
+          recipe.status === 'published' ? [recipe.slug] : []
+        )
+      )
+      const card = toRecipeCard({ ...row, usedInCount: users.size })
       return card ? [card] : []
     })
   }
@@ -524,6 +660,20 @@ export class RecipeRepository {
         steps: true,
         notes: true,
         recipeTags: { with: { tag: true } },
+        components: {
+          with: {
+            component: {
+              columns: { slug: true, title: true, status: true, servings: true },
+              with: { builds: true, ingredients: true, steps: true },
+            },
+          },
+        },
+        usedIn: {
+          columns: {},
+          with: {
+            recipe: { columns: { slug: true, title: true, status: true } },
+          },
+        },
         base: { columns: { slug: true, title: true, status: true } },
         variants: {
           columns: { slug: true, title: true },
@@ -542,7 +692,29 @@ export class RecipeRepository {
           ? { slug: row.base.slug, title: row.base.title }
           : undefined,
       variants: row.variants,
+      // Only published dishes link back from a side or sauce
+      usedIn: [
+        ...new Map(
+          row.usedIn.flatMap(({ recipe }) =>
+            recipe.status === 'published'
+              ? [[recipe.slug, { slug: recipe.slug, title: recipe.title }] as const]
+              : []
+          )
+        ).values(),
+      ].sort((a, b) => a.title.localeCompare(b.title)),
     })
+  }
+
+  // Slugs of the recipes that use this one as a component, so their pages refresh with it
+  listParentSlugs = async (slug: string): Promise<string[]> => {
+    const component = alias(recipes, 'component')
+    const rows = await this.database
+      .selectDistinct({ slug: recipes.slug })
+      .from(recipeComponents)
+      .innerJoin(recipes, eq(recipes.id, recipeComponents.recipeId))
+      .innerJoin(component, eq(component.id, recipeComponents.componentId))
+      .where(eq(component.slug, slug))
+    return rows.map((row) => row.slug)
   }
 
   // Every published slug, variants included, so each recipe page can be built ahead of time
@@ -612,8 +784,8 @@ export class RecipeRepository {
   }
 
   // Deletes a recipe with its ingredients, steps, notes, nutrition, tags and revision history.
-  // A base recipe that still has variants is left alone, because deleting it would orphan them.
-  // Owner only.
+  // A base recipe that still has variants is left alone, because deleting it would orphan them,
+  // and so is a side or sauce other recipes still use. Owner only.
   deleteRecipe = (id: string): Promise<DeleteRecipeResult> =>
     this.database.transaction(async (tx) => {
       const variants = await tx
@@ -623,6 +795,15 @@ export class RecipeRepository {
         .orderBy(asc(recipes.title))
       if (variants.length > 0) {
         return { status: 'has_variants', titles: variants.map((v) => v.title) }
+      }
+      const parents = await tx
+        .selectDistinct({ title: recipes.title })
+        .from(recipeComponents)
+        .innerJoin(recipes, eq(recipes.id, recipeComponents.recipeId))
+        .where(eq(recipeComponents.componentId, id))
+        .orderBy(asc(recipes.title))
+      if (parents.length > 0) {
+        return { status: 'in_use', titles: parents.map((p) => p.title) }
       }
 
       const [row] = await tx

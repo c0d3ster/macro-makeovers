@@ -5,15 +5,21 @@ import type { ReactElement } from 'react'
 import { useState } from 'react'
 
 import type { RecipeIngredient } from '@/libs/recipes/ingredients'
+import type { RecipeComponent } from '@/libs/recipes/recipeDetail'
 
 import { BuildMarker, Markdown } from '@/components/atoms'
 import { AddToBasketButton } from '@/components/molecules/basket'
-import { ServingsStepper } from '@/components/molecules/recipe'
+import {
+  ComponentDisclosure,
+  ServingsStepper,
+} from '@/components/molecules/recipe'
 import { groupIngredients, scaleIngredient } from '@/libs/recipes/ingredients'
 import { isScoped } from '@/libs/recipes/recipeBuilds'
 
 type ScalableIngredientsProps = {
   ingredients: RecipeIngredient[]
+  // Sides and sauces the dish uses, shown after its own lines and scaled with them
+  components?: RecipeComponent[]
   baseServings: number
   // Flags lines only some builds have, on a recipe with more than one build
   markScoped?: boolean
@@ -23,6 +29,7 @@ type ScalableIngredientsProps = {
 
 export const ScalableIngredients = ({
   ingredients,
+  components = [],
   baseServings,
   markScoped = false,
   basket,
@@ -84,6 +91,19 @@ export const ScalableIngredients = ({
               ))}
             </ul>
           </div>
+        ))}
+        {/* One component can be listed twice for different builds, so its scope is in the key */}
+        {components.map((component) => (
+          <ComponentDisclosure
+            key={[
+              component.slug,
+              ...(component.onlyBuilds ?? []),
+              ...(component.skipBuilds ?? []).map((key) => `-${key}`),
+            ].join(':')}
+            component={component}
+            factor={factor}
+            marked={markScoped && isScoped(component)}
+          />
         ))}
       </div>
     </section>
