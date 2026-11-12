@@ -80,14 +80,39 @@
       "raw": "Splash of broth or water to simmer the seasoning in"
     },
     {
-      "raw": "8-inch tortillas (2 per serving, 8 total for the batch), or bowl base (rice)"
+      "raw": "8-inch tortillas (2 per serving, 8 total for the batch)",
+      "skipBuilds": ["rice-bowl", "filling"]
+    },
+    {
+      "raw": "3 cups cooked brown or white rice (3/4 cup per bowl)",
+      "onlyBuilds": ["rice-bowl"]
     },
     {
       "group": "Seasoning (or a low-sodium taco packet)",
       "raw": "Spice mix: chili powder 1 tbsp, cumin 2 tsp, smoked paprika 1 tsp, garlic powder 1 tsp, onion powder 1 tsp, oregano 1 tsp, salt ~1 tsp (to taste), black pepper 1/2 tsp, cayenne 1/2 tsp (optional, or 1 tsp for spicy)"
+    },
+    {
+      "group": "Toppings",
+      "raw": "1 cup shredded cheddar (1/4 cup per serving, split inside and out)",
+      "skipBuilds": ["rice-bowl", "filling"]
+    },
+    {
+      "group": "Toppings",
+      "raw": "1/2 cup shredded cheddar (1/8 cup per bowl)",
+      "onlyBuilds": ["rice-bowl"]
+    },
+    {
+      "group": "Toppings",
+      "raw": "1/2 cup 2% cottage cheese, blended smooth (2 tbsp per serving), the sour-cream swap",
+      "skipBuilds": ["filling"]
     }
   ],
   "steps": [
+    {
+      "phase": "prep",
+      "body": "Start the rice first. Brown rice takes about twice as long as white.",
+      "onlyBuilds": ["rice-bowl"]
+    },
     {
       "phase": "prep",
       "body": "Mince the garlic for the filling."
@@ -99,6 +124,11 @@
     {
       "phase": "prep",
       "body": "Drain the black beans."
+    },
+    {
+      "phase": "prep",
+      "body": "Blend the cottage cheese until smooth. Chill until serving.",
+      "skipBuilds": ["filling"]
     },
     {
       "phase": "cook",
@@ -119,7 +149,13 @@
     },
     {
       "phase": "cook",
-      "body": "Build the grillers: fill the tortillas, pull a small handful of cheese for the outside and sprinkle it on just before you flip, then griddle in a hot dry pan until crisp and golden on both sides. (Or build rice bowls instead, no griddling needed.)"
+      "body": "Build the grillers: fill the tortillas, pull a small handful of cheese for the outside and sprinkle it on just before you flip, then griddle in a hot dry pan until crisp and golden on both sides. Top with the pico and a spoonful of the cottage cheese blend.",
+      "skipBuilds": ["rice-bowl", "filling"]
+    },
+    {
+      "phase": "cook",
+      "body": "Build the bowls: 3/4 cup rice, a quarter of the filling, 1/8 cup cheddar, 3/4 cup pico, and 2 tbsp of the cottage cheese blend.",
+      "onlyBuilds": ["rice-bowl"]
     }
   ],
   "notes": [
@@ -157,7 +193,8 @@
     },
     {
       "kind": "make_or_break",
-      "body": "**Take the outside cheese from the same 1/4 cup, not extra.** Pull a small handful for the exterior crust and use what's left inside. Total cheese stays at 1/4 cup either way"
+      "body": "**Take the outside cheese from the same 1/4 cup, not extra.** Pull a small handful for the exterior crust and use what's left inside. Total cheese stays at 1/4 cup either way",
+      "skipBuilds": ["rice-bowl", "filling"]
     },
     {
       "kind": "levers",
