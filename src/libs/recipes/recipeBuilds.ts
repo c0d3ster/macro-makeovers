@@ -67,10 +67,6 @@ export const scopeToBuild = <T extends BuildScope>(
   key: string
 ): T[] => rows.filter((row) => appliesToBuild(row, key))
 
-// A row only some builds see, so the page can mark it
-export const isScoped = ({ onlyBuilds, skipBuilds }: BuildScope): boolean =>
-  Boolean(onlyBuilds?.length || skipBuilds?.length)
-
 // The flagged default, else the first build
 export const defaultBuild = <T extends Pick<RecipeBuild, 'isDefault'>>(
   builds: T[]
