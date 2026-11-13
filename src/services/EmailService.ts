@@ -10,6 +10,9 @@ const QUOT_RE = /"/g
 const APOS_RE = /'/g
 const NL_RE = /\n/g
 
+// Sent through Resend from the verified macromakeovers.com domain
+const FROM_ADDRESS = 'Macro Makeovers <hello@macromakeovers.com>'
+
 export class EmailService {
   constructor(private resend: Resend | null) {}
 
@@ -43,7 +46,7 @@ export class EmailService {
 
     try {
       await this.resend.emails.send({
-        from: 'Contact Form <onboarding@resend.dev>', // Replace with your verified domain
+        from: FROM_ADDRESS,
         to: Env.SUPPORT_EMAIL,
         replyTo: data.email,
         subject: `Contact Form: ${this.escapeHtml(data.subject)}`,
