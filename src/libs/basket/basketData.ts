@@ -66,6 +66,36 @@ export const BASKET_ITEMS: Record<string, BasketItem> = {
     pantry: false,
     perishable: false,
   },
+  flank: {
+    name: 'Flank steak (Kroger)',
+    pack: 'per lb',
+    packQuantity: 1,
+    unit: 'lb',
+    price: 8.99,
+    section: 'meat',
+    pantry: false,
+    perishable: false,
+  },
+  eye_of_round: {
+    name: 'Beef eye of round roast, Choice (Kroger)',
+    pack: 'per lb',
+    packQuantity: 1,
+    unit: 'lb',
+    price: 9.99,
+    section: 'meat',
+    pantry: false,
+    perishable: false,
+  },
+  chuck: {
+    name: 'Beef chuck roast, boneless, Choice (Kroger)',
+    pack: 'per lb',
+    packQuantity: 1,
+    unit: 'lb',
+    price: 9.99,
+    section: 'meat',
+    pantry: false,
+    perishable: false,
+  },
   pork_chops: {
     name: 'Pork chops, boneless center cut',
     pack: 'per lb',
@@ -1098,6 +1128,39 @@ export const BASKET_RECIPES: BasketRecipe[] = [
     builds: {
       // 90/10 beef in place of the turkey
       beef: { perServingCost: 4.04, lines: { turkey: 0, ground_beef: 1 } },
+      // Rice in place of the tortillas, half the cheddar, and 3/4 cup of pico per bowl (1.5
+      // pico servings) in place of 1/2 cup
+      'rice-bowl': {
+        perServingCost: 3.19,
+        lines: {
+          tortilla: 0,
+          brown_rice: 6.5,
+          cheddar: 2,
+          corn: 0.8571,
+          red_onion: 0.4286,
+          jalapeno: 0.0536,
+          cherry_tom: 4.5429,
+          lime: 0.8571,
+          cilantro: 0.2829,
+        },
+      },
+      // The filling alone: no tortillas, cheese, cottage cheese blend, or pico
+      filling: {
+        perServingCost: 1.83,
+        lines: {
+          tortilla: 0,
+          cheddar: 0,
+          cottage: 0,
+          sour_cream: 0,
+          milk: 0,
+          corn: 0,
+          red_onion: 0,
+          jalapeno: 0,
+          cherry_tom: 0,
+          lime: 0,
+          cilantro: 0,
+        },
+      },
     },
   },
   {
@@ -1224,6 +1287,10 @@ export const BASKET_RECIPES: BasketRecipe[] = [
       black_rice: 6.7,
       scallions: 4,
       sesame_seeds: 0.1,
+    },
+    builds: {
+      // 1.5 lb flank, trimmed and sliced by hand, in place of two packs of ribeye strips
+      flank: { perServingCost: 5.59, lines: { ribeye: 0, flank: 1.5 } },
     },
   },
   {
@@ -1364,6 +1431,46 @@ export const BASKET_RECIPES: BasketRecipe[] = [
       scallions: 4,
       vinegar: 4,
       sugar: 0.15,
+    },
+    builds: {
+      'beef-eye-of-round': {
+        perServingCost: 5.09,
+        lines: { chicken_breast: 0, eye_of_round: 1.5 },
+      },
+      'beef-chuck': {
+        perServingCost: 5.09,
+        lines: { chicken_breast: 0, chuck: 1.5 },
+      },
+    },
+  },
+  // Sides and sauces, so they can be shopped alone. A dish that uses one already carries its
+  // lines, so these never come up as a pairing.
+  {
+    slug: 'spicy-charred-corn-pico',
+    servings: 7,
+    perServingCost: 0.52,
+    component: true,
+    lines: {
+      corn: 1,
+      red_onion: 0.5,
+      jalapeno: 0.0625,
+      cherry_tom: 5.3,
+      lime: 1,
+      cilantro: 0.33,
+    },
+  },
+  {
+    slug: 'mango-habanero-salsa',
+    servings: 5,
+    perServingCost: 0.68,
+    component: true,
+    lines: {
+      mango: 1,
+      red_onion: 0.5,
+      habanero: 0.75,
+      cucumber: 0.25,
+      lime: 1.5,
+      cilantro: 0.33,
     },
   },
 ]

@@ -9,12 +9,24 @@
   "difficulty": 2,
   "builds": [
     {
-      "key": "makeover",
-      "label": "Per serving",
+      "key": "per-serving",
+      "label": "Ribeye strips (Heritage)",
       "isDefault": true,
       "calories": 520,
       "carbsG": 51,
       "fatG": 14,
+      "proteinG": 46
+    },
+    {
+      "key": "flank",
+      "label": "Flank steak, trimmed",
+      "note": "Flank steak trimmed and sliced by hand in place of the pre-cut ribeye strips. Cheaper, with an extra 30 min to firm and slice. Trimmed flank runs about 4g higher in fat per serving.",
+      "costTier": 3,
+      "difficulty": 3,
+      "prepMinutes": 40,
+      "calories": 555,
+      "carbsG": 51,
+      "fatG": 18,
       "proteinG": 46
     }
   ],
@@ -31,7 +43,13 @@
   "ingredients": [
     {
       "group": "Beef",
-      "raw": "1.5 lb ribeye steak strips, pre-cut (Heritage brand), or flank steak with visible fat trimmed, hand-sliced thin against the grain"
+      "raw": "1.5 lb ribeye steak strips, pre-cut (Heritage brand)",
+      "skipBuilds": ["flank"]
+    },
+    {
+      "group": "Beef",
+      "raw": "1.5 lb flank steak, visible fat trimmed, hand-sliced thin against the grain",
+      "onlyBuilds": ["flank"]
     },
     {
       "group": "Marinade",
@@ -85,7 +103,8 @@
   "steps": [
     {
       "phase": "prep",
-      "body": "Using flank: trim the visible fat, freeze 20-30 min until firm, then slice thin against the grain. Pre-cut ribeye strips skip this step."
+      "body": "Trim the visible fat from the flank, freeze 20-30 min until firm, then slice thin against the grain.",
+      "onlyBuilds": ["flank"]
     },
     {
       "phase": "prep",
@@ -111,7 +130,7 @@
   "notes": [
     {
       "kind": "nutrition_analysis",
-      "body": "The traditional row assumes sirloin, 1.5 tbsp sesame oil, 1 tbsp of cooking oil, and white rice. The fat savings come from the leaner strips and less oil (1 tbsp sesame and 1 tsp to sear). They go toward protein and black rice, so calories stay level. The numbers use the Heritage strips, and trimmed flank runs a bit higher in fat."
+      "body": "The traditional row assumes sirloin, 1.5 tbsp sesame oil, 1 tbsp of cooking oil, and white rice. The fat savings come from the leaner strips and less oil (1 tbsp sesame and 1 tsp to sear). They go toward protein and black rice, so calories stay level. The default numbers use the Heritage strips. Trimmed flank runs about 4g higher in fat per serving."
     },
     {
       "kind": "make_or_break",
@@ -139,7 +158,8 @@
     },
     {
       "kind": "make_or_break",
-      "body": "**Slice flank thin and against the grain.** It is the step that makes bulgogi taste like bulgogi, and flank has a clear grain to follow"
+      "body": "**Slice flank thin and against the grain.** It is the step that makes bulgogi taste like bulgogi, and flank has a clear grain to follow",
+      "onlyBuilds": ["flank"]
     },
     {
       "kind": "fixes",
@@ -151,7 +171,8 @@
     },
     {
       "kind": "fixes",
-      "body": "**Flank chewy:** slice thinner and make sure the cuts run against the grain"
+      "body": "**Flank chewy:** slice thinner and make sure the cuts run against the grain",
+      "onlyBuilds": ["flank"]
     },
     {
       "kind": "levers",
