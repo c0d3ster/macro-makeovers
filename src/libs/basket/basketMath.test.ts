@@ -85,16 +85,19 @@ describe('basket build data', () => {
 
 describe('computeBasket', () => {
   it('shops for the build in the basket', () => {
-    const keys = (build?: string): string[] =>
-      computeBasket([{ ...one('turkey-taco-grillers'), build }], NO_PANTRY).lines.map(
-        ({ key }) => key
-      )
+    const keys = (build?: string, slug = 'turkey-taco-grillers'): string[] =>
+      computeBasket([{ ...one(slug), build }], NO_PANTRY).lines.map(({ key }) => key)
 
     expect(keys()).toContain('turkey')
     expect(keys('beef')).toContain('ground_beef')
     expect(keys('beef')).not.toContain('turkey')
+    expect(keys('rice-bowl')).toContain('brown_rice')
+    expect(keys('rice-bowl')).not.toContain('tortilla')
+
     // A build with no lines of its own shops like the recipe
-    expect(keys('rice-bowl')).toEqual(keys())
+    const pollo = 'pollo-asado-chicken-thigh-bowl'
+
+    expect(keys('skin-on', pollo)).toEqual(keys(undefined, pollo))
   })
 
   it('rounds up to whole packs once across recipes', () => {
