@@ -15,7 +15,7 @@ PRDs for the post-launch features. Each file is self-contained: problem, scope, 
 
 | #   | PRD                                                    | Depends on | Why this order                                       | Status |
 | --- | ------------------------------------------------------ | ---------- | ---------------------------------------------------- | ------ |
-| 01  | [Accounts and subscription](./01-accounts-subscription.md) | none       | Revenue gate. Everything paid hangs off it.          | Subscription not started (no Stripe code yet). Sign-up not checked. |
+| 01  | [Accounts and subscription](./01-accounts-subscription.md) | none       | Revenue gate. Everything paid hangs off it.          | Sign-up live (Google and email, tested Nov 13). Subscription not started (no Stripe code yet). |
 | 02  | [Personalization](./02-personalization.md)             | 01         | Free hook that makes the planner useful.             | Not started. Goal filters exist without a profile. |
 | 03  | [Ingredient normalization](./03-ingredient-normalization.md) | none | Prerequisite for the planner and for basket lines that follow recipe edits. Can start now. | Not started. |
 | 08  | [Basket](./08-basket.md)                               | none (01 for account saving) | Free hook and the shopping list. Runs on the price data that exists today. | Browser basket shipped. Account basket open. |

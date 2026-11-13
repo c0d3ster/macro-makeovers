@@ -141,7 +141,7 @@ The public side is a home page, a filterable grid, recipe pages, guides, and the
 Public read, owner-only write, enforced in the database and not only in the UI. Anyone can read published recipes. Only your account can create, edit, or publish.
 
 - Supabase Auth with Google OAuth, sessions through `@supabase/ssr`, and a proxy (`src/proxy.ts`, Next's renamed middleware) that redirects `/admin` and `/profile` to `/login`.
-- Public sign-ups are turned off in the Supabase Auth settings, and your `users.role` is set to `admin`. RLS checks the role, so the app is not the only guard.
+- Public sign-ups are on, with Google or email and password (email needs a confirmation link). New accounts get the `client` role, and your `users.role` is `super_admin`. RLS checks the role, so the app is not the only guard.
 - RLS policies allow anonymous `select` on rows where `status = 'published'`, with child tables checked through their parent. `insert`, `update`, and `delete` are allowed only for owners, and drafts are visible only to the owner.
 - Pages read recipes on the server through `RecipeService`, and writes go through GraphQL mutations. Both use Drizzle on a server-side database connection, which bypasses RLS, so the services and resolvers check the owner. There is no service role key in the app.
 
@@ -202,7 +202,7 @@ The biggest risk is ingredient parsing quality, and it only matters from meal pl
 
 Roughly in order, from [prd/README.md](./prd/README.md):
 
-1. Accounts and subscription (PRD 01): sign-up and the gate for paid features.
+1. Accounts and subscription (PRD 01): the subscription and the gate for paid features. Sign-up is already live.
 2. Personalization (PRD 02): a saved goal that highlights the recipes that fit it.
 3. Ingredient normalization (PRD 03): one shared ingredient list, so basket lines follow recipe edits instead of the hand-kept `src/libs/basket/basketData.ts`.
 4. Meal planner (PRD 04), then grocery ordering and Send to cart (PRD 05).
