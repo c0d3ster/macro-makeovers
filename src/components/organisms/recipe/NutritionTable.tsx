@@ -58,19 +58,9 @@ export const NutritionTable = ({
       aria-labelledby='nutrition-heading'
       className='flex flex-col gap-3'
     >
-      <div className='flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1'>
-        <h2 id='nutrition-heading' className='text-2xl font-semibold text-text'>
-          Nutrition
-        </h2>
-        {canSwitch && (
-          // "Tap" on touch screens, "Click" with a mouse or trackpad, whatever the width
-          <p className='text-sm text-text-muted'>
-            <span className='pointer-coarse:hidden'>Click</span>
-            <span className='hidden pointer-coarse:inline'>Tap</span> a build to
-            switch
-          </p>
-        )}
-      </div>
+      <h2 id='nutrition-heading' className='text-2xl font-semibold text-text'>
+        Nutrition
+      </h2>
 
       {intro.map((body) => (
         <div key={body} className='text-sm text-text-muted'>
@@ -82,7 +72,17 @@ export const NutritionTable = ({
         <table className='w-full text-left text-[10px] min-[375px]:text-[11px] min-[395px]:text-xs sm:text-sm'>
           <thead className='bg-surface text-text'>
             <tr>
-              <td />
+              {canSwitch ? (
+                // Sits over the build labels it is about. "Tap" on touch screens, "Click" with a
+                // mouse or trackpad, whatever the width.
+                <td className={`${cell} font-normal opacity-75`}>
+                  <span className='pointer-coarse:hidden'>Click</span>
+                  <span className='hidden pointer-coarse:inline'>Tap</span> a build
+                  to switch
+                </td>
+              ) : (
+                <td />
+              )}
               {HEADERS.map((header) => (
                 <th
                   key={header}

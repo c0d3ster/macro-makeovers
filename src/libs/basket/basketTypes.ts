@@ -44,6 +44,9 @@ export type BasketRecipe = {
   // The cost estimate per serving, prorated by what the recipe uses
   perServingCost: number
   lines: Record<string, number>
+  // A side or sauce. The dishes that use it already carry its lines, so bundle suggestions
+  // leave it out.
+  component?: boolean
   // Builds by key whose shopping differs. A build not listed shops like the recipe.
   builds?: Record<string, BasketBuild>
 }

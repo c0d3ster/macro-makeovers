@@ -51,6 +51,11 @@ export type BasketTotals = {
 
 export const BASKET_SLUGS = new Set(BASKET_RECIPES.map(({ slug }) => slug))
 
+// Dishes only: sides and sauces ride along inside the dishes that use them
+const BUNDLE_SLUGS = new Set(
+  BASKET_RECIPES.filter(({ component }) => !component).map(({ slug }) => slug)
+)
+
 const RECIPES_BY_SLUG = new Map(
   BASKET_RECIPES.map((recipe) => [recipe.slug, recipe])
 )
@@ -401,7 +406,9 @@ export const suggestAddition = (
   const inBasket = new Set(entries.map(({ slug }) => slug))
   const current = computeBasket(entries, options).tripCost
 
-  return BASKET_RECIPES.filter(({ slug }) => !inBasket.has(slug))
+  return BASKET_RECIPES.filter(
+    ({ slug, component }) => !component && !inBasket.has(slug)
+  )
     .map(({ slug }) => {
       const added = recipeEntry(slug)
       const alone = computeBasket([added], options).tripCost
@@ -436,7 +443,7 @@ export const rankBundles = (
   options: BasketOptions
 ): RankedBundle[] =>
   combinations(
-    slugs.filter((slug) => BASKET_SLUGS.has(slug)),
+    slugs.filter((slug) => BUNDLE_SLUGS.has(slug)),
     size
   )
     .map((group) => {

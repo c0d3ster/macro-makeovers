@@ -24,6 +24,7 @@
         "chicken": "beef"
       },
       "note": "Eye of round braised 2.5 to 3 hr in the same sauce in place of the chicken. Adds about 15 calories and 2g fat per serving and stays in the fat range. It shreds a bit drier, so the filling gets extra sauce.",
+      "costTier": 3,
       "cookMinutes": 250,
       "calories": 615,
       "carbsG": 62,
@@ -37,6 +38,7 @@
         "chicken": "beef"
       },
       "note": "Trimmed chuck braised 2.5 to 3 hr in the same sauce. Richer and closer to the traditional, but fat lands at 34%, above the target. Adds about 55 calories and 8g fat per serving for 3g less protein.",
+      "costTier": 3,
       "cookMinutes": 250,
       "calories": 655,
       "carbsG": 62,
