@@ -7,7 +7,8 @@ export const Env = createEnv({
     RESEND_API_KEY: z.string().optional(),
     // The contact form stays hidden until email sending is set up and verified. "true" shows it.
     CONTACT_FORM_ENABLED: z.enum(['true', 'false']).optional(),
-    SUPPORT_EMAIL: z.string().default('support@example.com'),
+    // Where contact form messages go
+    SUPPORT_EMAIL: z.string().default('hello@macromakeovers.com'),
     // Both optional: without them, publishing a recipe does not trigger a book rebuild
     GITHUB_DISPATCH_TOKEN: z.string().optional(),
     GITHUB_REPO: z.string().optional(),
