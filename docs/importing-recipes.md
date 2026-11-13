@@ -87,8 +87,8 @@ pnpm recipe:import content/recipes --overwrite # replace recipes that already ex
 pnpm recipe:import:prod content/recipes        # same, against the hosted database
 ```
 
-`docs/recipes.md` is the original book the seeds were parsed from (`pnpm recipe:parse`). It stays
-for that parser and its tests. Nothing in the book build reads it.
+`docs/recipes.md` is the original book the first 14 seeds were parsed from (`pnpm recipe:parse`).
+It stays for that parser and its tests. Nothing in the book build reads it.
 
 Not every part of the original book maps onto a field. Toppings and option tables are kept whole as
 `levers` notes, and per-batch and per-slider nutrition rows
@@ -107,9 +107,9 @@ pick is saved to `image_url`, with `image_is_placeholder` set. Uploads are shrun
 2048px on the long edge first. Attempts you don't pick stay in the bucket. A reference photo is passed
 through to OpenAI and not stored. Generating needs `OPENAI_API_KEY`, `R2_ACCOUNT_ID`,
 `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`, `R2_BUCKET`, and `R2_PUBLIC_URL`, and the editor says
-which are missing. The book uses `image_url`, falling back to `recipes/<slug>.jpg`. The 14 seed
-photos were uploaded once, and `pnpm photos:backfill` (`:prod` for hosted) points their
-`image_url` at them.
+which are missing. The book uses `image_url`, falling back to `recipes/<slug>.jpg`. The seed
+photos were uploaded once, and `pnpm photos:backfill` (`:prod` for hosted) points each seed
+recipe's empty `image_url` at its photo, skipping seeds with no photo in R2.
 
 ## The printable book
 
@@ -122,8 +122,9 @@ appears in it with its photo.
   `/about`.
 - `content/book/order.json` lists recipe slugs in book order. Recipes not listed follow, A to Z.
   Variants take a letter after their base (10, 10a).
-- Each photo is downloaded from R2 (`R2_PUBLIC_URL`, object `recipes/<slug>.jpg`). A recipe with
-  no photo in R2 prints without one, and without `R2_PUBLIC_URL` the book has no photos.
+- Each photo is the one picked in the editor (`image_url`), else `recipes/<slug>.jpg` in R2. A
+  recipe whose photo cannot be fetched prints without one, and without `R2_PUBLIC_URL` the book
+  has no photos.
 
 ```bash
 pnpm book:pdf                            # build/macro-makeovers.pdf from the local database
@@ -168,11 +169,17 @@ bowl, or with beef. Builds are the rows of the nutrition table, in `builds`, and
 only the traditional comparison rows. Older JSON with makeover rows in `nutrition` still imports,
 with keys made from the labels.
 
-- Each build has its own macros. A `swap` like `{ "turkey": "beef" }` trades the recipe tag and
-  the matching title word, and `title` is there only when the swapped wording is not right. A
-  build can also set its note, cost tier, difficulty, and times. The default build normally sets
-  nothing beyond its macros.
-- Ingredients, steps, and notes set `onlyBuilds` or `skipBuilds` to scope them to some builds.
+- Each build has a `key` (made from the `label` when missing), a `label`, and its own macros. One
+  build is `isDefault`, the first when none is set. `listed: false` marks a part like "Filling
+  only" that can be picked on the page but never leads a card, and the default must be listed.
+- A `swap` like `{ "turkey": "beef" }` trades the recipe tag and the matching word in the title
+  and summary, and `title` is there only when the swapped wording is not right. The old tag has
+  to be a recipe tag and the new one cannot already be one. A build can also set its `note`,
+  `costTier`, `difficulty`, `prepMinutes`, `cookMinutes`, and `course`. The default build
+  normally sets nothing beyond its macros.
+- Ingredients, steps, notes, and components set `onlyBuilds` or `skipBuilds` (never both) to a
+  list of build keys to scope them to some builds. Every build needs at least one ingredient and
+  one step.
 - The recipe page switches builds from the nutrition table and keeps the choice in `?build=key`.
   The grid shows each recipe's best build for the active filters and goal.
 - Saves match builds by key, so a build keeps its photo across edits. Renaming a key in the

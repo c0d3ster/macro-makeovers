@@ -12,13 +12,19 @@ PDF book, rebuilt automatically when a published recipe changes.
 ## What's in here
 
 - **Recipe site**: browse and filter recipes by tag and macro fit (`/`), read a recipe with its
-  traditional vs. makeover nutrition (`/recipes/[slug]`), and browse by tag (`/tags/[tag]`). Each
-  recipe page has its own share image with its calories and C/F/P split.
+  traditional vs. makeover nutrition (`/recipes/[slug]`), and browse by tag (`/tags/[tag]`). A
+  recipe can have several builds (versions that share its method, picked from the nutrition
+  table), and dishes link the sides and sauces they use. Each recipe page has its own share image
+  with its calories and C/F/P split.
+- **Basket**: pick recipes for the week and get one pooled shopping list with the trip cost
+  (`/basket`).
+- **Guides**: the nutrition, shopping, and recipe reading guides (`/guides`) and the About page
+  (`/about`).
 - **Admin**: the site owner can import, edit, publish, and unpublish recipes at `/admin`.
-- **Claude connector**: `/api/mcp` is a remote MCP server, so recipes can be validated and
-  imported straight from a Claude chat.
-- **Photos**: a new recipe with no photo gets a generated placeholder (OpenAI image API), stored
-  in Cloudflare R2.
+- **Claude connector**: `/api/mcp` is a remote MCP server, so recipes can be read, validated,
+  and imported straight from a Claude chat.
+- **Photos**: uploaded or generated (OpenAI image API) in the recipe editor, stored in Cloudflare
+  R2.
 - **Recipe book**: built from the published recipes and published to the `recipe-book` release
   by a GitHub workflow whenever the book's contents change.
 
@@ -139,13 +145,14 @@ The book build needs `pandoc` on the PATH and Playwright's Chromium
 ```
 content/
 ├── recipes/          # Seed recipe JSON for a fresh local database
-└── book/             # Book prose and recipe order
-docs/                 # About, guides, and PRDs
+├── book/             # Book intro and recipe order
+└── guides/           # About and guide prose, shared by the site and the book
+docs/                 # Import and deployment how-tos, PRDs, cost data
 scripts/              # Recipe import, book build, photo backfill
 supabase/             # Local stack config and SQL migrations
 src/
 ├── app/
-│   ├── (public)/     # Home, recipes, tags, login
+│   ├── (public)/     # Home, recipes, tags, basket, guides, about, login
 │   ├── (admin)/      # Owner-only recipe import and editor
 │   ├── (auth)/       # Signed-in pages (profile)
 │   └── api/          # GraphQL and MCP endpoints
@@ -169,5 +176,5 @@ src/
 ## Contributing
 
 Commits follow Conventional Commits. Lefthook runs lint and type checks on commit, and CI runs the
-dependency check and tests on every PR. Project conventions for agents and humans are in
+dependency check and tests on every PR to `main`. Project conventions for agents and humans are in
 [AGENTS.md](AGENTS.md).

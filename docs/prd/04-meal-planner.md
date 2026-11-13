@@ -1,5 +1,7 @@
 # PRD 04: Meal planner (paid)
 
+**Status:** Not started. Builds (PRD 09) and courses with components (#64) shipped since this was written, so the planner picks a build per entry and the basket hand-off sends servings, not batches.
+
 ## Problem
 
 Members who like the recipes still have to work out a week of meals that hits their macros by hand.
@@ -18,7 +20,7 @@ A paid member builds a weekly plan from the recipes, sees how each meal fits the
 - Auto-suggest: fill empty slots with recipes that fit the remaining macros. Start simple (filter and rank), not an optimizer.
 - Swap a recipe, duplicate a day, repeat last week.
 - Leftovers: a recipe cooked once can fill several slots (batch cooking is how this book works).
-- Send the plan to the basket (PRD 08). Each planned recipe becomes a basket entry with its batch count, so the pooled list, costs, and "Send to cart" come from the basket.
+- Send the plan to the basket (PRD 08). Each planned recipe becomes a basket entry with its build and servings (the basket counts servings, not batches), so the pooled list, costs, and "Send to cart" come from the basket.
 - Leftover-aware suggestions: using the basket's leftover math, suggest recipes that use up what a plan leaves behind (half a tub of cottage cheese, the rest of the cilantro), with short-shelf-life items first.
 - Saved plans, with one active plan per week.
 
@@ -31,7 +33,7 @@ A paid member builds a weekly plan from the recipes, sees how each meal fits the
 ## Requirements
 
 1. Paid only. Free members see a preview with sample data and an upgrade prompt. The preview does not need real planner logic.
-2. Totals use per-serving nutrition from the default variant, scaled by servings. Allow choosing another variant where a recipe has one.
+2. Totals use per-serving nutrition from the chosen build (PRD 09), scaled by servings. The default build is preselected, and the member can pick another where a recipe has one. Note that the basket keeps one build per recipe, so a plan with two builds of one recipe cannot send both as it works today.
 3. A plan works without a profile, with no fit indicators, and nudges the member to set a goal and goal weight.
 4. Servings math is shared with the recipe page scaler, and pricing and leftover math are shared with the basket (`src/libs/basket`).
 5. Mobile first. Planning happens on a phone in a store aisle or a couch.
@@ -39,7 +41,7 @@ A paid member builds a weekly plan from the recipes, sees how each meal fits the
 
 ## Data
 
-`meal_plans(id, user_id, week_start, name)` and `meal_plan_entries(id, plan_id, day, slot, recipe_id, nutrition_variant_id, servings)`.
+`meal_plans(id, user_id, week_start, name)` and `meal_plan_entries(id, plan_id, day, slot, recipe_id, build_key, servings)`. Builds are keyed per recipe (`recipe_builds.key`), and makeover rows no longer live in `recipe_nutrition`, so there is no nutrition variant id to point at.
 
 ## Success metrics
 
@@ -51,8 +53,8 @@ A paid member builds a weekly plan from the recipes, sees how each meal fits the
 
 ## Risks and open questions
 
-- Only 14 recipes. A week of varied meals is thin, so the planner depends on recipe growth. The launch target is 25 recipes. Make sure repeats and leftovers feel intentional.
-- Snacks, breakfast, and sides. The book is mostly dinners, so the catalog may not cover every slot. Decide if slots are optional.
+- Few recipes. The seed set is 14 dishes and 2 sauces, so a week of varied meals is thin and the planner depends on recipe growth. The launch target is 25 recipes. Make sure repeats and leftovers feel intentional.
+- Snacks, breakfast, and sides. The book is mostly dinners, so the catalog may not cover every slot. Decide if slots are optional. Recipes now carry a course (breakfast, appetizer, main, side, sauce, and a build can override it), so slots can filter by course. A dish's build macros already include the sides and sauces it links as components, so adding one of those to the same meal would count it twice.
 - Whether auto-suggest is in v1 or v2. Recommend v2, and ship manual planning first.
 
 ## Tasks

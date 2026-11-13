@@ -13,10 +13,14 @@ pnpm exec supabase link --project-ref <project-ref>
 pnpm db:push
 ```
 
+`db:push` runs `supabase db push --remote`. Supabase CLI 3.x pushes to the local database unless
+told otherwise, so the flag is what sends migrations to the linked hosted project.
+
 ## Environment variables
 
-- `NEXT_PUBLIC_SUPABASE_URL` is `https://<project-ref>.supabase.co`, and the keys come from
-  Dashboard → Project Settings → API Keys.
+- `NEXT_PUBLIC_SUPABASE_URL` is `https://<project-ref>.supabase.co`, and
+  `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` comes from Dashboard → Project Settings → API Keys.
+- `NEXT_PUBLIC_BRAND_NAME` is the site name used in page titles.
 - `DATABASE_URL` uses the transaction pooler (port 6543) at runtime and the direct or session
   connection (port 5432) for `db:pull`. Recipe pages are built ahead of time, so set it for the
   build too. Without it the build still succeeds and recipe pages render on first visit instead.
@@ -24,8 +28,22 @@ pnpm db:push
   are built from it.
 - `GITHUB_DISPATCH_TOKEN` and `GITHUB_REPO` let the app trigger book rebuilds. Without them the
   app logs and skips the rebuild.
-- `OPENAI_API_KEY` and the `R2_*` values turn on placeholder photos. See `.env.example` for the
-  full list.
+- `OPENAI_API_KEY` and the `R2_*` values turn on placeholder photos.
+- `RESEND_API_KEY` and `SUPPORT_EMAIL` send the contact form. The form stays hidden until
+  `CONTACT_FORM_ENABLED` is `true`, so set that only once Resend has a verified sending domain.
+
+`src/libs/Env.ts` has the full list. `.env` and `.env.production` hold the public defaults, and
+`.env.example` covers the optional values.
+
+## GitHub Actions
+
+- `CI.yml` runs on pushes and pull requests to `main`: build, lint, type check, `check:deps`, unit
+  tests, e2e, and a commit message check on pull requests. It needs the `CODECOV_TOKEN` secret for
+  coverage uploads.
+- `release.yml` runs semantic-release when a CI run on `main` completes.
+- `book.yml` builds the recipe book PDF from the hosted database. It runs on pushes to `main` that
+  touch `docs/` or `content/`, by hand, and on the app's `recipe-book-rebuild` dispatch. It needs
+  the `DATABASE_URL` secret (read only) and the `R2_PUBLIC_URL` variable.
 
 ## Google sign-in
 

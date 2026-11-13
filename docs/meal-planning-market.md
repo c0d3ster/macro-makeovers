@@ -91,7 +91,7 @@ Research for the paid plan and the basket. Checked 2026-11-08. App Store ratings
 4. **GLP-1 and protein demand.** High-protein, smaller portions and protein per serving fit this audience. Mention it in copy without making medical claims.
 5. **Gaps to close:**
    - **Recipe count:** about 15 recipes against thousands at eMeals. Meal planning needs variety to retain paying users.
-   - **Macro targets:** no personal targets yet (PRD 02 covers this).
+   - **Macro targets:** `/recipes` ranks by goal or hand-set macro targets, but nothing is saved per person yet (PRD 02 covers this).
    - **No native app:** competitors are app-first.
    - **No reviews yet:** there's no social proof.
 6. **Retention risk.** Annual plans renew at about 40%, and a small library hurts retention. Grow the recipe count before pushing annual plans hard. Offer a 7 to 14 day trial.
