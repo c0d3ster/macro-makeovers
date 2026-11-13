@@ -23,7 +23,7 @@ PRDs for the post-launch features. Each file is self-contained: problem, scope, 
 | 05  | [Grocery ordering](./05-grocery-ordering.md)           | 01, 08     | Second paid feature. "Send to cart" from the basket. | Not started. "Send to cart" is a placeholder. |
 | 06  | [Favorites and reviews](./06-reviews.md)               | 01         | Free engagement, later. Favorites first, reviews once there is traffic. | Not started. |
 | 07  | [Launch and advertising](./07-launch.md)               | 01, 08 minimum | Gets paying users. Can overlap with 02 to 05.    | Not checked. |
-| 09  | [Builds](./09-builds.md)                               | none       | Lets filters and the basket use every build, not only the default. Before 02 and 04, which judge fit per build. | Shipped. Bulgogi flank build open. |
+| 09  | [Builds](./09-builds.md)                               | none       | Lets filters and the basket use every build, not only the default. Before 02 and 04, which judge fit per build. | Shipped. |
 
 03, 08, 09, and 01 have no blocking dependencies, so they can run in parallel. 08 is numbered last because it was added later, but it builds early. Grocery service options are compared in [`docs/grocery-services.md`](../grocery-services.md).
 

@@ -1,6 +1,6 @@
 # PRD 09: Builds (free)
 
-**Status:** Shipped in #57, #58, #59, #64, and #65. Each requirement and task below is marked **Done**, **Changed** (shipped differently, and the text now matches the code), or **Open**. Still open: the bulgogi flank build, and basket prices for builds that shop differently but have no price lines yet.
+**Status:** Shipped in #57, #58, #59, #64, and #65. Each requirement and task below is marked **Done**, **Changed** (shipped differently, and the text now matches the code), or **Open**. Every build that shops differently has basket lines.
 
 ## Problem
 
@@ -37,7 +37,7 @@ Rule of thumb: if it is the same dish cooked the same way, with some lines or st
 - `?build=<key>` on recipe URLs, so a build can be linked and shared.
 - Grid, filters, sorting, and goal matching resolve one build per recipe.
 - Import schema, admin editor, Claude connector, and the book all carry builds.
-- Turn the inline Costco option in Pollo Asado into its own build (done). Convert the flank steak bulgogi option into a build (open).
+- Turn the inline Costco option in Pollo Asado into its own build (done). Convert the flank steak bulgogi option into a build (done).
 
 **Out**
 
@@ -180,7 +180,7 @@ The fields are all optional, so a build costs nothing until it differs. The risk
 ### Basket
 
 14. **Changed.** A basket entry is `{ slug, build?, servings }`, with no build meaning the default. Servings replaced the batch count in #57. Builds of one recipe stay mutually exclusive: adding one replaces the other.
-15. **Changed.** Price data lives in `src/libs/basket/basketData.ts`. A recipe's entry can carry a `builds` map: per build, a cost per serving and changes to the recipe's lines by item key, where 0 drops a line (#59). A build with no entry shops like the recipe. Priced so far: the Taco Grillers `beef` build and the Pollo Asado `costco` build. Saved baskets without a build read as the default. **Open:** the bulgogi flank lines (`9a` in `docs/basket-data.json`) wait on a flank build, and the enchilada beef builds have no lines of their own yet.
+15. **Changed.** Price data lives in `src/libs/basket/basketData.ts`. A recipe's entry can carry a `builds` map: per build, a cost per serving and changes to the recipe's lines by item key, where 0 drops a line (#59). A build with no entry shops like the recipe. Priced: the Taco Grillers `beef`, `rice-bowl`, and `filling` builds, the Pollo Asado `costco` build, the bulgogi `flank` build, and the enchilada `beef-eye-of-round` and `beef-chuck` builds. Saved baskets without a build read as the default.
 
 ### Authoring and the book
 
@@ -196,7 +196,7 @@ As seeded in `content/recipes`. The hosted database is the source of truth and m
 | Recipe                | Builds                                                                                                     |
 | --------------------- | ---------------------------------------------------------------------------------------------------------- |
 | Turkey Taco Grillers  | **Done.** `grillers` (default), `beef` "Lean Beef Taco Grillers", `rice-bowl`, `filling` (unlisted). The turkey and beef lines are split, and the base has no `beef` tag. The corn pico is a component, linked twice at different amounts. |
-| Beef Bulgogi          | **Open.** One build. Flank is still an inline option in the ribeye line and steps. Plan: `ribeye` (default), `flank` with cost tier 3 and a meat swap. |
+| Beef Bulgogi          | **Done.** `per-serving` (default, "Ribeye strips (Heritage)") and `flank` with cost tier 3, difficulty 3, and a longer prep. The meat line is split, and the trim-and-slice step and flank notes are only for `flank`. No swap, since both builds are beef. |
 | Pollo Asado Chicken Thigh Bowl | **Done.** `skinless` (default), `costco` with cost tier 3 and a shorter prep, `skin-on`. Marinade lines and step skip `costco`. The mango habanero salsa is a component. |
 | Greek Yogurt Tuna Melt | **Done.** `melt-on-hoagie-roll-default` (default), `melt-on-sourdough`, `cold-sandwich-whole-wheat`, `salad-only-1-serving` (unlisted). Each sandwich build has its own bread line and broil step. |
 | Kickin' Fried Chicken | **Done.** `plate-chicken-sides-ranch` (default), `chicken-only` (listed). Sides are only on the plate. |
@@ -220,7 +220,7 @@ Every other recipe has one build. Build keys follow the hosted database, so phot
 - **Costco macros.** Settled from Costco's label (4 oz: 150 calories, under 1g carbs, 7g fat, 22g protein). 6 oz is 225 calories, 10.5g fat, and 33g protein. 6 oz raw skinless thigh with its share of the oil and marinade comes to about 228 calories, 8g fat, and 34g protein. That is within the spread of store-bought thighs, so homemade skinless and Costco share one set of numbers. Costco stays a build for its cost, prep, and steps.
 - **Renaming a key.** Lines and steps point at build keys, so the editor rewrites them on rename. Validation catches any it misses.
 - **Title wins over search?** Settled: a build whose title matches the search beats fit, both when picking a recipe's build and when ranking cards.
-- **Builds without price lines.** A build with no basket entry shops like the recipe, so its trip cost can be off (the enchilada beef builds buy chicken). Add lines when a build's shopping differs.
+- **Builds without price lines.** A build with no basket entry shops like the recipe, so a new build that buys something different needs lines in `basketData.ts`, or its trip cost is off.
 
 ## Tasks
 
@@ -231,4 +231,4 @@ Every other recipe has one build. Build keys follow the hosted database, so phot
 5. **Done.** Grid card: resolved build, link with the build key, non-default label.
 6. **Done.** Basket: entries with a build, price lines by build (#59), stored baskets without a build read as the default.
 7. **Done.** Admin build editor, build photos in the photo editor, and the Claude connector.
-8. **Mostly done.** Book output, the seed data changes, and the Pollo Asado split. **Open:** the bulgogi flank build and retiring any flank variant on the hosted database.
+8. **Mostly done.** Book output, the seed data changes, and the Pollo Asado split. The bulgogi flank build is on the hosted database too.
