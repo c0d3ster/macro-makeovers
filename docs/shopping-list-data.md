@@ -33,14 +33,18 @@ with Costco precooked chicken. Their slugs don't match a recipe.
 On the site an alternate is a build of its recipe, not its own recipe. A
 recipe's `builds` maps a build key to that build's `perServingCost` and the
 `lines` it changes: a quantity replaces the recipe's, and `0` drops the line.
-Two builds are priced: the taco grillers' `beef` (3a, 90/10 beef for the
-turkey) and the pollo asado's `costco` (11a). A build that isn't listed, like
-the enchilada casserole's beef builds, shops like its recipe. The flank
-bulgogi (9a) has no lines in the app.
+Priced builds: the taco grillers' `beef` (3a, 90/10 beef for the turkey),
+`rice-bowl` (rice for the tortillas, half the cheddar, 1.5x the pico), and
+`filling` (no tortillas or toppings), the pollo asado's `costco` (11a), the
+bulgogi's `flank` (9a), and the enchilada casserole's `beef-eye-of-round` and
+`beef-chuck`. A build that isn't listed shops like its recipe.
 
 Sides and sauces linked as components, like the corn pico and the mango
-habanero salsa, have no basket entry. Their ingredients are priced inside the
-dish's lines, so they can't be added to the basket alone.
+habanero salsa, are priced inside the dish's lines at the amount each build
+uses. They also have entries of their own with `component: true`, so they can
+be added to the basket alone. Bundle rankings and the basket's "add this to
+save" suggestion skip them, since the dishes that use them already carry
+their lines.
 
 ## How the basket prices a trip
 
