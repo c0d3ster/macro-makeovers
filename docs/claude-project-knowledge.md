@@ -4,6 +4,15 @@ Paste this whole file into the project's knowledge. It tells Claude how to draft
 recipe as JSON the site imports without errors. The schema is the source of truth
 (`src/validations/RecipeImportValidation.ts`); the connector's `get_recipe_schema` tool returns it.
 
+## Connector tools
+
+- `get_recipe_schema`: the JSON Schema for a recipe in import shape. Call it before drafting.
+- `get_recipe`: a saved recipe by slug in import shape, drafts included, with its `id`,
+  `status`, and `updatedAt`.
+- `validate_recipe`: checks a recipe and diffs it against the saved one. Writes nothing.
+- `import_recipe`: saves a recipe. A new slug lands as a draft, and an existing slug is only
+  replaced with `overwrite: true`.
+
 ## The flow
 
 1. Draft and refine the recipe in the project chat.
@@ -31,21 +40,24 @@ returned diff and only retry with overwrite once the user agrees.
   `cookMinutes` are whole numbers.
 - `builds` are the versions of the recipe, one per nutrition table row, per serving. Include at
   least one. Each has a `key` (lowercase words joined by hyphens, like `rice-bowl`), a `label`, and
-  `calories`, `carbsG`, `fatG`, and `proteinG`. Mark exactly one `isDefault: true`. Set
-  `listed: false` on a part that is not a meal, like "Filling only".
+  `calories`, `carbsG`, `fatG`, and `proteinG`. Mark one `isDefault: true` (with none, the first
+  build is the default). Set `listed: false` on a part that is not a meal, like "Filling only".
+  The default build must be listed.
 - A build that trades one main ingredient sets `swap`, like `{ "turkey": "beef" }`. The recipe
-  tag `turkey` becomes `beef`, and the word in the title swaps with it, so "Turkey Taco Grillers"
-  reads "Beef Taco Grillers". Recipe `tags` describe the default build, so the build's new tag
-  must not already be one. Set `title` only when the swapped title is not the wording wanted,
+  tag `turkey` becomes `beef`, and the word in the title and summary swaps with it, so "Turkey
+  Taco Grillers" reads "Beef Taco Grillers". Recipe `tags` describe the default build, so the
+  swapped tag must be a recipe tag and the build's new tag must not already be one. Set `title` only when the swapped title is not the wording wanted,
   like "Lean Beef Taco Grillers".
 - A build can also set `note` (one or two lines on what it changes), `costTier`, `difficulty`,
-  `prepMinutes`, and `cookMinutes`. Leave any of them out to keep the recipe's value. The summary
-  and other prose stay the recipe's. Text only some builds need goes in a note scoped to them.
+  `prepMinutes`, `cookMinutes`, and `course`. Leave any of them out to keep the recipe's value.
+  Beyond the swapped word, the summary and other prose stay the recipe's. Text only some builds
+  need goes in a note scoped to them.
 - `nutrition` holds only the `traditional` comparison rows, per serving, when there is a fair one.
   Do not add whole-batch rows.
 - An ingredient, step, or note that only some builds use sets `onlyBuilds` or `skipBuilds` to a
   list of build keys, never both. To swap a line, the default's line skips the build and the
-  build's line is only for it. A build that needs its own step gets one with `onlyBuilds`.
+  build's line is only for it. A build that needs its own step gets one with `onlyBuilds`. Every
+  build needs at least one ingredient and one step.
 - Macros read carbs, fat, protein, in that order. Keep protein prominent in the summary and notes.
 - `ingredients` need only `raw` (the line as written). `group` is an optional heading like
   `Sauce`. `quantity`, `unit`, `name`, and `note` are optional and can be filled when they are
@@ -68,8 +80,10 @@ returned diff and only retry with overwrite once the user agrees.
   `{ "slug": "mango-habanero-salsa", "amount": "1/2 cup per bowl", "servingsPerServing": 1 }`.
   `servingsPerServing` is the component's servings in one serving of the dish. Scope a component
   to some builds with `onlyBuilds` or `skipBuilds`, and list it twice when two builds use different
-  amounts. The component must already exist, and cannot use components itself. The dish's build
-  macros still include the component.
+  amounts, but never twice for the same build. `build` picks the component's build by key (its
+  default when left out), and `note` is optional. The component must already exist and cannot use
+  components itself, so components are one level deep. The dish's build macros still include the
+  component.
 - `variantOf` is the slug of the base recipe when this one is a full variation of it. The base must
   already exist, and a variant cannot itself be a base.
 - Build or variant: if it is the same dish cooked the same way, with some lines or steps added,
@@ -89,30 +103,53 @@ returned diff and only retry with overwrite once the user agrees.
   "cookMinutes": 10,
   "costTier": 3,
   "difficulty": 1,
-  "nutrition": [
+  "course": "main",
+  "builds": [
     {
-      "kind": "makeover",
+      "key": "classic",
       "label": "Per serving (3)",
+      "isDefault": true,
       "calories": 620,
       "carbsG": 56,
       "fatG": 26,
-      "proteinG": 41,
-      "isDefault": true
+      "proteinG": 41
     },
+    {
+      "key": "leaner",
+      "label": "Leaner variation, per serving",
+      "note": "Splits the meat with deli chicken and uses half the prosciutto.",
+      "calories": 590,
+      "carbsG": 57,
+      "fatG": 21,
+      "proteinG": 44
+    }
+  ],
+  "nutrition": [
     {
       "kind": "traditional",
       "label": "Traditional per serving (3)",
       "calories": 690,
       "carbsG": 52,
       "fatG": 40,
-      "proteinG": 30,
-      "isDefault": false
+      "proteinG": 30
     }
   ],
   "ingredients": [
     { "raw": "12 Hawaiian rolls (1 pack)" },
-    { "raw": "18 oz (2 packs) lower sodium honey ham, 1.5 oz per slider" },
-    { "raw": "~6 slices prosciutto, half a slice per slider" },
+    {
+      "raw": "18 oz (2 packs) lower sodium honey ham, 1.5 oz per slider",
+      "skipBuilds": ["leaner"]
+    },
+    {
+      "raw": "9 oz (1 pack) lower sodium honey ham, 0.75 oz per slider",
+      "onlyBuilds": ["leaner"]
+    },
+    {
+      "raw": "9 oz deli chicken breast, 0.75 oz per slider",
+      "onlyBuilds": ["leaner"]
+    },
+    { "raw": "~6 slices prosciutto, half a slice per slider", "skipBuilds": ["leaner"] },
+    { "raw": "~3 slices prosciutto, a quarter slice per slider", "onlyBuilds": ["leaner"] },
     { "raw": "12 slices sharp aged white cheddar (~4 oz total)" },
     { "raw": "1 avocado" },
     { "group": "Toppings", "raw": "1/2 onion, sliced" },
@@ -123,7 +160,13 @@ returned diff and only retry with overwrite once the user agrees.
     { "phase": "prep", "body": "Slice the onion and jalapeño." },
     {
       "phase": "cook",
-      "body": "Layer the ham, prosciutto, cheddar, onion, and jalapeño in the rolls."
+      "body": "Layer the ham, prosciutto, cheddar, onion, and jalapeño in the rolls.",
+      "skipBuilds": ["leaner"]
+    },
+    {
+      "phase": "cook",
+      "body": "Layer the ham, chicken, prosciutto, cheddar, onion, and jalapeño in the rolls.",
+      "onlyBuilds": ["leaner"]
     },
     {
       "phase": "cook",
@@ -134,7 +177,8 @@ returned diff and only retry with overwrite once the user agrees.
   "notes": [
     {
       "kind": "nutrition_analysis",
-      "body": "Strong protein, but 26g fat is a third of a 75g day in one meal. Plan a leaner day around it."
+      "body": "Strong protein, but 26g fat is a third of a 75g day in one meal. Plan a leaner day around it, or pick the leaner build in the table.",
+      "skipBuilds": ["leaner"]
     },
     {
       "kind": "make_or_break",

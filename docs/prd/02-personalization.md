@@ -1,5 +1,7 @@
 # PRD 02: Personalization
 
+**Status:** Not started. There is no member profile yet. The grid already has goal and macro target filters with fit badges (`src/libs/recipes/recipeGoals.ts` and `recipeFit.ts`), driven by fixed per-goal ratios, and they judge each recipe by its best-fitting build (PRD 09).
+
 ## Problem
 
 Every visitor sees the same recipes with the same filters. People want to know which recipes fit their goal and their body, without doing the math.
@@ -44,7 +46,7 @@ This is not a calorie tracker. The site only covers recipes, not every meal in s
 5. The UI shows total burn and target calories, labels each number "default" or "yours", and lets the member switch back to the default. Choosing a preset fills the burn right away and shows it in calories. Typing a number by hand switches the level to "custom".
 6. Filter presets only set protein and fat bounds. They never hide recipes with no way back: the toggle is always visible, and the member can change the bounds by hand.
 7. Protein stays a first-class number, shown alongside C/F/P and not treated as a leftover.
-8. A recipe "fit" is computed from per-serving nutrition. Where a recipe has several variants (for example fully loaded), use the default one.
+8. A recipe "fit" is computed from per-serving nutrition, for the build that fits best, the same way the grid's goal filter already does. PRD 09 requirement 13 replaces the old rule here, which used the default only. Goal matching covers the dish courses (breakfast, appetizer, main). Sides and sauces are not judged on their own, since a dish's build macros already include the components it uses.
 9. The profile form validates ranges and rejects absurd values.
 10. Members can delete their profile data.
 11. Goal weight, resting calories, and activity burn each record their source: `manual`, `default`, or `partner`. A partner write never overwrites a `manual` value, and the member sees where each value came from. This keeps the door open for ForgeFit (see PRD 01 and the README) to send weight, resting calories, and a real average activity burn, through GraphQL with a scoped credential and not through the form. No partner work is built now.
