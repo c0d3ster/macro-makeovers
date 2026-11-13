@@ -2,7 +2,7 @@
 
 ## Problem
 
-Only the owner can sign in today. There is no way for a visitor to create an account or pay, so there is no revenue.
+Anyone can create a free account today, with Google or email. There is no way to pay, so there is no revenue.
 
 ## Goal
 
@@ -12,7 +12,7 @@ Visitors can sign up free, subscribe to one paid plan, and get the paid features
 
 **In**
 
-- Public sign-up with Google and email magic link (Google is already wired).
+- Public sign-up with Google, or email and password with a confirmation link. Done.
 - One Stripe subscription plan, monthly. Price set by config, not code.
 - Stripe Checkout for purchase and the Stripe Customer Portal for cancel, card change, and invoices.
 - Webhook-driven subscription state in our database.
@@ -34,7 +34,7 @@ Visitors can sign up free, subscribe to one paid plan, and get the paid features
 
 ## Requirements
 
-1. Hosted Supabase sign-ups are on. Existing owner roles are unchanged. New users get role `client`.
+1. Hosted Supabase sign-ups are on, and new users get role `client`. Done. Auth emails come from Supabase's built-in sender until they move to Resend SMTP from hello@macromakeovers.com.
 2. `subscriptions` table keyed by user: Stripe customer id, subscription id, status, current period end, cancel at period end.
 3. Stripe webhooks (`checkout.session.completed`, `customer.subscription.updated`, `customer.subscription.deleted`, `invoice.payment_failed`) update the table. Handlers are idempotent and verify the signature.
 4. `hasPaidAccess` is true for status `active` or `trialing`, and for `past_due` inside a short grace window. Owners always have access.
@@ -67,7 +67,7 @@ Visitors can sign up free, subscribe to one paid plan, and get the paid features
 
 ## Tasks
 
-1. Open sign-ups on hosted Supabase, sign-up UI, account page.
+1. Sign-up and the account page are live. Remaining: send auth emails through Resend from hello@macromakeovers.com.
 2. `subscriptions` migration and model.
 3. Stripe products, Checkout, Portal, webhook route, idempotency.
 4. `hasPaidAccess` and the typed error across resolvers.
