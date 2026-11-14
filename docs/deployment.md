@@ -29,8 +29,8 @@ told otherwise, so the flag is what sends migrations to the linked hosted projec
 - `GITHUB_DISPATCH_TOKEN` and `GITHUB_REPO` let the app trigger book rebuilds. Without them the
   app logs and skips the rebuild.
 - `OPENAI_API_KEY` and the `R2_*` values turn on placeholder photos.
-- `RESEND_API_KEY` and `SUPPORT_EMAIL` send the contact form. The form stays hidden until
-  `CONTACT_FORM_ENABLED` is `true`, so set that only once Resend has a verified sending domain.
+- `RESEND_API_KEY` sends email from hello@macromakeovers.com, a verified Resend domain. `SUPPORT_EMAIL`
+  is where makeover ideas from the about page go (default hello@macromakeovers.com).
 
 `src/libs/Env.ts` has the full list. `.env` and `.env.production` hold the public defaults, and
 `.env.example` covers the optional values.

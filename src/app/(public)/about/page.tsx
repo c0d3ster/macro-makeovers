@@ -28,11 +28,9 @@ const AboutPage = (): ReactElement => (
       </div>
     </main>
 
-    {Env.CONTACT_FORM_ENABLED === 'true' && (
-      <div id='contact' className='bg-surface py-16'>
-        <ContactForm />
-      </div>
-    )}
+    <div id='contact' className='bg-surface py-16'>
+      <ContactForm />
+    </div>
   </LandingPageTemplate>
 )
 

@@ -114,7 +114,7 @@ The public side is a home page, a filterable grid, recipe pages, guides, and the
 | `/recipes/[slug]`                                   | Full recipe, build switcher (`?build=`), servings scaler, comparison, notes |
 | `/tags/[tag]`                                       | Pre-filtered grid for sharing and search        |
 | `/guides` and `/guides/[slug]`                      | Nutrition, shopping, and reading-recipes guides |
-| `/about`                                            | The project's why, and the contact form once email works |
+| `/about`                                            | The project's why, and a form to suggest a dish for a makeover |
 | `/basket`                                           | Pooled shopping list, trip cost, and savings    |
 | `/login` and `/profile`                             | Google sign-in and the account page             |
 | `/admin`                                            | All recipes including drafts, publish toggle    |

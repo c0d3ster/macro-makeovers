@@ -15,8 +15,9 @@ export const SUBMIT_CONTACT_FORM = gql`
       id
       name
       email
-      subject
-      message
+      dish
+      recipeUrl
+      details
       submittedAt
     }
   }

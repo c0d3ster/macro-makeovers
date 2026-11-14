@@ -5,208 +5,157 @@ import { Toast } from '@/libs/Toast'
 
 import { ContactForm } from './ContactForm'
 
-// Mock only the API client that ContactForm actually uses
-const mockSubmitContactForm = vi.fn()
+const mockUseSubmit = vi.fn()
 
 vi.mock('@/apiClients', async () => {
   const actual = await vi.importActual('@/apiClients')
   return {
     ...actual,
-    useSubmitContactForm: () => mockSubmitContactForm(),
+    useSubmitContactForm: () => mockUseSubmit(),
   }
 })
+
+const DISH = 'What dish should we make over?'
+const RECIPE = 'Recipe link (optional)'
+const DETAILS = 'Anything else? (optional)'
+
+const mockMutation = (mutate: ReturnType<typeof vi.fn>): void => {
+  mockUseSubmit.mockReturnValue([mutate, { loading: false, error: null }])
+}
+
+const fill = (label: string, value: string): void => {
+  fireEvent.change(screen.getByLabelText(label), { target: { value } })
+}
+
+const fillRequired = (): void => {
+  fill('Name', 'Jane Doe')
+  fill('Email', 'jane@example.com')
+  fill(DISH, 'Chicken parm')
+}
+
+const submit = (): void => {
+  fireEvent.click(screen.getByRole('button', { name: 'Send my idea' }))
+}
 
 describe('ContactForm', () => {
   beforeEach(() => {
     vi.clearAllMocks()
-    // Set up default mock behavior
-    mockSubmitContactForm.mockReturnValue([
-      vi.fn().mockResolvedValue({ data: { submitContactForm: { id: '1' } } }),
-      { loading: false, error: null },
-    ])
+    mockMutation(
+      vi.fn().mockResolvedValue({ data: { submitContactForm: { id: '1' } } })
+    )
   })
 
-  it('renders all form fields', () => {
+  it('asks for a makeover idea', () => {
     render(<ContactForm />)
 
-    expect(screen.getByLabelText('Name')).toBeInTheDocument()
-    expect(screen.getByLabelText('Email')).toBeInTheDocument()
-    expect(screen.getByLabelText('Subject')).toBeInTheDocument()
-    expect(screen.getByLabelText('Message')).toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', { name: 'Have an idea for a macro makeover?' })
+    ).toBeInTheDocument()
+
+    const labels = ['Name', 'Email', DISH, RECIPE, DETAILS]
+    labels.forEach((label) =>
+      expect(screen.getByLabelText(label)).toBeInTheDocument()
+    )
   })
 
-  it('renders submit button with correct text', () => {
-    render(<ContactForm />)
-
-    const submitButton = screen.getByRole('button', {
-      name: 'Send Message',
-    })
-
-    expect(submitButton).toBeInTheDocument()
-    expect(submitButton).toHaveTextContent('Send Message')
-  })
-
-  it('handles form submission successfully', async () => {
-    const mockFetch = vi.fn().mockResolvedValueOnce({
-      ok: true,
-      json: async () => ({ message: 'Success' }),
-    })
-    vi.stubGlobal('fetch', mockFetch)
-
-    render(<ContactForm />)
-
-    // Fill out the form
-    fireEvent.change(screen.getByLabelText('Name'), {
-      target: { value: 'John Doe' },
-    })
-    fireEvent.change(screen.getByLabelText('Email'), {
-      target: { value: 'john@example.com' },
-    })
-    fireEvent.change(screen.getByLabelText('Subject'), {
-      target: { value: 'Project Inquiry' },
-    })
-    fireEvent.change(screen.getByLabelText('Message'), {
-      target: { value: 'I would like to discuss a project.' },
-    })
-
-    // Submit the form
-    const submitButton = screen.getByRole('button', {
-      name: 'Send Message',
-    })
-    fireEvent.click(submitButton)
-
-    await waitFor(() => {
-      expect(Toast.success).toHaveBeenCalledWith(
-        "Message sent successfully! I'll get back to you within 24 hours."
-      )
-    })
-
-    // Check that form was reset
-    expect(screen.getByLabelText('Name')).toHaveValue('')
-    expect(screen.getByLabelText('Email')).toHaveValue('')
-    expect(screen.getByLabelText('Subject')).toHaveValue('')
-    expect(screen.getByLabelText('Message')).toHaveValue('')
-  })
-
-  it('handles form submission error', async () => {
-    // Mock the mutation function to throw an error
-    const mockMutation = vi.fn().mockRejectedValue(new Error('Server error'))
-    mockSubmitContactForm.mockReturnValue([mockMutation, {} as any])
-
-    render(<ContactForm />)
-
-    // Fill out the form
-    fireEvent.change(screen.getByLabelText('Name'), {
-      target: { value: 'John Doe' },
-    })
-    fireEvent.change(screen.getByLabelText('Email'), {
-      target: { value: 'john@example.com' },
-    })
-    fireEvent.change(screen.getByLabelText('Subject'), {
-      target: { value: 'Project Inquiry' },
-    })
-    fireEvent.change(screen.getByLabelText('Message'), {
-      target: { value: 'I would like to discuss a project.' },
-    })
-
-    // Submit the form
-    const submitButton = screen.getByRole('button', {
-      name: 'Send Message',
-    })
-    fireEvent.click(submitButton)
-
-    await waitFor(() => {
-      expect(Toast.error).toHaveBeenCalledWith(
-        'Failed to send message. Please try again or contact support if the issue persists.'
-      )
-    })
-  })
-
-  it('handles network errors', async () => {
-    // Mock the mutation function to throw a network error
-    const mockMutation = vi
+  it('sends the idea and resets the form', async () => {
+    const mutate = vi
       .fn()
-      .mockRejectedValue(
-        new Error('Network error. Please check your connection and try again.')
-      )
-    mockSubmitContactForm.mockReturnValue([mockMutation, {} as any])
-
+      .mockResolvedValue({ data: { submitContactForm: { id: '1' } } })
+    mockMutation(mutate)
     render(<ContactForm />)
 
-    // Fill out the form
-    fireEvent.change(screen.getByLabelText('Name'), {
-      target: { value: 'John Doe' },
-    })
-    fireEvent.change(screen.getByLabelText('Email'), {
-      target: { value: 'john@example.com' },
-    })
-    fireEvent.change(screen.getByLabelText('Subject'), {
-      target: { value: 'Project Inquiry' },
-    })
-    fireEvent.change(screen.getByLabelText('Message'), {
-      target: { value: 'I would like to discuss a project.' },
-    })
+    fillRequired()
+    fill(RECIPE, 'https://example.com/chicken-parm')
+    fill(DETAILS, 'Keep the crispy crust.')
+    submit()
 
-    // Submit the form
-    const submitButton = screen.getByRole('button', {
-      name: 'Send Message',
-    })
-    fireEvent.click(submitButton)
-
-    await waitFor(() => {
-      expect(Toast.error).toHaveBeenCalledWith(
-        'Failed to send message. Please try again or contact support if the issue persists.'
+    await waitFor(() =>
+      expect(Toast.success).toHaveBeenCalledWith(
+        'Thanks! Your makeover idea is in.'
       )
+    )
+
+    expect(mutate).toHaveBeenCalledWith({
+      variables: {
+        input: {
+          name: 'Jane Doe',
+          email: 'jane@example.com',
+          dish: 'Chicken parm',
+          recipeUrl: 'https://example.com/chicken-parm',
+          details: 'Keep the crispy crust.',
+        },
+      },
+    })
+    expect(screen.getByLabelText(DISH)).toHaveValue('')
+  })
+
+  it('sends blank optional fields as null', async () => {
+    const mutate = vi
+      .fn()
+      .mockResolvedValue({ data: { submitContactForm: { id: '1' } } })
+    mockMutation(mutate)
+    render(<ContactForm />)
+
+    fillRequired()
+    submit()
+
+    await waitFor(() => expect(mutate).toHaveBeenCalled())
+
+    expect(mutate.mock.calls[0]?.[0]).toMatchObject({
+      variables: { input: { recipeUrl: null, details: null } },
     })
   })
 
-  it('validates required fields', async () => {
+  it('shows an error when sending fails', async () => {
+    mockMutation(vi.fn().mockRejectedValue(new Error('Server error')))
     render(<ContactForm />)
 
-    // Submit the form without filling it out
-    const submitButton = screen.getByRole('button', {
-      name: 'Send Message',
-    })
-    fireEvent.click(submitButton)
+    fillRequired()
+    submit()
 
-    await waitFor(() => {
+    await waitFor(() =>
       expect(Toast.error).toHaveBeenCalledWith(
-        'Please fix the following errors: Name is required, Invalid email address, Subject is required, Message must be at least 10 characters'
+        'Failed to send your idea. Please try again in a few minutes.'
       )
-    })
+    )
   })
 
-  it('shows loading state during submission', async () => {
-    // Mock the mutation function to never resolve (for loading state)
-    const mockMutation = vi.fn().mockImplementation(() => new Promise(() => {})) // Never resolves
-    mockSubmitContactForm.mockReturnValue([mockMutation, {} as any])
-
+  it('validates the required fields', async () => {
     render(<ContactForm />)
 
-    // Fill out the form
-    fireEvent.change(screen.getByLabelText('Name'), {
-      target: { value: 'John Doe' },
-    })
-    fireEvent.change(screen.getByLabelText('Email'), {
-      target: { value: 'john@example.com' },
-    })
-    fireEvent.change(screen.getByLabelText('Subject'), {
-      target: { value: 'Project Inquiry' },
-    })
-    fireEvent.change(screen.getByLabelText('Message'), {
-      target: { value: 'I would like to discuss a project.' },
-    })
+    submit()
 
-    // Submit the form
-    const submitButton = screen.getByRole('button', {
-      name: 'Send Message',
-    })
-    fireEvent.click(submitButton)
+    await waitFor(() =>
+      expect(Toast.error).toHaveBeenCalledWith(
+        'Please fix the following errors: Name is required, Invalid email address, Tell us the dish'
+      )
+    )
+  })
 
-    // Check that button shows loading state
-    await waitFor(() => {
-      expect(submitButton).toBeDisabled()
-      expect(submitButton).toHaveTextContent('Sending...')
-    })
+  it('rejects a recipe link that is not a full URL', async () => {
+    render(<ContactForm />)
+
+    fillRequired()
+    fill(RECIPE, 'chicken parm recipe')
+    submit()
+
+    await waitFor(() =>
+      expect(Toast.error).toHaveBeenCalledWith(
+        'Please fix the following errors: Use a full link, like https://...'
+      )
+    )
+  })
+
+  it('shows a loading state while sending', async () => {
+    mockMutation(vi.fn().mockImplementation(() => new Promise(() => {})))
+    render(<ContactForm />)
+
+    fillRequired()
+    submit()
+
+    expect(
+      await screen.findByRole('button', { name: 'Sending...' })
+    ).toBeDisabled()
   })
 })

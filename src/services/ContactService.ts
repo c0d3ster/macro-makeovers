@@ -5,47 +5,43 @@ import type { EmailService } from '@/services/EmailService'
 
 import { logger } from '@/libs/Logger'
 
+// Blank optional fields come in as '' from the form, so treat them as not given
+const presentOrNull = (value?: string | null): string | null =>
+  value?.trim() ? value.trim() : null
+
 export class ContactService {
   constructor(private emailService: EmailService) {}
 
+  // A makeover idea from the about page, emailed to the support inbox
   async submitContactForm(input: ContactFormInput) {
     const submissionId = `contact_${Date.now()}`
+    const idea = {
+      name: input.name.trim(),
+      email: input.email.trim(),
+      dish: input.dish.trim(),
+      recipeUrl: presentOrNull(input.recipeUrl),
+      details: presentOrNull(input.details),
+    }
+
     try {
-      // Log the contact form submission
-      logger.info('Contact form submission received', {
+      logger.info('Makeover idea received', {
         submissionId,
-        subject: input.subject,
-        messageLength: input.message.length,
+        dish: idea.dish,
+        hasRecipeUrl: Boolean(idea.recipeUrl),
       })
 
-      // Send email notification
-      await this.emailService.sendContactFormEmail({
-        name: input.name,
-        email: input.email,
-        subject: input.subject,
-        message: input.message,
-      })
+      await this.emailService.sendContactFormEmail(idea)
 
-      // TODO: In a real implementation, you might also:
-      // 1. Save to database
-      // 2. Add to CRM system
-      // 3. Send Slack notification
-
-      // Return submission confirmation
       return {
         id: submissionId,
-        name: input.name,
-        email: input.email,
-        subject: input.subject,
-        message: input.message,
+        ...idea,
         submittedAt: new Date().toISOString(),
       }
     } catch (error) {
-      logger.error('Error processing contact form submission', {
+      logger.error('Error processing makeover idea', {
         error: String(error),
         submissionId,
-        subject: input.subject,
-        messageLength: input.message.length,
+        dish: idea.dish,
       })
 
       throw new GraphQLError('Failed to submit contact form', {
