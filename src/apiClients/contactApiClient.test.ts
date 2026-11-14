@@ -47,8 +47,9 @@ describe('Contact API Client', () => {
         const mockInput = {
           name: 'John Doe',
           email: 'john@example.com',
-          subject: 'Test Subject',
-          message: 'Test message',
+          dish: 'Chicken parm',
+          recipeUrl: null,
+          details: 'Keep the crust',
         }
 
         const mockResponse = {
@@ -57,8 +58,9 @@ describe('Contact API Client', () => {
               id: '1',
               name: 'John Doe',
               email: 'john@example.com',
-              subject: 'Test Subject',
-              message: 'Test message',
+              dish: 'Chicken parm',
+              recipeUrl: null,
+          details: 'Keep the crust',
               submittedAt: '2024-01-01T00:00:00Z',
             },
           },
@@ -79,8 +81,9 @@ describe('Contact API Client', () => {
         const mockInput = {
           name: 'John Doe',
           email: 'john@example.com',
-          subject: 'Test Subject',
-          message: 'Test message',
+          dish: 'Chicken parm',
+          recipeUrl: null,
+          details: 'Keep the crust',
         }
 
         mockMutate.mockResolvedValue({ data: null })
@@ -94,8 +97,9 @@ describe('Contact API Client', () => {
         const mockInput = {
           name: 'John Doe',
           email: 'john@example.com',
-          subject: 'Test Subject',
-          message: 'Test message',
+          dish: 'Chicken parm',
+          recipeUrl: null,
+          details: 'Keep the crust',
         }
 
         const error = new Error('Network error')

@@ -21,7 +21,7 @@ export class ContactResolver {
         input: {
           name: input.name,
           email: input.email,
-          subject: input.subject,
+          dish: input.dish,
         },
       })
       throw error

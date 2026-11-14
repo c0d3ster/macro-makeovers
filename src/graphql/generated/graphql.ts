@@ -33,19 +33,21 @@ export type AdminRecipe = {
 };
 
 export type ContactFormInput = {
+  readonly details?: InputMaybe<Scalars['String']['input']>;
+  readonly dish: Scalars['String']['input'];
   readonly email: Scalars['String']['input'];
-  readonly message: Scalars['String']['input'];
   readonly name: Scalars['String']['input'];
-  readonly subject: Scalars['String']['input'];
+  readonly recipeUrl?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type ContactSubmission = {
   readonly __typename?: 'ContactSubmission';
+  readonly details?: Maybe<Scalars['String']['output']>;
+  readonly dish: Scalars['String']['output'];
   readonly email: Scalars['String']['output'];
   readonly id: Scalars['String']['output'];
-  readonly message: Scalars['String']['output'];
   readonly name: Scalars['String']['output'];
-  readonly subject: Scalars['String']['output'];
+  readonly recipeUrl?: Maybe<Scalars['String']['output']>;
   readonly submittedAt: Scalars['String']['output'];
 };
 
@@ -120,7 +122,14 @@ export type Query = {
   /** Liveness check */
   readonly health: Scalars['Boolean']['output'];
   readonly me?: Maybe<User>;
+  /** A saved recipe in import shape by slug, drafts included. Null for an unknown slug. Owner only. */
+  readonly recipeForImport?: Maybe<RecipeForImport>;
   readonly user?: Maybe<User>;
+};
+
+
+export type QueryRecipeForImportArgs = {
+  slug: Scalars['String']['input'];
 };
 
 
@@ -134,6 +143,19 @@ export type RecipeFieldChange = {
   readonly before?: Maybe<Scalars['JSON']['output']>;
   /** Field path, e.g. ingredients[2].raw */
   readonly path: Scalars['String']['output'];
+};
+
+/** A saved recipe in import shape, ready to edit and send back to importRecipe. Owner only. */
+export type RecipeForImport = {
+  readonly __typename?: 'RecipeForImport';
+  readonly id: Scalars['ID']['output'];
+  /** The recipe in import shape */
+  readonly recipe: Scalars['JSON']['output'];
+  readonly slug: Scalars['String']['output'];
+  /** draft or published */
+  readonly status: Scalars['String']['output'];
+  /** ISO timestamp of the last save. Read it again before importing to see whether someone edited it since. */
+  readonly updatedAt: Scalars['String']['output'];
 };
 
 export type RecipeImportIssue = {
@@ -175,7 +197,7 @@ export type SubmitContactFormMutationVariables = Exact<{
 }>;
 
 
-export type SubmitContactFormMutation = { readonly __typename?: 'Mutation', readonly submitContactForm: { readonly __typename?: 'ContactSubmission', readonly id: string, readonly name: string, readonly email: string, readonly subject: string, readonly message: string, readonly submittedAt: string } };
+export type SubmitContactFormMutation = { readonly __typename?: 'Mutation', readonly submitContactForm: { readonly __typename?: 'ContactSubmission', readonly id: string, readonly name: string, readonly email: string, readonly dish: string, readonly recipeUrl?: string | null, readonly details?: string | null, readonly submittedAt: string } };
 
 export type UserDisplayFragment = { readonly __typename?: 'User', readonly id: string, readonly firstName?: string | null, readonly lastName?: string | null, readonly email: string };
 
@@ -238,8 +260,9 @@ export const SubmitContactFormDocument = gql`
     id
     name
     email
-    subject
-    message
+    dish
+    recipeUrl
+    details
     submittedAt
   }
 }

@@ -1,5 +1,6 @@
 import { Field, InputType, ObjectType } from 'type-graphql'
 
+// A makeover idea from the about page: the dish someone wants rebuilt, plus optional context
 @InputType('ContactFormInput')
 export class ContactFormInput {
   @Field(() => String)
@@ -9,10 +10,13 @@ export class ContactFormInput {
   email!: string
 
   @Field(() => String)
-  subject!: string
+  dish!: string
 
-  @Field(() => String)
-  message!: string
+  @Field(() => String, { nullable: true })
+  recipeUrl?: string | null
+
+  @Field(() => String, { nullable: true })
+  details?: string | null
 }
 
 @ObjectType('ContactSubmission')
@@ -27,10 +31,13 @@ export class ContactSubmission {
   email!: string
 
   @Field(() => String)
-  subject!: string
+  dish!: string
 
-  @Field(() => String)
-  message!: string
+  @Field(() => String, { nullable: true })
+  recipeUrl?: string | null
+
+  @Field(() => String, { nullable: true })
+  details?: string | null
 
   @Field(() => String)
   submittedAt!: string
