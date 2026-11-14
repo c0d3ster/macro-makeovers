@@ -13,6 +13,14 @@ const NL_RE = /\n/g
 // Sent through Resend from the verified macromakeovers.com domain
 const FROM_ADDRESS = 'Macro Makeovers <hello@macromakeovers.com>'
 
+type MakeoverIdeaEmail = {
+  name: string
+  email: string
+  dish: string
+  recipeUrl: string | null
+  details: string | null
+}
+
 export class EmailService {
   constructor(private resend: Resend | null) {}
 
@@ -29,46 +37,50 @@ export class EmailService {
   }
 
   /**
-   * Send contact form notification email
+   * Email a makeover idea from the about page to the support inbox. Replies go to the sender.
    */
-  async sendContactFormEmail(data: {
-    name: string
-    email: string
-    subject: string
-    message: string
-  }): Promise<void> {
+  async sendContactFormEmail({
+    name,
+    email,
+    dish,
+    recipeUrl,
+    details,
+  }: MakeoverIdeaEmail): Promise<void> {
     if (!this.resend) {
-      logger.warn('Resend not configured - skipping email send', {
-        subject: data.subject,
-      })
+      logger.warn('Resend not configured - skipping email send', { dish })
       return
     }
 
-    try {
-      await this.resend.emails.send({
-        from: FROM_ADDRESS,
-        to: Env.SUPPORT_EMAIL,
-        replyTo: data.email,
-        subject: `Contact Form: ${this.escapeHtml(data.subject)}`,
-        html: `
-          <h2>New Contact Form Submission</h2>
-          <p><strong>From:</strong> ${this.escapeHtml(data.name)} (${this.escapeHtml(data.email)})</p>
-          <p><strong>Subject:</strong> ${this.escapeHtml(data.subject)}</p>
-          <p><strong>Message:</strong></p>
-          <p>${this.escapeHtml(data.message).replace(NL_RE, '<br>')}</p>
-        `,
-      })
+    const recipeLine = recipeUrl
+      ? `<p><strong>Recipe:</strong> <a href="${this.escapeHtml(recipeUrl)}">${this.escapeHtml(recipeUrl)}</a></p>`
+      : ''
+    const detailsBlock = details
+      ? `<p><strong>Details:</strong></p><p>${this.escapeHtml(details).replace(NL_RE, '<br>')}</p>`
+      : ''
 
-      logger.info('Contact form email sent successfully', {
-        to: data.email,
-        subject: data.subject,
+    // Resend reports failures in the result instead of throwing
+    const { error } = await this.resend.emails.send({
+      from: FROM_ADDRESS,
+      to: Env.SUPPORT_EMAIL,
+      replyTo: email,
+      subject: `Makeover idea: ${dish.replace(NL_RE, ' ')}`,
+      html: `
+        <h2>New makeover idea</h2>
+        <p><strong>From:</strong> ${this.escapeHtml(name)} (${this.escapeHtml(email)})</p>
+        <p><strong>Dish:</strong> ${this.escapeHtml(dish)}</p>
+        ${recipeLine}
+        ${detailsBlock}
+      `,
+    })
+
+    if (error) {
+      logger.error('Failed to send makeover idea email', {
+        error: error.message,
+        dish,
       })
-    } catch (error) {
-      logger.error('Failed to send contact form email', {
-        error: String(error),
-        subject: data.subject,
-      })
-      throw error
+      throw new Error(error.message)
     }
+
+    logger.info('Makeover idea email sent', { dish })
   }
 }

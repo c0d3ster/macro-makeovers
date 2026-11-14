@@ -1,6 +1,7 @@
 'use client'
 
-import type { FieldErrors } from 'react-hook-form'
+import type { ReactElement } from 'react'
+import type { FieldErrors, UseFormRegister } from 'react-hook-form'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
@@ -14,8 +15,73 @@ import { logger } from '@/libs/Logger'
 import { Toast } from '@/libs/Toast'
 import { contactFormSchema } from '@/validations'
 
-// Contact form component for handling user submissions
-export const ContactForm = () => {
+type FieldName = keyof ContactFormData
+
+type FieldProps = {
+  name: FieldName
+  label: string
+  placeholder: string
+  register: UseFormRegister<ContactFormData>
+  error?: string
+  type?: 'text' | 'email' | 'url'
+  multiline?: boolean
+}
+
+const fieldStyles = (hasError: boolean): string =>
+  `w-full rounded border bg-surface p-3 text-text placeholder-gray-400 focus:ring-2 focus:outline-none ${
+    hasError
+      ? 'border-red-500 focus:border-red-500 focus:ring-red-500/50'
+      : 'border-gray-600 focus:border-blue-400 focus:ring-blue-400'
+  }`
+
+const Field = ({
+  name,
+  label,
+  placeholder,
+  register,
+  error,
+  type = 'text',
+  multiline = false,
+}: FieldProps): ReactElement => {
+  const errorId = `${name}-error`
+  const shared = {
+    ...register(name),
+    id: name,
+    placeholder,
+    'aria-invalid': !!error,
+    'aria-describedby': error ? errorId : undefined,
+  }
+
+  return (
+    <div>
+      <label
+        htmlFor={name}
+        className='mb-2 block text-sm font-medium text-text-muted'
+      >
+        {label}
+      </label>
+      {multiline ? (
+        <textarea
+          {...shared}
+          rows={4}
+          className={`resize-none ${fieldStyles(Boolean(error))}`}
+        />
+      ) : (
+        <input {...shared} type={type} className={fieldStyles(Boolean(error))} />
+      )}
+      <div className='min-h-5'>
+        {error && (
+          <p id={errorId} className='mt-1 text-sm text-red-500'>
+            {error}
+          </p>
+        )}
+      </div>
+    </div>
+  )
+}
+
+// Asks visitors for a dish they want made over, plus optional context
+export const ContactForm = (): ReactElement => {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitContactForm] = useSubmitContactForm()
 
@@ -26,196 +92,113 @@ export const ContactForm = () => {
     formState: { errors },
   } = useForm<ContactFormData>({
     resolver: zodResolver(contactFormSchema),
-    mode: 'onBlur', // Validate on blur for better UX
+    mode: 'onBlur',
   })
 
-  const onSubmit = async (data: ContactFormData) => {
+  const onSubmit = async ({
+    recipeUrl,
+    details,
+    ...required
+  }: ContactFormData): Promise<void> => {
     setIsSubmitting(true)
 
     try {
       const result = await submitContactForm({
-        variables: { input: data },
+        variables: {
+          input: {
+            ...required,
+            recipeUrl: recipeUrl || null,
+            details: details || null,
+          },
+        },
       })
 
       if (result.data?.submitContactForm) {
-        Toast.success(
-          "Message sent successfully! I'll get back to you within 24 hours."
-        )
+        Toast.success('Thanks! Your makeover idea is in.')
         reset()
       } else {
-        Toast.error('Failed to send message. Please try again.')
+        Toast.error('Failed to send your idea. Please try again.')
       }
     } catch (error) {
-      // Log detailed error information for debugging
-      if (
-        error &&
-        typeof error === 'object' &&
-        'graphQLErrors' in error &&
-        Array.isArray(error.graphQLErrors) &&
-        error.graphQLErrors.length > 0
-      ) {
-        const graphQLError = error.graphQLErrors[0]
-        logger.error('Contact form error details', {
-          originalError: graphQLError.extensions?.originalError,
-          details: graphQLError.extensions?.details,
-          code: graphQLError.extensions?.code,
-          message: graphQLError.message,
-        })
-      } else {
-        logger.error('Contact form error', { error })
-      }
-
-      // Show generic user-friendly message regardless of error type
+      logger.error('Makeover idea form error', { error: String(error) })
       Toast.error(
-        'Failed to send message. Please try again or contact support if the issue persists.'
+        'Failed to send your idea. Please try again in a few minutes.'
       )
     } finally {
       setIsSubmitting(false)
     }
   }
 
-  const onError = (errors: FieldErrors<ContactFormData>) => {
-    const errorMessages = Object.values(errors)
+  const onError = (formErrors: FieldErrors<ContactFormData>): void => {
+    const messages = Object.values(formErrors)
       .map((err) => err?.message)
       .filter((msg): msg is string => Boolean(msg))
       .join(', ')
-    Toast.error(`Please fix the following errors: ${errorMessages}`)
+    Toast.error(`Please fix the following errors: ${messages}`)
   }
 
   return (
-    <div className='mx-auto max-w-2xl'>
-      <h3 className='mb-6 text-center text-2xl font-bold text-text'>
-        Contact Us
-      </h3>
+    <div className='mx-auto max-w-2xl px-4'>
+      <h2 className='mb-2 text-center text-2xl font-bold text-text'>
+        Have an idea for a macro makeover?
+      </h2>
+      <p className='mb-6 text-center text-text-muted'>
+        Tell us the comfort food you miss most. We&apos;ll try to rebuild it
+        with the flavor intact, less fat, and a lot more protein.
+      </p>
 
       <form
         onSubmit={handleSubmit(onSubmit, onError)}
         className='space-y-3'
         noValidate
       >
-        <div className='grid gap-6 md:grid-cols-2'>
-          <div>
-            <label
-              htmlFor='name'
-              className='mb-2 block text-sm font-medium text-text-muted'
-            >
-              Name
-            </label>
-            <input
-              {...register('name')}
-              id='name'
-              type='text'
-              aria-invalid={errors.name ? 'true' : 'false'}
-              aria-describedby={errors.name ? 'name-error' : undefined}
-              className={`w-full rounded border bg-surface p-3 text-text placeholder-gray-400 focus:ring-2 focus:outline-none ${
-                errors.name
-                  ? 'border-red-500 focus:border-red-500 focus:ring-red-500/50'
-                  : 'border-gray-600 focus:border-blue-400 focus:ring-blue-400'
-              }`}
-              placeholder='Your name'
-            />
-            <div className='min-h-5'>
-              {errors.name && (
-                <p id='name-error' className='mt-1 text-sm text-red-500'>
-                  {errors.name.message}
-                </p>
-              )}
-            </div>
-          </div>
-          <div>
-            <label
-              htmlFor='email'
-              className='mb-2 block text-sm font-medium text-text-muted'
-            >
-              Email
-            </label>
-            <input
-              {...register('email')}
-              id='email'
-              type='email'
-              aria-invalid={errors.email ? 'true' : 'false'}
-              aria-describedby={errors.email ? 'email-error' : undefined}
-              className={`w-full rounded border bg-surface p-3 text-text placeholder-gray-400 focus:ring-2 focus:outline-none ${
-                errors.email
-                  ? 'border-red-500 focus:border-red-500 focus:ring-red-500/50'
-                  : 'border-gray-600 focus:border-blue-400 focus:ring-blue-400'
-              }`}
-              placeholder='your@email.com'
-            />
-            <div className='min-h-5'>
-              {errors.email && (
-                <p id='email-error' className='mt-1 text-sm text-red-500'>
-                  {errors.email.message}
-                </p>
-              )}
-            </div>
-          </div>
+        <div className='grid gap-x-6 md:grid-cols-2'>
+          <Field
+            name='name'
+            label='Name'
+            placeholder='Your name'
+            register={register}
+            error={errors.name?.message}
+          />
+          <Field
+            name='email'
+            label='Email'
+            type='email'
+            placeholder='your@email.com'
+            register={register}
+            error={errors.email?.message}
+          />
         </div>
 
-        <div>
-          <label
-            htmlFor='subject'
-            className='mb-2 block text-sm font-medium text-text-muted'
-          >
-            Subject
-          </label>
-          <input
-            {...register('subject')}
-            id='subject'
-            type='text'
-            aria-invalid={errors.subject ? 'true' : 'false'}
-            aria-describedby={errors.subject ? 'subject-error' : undefined}
-            className={`w-full rounded border bg-surface p-3 text-text placeholder-gray-400 focus:ring-2 focus:outline-none ${
-              errors.subject
-                ? 'border-red-500 focus:border-red-500 focus:ring-red-500/50'
-                : 'border-gray-600 focus:border-blue-400 focus:ring-blue-400'
-            }`}
-            placeholder="What's this about?"
-          />
-          <div className='min-h-5'>
-            {errors.subject && (
-              <p id='subject-error' className='mt-1 text-sm text-red-500'>
-                {errors.subject.message}
-              </p>
-            )}
-          </div>
-        </div>
+        <Field
+          name='dish'
+          label='What dish should we make over?'
+          placeholder='Chicken parm, mac and cheese, your grandma’s lasagna...'
+          register={register}
+          error={errors.dish?.message}
+        />
 
-        <div>
-          <label
-            htmlFor='message'
-            className='mb-2 block text-sm font-medium text-text-muted'
-          >
-            Message
-          </label>
-          <textarea
-            {...register('message')}
-            id='message'
-            rows={4}
-            aria-invalid={errors.message ? 'true' : 'false'}
-            aria-describedby={errors.message ? 'message-error' : undefined}
-            className={`w-full resize-none rounded border bg-surface p-3 text-text placeholder-gray-400 focus:ring-2 focus:outline-none ${
-              errors.message
-                ? 'border-red-500 focus:border-red-500 focus:ring-red-500/50'
-                : 'border-gray-600 focus:border-blue-400 focus:ring-blue-400'
-            }`}
-            placeholder='Tell us about your project...'
-          />
-          <div className='min-h-5'>
-            {errors.message && (
-              <p id='message-error' className='mt-1 text-sm text-red-500'>
-                {errors.message.message}
-              </p>
-            )}
-          </div>
-        </div>
+        <Field
+          name='recipeUrl'
+          label='Recipe link (optional)'
+          type='url'
+          placeholder='https://...'
+          register={register}
+          error={errors.recipeUrl?.message}
+        />
+
+        <Field
+          name='details'
+          label='Anything else? (optional)'
+          placeholder='What you love about it, what has to stay, swaps you have tried...'
+          register={register}
+          error={errors.details?.message}
+          multiline
+        />
 
         <div className='text-center'>
-          <Button
-            type='submit'
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? 'Sending...' : 'Send Message'}
+          <Button type='submit' disabled={isSubmitting}>
+            {isSubmitting ? 'Sending...' : 'Send my idea'}
           </Button>
         </div>
       </form>
