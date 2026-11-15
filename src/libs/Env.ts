@@ -17,8 +17,7 @@ export const Env = createEnv({
     R2_BUCKET: z.string().optional(),
     // Public base URL of the bucket (r2.dev or a custom domain)
     R2_PUBLIC_URL: z.string().optional(),
-    // Grocery handoff (PRD 05). Ships dark: "Send to cart" stays a placeholder until this is
-    // "true", and each grocer only shows once its keys are set.
+    // Grocery handoff (PRD 05). Each grocer only shows once its keys are set.
     // Seals the member's grocer tokens (Kroger) into an httpOnly cookie. 32+ random characters.
     GROCERY_TOKEN_SECRET: z.string().min(32).optional(),
     INSTACART_API_KEY: z.string().optional(),
@@ -31,6 +30,16 @@ export const Env = createEnv({
     // Walmart needs no key for the cart link, only item ids in src/libs/grocery/itemMappings.ts
     // Optional Impact tracking link that wraps the cart link so orders earn a commission
     WALMART_AFFILIATE_LINK: z.string().url().optional(),
+    // Private bucket for the recipe book PDF, served through short-lived signed links. Uses the
+    // same R2 account and keys as the photos.
+    R2_BOOK_BUCKET: z.string().optional(),
+    // Stripe: all three turn on checkout, the billing portal, and the webhook
+    STRIPE_SECRET_KEY: z.string().optional(),
+    STRIPE_WEBHOOK_SECRET: z.string().optional(),
+    // The monthly plan's price id (price_...). Swap it to change the price.
+    STRIPE_PRICE_ID: z.string().optional(),
+    // The monthly price shown on the site, in dollars. Keep it equal to the Stripe price.
+    PLAN_PRICE_USD: z.string().optional(),
   },
   client: {
     NEXT_PUBLIC_APP_URL: z.string().optional(),
@@ -61,6 +70,11 @@ export const Env = createEnv({
     KROGER_CLIENT_SECRET: process.env.KROGER_CLIENT_SECRET,
     KROGER_API_URL: process.env.KROGER_API_URL,
     WALMART_AFFILIATE_LINK: process.env.WALMART_AFFILIATE_LINK,
+    R2_BOOK_BUCKET: process.env.R2_BOOK_BUCKET,
+    STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
+    STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET,
+    STRIPE_PRICE_ID: process.env.STRIPE_PRICE_ID,
+    PLAN_PRICE_USD: process.env.PLAN_PRICE_USD,
     NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
     NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
     NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY:

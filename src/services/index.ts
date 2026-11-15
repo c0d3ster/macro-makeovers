@@ -3,8 +3,12 @@
 import 'reflect-metadata'
 import { Resend } from 'resend'
 
+import { getStripe, SubscriptionRepository } from '@/libs/billing'
+import { readBookBucket } from '@/libs/book'
 import { Env } from '@/libs/Env'
+import { getBaseUrl } from '@/utils/Env'
 
+import { BillingService } from './BillingService'
 import { ContactService } from './ContactService'
 import { EmailService } from './EmailService'
 import { EmailSubscriptionService } from './EmailSubscriptionService'
@@ -20,8 +24,19 @@ const emailSubscriptionService = new EmailSubscriptionService(emailService)
 const groceryService = new GroceryService()
 const recipeService = new RecipeService()
 const userService = new UserService()
+const billingService = new BillingService({
+  repository: new SubscriptionRepository(),
+  emailService,
+  getStripe,
+  getBookBucket: () => {
+    const result = readBookBucket(Env)
+    return 'bucket' in result ? result.bucket : undefined
+  },
+  appUrl: getBaseUrl,
+})
 
 export const services = {
+  billingService,
   contactService,
   emailSubscriptionService,
   groceryService,
@@ -30,6 +45,7 @@ export const services = {
 }
 
 // Export types for dependency injection
+export type { BillingService }
 export type { ContactService }
 export type { EmailSubscriptionService }
 export type { GroceryService }

@@ -1,3 +1,4 @@
+export { BillingResolver } from './BillingResolver'
 export { ContactResolver } from './ContactResolver'
 export { EmailSubscriptionResolver } from './EmailSubscriptionResolver'
 export { GroceryResolver } from './GroceryResolver'

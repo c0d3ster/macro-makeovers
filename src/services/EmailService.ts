@@ -182,4 +182,44 @@ export class EmailService {
     }
     logger.info('List email sent', { subject })
   }
+
+  // Subscription emails (welcome, payment failed, cancellation). The webhook logs a failure and
+  // carries on, so a send problem never makes Stripe retry an event.
+  async sendBillingEmail(to: string, email: BillingEmailContent): Promise<void> {
+    if (!this.resend) {
+      logger.warn('Resend not configured - skipping billing email', {
+        subject: email.subject,
+      })
+      return
+    }
+
+    const paragraphs = email.paragraphs
+      .map((text) => `<p>${this.escapeHtml(text)}</p>`)
+      .join('')
+    const link = email.link
+      ? `<p><a href="${this.escapeHtml(email.link.href)}">${this.escapeHtml(email.link.label)}</a></p>`
+      : ''
+
+    const { error } = await this.resend.emails.send({
+      from: FROM_ADDRESS,
+      to,
+      replyTo: Env.SUPPORT_EMAIL,
+      subject: email.subject,
+      html: `${paragraphs}${link}`,
+      text: [
+        ...email.paragraphs,
+        email.link ? `${email.link.label}: ${email.link.href}` : '',
+      ]
+        .filter(Boolean)
+        .join('\n\n'),
+    })
+    if (error) throw new Error(`Resend refused the email: ${error.message}`)
+    logger.info('Billing email sent', { subject: email.subject })
+  }
+}
+
+export type BillingEmailContent = {
+  subject: string
+  paragraphs: string[]
+  link?: { label: string; href: string }
 }

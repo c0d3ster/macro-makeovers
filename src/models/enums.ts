@@ -45,3 +45,19 @@ export const emailSubscriberStatusEnum = pgEnum('email_subscriber_status', [
   'confirmed',
   'unsubscribed',
 ])
+
+// Paid access. Values mirror the Postgres enums in supabase/migrations.
+export const subscriptionSourceEnum = pgEnum('subscription_source', [
+  'stripe',
+  'partner',
+])
+export const subscriptionStatusEnum = pgEnum('subscription_status', [
+  'incomplete',
+  'incomplete_expired',
+  'trialing',
+  'active',
+  'past_due',
+  'canceled',
+  'unpaid',
+  'paused',
+])
