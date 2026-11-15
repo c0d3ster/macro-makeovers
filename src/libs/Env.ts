@@ -19,7 +19,6 @@ export const Env = createEnv({
     R2_PUBLIC_URL: z.string().optional(),
     // Grocery handoff (PRD 05). Ships dark: "Send to cart" stays a placeholder until this is
     // "true", and each grocer only shows once its keys are set.
-    GROCERY_HANDOFF_ENABLED: z.enum(['true', 'false']).optional(),
     // Seals the member's grocer tokens (Kroger) into an httpOnly cookie. 32+ random characters.
     GROCERY_TOKEN_SECRET: z.string().min(32).optional(),
     INSTACART_API_KEY: z.string().optional(),
@@ -30,7 +29,6 @@ export const Env = createEnv({
     // Defaults to https://api.kroger.com
     KROGER_API_URL: z.string().url().optional(),
     // Walmart needs no key for the cart link, only item ids in src/libs/grocery/itemMappings.ts
-    WALMART_ENABLED: z.enum(['true', 'false']).optional(),
     // Optional Impact tracking link that wraps the cart link so orders earn a commission
     WALMART_AFFILIATE_LINK: z.string().url().optional(),
   },
@@ -56,14 +54,12 @@ export const Env = createEnv({
     R2_SECRET_ACCESS_KEY: process.env.R2_SECRET_ACCESS_KEY,
     R2_BUCKET: process.env.R2_BUCKET,
     R2_PUBLIC_URL: process.env.R2_PUBLIC_URL,
-    GROCERY_HANDOFF_ENABLED: process.env.GROCERY_HANDOFF_ENABLED,
     GROCERY_TOKEN_SECRET: process.env.GROCERY_TOKEN_SECRET,
     INSTACART_API_KEY: process.env.INSTACART_API_KEY,
     INSTACART_API_URL: process.env.INSTACART_API_URL,
     KROGER_CLIENT_ID: process.env.KROGER_CLIENT_ID,
     KROGER_CLIENT_SECRET: process.env.KROGER_CLIENT_SECRET,
     KROGER_API_URL: process.env.KROGER_API_URL,
-    WALMART_ENABLED: process.env.WALMART_ENABLED,
     WALMART_AFFILIATE_LINK: process.env.WALMART_AFFILIATE_LINK,
     NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
     NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,

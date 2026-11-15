@@ -29,7 +29,9 @@ describe('createInstacartAdapter', () => {
 
     expect(result).toEqual({ grocer: 'instacart', url: LINK, matched: lines, unmatched: [] })
     expect(calls).toHaveLength(1)
+
     const [call] = calls
+
     expect(call?.url).toBe(`${INSTACART_DEVELOPMENT_URL}/idp/v1/products/products_link`)
     expect(call?.init?.method).toBe('POST')
     expect(new Headers(call?.init?.headers).get('Authorization')).toBe('Bearer key-1')

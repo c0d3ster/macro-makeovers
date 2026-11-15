@@ -128,6 +128,7 @@ describe('SendToCart', () => {
         'https://instacart.example/list'
       )
     )
+
     expect(screen.getByText(/Achiote paste/)).toBeInTheDocument()
     expect(mocks.send).toHaveBeenCalledWith({
       variables: {
@@ -170,6 +171,7 @@ describe('SendToCart', () => {
     await waitFor(() =>
       expect(screen.getByRole('alert')).toHaveTextContent('Instacart could not make your list.')
     )
+
     expect(screen.getByRole('alert')).toHaveTextContent(/copy the shopping list/)
   })
 })

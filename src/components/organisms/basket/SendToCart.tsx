@@ -133,7 +133,7 @@ const GrocerPicker = ({ options }: PickerProps): ReactElement => {
   const grocer = chosen ?? suggestedId ?? rememberedId ?? fallbackId
   const info = grocer ? GROCERS[grocer] : undefined
 
-  const krogerStores: Store[] =
+  const krogerStores: readonly Store[] =
     suggestion?.krogerStores ??
     (rememberedId === 'kroger' && remembered?.storeId
       ? [{ id: remembered.storeId, name: remembered.storeName ?? 'Your store', address: '' }]

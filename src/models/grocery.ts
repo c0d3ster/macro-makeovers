@@ -2,7 +2,7 @@ import { index, integer, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-c
 
 import { users } from './users'
 
-// The SQL migration (supabase/migrations/20261115000000_create_grocery_handoff.sql) is the source
+// The SQL migration (supabase/migrations/20261115010000_create_grocery_handoff.sql) is the source
 // of truth. Grocer columns are text with a check constraint there.
 
 // The member's last grocer and store, preselected next time (PRD 05)

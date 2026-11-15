@@ -1,5 +1,5 @@
-import type { FetchLike } from './http'
 import type { GroceryStore } from './groceryTypes'
+import type { FetchLike } from './http'
 
 import { HandoffError } from './groceryTypes'
 import { requestJson } from './http'

@@ -13,6 +13,7 @@ describe('toHandoffLines', () => {
     const lines = toHandoffLines(basketLines)
 
     expect(lines.map(({ key }) => key)).toEqual(basketLines.map(({ key }) => key))
+
     lines.forEach((line) => {
       expect(line.packCount).toBeGreaterThan(0)
       expect(Number.isInteger(line.packCount)).toBe(true)

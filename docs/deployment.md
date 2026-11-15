@@ -35,6 +35,36 @@ told otherwise, so the flag is what sends migrations to the linked hosted projec
 `src/libs/Env.ts` has the full list. `.env` and `.env.production` hold the public defaults, and
 `.env.example` covers the optional values.
 
+## Grocery partners
+
+Start Instacart first. Its production review takes the longest.
+
+### Instacart (Developer Platform)
+
+1. Sign up at the [Instacart Developer Platform](https://docs.instacart.com/developer_platform_api/get_started/overview) and open the Developer Dashboard.
+2. API Keys → create a **Development** key. Copy it right away, since it is only shown once. Set `INSTACART_API_KEY` and `INSTACART_API_URL=https://connect.dev.instacart.tools`.
+3. Build against dev, then work through the [pre-launch checklist](https://docs.instacart.com/developer_platform_api/guide/concepts/launch_activities/pre-launch_checklist/). That includes the "Shop on Instacart" button with the logo and brand colors from their kit.
+4. Create a **Production** key. It sits in "Pending approval" and does nothing until it is approved.
+5. Record a short screen capture of the full flow. Instacart reaches out within 5 business days to ask for it ([approval process](https://docs.instacart.com/developer_platform_api/guide/concepts/launch_activities/approval_process)). The average from request to a working prod key is about 30 to 40 days.
+6. Once approved, swap in the prod key and drop `INSTACART_API_URL`.
+
+### Kroger (Developer Portal)
+
+1. Create an account at [developer.kroger.com](https://developer.kroger.com/), then Manage → Apps → Register.
+2. Pick **Production**. Credentials are locked to the environment they were made for, and Cart can only be tested in production because certification has no customer accounts.
+3. Add the Products, Locations, Cart, and Identity API products so the app gets their scopes (`product.compact`, `cart.basic:write`, `profile.compact`).
+4. Set the redirect URI to `<app url>/api/grocery/kroger/callback`. Add the localhost one too for dev.
+5. Copy the client secret right away, since it is only shown once. Set `KROGER_CLIENT_ID`, `KROGER_CLIENT_SECRET`, and `GROCERY_TOKEN_SECRET` (32+ random chars, e.g. `openssl rand -base64 32`).
+6. Check the endpoint paths in `krogerApi.ts` against the [Cart API reference](https://developer.kroger.com/reference/api/cart-api-partner) while logged in. The docs only render in the portal.
+
+### Walmart (affiliate program via Impact)
+
+1. No API key is needed for the cart link itself (`walmart.com/sc/cart/addToCart?items=<id>_<qty>&storeId=<id>`, per [walmart.io](https://walmart.io/docs/atc/v1/add-to-cart)).
+2. To earn on it, go to [affiliates.walmart.com](https://affiliates.walmart.com) → Join Now. That sends you to Impact. Create the account, find Walmart, and Apply. Decisions usually come within a day.
+3. Once approved, make a tracking link in Impact and set `WALMART_AFFILIATE_LINK`.
+4. Curate `WALMART_ITEM_IDS` in `src/libs/grocery/itemMappings.ts` (the id is the number at the end of a walmart.com product URL). Walmart shows once one is mapped.
+5. Optional: real store ids for pickup carts come from Walmart's store locator API, which needs a separate [walmart.io](https://walmart.io) account.
+
 ## GitHub Actions
 
 - `CI.yml` runs on pushes and pull requests to `main`: build, lint, type check, `check:deps`, unit
