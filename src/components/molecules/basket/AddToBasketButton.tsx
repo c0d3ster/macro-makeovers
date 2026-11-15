@@ -4,6 +4,7 @@ import type { ReactElement } from 'react'
 
 import Link from 'next/link'
 
+import { track } from '@/libs/analytics'
 import { BASKET_SLUGS } from '@/libs/basket'
 import { useBasket } from '@/providers'
 
@@ -34,6 +35,17 @@ export const AddToBasketButton = ({
   const inBasket = has(slug, build)
   // Another build of this recipe is in the basket, and adding this one swaps it
   const otherBuild = !inBasket && hasRecipe(slug)
+  const placement = variant === 'compact' ? 'card' : 'recipe_page'
+
+  const addToBasket = (): void => {
+    add(slug, build, servings)
+    track('basket_add', { slug, build, placement })
+  }
+
+  const removeFromBasket = (): void => {
+    remove(slug)
+    track('basket_remove', { slug, placement })
+  }
 
   if (variant === 'compact') {
     return (
@@ -46,7 +58,7 @@ export const AddToBasketButton = ({
             : `Add ${title} to the basket`
         }
         disabled={!isLoaded}
-        onClick={() => (inBasket ? remove(slug) : add(slug, build))}
+        onClick={inBasket ? removeFromBasket : addToBasket}
         className={`flex size-10 cursor-pointer items-center justify-center rounded-full shadow-md transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none disabled:opacity-0 ${
           inBasket
             ? 'bg-primary text-on-primary'
@@ -107,7 +119,7 @@ export const AddToBasketButton = ({
           </Link>
           <button
             type='button'
-            onClick={() => remove(slug)}
+            onClick={removeFromBasket}
             className='cursor-pointer text-text-muted underline hover:text-text'
           >
             Remove
@@ -121,7 +133,7 @@ export const AddToBasketButton = ({
     <button
       type='button'
       disabled={!isLoaded}
-      onClick={() => add(slug, build, servings)}
+      onClick={addToBasket}
       className='flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-primary px-4 py-3 text-sm font-medium text-on-primary transition-colors hover:bg-primary/90 focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:outline-none disabled:opacity-50'
     >
       <BasketIcon />

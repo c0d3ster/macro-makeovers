@@ -4,6 +4,8 @@ import type { ReactElement } from 'react'
 
 import { useState } from 'react'
 
+import { track } from '@/libs/analytics'
+
 // Sending the basket to a grocer's cart is a paid feature (PRD 05) that isn't built yet. The
 // button stays visible so people know it's coming, and says so when tapped.
 export const SendToCart = (): ReactElement => {
@@ -14,7 +16,11 @@ export const SendToCart = (): ReactElement => {
       <button
         type='button'
         aria-expanded={isOpen}
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => {
+          // Opening it shows the paid-plan note, which is the upgrade prompt for ordering
+          if (!isOpen) track('upgrade_prompt_seen', { feature: 'send_to_cart' })
+          setIsOpen(!isOpen)
+        }}
         className='w-full cursor-pointer rounded-lg bg-primary px-4 py-3 font-medium text-on-primary transition-colors hover:bg-primary/90 focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:outline-none'
       >
         Send to cart

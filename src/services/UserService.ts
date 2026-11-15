@@ -1,7 +1,8 @@
-import { eq } from 'drizzle-orm'
+import { and, eq, isNull } from 'drizzle-orm'
 import { GraphQLError } from 'graphql'
 
 import type { UpdateUserInput } from '@/graphql/schema'
+import type { TrafficSource } from '@/libs/analytics'
 
 import { db } from '@/libs/DB'
 import { getAuthId } from '@/libs/supabase/server'
@@ -87,5 +88,26 @@ export class UserService {
     }
 
     return updatedUser
+  }
+
+  // Stores where a new user came from, once. Email sign-ups already have it from the profile
+  // trigger, so this only fills Google sign-ups. True when it wrote the source, which is how
+  // the auth callback knows this was the account's first sign-in.
+  async recordSignupSource(authId: string, source: TrafficSource): Promise<boolean> {
+    const updated = await db
+      .update(schemas.users)
+      .set({
+        signupSource: source.source,
+        signupMedium: source.medium ?? null,
+        signupCampaign: source.campaign ?? null,
+        signupReferrer: source.referrer ?? null,
+        signupLandingPath: source.landingPath,
+      })
+      .where(
+        and(eq(schemas.users.authId, authId), isNull(schemas.users.signupSource))
+      )
+      .returning({ id: schemas.users.id })
+
+    return updated.length > 0
   }
 }

@@ -38,3 +38,10 @@ export const tagKindEnum = pgEnum('tag_kind', [
   'method',
   'attribute',
 ])
+
+// Double opt-in: pending until the emailed link is followed
+export const emailSubscriberStatusEnum = pgEnum('email_subscriber_status', [
+  'pending',
+  'confirmed',
+  'unsubscribed',
+])

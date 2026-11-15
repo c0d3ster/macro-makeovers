@@ -34,6 +34,66 @@ export type Database = {
   }
   public: {
     Tables: {
+      email_subscribers: {
+        Row: {
+          confirmation_sent_at: string | null
+          confirmed_at: string | null
+          created_at: string
+          email: string
+          id: string
+          signup_campaign: string | null
+          signup_medium: string | null
+          signup_path: string | null
+          signup_source: string | null
+          status: Database['public']['Enums']['email_subscriber_status']
+          token: string
+          unsubscribed_at: string | null
+          updated_at: string
+          user_id: string | null
+        }
+        ComputedFields: never
+        Insert: {
+          confirmation_sent_at?: string | null
+          confirmed_at?: string | null
+          created_at?: string
+          email: string
+          id?: string
+          signup_campaign?: string | null
+          signup_medium?: string | null
+          signup_path?: string | null
+          signup_source?: string | null
+          status?: Database['public']['Enums']['email_subscriber_status']
+          token: string
+          unsubscribed_at?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          confirmation_sent_at?: string | null
+          confirmed_at?: string | null
+          created_at?: string
+          email?: string
+          id?: string
+          signup_campaign?: string | null
+          signup_medium?: string | null
+          signup_path?: string | null
+          signup_source?: string | null
+          status?: Database['public']['Enums']['email_subscriber_status']
+          token?: string
+          unsubscribed_at?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'email_subscribers_user_id_fkey'
+            columns: ['user_id']
+            isOneToOne: false
+            referencedRelation: 'users'
+            referencedColumns: ['id']
+          },
+        ]
+      }
       ingredients: {
         Row: {
           category: string | null
@@ -526,6 +586,11 @@ export type Database = {
           id: string
           last_name: string | null
           role: Database['public']['Enums']['user_role']
+          signup_campaign: string | null
+          signup_landing_path: string | null
+          signup_medium: string | null
+          signup_referrer: string | null
+          signup_source: string | null
           updated_at: string
         }
         ComputedFields: never
@@ -538,6 +603,11 @@ export type Database = {
           id?: string
           last_name?: string | null
           role?: Database['public']['Enums']['user_role']
+          signup_campaign?: string | null
+          signup_landing_path?: string | null
+          signup_medium?: string | null
+          signup_referrer?: string | null
+          signup_source?: string | null
           updated_at?: string
         }
         Update: {
@@ -549,6 +619,11 @@ export type Database = {
           id?: string
           last_name?: string | null
           role?: Database['public']['Enums']['user_role']
+          signup_campaign?: string | null
+          signup_landing_path?: string | null
+          signup_medium?: string | null
+          signup_referrer?: string | null
+          signup_source?: string | null
           updated_at?: string
         }
         Relationships: []
@@ -561,6 +636,7 @@ export type Database = {
       is_owner: { Args: Record<PropertyKey, never>; Returns: boolean }
     }
     Enums: {
+      email_subscriber_status: 'pending' | 'confirmed' | 'unsubscribed'
       note_kind:
         | 'make_or_break'
         | 'fixes'
@@ -702,6 +778,7 @@ export const Constants = {
   },
   public: {
     Enums: {
+      email_subscriber_status: ['pending', 'confirmed', 'unsubscribed'],
       note_kind: [
         'make_or_break',
         'fixes',

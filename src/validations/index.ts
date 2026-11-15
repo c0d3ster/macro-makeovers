@@ -1,4 +1,5 @@
 export * from './AuthValidation'
 export * from './ContactValidation'
+export * from './EmailSignupValidation'
 export * from './RecipeImportValidation'
 export * from './RecipePhotoValidation'

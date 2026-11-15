@@ -51,6 +51,18 @@ export type ContactSubmission = {
   readonly submittedAt: Scalars['String']['output'];
 };
 
+/** An email list sign-up. The source fields come from the visitor cookie. */
+export type EmailSubscribeInput = {
+  readonly campaign?: InputMaybe<Scalars['String']['input']>;
+  readonly email: Scalars['String']['input'];
+  readonly medium?: InputMaybe<Scalars['String']['input']>;
+  /** The page the form was on */
+  readonly path?: InputMaybe<Scalars['String']['input']>;
+  readonly source?: InputMaybe<Scalars['String']['input']>;
+  /** Honeypot. People leave it empty; bots fill it in. */
+  readonly website?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type ImportRecipeResult = {
   readonly __typename?: 'ImportRecipeResult';
   readonly changes: ReadonlyArray<RecipeFieldChange>;
@@ -71,6 +83,8 @@ export enum ImportRecipeStatus {
 
 export type Mutation = {
   readonly __typename?: 'Mutation';
+  /** Confirms an address from its emailed link and sends the welcome email. False for an unknown or unsubscribed link. */
+  readonly confirmEmailSubscription: Scalars['Boolean']['output'];
   /** Deletes a recipe with its revision history. Refused while other recipes are variants of it. Owner only. */
   readonly deleteRecipe: Scalars['ID']['output'];
   /** Validates a recipe and saves it as a draft. An existing slug is only replaced with overwrite. dryRun checks and diffs without writing. Owner only. */
@@ -78,7 +92,16 @@ export type Mutation = {
   /** Publishes or unpublishes a recipe. Owner only. */
   readonly setRecipeStatus: AdminRecipe;
   readonly submitContactForm: ContactSubmission;
+  /** Adds an address to the email list as pending and sends the confirmation link. Always true for a valid address, so it never reveals who is on the list. */
+  readonly subscribeToEmails: Scalars['Boolean']['output'];
+  /** Takes an address off the email list. False for an unknown link. */
+  readonly unsubscribeFromEmails: Scalars['Boolean']['output'];
   readonly updateUser: User;
+};
+
+
+export type MutationConfirmEmailSubscriptionArgs = {
+  token: Scalars['String']['input'];
 };
 
 
@@ -103,6 +126,16 @@ export type MutationSetRecipeStatusArgs = {
 
 export type MutationSubmitContactFormArgs = {
   input: ContactFormInput;
+};
+
+
+export type MutationSubscribeToEmailsArgs = {
+  input: EmailSubscribeInput;
+};
+
+
+export type MutationUnsubscribeFromEmailsArgs = {
+  token: Scalars['String']['input'];
 };
 
 
@@ -199,6 +232,27 @@ export type SubmitContactFormMutationVariables = Exact<{
 
 export type SubmitContactFormMutation = { readonly __typename?: 'Mutation', readonly submitContactForm: { readonly __typename?: 'ContactSubmission', readonly id: string, readonly name: string, readonly email: string, readonly dish: string, readonly recipeUrl?: string | null, readonly details?: string | null, readonly submittedAt: string } };
 
+export type SubscribeToEmailsMutationVariables = Exact<{
+  input: EmailSubscribeInput;
+}>;
+
+
+export type SubscribeToEmailsMutation = { readonly __typename?: 'Mutation', readonly subscribeToEmails: boolean };
+
+export type ConfirmEmailSubscriptionMutationVariables = Exact<{
+  token: Scalars['String']['input'];
+}>;
+
+
+export type ConfirmEmailSubscriptionMutation = { readonly __typename?: 'Mutation', readonly confirmEmailSubscription: boolean };
+
+export type UnsubscribeFromEmailsMutationVariables = Exact<{
+  token: Scalars['String']['input'];
+}>;
+
+
+export type UnsubscribeFromEmailsMutation = { readonly __typename?: 'Mutation', readonly unsubscribeFromEmails: boolean };
+
 export type UserDisplayFragment = { readonly __typename?: 'User', readonly id: string, readonly firstName?: string | null, readonly lastName?: string | null, readonly email: string };
 
 export type ImportRecipeMutationVariables = Exact<{
@@ -290,6 +344,90 @@ export function useSubmitContactFormMutation(baseOptions?: ApolloReactHooks.Muta
         return ApolloReactHooks.useMutation<SubmitContactFormMutation, SubmitContactFormMutationVariables>(SubmitContactFormDocument, options);
       }
 export type SubmitContactFormMutationHookResult = ReturnType<typeof useSubmitContactFormMutation>;
+export const SubscribeToEmailsDocument = gql`
+    mutation SubscribeToEmails($input: EmailSubscribeInput!) {
+  subscribeToEmails(input: $input)
+}
+    `;
+
+/**
+ * __useSubscribeToEmailsMutation__
+ *
+ * To run a mutation, you first call `useSubscribeToEmailsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSubscribeToEmailsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [subscribeToEmailsMutation, { data, loading, error }] = useSubscribeToEmailsMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useSubscribeToEmailsMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<SubscribeToEmailsMutation, SubscribeToEmailsMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useMutation<SubscribeToEmailsMutation, SubscribeToEmailsMutationVariables>(SubscribeToEmailsDocument, options);
+      }
+export type SubscribeToEmailsMutationHookResult = ReturnType<typeof useSubscribeToEmailsMutation>;
+export const ConfirmEmailSubscriptionDocument = gql`
+    mutation ConfirmEmailSubscription($token: String!) {
+  confirmEmailSubscription(token: $token)
+}
+    `;
+
+/**
+ * __useConfirmEmailSubscriptionMutation__
+ *
+ * To run a mutation, you first call `useConfirmEmailSubscriptionMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useConfirmEmailSubscriptionMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [confirmEmailSubscriptionMutation, { data, loading, error }] = useConfirmEmailSubscriptionMutation({
+ *   variables: {
+ *      token: // value for 'token'
+ *   },
+ * });
+ */
+export function useConfirmEmailSubscriptionMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<ConfirmEmailSubscriptionMutation, ConfirmEmailSubscriptionMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useMutation<ConfirmEmailSubscriptionMutation, ConfirmEmailSubscriptionMutationVariables>(ConfirmEmailSubscriptionDocument, options);
+      }
+export type ConfirmEmailSubscriptionMutationHookResult = ReturnType<typeof useConfirmEmailSubscriptionMutation>;
+export const UnsubscribeFromEmailsDocument = gql`
+    mutation UnsubscribeFromEmails($token: String!) {
+  unsubscribeFromEmails(token: $token)
+}
+    `;
+
+/**
+ * __useUnsubscribeFromEmailsMutation__
+ *
+ * To run a mutation, you first call `useUnsubscribeFromEmailsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUnsubscribeFromEmailsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [unsubscribeFromEmailsMutation, { data, loading, error }] = useUnsubscribeFromEmailsMutation({
+ *   variables: {
+ *      token: // value for 'token'
+ *   },
+ * });
+ */
+export function useUnsubscribeFromEmailsMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<UnsubscribeFromEmailsMutation, UnsubscribeFromEmailsMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useMutation<UnsubscribeFromEmailsMutation, UnsubscribeFromEmailsMutationVariables>(UnsubscribeFromEmailsDocument, options);
+      }
+export type UnsubscribeFromEmailsMutationHookResult = ReturnType<typeof useUnsubscribeFromEmailsMutation>;
 export const ImportRecipeDocument = gql`
     mutation ImportRecipe($recipe: JSON!, $overwrite: Boolean!, $dryRun: Boolean!, $recipeId: ID) {
   importRecipe(

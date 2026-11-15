@@ -9,6 +9,11 @@ import { useForm } from 'react-hook-form'
 import type { AuthFormData } from '@/validations'
 
 import { Button } from '@/components/atoms'
+import {
+  directTrafficSource,
+  readTrafficSourceCookie,
+  track,
+} from '@/libs/analytics'
 import { logger } from '@/libs/Logger'
 import { createClient } from '@/libs/supabase/client'
 import { Toast } from '@/libs/Toast'
@@ -50,16 +55,36 @@ export const AuthForm = ({ next }: AuthFormProps) => {
 
     try {
       if (isSignUp) {
+        const source =
+          readTrafficSourceCookie() ??
+          directTrafficSource(window.location.pathname)
         const { data, error } = await supabase.auth.signUp({
           email,
           password,
           options: {
             emailRedirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(redirectPath)}`,
+            // The profile trigger copies these onto the user row
+            data: {
+              signup_source: source.source,
+              signup_medium: source.medium,
+              signup_campaign: source.campaign,
+              signup_referrer: source.referrer,
+              signup_landing_path: source.landingPath,
+            },
           },
         })
         if (error) {
           Toast.error(error.message)
           return
+        }
+        // An address that already has an account comes back with no identities, not an error
+        if (data.user?.identities?.length) {
+          track('sign_up', {
+            method: 'email',
+            source: source.source,
+            medium: source.medium,
+            campaign: source.campaign,
+          })
         }
         // With email confirmation on, there is no session until the link is clicked
         if (!data.session) {

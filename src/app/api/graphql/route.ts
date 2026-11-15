@@ -9,7 +9,12 @@ import { createContext, createSchema } from '@/graphql'
 import { logger } from '@/libs/Logger'
 
 // Errors a resolver throws deliberately, with a message written for the person who sees it
-const CLIENT_SAFE_CODES = new Set(['FORBIDDEN', 'NOT_FOUND', 'BAD_USER_INPUT'])
+const CLIENT_SAFE_CODES = new Set([
+  'FORBIDDEN',
+  'NOT_FOUND',
+  'BAD_USER_INPUT',
+  'EMAIL_SEND_FAILED',
+])
 
 const server = new ApolloServer({
   schema: await createSchema(),
