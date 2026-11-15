@@ -1,10 +1,17 @@
 import { cleanup, fireEvent, render, screen } from '@testing-library/react'
-import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { BASKET_STORAGE_KEY } from '@/libs/basket'
 import { BasketProvider } from '@/providers'
 
 import { BasketView } from './BasketView'
+
+// Send to cart ships dark: with the handoff off, it stays the placeholder
+vi.mock('@/apiClients', () => ({
+  useGroceryHandoffOptions: () => ({ data: undefined }),
+  useGroceryStores: () => [vi.fn(), { loading: false }],
+  useSendBasketToGrocer: () => [vi.fn(), { loading: false }],
+}))
 
 const RECIPES = {
   'spicy-turkey-chili': { title: 'Spicy Turkey Chili' },

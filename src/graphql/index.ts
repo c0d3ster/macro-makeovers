@@ -17,6 +17,7 @@ async function createSchema(): Promise<GraphQLSchema> {
       resolvers: [
         resolverClasses.ContactResolver,
         resolverClasses.EmailSubscriptionResolver,
+        resolverClasses.GroceryResolver,
         resolverClasses.HealthResolver,
         resolverClasses.RecipeResolver,
         resolverClasses.UserResolver,
@@ -30,6 +31,8 @@ async function createSchema(): Promise<GraphQLSchema> {
             return new resolverClasses.EmailSubscriptionResolver(
               services.emailSubscriptionService
             )
+          if (someClass === resolverClasses.GroceryResolver)
+            return new resolverClasses.GroceryResolver(services.groceryService)
           if (someClass === resolverClasses.RecipeResolver)
             return new resolverClasses.RecipeResolver(services.recipeService)
           if (someClass === resolverClasses.UserResolver)

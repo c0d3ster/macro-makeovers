@@ -8,6 +8,7 @@ import { Env } from '@/libs/Env'
 import { ContactService } from './ContactService'
 import { EmailService } from './EmailService'
 import { EmailSubscriptionService } from './EmailSubscriptionService'
+import { GroceryService } from './GroceryService'
 import { RecipeService } from './RecipeService'
 import { UserService } from './UserService'
 
@@ -16,12 +17,14 @@ const resend = Env.RESEND_API_KEY ? new Resend(Env.RESEND_API_KEY) : null
 const emailService = new EmailService(resend)
 const contactService = new ContactService(emailService)
 const emailSubscriptionService = new EmailSubscriptionService(emailService)
+const groceryService = new GroceryService()
 const recipeService = new RecipeService()
 const userService = new UserService()
 
 export const services = {
   contactService,
   emailSubscriptionService,
+  groceryService,
   recipeService,
   userService,
 }
@@ -29,5 +32,6 @@ export const services = {
 // Export types for dependency injection
 export type { ContactService }
 export type { EmailSubscriptionService }
+export type { GroceryService }
 export type { RecipeService }
 export type { UserService }

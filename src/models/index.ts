@@ -1,5 +1,6 @@
 // Re-export for convenience
 import { emailSubscribers } from './emailSubscribers'
+import * as groceryModels from './grocery'
 import * as recipeModels from './recipes'
 import { users } from './users'
 
@@ -7,6 +8,7 @@ import { users } from './users'
 export * from './emailSubscribers'
 // Export all enums
 export * from './enums'
+export * from './grocery'
 export * from './recipes'
 export * from './users'
 
@@ -14,5 +16,6 @@ export * from './users'
 export const schemas = {
   users,
   emailSubscribers,
+  ...groceryModels,
   ...recipeModels,
 }
