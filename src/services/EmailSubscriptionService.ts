@@ -22,10 +22,10 @@ const clip = (value: string | undefined): string | null =>
 
 const newToken = (): string => randomBytes(32).toString('base64url')
 
-export const confirmUrlFor = (token: string): string =>
+const confirmUrlFor = (token: string): string =>
   `${getBaseUrl()}/subscribe/confirm?token=${token}`
 
-export const unsubscribeUrlFor = (token: string): string =>
+const unsubscribeUrlFor = (token: string): string =>
   `${getBaseUrl()}/unsubscribe?token=${token}`
 
 // Drizzle connects as postgres and bypasses RLS, so this class is the only gate on the list.
