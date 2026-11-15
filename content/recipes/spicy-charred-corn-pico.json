@@ -10,7 +10,7 @@
   "costTier": 1,
   "difficulty": 1,
   "course": "sauce",
-  "spiceLevel": 1,
+  "spiceLevel": 2,
   "tags": ["stovetop", "make ahead"],
   "builds": [
     {
@@ -32,7 +32,7 @@
       "raw": "1/2 red onion, finely diced"
     },
     {
-      "raw": "1 jalapeño (or serrano for more heat), minced"
+      "raw": "2 jalapeños or 1 serrano, minced"
     },
     {
       "raw": "1 cup cherry tomatoes, quartered"
@@ -50,7 +50,7 @@
   "steps": [
     {
       "phase": "prep",
-      "body": "Dice the red onion and mince the jalapeño. Quarter the tomatoes, juice the lime, and chop the cilantro."
+      "body": "Dice the red onion and mince the peppers. Quarter the tomatoes, juice the lime, and chop the cilantro."
     },
     {
       "phase": "cook",
@@ -59,7 +59,7 @@
     },
     {
       "phase": "cook",
-      "body": "Toss the charred corn, onion, jalapeño, tomatoes, lime juice, and cilantro together and season with salt. Let it sit at least 10 min."
+      "body": "Toss the charred corn, onion, peppers, tomatoes, lime juice, and cilantro together and season with salt. Let it sit at least 10 min."
     }
   ],
   "notes": [
