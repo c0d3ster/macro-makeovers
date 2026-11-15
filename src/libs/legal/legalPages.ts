@@ -1,9 +1,9 @@
 import { readFileSync } from 'node:fs'
 import { join, resolve } from 'node:path'
 
-import type { LegalSlug } from './legalList'
-
 import { Env } from '@/libs/Env'
+
+import type { LegalSlug } from './legalList'
 
 // The legal prose lives in content/legal as plain markdown with no top heading. {{brand}} and
 // {{email}} are filled in here so the files stay in step with the site settings.
