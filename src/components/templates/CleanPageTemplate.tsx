@@ -2,7 +2,7 @@ import type { ReactNode } from 'react'
 
 import { SiteFooter, SiteHeader } from '@/components/organisms'
 
-import { ACCOUNT_NAV_ITEMS } from './siteNav'
+import { ACCOUNT_NAV_ITEMS, SITE_FOOTER_LINKS } from './siteNav'
 
 // The signed-in pages (account and admin). Their header has the account links, and no
 // scroll-to-section tracking like the public pages.
@@ -43,7 +43,7 @@ export const CleanPageTemplate = ({
         {/* Content */}
         {children}
       </div>
-      <SiteFooter />
+      <SiteFooter links={SITE_FOOTER_LINKS} />
     </div>
   )
 }

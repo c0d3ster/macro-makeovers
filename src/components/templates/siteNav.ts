@@ -1,3 +1,4 @@
+import type { NavLink } from '@/components/molecules'
 import type { NavItem } from '@/components/organisms'
 
 // The list only, not the barrel: the barrel also reads the guide files from disk
@@ -18,6 +19,12 @@ export const SITE_NAV_ITEMS: NavItem[] = [
   },
   { id: 'about', label: 'About', href: '/about' },
 ]
+
+// The footer lists the same main pages, without the guides menu
+export const SITE_FOOTER_LINKS: NavLink[] = SITE_NAV_ITEMS.map(({ label, href }) => ({
+  label,
+  href,
+}))
 
 // The signed-in part of the site: same header, its own links. Meal planning and goals will
 // join these as they are built.
