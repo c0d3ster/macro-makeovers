@@ -1,8 +1,8 @@
-import type { KrogerClient, KrogerCredentials } from './krogerApi'
-import type { GrocerAdapter, GrocerId } from './groceryTypes'
-
 import { Env } from '@/libs/Env'
 import { getBaseUrl } from '@/utils/Env'
+
+import type { GrocerAdapter, GrocerId } from './groceryTypes'
+import type { KrogerClient, KrogerCredentials } from './krogerApi'
 
 import { createInstacartAdapter, INSTACART_PRODUCTION_URL } from './instacartAdapter'
 import { WALMART_ITEM_IDS } from './itemMappings'
@@ -11,11 +11,8 @@ import { createKrogerClient, KROGER_API_URL } from './krogerApi'
 import { getKrogerMemberToken } from './krogerSession'
 import { createWalmartAdapter } from './walmartAdapter'
 
-// Server only: reads the grocer keys from the environment. Everything ships dark: with the flag
-// off, or a grocer's keys unset, that grocer is simply not offered.
-
-export const isGroceryHandoffEnabled = (): boolean =>
-  Env.GROCERY_HANDOFF_ENABLED === 'true'
+// Server only: reads the grocer keys from the environment. A grocer is offered once its keys are
+// set, so with none set the basket keeps its placeholder.
 
 export const krogerRedirectUri = (): string =>
   `${getBaseUrl()}/api/grocery/kroger/callback`
@@ -32,14 +29,12 @@ export const krogerCredentials = (): KrogerCredentials | undefined =>
 // Kroger also needs the cookie secret, since its member tokens are sealed in a cookie
 export const groceryTokenSecret = (): string | undefined => Env.GROCERY_TOKEN_SECRET
 
-// Grocers that are on and fully configured, in the picker's order
+// Grocers that are fully configured, in the picker's order
 export const availableGrocers = (): GrocerId[] => {
-  if (!isGroceryHandoffEnabled()) return []
   const grocers: GrocerId[] = []
   if (krogerCredentials() && groceryTokenSecret()) grocers.push('kroger')
   // Walmart can't take a single line until its item ids are curated
-  if (Env.WALMART_ENABLED === 'true' && Object.keys(WALMART_ITEM_IDS).length > 0)
-    grocers.push('walmart')
+  if (Object.keys(WALMART_ITEM_IDS).length > 0) grocers.push('walmart')
   if (Env.INSTACART_API_KEY) grocers.push('instacart')
   return grocers
 }

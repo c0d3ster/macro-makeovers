@@ -71,7 +71,7 @@ The member chooses where to shop instead of us picking one service for everyone.
 
 ## Status (2026-11-15)
 
-Tasks 2 to 5 are built and ship dark behind `GROCERY_HANDOFF_ENABLED` and each grocer's keys.
+Tasks 2 to 5 are built and ship dark until each grocer's keys are set.
 Task 1's applications (Instacart, Kroger, Walmart) went in on 2026-11-15.
 
 - **Code:** adapters, item mappings and grocer copy in `src/libs/grocery`. `GroceryService` and
@@ -80,7 +80,7 @@ Task 1's applications (Instacart, Kroger, Walmart) went in on 2026-11-15.
   `/callback`.
 - **Data:** `member_grocer` (remembered grocer, store and zip) and `cart_handoffs` (grocer,
   outcome, error code, item and unmatched counts; no item names) in migration
-  `20261115000000_create_grocery_handoff.sql`. Kroger member tokens are not stored in the
+  `20261115010000_create_grocery_handoff.sql`. Kroger member tokens are not stored in the
   database: they sit in a sealed httpOnly cookie on the member's device.
 - **Gating:** every paid call goes through `checkPaidAccess` in `src/libs/paidAccess.ts`. Until
   PRD 01's `hasPaidAccess` merges, it lets only the owner through. Free members see the button and

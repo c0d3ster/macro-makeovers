@@ -1,10 +1,10 @@
-import type { KrogerClient } from './krogerApi'
 import type {
   GrocerAdapter,
   HandoffLine,
   HandoffRequest,
   HandoffResult,
 } from './groceryTypes'
+import type { KrogerClient } from './krogerApi'
 
 import { HandoffError } from './groceryTypes'
 

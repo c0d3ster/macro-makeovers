@@ -1,10 +1,10 @@
-import type { FetchLike } from './http'
 import type {
   GrocerAdapter,
   HandoffLine,
   HandoffRequest,
   HandoffResult,
 } from './groceryTypes'
+import type { FetchLike } from './http'
 
 import { HandoffError } from './groceryTypes'
 import { requestJson } from './http'

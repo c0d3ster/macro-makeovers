@@ -72,9 +72,11 @@ describe('createKrogerAdapter', () => {
     expect(result.unmatched.map(({ key }) => key)).toEqual(['achiote'])
 
     const search = calls.find(({ url }) => url.includes('/v1/products'))
+
     expect(new URL(search?.url ?? '').searchParams.get('filter.locationId')).toBe('70300022')
 
     const cart = calls.find(({ url }) => url.endsWith('/v1/cart/add'))
+
     expect(new Headers(cart?.init?.headers).get('Authorization')).toBe('Bearer member-token')
     expect(JSON.parse(String(cart?.init?.body))).toEqual({
       items: [
@@ -129,7 +131,9 @@ describe('createKrogerAdapter', () => {
     await expect(adapter.findStores?.('90028')).resolves.toEqual([
       { id: '70300022', name: 'Ralphs Sunset', address: '1 Main St, Los Angeles, CA' },
     ])
+
     const search = new URL(calls.at(-1)?.url ?? '')
+
     expect(search.searchParams.get('filter.zipCode.near')).toBe('90028')
   })
 })
@@ -167,7 +171,9 @@ describe('Kroger sign-in', () => {
     await expect(
       exchangeKrogerCode({ ...CREDENTIALS, fetcher }, { code: 'c', redirectUri: 'u' }, 1000)
     ).resolves.toEqual({ accessToken: 'a', refreshToken: 'r', expiresAt: 1000 + 1800 * 1000 })
+
     const [call] = calls
+
     expect(new Headers(call?.init?.headers).get('Authorization')).toBe(
       `Basic ${btoa('id:secret')}`
     )

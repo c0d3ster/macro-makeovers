@@ -14,6 +14,7 @@ describe('searchTermFor', () => {
   it('gives every basket item a clean search term', () => {
     Object.entries(BASKET_ITEMS).forEach(([key, basketItem]) => {
       const term = searchTermFor(key, basketItem)
+
       expect(term, key).toMatch(/^[a-z0-9' %/.-]+$/)
       expect(term, key).not.toMatch(/\s{2}|^\s|\s$/)
     })

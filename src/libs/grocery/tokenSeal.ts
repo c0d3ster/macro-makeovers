@@ -12,7 +12,7 @@ const toBase64Url = (bytes: Uint8Array): string =>
     .replace(/\//g, '_')
     .replace(/=+$/, '')
 
-const fromBase64Url = (value: string): Uint8Array => {
+const fromBase64Url = (value: string): Uint8Array<ArrayBuffer> => {
   const base64 = value.replace(/-/g, '+').replace(/_/g, '/')
   const binary = atob(base64.padEnd(Math.ceil(base64.length / 4) * 4, '='))
   return Uint8Array.from(binary, (char) => char.charCodeAt(0))
