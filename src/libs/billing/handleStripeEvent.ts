@@ -8,15 +8,6 @@ import type { StripeSubscriptionFields } from './stripeSubscription'
 import { grantGivesAccess } from './paidAccess'
 import { idOf, toSubscriptionFields } from './stripeSubscription'
 
-// The events the Stripe webhook endpoint is subscribed to. Anything else is acknowledged and
-// ignored.
-export const HANDLED_EVENTS = [
-  'checkout.session.completed',
-  'customer.subscription.updated',
-  'customer.subscription.deleted',
-  'invoice.payment_failed',
-] as const
-
 export type BillingEmail =
   | { kind: 'welcome'; userId: string }
   | { kind: 'payment_failed'; userId: string }
@@ -47,7 +38,7 @@ export type SubscriptionStore = {
   ) => Promise<{ result: T } | undefined>
 }
 
-export type StripeEventDeps = {
+type StripeEventDeps = {
   retrieveSubscription: (id: string) => Promise<Stripe.Subscription>
   store: SubscriptionStore
   sendEmail: (email: BillingEmail) => Promise<void>
@@ -173,8 +164,10 @@ export const handleStripeEvent = async (
       ...fields,
       pastDueSince: pastDueSince(existing, fields, at),
     }
+    // Read the change before saving, since the save may update `existing` in place
+    const emails = emailsFor(event, userId, existing, next, at)
     await writer.saveStripeRow(userId, next)
-    return { emails: emailsFor(event, userId, existing, next, at), matched: true }
+    return { emails, matched: true }
   })
 
   if (!outcome) return 'duplicate'

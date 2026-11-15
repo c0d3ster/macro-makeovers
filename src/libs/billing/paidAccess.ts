@@ -9,7 +9,7 @@ export type AccessGrant = Pick<
 >
 
 // Keep in step with public.has_paid_access() in the subscriptions migration
-export const GRACE_DAYS = 3
+const GRACE_DAYS = 3
 const GRACE_MS = GRACE_DAYS * 24 * 60 * 60 * 1000
 
 const withinGrace = (from: Date, now: Date): boolean =>
