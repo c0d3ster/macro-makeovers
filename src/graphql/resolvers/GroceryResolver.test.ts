@@ -22,8 +22,8 @@ const setup = ({ signedIn, paid }: { signedIn: boolean; paid: boolean }) => {
   const resolver = new GroceryResolver({ send, getOptions } as unknown as GroceryService)
   const ctx = {
     user: signedIn ? { id: 'user-1' } : undefined,
-    // Until PRD 01 lands, paid access is the owner check behind checkPaidAccess
-    isOwner: vi.fn().mockResolvedValue(paid),
+    // Paid plan or owner, as the context works it out
+    hasPaidAccess: vi.fn().mockResolvedValue(paid),
   } as unknown as GraphQLContext
   return { send, getOptions, resolver, ctx }
 }

@@ -1,12 +1,10 @@
 import type { GraphQLContext } from '@/graphql/context'
 
-// Seam for PRD 01's hasPaidAccess. The Stripe work (feat/stripe-subscription) builds the real
-// check server-side. Until it merges, only the site owner counts as paid, so paid features stay
-// hidden from members even with their flags on. To wire it up, replace the body with a call to
-// that hasPaidAccess for ctx.user; every paid resolver already goes through here.
+// The paid check for grocery calls: PRD 01's hasPaidAccess for the signed-in user, which also
+// lets the site owner through. Every paid grocery resolver goes through here.
 export const checkPaidAccess = async (
-  ctx: Pick<GraphQLContext, 'user' | 'isOwner'>
+  ctx: Pick<GraphQLContext, 'user' | 'hasPaidAccess'>
 ): Promise<boolean> => {
   if (!ctx.user) return false
-  return ctx.isOwner()
+  return ctx.hasPaidAccess()
 }
