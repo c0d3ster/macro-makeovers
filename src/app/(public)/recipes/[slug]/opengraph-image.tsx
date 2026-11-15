@@ -82,7 +82,21 @@ const Card = ({ title, titleSize = 96, children }: CardProps): ReactElement => (
     >
       {title}
     </div>
-    <div style={{ display: 'flex', gap: 24 }}>{children}</div>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: 20,
+      }}
+    >
+      <div style={{ display: 'flex', gap: 24 }}>{children}</div>
+      {children && (
+        <div style={{ display: 'flex', fontSize: 22, color: COLORS.muted }}>
+          Estimated per serving. Not medical advice.
+        </div>
+      )}
+    </div>
   </div>
 )
 

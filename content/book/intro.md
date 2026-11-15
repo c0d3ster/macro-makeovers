@@ -5,3 +5,5 @@ High-protein, lower-fat versions of foods people love. Comfort-food staples rebu
 **The guiding principle:** spend your fat budget deliberately on things that earn it (olive oil, salmon, eggs), not on cream sauce and fatty ground beef where you won't miss it. Lean proteins keep the budget open.
 
 All thirteen numbered recipes below are batch/leftover friendly and built around a protein-heavy lean diet: roughly 0.7-1 g of protein per lb of goal bodyweight, with fat around 25-30% of calories. Each nutrition table includes a typical traditional version per serving for comparison, to show what the makeover saves. More on the numbers behind this in [Nutritional Foundation](#nutritional-foundation) at the end.
+
+_Every calorie and macro number in this book is an estimate per serving, worked out from typical ingredient data. Your brands, portions, and cooking will change them. Nothing here is medical advice: check with a doctor or registered dietitian before changing how you eat, especially with a medical condition. Read every label if you have a food allergy. The full disclaimer is at macromakeovers.com/nutrition-disclaimer._

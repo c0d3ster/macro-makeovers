@@ -23,6 +23,7 @@ vi.mock('@/components/organisms', () => ({
       ))}
     </header>
   ),
+  SiteFooter: () => <div data-testid='site-footer' />,
 }))
 
 describe('LandingPageTemplate', () => {

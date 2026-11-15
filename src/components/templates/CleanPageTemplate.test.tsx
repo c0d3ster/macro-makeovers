@@ -123,7 +123,8 @@ describe('CleanPageTemplate', () => {
     // The account header plus the one in the test content
     expect(screen.getAllByRole('banner')).toHaveLength(2)
     expect(screen.getByRole('main')).toBeInTheDocument()
-    expect(screen.getByRole('contentinfo')).toBeInTheDocument()
+    // The site footer plus the one in the test content
+    expect(screen.getAllByRole('contentinfo')).toHaveLength(2)
     expect(screen.getByText('Content Title')).toBeInTheDocument()
     expect(screen.getByText('Section Title')).toBeInTheDocument()
     expect(screen.getByText('Footer content')).toBeInTheDocument()

@@ -1,0 +1,26 @@
+import { readFileSync } from 'node:fs'
+import { join, resolve } from 'node:path'
+
+import type { LegalSlug } from './legalList'
+
+import { Env } from '@/libs/Env'
+
+// The legal prose lives in content/legal as plain markdown with no top heading. {{brand}} and
+// {{email}} are filled in here so the files stay in step with the site settings.
+const LEGAL_DIR = resolve(process.cwd(), 'content/legal')
+
+export const fillLegalText = (
+  text: string,
+  brand: string,
+  email: string
+): string =>
+  text
+    .replaceAll('{{brand}}', brand)
+    .replaceAll('{{email}}', `[${email}](mailto:${email})`)
+
+export const readLegalPage = (slug: LegalSlug): string =>
+  fillLegalText(
+    readFileSync(join(LEGAL_DIR, `${slug}.md`), 'utf8').trim(),
+    Env.NEXT_PUBLIC_BRAND_NAME,
+    Env.SUPPORT_EMAIL
+  )
