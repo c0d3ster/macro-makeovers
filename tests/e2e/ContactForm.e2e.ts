@@ -1,123 +1,100 @@
 import { expect, test } from '@playwright/test'
 
-test.describe('Contact Form', () => {
+const DISH = 'What dish should we make over?'
+const RECIPE = 'Recipe link (optional)'
+const DETAILS = 'Anything else? (optional)'
+const SUBMIT = 'Send my idea'
+
+test.describe('Makeover idea form', () => {
   test.beforeEach(async ({ page }) => {
-    // Intercept the GraphQL API to prevent real emails from being sent
+    // Intercept the GraphQL API so no real email is sent
     await page.route('/api/graphql', async (route) => {
-      const request = route.request()
-      const postData = request.postDataJSON()
+      const postData = route.request().postDataJSON()
 
-      // Check if this is a contact form submission
-      if (postData?.query?.includes('SubmitContactForm')) {
-        const variables = postData.variables?.input
-
-        // Success response for valid submissions
-        await route.fulfill({
-          status: 200,
-          contentType: 'application/json',
-          body: JSON.stringify({
-            data: {
-              submitContactForm: {
-                id: `contact_${Date.now()}`,
-                name: variables.name,
-                email: variables.email,
-                subject: variables.subject,
-                message: variables.message,
-                submittedAt: new Date().toISOString(),
-              },
-            },
-            errors: null,
-          }),
-        })
-      } else {
-        // For other GraphQL queries, pass through
+      if (!postData?.query?.includes('SubmitContactForm')) {
         await route.continue()
+        return
       }
+
+      const input = postData.variables?.input
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({
+          data: {
+            submitContactForm: {
+              id: `contact_${Date.now()}`,
+              name: input.name,
+              email: input.email,
+              dish: input.dish,
+              recipeUrl: input.recipeUrl,
+              details: input.details,
+              submittedAt: new Date().toISOString(),
+            },
+          },
+          errors: null,
+        }),
+      })
     })
   })
 
-  test('should display contact form on the about page', async ({ page }) => {
+  test('shows the form on the about page', async ({ page }) => {
     await page.goto('/about')
 
-    // Check if the form elements are visible
+    await expect(
+      page.getByRole('heading', { name: 'Have an idea for a macro makeover?' })
+    ).toBeVisible()
     await expect(page.getByLabel('Name')).toBeVisible()
     await expect(page.getByLabel('Email')).toBeVisible()
-    await expect(page.getByLabel('Subject')).toBeVisible()
-    await expect(page.getByLabel('Message')).toBeVisible()
-    await expect(
-      page.getByRole('button', { name: 'Send Message' })
-    ).toBeVisible()
+    await expect(page.getByLabel(DISH)).toBeVisible()
+    await expect(page.getByLabel(RECIPE)).toBeVisible()
+    await expect(page.getByLabel(DETAILS)).toBeVisible()
+    await expect(page.getByRole('button', { name: SUBMIT })).toBeVisible()
   })
 
-  test('should show validation errors for empty form submission', async ({
-    page,
-  }) => {
+  test('shows errors for an empty submission', async ({ page }) => {
     await page.goto('/about')
 
-    // Try to submit empty form
-    await page.getByRole('button', { name: 'Send Message' }).click()
+    await page.getByRole('button', { name: SUBMIT }).click()
 
-    // Inline field errors appear beneath each input
     await expect(page.locator('#name-error')).toBeVisible()
-    await expect(page.locator('#subject-error')).toBeVisible()
-    await expect(page.locator('#message-error')).toBeVisible()
+    await expect(page.locator('#email-error')).toBeVisible()
+    await expect(page.locator('#dish-error')).toBeVisible()
   })
 
-  test('should successfully submit form with valid data', async ({ page }) => {
+  test('sends an idea with only the required fields', async ({ page }) => {
     await page.goto('/about')
 
-    // Fill out the form
-    await page.getByLabel('Name').fill('John Doe')
-    await page.getByLabel('Email').fill('john@example.com')
-    await page.getByLabel('Subject').fill('Website Project')
-    await page
-      .getByLabel('Message')
-      .fill(
-        'This is a test message for a website project that needs to be at least 10 characters long.'
-      )
+    await page.getByLabel('Name').fill('Jane Doe')
+    await page.getByLabel('Email').fill('jane@example.com')
+    await page.getByLabel(DISH).fill('Chicken parm')
+    await page.getByRole('button', { name: SUBMIT }).click()
 
-    // Submit the form
-    await page.getByRole('button', { name: 'Send Message' }).click()
-
-    // Check for success message in toast
     await expect(
-      page.getByText(
-        "Message sent successfully! I'll get back to you within 24 hours."
-      )
+      page.getByText('Thanks! Your makeover idea is in.')
     ).toBeVisible()
   })
 
-  test('should handle invalid email format', async ({ page }) => {
+  test('rejects an invalid email', async ({ page }) => {
     await page.goto('/about')
 
-    // Fill form with invalid email
-    await page.getByLabel('Name').fill('John Doe')
+    await page.getByLabel('Name').fill('Jane Doe')
     await page.getByLabel('Email').fill('invalid-email')
-    await page.getByLabel('Subject').fill('Test Project')
-    await page
-      .getByLabel('Message')
-      .fill(
-        'This is a test message that is long enough to meet the minimum requirement.'
-      )
+    await page.getByLabel(DISH).fill('Chicken parm')
+    await page.getByRole('button', { name: SUBMIT }).click()
 
-    await page.getByRole('button', { name: 'Send Message' }).click()
-
-    // Inline field error appears beneath the email input
     await expect(page.locator('#email-error')).toBeVisible()
   })
 
-  test('should handle message too short', async ({ page }) => {
+  test('rejects a recipe link that is not a full URL', async ({ page }) => {
     await page.goto('/about')
 
-    // Fill form with message that's too short
-    await page.getByLabel('Name').fill('John Doe')
-    await page.getByLabel('Email').fill('john@example.com')
-    await page.getByLabel('Subject').fill('Test Project')
-    await page.getByLabel('Message').fill('Short')
+    await page.getByLabel('Name').fill('Jane Doe')
+    await page.getByLabel('Email').fill('jane@example.com')
+    await page.getByLabel(DISH).fill('Chicken parm')
+    await page.getByLabel(RECIPE).fill('chicken parm recipe')
+    await page.getByRole('button', { name: SUBMIT }).click()
 
-    await page.getByRole('button', { name: 'Send Message' }).click()
-
-    // Inline field error appears beneath the message textarea
-    await expect(page.locator('#message-error')).toBeVisible()
+    await expect(page.locator('#recipeUrl-error')).toBeVisible()
   })
 })

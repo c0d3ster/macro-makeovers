@@ -50,7 +50,6 @@ export default defineConfig({
           'DATABASE_URL',
           'PORT',
           'VERCEL_URL',
-          'CONTACT_FORM_ENABLED',
         ],
         ['NEXT_PUBLIC_', 'PLAYWRIGHT_']
       ),
