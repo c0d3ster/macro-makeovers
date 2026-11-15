@@ -11,8 +11,8 @@ export const KROGER_API_URL = 'https://api.kroger.com'
 
 // Scopes: product.compact for the app's own product and location calls, cart.basic:write for
 // adding to the member's cart. Kroger refuses sign-in if a scope isn't registered for the app.
-export const KROGER_APP_SCOPE = 'product.compact'
-export const KROGER_MEMBER_SCOPE = 'cart.basic:write'
+const KROGER_APP_SCOPE = 'product.compact'
+const KROGER_MEMBER_SCOPE = 'cart.basic:write'
 
 export type KrogerCredentials = {
   clientId: string
@@ -146,7 +146,7 @@ export type KrogerClient = {
 }
 
 // Stores within this many miles of a zip count as nearby for the first-time default
-export const KROGER_STORE_RADIUS_MILES = 10
+const KROGER_STORE_RADIUS_MILES = 10
 const STORE_LIMIT = 5
 // Refresh the app token a minute early so a call never goes out with one about to lapse
 const EXPIRY_MARGIN_MS = 60_000

@@ -7,7 +7,7 @@ import { sealValue, unsealValue } from './tokenSeal'
 
 // The member's Kroger tokens live in a sealed httpOnly cookie on their device, not in the
 // database. Clearing cookies or switching devices just means connecting Kroger again.
-export const KROGER_TOKEN_COOKIE = 'mm_kroger'
+const KROGER_TOKEN_COOKIE = 'mm_kroger'
 // Short-lived state for the OAuth round trip, checked on the callback
 export const KROGER_STATE_COOKIE = 'mm_kroger_state'
 
