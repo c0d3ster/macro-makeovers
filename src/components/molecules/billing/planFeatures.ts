@@ -1,4 +1,4 @@
-export type PlanFeature = {
+type PlanFeature = {
   title: string
   detail: string
   // False until the feature ships. Shown as "Coming soon" so nobody pays for what is not there.
