@@ -5,7 +5,6 @@ import type { ReactElement } from 'react'
 import Link from 'next/link'
 import { useState } from 'react'
 
-import { track } from '@/libs/analytics'
 import type { GroceryHandoffOptionsQuery } from '@/graphql/generated/graphql'
 import type { GrocerId } from '@/libs/grocery'
 
@@ -16,6 +15,7 @@ import {
 } from '@/apiClients'
 import { GrocerChoice, HandoffSummary } from '@/components/molecules'
 import { Grocer } from '@/graphql/generated/graphql'
+import { track } from '@/libs/analytics'
 import { ESTIMATE_NOTE, GROCER_IDS, GROCERS, isZip } from '@/libs/grocery'
 import { useBasket } from '@/providers'
 
