@@ -21,9 +21,11 @@ export const RECIPE_HERO_BODY =
 export const RECIPE_HERO_PHOTO = 'md:col-start-2 md:row-start-2'
 
 // Nutrition and steps share the left column, with ingredients on the right. On a phone they
-// stack in cooking order: nutrition, ingredients, steps.
+// stack in cooking order: nutrition, ingredients, steps. Ingredients span both rows, so when the
+// card grows (an open side or sauce) the extra height has to land in the steps row only. Auto
+// rows would split it and push the steps down from the nutrition table.
 export const RECIPE_BODY_GRID =
-  'grid grid-cols-1 gap-y-12 md:grid-cols-[minmax(0,1fr)_18rem] md:gap-x-6 lg:grid-cols-[minmax(0,1fr)_24rem] lg:gap-x-10'
+  'grid grid-cols-1 gap-y-12 md:grid-cols-[minmax(0,1fr)_18rem] md:grid-rows-[auto_1fr] md:gap-x-6 lg:grid-cols-[minmax(0,1fr)_24rem] lg:gap-x-10'
 export const RECIPE_BODY_NUTRITION = 'md:col-start-1 md:row-start-1'
 export const RECIPE_BODY_INGREDIENTS =
   'md:col-start-2 md:row-span-2 md:row-start-1 md:self-start'
