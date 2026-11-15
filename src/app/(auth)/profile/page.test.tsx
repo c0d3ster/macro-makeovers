@@ -7,6 +7,7 @@ const mocks = vi.hoisted(() => ({
   getUser: vi.fn(),
   role: vi.fn(),
   isOwner: vi.fn(),
+  loadMyPlan: vi.fn(),
   redirect: vi.fn(() => {
     throw new Error('redirected')
   }),
@@ -26,11 +27,24 @@ vi.mock('@/libs/supabase/server', () => ({
   }),
 }))
 vi.mock('@/libs/supabase/owner', () => ({ isOwner: mocks.isOwner }))
+vi.mock('@/app/loadMyPlan', () => ({ loadMyPlan: mocks.loadMyPlan }))
+vi.mock('@/apiClients', () => ({
+  useBookDownloadUrl: () => vi.fn(),
+  useOpenBillingPortal: () => vi.fn(),
+  useStartCheckout: () => vi.fn(),
+}))
 vi.mock('@/providers', () => ({
   useAuth: () => ({ user: null, isLoaded: true, signOut: vi.fn() }),
   useOwnerStatus: () => 'visitor',
   useBasket: () => ({ entries: [], isLoaded: true }),
 }))
+
+const FREE_PLAN = {
+  hasPaidAccess: false,
+  cancelAtPeriodEnd: false,
+  canSubscribe: true,
+  canManageBilling: false,
+}
 
 const signedIn = (metadata: Record<string, unknown> = {}): void => {
   mocks.getUser.mockResolvedValue({
@@ -43,6 +57,7 @@ describe('ProfilePage', () => {
     vi.clearAllMocks()
     mocks.isOwner.mockResolvedValue(false)
     mocks.role.mockReturnValue('client')
+    mocks.loadMyPlan.mockResolvedValue({ signedIn: true, plan: FREE_PLAN })
   })
 
   it('shows the signed-in details as a member', async () => {
@@ -77,6 +92,66 @@ describe('ProfilePage', () => {
     expect(
       screen.getByRole('link', { name: 'Manage recipes' })
     ).toHaveAttribute('href', '/admin')
+  })
+
+  it('offers the plan to a free member, with no book download', async () => {
+    signedIn()
+    render(await ProfilePage())
+
+    expect(screen.getByText('Free')).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'See the plan' })).toHaveAttribute(
+      'href',
+      '/pricing'
+    )
+    expect(
+      screen.queryByRole('button', { name: /download the book/i })
+    ).not.toBeInTheDocument()
+  })
+
+  it('shows a paying member their renewal, the book, and billing', async () => {
+    signedIn()
+    mocks.loadMyPlan.mockResolvedValue({
+      signedIn: true,
+      plan: {
+        hasPaidAccess: true,
+        source: 'stripe',
+        status: 'active',
+        currentPeriodEnd: new Date('2026-12-15T12:00:00Z'),
+        cancelAtPeriodEnd: false,
+        canSubscribe: false,
+        canManageBilling: true,
+      },
+    })
+    render(await ProfilePage())
+
+    expect(screen.getByText('Paid, renews December 15, 2026')).toBeInTheDocument()
+    expect(
+      screen.getByRole('button', { name: /download the book/i })
+    ).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Manage billing' })).toBeInTheDocument()
+  })
+
+  it('never offers billing to a partner member', async () => {
+    signedIn()
+    mocks.loadMyPlan.mockResolvedValue({
+      signedIn: true,
+      plan: {
+        hasPaidAccess: true,
+        source: 'partner',
+        status: 'active',
+        currentPeriodEnd: null,
+        cancelAtPeriodEnd: false,
+        canSubscribe: false,
+        canManageBilling: false,
+      },
+    })
+    render(await ProfilePage())
+
+    expect(screen.getByText('Paid, through ForgeFit')).toBeInTheDocument()
+    expect(
+      screen.queryByRole('button', { name: 'Manage billing' })
+    ).not.toBeInTheDocument()
+    expect(screen.queryByRole('link', { name: 'See the plan' })).not.toBeInTheDocument()
   })
 
   it('sends a signed-out visitor to sign in', async () => {

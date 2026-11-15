@@ -37,6 +37,8 @@
     "recipe:parse": "tsx scripts/recipesToJson.ts",
     "book:pdf": "tsx --env-file=.env --env-file-if-exists=.env.local scripts/buildBook.ts",
     "book:pdf:prod": "tsx --env-file=.env.production --env-file-if-exists=.env.production.local scripts/buildBook.ts",
+    "book:upload": "tsx --env-file=.env --env-file-if-exists=.env.local scripts/uploadBook.ts",
+    "book:upload:prod": "tsx --env-file=.env.production --env-file-if-exists=.env.production.local scripts/uploadBook.ts",
     "book:md:db": "tsx --env-file=.env --env-file-if-exists=.env.local scripts/buildBookFromDb.ts",
     "recipe:import": "tsx --env-file=.env --env-file-if-exists=.env.local scripts/importRecipes.ts",
     "recipe:import:prod": "tsx --env-file=.env.production --env-file-if-exists=.env.production.local scripts/importRecipes.ts",

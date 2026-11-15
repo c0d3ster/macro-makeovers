@@ -20,6 +20,7 @@ const STATIC_PAGES: Pick<
     priority: 0.5,
   })),
   { url: '/about', changeFrequency: 'monthly', priority: 0.4 },
+  { url: '/pricing', changeFrequency: 'monthly', priority: 0.5 },
   ...LEGAL_PAGES.map(({ slug }) => ({
     url: `/${slug}`,
     changeFrequency: 'yearly' as const,
