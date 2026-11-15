@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import type { ReactElement } from 'react'
 
 import { Button, Prose } from '@/components/atoms'
-import { ContactForm } from '@/components/molecules'
+import { ContactSection } from '@/components/molecules'
 import { LandingPageTemplate } from '@/components/templates'
 import { Env } from '@/libs/Env'
 import { readAbout } from '@/libs/guides'
@@ -28,10 +28,7 @@ const AboutPage = (): ReactElement => (
       </div>
     </main>
 
-    {/* A see-through band, so the page pattern shows faintly behind the form */}
-    <div id='contact' className='bg-surface/70 py-10'>
-      <ContactForm />
-    </div>
+    <ContactSection />
   </LandingPageTemplate>
 )
 
