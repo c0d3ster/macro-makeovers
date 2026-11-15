@@ -62,7 +62,16 @@ const OPEN_STATUSES = new Set<SubscriptionRow['status']>([
 const isOpenInStripe = ({ stripeSubscriptionId, status }: SubscriptionRow): boolean =>
   !!stripeSubscriptionId && OPEN_STATUSES.has(status)
 
-const notConfigured =(what: string): GraphQLError =>
+const PARTNER_BILLING =
+  'Your plan comes through ForgeFit, so billing is handled there.'
+
+const checkoutRefusal = ({ source, hasPaidAccess }: PlanSummary): string => {
+  if (source === 'partner') return PARTNER_BILLING
+  if (hasPaidAccess) return 'You already have the paid plan.'
+  return 'Your last payment did not go through. Update your card from your account page.'
+}
+
+const notConfigured = (what: string): GraphQLError =>
   new GraphQLError(`${what} is not available right now. Try again later.`, {
     extensions: { code: 'BAD_USER_INPUT' },
   })
@@ -109,12 +118,9 @@ export class BillingService {
 
     const plan = await this.getPlan(user.id, isOwner)
     if (!plan.canSubscribe) {
-      throw new GraphQLError(
-        plan.source === 'partner'
-          ? 'Your plan comes through ForgeFit, so billing is handled there.'
-          : 'You already have the paid plan.',
-        { extensions: { code: 'BAD_USER_INPUT' } }
-      )
+      throw new GraphQLError(checkoutRefusal(plan), {
+        extensions: { code: 'BAD_USER_INPUT' },
+      })
     }
 
     const { stripe, config } = setup
@@ -147,7 +153,7 @@ export class BillingService {
     if (!plan.canManageBilling || !stripeRow?.stripeCustomerId) {
       throw new GraphQLError(
         plan.source === 'partner'
-          ? 'Your plan comes through ForgeFit, so billing is handled there.'
+          ? PARTNER_BILLING
           : 'There is no billing to manage yet.',
         { extensions: { code: 'FORBIDDEN' } }
       )
