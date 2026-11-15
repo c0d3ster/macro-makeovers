@@ -2,7 +2,7 @@ import type { ReactElement, ReactNode } from 'react'
 
 import { SiteFooter, SiteHeader } from '@/components/organisms'
 
-import { SITE_NAV_ITEMS } from './siteNav'
+import { SITE_FOOTER_LINKS, SITE_NAV_ITEMS } from './siteNav'
 
 type LandingPageTemplateProps = {
   children: ReactNode
@@ -23,6 +23,6 @@ export const LandingPageTemplate = ({
       logoUrl={logoUrl}
     />
     <div className='pt-16'>{children}</div>
-    <SiteFooter />
+    <SiteFooter links={SITE_FOOTER_LINKS} />
   </div>
 )
