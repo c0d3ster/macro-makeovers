@@ -12,7 +12,7 @@ export const FUNNEL_EVENTS = [
   'subscription_canceled',
 ] as const
 
-export const ACTION_EVENTS = [
+const ACTION_EVENTS = [
   'basket_add',
   'basket_remove',
   'bundle_add',
@@ -22,7 +22,6 @@ export const ACTION_EVENTS = [
 
 export const ANALYTICS_EVENTS = [...FUNNEL_EVENTS, ...ACTION_EVENTS] as const
 
-export type FunnelEvent = (typeof FUNNEL_EVENTS)[number]
 export type AnalyticsEvent = (typeof ANALYTICS_EVENTS)[number]
 
 // Where the visitor came from, flattened so it fits Vercel's flat event properties

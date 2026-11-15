@@ -27,5 +27,3 @@ export const emailSubscribers = pgTable('email_subscribers', {
     .notNull(),
 })
 
-export type EmailSubscriberStatus =
-  (typeof emailSubscriberStatusEnum.enumValues)[number]

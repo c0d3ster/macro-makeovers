@@ -10,7 +10,7 @@ export type TrafficSource = SourceProperties & {
 
 export const TRAFFIC_SOURCE_COOKIE = 'mm_traffic_source'
 // Thirty days, so a visitor who signs up a few visits later still credits the channel
-export const TRAFFIC_SOURCE_MAX_AGE = 60 * 60 * 24 * 30
+const TRAFFIC_SOURCE_MAX_AGE = 60 * 60 * 24 * 30
 
 const MAX_LENGTH = 255
 
