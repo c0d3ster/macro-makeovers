@@ -6,6 +6,7 @@ import { ApolloServer } from '@apollo/server'
 import { startServerAndCreateNextHandler } from '@as-integrations/next'
 
 import { createContext, createSchema } from '@/graphql'
+import { SUBSCRIPTION_REQUIRED } from '@/libs/billing/subscriptionRequired'
 import { logger } from '@/libs/Logger'
 
 // Errors a resolver throws deliberately, with a message written for the person who sees it
@@ -15,7 +16,9 @@ const CLIENT_SAFE_CODES = new Set([
   'BAD_USER_INPUT',
   'EMAIL_SEND_FAILED',
   'UNAUTHENTICATED',
-  'SUBSCRIPTION_REQUIRED',
+  'UNAUTHORIZED',
+  // Paid features: the UI turns this into an upgrade prompt
+  SUBSCRIPTION_REQUIRED,
   'GROCER_AUTH_REQUIRED',
   'GROCER_STORE_REQUIRED',
   'GROCER_UNAVAILABLE',
