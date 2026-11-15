@@ -1,7 +1,10 @@
 // Starts the dev server and the codegen watcher on the same port. When 3000 (or PORT) is taken,
 // it moves up to the next free one and hands that to both, so codegen never polls another app.
 // When the app points at a local Supabase stack that is not running, it starts it first, so pages
-// don't hang on auth retries. That needs Docker running.
+// don't hang on auth retries (that needs Docker running), then applies any migrations the local
+// database hasn't run yet.
+import type { Buffer } from 'node:buffer'
+
 import { spawn } from 'node:child_process'
 import { existsSync, readFileSync } from 'node:fs'
 import { createServer } from 'node:net'
@@ -65,9 +68,60 @@ const isReachable = (url: string): Promise<boolean> =>
     .then(() => true)
     .catch(() => false)
 
-const ensureLocalSupabase = async (): Promise<void> => {
+type CaptureResult = { code: number; output: string }
+
+// Runs a command to the end and resolves its exit code and everything it printed
+const capture = (command: string, args: string[]): Promise<CaptureResult> =>
+  new Promise((resolve) => {
+    const child = spawn(command, args, { shell: true })
+    const chunks: string[] = []
+    child.stdout.on('data', (chunk: Buffer) => chunks.push(chunk.toString()))
+    child.stderr.on('data', (chunk: Buffer) => chunks.push(chunk.toString()))
+    child.on('error', (error) => resolve({ code: 1, output: String(error) }))
+    child.on('exit', (code) => resolve({ code: code ?? 1, output: chunks.join('') }))
+  })
+
+type MigrationResult = { applied: string[] }
+
+const isMigrationResult = (value: unknown): value is MigrationResult =>
+  typeof value === 'object' &&
+  value !== null &&
+  'applied' in value &&
+  Array.isArray(value.applied) &&
+  value.applied.every((item) => typeof item === 'string')
+
+// The CLI prints its result as one JSON object, next to a plain text target line
+const parseApplied = (output: string): string[] => {
+  const json = output.match(/\{[\s\S]*\}/)?.[0]
+  if (!json) return []
+  try {
+    const parsed: unknown = JSON.parse(json)
+    return isMigrationResult(parsed) ? parsed.applied : []
+  } catch {
+    return []
+  }
+}
+
+// A local database misses migrations merged after it was created, and the app then fails on
+// the missing tables. This applies only the pending ones and never resets data.
+const applyLocalMigrations = async (): Promise<void> => {
+  const { code, output } = await capture('pnpm', ['exec', 'supabase', 'migration', 'up'])
+  if (code !== 0) {
+    console.error(`\nCould not apply local migrations:\n${output}\n`)
+    process.exit(1)
+  }
+
+  const applied = parseApplied(output).map((path) => path.split(/[\\/]/).pop())
+  if (applied.length > 0) {
+    console.log(`Applied ${applied.length} local migration(s):\n  ${applied.join('\n  ')}`)
+  }
+}
+
+// Starts the local stack when the app uses one. Resolves whether a local stack is in use.
+const ensureLocalSupabase = async (): Promise<boolean> => {
   const url = readEnvValue('NEXT_PUBLIC_SUPABASE_URL')
-  if (!isLocalSupabase(url) || (await isReachable(url))) return
+  if (!isLocalSupabase(url)) return false
+  if (await isReachable(url)) return true
 
   if ((await run('docker', ['info'], true)) !== 0) {
     console.error(
@@ -82,10 +136,11 @@ const ensureLocalSupabase = async (): Promise<void> => {
     console.error('\nCould not start local Supabase. See the output above.\n')
     process.exit(1)
   }
+  return true
 }
 
 const main = async (): Promise<void> => {
-  await ensureLocalSupabase()
+  if (await ensureLocalSupabase()) await applyLocalMigrations()
 
   const port = await findPort(FIRST_PORT, MAX_TRIES)
   if (port !== FIRST_PORT) console.log(`Port ${FIRST_PORT} is in use, using ${port}`)
