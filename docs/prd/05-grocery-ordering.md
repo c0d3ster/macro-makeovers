@@ -68,3 +68,35 @@ The member chooses where to shop instead of us picking one service for everyone.
 3. First two adapters with item mappings.
 4. Gating, the upgrade prompt, and the remembered grocer.
 5. Disclosure copy, markup notes, and handoff logging.
+
+## Status (2026-11-15)
+
+Tasks 2 to 5 are built and ship dark behind `GROCERY_HANDOFF_ENABLED` and each grocer's keys.
+Task 1's applications (Instacart, Kroger, Walmart) went in on 2026-11-15.
+
+- **Code:** adapters, item mappings and grocer copy in `src/libs/grocery`. `GroceryService` and
+  `GroceryResolver` serve `groceryHandoffOptions`, `groceryStores(zip)` and `sendBasketToGrocer`.
+  The picker is `SendToCart` on `/basket`. Kroger sign-in is `/api/grocery/kroger/connect` and
+  `/callback`.
+- **Data:** `member_grocer` (remembered grocer, store and zip) and `cart_handoffs` (grocer,
+  outcome, error code, item and unmatched counts; no item names) in migration
+  `20261115000000_create_grocery_handoff.sql`. Kroger member tokens are not stored in the
+  database: they sit in a sealed httpOnly cookie on the member's device.
+- **Gating:** every paid call goes through `checkPaidAccess` in `src/libs/paidAccess.ts`. Until
+  PRD 01's `hasPaidAccess` merges, it lets only the owner through. Free members see the button and
+  an upgrade prompt.
+- **Default grocer:** last choice, else Kroger pickup if a Kroger-family store is within 10 miles
+  of the zip, else Walmart pickup. Instacart is never preselected.
+
+**Before turning each grocer on**
+
+- Kroger: confirm the API paths and fields in `krogerApi.ts` against the developer portal (its
+  docs render client-side, so they were written from the public API as commonly used). Register
+  the redirect URI. Check how random-weight items take a quantity: the adapter rounds pounds up
+  to whole units.
+- Instacart: get the brand kit for the 22px logo and colors on the "Shop on Instacart" button,
+  and record the flow for the production review.
+- Walmart: curate `WALMART_ITEM_IDS` in `itemMappings.ts`; Walmart is not offered until at least
+  one id is mapped. Test that the link with `storeId` fills a pickup cart.
+- All: replace the body of `checkPaidAccess` with PRD 01's `hasPaidAccess`, and link the upgrade
+  prompt to the pricing page once it exists.

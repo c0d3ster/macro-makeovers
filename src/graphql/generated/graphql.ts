@@ -17,6 +17,7 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
+  /** Any JSON value */
   JSON: { input: any; output: any; }
 };
 
@@ -32,35 +33,78 @@ export type AdminRecipe = {
   readonly updatedAt: Scalars['String']['output'];
 };
 
+export type BasketEntryInput = {
+  readonly build?: InputMaybe<Scalars['String']['input']>;
+  readonly servings: Scalars['Int']['input'];
+  readonly slug: Scalars['String']['input'];
+};
+
 export type ContactFormInput = {
-  readonly details?: InputMaybe<Scalars['String']['input']>;
-  readonly dish: Scalars['String']['input'];
   readonly email: Scalars['String']['input'];
+  readonly message: Scalars['String']['input'];
   readonly name: Scalars['String']['input'];
-  readonly recipeUrl?: InputMaybe<Scalars['String']['input']>;
+  readonly subject: Scalars['String']['input'];
 };
 
 export type ContactSubmission = {
   readonly __typename?: 'ContactSubmission';
-  readonly details?: Maybe<Scalars['String']['output']>;
-  readonly dish: Scalars['String']['output'];
   readonly email: Scalars['String']['output'];
   readonly id: Scalars['String']['output'];
+  readonly message: Scalars['String']['output'];
   readonly name: Scalars['String']['output'];
-  readonly recipeUrl?: Maybe<Scalars['String']['output']>;
+  readonly subject: Scalars['String']['output'];
   readonly submittedAt: Scalars['String']['output'];
 };
 
-/** An email list sign-up. The source fields come from the visitor cookie. */
-export type EmailSubscribeInput = {
-  readonly campaign?: InputMaybe<Scalars['String']['input']>;
-  readonly email: Scalars['String']['input'];
-  readonly medium?: InputMaybe<Scalars['String']['input']>;
-  /** The page the form was on */
-  readonly path?: InputMaybe<Scalars['String']['input']>;
-  readonly source?: InputMaybe<Scalars['String']['input']>;
-  /** Honeypot. People leave it empty; bots fill it in. */
-  readonly website?: InputMaybe<Scalars['String']['input']>;
+export enum Grocer {
+  Instacart = 'Instacart',
+  Kroger = 'Kroger',
+  Walmart = 'Walmart'
+}
+
+export type GrocerStatus = {
+  readonly __typename?: 'GrocerStatus';
+  readonly connected: Scalars['Boolean']['output'];
+  readonly grocer: Grocer;
+};
+
+export type GroceryHandoff = {
+  readonly __typename?: 'GroceryHandoff';
+  readonly grocer: Grocer;
+  readonly matchedCount: Scalars['Int']['output'];
+  readonly unmatched: ReadonlyArray<HandoffLineResult>;
+  readonly url: Scalars['String']['output'];
+};
+
+export type GroceryHandoffOptions = {
+  readonly __typename?: 'GroceryHandoffOptions';
+  readonly defaultGrocer?: Maybe<Grocer>;
+  readonly disclosure: Scalars['String']['output'];
+  readonly enabled: Scalars['Boolean']['output'];
+  readonly grocers: ReadonlyArray<GrocerStatus>;
+  readonly hasPaidAccess: Scalars['Boolean']['output'];
+  readonly remembered?: Maybe<RememberedGrocer>;
+  readonly signedIn: Scalars['Boolean']['output'];
+};
+
+export type GroceryStore = {
+  readonly __typename?: 'GroceryStore';
+  readonly address: Scalars['String']['output'];
+  readonly id: Scalars['String']['output'];
+  readonly name: Scalars['String']['output'];
+};
+
+export type GroceryStoreSuggestion = {
+  readonly __typename?: 'GroceryStoreSuggestion';
+  readonly defaultGrocer?: Maybe<Grocer>;
+  readonly krogerStores: ReadonlyArray<GroceryStore>;
+};
+
+export type HandoffLineResult = {
+  readonly __typename?: 'HandoffLineResult';
+  readonly display: Scalars['String']['output'];
+  readonly key: Scalars['String']['output'];
+  readonly name: Scalars['String']['output'];
 };
 
 export type ImportRecipeResult = {
@@ -83,25 +127,15 @@ export enum ImportRecipeStatus {
 
 export type Mutation = {
   readonly __typename?: 'Mutation';
-  /** Confirms an address from its emailed link and sends the welcome email. False for an unknown or unsubscribed link. */
-  readonly confirmEmailSubscription: Scalars['Boolean']['output'];
   /** Deletes a recipe with its revision history. Refused while other recipes are variants of it. Owner only. */
   readonly deleteRecipe: Scalars['ID']['output'];
   /** Validates a recipe and saves it as a draft. An existing slug is only replaced with overwrite. dryRun checks and diffs without writing. Owner only. */
   readonly importRecipe: ImportRecipeResult;
+  readonly sendBasketToGrocer: GroceryHandoff;
   /** Publishes or unpublishes a recipe. Owner only. */
   readonly setRecipeStatus: AdminRecipe;
   readonly submitContactForm: ContactSubmission;
-  /** Adds an address to the email list as pending and sends the confirmation link. Always true for a valid address, so it never reveals who is on the list. */
-  readonly subscribeToEmails: Scalars['Boolean']['output'];
-  /** Takes an address off the email list. False for an unknown link. */
-  readonly unsubscribeFromEmails: Scalars['Boolean']['output'];
   readonly updateUser: User;
-};
-
-
-export type MutationConfirmEmailSubscriptionArgs = {
-  token: Scalars['String']['input'];
 };
 
 
@@ -118,6 +152,11 @@ export type MutationImportRecipeArgs = {
 };
 
 
+export type MutationSendBasketToGrocerArgs = {
+  input: SendBasketInput;
+};
+
+
 export type MutationSetRecipeStatusArgs = {
   id: Scalars['ID']['input'];
   status: PublishStatus;
@@ -126,16 +165,6 @@ export type MutationSetRecipeStatusArgs = {
 
 export type MutationSubmitContactFormArgs = {
   input: ContactFormInput;
-};
-
-
-export type MutationSubscribeToEmailsArgs = {
-  input: EmailSubscribeInput;
-};
-
-
-export type MutationUnsubscribeFromEmailsArgs = {
-  token: Scalars['String']['input'];
 };
 
 
@@ -152,12 +181,19 @@ export enum PublishStatus {
 
 export type Query = {
   readonly __typename?: 'Query';
+  readonly groceryHandoffOptions: GroceryHandoffOptions;
+  readonly groceryStores: GroceryStoreSuggestion;
   /** Liveness check */
   readonly health: Scalars['Boolean']['output'];
   readonly me?: Maybe<User>;
   /** A saved recipe in import shape by slug, drafts included. Null for an unknown slug. Owner only. */
   readonly recipeForImport?: Maybe<RecipeForImport>;
   readonly user?: Maybe<User>;
+};
+
+
+export type QueryGroceryStoresArgs = {
+  zip: Scalars['String']['input'];
 };
 
 
@@ -198,6 +234,24 @@ export type RecipeImportIssue = {
   readonly path: Scalars['String']['output'];
 };
 
+export type RememberedGrocer = {
+  readonly __typename?: 'RememberedGrocer';
+  readonly grocer: Grocer;
+  readonly storeId?: Maybe<Scalars['String']['output']>;
+  readonly storeName?: Maybe<Scalars['String']['output']>;
+  readonly zip?: Maybe<Scalars['String']['output']>;
+};
+
+export type SendBasketInput = {
+  readonly checked: ReadonlyArray<Scalars['String']['input']>;
+  readonly entries: ReadonlyArray<BasketEntryInput>;
+  readonly grocer: Grocer;
+  readonly includePantry: Scalars['Boolean']['input'];
+  readonly storeId?: InputMaybe<Scalars['String']['input']>;
+  readonly storeName?: InputMaybe<Scalars['String']['input']>;
+  readonly zip?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type UpdateUserInput = {
   readonly avatarUrl?: InputMaybe<Scalars['String']['input']>;
   readonly firstName?: InputMaybe<Scalars['String']['input']>;
@@ -230,30 +284,28 @@ export type SubmitContactFormMutationVariables = Exact<{
 }>;
 
 
-export type SubmitContactFormMutation = { readonly __typename?: 'Mutation', readonly submitContactForm: { readonly __typename?: 'ContactSubmission', readonly id: string, readonly name: string, readonly email: string, readonly dish: string, readonly recipeUrl?: string | null, readonly details?: string | null, readonly submittedAt: string } };
-
-export type SubscribeToEmailsMutationVariables = Exact<{
-  input: EmailSubscribeInput;
-}>;
-
-
-export type SubscribeToEmailsMutation = { readonly __typename?: 'Mutation', readonly subscribeToEmails: boolean };
-
-export type ConfirmEmailSubscriptionMutationVariables = Exact<{
-  token: Scalars['String']['input'];
-}>;
-
-
-export type ConfirmEmailSubscriptionMutation = { readonly __typename?: 'Mutation', readonly confirmEmailSubscription: boolean };
-
-export type UnsubscribeFromEmailsMutationVariables = Exact<{
-  token: Scalars['String']['input'];
-}>;
-
-
-export type UnsubscribeFromEmailsMutation = { readonly __typename?: 'Mutation', readonly unsubscribeFromEmails: boolean };
+export type SubmitContactFormMutation = { readonly __typename?: 'Mutation', readonly submitContactForm: { readonly __typename?: 'ContactSubmission', readonly id: string, readonly name: string, readonly email: string, readonly subject: string, readonly message: string, readonly submittedAt: string } };
 
 export type UserDisplayFragment = { readonly __typename?: 'User', readonly id: string, readonly firstName?: string | null, readonly lastName?: string | null, readonly email: string };
+
+export type GroceryHandoffOptionsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GroceryHandoffOptionsQuery = { readonly __typename?: 'Query', readonly groceryHandoffOptions: { readonly __typename?: 'GroceryHandoffOptions', readonly enabled: boolean, readonly signedIn: boolean, readonly hasPaidAccess: boolean, readonly defaultGrocer?: Grocer | null, readonly disclosure: string, readonly grocers: ReadonlyArray<{ readonly __typename?: 'GrocerStatus', readonly grocer: Grocer, readonly connected: boolean }>, readonly remembered?: { readonly __typename?: 'RememberedGrocer', readonly grocer: Grocer, readonly storeId?: string | null, readonly storeName?: string | null, readonly zip?: string | null } | null } };
+
+export type GroceryStoresQueryVariables = Exact<{
+  zip: Scalars['String']['input'];
+}>;
+
+
+export type GroceryStoresQuery = { readonly __typename?: 'Query', readonly groceryStores: { readonly __typename?: 'GroceryStoreSuggestion', readonly defaultGrocer?: Grocer | null, readonly krogerStores: ReadonlyArray<{ readonly __typename?: 'GroceryStore', readonly id: string, readonly name: string, readonly address: string }> } };
+
+export type SendBasketToGrocerMutationVariables = Exact<{
+  input: SendBasketInput;
+}>;
+
+
+export type SendBasketToGrocerMutation = { readonly __typename?: 'Mutation', readonly sendBasketToGrocer: { readonly __typename?: 'GroceryHandoff', readonly grocer: Grocer, readonly url: string, readonly matchedCount: number, readonly unmatched: ReadonlyArray<{ readonly __typename?: 'HandoffLineResult', readonly key: string, readonly name: string, readonly display: string }> } };
 
 export type ImportRecipeMutationVariables = Exact<{
   recipe: Scalars['JSON']['input'];
@@ -314,9 +366,8 @@ export const SubmitContactFormDocument = gql`
     id
     name
     email
-    dish
-    recipeUrl
-    details
+    subject
+    message
     submittedAt
   }
 }
@@ -344,90 +395,129 @@ export function useSubmitContactFormMutation(baseOptions?: ApolloReactHooks.Muta
         return ApolloReactHooks.useMutation<SubmitContactFormMutation, SubmitContactFormMutationVariables>(SubmitContactFormDocument, options);
       }
 export type SubmitContactFormMutationHookResult = ReturnType<typeof useSubmitContactFormMutation>;
-export const SubscribeToEmailsDocument = gql`
-    mutation SubscribeToEmails($input: EmailSubscribeInput!) {
-  subscribeToEmails(input: $input)
+export const GroceryHandoffOptionsDocument = gql`
+    query GroceryHandoffOptions {
+  groceryHandoffOptions {
+    enabled
+    signedIn
+    hasPaidAccess
+    grocers {
+      grocer
+      connected
+    }
+    remembered {
+      grocer
+      storeId
+      storeName
+      zip
+    }
+    defaultGrocer
+    disclosure
+  }
 }
     `;
 
 /**
- * __useSubscribeToEmailsMutation__
+ * __useGroceryHandoffOptionsQuery__
  *
- * To run a mutation, you first call `useSubscribeToEmailsMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useSubscribeToEmailsMutation` returns a tuple that includes:
+ * To run a query within a React component, call `useGroceryHandoffOptionsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGroceryHandoffOptionsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGroceryHandoffOptionsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGroceryHandoffOptionsQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<GroceryHandoffOptionsQuery, GroceryHandoffOptionsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useQuery<GroceryHandoffOptionsQuery, GroceryHandoffOptionsQueryVariables>(GroceryHandoffOptionsDocument, options);
+      }
+export function useGroceryHandoffOptionsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GroceryHandoffOptionsQuery, GroceryHandoffOptionsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useLazyQuery<GroceryHandoffOptionsQuery, GroceryHandoffOptionsQueryVariables>(GroceryHandoffOptionsDocument, options);
+        }
+export type GroceryHandoffOptionsQueryHookResult = ReturnType<typeof useGroceryHandoffOptionsQuery>;
+export type GroceryHandoffOptionsLazyQueryHookResult = ReturnType<typeof useGroceryHandoffOptionsLazyQuery>;
+export const GroceryStoresDocument = gql`
+    query GroceryStores($zip: String!) {
+  groceryStores(zip: $zip) {
+    defaultGrocer
+    krogerStores {
+      id
+      name
+      address
+    }
+  }
+}
+    `;
+
+/**
+ * __useGroceryStoresQuery__
+ *
+ * To run a query within a React component, call `useGroceryStoresQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGroceryStoresQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGroceryStoresQuery({
+ *   variables: {
+ *      zip: // value for 'zip'
+ *   },
+ * });
+ */
+export function useGroceryStoresQuery(baseOptions: ApolloReactHooks.QueryHookOptions<GroceryStoresQuery, GroceryStoresQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useQuery<GroceryStoresQuery, GroceryStoresQueryVariables>(GroceryStoresDocument, options);
+      }
+export function useGroceryStoresLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GroceryStoresQuery, GroceryStoresQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useLazyQuery<GroceryStoresQuery, GroceryStoresQueryVariables>(GroceryStoresDocument, options);
+        }
+export type GroceryStoresQueryHookResult = ReturnType<typeof useGroceryStoresQuery>;
+export type GroceryStoresLazyQueryHookResult = ReturnType<typeof useGroceryStoresLazyQuery>;
+export const SendBasketToGrocerDocument = gql`
+    mutation SendBasketToGrocer($input: SendBasketInput!) {
+  sendBasketToGrocer(input: $input) {
+    grocer
+    url
+    matchedCount
+    unmatched {
+      key
+      name
+      display
+    }
+  }
+}
+    `;
+
+/**
+ * __useSendBasketToGrocerMutation__
+ *
+ * To run a mutation, you first call `useSendBasketToGrocerMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSendBasketToGrocerMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [subscribeToEmailsMutation, { data, loading, error }] = useSubscribeToEmailsMutation({
+ * const [sendBasketToGrocerMutation, { data, loading, error }] = useSendBasketToGrocerMutation({
  *   variables: {
  *      input: // value for 'input'
  *   },
  * });
  */
-export function useSubscribeToEmailsMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<SubscribeToEmailsMutation, SubscribeToEmailsMutationVariables>) {
+export function useSendBasketToGrocerMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<SendBasketToGrocerMutation, SendBasketToGrocerMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return ApolloReactHooks.useMutation<SubscribeToEmailsMutation, SubscribeToEmailsMutationVariables>(SubscribeToEmailsDocument, options);
+        return ApolloReactHooks.useMutation<SendBasketToGrocerMutation, SendBasketToGrocerMutationVariables>(SendBasketToGrocerDocument, options);
       }
-export type SubscribeToEmailsMutationHookResult = ReturnType<typeof useSubscribeToEmailsMutation>;
-export const ConfirmEmailSubscriptionDocument = gql`
-    mutation ConfirmEmailSubscription($token: String!) {
-  confirmEmailSubscription(token: $token)
-}
-    `;
-
-/**
- * __useConfirmEmailSubscriptionMutation__
- *
- * To run a mutation, you first call `useConfirmEmailSubscriptionMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useConfirmEmailSubscriptionMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [confirmEmailSubscriptionMutation, { data, loading, error }] = useConfirmEmailSubscriptionMutation({
- *   variables: {
- *      token: // value for 'token'
- *   },
- * });
- */
-export function useConfirmEmailSubscriptionMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<ConfirmEmailSubscriptionMutation, ConfirmEmailSubscriptionMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return ApolloReactHooks.useMutation<ConfirmEmailSubscriptionMutation, ConfirmEmailSubscriptionMutationVariables>(ConfirmEmailSubscriptionDocument, options);
-      }
-export type ConfirmEmailSubscriptionMutationHookResult = ReturnType<typeof useConfirmEmailSubscriptionMutation>;
-export const UnsubscribeFromEmailsDocument = gql`
-    mutation UnsubscribeFromEmails($token: String!) {
-  unsubscribeFromEmails(token: $token)
-}
-    `;
-
-/**
- * __useUnsubscribeFromEmailsMutation__
- *
- * To run a mutation, you first call `useUnsubscribeFromEmailsMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUnsubscribeFromEmailsMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [unsubscribeFromEmailsMutation, { data, loading, error }] = useUnsubscribeFromEmailsMutation({
- *   variables: {
- *      token: // value for 'token'
- *   },
- * });
- */
-export function useUnsubscribeFromEmailsMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<UnsubscribeFromEmailsMutation, UnsubscribeFromEmailsMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return ApolloReactHooks.useMutation<UnsubscribeFromEmailsMutation, UnsubscribeFromEmailsMutationVariables>(UnsubscribeFromEmailsDocument, options);
-      }
-export type UnsubscribeFromEmailsMutationHookResult = ReturnType<typeof useUnsubscribeFromEmailsMutation>;
+export type SendBasketToGrocerMutationHookResult = ReturnType<typeof useSendBasketToGrocerMutation>;
 export const ImportRecipeDocument = gql`
     mutation ImportRecipe($recipe: JSON!, $overwrite: Boolean!, $dryRun: Boolean!, $recipeId: ID) {
   importRecipe(

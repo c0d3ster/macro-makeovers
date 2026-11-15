@@ -1,6 +1,7 @@
 export * from './contactApiClient'
 export * from './emailSubscriptionApiClient'
 export * from './fragments'
+export * from './groceryApiClient'
 export * from './recipeApiClient'
 export * from './recipePhotoApiClient'
 export * from './userApiClient'

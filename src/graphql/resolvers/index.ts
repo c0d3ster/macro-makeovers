@@ -1,5 +1,6 @@
 export { ContactResolver } from './ContactResolver'
 export { EmailSubscriptionResolver } from './EmailSubscriptionResolver'
+export { GroceryResolver } from './GroceryResolver'
 export { HealthResolver } from './HealthResolver'
 export { RecipeResolver } from './RecipeResolver'
 export { UserResolver } from './UserResolver'
