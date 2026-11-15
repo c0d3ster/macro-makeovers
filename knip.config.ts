@@ -19,6 +19,7 @@ const config: KnipConfig = {
   ignoreDependencies: [
     'conventional-changelog-conventionalcommits',
     'lefthook', // Git hooks manager — used as a CLI tool, not imported
+    'npm-run-all', // run-p, spawned by scripts/dev.ts where knip can't see it. Do not remove.
   ],
   // Binaries to ignore during analysis
   ignoreBinaries: [],
