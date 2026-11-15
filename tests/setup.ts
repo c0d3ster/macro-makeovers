@@ -106,6 +106,7 @@ vi.mock('pg', () => ({
 // Used in: All service test files
 vi.mock('drizzle-orm', () => ({
   drizzle: vi.fn(),
+  relations: vi.fn(),
   pgTable: vi.fn(),
   text: vi.fn(),
   integer: vi.fn(),
