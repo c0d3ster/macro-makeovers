@@ -25,8 +25,11 @@ PDF book, rebuilt automatically when a published recipe changes.
   and imported straight from a Claude chat.
 - **Photos**: uploaded or generated (OpenAI image API) in the recipe editor, stored in Cloudflare
   R2.
-- **Recipe book**: built from the published recipes and published to the `recipe-book` release
-  by a GitHub workflow whenever the book's contents change.
+- **Recipe book**: built from the published recipes by a GitHub workflow whenever the book's
+  contents change, and uploaded to a private R2 bucket. Paid members download it through a
+  short-lived signed link.
+- **Paid plan**: one Stripe subscription (Checkout, Customer Portal, webhook) unlocks the meal
+  planner, "Send to cart", and the book. `/pricing` lists what is paid and what stays free.
 
 ## Roadmap
 
@@ -135,6 +138,7 @@ check access in `src/services`, since Drizzle bypasses it.
 | `pnpm db:new <name>` / `db:push` / `db:pull` / `db:types` | Migrations, hosted push, Drizzle and Supabase types  |
 | `pnpm recipe:import` / `recipe:import:prod`               | Import recipe JSON into the local / hosted DB        |
 | `pnpm book:pdf` / `book:pdf:prod`                         | Build the recipe book PDF from the local / hosted DB |
+| `pnpm book:upload` / `book:upload:prod`                   | Upload the built PDF to the private R2 book bucket   |
 | `pnpm photos:backfill` / `photos:backfill:prod`           | Point the seed recipes at their R2 photos            |
 
 The book build needs `pandoc` on the PATH and Playwright's Chromium

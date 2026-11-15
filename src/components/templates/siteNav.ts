@@ -17,6 +17,7 @@ export const SITE_NAV_ITEMS: NavItem[] = [
       href: `/guides/${slug}`,
     })),
   },
+  { id: 'pricing', label: 'Pricing', href: '/pricing' },
   { id: 'about', label: 'About', href: '/about' },
 ]
 

@@ -1,6 +1,7 @@
 export * from './admin'
 export * from './auth'
 export * from './basket'
+export * from './billing'
 export * from './contact'
 export * from './email'
 export * from './navigation'

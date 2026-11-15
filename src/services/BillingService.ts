@@ -91,6 +91,17 @@ export class BillingService {
     }
   }
 
+  // For server-rendered pages, which know the auth id rather than the profile id
+  async getPlanForAuthId(
+    authId: string,
+    isOwner: boolean
+  ): Promise<PlanSummary | undefined> {
+    const user = await db.query.users.findFirst({
+      where: eq(schemas.users.authId, authId),
+    })
+    return user ? this.getPlan(user.id, isOwner) : undefined
+  }
+
   // Starts Stripe Checkout for the one monthly plan and returns its URL
   async startCheckout(user: BillingUser, isOwner: boolean): Promise<string> {
     const setup = this.deps.getStripe()
