@@ -15,6 +15,12 @@ export const users = pgTable('users', {
   lastName: varchar('last_name', { length: 100 }),
   avatarUrl: text('avatar_url'),
   role: userRoleEnum('role').notNull().default(UserRole.Client),
+  // Traffic source at sign-up (PRD 07): UTM tags first, then the referring site
+  signupSource: varchar('signup_source', { length: 255 }),
+  signupMedium: varchar('signup_medium', { length: 255 }),
+  signupCampaign: varchar('signup_campaign', { length: 255 }),
+  signupReferrer: varchar('signup_referrer', { length: 255 }),
+  signupLandingPath: varchar('signup_landing_path', { length: 255 }),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
   updatedAt: timestamp('updated_at', { mode: 'date' })
     .defaultNow()

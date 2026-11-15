@@ -3,7 +3,8 @@ import type { ReactElement } from 'react'
 
 import { notFound } from 'next/navigation'
 
-import { OwnerEditLink } from '@/components/molecules'
+import { TrackEvent } from '@/components/atoms'
+import { EmailSignup, OwnerEditLink } from '@/components/molecules'
 import { RecipePageContent } from '@/components/organisms'
 import { LandingPageTemplate } from '@/components/templates'
 import { logger } from '@/libs/Logger'
@@ -59,6 +60,12 @@ const RecipePage = async ({
         recipe={recipe}
         corner={<OwnerEditLink recipeId={recipe.id} />}
       />
+      <EmailSignup
+        className='mx-auto max-w-3xl px-4 pb-16 sm:px-6'
+        heading='Get a new makeover every week'
+        blurb='One recipe a week with the full macros, protein included. Unsubscribe any time.'
+      />
+      <TrackEvent event='recipe_view' properties={{ slug }} />
     </LandingPageTemplate>
   )
 }

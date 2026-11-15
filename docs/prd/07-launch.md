@@ -44,6 +44,8 @@ Do not spend on ads until organic conversion from visit to sign-up to paid is me
 
 Visit, recipe view, sign-up, profile completed, plan created, upgrade prompt seen, checkout started, subscription active, subscription canceled. Use Vercel Analytics custom events or add a product analytics tool. Record the traffic source on sign-up.
 
+Built with Vercel Analytics custom events. The event list, where each is sent, and how to read them are in [docs/analytics.md](../analytics.md).
+
 ## Success metrics
 
 - Weekly visitors and sign-ups.
