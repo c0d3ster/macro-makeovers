@@ -28,7 +28,8 @@ const AboutPage = (): ReactElement => (
       </div>
     </main>
 
-    <div id='contact' className='bg-surface py-16'>
+    {/* A see-through band, so the page pattern shows faintly behind the form */}
+    <div id='contact' className='bg-surface/70 py-10'>
       <ContactForm />
     </div>
   </LandingPageTemplate>
