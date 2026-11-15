@@ -29,8 +29,15 @@ told otherwise, so the flag is what sends migrations to the linked hosted projec
 - `GITHUB_DISPATCH_TOKEN` and `GITHUB_REPO` let the app trigger book rebuilds. Without them the
   app logs and skips the rebuild.
 - `OPENAI_API_KEY` and the `R2_*` values turn on placeholder photos.
-- `RESEND_API_KEY` sends email from hello@macromakeovers.com, a verified Resend domain. `SUPPORT_EMAIL`
-  is where makeover ideas from the about page go (default hello@macromakeovers.com).
+- `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, and `STRIPE_PRICE_ID` turn on the paid plan
+  (checkout, the billing portal, and the webhook). Without them, subscribe buttons say billing is
+  unavailable and the webhook answers 503. `PLAN_PRICE_USD` is the monthly price the site shows
+  (default 5); keep it equal to the Stripe price. See [Stripe](#stripe) below.
+- `R2_BOOK_BUCKET` is the private bucket that holds the recipe book PDF. It uses the same
+  `R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, and `R2_SECRET_ACCESS_KEY` as the photos.
+- `RESEND_API_KEY` sends email from hello@macromakeovers.com, a verified Resend domain: makeover
+  ideas from the about page and the subscription emails (welcome, payment failed, cancellation).
+  `SUPPORT_EMAIL` is where makeover ideas go (default hello@macromakeovers.com).
 
 `src/libs/Env.ts` has the full list. `.env` and `.env.production` hold the public defaults, and
 `.env.example` covers the optional values.
@@ -71,9 +78,45 @@ Start Instacart first. Its production review takes the longest.
   tests, e2e, and a commit message check on pull requests. It needs the `CODECOV_TOKEN` secret for
   coverage uploads.
 - `release.yml` runs semantic-release when a CI run on `main` completes.
-- `book.yml` builds the recipe book PDF from the hosted database. It runs on pushes to `main` that
-  touch `docs/` or `content/`, by hand, and on the app's `recipe-book-rebuild` dispatch. It needs
-  the `DATABASE_URL` secret (read only) and the `R2_PUBLIC_URL` variable.
+- `book.yml` builds the recipe book PDF from the hosted database and uploads it to the private R2
+  book bucket (not a GitHub release: the repo is public and the book is a paid download). It runs
+  on pushes to `main` that touch `docs/` or `content/`, by hand, and on the app's
+  `recipe-book-rebuild` dispatch. It needs the `DATABASE_URL` secret (read only), the
+  `R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, and `R2_SECRET_ACCESS_KEY` secrets, and the `R2_PUBLIC_URL`
+  and `R2_BOOK_BUCKET` variables.
+
+## Stripe
+
+One monthly plan, sold through Stripe Checkout, managed through the Stripe Customer Portal, and
+mirrored into the `subscriptions` table by the webhook at `/api/stripe/webhook`.
+
+1. **Product and price.** In the Stripe dashboard, create a product (for example "Macro Makeovers
+   plan") with one recurring monthly price of 5 dollars. Copy the price id (`price_...`) into
+   `STRIPE_PRICE_ID`. To change the price later, add a new price and swap the id; existing
+   subscribers stay on their old price until moved in Stripe.
+2. **Customer Portal.** Settings → Billing → Customer portal: allow canceling (at the end of the
+   period), updating the payment method, and viewing invoices. Leave plan switching off: there is
+   one plan.
+3. **Webhook.** Developers → Webhooks → Add endpoint: `https://macromakeovers.com/api/stripe/webhook`
+   with the events `checkout.session.completed`, `customer.subscription.updated`,
+   `customer.subscription.deleted`, and `invoice.payment_failed`. Copy its signing secret
+   (`whsec_...`) into `STRIPE_WEBHOOK_SECRET`.
+4. **Keys.** Copy the secret key into `STRIPE_SECRET_KEY`. Test mode and live mode each have their
+   own keys, price, and webhook secret.
+5. **Emails.** Stripe's own receipts and failed payment emails can stay on; the site sends its own
+   welcome, payment failed, and cancellation emails through Resend.
+
+**Local:** run `stripe listen --forward-to localhost:3000/api/stripe/webhook` and put the
+`whsec_...` it prints in `.env.local`, with test keys and a test price id. Pay with card
+`4242 4242 4242 4242`.
+
+**Access rules:** `hasPaidAccess` (`src/libs/billing/paidAccess.ts`) and the SQL function
+`public.has_paid_access()` agree: owners always; `active` or `trialing` until 3 days past the period
+end; `past_due` for 3 days after the failed charge. A partner (ForgeFit) grant is a row with
+`source = 'partner'` and the same rules, and partner members never see checkout or the portal.
+
+**Who is subscribed:** the owner can read every row of `public.subscriptions` (RLS), for example in
+the Supabase table editor.
 
 ## Google sign-in
 

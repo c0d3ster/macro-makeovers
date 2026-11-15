@@ -68,9 +68,15 @@ Visitors can sign up free, subscribe to one paid plan, and get the paid features
 ## Tasks
 
 1. Sign-up and the account page are live. Remaining: send auth emails through Resend from hello@macromakeovers.com.
-2. `subscriptions` migration and model.
-3. Stripe products, Checkout, Portal, webhook route, idempotency.
-4. `hasPaidAccess` and the typed error across resolvers.
-5. Move the book to private storage and gate the download.
-6. Pricing page, upgrade prompts, emails.
-7. Tests: webhook handling, access states, gating on each paid resolver.
+2. `subscriptions` migration and model. Built.
+3. Stripe products, Checkout, Portal, webhook route, idempotency. Built; the product, price, and
+   webhook endpoint are set up in the Stripe dashboard (see `docs/deployment.md`).
+4. `hasPaidAccess` and the typed error across resolvers. Built: paid resolvers call
+   `requirePaidAccess(ctx, feature)` from `src/libs/billing`, which throws `SUBSCRIPTION_REQUIRED`.
+   Paid tables use `public.has_paid_access()` in their RLS policies.
+5. Move the book to private storage and gate the download. Built: the book workflow uploads to the
+   private R2 bucket, and `bookDownloadUrl` signs a five-minute link. Delete the public
+   `recipe-book` release before launch.
+6. Pricing page, upgrade prompts, emails. Built. The meal planner and Send to cart show "Coming
+   soon" on `/pricing` until PRD 04 and PRD 05 ship (`src/components/molecules/billing/planFeatures.ts`).
+7. Tests: webhook handling, access states, gating on each paid resolver. Built.
