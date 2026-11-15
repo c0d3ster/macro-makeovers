@@ -1,6 +1,6 @@
 import type { ReactElement, ReactNode } from 'react'
 
-import { SiteHeader } from '@/components/organisms'
+import { SiteFooter, SiteHeader } from '@/components/organisms'
 
 import { SITE_NAV_ITEMS } from './siteNav'
 
@@ -23,5 +23,6 @@ export const LandingPageTemplate = ({
       logoUrl={logoUrl}
     />
     <div className='pt-16'>{children}</div>
+    <SiteFooter />
   </div>
 )

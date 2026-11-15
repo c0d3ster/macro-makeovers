@@ -1,6 +1,7 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -174,6 +175,20 @@ export const AuthForm = ({ next }: AuthFormProps) => {
           {isSubmitting ? 'Please wait...' : isSignUp ? 'Sign up' : 'Sign in'}
         </Button>
       </form>
+
+      {isSignUp && (
+        <p className='mt-4 text-center text-xs text-text-muted'>
+          By signing up you agree to the{' '}
+          <Link href='/terms' className='underline hover:text-text'>
+            terms
+          </Link>{' '}
+          and{' '}
+          <Link href='/privacy' className='underline hover:text-text'>
+            privacy policy
+          </Link>
+          .
+        </p>
+      )}
 
       <p className='mt-6 text-center text-sm text-text-muted'>
         {isSignUp ? 'Already have an account?' : 'Need an account?'}{' '}

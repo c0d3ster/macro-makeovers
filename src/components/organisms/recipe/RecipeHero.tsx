@@ -13,7 +13,7 @@ import {
   RecipeImage,
   SpiceLevel,
 } from '@/components/atoms'
-import { RecipeMacroSummary } from '@/components/molecules'
+import { NutritionNote, RecipeMacroSummary } from '@/components/molecules'
 import { isSideCourse, SIDES_SECTION_ID, toTagPath } from '@/libs/recipes'
 import { formatMinutes } from '@/utils/formatMinutes'
 
@@ -137,6 +137,7 @@ export const RecipeHero = ({
               </p>
             </div>
             <RecipeMacroSummary reveal featured={build} original={original} />
+            <NutritionNote />
           </div>
 
           <UsedInRecipes recipes={usedIn} />

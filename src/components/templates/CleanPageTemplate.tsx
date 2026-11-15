@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 
-import { SiteHeader } from '@/components/organisms'
+import { SiteFooter, SiteHeader } from '@/components/organisms'
 
 import { ACCOUNT_NAV_ITEMS } from './siteNav'
 
@@ -43,6 +43,7 @@ export const CleanPageTemplate = ({
         {/* Content */}
         {children}
       </div>
+      <SiteFooter />
     </div>
   )
 }

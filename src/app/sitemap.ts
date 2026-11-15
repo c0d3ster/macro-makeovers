@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next'
 
 import { GUIDES } from '@/libs/guides'
+import { LEGAL_PAGES } from '@/libs/legal/legalList'
 import { getBaseUrl } from '@/utils/Env'
 
 type SitemapEntry = MetadataRoute.Sitemap[number]
@@ -19,6 +20,11 @@ const STATIC_PAGES: Pick<
     priority: 0.5,
   })),
   { url: '/about', changeFrequency: 'monthly', priority: 0.4 },
+  ...LEGAL_PAGES.map(({ slug }) => ({
+    url: `/${slug}`,
+    changeFrequency: 'yearly' as const,
+    priority: 0.2,
+  })),
 ]
 
 export default function sitemap(): MetadataRoute.Sitemap {
