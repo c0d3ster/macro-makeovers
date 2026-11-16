@@ -36,11 +36,16 @@ const Image = async ({ params }: ImageProps): Promise<ImageResponse> => {
 
   if (!recipe) return new ImageResponse(<NotFoundCard />, size)
 
-  const { title, featured, imageUrl } = recipe
+  const { title, featured, servings, imageUrl } = recipe
   const photo = await loadPhoto(featured.imageUrl ?? imageUrl)
 
   return new ImageResponse(
-    <ShareCard title={title} macros={featured} imageUrl={photo} />,
+    <ShareCard
+      title={title}
+      macros={featured}
+      servings={servings}
+      imageUrl={photo}
+    />,
     size
   )
 }
