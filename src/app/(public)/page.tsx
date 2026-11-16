@@ -4,6 +4,7 @@ import type { ReactElement } from 'react'
 import { permanentRedirect } from 'next/navigation'
 
 import type { BundleLink } from '@/components/organisms'
+import type { BasketCatalog } from '@/libs/basket'
 import type { RecipeCard } from '@/libs/recipes'
 
 import { EmailSignup } from '@/components/molecules'
@@ -17,8 +18,6 @@ import {
   RecipeGrid,
 } from '@/components/organisms'
 import { LandingPageTemplate } from '@/components/templates'
-import type { BasketCatalog } from '@/libs/basket'
-
 import {
   EMPTY_CATALOG,
   findBasketRecipe,

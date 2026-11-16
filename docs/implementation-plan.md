@@ -204,7 +204,7 @@ Roughly in order, from [prd/README.md](./prd/README.md):
 
 1. Accounts and subscription (PRD 01): the subscription and the gate for paid features. Sign-up is already live.
 2. Personalization (PRD 02): a saved goal that highlights the recipes that fit it.
-3. Ingredient normalization (PRD 03): one shared ingredient list, so basket lines follow recipe edits instead of the hand-kept `src/libs/basket/basketData.ts`.
+3. Ingredient normalization (PRD 03): one shared ingredient list, so basket lines follow recipe edits instead of the hand-written `basketLines` on each recipe.
 4. Meal planner (PRD 04), then grocery ordering and Send to cart (PRD 05).
 5. Favorites and reviews (PRD 06), and launch and advertising (PRD 07).
 6. The rest of builds (PRD 09), so filters and the basket use every build, not only the default.
@@ -221,4 +221,4 @@ Roughly in order, from [prd/README.md](./prd/README.md):
 - The site has a 404 page, and the nutrition disclaimer on recipe pages is removed.
 - Builds replace makeover nutrition rows. A build carries its own macros and can swap tags, retitle the recipe, and scope lines, steps, and notes. The makeover rows and `is_default` were dropped from `recipe_nutrition` (see [prd/09-builds.md](./prd/09-builds.md)).
 - Recipes have a course, and `recipe_components` links a dish to the sides and sauces it uses. The corn pico and the mango habanero salsa are their own recipes now.
-- The basket shipped early as a free feature: pooled packs, smallest-pack costing, per-build lines, and servings per recipe. Its prices live in `src/libs/basket/basketData.ts` (see [shopping-list-data.md](./shopping-list-data.md)).
+- The basket shipped early as a free feature: pooled packs, smallest-pack costing, per-build lines, and servings per recipe. Its prices and recipe lines live in the database (see [shopping-list-data.md](./shopping-list-data.md)).

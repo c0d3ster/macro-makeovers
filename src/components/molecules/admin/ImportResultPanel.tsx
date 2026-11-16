@@ -78,13 +78,6 @@ const Panel = ({ tone, title, children }: PanelProps) => (
   </div>
 )
 
-export const ImportResultPanel = ({ basket, ...props }: ImportResultPanelProps) => (
-  <>
-    <ResultPanel {...props} />
-    {basket && props.result.status !== 'invalid' && <BasketPrices {...basket} />}
-  </>
-)
-
 const ResultPanel = ({ result, dryRun }: Omit<ImportResultPanelProps, 'basket'>) => {
   switch (result.status) {
     case 'invalid':
@@ -141,3 +134,10 @@ const ResultPanel = ({ result, dryRun }: Omit<ImportResultPanelProps, 'basket'>)
       )
   }
 }
+
+export const ImportResultPanel = ({ basket, ...props }: ImportResultPanelProps) => (
+  <>
+    <ResultPanel {...props} />
+    {basket && props.result.status !== 'invalid' && <BasketPrices {...basket} />}
+  </>
+)

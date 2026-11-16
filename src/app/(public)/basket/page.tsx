@@ -2,10 +2,9 @@ import type { Metadata } from 'next'
 import type { ReactElement } from 'react'
 
 import type { BasketRecipeLookup } from '@/components/organisms'
-
-import { basketRecipeKey, BasketView } from '@/components/organisms'
 import type { BasketCatalog } from '@/libs/basket'
 
+import { basketRecipeKey, BasketView } from '@/components/organisms'
 import { LandingPageTemplate } from '@/components/templates'
 import { EMPTY_CATALOG, hasBasketRecipe } from '@/libs/basket'
 import { logger } from '@/libs/Logger'

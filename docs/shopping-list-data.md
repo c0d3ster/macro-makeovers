@@ -1,6 +1,7 @@
 # Shopping list data
 
-Groundwork for the shopping list and Send to cart. Three files hold the pricing:
+Groundwork for the shopping list and Send to cart. The basket prices from the database; the
+files here are where its data came from:
 
 - [`cost-estimates.md`](./cost-estimates.md): the costing write-up (Oct 22,
   2026). Per-serving cost and `$` rating for every recipe, the price book
@@ -8,12 +9,20 @@ Groundwork for the shopping list and Send to cart. Three files hold the pricing:
   and a line-by-line breakdown of each recipe.
 - [`basket-data.json`](./basket-data.json): the same prices in a structured
   form, taken from the Macro Makeovers Basket page
-  (https://claude.ai/artifact/QhpQkQo7NuGLArGtKBTXxj).
-- `src/libs/basket/basketData.ts`: what the site's basket page (`/basket`)
-  reads. It was generated once from `basket-data.json` and is edited by hand
-  from there, so it is the copy to change. Its items have a store `section`
-  for grouping the list instead of a `store`, and its recipes carry their
-  builds (below).
+  (https://claude.ai/artifact/QhpQkQo7NuGLArGtKBTXxj). Retired: it was the
+  source for the first price book and is kept for its history.
+- The database: what the basket reads. `basket_items` (with
+  `basket_item_sizes`) is the price book, and each recipe carries its own
+  `basketLines` (`recipe_basket_lines`), with per-build changes
+  (`recipe_build_basket_lines`). Lines travel with the recipe through import,
+  the Claude connector, and the admin editor. Items are added or repriced with
+  the connector's `save_basket_items`.
+- `content/basket/items.json` and the seed recipes' `basketLines`: the seed copy
+  for a fresh database, written with `pnpm basket:sync` (see
+  [importing-recipes.md](./importing-recipes.md#basket-lines)).
+  `content/basket/backfill-2026-11-16.json` holds the lines for the recipes
+  that live only in the database and were added before basket data moved
+  there.
 
 ## Shape of `basket-data.json`
 
@@ -28,11 +37,13 @@ Alternate builds are their own entry with `variantOf` set to the base recipe's
 slug. `9a` is bulgogi with flank instead of ribeye, and `11a` is pollo asado
 with Costco precooked chicken. Their slugs don't match a recipe.
 
-## Builds in `basketData.ts`
+## Builds
 
 On the site an alternate is a build of its recipe, not its own recipe. A
-recipe's `builds` maps a build key to that build's `perServingCost` and the
-`lines` it changes: a quantity replaces the recipe's, and `0` drops the line.
+build's `basketLines` are the lines it changes: a quantity replaces the
+recipe's, and `0` drops the line. Cost per serving is worked out from the
+lines and the prices, never stored, and imports warn when a listed build's
+prices land in a different `$` tier than it says.
 Priced builds: the taco grillers' `beef` (3a, 90/10 beef for the turkey),
 `rice-bowl` (rice for the tortillas, half the cheddar, 1.5x the pico), and
 `filling` (no tortillas or toppings), the pollo asado's `costco` (11a), the
@@ -41,8 +52,8 @@ bulgogi's `flank` (9a), and the enchilada casserole's `beef-eye-of-round` and
 
 Sides and sauces linked as components, like the corn pico and the mango
 habanero salsa, are priced inside the dish's lines at the amount each build
-uses. They also have entries of their own with `component: true`, so they can
-be added to the basket alone. Bundle rankings and the basket's "add this to
+uses. They also have lines of their own, so they can be added to the basket
+alone. A recipe another recipe links as a component counts as one. Bundle rankings and the basket's "add this to
 save" suggestion skip them, since the dishes that use them already carry
 their lines.
 
@@ -80,6 +91,6 @@ Worth keeping when the real shopping list is built:
   Zatarain's and the other brand-locked items listed in the price book). The
   rest default to generic or store brand.
 - `walnuts` is in `basket-data.json` but no recipe uses it, and it isn't in
-  `basketData.ts`.
+  the price book.
 - The `$` tier thresholds: `$` under $3 per serving, `$$` $3 to $4.99, `$$$`
   $5 to $6.99, `$$$$` $7 to $9.99, `$$$$$` $10 and up.

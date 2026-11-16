@@ -51,8 +51,7 @@ const stable = (value: unknown): string =>
   JSON.stringify(value, (_, inner: unknown) =>
     typeof inner === 'object' && inner !== null && !Array.isArray(inner)
       ? Object.fromEntries(Object.entries(inner).sort(([a], [b]) => a.localeCompare(b)))
-      : inner
-  )
+      : inner  )
 
 const sameJson = (a: unknown, b: unknown): boolean => stable(a) === stable(b)
 
@@ -134,7 +133,7 @@ const main = async (): Promise<void> => {
     ...(linesPath ? readLinesFile(linesPath) : []),
   ])
   const prices = {
-    ...Object.fromEntries([...stored.entries()].map(([key, item]) => [key, toCatalogItem(item)])),
+    ...Object.fromEntries(Array.from(stored.entries(), ([key, item]) => [key, toCatalogItem(item)])),
     ...Object.fromEntries(items.map((item) => [item.key, toCatalogItem(item)])),
   }
   const toWrite: [string, RecipeLines][] = []

@@ -12,11 +12,15 @@ recipe as JSON the site imports without errors. The schema is the source of trut
 - `validate_recipe`: checks a recipe and diffs it against the saved one. Writes nothing.
 - `import_recipe`: saves a recipe. A new slug lands as a draft, and an existing slug is only
   replaced with `overwrite: true`.
+- `list_basket_items`: the basket price book, with each item's key, pack, unit, and price.
+- `save_basket_items`: adds or reprices price items. Run it with `dryRun: true` first and show
+  the cost changes it lists.
 
 ## The flow
 
 1. Draft and refine the recipe in the project chat.
-2. Call `validate_recipe` with the JSON. It writes nothing and returns any field problems.
+2. Call `validate_recipe` with the JSON. It writes nothing and returns any field problems, plus
+   each build's basket cost per serving and any `$` tier the prices disagree with.
 3. Fix what it reports, then call `import_recipe`. A new slug lands as a **draft**.
 4. Review it, generate its photo, and publish it in the site's admin. Publishing rebuilds the recipe book PDF.
 
@@ -91,6 +95,14 @@ returned diff and only retry with overwrite once the user agrees.
 - Build or variant: if it is the same dish cooked the same way, with some lines or steps added,
   dropped, or swapped, it is a build. If it is a different dish with its own method, it is a
   variant.
+- `basketLines` is the shopping list for one batch: price item keys from `list_basket_items` to
+  amounts in that item's unit, like `{ "chicken_breast": 1.5, "garlic": 4, "cumin": 2 }`. Include
+  spices and pantry staples, and the lines of any side or sauce the dish uses. A build that shops
+  differently sets its own `basketLines` with only the changes, and `0` drops a line, like
+  `{ "turkey": 0, "ground_beef": 1 }`. An item missing from the price book goes in through
+  `save_basket_items` first, at the lowest price found, with `isEstimate: true` when it was
+  looked up. Cost per serving is worked out from these, prorated by what the recipe uses, so
+  check `basketPrices` against `costTier`.
 - Bodies and summaries support light markdown (bold, lists, blockquotes). Do not use em dashes.
 
 ## Example
@@ -150,8 +162,14 @@ returned diff and only retry with overwrite once the user agrees.
       "raw": "9 oz deli chicken breast, 0.75 oz per slider",
       "onlyBuilds": ["leaner"]
     },
-    { "raw": "~6 slices prosciutto, half a slice per slider", "skipBuilds": ["leaner"] },
-    { "raw": "~3 slices prosciutto, a quarter slice per slider", "onlyBuilds": ["leaner"] },
+    {
+      "raw": "~6 slices prosciutto, half a slice per slider",
+      "skipBuilds": ["leaner"]
+    },
+    {
+      "raw": "~3 slices prosciutto, a quarter slice per slider",
+      "onlyBuilds": ["leaner"]
+    },
     { "raw": "12 slices sharp aged white cheddar (~4 oz total)" },
     { "raw": "1 avocado" },
     { "group": "Toppings", "raw": "1/2 onion, sliced" },
