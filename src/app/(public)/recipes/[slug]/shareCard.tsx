@@ -78,29 +78,17 @@ const Note = (): ReactElement => (
 type ShareCardProps = {
   title: string
   macros: MacroValues
-  // How many servings the recipe makes, shown beside calories on the photo card
-  servings: number
   // The recipe photo as a URL the renderer can load. Without one the card is text only.
   imageUrl?: string
 }
 
-// With a photo: the dish on the left, the title, calories and servings, and a C/F/P row on
-// the right
+// With a photo: the dish on the left, the title, calories, and a C/F/P row on the right
 const PhotoCard = ({
   title,
   macros,
-  servings,
   imageUrl,
 }: ShareCardProps & { imageUrl: string }): ReactElement => {
-  const [calories, ...macroStats] = toStats(macros)
-  const rows = [
-    // Beside the servings count, "cal" alone could read as the whole batch
-    [
-      { ...calories, label: 'cal per serving' },
-      { value: `${servings}`, label: 'servings' },
-    ],
-    macroStats,
-  ]
+  const stats = toStats(macros)
 
   return (
     <div
@@ -141,7 +129,7 @@ const PhotoCard = ({
           {title}
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-          {rows.map((row) => (
+          {[stats.slice(0, 1), stats.slice(1)].map((row) => (
             <div key={row[0]?.label} style={{ display: 'flex', gap: 16 }}>
               {row.map((stat) => (
                 <Stat key={stat.label} {...stat} size={50} grow />
@@ -213,16 +201,10 @@ const TextCard = ({
 export const ShareCard = ({
   title,
   macros,
-  servings,
   imageUrl,
 }: ShareCardProps): ReactElement =>
   imageUrl ? (
-    <PhotoCard
-      title={title}
-      macros={macros}
-      servings={servings}
-      imageUrl={imageUrl}
-    />
+    <PhotoCard title={title} macros={macros} imageUrl={imageUrl} />
   ) : (
     <TextCard title={title} macros={macros} />
   )
