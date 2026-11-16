@@ -34,6 +34,48 @@ export type Database = {
   }
   public: {
     Tables: {
+      cart_handoffs: {
+        Row: {
+          created_at: string
+          error_code: string | null
+          grocer: string
+          id: string
+          item_count: number
+          outcome: string
+          unmatched_count: number
+          user_id: string | null
+        }
+        ComputedFields: never
+        Insert: {
+          created_at?: string
+          error_code?: string | null
+          grocer: string
+          id?: string
+          item_count: number
+          outcome: string
+          unmatched_count: number
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          error_code?: string | null
+          grocer?: string
+          id?: string
+          item_count?: number
+          outcome?: string
+          unmatched_count?: number
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'cart_handoffs_user_id_fkey'
+            columns: ['user_id']
+            isOneToOne: false
+            referencedRelation: 'users'
+            referencedColumns: ['id']
+          },
+        ]
+      }
       email_subscribers: {
         Row: {
           confirmation_sent_at: string | null
@@ -99,15 +141,15 @@ export type Database = {
           category: string | null
           group_name: string | null
           id: string
-          only_builds: string[]
           name: string | null
           note: string | null
+          only_builds: string[]
           position: number
           quantity: number | null
           raw_text: string
           recipe_id: string
-          skip_builds: string[]
           search: unknown
+          skip_builds: string[]
           unit: string | null
         }
         ComputedFields: never
@@ -115,30 +157,30 @@ export type Database = {
           category?: string | null
           group_name?: string | null
           id?: string
-          only_builds?: string[]
           name?: string | null
           note?: string | null
+          only_builds?: string[]
           position: number
           quantity?: number | null
           raw_text: string
           recipe_id: string
-          skip_builds?: string[]
           search?: never
+          skip_builds?: string[]
           unit?: string | null
         }
         Update: {
           category?: string | null
           group_name?: string | null
           id?: string
-          only_builds?: string[]
           name?: string | null
           note?: string | null
+          only_builds?: string[]
           position?: number
           quantity?: number | null
           raw_text?: string
           recipe_id?: string
-          skip_builds?: string[]
           search?: never
+          skip_builds?: string[]
           unit?: string | null
         }
         Relationships: [
@@ -151,13 +193,49 @@ export type Database = {
           },
         ]
       }
+      member_grocer: {
+        Row: {
+          grocer: string
+          store_id: string | null
+          store_name: string | null
+          updated_at: string
+          user_id: string
+          zip: string | null
+        }
+        ComputedFields: never
+        Insert: {
+          grocer: string
+          store_id?: string | null
+          store_name?: string | null
+          updated_at?: string
+          user_id: string
+          zip?: string | null
+        }
+        Update: {
+          grocer?: string
+          store_id?: string | null
+          store_name?: string | null
+          updated_at?: string
+          user_id?: string
+          zip?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'member_grocer_user_id_fkey'
+            columns: ['user_id']
+            isOneToOne: true
+            referencedRelation: 'users'
+            referencedColumns: ['id']
+          },
+        ]
+      }
       recipe_builds: {
         Row: {
           calories: number
           carbs_g: number
           cook_minutes: number | null
-          course: Database['public']['Enums']['recipe_course'] | null
           cost_tier: number | null
+          course: Database['public']['Enums']['recipe_course'] | null
           difficulty: number | null
           fat_g: number
           id: string
@@ -172,7 +250,7 @@ export type Database = {
           prep_minutes: number | null
           protein_g: number
           recipe_id: string
-          swap: Json
+          swap: NonNullable<Json>
           title: string | null
         }
         ComputedFields: never
@@ -180,8 +258,8 @@ export type Database = {
           calories: number
           carbs_g: number
           cook_minutes?: number | null
-          course?: Database['public']['Enums']['recipe_course'] | null
           cost_tier?: number | null
+          course?: Database['public']['Enums']['recipe_course'] | null
           difficulty?: number | null
           fat_g: number
           id?: string
@@ -196,15 +274,15 @@ export type Database = {
           prep_minutes?: number | null
           protein_g: number
           recipe_id: string
-          swap?: Json
+          swap?: NonNullable<Json>
           title?: string | null
         }
         Update: {
           calories?: number
           carbs_g?: number
           cook_minutes?: number | null
-          course?: Database['public']['Enums']['recipe_course'] | null
           cost_tier?: number | null
+          course?: Database['public']['Enums']['recipe_course'] | null
           difficulty?: number | null
           fat_g?: number
           id?: string
@@ -219,7 +297,7 @@ export type Database = {
           prep_minutes?: number | null
           protein_g?: number
           recipe_id?: string
-          swap?: Json
+          swap?: NonNullable<Json>
           title?: string | null
         }
         Relationships: [
@@ -245,6 +323,7 @@ export type Database = {
           servings_per_serving: number
           skip_builds: string[]
         }
+        ComputedFields: never
         Insert: {
           amount?: string | null
           component_build?: string | null
@@ -290,8 +369,8 @@ export type Database = {
         Row: {
           body_md: string
           id: string
-          only_builds: string[]
           kind: Database['public']['Enums']['note_kind']
+          only_builds: string[]
           position: number
           recipe_id: string
           skip_builds: string[]
@@ -300,8 +379,8 @@ export type Database = {
         Insert: {
           body_md: string
           id?: string
-          only_builds?: string[]
           kind: Database['public']['Enums']['note_kind']
+          only_builds?: string[]
           position: number
           recipe_id: string
           skip_builds?: string[]
@@ -309,8 +388,8 @@ export type Database = {
         Update: {
           body_md?: string
           id?: string
-          only_builds?: string[]
           kind?: Database['public']['Enums']['note_kind']
+          only_builds?: string[]
           position?: number
           recipe_id?: string
           skip_builds?: string[]
@@ -438,8 +517,8 @@ export type Database = {
         Row: {
           access: Database['public']['Enums']['recipe_access']
           cook_minutes: number
-          course: Database['public']['Enums']['recipe_course']
           cost_tier: number
+          course: Database['public']['Enums']['recipe_course']
           created_at: string
           difficulty: number
           id: string
@@ -447,8 +526,8 @@ export type Database = {
           image_url: string | null
           makes: string | null
           prep_minutes: number
-          serving_size: string | null
           search: unknown
+          serving_size: string | null
           servings: number
           slug: string
           spice_level: number | null
@@ -462,8 +541,8 @@ export type Database = {
         Insert: {
           access?: Database['public']['Enums']['recipe_access']
           cook_minutes: number
-          course?: Database['public']['Enums']['recipe_course']
           cost_tier: number
+          course?: Database['public']['Enums']['recipe_course']
           created_at?: string
           difficulty: number
           id?: string
@@ -485,8 +564,8 @@ export type Database = {
         Update: {
           access?: Database['public']['Enums']['recipe_access']
           cook_minutes?: number
-          course?: Database['public']['Enums']['recipe_course']
           cost_tier?: number
+          course?: Database['public']['Enums']['recipe_course']
           created_at?: string
           difficulty?: number
           id?: string
@@ -494,8 +573,8 @@ export type Database = {
           image_url?: string | null
           makes?: string | null
           prep_minutes?: number
-          serving_size?: string | null
           search?: never
+          serving_size?: string | null
           servings?: number
           slug?: string
           spice_level?: number | null
@@ -553,6 +632,76 @@ export type Database = {
             columns: ['recipe_id']
             isOneToOne: false
             referencedRelation: 'recipes'
+            referencedColumns: ['id']
+          },
+        ]
+      }
+      stripe_events: {
+        Row: {
+          id: string
+          processed_at: string
+          type: string
+        }
+        ComputedFields: never
+        Insert: {
+          id: string
+          processed_at?: string
+          type: string
+        }
+        Update: {
+          id?: string
+          processed_at?: string
+          type?: string
+        }
+        Relationships: []
+      }
+      subscriptions: {
+        Row: {
+          cancel_at_period_end: boolean
+          created_at: string
+          current_period_end: string | null
+          id: string
+          past_due_since: string | null
+          source: Database['public']['Enums']['subscription_source']
+          status: Database['public']['Enums']['subscription_status']
+          stripe_customer_id: string | null
+          stripe_subscription_id: string | null
+          updated_at: string
+          user_id: string
+        }
+        ComputedFields: never
+        Insert: {
+          cancel_at_period_end?: boolean
+          created_at?: string
+          current_period_end?: string | null
+          id?: string
+          past_due_since?: string | null
+          source?: Database['public']['Enums']['subscription_source']
+          status: Database['public']['Enums']['subscription_status']
+          stripe_customer_id?: string | null
+          stripe_subscription_id?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          cancel_at_period_end?: boolean
+          created_at?: string
+          current_period_end?: string | null
+          id?: string
+          past_due_since?: string | null
+          source?: Database['public']['Enums']['subscription_source']
+          status?: Database['public']['Enums']['subscription_status']
+          stripe_customer_id?: string | null
+          stripe_subscription_id?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'subscriptions_user_id_fkey'
+            columns: ['user_id']
+            isOneToOne: false
+            referencedRelation: 'users'
             referencedColumns: ['id']
           },
         ]
@@ -633,6 +782,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      has_paid_access: { Args: Record<PropertyKey, never>; Returns: boolean }
       is_owner: { Args: Record<PropertyKey, never>; Returns: boolean }
     }
     Enums: {
@@ -649,6 +799,16 @@ export type Database = {
       recipe_course: 'breakfast' | 'appetizer' | 'main' | 'side' | 'sauce'
       recipe_status: 'draft' | 'published'
       step_phase: 'prep' | 'cook'
+      subscription_source: 'stripe' | 'partner'
+      subscription_status:
+        | 'incomplete'
+        | 'incomplete_expired'
+        | 'trialing'
+        | 'active'
+        | 'past_due'
+        | 'canceled'
+        | 'unpaid'
+        | 'paused'
       tag_kind: 'category' | 'method' | 'attribute'
       user_role: 'client' | 'developer' | 'admin' | 'super_admin'
     }
@@ -792,6 +952,17 @@ export const Constants = {
       recipe_course: ['breakfast', 'appetizer', 'main', 'side', 'sauce'],
       recipe_status: ['draft', 'published'],
       step_phase: ['prep', 'cook'],
+      subscription_source: ['stripe', 'partner'],
+      subscription_status: [
+        'incomplete',
+        'incomplete_expired',
+        'trialing',
+        'active',
+        'past_due',
+        'canceled',
+        'unpaid',
+        'paused',
+      ],
       tag_kind: ['category', 'method', 'attribute'],
       user_role: ['client', 'developer', 'admin', 'super_admin'],
     },
