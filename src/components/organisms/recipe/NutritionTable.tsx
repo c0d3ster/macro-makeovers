@@ -3,7 +3,6 @@ import type { ReactElement } from 'react'
 import type { ComparisonRow, MacroValues, RecipeBuild } from '@/libs/recipes'
 
 import { Markdown } from '@/components/atoms'
-import { NutritionNote } from '@/components/molecules'
 import { formatMacroRatios } from '@/libs/recipes'
 
 type NutritionTableProps = {
@@ -156,8 +155,6 @@ export const NutritionTable = ({
           </tbody>
         </table>
       </div>
-
-      <NutritionNote />
 
       {canSwitch && selected.note && (
         <div
