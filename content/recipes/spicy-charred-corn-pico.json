@@ -71,5 +71,13 @@
       "kind": "make_or_break",
       "body": "**Let it sit.** Ten minutes is enough for the lime and salt to pull the flavors together"
     }
-  ]
+  ],
+  "basketLines": {
+    "corn": 1,
+    "red_onion": 0.5,
+    "jalapeno": 0.0625,
+    "cherry_tom": 5.3,
+    "lime": 1,
+    "cilantro": 0.33
+  }
 }

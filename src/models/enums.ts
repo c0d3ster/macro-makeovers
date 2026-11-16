@@ -61,3 +61,13 @@ export const subscriptionStatusEnum = pgEnum('subscription_status', [
   'unpaid',
   'paused',
 ])
+// Where an item sits in the store, used to group the shopping list
+export const storeSectionEnum = pgEnum('store_section', [
+  'produce',
+  'meat',
+  'dairy',
+  'bakery',
+  'frozen',
+  'pantry',
+  'spices',
+])

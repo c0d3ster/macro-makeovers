@@ -181,5 +181,24 @@
     "high protein",
     "batch friendly",
     "comfort food"
-  ]
+  ],
+  "basketLines": {
+    "chicken_breast": 1.5,
+    "broccoli": 0.6,
+    "bell_red": 1,
+    "olive_oil": 0.5,
+    "brown_rice": 8.7,
+    "cottage": 8,
+    "cheddar": 6,
+    "garlic": 3,
+    "onion": 0.5,
+    "jalapeno": 0.0625,
+    "broth": 8,
+    "spinach": 2,
+    "panko": 1,
+    "red_pepper": 0.25,
+    "garlic_powder": 1,
+    "pepper": 0.5,
+    "smoked_paprika": 0.5
+  }
 }

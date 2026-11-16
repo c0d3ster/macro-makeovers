@@ -185,5 +185,19 @@
       "body": "**Tuna options**\n\n| Per unit                      | Calories | Carbs | Fat  | Protein |\n| ----------------------------- | -------- | ----- | ---- | ------- |\n| Thai sweet & spicy pouch      | 90       | 7g    | 1g   | 14g     |\n| Hickory smoked pouch          | 110      | 0g    | 4.5g | 17g     |\n| Albacore (canned, drained)    | 110      | 0g    | 1g   | 26g     |\n| Chunk light (canned, drained) | 90       | 0g    | 0.5g | 20g     |\n\nPouches are 2.6 oz ready-to-use; a 5 oz can drains to ~3.4 oz. Leaner and higher-protein: lean on albacore or chunk light. More flavor, less prep: lean on the pouches."
     }
   ],
-  "tags": ["sandwich", "seafood", "broiler", "quick", "high protein"]
+  "tags": ["sandwich", "seafood", "broiler", "quick", "high protein"],
+  "basketLines": {
+    "pouch": 5,
+    "albacore": 1,
+    "yogurt": 1,
+    "celery": 3,
+    "onion": 0.5,
+    "pickles": 3,
+    "lemon": 0.5,
+    "dill_dried": 0.5,
+    "garlic_powder": 0.5,
+    "hoagie": 4,
+    "provolone": 3,
+    "olive_oil": 0.333
+  }
 }

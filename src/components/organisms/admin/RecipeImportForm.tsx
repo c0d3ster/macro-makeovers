@@ -2,9 +2,10 @@
 
 import { useState } from 'react'
 
+import type { BasketPricing } from '@/apiClients'
 import type { ImportResult } from '@/libs/recipes'
 
-import { toImportResult, useImportRecipe } from '@/apiClients'
+import { toBasketPricing, toImportResult, useImportRecipe } from '@/apiClients'
 import { Button } from '@/components/atoms'
 import { ImportResultPanel } from '@/components/molecules'
 
@@ -15,6 +16,7 @@ type ImportState = {
   // The JSON that produced the result, so Overwrite only applies to what was reviewed
   source?: string
   result?: ImportResult
+  basket?: BasketPricing
   error?: string
 }
 
@@ -62,6 +64,7 @@ export const RecipeImportForm = () => {
         intent,
         source: json,
         result: toImportResult(data.importRecipe),
+        basket: toBasketPricing(data.importRecipe),
       })
     } catch (error) {
       setState({ error: errorMessage(error, 'The import failed.') })
@@ -110,6 +113,7 @@ export const RecipeImportForm = () => {
         <ImportResultPanel
           result={state.result}
           dryRun={state.intent === 'preview'}
+          {...(state.basket ? { basket: state.basket } : {})}
         />
       )}
     </form>

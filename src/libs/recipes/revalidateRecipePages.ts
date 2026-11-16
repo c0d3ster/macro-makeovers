@@ -6,4 +6,6 @@ export const revalidateRecipePages = (slug: string): void => {
   revalidatePath('/recipes')
   revalidatePath('/tags/[tag]', 'page')
   revalidatePath(`/recipes/${slug}`)
+  // The basket prices from every published recipe's lines
+  revalidatePath('/basket')
 }

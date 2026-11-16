@@ -66,5 +66,13 @@
       "kind": "fixes",
       "body": "**Too hot:** add more mango and lime"
     }
-  ]
+  ],
+  "basketLines": {
+    "mango": 1,
+    "red_onion": 0.5,
+    "habanero": 0.75,
+    "cucumber": 0.25,
+    "lime": 1.5,
+    "cilantro": 0.33
+  }
 }

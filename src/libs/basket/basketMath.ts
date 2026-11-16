@@ -1,12 +1,11 @@
 import type {
+  BasketCatalog,
   BasketEntry,
   BasketItem,
   BasketRecipe,
   PackSize,
   StoreSection,
 } from './basketTypes'
-
-import { BASKET_ITEMS, BASKET_RECIPES } from './basketData'
 
 type BasketOptions = {
   // Count pantry staples (oil, spices, flour) in the trip
@@ -49,19 +48,32 @@ export type BasketTotals = {
   perishableLeftoverCost: number
 }
 
-export const BASKET_SLUGS = new Set(BASKET_RECIPES.map(({ slug }) => slug))
+export const EMPTY_CATALOG: BasketCatalog = { items: {}, recipes: [] }
+
+// Lookups by slug, made once per catalog
+const recipeIndexes = new WeakMap<BasketCatalog, Map<string, BasketRecipe>>()
+
+const recipesBySlug = (catalog: BasketCatalog): Map<string, BasketRecipe> => {
+  const cached = recipeIndexes.get(catalog)
+  if (cached) return cached
+  const index = new Map(catalog.recipes.map((recipe) => [recipe.slug, recipe]))
+  recipeIndexes.set(catalog, index)
+  return index
+}
+
+export const findBasketRecipe = (
+  catalog: BasketCatalog,
+  slug: string
+): BasketRecipe | undefined => recipesBySlug(catalog).get(slug)
+
+export const hasBasketRecipe = (catalog: BasketCatalog, slug: string): boolean =>
+  recipesBySlug(catalog).has(slug)
 
 // Dishes only: sides and sauces ride along inside the dishes that use them
-const BUNDLE_SLUGS = new Set(
-  BASKET_RECIPES.filter(({ component }) => !component).map(({ slug }) => slug)
-)
-
-const RECIPES_BY_SLUG = new Map(
-  BASKET_RECIPES.map((recipe) => [recipe.slug, recipe])
-)
-
-export const findBasketRecipe = (slug: string): BasketRecipe | undefined =>
-  RECIPES_BY_SLUG.get(slug)
+const isBundleable = (catalog: BasketCatalog, slug: string): boolean => {
+  const recipe = findBasketRecipe(catalog, slug)
+  return recipe !== undefined && !recipe.component
+}
 
 // A recipe at the servings it is written for
 // What one batch of a recipe uses for a build: the recipe's lines with the build's changes
@@ -76,9 +88,9 @@ const linesFor = (
   )
 }
 
-export const recipeEntry = (slug: string): BasketEntry => ({
+export const recipeEntry = (catalog: BasketCatalog, slug: string): BasketEntry => ({
   slug,
-  servings: findBasketRecipe(slug)?.servings ?? 1,
+  servings: findBasketRecipe(catalog, slug)?.servings ?? 1,
 })
 
 const isPricedByWeight = ({ pack }: BasketItem): boolean => pack === 'per lb'
@@ -168,20 +180,22 @@ const sum = (values: number[]): number =>
 // Pools every entry's ingredients, then rounds each item up to whole packs once. Buying recipes
 // together costs less than buying each alone because the rounding happens once per item.
 export const computeBasket = (
+  catalog: BasketCatalog,
   entries: BasketEntry[],
   { includePantry }: BasketOptions
 ): BasketTotals => {
+  const { items } = catalog
   const pooled = new Map<string, ItemUse[]>()
   let servings = 0
 
   entries.forEach(({ slug, build, servings: wanted }) => {
-    const recipe = findBasketRecipe(slug)
+    const recipe = findBasketRecipe(catalog, slug)
     if (!recipe) return
     // 6 servings of a 4 serving recipe needs half again of every ingredient
     const scale = wanted / recipe.servings
     servings += wanted
     Object.entries(linesFor(recipe, build)).forEach(([key, quantity]) => {
-      const item = BASKET_ITEMS[key]
+      const item = items[key]
       if (!item || (item.pantry && !includePantry)) return
       pooled.set(key, [
         ...(pooled.get(key) ?? []),
@@ -191,7 +205,7 @@ export const computeBasket = (
   })
 
   const lines = [...pooled.entries()].flatMap(([key, usedBy]) => {
-    const item = BASKET_ITEMS[key]
+    const item = items[key]
     if (!item) return []
     const quantity = sum(usedBy.map((use) => use.quantity))
     if (isPricedByWeight(item)) {
@@ -250,8 +264,11 @@ export const computeBasket = (
 
 // Cost per serving the way recipe pages show it: prorated, pantry included, so the basket and
 // the recipe cards agree whatever the pantry toggle says
-export const costPerServing = (entries: BasketEntry[]): number => {
-  const { proratedCost, servings } = computeBasket(entries, {
+export const costPerServing = (
+  catalog: BasketCatalog,
+  entries: BasketEntry[]
+): number => {
+  const { proratedCost, servings } = computeBasket(catalog, entries, {
     includePantry: true,
   })
   return servings > 0 ? proratedCost / servings : 0
@@ -259,13 +276,14 @@ export const costPerServing = (entries: BasketEntry[]): number => {
 
 // What buying each entry on its own trip would cost, minus the pooled trip
 export const bundleSavings = (
+  catalog: BasketCatalog,
   entries: BasketEntry[],
   options: BasketOptions
 ): number => {
   const separately = sum(
-    entries.map((entry) => computeBasket([entry], options).tripCost)
+    entries.map((entry) => computeBasket(catalog, [entry], options).tripCost)
   )
-  return separately - computeBasket(entries, options).tripCost
+  return separately - computeBasket(catalog, entries, options).tripCost
 }
 
 export type BundleComparison = {
@@ -281,11 +299,12 @@ export type BundleComparison = {
 // The same recipes bought together and bought one at a time, per serving at the register.
 // Per serving keeps bundles of different sizes comparable.
 export const compareBundle = (
+  catalog: BasketCatalog,
   entries: BasketEntry[],
   options: BasketOptions
 ): BundleComparison => {
-  const together = computeBasket(entries, options)
-  const alone = entries.map((entry) => computeBasket([entry], options))
+  const together = computeBasket(catalog, entries, options)
+  const alone = entries.map((entry) => computeBasket(catalog, [entry], options))
   const perServing = (cost: number): number =>
     together.servings > 0 ? cost / together.servings : 0
 
@@ -307,14 +326,21 @@ export type RecipeShare = {
 // A recipe as written, bought on its own trip at its own servings, and scaled at that price to
 // the servings in the basket. Doubling a recipe compares against buying it twice as written.
 const asWritten = (
+  catalog: BasketCatalog,
   entry: BasketEntry,
   options: BasketOptions
 ): { cost: number; leftover: number; perServing: number } => {
-  const recipe = findBasketRecipe(entry.slug)
+  const recipe = findBasketRecipe(catalog, entry.slug)
   if (!recipe) return { cost: 0, leftover: 0, perServing: 0 }
   // The same build as written, so a beef build compares against beef bought as written
   const written = computeBasket(
-    [{ ...recipeEntry(entry.slug), ...(entry.build ? { build: entry.build } : {}) }],
+    catalog,
+    [
+      {
+        ...recipeEntry(catalog, entry.slug),
+        ...(entry.build ? { build: entry.build } : {}),
+      },
+    ],
     options
   )
   const scale = entry.servings / recipe.servings
@@ -336,15 +362,16 @@ export type TripComparison = {
 // This trip against buying each recipe as written. One saving covers both what pooling shares
 // and what cooking more than the recipe's servings fills.
 export const compareToWritten = (
+  catalog: BasketCatalog,
   entries: BasketEntry[],
   options: BasketOptions
 ): TripComparison => {
-  const written = entries.map((entry) => asWritten(entry, options))
+  const written = entries.map((entry) => asWritten(catalog, entry, options))
   const writtenCost = sum(written.map(({ cost }) => cost))
   return {
     writtenCost,
     writtenLeftover: sum(written.map(({ leftover }) => leftover)),
-    saving: writtenCost - computeBasket(entries, options).tripCost,
+    saving: writtenCost - computeBasket(catalog, entries, options).tripCost,
   }
 }
 
@@ -353,13 +380,14 @@ export const compareToWritten = (
 // on each item it shares, split by what each recipe would pay for that item alone. So no recipe
 // looks dearer for being bundled, and the parts add up to the trip.
 export const recipeShares = (
+  catalog: BasketCatalog,
   entries: BasketEntry[],
   options: BasketOptions
 ): Map<string, RecipeShare> => {
-  const together = computeBasket(entries, options)
+  const together = computeBasket(catalog, entries, options)
   const alone = entries.map((entry) => ({
     entry,
-    totals: computeBasket([entry], options),
+    totals: computeBasket(catalog, [entry], options),
   }))
   const aloneItemCost = (index: number, key: string): number =>
     alone[index]?.totals.lines.find((line) => line.key === key)?.cost ?? 0
@@ -384,7 +412,7 @@ export const recipeShares = (
           {
             togetherPerServing:
               (totals.tripCost - (saved[index] ?? 0)) / totals.servings,
-            writtenPerServing: asWritten(entry, options).perServing,
+            writtenPerServing: asWritten(catalog, entry, options).perServing,
           },
         ],
       ]
@@ -400,19 +428,19 @@ type BasketSuggestion = {
 
 // The recipe that saves the most when added to this basket, if any saves at least a few cents
 export const suggestAddition = (
+  catalog: BasketCatalog,
   entries: BasketEntry[],
   options: BasketOptions
 ): BasketSuggestion | undefined => {
   const inBasket = new Set(entries.map(({ slug }) => slug))
-  const current = computeBasket(entries, options).tripCost
+  const current = computeBasket(catalog, entries, options).tripCost
 
-  return BASKET_RECIPES.filter(
-    ({ slug, component }) => !component && !inBasket.has(slug)
-  )
+  return catalog.recipes
+    .filter(({ slug, component }) => !component && !inBasket.has(slug))
     .map(({ slug }) => {
-      const added = recipeEntry(slug)
-      const alone = computeBasket([added], options).tripCost
-      const together = computeBasket([...entries, added], options).tripCost
+      const added = recipeEntry(catalog, slug)
+      const alone = computeBasket(catalog, [added], options).tripCost
+      const together = computeBasket(catalog, [...entries, added], options).tripCost
       return { slug, saving: current + alone - together }
     })
     .filter(({ saving }) => saving >= 0.05)
@@ -438,20 +466,21 @@ const combinations = (slugs: string[], size: number): string[][] => {
 // Every group of `size` recipes, ranked by what pooling saves. Only the given slugs count, so
 // the home page can limit it to published recipes.
 export const rankBundles = (
+  catalog: BasketCatalog,
   slugs: string[],
   size: number,
   options: BasketOptions
 ): RankedBundle[] =>
   combinations(
-    slugs.filter((slug) => BUNDLE_SLUGS.has(slug)),
+    slugs.filter((slug) => isBundleable(catalog, slug)),
     size
   )
     .map((group) => {
-      const entries = group.map(recipeEntry)
+      const entries = group.map((slug) => recipeEntry(catalog, slug))
       return {
         slugs: group,
-        saving: bundleSavings(entries, options),
-        comparison: compareBundle(entries, options),
+        saving: bundleSavings(catalog, entries, options),
+        comparison: compareBundle(catalog, entries, options),
       }
     })
     .sort((a, b) => b.saving - a.saving)
@@ -524,6 +553,36 @@ export const describePurchase = ({
 }
 
 export const formatMoney = (value: number): string => `$${value.toFixed(2)}`
+
+// Cost tiers per serving, prorated: $ under $3, $$ under $5, $$$ under $7, $$$$ under $10,
+// $$$$$ from $10
+export const costTierFor = (perServing: number): number => {
+  const below = [3, 5, 7, 10].findIndex((limit) => perServing < limit)
+  return below === -1 ? 5 : below + 1
+}
+
+export type BuildCost = {
+  // Missing for the recipe's own lines
+  build?: string
+  perServing: number
+  tier: number
+}
+
+// Prorated cost per serving for the recipe's lines and each build that changes them
+export const recipeCosts = (
+  catalog: BasketCatalog,
+  slug: string
+): BuildCost[] => {
+  const recipe = findBasketRecipe(catalog, slug)
+  if (!recipe) return []
+  const priced = (build?: string): BuildCost => {
+    const perServing = costPerServing(catalog, [
+      { ...recipeEntry(catalog, slug), ...(build ? { build } : {}) },
+    ])
+    return { ...(build ? { build } : {}), perServing, tier: costTierFor(perServing) }
+  }
+  return [priced(), ...Object.keys(recipe.builds ?? {}).map(priced)]
+}
 
 // The list as plain text for copying into notes or a message
 export const toShoppingListText = (

@@ -50,6 +50,64 @@ describe('RecipeForm', () => {
     expect(await screen.findByRole('status')).toHaveTextContent('Saved.')
   })
 
+  it('edits the basket lines, prices each build, and saves them', async () => {
+    mockSave.mockResolvedValue({ ok: false, error: 'stop' })
+    const items = [
+      {
+        key: 'turkey',
+        name: 'Ground turkey 93/7',
+        pack: '1 lb tray',
+        packQuantity: 1,
+        unit: 'lb',
+        price: 5.49,
+        section: 'meat' as const,
+        pantry: false,
+        perishable: false,
+        isEstimate: false,
+        pricedOn: '2026-11-11',
+      },
+      {
+        key: 'beans',
+        name: 'Black beans',
+        pack: '15 oz can',
+        packQuantity: 1,
+        unit: 'can',
+        price: 1,
+        section: 'pantry' as const,
+        pantry: false,
+        perishable: false,
+        isEstimate: false,
+        pricedOn: '2026-11-11',
+      },
+    ]
+    render(
+      <RecipeForm
+        recipeId='recipe-1'
+        initial={{ ...sampleRecipe, basketLines: { turkey: 1 } }}
+        basketItems={items}
+      />
+    )
+
+    // One $5.49 tray over 4 servings, and the sample says $$
+    expect(
+      screen.getByText((_, node) => node?.tagName === 'LI' && node.textContent === 'base: $1.37/serving, $ (the recipe says $$)')
+    ).toBeInTheDocument()
+
+    // The first add button is the recipe's. The ones after it are each build's changes.
+    const [addItem] = screen.getAllByRole('button', { name: '+ Add an item' })
+    if (!addItem) throw new Error('No add button')
+    fireEvent.click(addItem)
+    fireEvent.change(screen.getByLabelText('Basket amount 2'), { target: { value: '2' } })
+    fireEvent.click(screen.getByRole('button', { name: 'Save' }))
+
+    await waitFor(() => expect(mockSave).toHaveBeenCalled())
+
+    expect(mockSave).toHaveBeenCalledWith(
+      'recipe-1',
+      expect.objectContaining({ basketLines: { turkey: 1, beans: 2 } })
+    )
+  })
+
   it('locks the slug when editing', () => {
     render(<RecipeForm recipeId='recipe-1' initial={sampleRecipe} />)
 

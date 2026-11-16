@@ -30,7 +30,11 @@
       "calories": 750,
       "carbsG": 78,
       "fatG": 25,
-      "proteinG": 53
+      "proteinG": 53,
+      "basketLines": {
+        "turkey": 0,
+        "ground_beef": 1
+      }
     },
     {
       "key": "rice-bowl",
@@ -39,7 +43,18 @@
       "calories": 605,
       "carbsG": 71,
       "fatG": 14,
-      "proteinG": 45
+      "proteinG": 45,
+      "basketLines": {
+        "tortilla": 0,
+        "brown_rice": 6.5,
+        "cheddar": 2,
+        "corn": 0.8571,
+        "red_onion": 0.4286,
+        "jalapeno": 0.0536,
+        "cherry_tom": 4.5429,
+        "lime": 0.8571,
+        "cilantro": 0.2829
+      }
     },
     {
       "key": "filling",
@@ -49,7 +64,20 @@
       "calories": 290,
       "carbsG": 19,
       "fatG": 8,
-      "proteinG": 35
+      "proteinG": 35,
+      "basketLines": {
+        "tortilla": 0,
+        "cheddar": 0,
+        "cottage": 0,
+        "sour_cream": 0,
+        "milk": 0,
+        "corn": 0,
+        "red_onion": 0,
+        "jalapeno": 0,
+        "cherry_tom": 0,
+        "lime": 0,
+        "cilantro": 0
+      }
     }
   ],
   "nutrition": [
@@ -216,5 +244,30 @@
       "servingsPerServing": 1.5,
       "onlyBuilds": ["rice-bowl"]
     }
-  ]
+  ],
+  "basketLines": {
+    "turkey": 1,
+    "garlic": 2,
+    "black_beans": 1,
+    "broth": 2,
+    "tortilla": 8,
+    "chili_powder": 3,
+    "cumin": 2,
+    "smoked_paprika": 1,
+    "garlic_powder": 1,
+    "onion_powder": 1,
+    "oregano": 1,
+    "pepper": 0.5,
+    "cayenne": 0.5,
+    "cheddar": 4,
+    "cottage": 2.6667,
+    "sour_cream": 0.6667,
+    "milk": 0.0833,
+    "corn": 0.5714,
+    "red_onion": 0.2857,
+    "jalapeno": 0.0357,
+    "cherry_tom": 3.0286,
+    "lime": 0.5714,
+    "cilantro": 0.1886
+  }
 }

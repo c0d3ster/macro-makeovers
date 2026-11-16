@@ -8,14 +8,16 @@ import { track } from '@/libs/analytics'
 import { useBasket } from '@/providers'
 
 type AddBundleButtonProps = {
-  slugs: string[]
+  // Each recipe at the servings it is written for
+  recipes: { slug: string; servings: number }[]
 }
 
 // Adds every recipe in a bundle to the basket, then links to it
 export const AddBundleButton = ({
-  slugs,
+  recipes,
 }: AddBundleButtonProps): ReactElement => {
   const { hasRecipe, add, isLoaded } = useBasket()
+  const slugs = recipes.map(({ slug }) => slug)
   const allIn = slugs.every((slug) => hasRecipe(slug))
 
   if (allIn) {
@@ -34,7 +36,7 @@ export const AddBundleButton = ({
       type='button'
       disabled={!isLoaded}
       onClick={() => {
-        slugs.forEach((slug) => add(slug))
+        recipes.forEach(({ slug, servings }) => add(slug, undefined, servings))
         track('bundle_add', { slugs: slugs.join(',') })
       }}
       className='cursor-pointer rounded-md border border-primary px-3 py-1.5 text-sm font-medium text-primary transition-colors hover:bg-primary hover:text-on-primary disabled:opacity-50'

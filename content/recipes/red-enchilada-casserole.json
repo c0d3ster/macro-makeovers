@@ -30,7 +30,11 @@
       "calories": 615,
       "carbsG": 62,
       "fatG": 19,
-      "proteinG": 52
+      "proteinG": 52,
+      "basketLines": {
+        "chicken_breast": 0,
+        "eye_of_round": 1.5
+      }
     },
     {
       "key": "beef-chuck",
@@ -44,7 +48,11 @@
       "calories": 655,
       "carbsG": 62,
       "fatG": 25,
-      "proteinG": 48
+      "proteinG": 48,
+      "basketLines": {
+        "chicken_breast": 0,
+        "chuck": 1.5
+      }
     }
   ],
   "nutrition": [
@@ -378,5 +386,37 @@
     "freezer friendly",
     "high protein",
     "oven"
-  ]
+  ],
+  "basketLines": {
+    "chicken_breast": 1.5,
+    "black_beans": 1,
+    "corn_nsa": 1,
+    "avo_oil": 0.333,
+    "onion": 1,
+    "bell_red": 1,
+    "jalapeno": 0.1875,
+    "garlic": 4,
+    "tomato_paste": 1.7,
+    "tomato_sauce": 1,
+    "broth": 16,
+    "brown_sugar": 0.16,
+    "lime": 2,
+    "cornstarch": 0.28,
+    "adobo": 0.5,
+    "chili_powder": 9,
+    "cumin": 2,
+    "smoked_paprika": 1,
+    "oregano": 1,
+    "garlic_powder": 1,
+    "onion_powder": 1,
+    "cayenne": 0.5,
+    "pepper": 0.5,
+    "corn_tortilla": 12,
+    "cottage": 12,
+    "milk": 0.125,
+    "quesadilla": 4,
+    "scallions": 4,
+    "vinegar": 4,
+    "sugar": 0.15
+  }
 }

@@ -179,5 +179,18 @@
     "high protein",
     "comfort food",
     "batch friendly"
-  ]
+  ],
+  "basketLines": {
+    "chicken_breast": 1.5,
+    "pasta": 16,
+    "cottage": 16,
+    "parm": 5,
+    "butter": 2,
+    "milk": 0.125,
+    "garlic": 4,
+    "onion": 0.5,
+    "italian": 3,
+    "blackening": 9,
+    "avo_oil": 0.5
+  }
 }

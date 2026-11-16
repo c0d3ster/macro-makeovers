@@ -254,5 +254,20 @@
       "body": "**Watery bowl:** the peppers weren't patted dry enough"
     }
   ],
-  "tags": ["pasta", "seafood", "stovetop", "high protein", "batch friendly"]
+  "tags": ["pasta", "seafood", "stovetop", "high protein", "batch friendly"],
+  "basketLines": {
+    "basil": 2.1,
+    "pine_nuts": 1.06,
+    "parm": 1.76,
+    "garlic": 2,
+    "olive_oil": 1.25,
+    "lemon": 1,
+    "yogurt5": 0.28,
+    "bell_red": 2,
+    "shrimp": 2,
+    "lemon_pepper": 4.5,
+    "garlic_powder": 0.5,
+    "avo_oil": 0.5,
+    "pasta": 16
+  }
 }

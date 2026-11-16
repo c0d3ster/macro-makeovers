@@ -29,7 +29,21 @@
       "calories": 670,
       "carbsG": 67,
       "fatG": 20,
-      "proteinG": 56
+      "proteinG": 56,
+      "basketLines": {
+        "chicken_thigh": 0,
+        "pollo_asado": 1.5,
+        "oj": 0,
+        "lime": 3.2,
+        "garlic": 0,
+        "achiote": 0,
+        "adobo": 0,
+        "cumin": 0.5,
+        "oregano": 0,
+        "chili_powder": 0,
+        "pepper": 0,
+        "avo_oil": 0
+      }
     },
     {
       "key": "skin-on",
@@ -273,5 +287,28 @@
       "amount": "1/2 cup per bowl",
       "servingsPerServing": 1
     }
-  ]
+  ],
+  "basketLines": {
+    "chicken_thigh": 1.5,
+    "oj": 1.5,
+    "lime": 4.2,
+    "garlic": 6,
+    "achiote": 0.5,
+    "adobo": 0.5,
+    "cumin": 2.5,
+    "oregano": 2,
+    "chili_powder": 1,
+    "pepper": 0.5,
+    "avo_oil": 0.167,
+    "brown_rice": 6.5,
+    "cilantro": 0.53,
+    "black_beans": 1,
+    "garlic_powder": 0.5,
+    "cotija": 4,
+    "cottage": 6,
+    "mango": 0.8,
+    "red_onion": 0.4,
+    "habanero": 0.6,
+    "cucumber": 0.2
+  }
 }

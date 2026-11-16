@@ -17,6 +17,7 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
+  /** Any JSON value */
   JSON: { input: any; output: any; }
 };
 
@@ -30,6 +31,27 @@ export type AdminRecipe = {
   readonly title: Scalars['String']['output'];
   /** ISO timestamp of the last edit */
   readonly updatedAt: Scalars['String']['output'];
+};
+
+/** A build's cost per serving from its basket lines, prorated by what it uses, spices included */
+export type BasketBuildPrice = {
+  readonly __typename?: 'BasketBuildPrice';
+  readonly build: Scalars['String']['output'];
+  readonly perServing: Scalars['Float']['output'];
+  /** The tier the recipe or build says it is */
+  readonly statedTier: Scalars['Int']['output'];
+  /** The $ tier that cost lands in, 1 to 5 */
+  readonly tier: Scalars['Int']['output'];
+};
+
+/** A recipe or build whose cost per serving moves with the new prices */
+export type BasketCostChange = {
+  readonly __typename?: 'BasketCostChange';
+  readonly after: Scalars['Float']['output'];
+  readonly before: Scalars['Float']['output'];
+  /** The build key, or null for the recipe's own lines */
+  readonly build?: Maybe<Scalars['String']['output']>;
+  readonly slug: Scalars['String']['output'];
 };
 
 export type BasketEntryInput = {
@@ -122,11 +144,15 @@ export type HandoffLineResult = {
 
 export type ImportRecipeResult = {
   readonly __typename?: 'ImportRecipeResult';
+  /** Cost per serving for each build, when the recipe has basketLines */
+  readonly basketPrices: ReadonlyArray<BasketBuildPrice>;
   readonly changes: ReadonlyArray<RecipeFieldChange>;
   readonly id?: Maybe<Scalars['String']['output']>;
   readonly issues: ReadonlyArray<RecipeImportIssue>;
   readonly slug?: Maybe<Scalars['String']['output']>;
   readonly status: ImportRecipeStatus;
+  /** Worth a look, but not blocking, like a cost tier the prices disagree with */
+  readonly warnings: ReadonlyArray<RecipeImportIssue>;
 };
 
 /** Invalid: fix the issues. Created: a new draft. Updated: an existing recipe was replaced. Unchanged: nothing differs. Conflict: the slug exists and overwrite was not requested. */
@@ -148,6 +174,8 @@ export type Mutation = {
   /** Validates a recipe and saves it as a draft. An existing slug is only replaced with overwrite. dryRun checks and diffs without writing. Owner only. */
   readonly importRecipe: ImportRecipeResult;
   readonly openBillingPortal: Scalars['String']['output'];
+  /** Adds or replaces basket price items by key, and lists the recipe costs that move. dryRun checks without writing. Owner only. */
+  readonly saveBasketItems: SaveBasketItemsResult;
   readonly sendBasketToGrocer: GroceryHandoff;
   /** Publishes or unpublishes a recipe. Owner only. */
   readonly setRecipeStatus: AdminRecipe;
@@ -176,6 +204,12 @@ export type MutationImportRecipeArgs = {
   overwrite?: Scalars['Boolean']['input'];
   recipe: Scalars['JSON']['input'];
   recipeId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type MutationSaveBasketItemsArgs = {
+  dryRun?: Scalars['Boolean']['input'];
+  items: Scalars['JSON']['input'];
 };
 
 
@@ -229,6 +263,10 @@ export enum PublishStatus {
 
 export type Query = {
   readonly __typename?: 'Query';
+  /** The price book and the basket lines of every published recipe, as the basket math reads them */
+  readonly basketCatalog: Scalars['JSON']['output'];
+  /** Every basket price item with its sizes, price source, and date, in save shape. Owner only. */
+  readonly basketItems: Scalars['JSON']['output'];
   readonly groceryHandoffOptions: GroceryHandoffOptions;
   readonly groceryStores: GroceryStoreSuggestion;
   /** Liveness check */
@@ -290,6 +328,22 @@ export type RememberedGrocer = {
   readonly storeName?: Maybe<Scalars['String']['output']>;
   readonly zip?: Maybe<Scalars['String']['output']>;
 };
+
+export type SaveBasketItemsResult = {
+  readonly __typename?: 'SaveBasketItemsResult';
+  readonly costChanges: ReadonlyArray<BasketCostChange>;
+  readonly issues: ReadonlyArray<RecipeImportIssue>;
+  /** Keys of the items checked or saved */
+  readonly keys: ReadonlyArray<Scalars['String']['output']>;
+  readonly status: SaveBasketItemsStatus;
+};
+
+/** Invalid: fix the issues. Checked: a dry run, nothing written. Saved: the items were written. */
+export enum SaveBasketItemsStatus {
+  Checked = 'Checked',
+  Invalid = 'Invalid',
+  Saved = 'Saved'
+}
 
 export type SendBasketInput = {
   readonly checked: ReadonlyArray<Scalars['String']['input']>;
@@ -405,7 +459,7 @@ export type ImportRecipeMutationVariables = Exact<{
 }>;
 
 
-export type ImportRecipeMutation = { readonly __typename?: 'Mutation', readonly importRecipe: { readonly __typename?: 'ImportRecipeResult', readonly status: ImportRecipeStatus, readonly slug?: string | null, readonly id?: string | null, readonly issues: ReadonlyArray<{ readonly __typename?: 'RecipeImportIssue', readonly path: string, readonly message: string }>, readonly changes: ReadonlyArray<{ readonly __typename?: 'RecipeFieldChange', readonly path: string, readonly before?: any | null, readonly after?: any | null }> } };
+export type ImportRecipeMutation = { readonly __typename?: 'Mutation', readonly importRecipe: { readonly __typename?: 'ImportRecipeResult', readonly status: ImportRecipeStatus, readonly slug?: string | null, readonly id?: string | null, readonly issues: ReadonlyArray<{ readonly __typename?: 'RecipeImportIssue', readonly path: string, readonly message: string }>, readonly changes: ReadonlyArray<{ readonly __typename?: 'RecipeFieldChange', readonly path: string, readonly before?: any | null, readonly after?: any | null }>, readonly basketPrices: ReadonlyArray<{ readonly __typename?: 'BasketBuildPrice', readonly build: string, readonly perServing: number, readonly tier: number, readonly statedTier: number }>, readonly warnings: ReadonlyArray<{ readonly __typename?: 'RecipeImportIssue', readonly path: string, readonly message: string }> } };
 
 export type SetRecipeStatusMutationVariables = Exact<{
   id: Scalars['ID']['input'];
@@ -832,6 +886,16 @@ export const ImportRecipeDocument = gql`
       path
       before
       after
+    }
+    basketPrices {
+      build
+      perServing
+      tier
+      statedTier
+    }
+    warnings {
+      path
+      message
     }
   }
 }

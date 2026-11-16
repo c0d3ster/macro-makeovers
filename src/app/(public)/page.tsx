@@ -17,7 +17,14 @@ import {
   RecipeGrid,
 } from '@/components/organisms'
 import { LandingPageTemplate } from '@/components/templates'
-import { pickDistinctBundles, rankBundles } from '@/libs/basket'
+import type { BasketCatalog } from '@/libs/basket'
+
+import {
+  EMPTY_CATALOG,
+  findBasketRecipe,
+  pickDistinctBundles,
+  rankBundles,
+} from '@/libs/basket'
 import { Env } from '@/libs/Env'
 import { logger } from '@/libs/Logger'
 import {
@@ -76,16 +83,30 @@ const loadRecipeCards = async (): Promise<RecipeCard[] | undefined> => {
   }
 }
 
+// No bundles when prices can't be loaded, and the rest of the page stays up
+const loadBasketCatalog = async (): Promise<BasketCatalog> => {
+  try {
+    return await services.basketService.getCatalog()
+  } catch (error) {
+    logger.error('Could not load basket prices for the home page', { error })
+    return EMPTY_CATALOG
+  }
+}
+
 // The pairs of published recipes that save the most bought together, none sharing a recipe
-const toBundles = (recipes: RecipeCard[]): BundleLink[] => {
+const toBundles = (catalog: BasketCatalog, recipes: RecipeCard[]): BundleLink[] => {
   const titles = new Map(recipes.map(({ slug, title }) => [slug, title]))
   return pickDistinctBundles(
-    rankBundles([...titles.keys()], 2, { includePantry: false }),
+    rankBundles(catalog, [...titles.keys()], 2, { includePantry: false }),
     BUNDLE_COUNT
   ).map(({ slugs, saving, comparison }) => ({
     saving,
     comparison,
-    recipes: slugs.map((slug) => ({ slug, title: titles.get(slug) ?? slug })),
+    recipes: slugs.map((slug) => ({
+      slug,
+      title: titles.get(slug) ?? slug,
+      servings: findBasketRecipe(catalog, slug)?.servings ?? 1,
+    })),
   }))
 }
 
@@ -98,11 +119,11 @@ const HomePage = async ({
   ).toString()
   if (query) permanentRedirect(`/recipes?${query}`)
 
-  const cards = await loadRecipeCards()
+  const [cards, catalog] = await Promise.all([loadRecipeCards(), loadBasketCatalog()])
   const recipes = cards && cardsForCourses(cards, DISH_COURSES)
   const sides = cards ? cardsForCourses(cards, SIDE_COURSES) : []
   const featured = recipes && pickFeaturedRecipes(recipes, FEATURED_COUNT)
-  const bundles = recipes ? toBundles(recipes) : []
+  const bundles = recipes ? toBundles(catalog, recipes) : []
 
   return (
     <LandingPageTemplate activeItem='home'>

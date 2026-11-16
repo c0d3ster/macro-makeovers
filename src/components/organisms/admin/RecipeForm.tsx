@@ -9,6 +9,7 @@ import { FormProvider, useFieldArray, useForm } from 'react-hook-form'
 
 import type { SaveRecipeResult } from '@/apiClients'
 import type {
+  BasketItemInput,
   PhotoResponse,
   RecipeImport,
   RecipeImportInput,
@@ -33,6 +34,7 @@ import { recipeImportSchema } from '@/validations'
 import type { BuildPreviewValue } from './buildPreview'
 
 import { BuildPreviewContext } from './buildPreview'
+import { RecipeBasketEditor } from './RecipeBasketEditor'
 import { RecipeComponentsEditor } from './RecipeComponentsEditor'
 import { RecipeHeroEditor } from './RecipeHeroEditor'
 import { RecipeIngredientsEditor } from './RecipeIngredientsEditor'
@@ -47,6 +49,8 @@ type RecipeFormProps = {
   imageUrl?: string
   // Each saved build's own photo by key
   buildImages?: Record<string, string>
+  // The basket price book, for the shopping list
+  basketItems?: BasketItemInput[]
 }
 
 const EMPTY_RECIPE: RecipeImportInput = {
@@ -86,6 +90,7 @@ export const RecipeForm = ({
   initial = EMPTY_RECIPE,
   imageUrl,
   buildImages: savedBuildImages = {},
+  basketItems = [],
 }: RecipeFormProps): ReactElement => {
   const router = useRouter()
   const saveRecipe = useSaveRecipe()
@@ -261,6 +266,7 @@ export const RecipeForm = ({
           </div>
           <RecipeNotesEditor notes={notes} />
           <RecipeComponentsEditor />
+          <RecipeBasketEditor items={basketItems} />
         </div>
 
         <div className='sticky bottom-0 z-20 border-t border-text-muted/20 bg-background'>

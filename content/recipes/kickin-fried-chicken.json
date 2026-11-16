@@ -312,5 +312,29 @@
       "onlyBuilds": ["plate-chicken-sides-ranch"]
     }
   ],
-  "tags": ["chicken", "air fryer", "high protein", "comfort food", "oven"]
+  "tags": ["chicken", "air fryer", "high protein", "comfort food", "oven"],
+  "basketLines": {
+    "chicken_breast": 1.5,
+    "flour": 2.25,
+    "cornstarch": 1.7,
+    "eggs": 2,
+    "panko": 2.6,
+    "avo_oil": 0.33,
+    "yukon": 2,
+    "garlic": 4,
+    "onion": 0.5,
+    "milk": 0.72,
+    "yogurt": 1,
+    "butter": 4,
+    "broth": 12,
+    "corn": 1,
+    "herbs": 0.75,
+    "lemon": 0.125,
+    "sweet_paprika": 9,
+    "cayenne": 4.5,
+    "cumin": 1,
+    "garlic_powder": 1,
+    "onion_powder": 1,
+    "pepper": 0.5
+  }
 }

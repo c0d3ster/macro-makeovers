@@ -232,5 +232,25 @@
     }
   ],
   "variantOf": "cheesy-hash-brown-bacon-bake",
-  "tags": ["bake", "pork", "oven", "sheet pan", "high protein", "comfort food"]
+  "tags": ["bake", "pork", "oven", "sheet pan", "high protein", "comfort food"],
+  "basketLines": {
+    "sw_hashbrowns": 1,
+    "sausage_patties": 4,
+    "black_beans": 1,
+    "corn_nsa": 1,
+    "bell_red": 1,
+    "onion": 0.5,
+    "jalapeno": 0.1,
+    "garlic": 2,
+    "avo_oil": 0.4167,
+    "eggwhites": 24,
+    "cottage": 8,
+    "kerrygold_reserve": 2,
+    "scallions": 2,
+    "cilantro": 0.25,
+    "garlic_powder": 0.5,
+    "smoked_paprika": 0.5,
+    "cumin": 0.5,
+    "pepper": 0.25
+  }
 }

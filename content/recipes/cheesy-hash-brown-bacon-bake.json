@@ -215,5 +215,24 @@
       "body": "**Candy the Canadian bacon too:** toss the diced pieces with 1/2 tbsp brown sugar and blackening seasoning, roast at 430°F for 8-10 min (check at 6), and add with the bacon at the end. Adds about 1.6g carbs per serving"
     }
   ],
-  "tags": ["bake", "pork", "oven", "sheet pan", "high protein", "comfort food"]
+  "tags": ["bake", "pork", "oven", "sheet pan", "high protein", "comfort food"],
+  "basketLines": {
+    "hashbrowns": 1,
+    "avo_oil": 0.5,
+    "canadian": 6,
+    "eggwhites": 16,
+    "cottage": 8,
+    "onion": 0.5,
+    "bell_red": 1,
+    "jalapeno": 0.156,
+    "garlic": 2,
+    "eggs": 4,
+    "cheddar": 2,
+    "bacon": 2,
+    "brown_sugar": 0.5,
+    "garlic_powder": 1,
+    "smoked_paprika": 1,
+    "pepper": 0.5,
+    "blackening": 1
+  }
 }

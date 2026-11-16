@@ -103,7 +103,7 @@ export const ScalableIngredients = ({
     </section>
       {basket && (
         <div className='mt-4'>
-          <AddToBasketButton {...basket} servings={servings} />
+          <AddToBasketButton {...basket} servings={servings} followsStepper />
         </div>
       )}
     </>

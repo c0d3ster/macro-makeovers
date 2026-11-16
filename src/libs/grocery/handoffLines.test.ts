@@ -1,11 +1,14 @@
 import { describe, expect, it } from 'vitest'
 
 import { computeBasket, recipeEntry } from '@/libs/basket'
+import { readContentCatalog } from '@/libs/basket/contentCatalog'
 
 import { toHandoffLines } from './handoffLines'
 
+const catalog = readContentCatalog()
+
 const linesFor = (includePantry: boolean) =>
-  computeBasket([recipeEntry('spicy-turkey-chili')], { includePantry }).lines
+  computeBasket(catalog, [recipeEntry(catalog, 'spicy-turkey-chili')], { includePantry }).lines
 
 describe('toHandoffLines', () => {
   it('sends what the basket would buy, line for line', () => {
@@ -39,7 +42,7 @@ describe('toHandoffLines', () => {
   })
 
   it('rounds items priced by weight up to whole pounds for the cart', () => {
-    const lines = computeBasket([recipeEntry('spicy-turkey-chili')], {
+    const lines = computeBasket(catalog, [recipeEntry(catalog, 'spicy-turkey-chili')], {
       includePantry: false,
     }).lines
     const byWeight = lines.find(({ item }) => item.pack === 'per lb')
