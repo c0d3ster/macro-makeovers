@@ -561,7 +561,7 @@ export const costTierFor = (perServing: number): number => {
   return below === -1 ? 5 : below + 1
 }
 
-export type BuildCost = {
+type BuildCost = {
   // Missing for the recipe's own lines
   build?: string
   perServing: number
