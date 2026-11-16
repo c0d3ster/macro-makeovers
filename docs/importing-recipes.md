@@ -150,11 +150,9 @@ Setup:
 - Vercel env vars `GITHUB_REPO` (`owner/name`) and `GITHUB_DISPATCH_TOKEN`, a fine-grained token
   for this one repository with only Contents: Read and write. Without them publishing works and
   logs a skipped rebuild.
-- If the release step fails with a 403, allow read and write workflow permissions in the repo's
-  Actions settings.
-
-The latest PDF is at
-`https://github.com/c0d3ster/macro-makeovers/releases/download/recipe-book/macro-makeovers.pdf`.
+- GitHub secrets `R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, and `R2_SECRET_ACCESS_KEY`, plus the
+  variable `R2_BOOK_BUCKET`. The workflow uploads the PDF to that private bucket, and paid members
+  download it from their account through a short-lived signed link. The book is never public.
 
 ## Recipe JSON
 
