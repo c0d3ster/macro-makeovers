@@ -20,7 +20,7 @@ export const LEGAL_PAGES: LegalPage[] = [
     label: 'Nutrition disclaimer',
     description:
       'How the calorie, carb, fat, and protein numbers are estimated, and why they are not medical advice.',
-    updated: '2026-11-15',
+    updated: '2026-11-16',
   },
   {
     slug: 'privacy',
@@ -28,7 +28,7 @@ export const LEGAL_PAGES: LegalPage[] = [
     label: 'Privacy',
     description:
       'What we collect, why, and the services that help run the site.',
-    updated: '2026-11-15',
+    updated: '2026-11-16',
   },
   {
     slug: 'terms',
@@ -36,14 +36,14 @@ export const LEGAL_PAGES: LegalPage[] = [
     label: 'Terms',
     description:
       'The rules for using the site, the paid plan, and grocery partner handoffs.',
-    updated: '2026-11-15',
+    updated: '2026-11-16',
   },
   {
     slug: 'refunds',
     title: 'Refund policy',
     label: 'Refunds',
     description: 'Canceling the paid plan and when we refund a charge.',
-    updated: '2026-11-15',
+    updated: '2026-11-16',
   },
 ]
 

@@ -5,8 +5,11 @@ import { Env } from '@/libs/Env'
 
 import type { LegalSlug } from './legalList'
 
-// The legal prose lives in content/legal as plain markdown with no top heading. {{brand}} and
-// {{email}} are filled in here so the files stay in step with the site settings.
+// The business behind the site
+const LEGAL_ENTITY = 'c0d3ster LLC'
+
+// The legal prose lives in content/legal as plain markdown with no top heading. {{brand}},
+// {{entity}}, and {{email}} are filled in here so the files stay in step with the site settings.
 const LEGAL_DIR = resolve(process.cwd(), 'content/legal')
 
 export const fillLegalText = (
@@ -16,6 +19,7 @@ export const fillLegalText = (
 ): string =>
   text
     .replaceAll('{{brand}}', brand)
+    .replaceAll('{{entity}}', LEGAL_ENTITY)
     .replaceAll('{{email}}', `[${email}](mailto:${email})`)
 
 export const readLegalPage = (slug: LegalSlug): string =>
