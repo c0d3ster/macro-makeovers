@@ -22,14 +22,18 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
-      contents: write # to create the recipe-book release and replace its asset
+      contents: read
 
     env:
-      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       # Public base URL of the R2 bucket the book photos are downloaded from
       R2_PUBLIC_URL: ${{ vars.R2_PUBLIC_URL }}
       # The book is built from the published recipes in the hosted database (read only)
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      # The PDF goes to the private R2 book bucket. Paid members download it through a signed link.
+      R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+      R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+      R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+      R2_BOOK_BUCKET: ${{ vars.R2_BOOK_BUCKET }}
 
     steps:
       - uses: actions/checkout@v7
@@ -70,16 +74,6 @@ jobs:
       - name: Build the PDF
         run: pnpm exec tsx scripts/buildBook.ts
 
-      # The asset name stays the same, so
-      # https://github.com/${{ github.repository }}/releases/download/recipe-book/macro-makeovers.pdf
-      # always points at the latest build.
-      - name: Publish to the recipe-book release
-        run: |
-          if ! gh release view recipe-book >/dev/null 2>&1; then
-            gh release create recipe-book \
-              --title 'Recipe book' \
-              --notes 'Rolling release. The PDF is rebuilt automatically.' \
-              --latest=false
-          fi
-          gh release upload recipe-book build/macro-makeovers.pdf --clobber
-          gh release edit recipe-book --notes "Rolling release. Last built $(date -u +'%Y-%m-%d %H:%M UTC') from ${GITHUB_SHA::7}."
+      # Not a GitHub release: the repo is public, and the book is a paid download
+      - name: Upload to the private book bucket
+        run: pnpm exec tsx scripts/uploadBook.ts
