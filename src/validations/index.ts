@@ -1,3 +1,4 @@
+export * from './BasketItemValidation'
 export * from './AuthValidation'
 export * from './ContactValidation'
 export * from './EmailSignupValidation'

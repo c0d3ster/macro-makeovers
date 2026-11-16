@@ -27,22 +27,23 @@ export type BasketItem = {
   // Larger sizes of the same product. The pack above is the smallest. A recipe is priced from
   // the smallest size that covers what it uses, and a trip buys the cheapest mix of sizes.
   sizes?: PackSize[]
+  // Looked up and not yet checked on a shelf or a receipt
+  isEstimate?: boolean
+  // When the price was found, as YYYY-MM-DD
+  pricedOn?: string
 }
 
 // A build that shops differently from its recipe, like beef in place of turkey
 export type BasketBuild = {
-  // The build's cost estimate per serving, prorated like the recipe's
-  perServingCost: number
   // Changes to the recipe's lines, by item key. 0 drops a line the build doesn't use.
   lines: Record<string, number>
 }
 
-// What one batch of a recipe uses, by item key, in each item's unit
+// What one batch of a recipe uses, by item key, in each item's unit. Cost per serving is
+// worked out from these and the item prices, never stored.
 export type BasketRecipe = {
   slug: string
   servings: number
-  // The cost estimate per serving, prorated by what the recipe uses
-  perServingCost: number
   lines: Record<string, number>
   // A side or sauce. The dishes that use it already carry its lines, so bundle suggestions
   // leave it out.
@@ -59,4 +60,14 @@ export type BasketEntry = {
   build?: string
   // Scales the recipe's ingredients the way the recipe page's servings stepper does
   servings: number
+}
+
+// Everything the basket math prices from: the price book and every shoppable recipe. Loaded
+// from the database (BasketRepository) and passed in, so the math stays pure.
+export type BasketCatalog = {
+  items: Record<string, BasketItem>
+  recipes: BasketRecipe[]
+  // The oldest and newest price dates, as YYYY-MM-DD. Missing when there are no items.
+  pricedFrom?: string
+  pricedThrough?: string
 }

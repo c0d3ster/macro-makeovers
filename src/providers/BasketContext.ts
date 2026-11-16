@@ -16,9 +16,9 @@ export type BasketContextValue = {
   hasRecipe: (slug: string) => boolean
   // The servings in the basket for a recipe, if it is there
   servingsOf: (slug: string) => number | undefined
-  // Builds of one recipe are mutually exclusive, so adding another build replaces it. Servings
-  // default to the recipe's own.
-  add: (slug: string, build?: string, servings?: number) => void
+  // Builds of one recipe are mutually exclusive, so adding another build replaces it. Only
+  // recipes with basket data offer this, so the caller knows the recipe's servings.
+  add: (slug: string, build: string | undefined, servings: number) => void
   remove: (slug: string) => void
   setServings: (slug: string, servings: number) => void
   setIncludePantry: (include: boolean) => void

@@ -11,7 +11,7 @@ const renderWithBasket = (slug: string): void => {
   render(
     <BasketProvider>
       <BasketNavLink />
-      <AddToBasketButton slug={slug} title='Spicy Turkey Chili' />
+      <AddToBasketButton slug={slug} title='Spicy Turkey Chili' servings={6} />
     </BasketProvider>
   )
 }
@@ -20,12 +20,6 @@ describe('AddToBasketButton', () => {
   beforeEach(() => localStorage.clear())
 
   afterEach(() => cleanup())
-
-  it('shows nothing for a recipe without price data', () => {
-    renderWithBasket('no-price-data')
-
-    expect(screen.queryByRole('button')).not.toBeInTheDocument()
-  })
 
   it('adds the recipe, updates the header count, and saves it', () => {
     renderWithBasket('spicy-turkey-chili')

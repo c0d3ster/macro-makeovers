@@ -8,6 +8,7 @@ import { readBookBucket } from '@/libs/book'
 import { Env } from '@/libs/Env'
 import { getBaseUrl } from '@/utils/Env'
 
+import { BasketService } from './BasketService'
 import { BillingService } from './BillingService'
 import { ContactService } from './ContactService'
 import { EmailService } from './EmailService'
@@ -21,7 +22,8 @@ const resend = Env.RESEND_API_KEY ? new Resend(Env.RESEND_API_KEY) : null
 const emailService = new EmailService(resend)
 const contactService = new ContactService(emailService)
 const emailSubscriptionService = new EmailSubscriptionService(emailService)
-const groceryService = new GroceryService()
+const basketService = new BasketService()
+const groceryService = new GroceryService(basketService)
 const recipeService = new RecipeService()
 const userService = new UserService()
 const billingService = new BillingService({
@@ -36,6 +38,7 @@ const billingService = new BillingService({
 })
 
 export const services = {
+  basketService,
   billingService,
   contactService,
   emailSubscriptionService,
@@ -45,6 +48,7 @@ export const services = {
 }
 
 // Export types for dependency injection
+export type { BasketService }
 export type { BillingService }
 export type { ContactService }
 export type { EmailSubscriptionService }

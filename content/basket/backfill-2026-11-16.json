@@ -1,0 +1,135 @@
+{
+  "chicken-sausage-gnocchi": {
+    "basketLines": {
+      "gnocchi": 16,
+      "avo_oil": 0.3333,
+      "chicken_sausage_italian": 1,
+      "olive_oil": 0.1667,
+      "onion": 1,
+      "garlic": 4,
+      "crushed_tomatoes": 1,
+      "cottage": 8,
+      "parm_block": 1.41,
+      "spinach": 6,
+      "basil": 0.25,
+      "italian": 2,
+      "red_pepper": 0.75,
+      "pepper": 0.25,
+      "ny_garlic_breadsticks": 4
+    },
+    "builds": {
+      "one-box": { "ny_garlic_breadsticks": 0 }
+    }
+  },
+  "chicken-parm-skillet": {
+    "basketLines": {
+      "chicken_breast": 1.5,
+      "eggs": 1,
+      "parm": 1.41,
+      "panko": 1.06,
+      "italian": 1,
+      "avo_oil": 0.3333,
+      "pepper": 0.25,
+      "spinach": 10,
+      "olive_oil": 0.1667,
+      "garlic": 2,
+      "marinara": 1.5,
+      "mozz_log": 4,
+      "basil": 0.25
+    },
+    "builds": {
+      "with-3-oz-dry-pasta-3-cups-sauce": { "marinara": 3, "pasta": 12 },
+      "with-4-oz-dry-pasta-3-5-cups-sauce": { "marinara": 3.5, "pasta": 16 }
+    }
+  },
+  "garlic-sirloin-stir-fry": {
+    "basketLines": {
+      "top_sirloin": 1.5,
+      "bell_red": 1,
+      "bell_green": 2,
+      "onion": 2,
+      "mushrooms": 8,
+      "zucchini": 1,
+      "yellow_squash": 1,
+      "garlic": 8,
+      "avo_oil": 0.6667,
+      "sesame_oil": 0.3333,
+      "red_pepper": 0.25,
+      "soy": 1.5,
+      "oyster_sauce": 1,
+      "rice_vinegar": 0.5,
+      "brown_sugar": 0.32,
+      "ginger": 0.0625,
+      "cornstarch": 0.28,
+      "broth": 2,
+      "pepper": 0.25
+    },
+    "builds": {
+      "chicken": { "top_sirloin": 0, "chicken_breast": 1.5 }
+    }
+  },
+  "greek-chicken-bowl": {
+    "basketLines": {
+      "chicken_breast": 1.5,
+      "yogurt": 2,
+      "olive_oil": 0.5,
+      "lemon": 1.5,
+      "garlic": 5,
+      "oregano": 2,
+      "thyme": 0.5,
+      "onion_powder": 0.5,
+      "pepper": 0.25,
+      "cucumber": 2.5,
+      "herbs": 0.5,
+      "romaine": 2,
+      "cherry_tom": 10,
+      "red_onion": 0.5,
+      "feta": 3,
+      "pepperoncini": 8,
+      "chickpeas": 0.5
+    },
+    "builds": {
+      "no-chickpeas": { "chickpeas": 0 },
+      "lamb-leg-instead-of-chicken": { "chicken_breast": 0, "lamb_leg": 1.5 }
+    }
+  },
+  "southwest-sausage-hash-brown-bake": {
+    "basketLines": {
+      "sw_hashbrowns": 1,
+      "sausage_patties": 4,
+      "black_beans": 1,
+      "corn_nsa": 1,
+      "bell_red": 1,
+      "onion": 0.5,
+      "jalapeno": 0.1,
+      "garlic": 2,
+      "avo_oil": 0.4167,
+      "eggwhites": 24,
+      "cottage": 8,
+      "kerrygold_reserve": 2,
+      "scallions": 2,
+      "cilantro": 0.25,
+      "garlic_powder": 0.5,
+      "smoked_paprika": 0.5,
+      "cumin": 0.5,
+      "pepper": 0.25
+    }
+  },
+  "kickin-ranch": {
+    "basketLines": {
+      "yogurt": 0.5,
+      "milk": 0.2188,
+      "vinegar": 0.0625,
+      "garlic": 1,
+      "herbs": 0.5,
+      "onion_powder": 0.25,
+      "pepper": 0.125,
+      "sweet_paprika": 0.15,
+      "cayenne": 0.1,
+      "cumin": 0.05,
+      "garlic_powder": 0.05,
+      "sugar": 0.01,
+      "lemon": 0.1
+    }
+  }
+}

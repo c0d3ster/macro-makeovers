@@ -1,7 +1,8 @@
 import { cleanup, fireEvent, render, screen } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { BASKET_STORAGE_KEY } from '@/libs/basket'
+import { BASKET_STORAGE_KEY, recipeEntry } from '@/libs/basket'
+import { readContentCatalog } from '@/libs/basket/contentCatalog'
 import { BasketProvider } from '@/providers'
 
 import { BasketView } from './BasketView'
@@ -18,10 +19,12 @@ const RECIPES = {
   'turkey-taco-grillers': { title: 'Turkey Taco Grillers' },
 }
 
+const catalog = readContentCatalog()
+
 const renderBasket = (): void => {
   render(
     <BasketProvider>
-      <BasketView recipes={RECIPES} />
+      <BasketView catalog={catalog} recipes={RECIPES} />
     </BasketProvider>
   )
 }
@@ -29,8 +32,7 @@ const renderBasket = (): void => {
 const saveBasket = (slugs: string[]): void =>
   localStorage.setItem(
     BASKET_STORAGE_KEY,
-    // No servings saved reads as each recipe's own
-    JSON.stringify({ entries: slugs.map((slug) => ({ slug })) })
+    JSON.stringify({ entries: slugs.map((slug) => recipeEntry(catalog, slug)) })
   )
 
 describe('BasketView', () => {
@@ -75,5 +77,20 @@ describe('BasketView', () => {
     expect(
       screen.getAllByRole('button', { name: /^More servings of/ })
     ).toHaveLength(2)
+  })
+
+  it('drops a saved recipe that no longer has basket data', () => {
+    localStorage.setItem(
+      BASKET_STORAGE_KEY,
+      JSON.stringify({
+        entries: [recipeEntry(catalog, 'spicy-turkey-chili'), { slug: 'gone', servings: 2 }],
+      })
+    )
+    renderBasket()
+
+    expect(
+      screen.getAllByRole('button', { name: /^More servings of/ })
+    ).toHaveLength(1)
+    expect(localStorage.getItem(BASKET_STORAGE_KEY)).not.toContain('gone')
   })
 })

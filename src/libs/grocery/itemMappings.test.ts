@@ -1,8 +1,11 @@
 import { describe, expect, it } from 'vitest'
 
-import { BASKET_ITEMS } from '@/libs/basket'
+import { readContentCatalog } from '@/libs/basket/contentCatalog'
 
 import { measuresFor, searchTermFor, WALMART_ITEM_IDS } from './itemMappings'
+
+// The seed price book. Items added later through the connector get the same name-made term.
+const { items: BASKET_ITEMS } = readContentCatalog()
 
 const item = (key: string) => {
   const found = BASKET_ITEMS[key]

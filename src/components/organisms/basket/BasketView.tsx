@@ -3,12 +3,16 @@
 import type { ReactElement } from 'react'
 
 import Link from 'next/link'
+import { useEffect } from 'react'
+
+import type { BasketCatalog } from '@/libs/basket'
 
 import {
   compareToWritten,
   computeBasket,
+  findBasketRecipe,
   formatMoney,
-  PRICES_AS_OF,
+  hasBasketRecipe,
   recipeShares,
   suggestAddition,
 } from '@/libs/basket'
@@ -23,6 +27,8 @@ import { SendToCart } from './SendToCart'
 import { ShoppingList } from './ShoppingList'
 
 type BasketViewProps = {
+  // The price book and every published recipe's lines
+  catalog: BasketCatalog
   recipes: BasketRecipeLookup
 }
 
@@ -36,8 +42,30 @@ const formatDate = (isoDate: string): string =>
     year: 'numeric',
   })
 
-export const BasketView = ({ recipes }: BasketViewProps): ReactElement => {
-  const { entries, includePantry, isLoaded, add, clear } = useBasket()
+// "November 11, 2026", or "November 11 to 16, 2026" when the prices span several days
+const formatPriceDates = ({ pricedFrom, pricedThrough }: BasketCatalog): string => {
+  if (!pricedFrom || !pricedThrough || pricedFrom === pricedThrough) {
+    return pricedThrough ? formatDate(pricedThrough) : 'the snapshot date'
+  }
+  return `${formatDate(pricedFrom)} to ${formatDate(pricedThrough)}`
+}
+
+export const BasketView = ({ catalog, recipes }: BasketViewProps): ReactElement => {
+  const { entries: saved, includePantry, isLoaded, add, remove, clear } = useBasket()
+  // A recipe that lost its basket data or was unpublished drops out, the same as an old
+  // basket did on read. An empty catalog (one that failed to load) drops nothing.
+  const canPrune = catalog.recipes.length > 0
+  const entries = canPrune
+    ? saved.filter(({ slug }) => hasBasketRecipe(catalog, slug))
+    : saved
+  const gone = canPrune
+    ? saved.filter(({ slug }) => !hasBasketRecipe(catalog, slug)).map(({ slug }) => slug)
+    : []
+  const goneKey = gone.join(',')
+
+  useEffect(() => {
+    if (goneKey) goneKey.split(',').forEach(remove)
+  }, [goneKey, remove])
 
   if (!isLoaded) {
     return <p className='text-text-muted'>Loading your basket…</p>
@@ -65,8 +93,8 @@ export const BasketView = ({ recipes }: BasketViewProps): ReactElement => {
   }
 
   const options = { includePantry }
-  const totals = computeBasket(entries, options)
-  const suggestion = suggestAddition(entries, options)
+  const totals = computeBasket(catalog, entries, options)
+  const suggestion = suggestAddition(catalog, entries, options)
   const perishableNames = totals.lines
     .filter(
       ({ item, leftoverQuantity }) => item.perishable && leftoverQuantity > 0
@@ -96,11 +124,11 @@ export const BasketView = ({ recipes }: BasketViewProps): ReactElement => {
         <BasketRecipeList
           entries={entries}
           recipes={recipes}
-          shares={recipeShares(entries, options)}
+          shares={recipeShares(catalog, entries, options)}
         />
         <BasketSummary
           totals={totals}
-          comparison={compareToWritten(entries, options)}
+          comparison={compareToWritten(catalog, entries, options)}
           perishableNames={perishableNames}
         />
         {suggestion && (
@@ -120,7 +148,13 @@ export const BasketView = ({ recipes }: BasketViewProps): ReactElement => {
             </p>
             <button
               type='button'
-              onClick={() => add(suggestion.slug)}
+              onClick={() =>
+                add(
+                  suggestion.slug,
+                  undefined,
+                  findBasketRecipe(catalog, suggestion.slug)?.servings ?? 1
+                )
+              }
               className='cursor-pointer rounded-md border border-primary px-3 py-1.5 text-sm font-medium text-primary hover:bg-primary hover:text-on-primary'
             >
               Add it
@@ -135,7 +169,7 @@ export const BasketView = ({ recipes }: BasketViewProps): ReactElement => {
 
       <p className='text-sm text-text-muted'>
         Costs are estimates from the lowest prices found at national chains and
-        Martin&apos;s on {formatDate(PRICES_AS_OF)}. The total buys whole packs,
+        Martin&apos;s on {formatPriceDates(catalog)}. The total buys whole packs,
         and each recipe&apos;s cost per serving here is its share of those
         packs. Recipe pages count only what a recipe uses, so they read lower.
       </p>

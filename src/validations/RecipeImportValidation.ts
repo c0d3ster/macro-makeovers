@@ -15,6 +15,36 @@ export const recipeSlugSchema = z
     'Use lowercase words separated by hyphens'
   )
 const buildKeySchema = recipeSlugSchema
+// Basket price item keys, like "chicken_breast"
+export const basketItemKeySchema = z
+  .string()
+  .regex(/^[a-z0-9]+(?:_[a-z0-9]+)*$/, 'Use lowercase words separated by underscores')
+
+// Quantities are stored to 4 decimal places, so a value is rounded the same way on the way in
+// and a re-import of what was read back diffs clean
+const toStoredQuantity = (value: number): number => Math.round(value * 10_000) / 10_000
+
+const basketLinesSchema = z
+  .record(basketItemKeySchema, z.number().positive())
+  .describe(
+    'What one batch buys, by basket item key, in the item\'s unit (list_basket_items shows each unit). Prorated cost per serving is worked out from these and the item prices. A dish includes the lines of the sides and sauces it uses.'
+  )
+
+const buildBasketLinesSchema = z
+  .record(basketItemKeySchema, z.number().min(0))
+  .describe(
+    "Only when this build shops differently. Changes to the recipe's basketLines by item key: a new amount, a new item, or 0 to drop a line the build does not use."
+  )
+
+// Empty is the same as none, so it is left out and re-imports diff cleanly
+const normalizeLines = (
+  lines: Record<string, number> | undefined
+): Record<string, number> | undefined => {
+  if (!lines || Object.keys(lines).length === 0) return undefined
+  return Object.fromEntries(
+    Object.entries(lines).map(([key, quantity]) => [key, toStoredQuantity(quantity)])
+  )
+}
 const courseSchema = z.enum(RECIPE_COURSES)
 
 const macroFields = {
@@ -73,6 +103,7 @@ const buildSchema = z.object({
     .describe(
       'Only when this build is a different course, like a side salad that becomes a main with chicken. Falls back to the recipe course.'
     ),
+  basketLines: buildBasketLinesSchema.optional(),
 })
 
 // Which builds a row belongs to. Leave both out for every build, and never set both.
@@ -218,6 +249,8 @@ export const recipeImportSchema = z
     notes: z.array(noteSchema),
     // Sides and sauces this recipe uses, shown inline in its ingredients
     components: z.array(componentSchema).default([]),
+    // The shopping list for the basket. A recipe without it has no "Add to basket".
+    basketLines: basketLinesSchema.optional(),
   })
   .superRefine((recipe, ctx) => {
     if (recipe.variantOf === recipe.slug) {
@@ -248,7 +281,7 @@ export const recipeImportSchema = z
       })
     }
   })
-  .transform(({ builds: buildInput, nutrition, ...recipe }) => {
+  .transform(({ builds: buildInput, nutrition, basketLines, ...recipe }) => {
     // Old makeover rows become builds, in table order
     const asBuilds: BuildInput[] =
       buildInput ??
@@ -270,12 +303,14 @@ export const recipeImportSchema = z
       ...recipe,
       // Same set of tags in a stable order, so re-imports diff cleanly
       tags: [...new Set(recipe.tags)].sort(),
-      builds: keyed.map(({ swap, ...build }, index) => ({
+      ...(normalizeLines(basketLines) ? { basketLines: normalizeLines(basketLines) } : {}),
+      builds: keyed.map(({ swap, basketLines: buildLines, ...build }, index) => ({
         ...build,
         // With no default flagged, the first build is the featured one
         isDefault: hasDefault ? build.isDefault : index === 0,
         // An empty swap is the same as none, so it is left out and re-imports diff cleanly
         ...(swap && Object.keys(swap).length > 0 ? { swap } : {}),
+        ...(normalizeLines(buildLines) ? { basketLines: normalizeLines(buildLines) } : {}),
       })),
       nutrition: nutrition
         .filter(({ kind }) => kind === 'traditional')
@@ -421,6 +456,26 @@ export const recipeImportSchema = z
           code: 'custom',
           path: ['builds', index, 'key'],
           message: 'This build is left with no steps',
+        })
+      }
+    })
+
+    recipe.builds.forEach(({ basketLines }, index) => {
+      if (!basketLines) return
+      if (!recipe.basketLines) {
+        ctx.addIssue({
+          code: 'custom',
+          path: ['builds', index, 'basketLines'],
+          message: 'Add the recipe basketLines first. A build only changes them',
+        })
+        return
+      }
+      const kept = { ...recipe.basketLines, ...basketLines }
+      if (!Object.values(kept).some((quantity) => quantity > 0)) {
+        ctx.addIssue({
+          code: 'custom',
+          path: ['builds', index, 'basketLines'],
+          message: 'This build is left with nothing to buy',
         })
       }
     })

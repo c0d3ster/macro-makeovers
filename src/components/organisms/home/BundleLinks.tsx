@@ -8,7 +8,7 @@ import { AddBundleButton } from '@/components/molecules'
 import { formatMoney } from '@/libs/basket'
 
 export type BundleLink = {
-  recipes: { slug: string; title: string }[]
+  recipes: { slug: string; title: string; servings: number }[]
   saving: number
   comparison: BundleComparison
 }
@@ -48,7 +48,7 @@ export const BundleLinks = ({ bundles }: BundleLinksProps): ReactElement => (
           <span className='font-semibold text-text'>{formatMoney(saving)}</span>.
         </p>
         <div className='mt-auto'>
-          <AddBundleButton slugs={recipes.map(({ slug }) => slug)} />
+          <AddBundleButton recipes={recipes} />
         </div>
       </li>
     ))}

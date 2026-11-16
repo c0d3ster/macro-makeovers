@@ -4,12 +4,7 @@ import type { ReactNode } from 'react'
 
 import { useMemo, useState, useSyncExternalStore } from 'react'
 
-import {
-  BASKET_SLUGS,
-  EMPTY_BASKET,
-  recipeEntry,
-  setServings as withServings,
-} from '@/libs/basket'
+import { EMPTY_BASKET, setServings as withServings } from '@/libs/basket'
 
 import type { BasketContextValue } from './BasketContext'
 
@@ -55,12 +50,7 @@ export const BasketProvider = ({
       servingsOf: (slug) =>
         basket.entries.find((entry) => entry.slug === slug)?.servings,
       add: (slug, build, servings) => {
-        if (!BASKET_SLUGS.has(slug)) return
-        const entry = {
-          ...recipeEntry(slug),
-          ...(build ? { build } : {}),
-          ...(servings ? { servings } : {}),
-        }
+        const entry = { slug, ...(build ? { build } : {}), servings }
         update((current) => {
           const existing = current.entries.find((item) => item.slug === slug)
           if (!existing) {

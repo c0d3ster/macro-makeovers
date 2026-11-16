@@ -54,11 +54,15 @@ export const RecipeBody = ({
             ingredients={view.ingredients}
             components={view.components}
             baseServings={recipe.servings}
-            basket={{
-              slug: recipe.slug,
-              title: view.title,
-              build: view.build.isDefault ? undefined : view.build.key,
-            }}
+            {...(recipe.hasBasketLines
+              ? {
+                  basket: {
+                    slug: recipe.slug,
+                    title: view.title,
+                    build: view.build.isDefault ? undefined : view.build.key,
+                  },
+                }
+              : {})}
           />
         </div>
         <div className={RECIPE_BODY_STEPS}>

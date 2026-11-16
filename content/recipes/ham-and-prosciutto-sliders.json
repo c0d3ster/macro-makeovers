@@ -165,5 +165,14 @@
       "body": "**Load the onion and jalapeño** for flavor and volume at no calorie cost"
     }
   ],
-  "tags": ["sandwich", "pork", "oven", "quick", "high protein"]
+  "tags": ["sandwich", "pork", "oven", "quick", "high protein"],
+  "basketLines": {
+    "rolls": 12,
+    "ham": 18,
+    "prosciutto": 6,
+    "cheddar": 4,
+    "avocado": 1,
+    "onion": 0.5,
+    "jalapeno": 0.0625
+  }
 }

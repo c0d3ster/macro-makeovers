@@ -1,12 +1,42 @@
 import type { ReactNode } from 'react'
 
+import type { BasketPricing } from '@/apiClients'
 import type { FieldChange, ImportResult } from '@/libs/recipes'
+
+import { formatMoney } from '@/libs/basket'
 
 type ImportResultPanelProps = {
   result: ImportResult
   // A preview: nothing was written
   dryRun: boolean
+  // Each build's cost per serving, when the recipe has basket lines
+  basket?: BasketPricing
 }
+
+const TIERS = ['$', '$$', '$$$', '$$$$', '$$$$$']
+
+// Cost per serving and tier for each build, then any tier the prices disagree with
+const BasketPrices = ({ prices, warnings }: BasketPricing) =>
+  prices.length > 0 && (
+    <div className='mt-6 rounded-lg border border-text-muted/30 bg-surface p-4'>
+      <p className='font-semibold text-text'>Basket cost per serving</p>
+      <ul className='mt-3 space-y-1 text-sm text-text-muted'>
+        {prices.map(({ build, perServing, tier }) => (
+          <li key={build}>
+            <span className='text-text'>{build}</span>: {formatMoney(perServing)},{' '}
+            {TIERS[tier - 1]}
+          </li>
+        ))}
+      </ul>
+      {warnings.length > 0 && (
+        <ul className='mt-3 space-y-1 text-sm text-yellow-400'>
+          {warnings.map(({ path, message }) => (
+            <li key={`${path}|${message}`}>{message}</li>
+          ))}
+        </ul>
+      )}
+    </div>
+  )
 
 type PanelProps = {
   tone: 'good' | 'warn' | 'bad'
@@ -48,10 +78,14 @@ const Panel = ({ tone, title, children }: PanelProps) => (
   </div>
 )
 
-export const ImportResultPanel = ({
-  result,
-  dryRun,
-}: ImportResultPanelProps) => {
+export const ImportResultPanel = ({ basket, ...props }: ImportResultPanelProps) => (
+  <>
+    <ResultPanel {...props} />
+    {basket && props.result.status !== 'invalid' && <BasketPrices {...basket} />}
+  </>
+)
+
+const ResultPanel = ({ result, dryRun }: Omit<ImportResultPanelProps, 'basket'>) => {
   switch (result.status) {
     case 'invalid':
       return (

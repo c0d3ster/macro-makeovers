@@ -5,7 +5,6 @@ import type { ReactElement } from 'react'
 import Link from 'next/link'
 
 import { track } from '@/libs/analytics'
-import { BASKET_SLUGS } from '@/libs/basket'
 import { useBasket } from '@/providers'
 
 import { BasketIcon } from './BasketIcon'
@@ -15,23 +14,25 @@ type AddToBasketButtonProps = {
   title: string
   // The build to add. Missing means the default build.
   build?: string
-  // Servings to add, like the recipe page's stepper. Missing means the recipe's own.
-  servings?: number
+  // Servings to add: the recipe's own on a card, the stepper's on the recipe page
+  servings: number
+  // True on the recipe page, where the stepper can move off what the basket holds
+  followsStepper?: boolean
   // 'full' for the recipe page, 'compact' for the round button on a card photo
   variant?: 'full' | 'compact'
 }
 
-// Adds a recipe to the basket, or shows it is already there. Recipes without price data have
-// no basket lines yet, so they show nothing.
+// Adds a recipe to the basket, or shows it is already there. Only render it for a recipe with
+// basket lines (hasBasketLines on its card or page).
 export const AddToBasketButton = ({
   slug,
   title,
   build,
   servings,
+  followsStepper = false,
   variant = 'full',
-}: AddToBasketButtonProps): ReactElement | null => {
+}: AddToBasketButtonProps): ReactElement => {
   const { has, hasRecipe, servingsOf, add, remove, isLoaded } = useBasket()
-  if (!BASKET_SLUGS.has(slug)) return null
   const inBasket = has(slug, build)
   // Another build of this recipe is in the basket, and adding this one swaps it
   const otherBuild = !inBasket && hasRecipe(slug)
@@ -89,7 +90,7 @@ export const AddToBasketButton = ({
     const inBasketServings = servingsOf(slug)
     // The page's stepper moved off what the basket holds, so offer to match it
     const canUpdate =
-      servings !== undefined &&
+      followsStepper &&
       inBasketServings !== undefined &&
       servings !== inBasketServings
 

@@ -4,8 +4,10 @@ import type { ReactElement } from 'react'
 import type { BasketRecipeLookup } from '@/components/organisms'
 
 import { basketRecipeKey, BasketView } from '@/components/organisms'
+import type { BasketCatalog } from '@/libs/basket'
+
 import { LandingPageTemplate } from '@/components/templates'
-import { BASKET_SLUGS } from '@/libs/basket'
+import { EMPTY_CATALOG, hasBasketRecipe } from '@/libs/basket'
 import { logger } from '@/libs/Logger'
 import { services } from '@/services'
 
@@ -19,12 +21,14 @@ export const metadata: Metadata = {
 
 // Titles and photos for the recipes that have basket data. The basket still works without
 // them, showing names made from the slugs.
-const loadBasketRecipes = async (): Promise<BasketRecipeLookup> => {
+const loadBasketRecipes = async (
+  catalog: BasketCatalog
+): Promise<BasketRecipeLookup> => {
   try {
     const cards = await services.recipeService.getRecipeCards()
     return Object.fromEntries(
       cards
-        .filter(({ slug }) => BASKET_SLUGS.has(slug))
+        .filter(({ slug }) => hasBasketRecipe(catalog, slug))
         .flatMap(({ slug, title, imageUrl, builds }) => [
           [slug, { title, imageUrl }],
           ...builds
@@ -41,8 +45,20 @@ const loadBasketRecipes = async (): Promise<BasketRecipeLookup> => {
   }
 }
 
+// Prices and every published recipe's lines. Empty when they can't be loaded, so the page
+// still shows and the saved basket is kept.
+const loadCatalog = async (): Promise<BasketCatalog> => {
+  try {
+    return await services.basketService.getCatalog()
+  } catch (error) {
+    logger.error('Could not load basket prices', { error })
+    return EMPTY_CATALOG
+  }
+}
+
 const BasketPage = async (): Promise<ReactElement> => {
-  const recipes = await loadBasketRecipes()
+  const catalog = await loadCatalog()
+  const recipes = await loadBasketRecipes(catalog)
 
   return (
     <LandingPageTemplate activeItem='basket'>
@@ -56,7 +72,7 @@ const BasketPage = async (): Promise<ReactElement> => {
           store. Totals are estimated subtotals: your store&apos;s prices will
           differ, and state and local sales tax is added on top at checkout.
         </p>
-        <BasketView recipes={recipes} />
+        <BasketView catalog={catalog} recipes={recipes} />
       </main>
     </LandingPageTemplate>
   )

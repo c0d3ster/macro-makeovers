@@ -222,5 +222,30 @@
       "body": "**Not crispy enough:** more oil spray, or toast the panko longer"
     }
   ],
-  "tags": ["pork", "air fryer", "sheet pan", "high protein", "comfort food"]
+  "tags": ["pork", "air fryer", "sheet pan", "high protein", "comfort food"],
+  "basketLines": {
+    "pork_chops": 1.5,
+    "flour": 1.5,
+    "cornstarch": 0.85,
+    "eggs": 2,
+    "panko": 1.76,
+    "avo_oil": 1.08,
+    "baby_pot": 1.5,
+    "broccoli": 0.8,
+    "garlic": 6,
+    "garlic_powder": 3,
+    "parm": 2,
+    "olive_oil": 0.333,
+    "scallions": 4,
+    "broth": 4,
+    "lemon": 0.5,
+    "cottage": 4,
+    "milk": 0.125,
+    "butter": 1,
+    "sweet_paprika": 3,
+    "onion_powder": 2,
+    "brown_sugar": 0.14,
+    "pepper": 0.5,
+    "cayenne": 0.25
+  }
 }

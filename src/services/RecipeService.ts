@@ -14,9 +14,12 @@ import type {
   AdminRecipe,
   DeleteRecipeResult,
 } from '@/libs/recipes/RecipeRepository'
+import type { RecipePricing } from '@/libs/basket'
 import type { schemas } from '@/models'
 
 import { ImportRecipeStatus } from '@/graphql/schema'
+import { priceRecipe } from '@/libs/basket'
+import { BasketRepository } from '@/libs/basket/BasketRepository'
 import { triggerBookRebuild } from '@/libs/bookRebuild'
 import { db } from '@/libs/DB'
 import { logger } from '@/libs/Logger'
@@ -93,11 +96,14 @@ const STATUS_BY_RESULT: Record<ImportResult['status'], ImportRecipeStatus> = {
 
 // Flattens the library's union into one GraphQL object. Both lists are always present, so a
 // client never has to null-check them.
-const toImportRecipeResult = (result: ImportResult): ImportRecipeResult => {
+const toImportRecipeResult = (
+  result: ImportResult,
+  { prices, warnings }: RecipePricing = { prices: [], warnings: [] }
+): ImportRecipeResult => {
   const status = STATUS_BY_RESULT[result.status]
 
   if (result.status === 'invalid') {
-    return { status, issues: result.issues, changes: [] }
+    return { status, issues: result.issues, changes: [], basketPrices: [], warnings: [] }
   }
 
   return {
@@ -106,6 +112,8 @@ const toImportRecipeResult = (result: ImportResult): ImportRecipeResult => {
     ...('id' in result && result.id ? { id: result.id } : {}),
     issues: [],
     changes: 'changes' in result ? result.changes : [],
+    basketPrices: prices,
+    warnings,
   }
 }
 
@@ -137,7 +145,25 @@ export class RecipeService {
       await this.rebuildBookIfPublished(result.id)
     }
 
-    return toImportRecipeResult(result)
+    return toImportRecipeResult(result, await this.priceImport(input, result))
+  }
+
+  // What the recipe's basket lines cost per serving, so the importer sees the tier before
+  // saving. Never throws: pricing is a check on the side of the import.
+  private async priceImport(
+    input: unknown,
+    result: ImportResult
+  ): Promise<RecipePricing | undefined> {
+    if (result.status === 'invalid') return undefined
+    const parsed = recipeImportSchema.safeParse(input)
+    if (!parsed.success || !parsed.data.basketLines) return undefined
+    try {
+      const items = await new BasketRepository(this.database).getItems()
+      return priceRecipe(items, parsed.data)
+    } catch (error) {
+      logger.warn('Could not price the recipe basket', { error: String(error) })
+      return undefined
+    }
   }
 
   private reader(): RecipeRepository {

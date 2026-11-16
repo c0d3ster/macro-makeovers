@@ -1,6 +1,6 @@
-import type { BasketEntry } from './basketTypes'
+import type { BasketCatalog, BasketEntry } from './basketTypes'
 
-import { BASKET_SLUGS, findBasketRecipe } from './basketMath'
+import { findBasketRecipe, hasBasketRecipe } from './basketMath'
 
 // The basket as the browser keeps it between visits
 export type StoredBasket = {
@@ -27,15 +27,17 @@ const isRecord = (value: unknown): value is Record<string, unknown> =>
 const clampServings = (value: number): number =>
   Math.min(MAX_SERVINGS, Math.max(MIN_SERVINGS, Math.round(value)))
 
-// Keeps entries for recipes that still have basket data, one per slug, with sane servings
-const toEntries = (value: unknown): BasketEntry[] => {
+// One entry per slug with sane servings. With a catalog, only recipes that still have basket
+// data are kept. The browser reads without one, so a catalog that failed to load never empties
+// a saved basket, and the basket page leaves unknown recipes out instead.
+const toEntries = (value: unknown, catalog?: BasketCatalog): BasketEntry[] => {
   if (!Array.isArray(value)) return []
   const seen = new Set<string>()
   return value.flatMap((entry: unknown): BasketEntry[] => {
     if (!isRecord(entry)) return []
     const { slug, build, servings } = entry
-    if (typeof slug !== 'string' || !BASKET_SLUGS.has(slug) || seen.has(slug))
-      return []
+    if (typeof slug !== 'string' || !slug || seen.has(slug)) return []
+    if (catalog && !hasBasketRecipe(catalog, slug)) return []
     seen.add(slug)
     return [
       {
@@ -44,14 +46,17 @@ const toEntries = (value: unknown): BasketEntry[] => {
         servings:
           typeof servings === 'number'
             ? clampServings(servings)
-            : (findBasketRecipe(slug)?.servings ?? MIN_SERVINGS),
+            : ((catalog && findBasketRecipe(catalog, slug)?.servings) ?? MIN_SERVINGS),
       },
     ]
   })
 }
 
 // Browser storage is untrusted: an old version, a hand edit, or junk all fall back safely
-export const parseStoredBasket = (raw: string | null): StoredBasket => {
+export const parseStoredBasket = (
+  raw: string | null,
+  catalog?: BasketCatalog
+): StoredBasket => {
   if (!raw) return EMPTY_BASKET
   let value: unknown
   try {
@@ -62,7 +67,7 @@ export const parseStoredBasket = (raw: string | null): StoredBasket => {
   if (!isRecord(value)) return EMPTY_BASKET
 
   return {
-    entries: toEntries(value.entries),
+    entries: toEntries(value.entries, catalog),
     includePantry: value.includePantry === true,
     checked: Array.isArray(value.checked)
       ? value.checked.filter((key): key is string => typeof key === 'string')

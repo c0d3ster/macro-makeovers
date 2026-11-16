@@ -8,7 +8,10 @@ import type { schemas } from '@/models'
 import type { RecipeImport } from '@/validations'
 
 import {
+  basketItems,
   ingredients,
+  recipeBasketLines,
+  recipeBuildBasketLines,
   recipeBuilds,
   recipeComponents,
   recipeNotes,
@@ -100,8 +103,9 @@ const upsertBuilds = async (
   tx: Tx,
   recipeId: string,
   builds: RecipeImport['builds']
-): Promise<void> => {
+): Promise<Map<string, string>> => {
   const keys = builds.map(({ key }) => key)
+  const ids = new Map<string, string>()
   await tx
     .delete(recipeBuilds)
     .where(
@@ -135,13 +139,63 @@ const upsertBuilds = async (
       cookMinutes: build.cookMinutes ?? null,
       course: build.course ?? null,
     }
-    await tx
+    const [row] = await tx
       .insert(recipeBuilds)
       .values({ recipeId, key: build.key, ...fields })
       .onConflictDoUpdate({
         target: [recipeBuilds.recipeId, recipeBuilds.key],
         set: fields,
       })
+      .returning({ id: recipeBuilds.id })
+    if (row) ids.set(build.key, row.id)
+  }
+  return ids
+}
+
+// Lines in the order they were stored in, as the import's record
+const toLineRecord = (
+  rows: { itemKey: string; quantity: number }[]
+): Record<string, number> | undefined =>
+  rows.length > 0
+    ? Object.fromEntries(rows.map(({ itemKey, quantity }) => [itemKey, quantity]))
+    : undefined
+
+const toLineRows = (
+  lines: Record<string, number> | undefined
+): { itemKey: string; quantity: number; position: number }[] =>
+  Object.entries(lines ?? {}).map(([itemKey, quantity], position) => ({
+    itemKey,
+    quantity,
+    position,
+  }))
+
+// Every basket line has to name a price item that exists
+const checkBasketItems = async (
+  reader: Reader,
+  { basketLines, builds }: RecipeImport
+): Promise<void> => {
+  const used = [
+    ...Object.keys(basketLines ?? {}).map((key) => ({ key, path: `basketLines.${key}` })),
+    ...builds.flatMap((build, index) =>
+      Object.keys(build.basketLines ?? {}).map((key) => ({
+        key,
+        path: `builds[${index}].basketLines.${key}`,
+      }))
+    ),
+  ]
+  if (used.length === 0) return
+
+  const found = await reader
+    .select({ key: basketItems.key })
+    .from(basketItems)
+    .where(inArray(basketItems.key, [...new Set(used.map(({ key }) => key))]))
+  const known = new Set(found.map(({ key }) => key))
+  const missing = used.find(({ key }) => !known.has(key))
+  if (missing) {
+    throw new RecipeRuleError(
+      missing.path,
+      `No basket item has the key "${missing.key}". Add it with save_basket_items first`
+    )
   }
 }
 
@@ -209,6 +263,29 @@ const readSnapshot = async (
     .innerJoin(recipes, eq(recipes.id, recipeComponents.componentId))
     .where(eq(recipeComponents.recipeId, recipeId))
     .orderBy(asc(recipeComponents.position))
+  const lineRows = await reader
+    .select({ itemKey: recipeBasketLines.itemKey, quantity: recipeBasketLines.quantity })
+    .from(recipeBasketLines)
+    .where(eq(recipeBasketLines.recipeId, recipeId))
+    .orderBy(asc(recipeBasketLines.position))
+  const buildLineRows = buildRows.length
+    ? await reader
+        .select({
+          buildId: recipeBuildBasketLines.buildId,
+          itemKey: recipeBuildBasketLines.itemKey,
+          quantity: recipeBuildBasketLines.quantity,
+        })
+        .from(recipeBuildBasketLines)
+        .where(
+          inArray(
+            recipeBuildBasketLines.buildId,
+            buildRows.map(({ id }) => id)
+          )
+        )
+        .orderBy(asc(recipeBuildBasketLines.position))
+    : []
+  const linesForBuild = (buildId: string): Record<string, number> | undefined =>
+    toLineRecord(buildLineRows.filter((row) => row.buildId === buildId))
 
   return withoutNulls({
     slug: recipe.slug,
@@ -243,6 +320,7 @@ const readSnapshot = async (
         prepMinutes: row.prepMinutes,
         cookMinutes: row.cookMinutes,
         course: row.course,
+        basketLines: linesForBuild(row.id),
       })
     ),
     nutrition: nutritionRows.map((row) => ({
@@ -285,6 +363,7 @@ const readSnapshot = async (
         ...readScope(row),
       })
     ),
+    basketLines: toLineRecord(lineRows),
   }) as RecipeImport
 }
 
@@ -432,8 +511,26 @@ const replaceChildren = async (
   await tx.delete(steps).where(eq(steps.recipeId, recipeId))
   await tx.delete(recipeNotes).where(eq(recipeNotes.recipeId, recipeId))
   await tx.delete(recipeTags).where(eq(recipeTags.recipeId, recipeId))
+  await tx.delete(recipeBasketLines).where(eq(recipeBasketLines.recipeId, recipeId))
 
-  await upsertBuilds(tx, recipeId, recipe.builds)
+  const buildIds = await upsertBuilds(tx, recipeId, recipe.builds)
+  if (buildIds.size > 0) {
+    await tx
+      .delete(recipeBuildBasketLines)
+      .where(inArray(recipeBuildBasketLines.buildId, [...buildIds.values()]))
+  }
+
+  const lines = toLineRows(recipe.basketLines)
+  if (lines.length > 0) {
+    await tx.insert(recipeBasketLines).values(lines.map((line) => ({ recipeId, ...line })))
+  }
+  const buildLines = recipe.builds.flatMap(({ key, basketLines }) => {
+    const buildId = buildIds.get(key)
+    return buildId ? toLineRows(basketLines).map((line) => ({ buildId, ...line })) : []
+  })
+  if (buildLines.length > 0) {
+    await tx.insert(recipeBuildBasketLines).values(buildLines)
+  }
 
   // Position is the index in the import, so order survives the round trip
   if (recipe.nutrition.length > 0) {
@@ -562,6 +659,7 @@ export class RecipeRepository {
   validateRecipe = async (recipe: RecipeImport): Promise<void> => {
     await resolveBaseId(this.database, recipe)
     await resolveComponents(this.database, recipe)
+    await checkBasketItems(this.database, recipe)
   }
 
   // A new recipe lands as a draft
@@ -570,6 +668,7 @@ export class RecipeRepository {
       .transaction(async (tx) => {
         const variantOf = await resolveBaseId(tx, recipe)
         const components = await resolveComponents(tx, recipe)
+        await checkBasketItems(tx, recipe)
         const [row] = await tx
           .insert(recipes)
           .values({ slug: recipe.slug, ...variantFields(recipe, variantOf) })
@@ -597,6 +696,7 @@ export class RecipeRepository {
     this.database.transaction(async (tx) => {
       const variantOf = await resolveBaseId(tx, recipe)
       const components = await resolveComponents(tx, recipe)
+      await checkBasketItems(tx, recipe)
       const [row] = await tx
         .update(recipes)
         .set(variantFields(recipe, variantOf))
@@ -630,6 +730,8 @@ export class RecipeRepository {
       },
     })
 
+    const shoppable = await this.listRecipeIdsWithBasketLines()
+
     return rows.flatMap((row) => {
       // A dish can list one component twice for different builds, and counts once
       const users = new Set(
@@ -638,7 +740,7 @@ export class RecipeRepository {
         )
       )
       const card = toRecipeCard({ ...row, usedInCount: users.size })
-      return card ? [card] : []
+      return card ? [{ ...card, hasBasketLines: shoppable.has(row.id) }] : []
     })
   }
 
@@ -697,7 +799,12 @@ export class RecipeRepository {
     })
     if (!row) return undefined
 
-    return toRecipeDetail(row, {
+    const [line] = await this.database
+      .select({ recipeId: recipeBasketLines.recipeId })
+      .from(recipeBasketLines)
+      .where(eq(recipeBasketLines.recipeId, row.id))
+      .limit(1)
+    const detail = toRecipeDetail(row, {
       // A draft base stays hidden from the public page
       baseRecipe:
         row.base?.status === 'published'
@@ -715,6 +822,15 @@ export class RecipeRepository {
         ).values(),
       ].sort((a, b) => a.title.localeCompare(b.title)),
     })
+    return detail && { ...detail, hasBasketLines: line !== undefined }
+  }
+
+  // Recipes with a shopping list, so their cards and pages show "Add to basket"
+  private listRecipeIdsWithBasketLines = async (): Promise<Set<string>> => {
+    const rows = await this.database
+      .selectDistinct({ recipeId: recipeBasketLines.recipeId })
+      .from(recipeBasketLines)
+    return new Set(rows.map(({ recipeId }) => recipeId))
   }
 
   // Slugs of the recipes that use this one as a component, so their pages refresh with it

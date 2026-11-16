@@ -62,14 +62,17 @@ export const RecipeGrid = ({
               can't go inside a link */}
           <li className='relative'>
             <RecipeCard recipe={recipe} fit={fits?.[recipe.slug]} />
-            <div className='absolute top-3 right-3'>
-              <AddToBasketButton
-                slug={recipe.slug}
-                title={recipe.title}
-                build={recipe.build.isDefault ? undefined : recipe.build.key}
-                variant='compact'
-              />
-            </div>
+            {recipe.hasBasketLines && (
+              <div className='absolute top-3 right-3'>
+                <AddToBasketButton
+                  slug={recipe.slug}
+                  title={recipe.title}
+                  build={recipe.build.isDefault ? undefined : recipe.build.key}
+                  servings={recipe.servings}
+                  variant='compact'
+                />
+              </div>
+            )}
           </li>
         </Fragment>
       ))}

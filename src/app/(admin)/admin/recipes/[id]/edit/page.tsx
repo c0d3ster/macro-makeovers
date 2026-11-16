@@ -13,7 +13,7 @@ import { RecipeEditorTemplate } from '@/components/templates'
 import { Env } from '@/libs/Env'
 import { logger } from '@/libs/Logger'
 
-import { loadEditableRecipe } from '../../../loadAdminRecipes'
+import { loadBasketItems, loadEditableRecipe } from '../../../loadAdminRecipes'
 
 export const metadata: Metadata = {
   title: `Edit recipe - ${Env.NEXT_PUBLIC_BRAND_NAME}`,
@@ -28,11 +28,14 @@ const EditRecipePage = async ({
   params,
 }: EditRecipePageProps): Promise<ReactElement> => {
   const { id } = await params
-  const editable = await loadEditableRecipe(id).catch((error) => {
+  const [editable, basketItems] = await Promise.all([
+    loadEditableRecipe(id).catch((error) => {
     // A malformed id, a missing recipe, and a failed lookup all end at the 404 page
-    logger.error('Could not load the recipe to edit', { id, error })
-    return undefined
-  })
+      logger.error('Could not load the recipe to edit', { id, error })
+      return undefined
+    }),
+    loadBasketItems(),
+  ])
   if (!editable) notFound()
   const { recipe, status, imageUrl, buildImages } = editable
 
@@ -63,6 +66,7 @@ const EditRecipePage = async ({
         initial={recipe}
         imageUrl={imageUrl}
         buildImages={buildImages}
+        basketItems={basketItems}
       />
     </RecipeEditorTemplate>
   )

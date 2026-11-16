@@ -85,6 +85,8 @@ export type RecipeDetail = {
   // 1 to 5, missing when the dish is not spicy
   spiceLevel?: number
   tags: string[]
+  // Has basket lines, so the page offers "Add to basket"
+  hasBasketLines?: boolean
   // Every build in table order
   builds: RecipeBuild[]
   // The build the page leads with

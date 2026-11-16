@@ -42,6 +42,8 @@
     "book:md:db": "tsx --env-file=.env --env-file-if-exists=.env.local scripts/buildBookFromDb.ts",
     "recipe:import": "tsx --env-file=.env --env-file-if-exists=.env.local scripts/importRecipes.ts",
     "recipe:import:prod": "tsx --env-file=.env.production --env-file-if-exists=.env.production.local scripts/importRecipes.ts",
+    "basket:sync": "tsx --env-file=.env --env-file-if-exists=.env.local scripts/syncBasket.ts",
+    "basket:sync:prod": "tsx --env-file=.env.production --env-file-if-exists=.env.production.local scripts/syncBasket.ts",
     "photos:backfill": "tsx --env-file=.env --env-file-if-exists=.env.local scripts/backfillPhotoUrls.ts",
     "photos:backfill:prod": "tsx --env-file=.env.production --env-file-if-exists=.env.production.local scripts/backfillPhotoUrls.ts",
     "db:pull": "drizzle-kit pull"

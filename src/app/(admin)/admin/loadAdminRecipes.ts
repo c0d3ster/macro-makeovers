@@ -1,9 +1,11 @@
 import { notFound } from 'next/navigation'
 
+import type { BasketItemRecord } from '@/libs/basket/BasketRepository'
 import type { RecipeDetail, RecipeStatus } from '@/libs/recipes'
 import type { AdminRecipe } from '@/libs/recipes/RecipeRepository'
 import type { RecipeImportInput } from '@/validations'
 
+import { logger } from '@/libs/Logger'
 import { isOwner } from '@/libs/supabase/owner'
 import { services } from '@/services'
 
@@ -51,5 +53,17 @@ export const loadEditableRecipe = async (
     imageUrl: editable.imageUrl,
     buildImages: editable.buildImages,
     recipe: editable.recipe as RecipeImportInput,
+  }
+}
+
+// The basket price book, for the editor's shopping list. Empty when it can't be loaded, so the
+// rest of the editor still works and saved lines are kept.
+export const loadBasketItems = async (): Promise<BasketItemRecord[]> => {
+  await requireOwner()
+  try {
+    return await services.basketService.listItems()
+  } catch (error) {
+    logger.error('Could not load basket items for the editor', { error })
+    return []
   }
 }

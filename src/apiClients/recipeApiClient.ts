@@ -1,6 +1,7 @@
 import gql from 'graphql-tag'
 
 import type { ImportRecipeMutation } from '@/graphql/generated/graphql'
+import type { BuildPrice, RecipePricing } from '@/libs/basket'
 import type { ImportIssue, ImportResult, RecipeStatus } from '@/libs/recipes'
 
 import {
@@ -36,6 +37,16 @@ export const IMPORT_RECIPE = gql`
         path
         before
         after
+      }
+      basketPrices {
+        build
+        perServing
+        tier
+        statedTier
+      }
+      warnings {
+        path
+        message
       }
     }
   }
@@ -95,6 +106,19 @@ export const toImportResult = ({
       return { status: 'conflict', slug: slug ?? '', changes: fieldChanges }
   }
 }
+
+// Each build's cost per serving from its basket lines, and tiers the prices disagree with
+export type BasketPricing = Pick<RecipePricing, 'warnings'> & {
+  prices: BuildPrice[]
+}
+
+export const toBasketPricing = ({
+  basketPrices,
+  warnings,
+}: ImportRecipePayload): BasketPricing => ({
+  prices: basketPrices.map((price) => ({ ...price })),
+  warnings: warnings.map((warning) => ({ ...warning })),
+})
 
 export type SaveRecipeResult =
   | { ok: true; id: string; slug: string; summary: string }

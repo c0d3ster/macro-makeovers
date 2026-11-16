@@ -6,11 +6,13 @@ import { RecipeForm } from '@/components/organisms'
 import { RecipeEditorTemplate } from '@/components/templates'
 import { Env } from '@/libs/Env'
 
+import { loadBasketItems } from '../../loadAdminRecipes'
+
 export const metadata: Metadata = {
   title: `New recipe - ${Env.NEXT_PUBLIC_BRAND_NAME}`,
 }
 
-const NewRecipePage = (): ReactElement => (
+const NewRecipePage = async (): Promise<ReactElement> => (
   <RecipeEditorTemplate
     title='New recipe'
     toolbarStart={
@@ -20,7 +22,7 @@ const NewRecipePage = (): ReactElement => (
       </>
     }
   >
-    <RecipeForm />
+    <RecipeForm basketItems={await loadBasketItems()} />
   </RecipeEditorTemplate>
 )
 

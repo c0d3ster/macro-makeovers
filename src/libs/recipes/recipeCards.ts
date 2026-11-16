@@ -36,6 +36,8 @@ export type RecipeCard = CardFace & {
   original?: { proteinG: number; carbsG: number; fatG: number }
   // Published dishes that use this recipe as a side or sauce
   usedInCount: number
+  // Has basket lines, so the card can be added to the basket
+  hasBasketLines?: boolean
 }
 
 type NutritionRow = MacroValues & {

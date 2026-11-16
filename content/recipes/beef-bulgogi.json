@@ -27,7 +27,11 @@
       "calories": 555,
       "carbsG": 51,
       "fatG": 18,
-      "proteinG": 46
+      "proteinG": 46,
+      "basketLines": {
+        "ribeye": 0,
+        "flank": 1.5
+      }
     }
   ],
   "nutrition": [
@@ -187,5 +191,20 @@
       "body": "**Pear:** Bosc pear or apple works in place of Asian pear"
     }
   ],
-  "tags": ["beef", "rice", "stovetop", "high protein", "batch friendly"]
+  "tags": ["beef", "rice", "stovetop", "high protein", "batch friendly"],
+  "basketLines": {
+    "ribeye": 24,
+    "soy": 2.67,
+    "brown_sugar": 1,
+    "sesame_oil": 0.5,
+    "pear": 1,
+    "garlic": 4,
+    "ginger": 0.0044,
+    "pepper": 0.25,
+    "onion": 0.5,
+    "avo_oil": 0.167,
+    "black_rice": 6.7,
+    "scallions": 4,
+    "sesame_seeds": 0.1
+  }
 }

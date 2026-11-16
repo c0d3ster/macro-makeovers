@@ -15,6 +15,7 @@ async function createSchema(): Promise<GraphQLSchema> {
   if (!schemaPromise) {
     schemaPromise = buildSchema({
       resolvers: [
+        resolverClasses.BasketResolver,
         resolverClasses.BillingResolver,
         resolverClasses.ContactResolver,
         resolverClasses.EmailSubscriptionResolver,
@@ -26,6 +27,8 @@ async function createSchema(): Promise<GraphQLSchema> {
       validate: false,
       container: {
         get(someClass) {
+          if (someClass === resolverClasses.BasketResolver)
+            return new resolverClasses.BasketResolver(services.basketService)
           if (someClass === resolverClasses.BillingResolver)
             return new resolverClasses.BillingResolver(services.billingService)
           if (someClass === resolverClasses.ContactResolver)

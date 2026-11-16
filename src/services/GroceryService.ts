@@ -30,6 +30,8 @@ import { hasKrogerConnection } from '@/libs/grocery/krogerSession'
 import { logger } from '@/libs/Logger'
 import { cartHandoffs, memberGrocer } from '@/models'
 
+import type { BasketService } from './BasketService'
+
 import { GroceryError } from './GroceryError'
 
 // The GraphQL enum and the lib's union hold the same strings, but TypeScript keeps string enums
@@ -58,6 +60,8 @@ type HandoffLog = {
 }
 
 export class GroceryService {
+  constructor(private basketService: BasketService) {}
+
   private async remembered(userId: string): Promise<Remembered | undefined> {
     const row = await db.query.memberGrocer.findFirst({
       where: eq(memberGrocer.userId, userId),
@@ -164,16 +168,18 @@ export class GroceryService {
     if (!adapter)
       throw new GroceryError('GROCER_UNAVAILABLE', 'That grocer is not available right now.')
 
-    // The same checks the browser's saved basket goes through: unknown recipes and bad
-    // servings are dropped, so the server decides what the basket buys
+    // The same checks the browser's saved basket goes through, plus dropping recipes with no
+    // basket data, so the server decides what the basket buys
+    const catalog = await this.basketService.getCatalog()
     const basket = parseStoredBasket(
       JSON.stringify({
         entries: input.entries,
         includePantry: input.includePantry,
         checked: input.checked,
-      })
+      }),
+      catalog
     )
-    const { lines: basketLines } = computeBasket(basket.entries, {
+    const { lines: basketLines } = computeBasket(catalog, basket.entries, {
       includePantry: basket.includePantry,
     })
     const lines = toHandoffLines(basketLines, new Set(basket.checked))

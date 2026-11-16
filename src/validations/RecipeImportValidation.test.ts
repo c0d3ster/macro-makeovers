@@ -324,3 +324,55 @@ describe('recipeImportSchema courses and components', () => {
     ).toEqual(['components.0.onlyBuilds'])
   })
 })
+
+describe('recipeImportSchema basket lines', () => {
+  it('keeps lines and build changes, rounded the way they are stored', () => {
+    const result = recipeImportSchema.parse({
+      ...sampleRecipe,
+      basketLines: { turkey: 1, lime: 1 / 3 },
+      builds: [
+        { ...base, basketLines: { turkey: 0, ground_beef: 1 } },
+        { ...loaded, basketLines: {} },
+      ],
+    })
+
+    expect(result.basketLines).toEqual({ turkey: 1, lime: 0.3333 })
+    expect(result.builds[0]?.basketLines).toEqual({ turkey: 0, ground_beef: 1 })
+    // An empty set of changes is the same as none
+    expect(result.builds[1]).not.toHaveProperty('basketLines')
+  })
+
+  it('leaves out empty recipe lines', () => {
+    expect(
+      recipeImportSchema.parse({ ...sampleRecipe, basketLines: {} })
+    ).not.toHaveProperty('basketLines')
+  })
+
+  it('rejects bad keys and amounts', () => {
+    expect(
+      issuePaths({ ...sampleRecipe, basketLines: { 'Ground Turkey': 1 } })
+    ).toEqual(['basketLines.Ground Turkey'])
+    expect(issuePaths({ ...sampleRecipe, basketLines: { turkey: 0 } })).toEqual([
+      'basketLines.turkey',
+    ])
+  })
+
+  it('needs recipe lines before a build can change them', () => {
+    expect(
+      issuePaths({
+        ...sampleRecipe,
+        builds: [{ ...base, basketLines: { turkey: 1 } }],
+      })
+    ).toEqual(['builds.0.basketLines'])
+  })
+
+  it('rejects a build left with nothing to buy', () => {
+    expect(
+      issuePaths({
+        ...sampleRecipe,
+        basketLines: { turkey: 1 },
+        builds: [{ ...base, basketLines: { turkey: 0 } }],
+      })
+    ).toEqual(['builds.0.basketLines'])
+  })
+})

@@ -1,4 +1,5 @@
 // Export all schema types for use in resolvers and other parts of the application
+export * from './basket'
 export * from './billing'
 export * from './contact'
 export * from './emailSubscription'

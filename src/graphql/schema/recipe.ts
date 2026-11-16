@@ -1,5 +1,5 @@
 import { GraphQLScalarType, valueFromASTUntyped } from 'graphql'
-import { Field, ObjectType, registerEnumType } from 'type-graphql'
+import { Field, Float, Int, ObjectType, registerEnumType } from 'type-graphql'
 
 // A recipe is a nested document that the shared Zod schema already validates, so it travels as
 // JSON instead of being described a second time as GraphQL input types
@@ -47,6 +47,24 @@ export class RecipeFieldChange {
   after?: unknown
 }
 
+@ObjectType('BasketBuildPrice', {
+  description:
+    "A build's cost per serving from its basket lines, prorated by what it uses, spices included",
+})
+export class BasketBuildPrice {
+  @Field(() => String)
+  build!: string
+
+  @Field(() => Float)
+  perServing!: number
+
+  @Field(() => Int, { description: 'The $ tier that cost lands in, 1 to 5' })
+  tier!: number
+
+  @Field(() => Int, { description: 'The tier the recipe or build says it is' })
+  statedTier!: number
+}
+
 @ObjectType('ImportRecipeResult')
 export class ImportRecipeResult {
   @Field(() => ImportRecipeStatus)
@@ -63,4 +81,14 @@ export class ImportRecipeResult {
 
   @Field(() => [RecipeFieldChange])
   changes!: RecipeFieldChange[]
+
+  @Field(() => [BasketBuildPrice], {
+    description: 'Cost per serving for each build, when the recipe has basketLines',
+  })
+  basketPrices!: BasketBuildPrice[]
+
+  @Field(() => [RecipeImportIssue], {
+    description: 'Worth a look, but not blocking, like a cost tier the prices disagree with',
+  })
+  warnings!: RecipeImportIssue[]
 }
