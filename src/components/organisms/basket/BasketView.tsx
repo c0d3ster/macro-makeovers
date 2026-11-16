@@ -168,8 +168,9 @@ export const BasketView = ({ catalog, recipes }: BasketViewProps): ReactElement 
       <SendToCart />
 
       <p className='text-sm text-text-muted'>
-        Costs are estimates from the lowest prices found at national chains and
-        Martin&apos;s on {formatPriceDates(catalog)}. The total buys whole packs,
+        Costs are estimates from the lowest prices found at national chains on{' '}
+        {formatPriceDates(catalog)}, and each item shows where its price came
+        from. The total buys whole packs,
         and each recipe&apos;s cost per serving here is its share of those
         packs. Recipe pages count only what a recipe uses, so they read lower.
       </p>

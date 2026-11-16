@@ -51,7 +51,7 @@ export const basketItemSchema = z
     priceSource: text
       .optional()
       .describe(
-        "Where the price came from, as a store code: W Walmart, K Kroger, H H-E-B, S ShopRite, E Acme, C Costco, T Target, M Martin's shelf, U Martin's receipt, X estimate"
+        "Where the price came from, as a store code: W Walmart, K Kroger, H H-E-B, S ShopRite, E Acme, C Costco, T Target, M Martin's shelf, U Martin's receipt, X estimate (shows no store)"
       ),
     isEstimate: z
       .boolean()

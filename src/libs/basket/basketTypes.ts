@@ -29,6 +29,8 @@ export type BasketItem = {
   sizes?: PackSize[]
   // Looked up and not yet checked on a shelf or a receipt
   isEstimate?: boolean
+  // Store code the price came from (STORE_NAMES), like "W" for Walmart
+  priceSource?: string
   // When the price was found, as YYYY-MM-DD
   pricedOn?: string
 }

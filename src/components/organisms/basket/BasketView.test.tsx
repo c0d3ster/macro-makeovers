@@ -93,4 +93,13 @@ describe('BasketView', () => {
     ).toHaveLength(1)
     expect(localStorage.getItem(BASKET_STORAGE_KEY)).not.toContain('gone')
   })
+
+  it('names the chain behind each price, and no store for the summary', () => {
+    saveBasket(['spicy-turkey-chili'])
+    renderBasket()
+
+    expect(screen.getAllByText(/Walmart price/).length).toBeGreaterThan(0)
+    expect(screen.getByText(/lowest prices found at national chains/)).toBeInTheDocument()
+    expect(screen.queryByText(/lowest prices found at national chains and/)).not.toBeInTheDocument()
+  })
 })

@@ -554,6 +554,22 @@ export const describePurchase = ({
 
 export const formatMoney = (value: number): string => `$${value.toFixed(2)}`
 
+// The chain behind each price source code. Estimates and target prices name no store.
+const STORE_NAMES: Record<string, string> = {
+  W: 'Walmart',
+  K: 'Kroger',
+  H: 'H-E-B',
+  S: 'ShopRite',
+  E: 'Acme',
+  C: 'Costco',
+  T: 'Target',
+  M: "Martin's",
+  U: "Martin's",
+}
+
+export const storeName = (priceSource: string | undefined): string | undefined =>
+  priceSource ? STORE_NAMES[priceSource] : undefined
+
 // Cost tiers per serving, prorated: $ under $3, $$ under $5, $$$ under $7, $$$$ under $10,
 // $$$$$ from $10
 export const costTierFor = (perServing: number): number => {

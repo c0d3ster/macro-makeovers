@@ -11,6 +11,7 @@ import {
   formatMoney,
   groupBySection,
   SECTION_LABELS,
+  storeName,
   toShoppingListText,
 } from '@/libs/basket'
 import { useBasket } from '@/providers'
@@ -108,6 +109,8 @@ export const ShoppingList = ({
                       </span>
                       <span className='block text-xs text-text-muted'>
                         {describePurchase(line)}
+                        {storeName(item.priceSource) &&
+                          ` · ${storeName(item.priceSource)} price`}
                         {item.perishable && ' · short shelf life'}
                         {usedBy.length > 1 &&
                           ` · shared by ${usedBy
