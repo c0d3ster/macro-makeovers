@@ -1,4 +1,4 @@
-These terms are between you and {{entity}}, which runs {{brand}}. By using the site you agree to them.
+These terms are between you and {{entity}} ("we"). By using {{brand}} you agree to them.
 
 ## The paid plan
 

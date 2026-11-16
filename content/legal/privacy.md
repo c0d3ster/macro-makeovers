@@ -1,4 +1,4 @@
-{{brand}} is run by {{entity}}. Questions or requests go to {{email}}.
+{{brand}} is run by {{entity}} ("we"). Questions or requests go to {{email}}.
 
 ## What we collect
 
