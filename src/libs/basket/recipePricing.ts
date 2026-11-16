@@ -30,7 +30,7 @@ export type RecipePricing = {
 // A price item in save shape as the basket math reads it
 export const toCatalogItem = ({
   key: _key,
-  priceSource: _source,
+  priceSource,
   sizes,
   isEstimate,
   ...item
@@ -38,6 +38,7 @@ export const toCatalogItem = ({
   ...item,
   ...(sizes?.length ? { sizes } : {}),
   ...(isEstimate ? { isEstimate } : {}),
+  ...(priceSource ? { priceSource } : {}),
 })
 
 // The basket's view of a recipe in import shape: its lines and each build's changes

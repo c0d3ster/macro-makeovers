@@ -780,14 +780,7 @@
     "perishable": false,
     "priceSource": "U",
     "isEstimate": false,
-    "pricedOn": "2026-11-16",
-    "sizes": [
-      {
-        "pack": "3 heads (~30 cloves)",
-        "packQuantity": 30,
-        "price": 1.98
-      }
-    ]
+    "pricedOn": "2026-11-11"
   },
   {
     "key": "onion",

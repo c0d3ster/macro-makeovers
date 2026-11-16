@@ -79,6 +79,8 @@ Worth keeping when the real shopping list is built:
   trip at its own servings, and shows one saving for both pooling and scaling.
 - Prices are the lowest found across stores, so a single-store basket costs
   more than the total. Treat costs as relative.
+- The page says the prices come from national chains, and each list row names
+  the chain behind its price (from `priceSource`). Estimates name no store.
 - Pantry items can be left out of a trip (`pantry: true`).
 - `perishable` marks leftovers likely to be wasted, such as fresh herbs,
   spinach, avocado, mango, deli ham and prosciutto, and the Costco pollo asado.

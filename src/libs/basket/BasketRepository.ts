@@ -53,6 +53,7 @@ const toBasketItem = (row: ItemRow, sizes: SizeRow[]): BasketItem => ({
       }
     : {}),
   ...(row.isEstimate ? { isEstimate: true } : {}),
+  ...(row.priceSource ? { priceSource: row.priceSource } : {}),
   pricedOn: row.pricedOn,
 })
 
