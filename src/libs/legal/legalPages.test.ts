@@ -14,9 +14,9 @@ describe('legal pages', () => {
   })
 
   it('fills the brand and links the support email', () => {
-    expect(fillLegalText('{{brand}}: {{email}}', 'Brand', 'a@b.com')).toBe(
-      'Brand: [a@b.com](mailto:a@b.com)'
-    )
+    expect(
+      fillLegalText('{{brand}} by {{entity}}: {{email}}', 'Brand', 'a@b.com')
+    ).toBe('Brand by c0d3ster LLC: [a@b.com](mailto:a@b.com)')
   })
 
   it('finds a page by slug', () => {

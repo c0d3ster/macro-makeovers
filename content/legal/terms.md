@@ -1,55 +1,31 @@
-These terms are the deal between you and **[OWNER TO FILL: legal entity or owner name]** ("we") for using {{brand}} (macromakeovers.com). By using the site or creating an account, you agree to them. If you don't agree, please don't use the site.
-
-## The service
-
-{{brand}} publishes macro-friendly recipes with their estimated nutrition, guides, and a basket that pools a shopping list. Recipes, filters, the basket, and accounts are free. A paid plan adds features such as meal planning, "Send to cart" grocery ordering, and the downloadable book. Features may change as the site grows.
-
-## Your account
-
-You need to be at least 13 to use the site and at least 18 (or the age of majority where you live) to subscribe. Keep your login secure and your email current. You are responsible for what happens under your account. We may suspend or close accounts that break these terms or abuse the site.
+These terms are between you and {{entity}} ("we"). By using {{brand}} you agree to them.
 
 ## The paid plan
 
-- **Price.** 5 US dollars a month, plus any tax that applies, billed through Stripe. If we offer a different price, like a founding-member rate, it is shown before you pay.
-- **Renewal.** The plan renews automatically each month until you cancel.
-- **Cancel anytime.** Cancel from your account through the billing portal. You keep paid access until the end of the month you paid for, and you won't be charged again.
-- **Price changes.** We will email you at least 30 days before a price change takes effect, so you can cancel first.
-- **Refunds.** See the [refund policy](/refunds).
+The plan is 5 dollars a month, billed through Stripe, and renews monthly until you cancel. Cancel anytime from your account. You keep paid features until the end of the month you paid for. We'll email you before any price change. See the [refund policy](/refunds).
 
-## Nutrition and health
+## Nutrition
 
-All nutrition numbers are estimates and nothing on the site is medical advice. Read the [nutrition disclaimer](/nutrition-disclaimer) before relying on them. You are responsible for checking ingredients for allergies and for cooking food safely.
+Nutrition numbers are estimates and not medical advice. See the [nutrition disclaimer](/nutrition-disclaimer).
 
 ## Grocery partners
 
-"Send to cart" hands your list to a grocery service you choose, such as Instacart, Kroger, or Walmart. They are separate businesses. Prices, availability, fees, delivery, substitutions, refunds, and payment for groceries are between you and them, under their terms. Their checkout total may differ from our basket estimate. Some partner links are affiliate links, and we may earn a commission when you order. That never changes what you pay.
+"Send to cart" hands your list to a grocer you choose, like Instacart, Kroger, or Walmart. Prices, fees, delivery, and grocery refunds are between you and them, and their total may differ from our estimate. Some are affiliate links, so we may earn a commission at no cost to you.
 
 ## Photos
 
-Some recipe photos are AI-generated placeholders until a real photo is taken. They show the idea of a dish and may not match exactly what the recipe makes.
+Some recipe photos are AI-generated placeholders and may not match the finished dish exactly.
 
 ## Our content
 
-The recipes, photos, guides, and book belong to us. You are welcome to cook from them, print them, and share links. Please don't copy recipes in bulk, republish them, resell the book, or share your paid downloads publicly. Short quotes with a link back are fine.
+Cook from the recipes, print them, and share links. Please don't republish recipes in bulk or share the book publicly.
 
-## Acceptable use
+## Your account
 
-Don't break the law using the site, try to get around the paywall, scrape or overload the site, or interfere with other people's use of it.
+Keep your login secure. We may close accounts that abuse the site or try to get around the paywall.
 
-## No guarantees
+## The fine print
 
-The site is provided "as is". We work to keep it accurate and running, but we don't promise it will be error-free, always available, or right for your goals. To the extent the law allows, we are not liable for indirect or consequential losses, and our total liability to you is limited to what you paid us in the 12 months before the claim. Some places don't allow these limits, so they may not all apply to you.
+The site is provided as is. To the extent the law allows, we aren't liable for indirect losses, and our liability is limited to what you paid us in the last 12 months. These terms are governed by Virginia law. If they change in a way that matters, we'll update the date above and let members know.
 
-## Changes to these terms
-
-If we change these terms in a way that matters, we will update the date at the top and give signed-in members notice before the change takes effect. Using the site after that means you accept the new terms.
-
-## Law
-
-These terms are governed by the laws of **[OWNER TO FILL: state or country]**, without regard to its conflict-of-law rules.
-
-## Contact
-
-{{email}}
-
-**[OWNER TO FILL: mailing address]**
+Questions? Email {{email}}.
