@@ -19,7 +19,7 @@ type Issue = {
 }
 
 // A recipe build whose cost per serving moves with a price change
-export type CostChange = {
+type CostChange = {
   slug: string
   // Missing for the recipe's own lines
   build?: string
@@ -27,7 +27,7 @@ export type CostChange = {
   after: number
 }
 
-export type SaveItemsResult =
+type SaveItemsResult =
   | { status: 'invalid'; issues: Issue[] }
   | { status: 'saved' | 'checked'; keys: string[]; costChanges: CostChange[] }
 
