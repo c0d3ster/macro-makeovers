@@ -52,7 +52,7 @@ const Stat = ({
       alignItems: 'center',
       flexGrow: grow ? 1 : 0,
       flexBasis: grow ? 0 : 'auto',
-      padding: '18px 32px',
+      padding: grow ? '18px 12px' : '18px 32px',
       borderRadius: 24,
       background: COLORS.surface,
       color: COLORS.text,
@@ -82,7 +82,7 @@ type ShareCardProps = {
   imageUrl?: string
 }
 
-// With a photo: the dish on the left, the title and a 2 x 2 grid of stats on the right
+// With a photo: the dish on the left, the title, calories, and a C/F/P row on the right
 const PhotoCard = ({
   title,
   macros,
@@ -129,7 +129,7 @@ const PhotoCard = ({
           {title}
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-          {[stats.slice(0, 2), stats.slice(2)].map((row) => (
+          {[stats.slice(0, 1), stats.slice(1)].map((row) => (
             <div key={row[0]?.label} style={{ display: 'flex', gap: 16 }}>
               {row.map((stat) => (
                 <Stat key={stat.label} {...stat} size={50} grow />
