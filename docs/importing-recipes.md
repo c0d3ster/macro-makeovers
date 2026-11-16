@@ -49,10 +49,11 @@ that reaches them through the Supabase API.
 
 ## Importing from Claude (MCP connector)
 
-`/api/mcp` is a remote MCP server with four tools: `get_recipe_schema`, `get_recipe` (a saved
-recipe in import shape, by slug), `validate_recipe` (dry run, writes nothing), and
-`import_recipe`. Each call runs the matching GraphQL operation in-process: `recipeForImport` for
-`get_recipe`, `importRecipe` for the rest. Supabase Auth is the OAuth server, and the route accepts only tokens that
+`/api/mcp` is a remote MCP server with six tools: `get_recipe_schema`, `get_recipe` (a saved
+recipe in import shape, by slug), `validate_recipe` (dry run, writes nothing), `import_recipe`,
+`list_basket_items` (the basket price book), and `save_basket_items` (add or reprice items).
+Each call runs the matching GraphQL operation in-process: `recipeForImport` for `get_recipe`,
+`basketItems` and `saveBasketItems` for the basket tools, `importRecipe` for the rest. Supabase Auth is the OAuth server, and the route accepts only tokens that
 Supabase issued through it to the site owner.
 
 One-time setup:
@@ -79,6 +80,10 @@ dashboard to cut it off.
 The 16 seed recipes (14 dishes and 2 sauces) live in `content/recipes/*.json` and are already in the database. The database
 is the source of truth, so new and edited recipes go through the admin or the Claude connector,
 not a markdown file.
+
+On a fresh database, run `pnpm basket:sync --apply` first: it saves the price book in
+`content/basket/items.json`, which the seeds' basket lines point at, and skips recipes it
+cannot find yet.
 
 ```bash
 pnpm recipe:import content/recipes --dry-run   # validate and diff, write nothing
@@ -213,6 +218,30 @@ that is a main.
   recipes that use them. A recipe still in use cannot be deleted.
 - In the book, a component prints inside each recipe that uses it, under its own heading in the
   ingredients and the method. A side or sauce no published recipe uses prints on its own.
+
+## Basket lines
+
+`basketLines` is what one batch buys from the basket price book, by item key, in each item's
+unit: `{ "chicken_breast": 1.5, "garlic": 4, "cumin": 2 }`. Spices and pantry staples count, and
+a dish includes the lines of the sides and sauces it uses. A recipe without lines has no "Add to
+basket". A build that shops differently sets its own `basketLines`, changes to the recipe's: a new
+amount, a new item, or `0` to drop a line. A build without them shops like the recipe.
+
+- Every key has to be in the price book. `list_basket_items` shows it, and `save_basket_items`
+  adds items (the lowest price found, `isEstimate` for a looked-up price). Run it with `dryRun`
+  first: it lists every recipe and build whose cost moves.
+- Cost per serving is prorated by what the recipe uses, from the smallest pack that covers it, and
+  is worked out from the lines, never stored. `validate_recipe` and `import_recipe` return
+  `basketPrices` per build, and a warning when a listed build lands in a different `$` tier than
+  its `costTier` says. The tier stays a judgment call, so the warning never blocks an import.
+- Quantities are stored to four decimal places.
+- The admin editor has a Basket section for the lines, each build's changes, and live cost per
+  serving.
+
+`pnpm basket:sync` (local) and `pnpm basket:sync:prod` write the seed price book and the seed
+recipes' lines to recipes that already exist, without re-importing them. `--lines <file>` adds
+lines for recipes that live only in the database, like `content/basket/backfill-2026-11-16.json`.
+It is a dry run that prints each change and each build's cost per serving until `--apply`.
 
 ## Variants
 

@@ -3,6 +3,7 @@ import type { NodePgDatabase } from 'drizzle-orm/node-postgres'
 import { revalidatePath } from 'next/cache'
 
 import type { ImportRecipeResult } from '@/graphql/schema'
+import type { RecipePricing } from '@/libs/basket'
 import type {
   ImportResult,
   IngredientMatch,
@@ -14,7 +15,6 @@ import type {
   AdminRecipe,
   DeleteRecipeResult,
 } from '@/libs/recipes/RecipeRepository'
-import type { RecipePricing } from '@/libs/basket'
 import type { schemas } from '@/models'
 
 import { ImportRecipeStatus } from '@/graphql/schema'

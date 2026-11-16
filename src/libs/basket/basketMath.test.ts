@@ -70,6 +70,7 @@ describe('recipeCosts', () => {
     expect(costs[0]?.perServing).toBeCloseTo(
       costPerServing(catalog, [one('turkey-taco-grillers')])
     )
+
     costs.forEach(({ perServing, tier }) => expect(tier).toBe(costTierFor(perServing)))
   })
 
@@ -81,7 +82,15 @@ describe('recipeCosts', () => {
 describe('costTierFor', () => {
   it('bands a serving by the book tiers', () => {
     expect([2.99, 3, 4.99, 5, 6.99, 7, 9.99, 10, 25].map(costTierFor)).toEqual([
-      1, 2, 2, 3, 3, 4, 4, 5, 5,
+      1, 
+2, 
+2, 
+3, 
+3, 
+4, 
+4, 
+5, 
+5,
     ])
   })
 
@@ -113,9 +122,7 @@ describe('computeBasket', () => {
     // Both recipes use part of a 16 oz tub of cottage cheese
     const chili = computeBasket(catalog, [one('spicy-turkey-chili')], NO_PANTRY)
     const tacos = computeBasket(catalog, [one('turkey-taco-grillers')], NO_PANTRY)
-    const both = computeBasket(catalog, [one('spicy-turkey-chili'), one('turkey-taco-grillers')],
-      NO_PANTRY
-    )
+    const both = computeBasket(catalog, [one('spicy-turkey-chili'), one('turkey-taco-grillers')],      NO_PANTRY    )
     const tubs = (lines: typeof both.lines): number | undefined =>
       lines.find(({ key }) => key === 'cottage')?.packs
 
@@ -126,9 +133,7 @@ describe('computeBasket', () => {
   })
 
   it('prices items sold by weight exactly, with no leftover', () => {
-    const { lines } = computeBasket(catalog, [one('blackened-chicken-alfredo')],
-      NO_PANTRY
-    )
+    const { lines } = computeBasket(catalog, [one('blackened-chicken-alfredo')],      NO_PANTRY    )
     const chicken = lines.find(({ key }) => key === 'chicken_breast')
 
     expect(chicken?.packs).toBe(1.5)
@@ -138,9 +143,7 @@ describe('computeBasket', () => {
   })
 
   it('describes packs, with a plain count for items sold one at a time', () => {
-    const { lines } = computeBasket(catalog, [one('pollo-asado-chicken-thigh-bowl')],
-      NO_PANTRY
-    )
+    const { lines } = computeBasket(catalog, [one('pollo-asado-chicken-thigh-bowl')],      NO_PANTRY    )
     const purchase = (key: string): string | undefined => {
       const line = lines.find((candidate) => candidate.key === key)
       return line && describePurchase(line)
@@ -172,9 +175,7 @@ describe('computeBasket', () => {
 
   it('buys the cheapest mix of sizes for pooled recipes', () => {
     // 6 oz of cottage cheese across the chili and tacos: the 2-cup pack beats two single cups
-    const { lines } = computeBasket(catalog, [one('spicy-turkey-chili'), one('turkey-taco-grillers')],
-      NO_PANTRY
-    )
+    const { lines } = computeBasket(catalog, [one('spicy-turkey-chili'), one('turkey-taco-grillers')],      NO_PANTRY    )
     const cottage = lines.find(({ key }) => key === 'cottage')
 
     expect(cottage?.quantity).toBeCloseTo(6)
@@ -184,9 +185,7 @@ describe('computeBasket', () => {
 
   it('scales by servings and counts them', () => {
     const single = computeBasket(catalog, [one('spicy-turkey-chili')], NO_PANTRY)
-    const double = computeBasket(catalog, [{ slug: 'spicy-turkey-chili', servings: single.servings * 2 }],
-      NO_PANTRY
-    )
+    const double = computeBasket(catalog, [{ slug: 'spicy-turkey-chili', servings: single.servings * 2 }],      NO_PANTRY    )
 
     expect(double.servings).toBe(single.servings * 2)
     // Never more than twice the cost. A doubled amount can be priced from a bigger, cheaper pack.
@@ -224,9 +223,7 @@ describe('bundles', () => {
   it('saves nothing for one recipe and something for two that share items', () => {
     expect(bundleSavings(catalog, [one('spicy-turkey-chili')], NO_PANTRY)).toBe(0)
     expect(
-      bundleSavings(catalog, [one('spicy-turkey-chili'), one('turkey-taco-grillers')],
-        NO_PANTRY
-      )
+      bundleSavings(catalog, [one('spicy-turkey-chili'), one('turkey-taco-grillers')],        NO_PANTRY      )
     ).toBeGreaterThan(0)
   })
 
@@ -239,10 +236,7 @@ describe('bundles', () => {
   })
 
   it('ranks bundles by saving and skips slugs with no data', () => {
-    const ranked = rankBundles(catalog, ['spicy-turkey-chili', 'turkey-taco-grillers', 'beef-bulgogi', 'nope'],
-      2,
-      NO_PANTRY
-    )
+    const ranked = rankBundles(catalog, ['spicy-turkey-chili', 'turkey-taco-grillers', 'beef-bulgogi', 'nope'],      2,      NO_PANTRY    )
 
     expect(ranked).toHaveLength(3)
     expect(ranked.map(({ saving }) => saving)).toEqual(
@@ -278,9 +272,7 @@ describe('servings', () => {
     // Doubled tacos fill the cheddar, cottage cheese, and corn they open. One extra serving
     // needs a second turkey tray, so it costs more per serving.
     const perServing = (servings: number): number => {
-      const totals = computeBasket(catalog, [{ slug: 'turkey-taco-grillers', servings }],
-        NO_PANTRY
-      )
+      const totals = computeBasket(catalog, [{ slug: 'turkey-taco-grillers', servings }],        NO_PANTRY      )
       return totals.tripCost / totals.servings
     }
 
@@ -368,9 +360,7 @@ describe('shopping list', () => {
   })
 
   it('writes plain text and leaves out checked items', () => {
-    const { lines } = computeBasket(catalog, [one('blackened-chicken-alfredo')],
-      NO_PANTRY
-    )
+    const { lines } = computeBasket(catalog, [one('blackened-chicken-alfredo')],      NO_PANTRY    )
     const text = toShoppingListText(lines, new Set(['pasta']))
 
     expect(text).toContain('Meat and seafood')

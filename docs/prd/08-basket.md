@@ -1,6 +1,6 @@
 # PRD 08: Basket (free)
 
-**Status:** The browser basket is shipped: `/basket`, "Add to basket" on cards and recipe pages, builds and servings (#57, #59), and "Cook these together" on the home page. Open: the account basket (task 6), the real "Send to cart" (PRD 05), and a drift check. Requirements and tasks below are marked **Done**, **Changed** (shipped differently, and the text now matches the code), or **Open**.
+**Status:** The browser basket is shipped: `/basket`, "Add to basket" on cards and recipe pages, builds and servings (#57, #59), and "Cook these together" on the home page. Basket data lives in the database with each recipe (task 8). Open: the account basket (task 6), the real "Send to cart" (PRD 05), and a drift check. Requirements and tasks below are marked **Done**, **Changed** (shipped differently, and the text now matches the code), or **Open**.
 
 ## Problem
 
@@ -42,7 +42,7 @@ Anyone can add recipes to a basket, see one pooled shopping list, and see what t
 ## Cost model
 
 - **Trip cost:** the cheapest mix of pack sizes that covers what every recipe in the basket needs, bought once across all of them. Items sold per lb are priced by exact weight. This is what the receipt shows, and the bundling saving only shows up here.
-- **Prorated cost:** a recipe's share of the smallest pack size that covers what it uses (a bigger size wins when it costs at most 10 percent more). This is how the cost estimates and the `$` tiers on recipe pages are calculated, and the data test checks each recipe and build reproduces its estimate to the cent.
+- **Prorated cost:** a recipe's share of the smallest pack size that covers what it uses (a bigger size wins when it costs at most 10 percent more). This is how the cost estimates and the `$` tiers on recipe pages are calculated. It is derived from the lines and prices, never stored, and an import warns when a listed build lands in a different tier than it says.
 - **Per serving in the basket:** each recipe's part of the pooled trip at the register, divided by its servings. A recipe starts at its own trip's price and takes its part of what pooling saves on each item it shares. So it reads higher than the recipe page, and a note under the list says why.
 - **Saved:** every recipe bought as written (on its own trip, at its own servings, scaled to the servings in the basket, and for the same build) minus the pooled trip. One number covers both pooling and cooking more servings than the recipe makes.
 - **Leftovers:** what the trip buys but the recipes do not use. When short-shelf-life items left over come to at least a dollar, a note names them: "About $3 of cilantro and spinach may spoil before you use them."
@@ -51,8 +51,8 @@ Anyone can add recipes to a basket, see one pooled shopping list, and see what t
 ## Requirements
 
 1. **Done.** The pricing math is pure, tested functions in `src/libs/basket/basketMath.ts`: pool lines, pack sizes, prorated cost, savings against recipes as written, per-recipe shares, leftovers, and bundle ranking. The rules match `docs/shopping-list-data.md`.
-2. **Changed.** Price data is typed in `src/libs/basket/basketData.ts`, generated once from `docs/basket-data.json` and edited by hand from there. Each item has a `section` (produce, meat, dairy, bakery, frozen, pantry, spices) for grouping, `pantry` and `perishable` flags, and optional larger `sizes`. Each recipe has its servings, its cost per serving, its lines, and optional per-build line changes (PRD 09).
-3. **Changed.** A test fails if a basket entry's slug has no seed recipe in `content/recipes`, or a priced build has no matching build there. Recipes without basket data do not show "Add to basket".
+2. **Changed.** Price data lives in the database: `basket_items` and `basket_item_sizes` are the price book, each with a `section` (produce, meat, dairy, bakery, frozen, pantry, spices) for grouping, `pantry` and `perishable` flags, optional larger sizes, and where and when its price was found (`price_source`, `is_estimate`, `priced_on`). Each recipe carries its `basketLines` (`recipe_basket_lines`) and per-build changes (`recipe_build_basket_lines`, PRD 09) through import. The basket math takes the catalog as an argument, loaded on the server by `BasketRepository`.
+3. **Changed.** Import rejects a line whose item key is not in the price book, a build change on a recipe with no lines, and a build left with nothing to buy. Build keys are checked by the import schema. A test checks every seed line names a seed item and every seed recipe's tier matches its prices. Recipes without basket lines do not show "Add to basket".
 4. **Open.** Signed-out baskets live in browser storage (done). On sign-in, the browser basket merges into the account basket (recipes combined, the higher servings kept), then browser storage clears (open).
 5. **Changed.** Each list line shows the item name, what to buy under it ("1 × 8 oz block", "1.5 lb"), and the cost on the right. A short-shelf-life item says "short shelf life", and an item two or more recipes use says "shared by" and names them. Checked items strike through.
 6. **Changed.** One line under the list says costs are estimates from the lowest prices found at national chains and Martin's on the snapshot date, and that recipe pages count only what a recipe uses. Other store names stay out of the UI.
@@ -62,11 +62,11 @@ Anyone can add recipes to a basket, see one pooled shopping list, and see what t
 
 ## Data
 
-- v1 prices and recipe lines: typed data in the repo (`src/libs/basket/basketData.ts`), from `docs/basket-data.json`. Prices as of 2026-11-11.
-- Browser storage (`macro-makeovers-basket-v1`): entries of `{ slug, build?, servings }`, the pantry toggle, and checked item keys. Unknown slugs, repeats, and bad servings are dropped on read.
+- Prices and recipe lines: in the database (requirement 2). The seed copy is `content/basket/items.json` and the seed recipes' `basketLines`, written with `pnpm basket:sync`. The note under the list shows the range of `priced_on` dates.
+- Browser storage (`macro-makeovers-basket-v1`): entries of `{ slug, build?, servings }`, the pantry toggle, and checked item keys. Repeats and bad servings are dropped on read. Recipes that lost their basket data drop out on `/basket`, which has the catalog, so a catalog that fails to load never empties a saved basket.
 - Account basket, not built: `baskets(id, user_id, include_pantry, updated_at)`, one per user for now. `basket_entries(basket_id, recipe_id, build_key, servings)` and `basket_checks(basket_id, item_key)`.
 - RLS: a member reads and writes only their own basket.
-- Once PRD 03 lands, recipe lines come from structured ingredients mapped to price items, and the hand-written lines in the data file retire.
+- Once PRD 03 lands, recipe lines come from structured ingredients mapped to price items, and the hand-written `basketLines` retire.
 
 ## Success metrics
 
@@ -77,7 +77,7 @@ Anyone can add recipes to a basket, see one pooled shopping list, and see what t
 
 ## Risks and open questions
 
-- Drift. The owner edits recipes live, and the hand-written basket lines will not follow those edits until PRD 03. The slug test checks the seed files, not published recipes, and catches missing recipes, not changed amounts. Consider a check that flags a recipe edited after its basket lines were last updated.
+- Drift. The lines now live on the recipe, so an edit shows them beside the ingredients and the tier warning catches large changes, but nothing ties a line to an ingredient until PRD 03.
 - Builds without price lines. A build with no entry in the data shops like the recipe. That is right for builds that only change portions, but a new build that buys something different needs its own lines. The flank lines (`9a` in `docs/basket-data.json`) are now the bulgogi `flank` build, and the Costco lines (`11a`) the Pollo Asado `costco` build.
 - Sides and sauces. A dish's lines already include the side or sauce it uses (the corn pico on the Taco Grillers, the mango salsa on Pollo Asado), scaled to the amount each build uses: the rice bowl carries 1.5 pico servings per serving. The pico and salsa also have entries of their own, marked `component`, so they can be shopped alone but never come up as a pairing or a suggestion. When lines come from recipes (PRD 03), they have to follow component links and their build scopes, or the trip will miss or double those items.
 - Stale prices. Decide how often the snapshot gets refreshed. Its date shows under the list.
@@ -92,3 +92,4 @@ Anyone can add recipes to a basket, see one pooled shopping list, and see what t
 5. **Done.** Bundle suggestion on `/basket` and "Cook these together" on the home page.
 6. **Open.** Account basket: migration, GraphQL, RLS, and the merge on sign-in.
 7. **Done.** "Send to cart" button, as a placeholder until PRD 05 ships. It does not show the upgrade prompt yet, since PRD 01's checkout is not built.
+8. **Done.** Basket data in the database: tables, `basketLines` on import and the connector (`list_basket_items`, `save_basket_items`), the admin Basket section, and `pnpm basket:sync` for the seed and backfill data.

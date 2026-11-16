@@ -180,7 +180,7 @@ The fields are all optional, so a build costs nothing until it differs. The risk
 ### Basket
 
 14. **Changed.** A basket entry is `{ slug, build?, servings }`, with no build meaning the default. Servings replaced the batch count in #57. Builds of one recipe stay mutually exclusive: adding one replaces the other.
-15. **Changed.** Price data lives in `src/libs/basket/basketData.ts`. A recipe's entry can carry a `builds` map: per build, a cost per serving and changes to the recipe's lines by item key, where 0 drops a line (#59). A build with no entry shops like the recipe. Priced: the Taco Grillers `beef`, `rice-bowl`, and `filling` builds, the Pollo Asado `costco` build, the bulgogi `flank` build, and the enchilada `beef-eye-of-round` and `beef-chuck` builds. Saved baskets without a build read as the default.
+15. **Changed.** Basket lines live with the recipe in the database. A build can carry `basketLines`: changes to the recipe's lines by item key, where 0 drops a line (#59). Cost per serving is derived from the lines, never stored. A build with no entry shops like the recipe. Priced: the Taco Grillers `beef`, `rice-bowl`, and `filling` builds, the Pollo Asado `costco` build, the bulgogi `flank` build, and the enchilada `beef-eye-of-round` and `beef-chuck` builds. Saved baskets without a build read as the default.
 
 ### Authoring and the book
 
@@ -220,7 +220,7 @@ Every other recipe has one build. Build keys follow the hosted database, so phot
 - **Costco macros.** Settled from Costco's label (4 oz: 150 calories, under 1g carbs, 7g fat, 22g protein). 6 oz is 225 calories, 10.5g fat, and 33g protein. 6 oz raw skinless thigh with its share of the oil and marinade comes to about 228 calories, 8g fat, and 34g protein. That is within the spread of store-bought thighs, so homemade skinless and Costco share one set of numbers. Costco stays a build for its cost, prep, and steps.
 - **Renaming a key.** Lines and steps point at build keys, so the editor rewrites them on rename. Validation catches any it misses.
 - **Title wins over search?** Settled: a build whose title matches the search beats fit, both when picking a recipe's build and when ranking cards.
-- **Builds without price lines.** A build with no basket entry shops like the recipe, so a new build that buys something different needs lines in `basketData.ts`, or its trip cost is off.
+- **Builds without price lines.** A build with no `basketLines` shops like the recipe, so a new build that buys something different needs its own, or its trip cost is off. Import warns when a build's prices land in a different tier than it says, which catches some of these.
 
 ## Tasks
 

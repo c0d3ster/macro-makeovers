@@ -19,6 +19,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 ### Recipe data
 
 - The hosted database is the source of truth for recipes. New and edited recipes go through `/admin` or the Claude connector. `content/recipes/*.json` holds the 16 seed recipes (14 dishes and 2 sauces) for a fresh local database, imported with `pnpm recipe:import content/recipes` (local) or `pnpm recipe:import:prod content/recipes` (hosted). The printable book is built from the published recipes in the database (`pnpm book:pdf`), with its intro and recipe order in `content/book` and its guide prose in `content/guides` (shared with the site's `/guides` and `/about` pages).
+- Basket prices (`basket_items`) and each recipe's `basketLines` also live in the database. On a fresh local database run `pnpm basket:sync --apply` before `pnpm recipe:import`, since seed lines point at the seed price book in `content/basket/items.json`. `basket:sync:prod` writes to the hosted database: ask before running it with `--apply`.
 - Recipe pages read through `src/libs/recipes`. Changing what a page shows usually means changing the import schema, the import function, and the loader together.
 
 ### Checks and commits

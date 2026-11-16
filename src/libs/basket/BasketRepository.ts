@@ -187,7 +187,7 @@ export class BasketRepository {
             ...(builds.size > 0
               ? {
                   builds: Object.fromEntries(
-                    [...builds.entries()].map(([key, buildLines]) => [
+                    Array.from(builds.entries(), ([key, buildLines]) => [
                       key,
                       { lines: toLines(buildLines) },
                     ])
