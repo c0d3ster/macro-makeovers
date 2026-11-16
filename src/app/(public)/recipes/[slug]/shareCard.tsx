@@ -100,7 +100,6 @@ const PhotoCard = ({
         color: COLORS.text,
       }}
     >
-      {/* eslint-disable-next-line @next/next/no-img-element -- next/og renders plain img */}
       <img
         src={imageUrl}
         alt=''

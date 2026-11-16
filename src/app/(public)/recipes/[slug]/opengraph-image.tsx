@@ -1,5 +1,6 @@
 /* eslint-disable react-refresh/only-export-components -- Next requires these route exports beside the component */
 import { ImageResponse } from 'next/og'
+import { Buffer } from 'node:buffer'
 
 import { loadRecipe } from './loadRecipe'
 import { NotFoundCard, ShareCard } from './shareCard'
