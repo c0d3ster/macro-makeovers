@@ -6,7 +6,7 @@ import { permanentRedirect } from 'next/navigation'
 import type { BundleLink } from '@/components/organisms'
 import type { RecipeCard } from '@/libs/recipes'
 
-import { ContactSection, EmailSignup } from '@/components/molecules'
+import { EmailSignup } from '@/components/molecules'
 import {
   BundleLinks,
   CompactRecipeGrid,
@@ -160,8 +160,6 @@ const HomePage = async ({
           blurb='A new recipe each week with the full macros, protein included. Unsubscribe any time.'
         />
       </main>
-
-      <ContactSection />
     </LandingPageTemplate>
   )
 }
