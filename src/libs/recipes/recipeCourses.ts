@@ -17,7 +17,7 @@ export type RecipeCourse = (typeof RECIPE_COURSES)[number]
 export const COURSE_LABELS: Record<RecipeCourse, string> = {
   breakfast: 'Breakfast',
   appetizer: 'Appetizer',
-  main: 'Main',
+  main: 'Entrée',
   side: 'Side',
   sauce: 'Sauce',
 }
