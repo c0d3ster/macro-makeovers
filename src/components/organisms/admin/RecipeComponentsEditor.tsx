@@ -9,18 +9,10 @@ import {
   InlineInput,
   RemoveRowButton,
 } from '@/components/molecules'
-import { RECIPE_COURSES } from '@/libs/recipes/recipeCourses'
+import { COURSE_LABELS, RECIPE_COURSES } from '@/libs/recipes/recipeCourses'
 
 import { BuildScopePicker } from './BuildScopePicker'
 import { numberField, optionalText, useRecipeForm } from './recipeFormFields'
-
-const COURSE_LABELS: Record<(typeof RECIPE_COURSES)[number], string> = {
-  breakfast: 'Breakfast',
-  appetizer: 'Appetizer',
-  main: 'Main',
-  side: 'Side',
-  sauce: 'Sauce',
-}
 
 const SELECT =
   'rounded-md border border-text-muted/30 bg-surface px-2 py-1 text-sm text-text focus-visible:border-primary focus-visible:ring-1 focus-visible:ring-primary focus-visible:outline-none'
