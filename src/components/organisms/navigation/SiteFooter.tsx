@@ -31,6 +31,10 @@ export const SiteFooter = ({ links }: SiteFooterProps): ReactElement => (
           <p className='max-w-sm'>
             Comfort food rebuilt to fit your macros, with the protein to back it up.
           </p>
+          {/* Pushed to the bottom of the column, so it sits just above the divider */}
+          <div className='mt-auto pt-4'>
+            <NutritionNote />
+          </div>
         </div>
 
         <nav aria-label='Site'>
@@ -64,7 +68,6 @@ export const SiteFooter = ({ links }: SiteFooterProps): ReactElement => (
       </div>
 
       <div className='flex flex-col gap-4 border-t border-text-muted/20 pt-6'>
-        <NutritionNote />
         <div className='flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between'>
           <nav aria-label='Legal'>
             <ul className='flex flex-wrap gap-x-5 gap-y-2'>

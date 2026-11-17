@@ -28,10 +28,10 @@ type FieldProps = {
 }
 
 const fieldStyles = (hasError: boolean): string =>
-  `w-full rounded border bg-surface p-3 text-text placeholder-gray-400 focus:ring-2 focus:outline-none ${
+  `w-full rounded border bg-background p-3 text-text placeholder-gray-400 focus:ring-2 focus:outline-none ${
     hasError
       ? 'border-red-500 focus:border-red-500 focus:ring-red-500/50'
-      : 'border-gray-600 focus:border-blue-400 focus:ring-blue-400'
+      : 'border-gray-600 focus:border-primary focus:ring-primary/50'
   }`
 
 const Field = ({
@@ -138,11 +138,11 @@ export const ContactForm = (): ReactElement => {
   }
 
   return (
-    <div className='mx-auto max-w-2xl px-4'>
-      <h2 className='mb-2 text-center text-2xl font-bold text-text'>
+    <div>
+      <h2 className='text-xl font-bold text-text'>
         Have an idea for a macro makeover?
       </h2>
-      <p className='mb-6 text-center text-text-muted'>
+      <p className='mt-1 mb-4 text-text-muted'>
         Tell us the comfort food you miss most. We&apos;ll try to rebuild it
         with the flavor intact, less fat, and a lot more protein.
       </p>
@@ -196,7 +196,7 @@ export const ContactForm = (): ReactElement => {
           multiline
         />
 
-        <div className='text-center'>
+        <div>
           <Button type='submit' disabled={isSubmitting}>
             {isSubmitting ? 'Sending...' : 'Send my idea'}
           </Button>

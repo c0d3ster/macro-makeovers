@@ -2,10 +2,16 @@ import type { ReactElement } from 'react'
 
 import { ContactForm } from './ContactForm'
 
-// The makeover idea form as a page closer. The band is see-through, so the page pattern shows
-// behind it while the fields stay solid.
-export const ContactSection = (): ReactElement => (
-  <section id='contact' className='bg-surface/25 py-10'>
-    <ContactForm />
+type ContactSectionProps = {
+  className?: string
+}
+
+// The makeover idea form in the same box as the email sign-up. The footer's "Suggest a makeover"
+// links here, so the scroll margin keeps the heading clear of the fixed header.
+export const ContactSection = ({ className = '' }: ContactSectionProps): ReactElement => (
+  <section id='contact' className={`scroll-mt-24 ${className}`}>
+    <div className='rounded-2xl bg-surface p-6 sm:p-8'>
+      <ContactForm />
+    </div>
   </section>
 )

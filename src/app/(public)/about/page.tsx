@@ -26,9 +26,9 @@ const AboutPage = (): ReactElement => (
           Read the guides
         </Button>
       </div>
-    </main>
 
-    <ContactSection />
+      <ContactSection className='mt-16' />
+    </main>
   </LandingPageTemplate>
 )
 
