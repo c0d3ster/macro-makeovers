@@ -21,7 +21,7 @@ const linkClass = 'hover:text-text hover:underline'
 // The bottom of every public page: site links, a way to reach us, the nutrition note, and the
 // legal links
 export const SiteFooter = ({ links }: SiteFooterProps): ReactElement => (
-  <footer className='mt-16 border-t border-text-muted/20 bg-surface'>
+  <footer className='border-t border-text-muted/20 bg-surface'>
     <div className='mx-auto flex max-w-6xl flex-col gap-8 px-4 py-10 text-sm text-text-muted sm:px-6 lg:px-8'>
       <div className='grid gap-8 sm:grid-cols-[2fr_1fr_1fr]'>
         <div className='flex flex-col gap-2'>

@@ -14,6 +14,14 @@ export const RECIPE_COURSES = [
 
 export type RecipeCourse = (typeof RECIPE_COURSES)[number]
 
+export const COURSE_LABELS: Record<RecipeCourse, string> = {
+  breakfast: 'Breakfast',
+  appetizer: 'Appetizer',
+  main: 'Main',
+  side: 'Side',
+  sauce: 'Sauce',
+}
+
 // The courses the main grid, filters, and goal matching show
 export const DISH_COURSES: readonly RecipeCourse[] = [
   'breakfast',

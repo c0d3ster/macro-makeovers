@@ -5,8 +5,17 @@ export const RECIPE_PAGE_LAYOUT =
 export const RECIPE_HERO_GRID =
   'grid grid-cols-[minmax(0,1fr)] gap-x-10 gap-y-5 md:grid-cols-[minmax(0,1fr)_20rem] lg:grid-cols-[minmax(0,1fr)_24rem]'
 export const RECIPE_HERO_TITLE = 'md:col-start-1 md:row-start-1'
+// The editor's facts block, above the photo
 export const RECIPE_HERO_FACTS =
-  'flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-text-muted md:col-start-2 md:row-start-1 md:justify-end'
+  'flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-text-muted md:col-start-2 md:row-start-1 md:self-center'
+// Course and time, then the cost, difficulty, and heat scales, beside the title on wider screens.
+// The scales stay side by side on a phone too, wrapping only if the screen is very narrow.
+export const RECIPE_HERO_FACT_STACK =
+  'flex flex-col gap-2 md:col-start-2 md:row-start-1 md:self-center'
+export const RECIPE_HERO_FACT_LINE =
+  'flex flex-wrap items-baseline gap-x-2 text-base text-text-muted'
+export const RECIPE_HERO_SCALE_LINE =
+  'flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-text-muted sm:gap-x-6'
 export const RECIPE_HERO_BODY =
   'flex flex-col gap-5 md:col-start-1 md:row-start-2'
 export const RECIPE_HERO_PHOTO = 'md:col-start-2 md:row-start-2'
