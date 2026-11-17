@@ -14,14 +14,21 @@ import {
   SpiceLevel,
 } from '@/components/atoms'
 import { RecipeMacroSummary } from '@/components/molecules'
-import { isSideCourse, SIDES_SECTION_ID, toTagPath } from '@/libs/recipes'
+import {
+  COURSE_LABELS,
+  isSideCourse,
+  SIDES_SECTION_ID,
+  toTagPath,
+} from '@/libs/recipes'
 import { formatMinutes } from '@/utils/formatMinutes'
 
 import {
   RECIPE_HERO_BODY,
-  RECIPE_HERO_FACTS,
+  RECIPE_HERO_FACT_LINE,
+  RECIPE_HERO_FACT_STACK,
   RECIPE_HERO_GRID,
   RECIPE_HERO_PHOTO,
+  RECIPE_HERO_SCALE_LINE,
   RECIPE_HERO_TITLE,
 } from './recipeLayout'
 import { UsedInRecipes } from './UsedInRecipes'
@@ -85,32 +92,41 @@ export const RecipeHero = ({
         <h1 className={`text-4xl font-bold text-text ${RECIPE_HERO_TITLE}`}>
           {title}
         </h1>
-        <dl className={RECIPE_HERO_FACTS}>
-          <div className='flex items-center gap-2'>
-            <dt>Total</dt>
-            <dd className='text-text'>{formatMinutes(totalMinutes)}</dd>
-          </div>
-          <div className='flex items-center gap-2'>
-            <dt>Cost</dt>
-            <dd>
-              <CostTier tier={costTier} />
-            </dd>
-          </div>
-          <div className='flex items-center gap-2'>
-            <dt>Difficulty</dt>
-            <dd>
-              <DifficultyDots level={difficulty} />
-            </dd>
-          </div>
-          {spiceLevel !== undefined && (
+        {/* Course and time read as one quiet phrase, with no labels */}
+        <div className={RECIPE_HERO_FACT_STACK}>
+          <p className={RECIPE_HERO_FACT_LINE}>
+            <span className='text-sm font-bold tracking-wide uppercase'>
+              {COURSE_LABELS[course]}
+            </span>
+            <span aria-hidden='true'>·</span>
+            <span>
+              <span className='text-text'>{formatMinutes(totalMinutes)}</span>{' '}
+              total
+            </span>
+          </p>
+          <dl className={RECIPE_HERO_SCALE_LINE}>
             <div className='flex items-center gap-2'>
-              <dt>Heat</dt>
+              <dt>Cost</dt>
               <dd>
-                <SpiceLevel level={spiceLevel} />
+                <CostTier tier={costTier} />
               </dd>
             </div>
-          )}
-        </dl>
+            <div className='flex items-center gap-2'>
+              <dt>Difficulty</dt>
+              <dd>
+                <DifficultyDots level={difficulty} />
+              </dd>
+            </div>
+            {spiceLevel !== undefined && (
+              <div className='flex items-center gap-2'>
+                <dt>Heat</dt>
+                <dd>
+                  <SpiceLevel level={spiceLevel} showScale />
+                </dd>
+              </div>
+            )}
+          </dl>
+        </div>
 
         <div className={RECIPE_HERO_BODY}>
           <p className='max-w-3xl text-text-muted'>{summary}</p>

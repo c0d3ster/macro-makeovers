@@ -61,7 +61,7 @@ const RecipePage = async ({
         corner={<OwnerEditLink recipeId={recipe.id} />}
       />
       <EmailSignup
-        className='mx-auto max-w-3xl px-4 pb-16 sm:px-6'
+        className='mx-auto max-w-3xl px-4 pb-12 sm:px-6'
         heading='Get a new makeover every week'
         blurb='One recipe a week with the full macros, protein included. Unsubscribe any time.'
       />
