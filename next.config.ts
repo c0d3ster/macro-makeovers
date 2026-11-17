@@ -19,6 +19,8 @@ const baseConfig: NextConfig = {
     // The dev MCP server writes browser console output to .next/dev/logs, and on Windows
     // Turbopack treats each write as a change, rebuilds, and reloads the page in a loop.
     mcpServer: false,
+    // Remind about (and let `next upgrade --agent` handle) Next.js security advisories
+    agentUpgrade: 'security',
   },
   // type-graphql + reflect-metadata break when bundled/minified (invalid GraphQL names like "$").
   serverExternalPackages: [
