@@ -315,10 +315,10 @@ describe('RecipeHero', () => {
     <RecipeHero recipe={value} view={toRecipeView(value)} />
   )
 
-  it('labels cost and difficulty beside the title', () => {
+  it('shows the course, time, cost, and difficulty beside the title', () => {
     render(<Hero value={recipe} />)
 
-    expect(screen.getByText('Total')).toBeInTheDocument()
+    expect(screen.getByText('Entrée')).toBeInTheDocument()
     expect(screen.getByText('50 min')).toBeInTheDocument()
     expect(screen.getByText('Cost')).toBeInTheDocument()
     expect(screen.getByText('Difficulty')).toBeInTheDocument()
