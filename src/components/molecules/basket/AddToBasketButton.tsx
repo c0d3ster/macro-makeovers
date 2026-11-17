@@ -59,10 +59,10 @@ export const AddToBasketButton = ({
         }
         disabled={!isLoaded}
         onClick={inBasket ? removeFromBasket : addToBasket}
-        className={`flex size-10 cursor-pointer items-center justify-center rounded-full shadow-md transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none disabled:opacity-0 ${
+        className={`flex size-10 cursor-pointer items-center justify-center rounded-full shadow-md transition duration-200 hover:shadow-lg focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none disabled:opacity-0 ${
           inBasket
-            ? 'bg-primary text-on-primary'
-            : 'bg-surface/90 text-text hover:bg-surface'
+            ? 'bg-primary text-on-primary hover:bg-accent'
+            : 'bg-surface/90 text-text hover:bg-primary hover:text-on-primary'
         }`}
       >
         {inBasket ? (
@@ -134,7 +134,7 @@ export const AddToBasketButton = ({
       type='button'
       disabled={!isLoaded}
       onClick={addToBasket}
-      className='flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-primary px-4 py-3 text-sm font-medium text-on-primary transition-colors hover:bg-primary/90 focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:outline-none disabled:opacity-50'
+      className='flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-primary px-4 py-3 text-sm font-medium text-on-primary shadow-sm transition duration-200 hover:bg-accent hover:shadow-md focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-primary'
     >
       <BasketIcon />
       {otherBuild ? 'Swap this build into the basket' : 'Add to basket'}
