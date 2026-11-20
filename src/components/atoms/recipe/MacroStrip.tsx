@@ -20,8 +20,7 @@ const TONES: Record<MacroTone, string> = {
 }
 
 // A slim, faded bar that only shows the proportions. The numbers live elsewhere. The gap matches
-// the MacroBar pills, but there is no text to fit, so segments keep their true share. The pills'
-// minimum widths would clamp small shares and, on narrow screens, draw every strip the same.
+// the MacroBar pills. With no text to fit, segments keep their true share down to a sliver.
 export const MacroStrip = ({
   segments,
   label,
