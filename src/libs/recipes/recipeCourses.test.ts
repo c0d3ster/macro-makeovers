@@ -38,12 +38,17 @@ const salad = ((): RecipeCard => {
 
 describe('cardsForCourses', () => {
   it('keeps each recipe in the section its course belongs to', () => {
-    const cards = [card('chili', 'main'), card('salsa', 'sauce')]
+    const cards = [
+      card('chili', 'main'),
+      card('poppers', 'appetizer'),
+      card('salsa', 'sauce'),
+    ]
 
     expect(cardsForCourses(cards, DISH_COURSES).map(({ slug }) => slug)).toEqual([
       'chili',
     ])
     expect(cardsForCourses(cards, SIDE_COURSES).map(({ slug }) => slug)).toEqual([
+      'poppers',
       'salsa',
     ])
   })

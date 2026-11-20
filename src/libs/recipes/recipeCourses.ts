@@ -23,16 +23,12 @@ export const COURSE_LABELS: Record<RecipeCourse, string> = {
 }
 
 // The courses the main grid, filters, and goal matching show
-export const DISH_COURSES: readonly RecipeCourse[] = [
-  'breakfast',
-  'appetizer',
-  'main',
-]
+export const DISH_COURSES: readonly RecipeCourse[] = ['breakfast', 'main']
 
-// The courses the Sides & Sauces section shows, as compact cards
-export const SIDE_COURSES: readonly RecipeCourse[] = ['side', 'sauce']
+// The courses the appetizers, sides and sauces section shows, as compact cards
+export const SIDE_COURSES: readonly RecipeCourse[] = ['appetizer', 'side', 'sauce']
 
-// The anchor of the Sides & Sauces section on /recipes, where a side or sauce page links back to
+// The anchor of the appetizers, sides and sauces section on /recipes, which their pages link to
 export const SIDES_SECTION_ID = 'sides-and-sauces'
 
 export const isSideCourse = (course: RecipeCourse): boolean =>

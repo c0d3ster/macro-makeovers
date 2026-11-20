@@ -8,7 +8,8 @@ type CompactRecipeGridProps = {
   recipes: RecipeCard[]
 }
 
-// Sides and sauces as compact cards, up to three to a row, the same columns as the main grid
+// Appetizers, sides and sauces as compact cards, up to three to a row, the same columns as the
+// main grid
 export const CompactRecipeGrid = ({
   recipes,
 }: CompactRecipeGridProps): ReactElement => (
