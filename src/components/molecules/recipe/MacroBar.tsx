@@ -24,7 +24,8 @@ type MacroBarProps = {
 }
 
 // One bar split by share of calories, so a protein-heavy recipe reads protein-heavy at a glance.
-// The floor width keeps a small share, like 15% fat, wide enough for its text.
+// Each pill's floor is its own text (a flex item's default min-width), so a small share stays
+// readable without being padded past its true width on narrow screens.
 export const MacroBar = ({
   macros,
   compact = false,
@@ -38,7 +39,13 @@ export const MacroBar = ({
     {macros.map(({ label, tone, percent, grams, fromPercent }) => (
       <div
         key={label}
-        className={`${compact ? 'min-w-14' : 'min-w-22'} ${reveal ? (fromPercent === undefined ? 'macro-reveal-pill-from-zero' : 'macro-reveal-pill') : ''}`}
+        className={
+          reveal
+            ? fromPercent === undefined
+              ? 'macro-reveal-pill-from-zero'
+              : 'macro-reveal-pill'
+            : undefined
+        }
         style={
           {
             flexGrow: percent,
