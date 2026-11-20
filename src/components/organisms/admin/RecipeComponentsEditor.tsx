@@ -71,8 +71,8 @@ export const RecipeComponentsEditor = (): ReactElement => {
       </div>
       <p className='text-sm text-text-muted'>
         Both are optional. The page reads &quot;cals per 1/2 cup&quot; and &quot;5 servings ·
-        2.5 cups&quot;. Sides and sauces show as compact cards in their own section. List the ones
-        this recipe uses by slug, and they show inline in its ingredients.
+        2.5 cups&quot;. Appetizers, sides and sauces show as compact cards in their own section.
+        List the sides and sauces this recipe uses by slug, and they show inline in its ingredients.
       </p>
 
       {components.fields.length > 0 && (

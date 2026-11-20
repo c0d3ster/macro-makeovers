@@ -76,7 +76,7 @@ export const RecipeHero = ({
       <div className='relative flex items-center'>
         {isSideCourse(course) ? (
           <BackLink href={`/recipes#${SIDES_SECTION_ID}`}>
-            Sides and sauces
+            Appetizers, sides and sauces
           </BackLink>
         ) : (
           <BackLink href='/recipes'>All recipes</BackLink>

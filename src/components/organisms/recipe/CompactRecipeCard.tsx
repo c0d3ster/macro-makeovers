@@ -8,6 +8,7 @@ import { MacroDonut, RecipeImage, SpiceLevel } from '@/components/atoms'
 import { cardHref, toMacroRatios } from '@/libs/recipes'
 
 const COURSE_LABELS: Partial<Record<RecipeCardData['course'], string>> = {
+  appetizer: 'Appetizer',
   side: 'Side',
   sauce: 'Sauce',
 }
@@ -26,10 +27,10 @@ type CompactRecipeCardProps = {
   recipe: RecipeCardData
 }
 
-// A side or sauce in a short row: a small photo, the name, and the macros per serving as a donut
-// with grams and shares beside it, in carbs, fat, protein order. Sides and sauces are rarely
-// protein-heavy, so no single macro leads. No summary or tags, so a whole section of them takes
-// about the room of one row of full cards.
+// An appetizer, side, or sauce in a short row: a small photo, the name, and the macros per
+// serving as a donut with grams and shares beside it, in carbs, fat, protein order. These are
+// rarely protein-heavy, so no single macro leads. No summary or tags, so a whole section of them
+// takes about the room of one row of full cards.
 export const CompactRecipeCard = ({
   recipe,
 }: CompactRecipeCardProps): ReactElement => {
