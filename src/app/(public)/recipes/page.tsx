@@ -33,7 +33,7 @@ const RecipesPage = async ({
 }: RecipesPageProps): Promise<ReactElement> => {
   const filters = parseRecipeFilters(await searchParams)
   const browse = await loadRecipeBrowse(filters)
-  // Sides and sauces are not filtered, so they show only on the unfiltered list
+  // Appetizers, sides and sauces are not filtered, so they show only on the unfiltered list
   const isUnfiltered = toSearchParams(filters).toString() === ''
   const intro = (
     <header className='max-w-2xl'>
@@ -65,8 +65,8 @@ const RecipesPage = async ({
             {isUnfiltered && browse.sides.length > 0 && (
               <HomeSection
                 id={SIDES_SECTION_ID}
-                title='Sides and sauces'
-                intro='Each dish that uses one shows it inline, so you can make it without leaving the page.'
+                title='Appetizers, sides and sauces'
+                intro='Appetizers to serve on their own, and the sides and sauces each dish shows inline, so you can make them without leaving the page.'
               >
                 <CompactRecipeGrid recipes={browse.sides} />
               </HomeSection>

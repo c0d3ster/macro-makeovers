@@ -145,8 +145,8 @@ const HomePage = async ({
 
         {sides.length > 0 && (
           <HomeSection
-            title='Sides and sauces'
-            intro='The salsas and sides the dishes use, each with its own macros.'
+            title='Appetizers, sides and sauces'
+            intro='Small plates to start with, and the salsas and sides the dishes use, each with its own macros.'
             more={{ href: '/recipes', label: 'All recipes' }}
           >
             <CompactRecipeGrid recipes={sides} />

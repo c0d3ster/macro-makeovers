@@ -22,9 +22,10 @@ import {
 import { services } from '@/services'
 
 type RecipeBrowse = {
-  // Every published dish (breakfasts, appetizers, mains), for building the tag list
+  // Every published dish (breakfasts, mains), for building the tag list
   all: RecipeCard[]
-  // Sides and sauces, shown apart as compact cards and left out of filters and goal matching
+  // Appetizers, sides and sauces, shown apart as compact cards and left out of filters and goal
+  // matching
   sides: RecipeCard[]
   // The recipes left after applying the filters
   visible: RecipeCard[]

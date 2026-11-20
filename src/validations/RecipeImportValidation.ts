@@ -231,7 +231,7 @@ export const recipeImportSchema = z
     course: courseSchema
       .default('main')
       .describe(
-        'What the dish is on a menu. Sides and sauces show as compact cards in their own section.'
+        'What the dish is on a menu. Appetizers, sides and sauces show as compact cards in their own section.'
       ),
     spiceLevel: tier
       .optional()
