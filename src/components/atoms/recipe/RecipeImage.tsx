@@ -17,11 +17,12 @@ type RecipeImageProps = {
   placeholderText?: string
   // A thumbnail: the placeholder shows a small logo and no text
   thumbnail?: boolean
+  // The frame's shape as a Tailwind aspect class. The placeholder photos are 3:2.
+  aspect?: string
 }
 
-// The placeholder photos are 3:2
-const frameFor = (rounded: boolean): string =>
-  `aspect-[3/2] w-full ${rounded ? 'rounded-xl' : ''}`
+const frameFor = (aspect: string, rounded: boolean): string =>
+  `${aspect} w-full ${rounded ? 'rounded-xl' : ''}`
 
 // Scales inside the clipped frame. Skipped for people who ask for less motion.
 const ZOOM =
@@ -40,8 +41,9 @@ export const RecipeImage = ({
   zoomOnHover = false,
   placeholderText = 'Photo coming soon',
   thumbnail = false,
+  aspect = 'aspect-[3/2]',
 }: RecipeImageProps): ReactElement => {
-  const frame = frameFor(rounded)
+  const frame = frameFor(aspect, rounded)
   const zoom = zoomOnHover ? ZOOM : ''
 
   // Photos live in R2 and go through the image optimizer, so a phone never loads the full-size
