@@ -1,4 +1,4 @@
-# PRD 04: Meal planner (paid)
+# PRD 04: Meal planner (Fit)
 
 **Status:** Not started. Builds (PRD 09) and courses with components (#64) shipped since this was written, so the planner picks a build per entry and the basket hand-off sends servings, not batches.
 
@@ -8,7 +8,7 @@ Members who like the recipes still have to work out a week of meals that hits th
 
 ## Goal
 
-A paid member builds a weekly plan from the recipes, sees how each meal fits their goal, and sends the week to the basket (PRD 08) for one shopping list.
+A Fit member builds a weekly plan from the recipes, sees how each meal fits their goal, and sends the week to the basket (PRD 08) for one shopping list.
 
 ## Scope
 
@@ -26,13 +26,14 @@ A paid member builds a weekly plan from the recipes, sees how each meal fits the
 
 **Out**
 
-- Carb cycling, training-day plans, a second planning tier. Later.
+- Carb cycling and training-day plans. Later.
+- Studio additions: library recipes in plans and generated fill-ins for empty slots (PRD 10).
 - Custom foods and tracking intake against the plan.
 - Sharing plans between members.
 
 ## Requirements
 
-1. Paid only. Free members see a preview with sample data and an upgrade prompt. The preview does not need real planner logic.
+1. Fit and Studio, through `hasPaidAccess` (PRD 01). Free members see a preview with sample data and an upgrade prompt. The preview does not need real planner logic.
 2. Totals use per-serving nutrition from the chosen build (PRD 09), scaled by servings. The default build is preselected, and the member can pick another where a recipe has one. Note that the basket keeps one build per recipe, so a plan with two builds of one recipe cannot send both as it works today.
 3. A plan works without a profile, with no fit indicators, and nudges the member to set a goal and goal weight.
 4. Servings math is shared with the recipe page scaler, and pricing and leftover math are shared with the basket (`src/libs/basket`).
@@ -45,11 +46,11 @@ A paid member builds a weekly plan from the recipes, sees how each meal fits the
 
 ## Success metrics
 
-- Paid members who create a plan in the first week.
-- Plans per active paid member per month.
+- Fit members who create a plan in the first week.
+- Plans per active Fit member per month.
 - Plans sent to the basket.
 - Leftover suggestions added to a plan.
-- Paid retention for planners versus non-planners.
+- Fit retention for planners versus non-planners.
 
 ## Risks and open questions
 

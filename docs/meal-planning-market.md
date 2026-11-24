@@ -45,7 +45,7 @@ Research for the paid plan and the basket. Checked 2026-11-08. App Store ratings
 
 ## AI recipe makeover apps
 
-Checked 2026-11-24 for the makeover tier (PRD 10). Pricing not checked.
+Checked 2026-11-24 for Studio (PRD 10). Pricing not checked.
 
 | App | What it does | Personal targets | Grocery |
 | --- | --- | --- | --- |

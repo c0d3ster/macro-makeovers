@@ -8,7 +8,7 @@ Cooking two or three recipes in the same stretch is how this book works, but eve
 
 ## Goal
 
-Anyone can add recipes to a basket, see one pooled shopping list, and see what the trip costs, what each recipe works out to per serving, and how much bundling saves. Paid members can send the basket to a grocery service (PRD 05).
+Anyone can add recipes to a basket, see one pooled shopping list, and see what the trip costs, what each recipe works out to per serving, and how much bundling saves. Fit members can send the basket to a grocery service (PRD 05).
 
 ## Naming
 
@@ -24,7 +24,7 @@ Anyone can add recipes to a basket, see one pooled shopping list, and see what t
   - A summary: the trip cost before tax, and what the trip saves against buying every recipe as written. When it saves anything, a small table sets "This trip" against "Normally" for the register total and what is left over.
   - The pooled shopping list, grouped by store section.
   - One bundle suggestion: the recipe that would save the most if added to the current basket.
-  - "Send to cart", which opens PRD 05 for paid members. Until PRD 05 ships it is a placeholder that says ordering is coming with the paid plan.
+  - "Send to cart", which opens PRD 05 for Fit members. Until PRD 05 ships it is a placeholder that says ordering is coming with Fit.
 - Pantry staples hidden by default, with a toggle.
 - Check off items while shopping.
 - Copy the list as plain text.
