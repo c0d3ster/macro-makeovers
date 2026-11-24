@@ -15,9 +15,9 @@ The owner picked a multi-grocer handoff: at "Send to cart" the user chooses wher
 
 **Default:** the grocer the user picked last time. For a first-time user, pick by zip: Kroger pickup if a Kroger-banner store is nearby, otherwise Walmart pickup. Pickup is the default mode everywhere, because it's the only mode where the checkout total roughly matches our basket cost.
 
-**Revenue honestly:** on 100 orders of a $60 in-store basket, Instacart earns about $300 to $350. Walmart and Kroger together earn $0 to $60. That gap of about $250 to $350 per 100 orders is real. On the same $60 basket, the Instacart user pays roughly $12 to $30 more than in-store. The owner's read holds up: the 5% is paid out of a take that markups and fees fund. Lead with the honest-cost grocers and accept the lower revenue. The $5 plan, not affiliate fees, is the main revenue line.
+**Revenue honestly:** on 100 orders of a $60 in-store basket, Instacart earns about $300 to $350. Walmart and Kroger together earn $0 to $60. That gap of about $250 to $350 per 100 orders is real. On the same $60 basket, the Instacart user pays roughly $12 to $30 more than in-store. The owner's read holds up: the 5% is paid out of a take that markups and fees fund. Lead with the honest-cost grocers and accept the lower revenue. Subscriptions (Fit at $5, Studio at $20), not affiliate fees, are the main revenue line.
 
-**Paid or free:** with Walmart and Kroger earning almost nothing per order, the affiliate argument for a free handoff is gone. It's fine to keep "Send to cart" in the $5 plan as PRD 05 says. Keep the free basket's copy and share path. Disclose affiliate links next to the button.
+**Paid or free:** with Walmart and Kroger earning almost nothing per order, the affiliate argument for a free handoff is gone. It's fine to keep "Send to cart" in Fit as PRD 05 says. Keep the free basket's copy and share path. Disclose affiliate links next to the button.
 
 ## Comparison
 

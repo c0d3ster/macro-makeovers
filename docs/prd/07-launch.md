@@ -10,12 +10,12 @@ Reach the first paying members with a message that is honest and specific, and l
 
 ## Positioning
 
-Macro-friendly versions of foods people already love, with the macros shown, protein included, so people can eat well without giving up favorites. The "makeover vs traditional" comparison is the hook. The basket is free and shows what bundling recipes saves. The paid plan is the planner, ordering ("Send to cart"), and the book.
+Macro-friendly versions of foods people already love, with the macros shown, protein included, so people can eat well without giving up favorites. The "makeover vs traditional" comparison is the hook. The basket is free and shows what bundling recipes saves. Fit, the $5 plan, is targets built for your body, the planner, ordering ("Send to cart"), and the book. Studio ($20) comes later and is not part of launch.
 
 ## Launch gates (do not advertise before these)
 
 1. PRD 01 shipped: sign-up, subscription, gated book.
-2. The free basket (PRD 08) live, plus at least one paid feature beyond the book, either the planner or ordering.
+2. The free basket (PRD 08) live, plus at least one Fit feature beyond the book: personal targets, the planner, or ordering.
 3. At least 25 published recipes.
 4. Nutrition disclaimer, privacy policy, terms, and refund policy pages.
 5. Analytics events for the funnel below.
@@ -23,7 +23,7 @@ Macro-friendly versions of foods people already love, with the macros shown, pro
 
 ## Pricing and offer
 
-- One plan at 5 dollars a month to start. Stripe Tax is deferred.
+- Fit at 5 dollars a month to start. Studio at 20 dollars a month once PRD 10 ships. Stripe Tax is deferred.
 - Free tier is generous on purpose, since recipes drive traffic and sharing.
 - Consider a founding-member price for early subscribers, honored as long as they stay subscribed.
 

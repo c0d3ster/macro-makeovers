@@ -8,7 +8,9 @@ Every visitor sees the same recipes with the same filters. People want to know w
 
 ## Goal
 
-A signed-in member sets a goal and a goal weight once, and can optionally add their calorie burn for a more accurate result. The site then adjusts its filters and recipe highlights to match. This is free and feeds the paid planner.
+A Fit member sets a goal and a goal weight once, and can optionally add their calorie burn for a more accurate result. The site then adjusts its filters and recipe highlights to match. This is Fit's headline feature and feeds the planner (PRD 04).
+
+The split with Free: everyone keeps today's goal presets (pick recomp or bulk, see recipes ranked by the book's ratios). Fit turns "fits a recomp goal" into "fits you," with targets from the member's own weight and burn.
 
 This is not a calorie tracker. The site only covers recipes, not every meal in someone's day, so it does not track daily intake. Calorie burn is a one-time setting that sharpens the ratios, and everything has a default if the member skips it.
 
@@ -35,8 +37,8 @@ This is not a calorie tracker. The site only covers recipes, not every meal in s
 
 ## Requirements
 
-1. The profile is optional. Without it the site works exactly as today.
-2. Goals are data, not code paths: a table or constant mapping each goal to protein grams per pound, fat grams per pound, and a calorie adjustment, so adding or retuning a goal needs no logic change. Illustrative protein and fat values to confirm: pure bulk 1.2 and 0.5, clean bulk 1.0 and 0.4, recomp about 0.3 fat. Today's hard-coded book ratios are replaced by this model.
+1. The profile is optional and Fit only, through `hasPaidAccess` (PRD 01). Without it, or on Free, the site works exactly as today with the goal presets. Free members see the profile form with an upgrade prompt, so the feature is visible.
+2. Goals are data, not code paths: a table or constant mapping each goal to protein grams per pound, fat grams per pound, and a calorie adjustment, so adding or retuning a goal needs no logic change. Illustrative protein and fat values to confirm: pure bulk 1.2 and 0.5, clean bulk 1.0 and 0.4, recomp about 0.3 fat. For Fit members this model replaces today's hard-coded book ratios. Free keeps the presets.
 3. One pure function turns goal, goal weight, and the optional burn inputs into target calories, grams, C/F/P percents, and a per-meal range for protein and fat. The planner reuses it. The number of meals it divides across is a constant (proposed: 3), not a member input.
 4. Defaults keep the function total when inputs are missing:
    - No resting calories: estimate from goal weight with one global constant (11 calories per pound, see open questions).

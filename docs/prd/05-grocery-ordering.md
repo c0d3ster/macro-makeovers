@@ -1,8 +1,8 @@
-# PRD 05: Grocery ordering (paid)
+# PRD 05: Grocery ordering (Fit)
 
 ## Problem
 
-The basket (PRD 08) gives everyone a pooled shopping list, but the groceries still have to be bought. Paid members should be able to send the basket to a grocery service and check out there.
+The basket (PRD 08) gives everyone a pooled shopping list, but the groceries still have to be bought. Fit members should be able to send the basket to a grocery service and check out there.
 
 ## Goal
 
@@ -31,7 +31,7 @@ The member chooses where to shop instead of us picking one service for everyone.
 
 ## Requirements
 
-1. Paid only, through `hasPaidAccess` (PRD 01). Free members see the button with an upgrade prompt, so the feature is visible.
+1. Fit and Studio, through `hasPaidAccess` (PRD 01). Free members see the button with an upgrade prompt, so the feature is visible.
 2. The handoff sends what the basket would buy: whole packs, pantry items only when the pantry toggle is on, checked-off items left out.
 3. Lines that cannot be matched stay visible in the handoff result, never silently dropped.
 4. Failure shows a clear message, and copy as text from the basket still works.
