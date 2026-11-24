@@ -22,7 +22,7 @@ Visitors can sign up free, subscribe to one paid plan, and get the paid features
 
 **Out**
 
-- Annual plan, coupons, trials, teams, a second tier, hard copy orders. Leave room for them, build none.
+- Annual plan, coupons, trials, teams, a second tier (planned in PRD 10, which adds a `plan` column), hard copy orders. Leave room for them, build none.
 - The ForgeFit partner integration itself. Only the seams below are in scope now.
 
 **Planned, not built: partner entitlement.** ForgeFit will sell a higher tier that includes MacroMakeovers, and ForgeFit's business pays this one per user. Those members get paid access without a Stripe subscription here. Keep this possible:
