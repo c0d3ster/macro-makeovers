@@ -52,11 +52,12 @@ describe('billingEmailContent', () => {
 describe('formatPlanPrice', () => {
   it.each([
     [undefined, '$5'],
-    ['5', '$5'],
-    ['3', '$3'],
-    ['4.5', '$4.50'],
-    ['nope', '$5'],
-    ['0', '$5'],
+    [null, '$5'],
+    [500, '$5'],
+    [300, '$3'],
+    [450, '$4.50'],
+    [0, '$5'],
+    [Number.NaN, '$5'],
   ])('%s shows as %s', (input, expected) => {
     expect(formatPlanPrice(input)).toBe(expected)
   })
