@@ -31,8 +31,8 @@ told otherwise, so the flag is what sends migrations to the linked hosted projec
 - `OPENAI_API_KEY` and the `R2_*` values turn on placeholder photos.
 - `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, and `STRIPE_PRICE_ID` turn on the paid plan
   (checkout, the billing portal, and the webhook). Without them, subscribe buttons say billing is
-  unavailable and the webhook answers 503. `PLAN_PRICE_USD` is the monthly price the site shows
-  (default 5); keep it equal to the Stripe price. See [Stripe](#stripe) below.
+  unavailable and the webhook answers 503. The pricing page reads the amount from that Stripe
+  price (cached for an hour) and shows 5 dollars when Stripe is not set up. See [Stripe](#stripe).
 - `R2_BOOK_BUCKET` is the private bucket that holds the recipe book PDF. It uses the same
   `R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, and `R2_SECRET_ACCESS_KEY` as the photos.
 - `RESEND_API_KEY` sends email from hello@macromakeovers.com, a verified Resend domain: makeover

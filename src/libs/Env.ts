@@ -36,10 +36,9 @@ export const Env = createEnv({
     // Stripe: all three turn on checkout, the billing portal, and the webhook
     STRIPE_SECRET_KEY: z.string().optional(),
     STRIPE_WEBHOOK_SECRET: z.string().optional(),
-    // The monthly plan's price id (price_...). Swap it to change the price.
+    // The monthly plan's price id (price_...). Swap it to change the price; the pricing page reads
+    // the amount from it.
     STRIPE_PRICE_ID: z.string().optional(),
-    // The monthly price shown on the site, in dollars. Keep it equal to the Stripe price.
-    PLAN_PRICE_USD: z.string().optional(),
   },
   client: {
     NEXT_PUBLIC_APP_URL: z.string().optional(),
@@ -74,7 +73,6 @@ export const Env = createEnv({
     STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
     STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET,
     STRIPE_PRICE_ID: process.env.STRIPE_PRICE_ID,
-    PLAN_PRICE_USD: process.env.PLAN_PRICE_USD,
     NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
     NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
     NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY:

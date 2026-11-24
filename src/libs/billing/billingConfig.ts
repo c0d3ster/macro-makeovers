@@ -37,10 +37,10 @@ export const readBillingConfig = ({
   return { missing }
 }
 
-// The monthly price as shown on the pricing page. The charge itself comes from the Stripe price
-// (STRIPE_PRICE_ID), so a founding-member price is a new Stripe price plus this value, not code.
-export const formatPlanPrice = (usd: string | undefined): string => {
-  const value = Number(usd)
-  if (!usd || !Number.isFinite(value) || value <= 0) return '$5'
-  return Number.isInteger(value) ? `$${value}` : `$${value.toFixed(2)}`
+// The monthly price as shown on the pricing page, from the Stripe price's amount in cents. Falls
+// back to $5 when Stripe is not set up or the price has no fixed amount.
+export const formatPlanPrice = (cents: number | null | undefined): string => {
+  if (!cents || !Number.isFinite(cents) || cents <= 0) return '$5'
+  const dollars = cents / 100
+  return Number.isInteger(dollars) ? `$${dollars}` : `$${dollars.toFixed(2)}`
 }

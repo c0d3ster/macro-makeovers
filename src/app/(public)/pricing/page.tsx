@@ -11,7 +11,7 @@ import {
   SubscribeButton,
 } from '@/components/molecules'
 import { LandingPageTemplate } from '@/components/templates'
-import { formatPlanPrice } from '@/libs/billing/billingConfig'
+import { getPlanPrice } from '@/libs/billing/planPrice'
 import { Env } from '@/libs/Env'
 
 export const metadata: Metadata = {
@@ -73,8 +73,7 @@ const CallToAction = ({
 }
 
 const PricingPage = async (): Promise<ReactElement> => {
-  const price = formatPlanPrice(Env.PLAN_PRICE_USD)
-  const myPlan = await loadMyPlan()
+  const [price, myPlan] = await Promise.all([getPlanPrice(), loadMyPlan()])
 
   return (
     <LandingPageTemplate activeItem='pricing'>
