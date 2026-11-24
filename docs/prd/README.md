@@ -8,7 +8,8 @@ PRDs for the post-launch features. Each file is self-contained: problem, scope, 
 - **Paid, one plan:** meal planning with leftover-aware suggestions, ordering ("Send to cart" from the basket), and the book download. 5 dollars a month.
 - **Excluded for now:** early access to new recipes. Every recipe stays free.
 - **Naming:** the basket is ours, where recipes get bundled and priced. The cart belongs to the grocery service. "Send to cart" is the handoff.
-- **Later, if needed:** a hard copy book tier and a more comprehensive planning tier. Nothing in these PRDs should block that, but none of it is built now.
+- **Later, second paid plan (planned):** the makeover tier in [PRD 10](./10-makeover-tier.md), at $10 to $20 a month: make over any recipe or generate one from an idea, saved to a personal library, also reachable through the member's own Claude. Two paid plans total. Starts once the $5 plan has paying members and the book has 50+ recipes. PRD 10 lists open questions on whether personalization and the meal planner sit in the free, $5, or makeover plan.
+- **Later, if needed:** a hard copy book tier. Nothing in these PRDs should block that, but none of it is built now.
 - **Later, partner channel:** ForgeFit (a separate personal training app that reads Garmin data) will sell a higher tier that includes MacroMakeovers, and pay this business per user. Data flows from ForgeFit to here (for example weight, resting calories, and average activity burn). It needs its own PRD once ForgeFit has a stable API. For now, PRD 01 keeps entitlements source-agnostic and PRD 02 records the source of weight, resting calories, and activity burn so a partner can supply them later. This site does not track daily intake.
 
 ## Order
@@ -24,6 +25,7 @@ PRDs for the post-launch features. Each file is self-contained: problem, scope, 
 | 06  | [Favorites and reviews](./06-reviews.md)               | 01         | Free engagement, later. Favorites first, reviews once there is traffic. | Not started. |
 | 07  | [Launch and advertising](./07-launch.md)               | 01, 08 minimum | Gets paying users. Can overlap with 02 to 05.    | Not checked. |
 | 09  | [Builds](./09-builds.md)                               | none       | Lets filters and the basket use every build, not only the default. Before 02 and 04, which judge fit per build. | Shipped. |
+| 10  | [Makeover tier](./10-makeover-tier.md)                 | 01, 02, 03 | Second paid plan. Needs paying members and 50+ recipes first. | Planned, not started. |
 
 03, 08, 09, and 01 have no blocking dependencies, so they can run in parallel. 08 is numbered last because it was added later, but it builds early. Grocery service options are compared in [`docs/grocery-services.md`](../grocery-services.md).
 
