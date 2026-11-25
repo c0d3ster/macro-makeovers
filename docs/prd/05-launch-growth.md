@@ -56,6 +56,49 @@ Macro-friendly versions of foods people already love, with the macros shown, pro
 
 Do not spend on ads until organic conversion from visit to sign-up to paid is measured.
 
+### Advertising and marketing
+
+The plan is to take traffic that already goes to competitors, split it into target groups with their own message and landing page, and only scale the groups that convert. Competitors and their prices are in [`docs/meal-planning-market.md`](../meal-planning-market.md).
+
+#### Where competitor traffic can be won
+
+| Opening | What is happening | How we take it |
+| --- | --- | --- |
+| Mealime shut down (2026-10-21) | Albertsons closed Mealime and deleted every account, with no export. It claimed 7 million users. Eat This Much already runs a "switch from Mealime" page | A "Mealime alternative" page, search ads on Mealime terms, and posts where former users ask for replacements. The window closes as those users settle, so this test goes first |
+| "Alternative" and "vs" searches | People search for "[app] alternative" and "[app] vs [app]" before switching | Honest comparison pages for the closest competitors (Eat This Much, MyFitnessPal's meal planner, Plan to Eat, Mealime). Facts from the market doc, dated and sourced |
+| Competitor brand keywords | Google lets anyone bid on a competitor's name as a keyword, but not use it in ad text | A small, capped search test on competitor names. These clicks cost more because the brand owner wins on relevance, so measure cost per paid member before raising the cap |
+| Dish searches | People search for "high protein chicken alfredo" and "healthy [dish]" on Google and Pinterest | One page per recipe already exists. Add the "makeover vs traditional" numbers to titles, descriptions, and pins |
+| Communities | Macro, meal prep, and lifting communities on Reddit discuss the apps above by name | Reddit ads can target specific communities and keywords, which makes it the most precise way to reach a competitor's users. Organic posts follow each community's rules |
+
+#### Target groups
+
+| Group | Who | Using today | Pain | Hook | Channels | Landing page |
+| --- | --- | --- | --- | --- | --- | --- |
+| Displaced planners | Former Mealime users who want a week planned with a shopping list | Nothing yet, or a stopgap | Lost their saved recipes and plans | "Plan the week, send it to your cart." The free basket and Fit planner | Search, Reddit, comparison page | Mealime alternative page |
+| Macro trackers | People logging food in MyFitnessPal, MacroFactor, or Cronometer | A tracker, no recipe source | Know their numbers, not what to cook | "Comfort food with the macros already worked out." Book numbers were checked against MyFitnessPal | Reddit, search, short video | `/recipes` with a goal preset set |
+| Lifters on a recomp or bulk | Gym-goers chasing protein targets, some on RP or Carbon | A coach app or a spreadsheet | Hitting protein without eating plain chicken | Protein per serving, bulk builds, Fit targets from their own weight | Short video, Reddit, fitness creators | A bulk or recomp collection |
+| Comfort-food dieters | People who quit diets because the food was sad | Pinterest boards, "healthy" recipe blogs | Diet food that tastes like diet food | The "makeover vs traditional" comparison | Pinterest, short video, search | The recipe page itself |
+| Batch cookers on a budget | Meal preppers cooking once for the week | Recipe sites and a notes app | Cost and leftovers | Cost per serving and the pooled basket savings | Reddit, Pinterest, email | `/basket` with a starter bundle |
+| AI makeover users (later) | Users of easyEats, Reci AI, and similar apps | One-tap AI swaps | Untested results | Rules from kitchen-tested recipes | Hold until PRD 04 ships | Studio page |
+
+#### How targeting works per platform
+
+- **Meta (Instagram, Facebook):** since 2026-01-15, Meta treats interests as suggestions and has retired many of them, so stacking interests to reach a competitor's users no longer works. The target group is set by the creative, one ad set per group, plus custom audiences (site visitors, the email list) and lookalikes built from paying members once there are enough.
+- **Reddit:** target by community and keyword. Start with three to five communities per group.
+- **Google Search:** competitor, "alternative", and dish keywords, each in its own campaign so cost per group stays readable.
+- **Pinterest:** keyword and interest targeting on the pins that already do well organically.
+- **Creators:** high-protein recipe and fitness creators whose audience matches one group. Pay per post or by affiliate link, with FTC disclosure.
+
+#### Rules
+
+- No competitor names in ad text. Comparison pages may name competitors, but only to state facts, each with a date and a source, and with no implied endorsement.
+- No health or weight-loss outcome promises (see risks).
+- Every ad and post links with UTM tags (`utm_source`, `utm_medium`, `utm_campaign`), and `utm_campaign` names the target group, so sign-ups and paid members can be read per group from the traffic source on `users` (see [docs/analytics.md](../analytics.md)).
+- Set a cost ceiling per paid member before spending. At $5 a month with a three-month payback, that is about $15. Raise it only with churn data.
+- Pause a group after its test budget is spent with no paid members, and move the budget to the group that converts.
+
+Sources (checked 2026-11-25): [Mealime closing notice](https://www.mealime.com/closing), [Eat This Much switch page](https://www.eatthismuch.com/switch-from-mealime), [Google Ads trademark policy](https://support.google.com/adspolicy/answer/6118), [Meta targeting change, January 2026](https://advlaunch.us/blog/meta-detailed-targeting-removed-2026), [Reddit ad targeting](https://sproutsocial.com/insights/reddit-advertising/).
+
 ### Funnel and events
 
 Visit, recipe view, sign-up, profile completed, plan created, upgrade prompt seen, checkout started, subscription active, subscription canceled. Use Vercel Analytics custom events or add a product analytics tool. Record the traffic source on sign-up.
@@ -66,7 +109,7 @@ Built with Vercel Analytics custom events. The event list, where each is sent, a
 
 - Weekly visitors and sign-ups.
 - Visit to sign-up and sign-up to paid conversion.
-- Cost per paid member by channel.
+- Cost per paid member by channel and by target group.
 - Monthly recurring revenue and churn.
 - Break-even point: paid members needed to cover hosting, Supabase, OpenAI images, and Stripe fees. Compute this before spending on ads.
 
@@ -76,6 +119,8 @@ Built with Vercel Analytics custom events. The event list, where each is sent, a
 - Photos are AI-generated placeholders. Decide whether to replace them with real photos before heavy promotion, since food ads depend on them. Disclose AI images where required.
 - Time budget. One person cannot run every channel. Pick two to start.
 - Does the owner have an existing audience to seed the launch?
+- Trademark risk on comparison pages. Have the copy checked before they go live.
+- Competitor search clicks can be expensive. Keep that test capped until cost per paid member is known.
 
 ### Tasks
 
@@ -85,6 +130,11 @@ Built with Vercel Analytics custom events. The event list, where each is sent, a
 4. Break-even model.
 5. Content calendar for the first four weeks and two channel tests.
 6. Founding-member offer, if chosen.
+7. Mealime alternative page and the first search and Reddit test against it.
+8. Comparison pages for the closest competitors, sourced from the market doc.
+9. One landing page and one ad set per target group, with UTM campaigns named by group.
+10. Cost ceiling per paid member, and a per-group report from `users` traffic source.
+11. Creator shortlist per target group.
 
 ## Phases 2 and 3: Favorites and reviews
 
