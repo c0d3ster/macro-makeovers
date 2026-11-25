@@ -2,11 +2,11 @@
 
 **Plan:** Free. This PRD builds the gate every Fit and Studio feature uses.
 
-**Status:** Phase 1 built, launch steps open. Phases 2 and 3 not started.
+**Status:** Phase 1 shipped. Phases 2 and 3 not started.
 
 | Phase | What | Status |
 | --- | --- | --- |
-| 1 | Accounts and the Fit subscription | Built, migrations applied (Nov 24). Open: Stripe setup and `STRIPE_*` in Vercel, Resend auth emails, delete the public `recipe-book` release |
+| 1 | Accounts and the Fit subscription | Shipped (Nov 25) |
 | 2 | Studio plan level | Not started. Build with PRD 04 phase 1 |
 | 3 | Partner entitlement (ForgeFit) | Later |
 
@@ -20,7 +20,7 @@ Visitors can sign up free, subscribe to Fit ($5 a month) and later Studio ($20 a
 
 ## Phase 1: Accounts and the Fit subscription
 
-**Status:** Built, and migrations are applied on the hosted database (Nov 24). Open before launch: set up the product, price, and webhook in Stripe and add the `STRIPE_*` values in Vercel, send auth emails through Resend, and delete the public `recipe-book` release.
+**Status:** Shipped (Nov 25). Migrations are applied on the hosted database, Stripe and the `STRIPE_*` values in Vercel are set up, auth emails go through Resend, and the public `recipe-book` release is deleted.
 
 ### Scope
 
@@ -41,7 +41,7 @@ Visitors can sign up free, subscribe to Fit ($5 a month) and later Studio ($20 a
 
 ### Requirements
 
-1. Hosted Supabase sign-ups are on, and new users get role `client`. Done. Auth emails come from Supabase's built-in sender until they move to Resend SMTP from hello@macromakeovers.com.
+1. Hosted Supabase sign-ups are on, and new users get role `client`. Done. Auth emails go through Resend SMTP from hello@macromakeovers.com.
 2. `subscriptions` table keyed by user: Stripe customer id, subscription id, status, current period end, cancel at period end.
 3. Stripe webhooks (`checkout.session.completed`, `customer.subscription.updated`, `customer.subscription.deleted`, `invoice.payment_failed`) update the table. Handlers are idempotent and verify the signature.
 4. `hasPaidAccess` is true for status `active` or `trialing`, and for `past_due` inside a short grace window, on any plan. Owners always have access.
@@ -60,7 +60,7 @@ Visitors can sign up free, subscribe to Fit ($5 a month) and later Studio ($20 a
 
 ### Tasks
 
-1. Sign-up and the account page are live. Remaining: send auth emails through Resend from hello@macromakeovers.com.
+1. Sign-up and the account page are live, with auth emails through Resend from hello@macromakeovers.com. Done.
 2. `subscriptions` migration and model. Built.
 3. Stripe products, Checkout, Portal, webhook route, idempotency. Built; the product, price, and
    webhook endpoint get set up in the Stripe dashboard (see `docs/deployment.md`). The pricing page
@@ -69,8 +69,8 @@ Visitors can sign up free, subscribe to Fit ($5 a month) and later Studio ($20 a
    `requirePaidAccess(ctx, feature)` from `src/libs/billing`, which throws `SUBSCRIPTION_REQUIRED`.
    Paid tables use `public.has_paid_access()` in their RLS policies.
 5. Move the book to private storage and gate the download. Built: the book workflow uploads to the
-   private R2 bucket, and `bookDownloadUrl` signs a five-minute link. Delete the public
-   `recipe-book` release before launch.
+   private R2 bucket, and `bookDownloadUrl` signs a five-minute link. The public `recipe-book`
+   release is deleted.
 6. Pricing page, upgrade prompts, emails. Built. The meal planner and Send to cart show "Coming
    soon" on `/pricing` until PRD 03 phase 3 and PRD 02 phase 4 ship (`src/components/molecules/billing/planFeatures.ts`).
 7. Tests: webhook handling, access states, gating on each paid resolver. Built.

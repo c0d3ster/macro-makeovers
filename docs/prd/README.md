@@ -44,7 +44,7 @@ Three plans: Free, Fit, and Studio. This table is the source of truth for which 
 
 | # | PRD | Plan | Phases | Status |
 | --- | --- | --- | --- | --- |
-| 01 | [Plans and billing](./01-plans-billing.md) | Free (the gate) | 1 Accounts and Fit subscription, 2 Studio plan level, 3 Partner entitlement | 1 built, launch steps open (Stripe setup, Resend, public release). 2 not started. 3 later |
+| 01 | [Plans and billing](./01-plans-billing.md) | Free (the gate) | 1 Accounts and Fit subscription, 2 Studio plan level, 3 Partner entitlement | 1 shipped. 2 not started. 3 later |
 | 02 | [Shopping](./02-shopping.md) | Free basket, Fit Send to cart | 1 Browser basket, 2 Basket data in the database, 3 Account basket, 4 Send to cart, 5 Basket lines from recipes | 1 and 2 shipped. 3 not started. 4 built, shipping dark (#74). 5 later |
 | 03 | [Fit planning](./03-fit-planning.md) | Fit | 1 Personal targets, 2 Ingredient normalization, 3 Meal planner, 4 Auto-suggest | Not started. 4 later |
 | 04 | [Studio](./04-studio.md) | Studio | 1 Makeover engine and rules, 2 Library, caps, and cache, 3 Studio planner and connector access | Not started. Needs Fit members and 50+ recipes |
@@ -52,7 +52,7 @@ Three plans: Free, Fit, and Studio. This table is the source of truth for which 
 
 ## Order
 
-1. **Now, in parallel:** PRD 01 phase 1 launch steps, PRD 02 phase 3 (account basket), PRD 03 phases 1 and 2. None block each other.
+1. **Now, in parallel:** PRD 02 phase 3 (account basket), PRD 03 phases 1 and 2. None block each other.
 2. **Then:** PRD 03 phase 3 (meal planner), which needs PRD 03 phases 1 and 2 and the basket. PRD 02 phase 4 goes live as each grocer is approved.
 3. **Launch:** PRD 05 phase 1 once its gates are met: PRD 01 phase 1, the basket, at least one Fit feature beyond the book, and 25 recipes.
 4. **After launch:** PRD 05 phase 2 (favorites), PRD 02 phase 5, PRD 03 phase 4.
