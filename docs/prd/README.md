@@ -44,7 +44,7 @@ Three plans: Free, Fit, and Studio. This table is the source of truth for which 
 
 | # | PRD | Plan | Phases | Status |
 | --- | --- | --- | --- | --- |
-| 01 | [Plans and billing](./01-plans-billing.md) | Free (the gate) | 1 Accounts and Fit subscription, 2 Studio plan level, 3 Partner entitlement | 1 built, two launch steps open. 2 not started. 3 later |
+| 01 | [Plans and billing](./01-plans-billing.md) | Free (the gate) | 1 Accounts and Fit subscription, 2 Studio plan level, 3 Partner entitlement | 1 built, launch steps open (Stripe setup, Resend, public release). 2 not started. 3 later |
 | 02 | [Shopping](./02-shopping.md) | Free basket, Fit Send to cart | 1 Browser basket, 2 Basket data in the database, 3 Account basket, 4 Send to cart, 5 Basket lines from recipes | 1 and 2 shipped. 3 not started. 4 built, shipping dark (#74). 5 later |
 | 03 | [Fit planning](./03-fit-planning.md) | Fit | 1 Personal targets, 2 Ingredient normalization, 3 Meal planner, 4 Auto-suggest | Not started. 4 later |
 | 04 | [Studio](./04-studio.md) | Studio | 1 Makeover engine and rules, 2 Library, caps, and cache, 3 Studio planner and connector access | Not started. Needs Fit members and 50+ recipes |

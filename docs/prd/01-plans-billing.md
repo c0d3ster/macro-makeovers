@@ -2,11 +2,11 @@
 
 **Plan:** Free. This PRD builds the gate every Fit and Studio feature uses.
 
-**Status:** Phase 1 built, two launch steps open. Phases 2 and 3 not started.
+**Status:** Phase 1 built, launch steps open. Phases 2 and 3 not started.
 
 | Phase | What | Status |
 | --- | --- | --- |
-| 1 | Accounts and the Fit subscription | Built. Open: Resend auth emails, delete the public `recipe-book` release |
+| 1 | Accounts and the Fit subscription | Built, migrations applied (Nov 24). Open: Stripe setup and `STRIPE_*` in Vercel, Resend auth emails, delete the public `recipe-book` release |
 | 2 | Studio plan level | Not started. Build with PRD 04 phase 1 |
 | 3 | Partner entitlement (ForgeFit) | Later |
 
@@ -20,14 +20,14 @@ Visitors can sign up free, subscribe to Fit ($5 a month) and later Studio ($20 a
 
 ## Phase 1: Accounts and the Fit subscription
 
-**Status:** Built. Open before launch: send auth emails through Resend, and delete the public `recipe-book` release.
+**Status:** Built, and migrations are applied on the hosted database (Nov 24). Open before launch: set up the product, price, and webhook in Stripe and add the `STRIPE_*` values in Vercel, send auth emails through Resend, and delete the public `recipe-book` release.
 
 ### Scope
 
 **In**
 
 - Public sign-up with Google, or email and password with a confirmation link. Done.
-- Fit as a Stripe subscription, monthly. Price set by config, not code. Studio is added as a second Stripe price when PRD 04 starts.
+- Fit as a Stripe subscription, monthly. Price set by config (the Stripe price id), not code. Studio is added as a second Stripe price when PRD 04 starts.
 - Stripe Checkout for purchase and the Stripe Customer Portal for cancel, card change, and invoices.
 - Webhook-driven subscription state in our database.
 - A single `hasPaidAccess` check (Fit or higher) used by every Fit feature: personal targets (PRD 03 phase 1), the meal planner (PRD 03 phase 3), "Send to cart" (PRD 02 phase 4), and the book. Studio features use a plan-level check on top (PRD 04).
@@ -63,7 +63,8 @@ Visitors can sign up free, subscribe to Fit ($5 a month) and later Studio ($20 a
 1. Sign-up and the account page are live. Remaining: send auth emails through Resend from hello@macromakeovers.com.
 2. `subscriptions` migration and model. Built.
 3. Stripe products, Checkout, Portal, webhook route, idempotency. Built; the product, price, and
-   webhook endpoint are set up in the Stripe dashboard (see `docs/deployment.md`).
+   webhook endpoint get set up in the Stripe dashboard (see `docs/deployment.md`). The pricing page
+   reads the amount from the Stripe price.
 4. `hasPaidAccess` and the typed error across resolvers. Built: paid resolvers call
    `requirePaidAccess(ctx, feature)` from `src/libs/billing`, which throws `SUBSCRIPTION_REQUIRED`.
    Paid tables use `public.has_paid_access()` in their RLS policies.
