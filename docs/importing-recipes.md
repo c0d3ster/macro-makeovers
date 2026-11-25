@@ -187,7 +187,7 @@ with keys made from the labels.
   The grid shows each recipe's best build for the active filters and goal.
 - Saves match builds by key, so a build keeps its photo across edits. Renaming a key in the
   editor updates the lines that point at it. Builds are designed in
-  [`prd/09-builds.md`](./prd/09-builds.md).
+  [`builds.md`](./builds.md).
 
 ## Courses and components
 

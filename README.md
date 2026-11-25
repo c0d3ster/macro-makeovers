@@ -28,20 +28,21 @@ PDF book, rebuilt automatically when a published recipe changes.
 - **Recipe book**: built from the published recipes by a GitHub workflow whenever the book's
   contents change, and uploaded to a private R2 bucket. Paid members download it through a
   short-lived signed link.
-- **Paid plan**: one Stripe subscription (Checkout, Customer Portal, webhook) unlocks the meal
-  planner, "Send to cart", and the book. `/pricing` lists what is paid and what stays free.
+- **Plans**: Free, Fit ($5 a month), and Studio ($20 a month, planned). Fit is a Stripe
+  subscription (Checkout, Customer Portal, webhook) that unlocks personal targets, the meal
+  planner, "Send to cart", and the book. Studio adds makeovers of any recipe and a personal
+  library. The plan table in [docs/prd](docs/prd/README.md) is the source of truth, and
+  `/pricing` lists what each plan includes.
 
 ## Roadmap
 
-Next up, roughly in order. Each has a PRD in [docs/prd](docs/prd/README.md) with scope, data, and
-open questions.
+Five PRDs in [docs/prd](docs/prd/README.md), each split into phases with their own status.
 
-1. **Accounts and subscription**: sign-up and the gate for paid features.
-2. **Personalization**: set your goal once and the site highlights the recipes that fit it.
-3. **Ingredient normalization**: one shared ingredient list, needed by the planner and grocery list.
-4. **Meal planner**: build a week of meals that hits your targets.
-5. **Grocery list and ordering**: turn a plan into a shopping list and a cart.
-6. **Reviews**: ratings and notes on recipes.
+1. **Plans and billing**: sign-up, the Fit subscription, and later the Studio plan level.
+2. **Shopping**: the basket (shipped), the account basket, and Send to cart (built, shipping dark).
+3. **Fit planning (Fit)**: personal targets, ingredient normalization, and the meal planner.
+4. **Studio**: make over any recipe or generate one from an idea, saved to a personal library.
+5. **Launch and growth**: launch and advertising, then favorites and reviews.
 
 ## How it works
 

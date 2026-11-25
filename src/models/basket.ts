@@ -15,7 +15,7 @@ import {
 import { storeSectionEnum } from './enums'
 import { recipeBuilds, recipes } from './recipes'
 
-// Basket data (PRD 08). The SQL migration is the source of truth, as for the recipe tables.
+// Basket data (PRD 02 phase 1). The SQL migration is the source of truth, as for the recipe tables.
 
 // The shared price book: one product as it is sold
 export const basketItems = pgTable('basket_items', {

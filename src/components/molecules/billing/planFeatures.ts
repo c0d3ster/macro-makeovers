@@ -5,7 +5,7 @@ type PlanFeature = {
   available: boolean
 }
 
-// Exactly what the paid plan adds (PRD 01). Flip `available` as PRD 04 and PRD 05 ship.
+// Exactly what the paid plan adds (PRD 01). Flip `available` as PRD 03 phase 3 and PRD 02 phase 4 ship.
 export const PAID_FEATURES: PlanFeature[] = [
   {
     title: 'Meal planner',

@@ -55,7 +55,7 @@ export const GROCERS: Record<GrocerId, GrocerInfo> = {
   },
 }
 
-// Shown on the picker next to the grocers that pay us for orders (PRD 05, FTC endorsement
+// Shown on the picker next to the grocers that pay us for orders (PRD 02 phase 4, FTC endorsement
 // guides). It sits by the links, not in a footer. Empty when none of the listed grocers pay.
 export const affiliateDisclosure = (paidGrocers: GrocerId[]): string => {
   const names = paidGrocers.map((id) => GROCERS[id].name)

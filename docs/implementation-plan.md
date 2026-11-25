@@ -174,7 +174,7 @@ None of these were built in phase 1, and the schema carries what each needs. Par
 | Carb cycling and training | High and low carb day plans, lower-carb variants, training-day tagging                                                     | Builds with their own macros, plus carb cycling low and high day goals in the filters                        |
 | Grocery ordering          | Send to cart from the basket, to a grocer the user picks                                                                   | Basket lines with pack sizes and store sections. Grocer options are in [grocery-services.md](./grocery-services.md) |
 
-For ordering, the plan is multi-grocer: the user picks the grocer, and Instacart is one option, not the only one. See [prd/05-grocery-ordering.md](./prd/05-grocery-ordering.md).
+For ordering, the plan is multi-grocer: the user picks the grocer, and Instacart is one option, not the only one. See [prd/02-shopping.md](./prd/02-shopping.md).
 
 ## Risks, open questions, and next steps
 
@@ -203,11 +203,11 @@ The biggest risk is ingredient parsing quality, and it only matters from meal pl
 Roughly in order, from [prd/README.md](./prd/README.md):
 
 1. Accounts and subscription (PRD 01): the subscription and the gate for paid features. Sign-up is already live.
-2. Personalization (PRD 02): a saved goal that highlights the recipes that fit it.
-3. Ingredient normalization (PRD 03): one shared ingredient list, so basket lines follow recipe edits instead of the hand-written `basketLines` on each recipe.
-4. Meal planner (PRD 04), then grocery ordering and Send to cart (PRD 05).
-5. Favorites and reviews (PRD 06), and launch and advertising (PRD 07).
-6. The rest of builds (PRD 09), so filters and the basket use every build, not only the default.
+2. Personalization (PRD 03 phase 1): a saved goal that highlights the recipes that fit it.
+3. Ingredient normalization (PRD 03 phase 2): one shared ingredient list, so basket lines follow recipe edits instead of the hand-written `basketLines` on each recipe.
+4. Meal planner (PRD 03 phase 3), then grocery ordering and Send to cart (PRD 02 phase 4).
+5. Launch and advertising (PRD 05 phase 1), then favorites and reviews (PRD 05 phases 2 and 3).
+6. The rest of builds (`docs/builds.md`), so filters and the basket use every build, not only the default.
 
 ## Decisions since this plan was written
 
@@ -219,6 +219,6 @@ Roughly in order, from [prd/README.md](./prd/README.md):
 - Content pages are markdown in the repo, not in the database. `content/guides` holds the about, nutrition, shopping, and reading-recipes prose, shared by `/about`, `/guides`, and the printable book.
 - The printable book is built from the published recipes in the database, not from `docs/recipes.md`. The roadmap that got it there (GraphQL import, owner auth, R2 photos, the book workflow, rebuild on publish) is done, and its how-to lives in [importing-recipes.md](./importing-recipes.md).
 - The site has a 404 page, and the nutrition disclaimer on recipe pages is removed.
-- Builds replace makeover nutrition rows. A build carries its own macros and can swap tags, retitle the recipe, and scope lines, steps, and notes. The makeover rows and `is_default` were dropped from `recipe_nutrition` (see [prd/09-builds.md](./prd/09-builds.md)).
+- Builds replace makeover nutrition rows. A build carries its own macros and can swap tags, retitle the recipe, and scope lines, steps, and notes. The makeover rows and `is_default` were dropped from `recipe_nutrition` (see [builds.md](./builds.md)).
 - Recipes have a course, and `recipe_components` links a dish to the sides and sauces it uses. The corn pico and the mango habanero salsa are their own recipes now.
 - The basket shipped early as a free feature: pooled packs, smallest-pack costing, per-build lines, and servings per recipe. Its prices and recipe lines live in the database (see [shopping-list-data.md](./shopping-list-data.md)).

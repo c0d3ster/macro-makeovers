@@ -1,6 +1,6 @@
 # Analytics and the email list
 
-Launch gate 5 in [PRD 07](prd/07-launch.md): measure the funnel before spending on ads.
+Launch gate 5 in [PRD 05 phase 1](prd/05-launch-growth.md): measure the funnel before spending on ads.
 
 ## Where to look
 
@@ -28,15 +28,15 @@ await trackServer('subscription_active', { plan: 'monthly' }, { request })
 
 `trackServer` stays out of the barrel so client bundles never load the server SDK.
 
-### Funnel (PRD 07)
+### Funnel (PRD 05 phase 1)
 
 | Event | Properties | Sent from |
 | --- | --- | --- |
 | `visit` | `source`, `medium`, `campaign`, `path` | `VisitTracker` in the root layout, once per browser session |
 | `recipe_view` | `slug` | Recipe page (`TrackEvent`) |
 | `sign_up` | `method` (`email` or `google`), `source`, `medium`, `campaign` | `AuthForm` for email, `/auth/callback` for Google |
-| `profile_completed` | none | Not wired yet: the profile has no editable details until PRD 02 |
-| `plan_created` | `recipes` | Not wired yet: the meal planner (PRD 04) |
+| `profile_completed` | none | Not wired yet: the profile has no editable details until PRD 03 phase 1 |
+| `plan_created` | `recipes` | Not wired yet: the meal planner (PRD 03 phase 3) |
 | `upgrade_prompt_seen` | `feature` | "Send to cart" on the basket (`send_to_cart`). Add one wherever a paid gate shows. |
 | `checkout_started` | `plan` | Not wired yet: Stripe checkout (`feat/stripe-subscription`) |
 | `subscription_active` | `plan` | Not wired yet: Stripe webhook, `customer.subscription.created` or `checkout.session.completed` |

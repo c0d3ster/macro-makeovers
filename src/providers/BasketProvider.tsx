@@ -17,7 +17,7 @@ type BasketProviderProps = {
 
 const noopSubscribe = (): (() => void) => () => {}
 
-// The basket lives in this browser. Saving it to the account comes with PRD 08's account step.
+// The basket lives in this browser. Saving it to the account comes with PRD 02 phase 3 (account basket).
 export const BasketProvider = ({
   children,
 }: BasketProviderProps): ReactNode => {

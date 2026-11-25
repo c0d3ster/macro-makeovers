@@ -18,7 +18,7 @@ const toGraphQLError = (error: unknown): unknown =>
     ? new GraphQLError(error.message, { extensions: { code: error.code } })
     : error
 
-// "Send to cart" is paid (PRD 05 requirement 1). The gate lives here, on the server: the picker
+// "Send to cart" is paid (PRD 02 phase 4 requirement 1). The gate lives here, on the server: the picker
 // only hides what this would refuse anyway.
 const requirePaidMember = async (ctx: GraphQLContext): Promise<string> => {
   if (!ctx.user)

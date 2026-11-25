@@ -1,4 +1,4 @@
-// The funnel from PRD 07, then the actions worth counting along the way. Vercel Analytics shows
+// The funnel from PRD 05 phase 1, then the actions worth counting along the way. Vercel Analytics shows
 // each name as its own custom event, so renaming one starts a new series.
 export const FUNNEL_EVENTS = [
   'visit',

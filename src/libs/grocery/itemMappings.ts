@@ -3,7 +3,7 @@ import type { BasketItem, PackSize } from '@/libs/basket'
 import type { HandoffMeasure } from './groceryTypes'
 
 // How each basket item maps to grocers: a search term for grocers that match by search
-// (Instacart, Kroger), and an item id for grocers that need one (Walmart). PRD 05 asks for the
+// (Instacart, Kroger), and an item id for grocers that need one (Walmart). PRD 02 phase 4 asks for the
 // mapping to live with the basket data, keyed by the same item keys.
 
 // Search terms where the name made into a term reads badly or names one store's brand. Most

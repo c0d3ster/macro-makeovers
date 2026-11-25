@@ -5,7 +5,7 @@ import { users } from './users'
 // The SQL migration (supabase/migrations/20261115010000_create_grocery_handoff.sql) is the source
 // of truth. Grocer columns are text with a check constraint there.
 
-// The member's last grocer and store, preselected next time (PRD 05)
+// The member's last grocer and store, preselected next time (PRD 02 phase 4)
 export const memberGrocer = pgTable('member_grocer', {
   userId: uuid('user_id')
     .primaryKey()

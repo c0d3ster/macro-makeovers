@@ -43,6 +43,25 @@ Research for the paid plan and the basket. Checked 2026-11-08. App Store ratings
 
 **How they earn from grocery.** None publish it. eMeals and MyFitnessPal likely earn Instacart partner revenue (unverified). Walmart and Kroger integrations at eMeals look like partnerships with unknown terms (unverified).
 
+## AI recipe makeover apps
+
+Checked 2026-11-24 for Studio (PRD 04). Pricing not checked.
+
+| App | What it does | Personal targets | Grocery |
+| --- | --- | --- | --- |
+| easyEats | Imports recipes from Instagram, TikTok, Facebook, YouTube and turns them high-protein, low-carb, keto, or vegan | Goal-based rebuild, depth unverified | Not seen |
+| But Make It Healthy | Paste a recipe, get three versions from barely changed to macro-perfect. Web | "Fits your macros," depth unverified | Not seen |
+| Reci AI | iPhone. One-tap transforms (healthier, high-protein, cheaper, faster, pantry), fit score, grocery list | Fit score to goals | List, no cart seen |
+| RecipeBox AI | Saves recipes from anywhere, one-tap high-protein or vegetarian versions, macros per serving | Not seen | Not seen |
+| Remy AI | Android. Photo of a dish in, healthier recipe out | Not seen | Not seen |
+| DietMod | Paste a URL or describe a dish, get a low-calorie, high-protein version | Diet types | Not seen |
+| SpiceStrong | 300+ high-protein recipes plus an AI builder from macro targets, meal plans | Macro targets | Not seen |
+| MealForge | AI 7-day plans from goals and budget, Walmart list with prices and links | Custom macro min and max | Walmart list |
+
+**Takeaway:** "make over any recipe" is crowded on its own. None of these pair it with rules from kitchen-tested recipes, targets from the member's own weight and burn, an in-store cost per serving, and real carts. That combination is the pitch for PRD 04.
+
+Sources: https://www.easyeats.ai/ · https://butmakeithealthy.com/ · https://www.reciai.co/ · https://recipeboxai.app/ · https://play.google.com/store/apps/details?id=com.epiphyte.remyai · https://www.dietmod.com/ · https://spicestrong.app/ · https://mealforgeai.com/
+
 ## Meal kits
 
 | Service | Model | Fulfillment | Affiliate (third-party figures, unverified) | Creator or licensing |
@@ -91,7 +110,7 @@ Research for the paid plan and the basket. Checked 2026-11-08. App Store ratings
 4. **GLP-1 and protein demand.** High-protein, smaller portions and protein per serving fit this audience. Mention it in copy without making medical claims.
 5. **Gaps to close:**
    - **Recipe count:** about 15 recipes against thousands at eMeals. Meal planning needs variety to retain paying users.
-   - **Macro targets:** `/recipes` ranks by goal or hand-set macro targets, but nothing is saved per person yet (PRD 02 covers this).
+   - **Macro targets:** `/recipes` ranks by goal or hand-set macro targets, but nothing is saved per person yet (PRD 03 phase 1 covers this).
    - **No native app:** competitors are app-first.
    - **No reviews yet:** there's no social proof.
 6. **Retention risk.** Annual plans renew at about 40%, and a small library hurts retention. Grow the recipe count before pushing annual plans hard. Offer a 7 to 14 day trial.

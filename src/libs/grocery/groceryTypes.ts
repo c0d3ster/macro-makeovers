@@ -1,4 +1,4 @@
-// The grocers "Send to cart" can hand a basket to (PRD 05, docs/grocery-services.md)
+// The grocers "Send to cart" can hand a basket to (PRD 02 phase 4, docs/grocery-services.md)
 export type GrocerId = 'kroger' | 'walmart' | 'instacart'
 
 export const GROCER_IDS: GrocerId[] = ['kroger', 'walmart', 'instacart']
@@ -74,7 +74,7 @@ export class HandoffError extends Error {
 }
 
 // One adapter per grocer. Adding a grocer means adding an adapter and its item mapping, with no
-// change to the basket or the picker (PRD 05 requirement 7).
+// change to the basket or the picker (PRD 02 phase 4 requirement 7).
 export type GrocerAdapter = {
   id: GrocerId
   handoff: (request: HandoffRequest) => Promise<HandoffResult>

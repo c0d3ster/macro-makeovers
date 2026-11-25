@@ -17,7 +17,7 @@ export const Env = createEnv({
     R2_BUCKET: z.string().optional(),
     // Public base URL of the bucket (r2.dev or a custom domain)
     R2_PUBLIC_URL: z.string().optional(),
-    // Grocery handoff (PRD 05). Each grocer only shows once its keys are set.
+    // Grocery handoff (PRD 02 phase 4). Each grocer only shows once its keys are set.
     // Seals the member's grocer tokens (Kroger) into an httpOnly cookie. 32+ random characters.
     GROCERY_TOKEN_SECRET: z.string().min(32).optional(),
     INSTACART_API_KEY: z.string().optional(),
