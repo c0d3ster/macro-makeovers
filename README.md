@@ -36,17 +36,13 @@ PDF book, rebuilt automatically when a published recipe changes.
 
 ## Roadmap
 
-Next up, roughly in order. Each has a PRD in [docs/prd](docs/prd/README.md) with scope, data, and
-open questions.
+Five PRDs in [docs/prd](docs/prd/README.md), each split into phases with their own status.
 
-1. **Accounts and plans**: sign-up and the gate for Fit and Studio features.
-2. **Personalization (Fit)**: set your goal and stats once and the site highlights the recipes
-   that fit you.
-3. **Ingredient normalization**: one shared ingredient list, needed by the planner and grocery list.
-4. **Meal planner (Fit)**: build a week of meals that hits your targets.
-5. **Grocery list and ordering (Fit)**: turn a plan into a shopping list and a cart.
-6. **Reviews**: ratings and notes on recipes.
-7. **Studio**: make over any recipe or generate one from an idea, saved to a personal library.
+1. **Plans and billing**: sign-up, the Fit subscription, and later the Studio plan level.
+2. **Shopping**: the basket (shipped), the account basket, and Send to cart (built, shipping dark).
+3. **Fit planning (Fit)**: personal targets, ingredient normalization, and the meal planner.
+4. **Studio**: make over any recipe or generate one from an idea, saved to a personal library.
+5. **Launch and growth**: launch and advertising, then favorites and reviews.
 
 ## How it works
 

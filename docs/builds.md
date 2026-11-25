@@ -1,10 +1,12 @@
-# PRD 09: Builds (free)
+# Builds
+
+Reference spec for recipe builds. It started as PRD 09 and is fully shipped, so it lives here now. Other PRDs and code point to it for build rules.
 
 **Status:** Shipped in #57, #58, #59, #64, and #65. Each requirement and task below is marked **Done**, **Changed** (shipped differently, and the text now matches the code), or **Open**. Every build that shops differently has basket lines.
 
 ## Problem
 
-Most recipes already come in more than one build: Turkey Taco Grillers as grillers, a rice bowl, or filling only, and with turkey or 90/10 beef. Before this PRD those builds were just rows in the nutrition table. The site always led with the default row, so:
+Most recipes already come in more than one build: Turkey Taco Grillers as grillers, a rice bowl, or filling only, and with turkey or 90/10 beef. Before this spec those builds were just rows in the nutrition table. The site always led with the default row, so:
 
 - Filters and goal matching only ever saw the default. A fat loss visitor never found the Taco Grillers rice bowl, and a `meat=beef` filter found the turkey recipe only because the base carried both tags.
 - The page title, tags, cost, and ingredients could not follow the build. Cooking with beef still read "Turkey Taco Grillers".
@@ -43,7 +45,7 @@ Rule of thumb: if it is the same dish cooked the same way, with some lines or st
 
 - Per-build edits to a step's text. A build gets its own step instead, scoped to it.
 - Build axes (meat times format, picked separately). Builds are a flat list the author curates. See open questions.
-- A personal "my default build" setting. Later, with PRD 02.
+- A personal "my default build" setting. Later, with PRD 03 phase 1.
 - Separate pages, metadata, or share images per build. The canonical page stays the recipe.
 
 ## Data
@@ -175,7 +177,7 @@ The fields are all optional, so a build costs nothing until it differs. The risk
 10. **Done.** Text search matches each build's title, summary, and tags, and ingredient lines that apply to that build, and resolves to the matching build: "beef taco" leads with Lean Beef Taco Grillers.
 11. **Changed.** The card shows the resolved build's title, photo, macros, and cost, and links to `/recipes/<slug>?build=<key>` (no param for the default). A card showing a non-default build says which in one short line under the title: "Build: Rice bowl (3/4 cup)".
 12. **Done.** Sorting uses the resolved build's numbers. Facet counts and "unavailable" options use effective tags across listed builds, so the `beef` meat option stays available because of the beef build.
-13. **Done.** Fit badges use the resolved build. PRD 02's "fits my goal" should do the same. This replaces PRD 02 requirement 8, which used the default only.
+13. **Done.** Fit badges use the resolved build. PRD 03 phase 1's "fits my goal" should do the same. This replaces PRD 03 phase 1 requirement 8, which used the default only.
 
 ### Basket
 

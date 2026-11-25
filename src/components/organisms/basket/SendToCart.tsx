@@ -297,7 +297,7 @@ const GrocerPicker = ({ options }: PickerProps): ReactElement => {
   )
 }
 
-// "Send to cart" (PRD 05): a paid feature that hands the basket to the member's grocer. While
+// "Send to cart" (PRD 02 phase 4): a paid feature that hands the basket to the member's grocer. While
 // the feature is off or no grocer has keys, it stays the placeholder it was before.
 export const SendToCart = (): ReactElement => {
   const { data } = useGroceryHandoffOptions()

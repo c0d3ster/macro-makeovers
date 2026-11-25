@@ -12,7 +12,7 @@ import { track } from './track'
 vi.mock('@vercel/analytics', () => ({ track: vi.fn() }))
 
 describe('funnel events', () => {
-  it('lists the PRD 07 funnel in order', () => {
+  it('lists the PRD 05 phase 1 funnel in order', () => {
     expect(FUNNEL_EVENTS).toEqual([
       'visit',
       'recipe_view',
