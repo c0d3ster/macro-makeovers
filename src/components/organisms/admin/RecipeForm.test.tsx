@@ -24,7 +24,9 @@ const makeover = {
   proteinG: 30,
 } as const
 
-describe('RecipeForm', () => {
+// The whole form renders in each test, and role queries over it are slow, so a test takes up to
+// ~1.5s alone and can pass the 5s default when the full suite runs in parallel
+describe('RecipeForm', { timeout: 15_000 }, () => {
   beforeEach(() => vi.clearAllMocks())
 
   it('saves the edited recipe and shows the result', async () => {
