@@ -51,6 +51,14 @@ const photo = (name = 'dish.png', type = 'image/png'): File =>
 const sentForm = (mock: typeof mockGenerate, call = 0): FormData =>
   mock.mock.calls[call]?.[0]
 
+// Results render before their transition ends, and every button stays disabled until it does,
+// so a click right after one would be dropped
+const clickWhenReady = async (name: string): Promise<void> => {
+  const button = await screen.findByRole('button', { name })
+  await waitFor(() => expect(button).toBeEnabled())
+  fireEvent.click(button)
+}
+
 describe('RecipePhotoEditor', () => {
   beforeEach(() => {
     vi.clearAllMocks()
@@ -124,7 +132,7 @@ describe('RecipePhotoEditor', () => {
 
     expect(await screen.findByText('Reference: dish.png')).toBeInTheDocument()
 
-    fireEvent.click(screen.getByRole('button', { name: 'Generate photo' }))
+    await clickWhenReady('Generate photo')
 
     await waitFor(() => expect(mockGenerate).toHaveBeenCalled())
 
@@ -135,7 +143,7 @@ describe('RecipePhotoEditor', () => {
     render(<Harness imageUrl={LIVE} />)
 
     fireEvent.click(screen.getByRole('button', { name: 'Generate photo' }))
-    fireEvent.click(await screen.findByRole('button', { name: 'Use this photo' }))
+    await clickWhenReady('Use this photo')
 
     expect(await screen.findByText('Photo saved.')).toBeInTheDocument()
     expect(onChoose).toHaveBeenCalledWith(CANDIDATE)
@@ -146,7 +154,7 @@ describe('RecipePhotoEditor', () => {
     render(<Harness isSaved={false} />)
 
     fireEvent.click(screen.getByRole('button', { name: 'Generate photo' }))
-    fireEvent.click(await screen.findByRole('button', { name: 'Use this photo' }))
+    await clickWhenReady('Use this photo')
 
     expect(
       await screen.findByText('This photo will be saved with the recipe.')
@@ -157,7 +165,7 @@ describe('RecipePhotoEditor', () => {
     render(<Harness imageUrl={LIVE} />)
 
     fireEvent.click(screen.getByRole('button', { name: 'Generate photo' }))
-    fireEvent.click(await screen.findByRole('button', { name: 'Discard' }))
+    await clickWhenReady('Discard')
 
     expect(screen.getByTestId('next-image')).toHaveAttribute('data-src', LIVE)
     expect(onChoose).not.toHaveBeenCalled()
@@ -186,7 +194,7 @@ describe('RecipePhotoEditor', () => {
     render(<Harness imageUrl={LIVE} />)
 
     fireEvent.click(screen.getByRole('button', { name: 'Generate photo' }))
-    fireEvent.click(await screen.findByRole('button', { name: 'Use this photo' }))
+    await clickWhenReady('Use this photo')
 
     expect(screen.getByRole('button', { name: 'Use this photo' })).toBeDisabled()
     expect(screen.getByRole('button', { name: 'Generate photo' })).toBeDisabled()
